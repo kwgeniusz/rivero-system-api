@@ -1,0 +1,628 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 31-12-2018 a las 02:38:43
+-- Versión del servidor: 10.1.30-MariaDB
+-- Versión de PHP: 7.0.27
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `riverogcdb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `bank`
+--
+
+CREATE TABLE `bank` (
+  `bankId` int(6) NOT NULL,
+  `bankName` varchar(65) NOT NULL,
+  `initialBalance` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance01` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance02` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance03` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance04` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance05` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance06` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance07` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance08` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance09` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance10` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance11` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `balance12` decimal(13,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `bank`
+--
+
+INSERT INTO `bank` (`bankId`, `bankName`, `initialBalance`, `balance01`, `balance02`, `balance03`, `balance04`, `balance05`, `balance06`, `balance07`, `balance08`, `balance09`, `balance10`, `balance11`, `balance12`) VALUES
+(2, 'BANESCO', '1000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '700.00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `client`
+--
+
+CREATE TABLE `client` (
+  `clientId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `clientName` varchar(255) NOT NULL,
+  `clientDescription` varchar(255) NOT NULL,
+  `clientAddress` varchar(255) NOT NULL,
+  `clientPhone` varchar(255) NOT NULL,
+  `clientEmail` varchar(255) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `client`
+--
+
+INSERT INTO `client` (`clientId`, `userId`, `clientName`, `clientDescription`, `clientAddress`, `clientPhone`, `clientEmail`, `dateCreated`, `lastUserId`) VALUES
+(1, 3, 'Dennis Lawler', 'PROFESOR EN MINNESOTA STATE UNIVERSITY', 'ROCHESTER, MN', '+1 44 2343200', 'djl@gmail.com', '2018-06-09 00:00:00', 1),
+(2, 5, 'Latin market', 'Grocery Retailer', '231 Texas Ave., Dallas, TX', '+1 32 7896032', 'groceryretailer@gmail.com', '2018-03-05 04:57:15', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `configuration`
+--
+
+CREATE TABLE `configuration` (
+  `configurationId` int(6) NOT NULL,
+  `countryId` int(6) NOT NULL,
+  `officeId` int(6) NOT NULL,
+  `projectNumber` int(6) NOT NULL,
+  `serviceNumber` int(6) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `configuration`
+--
+
+INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `dateCreated`, `lastUserId`) VALUES
+(1, 1, 1, 4, 5, '2018-06-09 00:00:00', 1),
+(2, 2, 2, 1, 3, '2018-06-09 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contract`
+--
+
+CREATE TABLE `contract` (
+  `contractId` int(11) NOT NULL,
+  `contractType` varchar(1) NOT NULL,
+  `contractNumber` varchar(13) NOT NULL,
+  `countryId` int(6) NOT NULL,
+  `officeId` int(6) NOT NULL,
+  `contractDate` date NOT NULL,
+  `clientId` int(11) NOT NULL,
+  `siteAddress` varchar(255) NOT NULL,
+  `contractDescription` varchar(255) NOT NULL,
+  `registryNumber` varchar(32) NOT NULL,
+  `startDate` date NOT NULL,
+  `scheduledFinishDate` date NOT NULL,
+  `actualFinishDate` date NOT NULL,
+  `deliveryDate` date NOT NULL,
+  `initialComment` text,
+  `intermediateComment` text,
+  `finalComment` text,
+  `contractCost` float(32,2) NOT NULL,
+  `currencyName` varchar(64) NOT NULL,
+  `contractStatus` varchar(32) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `contract`
+--
+
+INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `contractDescription`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyName`, `contractStatus`, `dateCreated`, `lastUserId`) VALUES
+(19, 'S', '18S-0000001', 1, 1, '2018-12-17', 1, 'AV MIRANDA', 'EDIFICIO DE DOS PISOS', '12312', '2018-12-05', '2018-12-13', '2018-12-12', '2018-12-13', NULL, NULL, NULL, 2333.00, 'USD', '3', '2018-12-18 01:31:46', 2),
+(20, 'P', '18PC-0000002', 1, 1, '2018-12-04', 1, 'qweq', 'qweq', '12312', '2018-11-27', '2018-12-04', '2018-12-12', '2018-12-12', NULL, NULL, NULL, 233.00, 'USD', '1', '2018-12-18 01:33:30', 2),
+(21, 'P', '18PC-0000001', 2, 2, '2018-12-17', 1, 'werw', 'werwe', '2342', '2018-12-11', '2018-12-11', '2018-12-11', '2018-12-18', NULL, NULL, NULL, 342.00, 'BS', '1', '2018-12-18 01:36:41', 2),
+(26, 'S', '18S-0000003', 2, 2, '2018-12-19', 1, '213', 'qd', '221', '2018-11-29', '2018-12-13', '2018-12-20', '2018-12-11', NULL, NULL, NULL, 2323.00, 'BS', '1', '2018-12-19 03:14:32', 2),
+(27, 'S', '18S-0000004', 1, 1, '2018-12-13', 1, 'qweq', 'qweqwe', '12312', '2018-12-07', '2018-12-07', '2018-12-19', '2018-12-12', NULL, NULL, NULL, 123123.00, 'USD', '1', '2018-12-19 03:22:54', 2),
+(28, 'S', '18S-0000005', 1, 1, '2018-12-13', 1, 'qweq', 'qwe', '122', '2018-12-22', '2018-12-14', '2018-12-06', '2018-12-06', NULL, NULL, NULL, 12312.00, 'BS', '1', '2018-12-19 03:24:04', 2),
+(29, 'P', '18PC-0000003', 1, 1, '2018-12-06', 1, 'qweq', 'qweq', '123123', '2018-12-19', '2018-12-12', '2018-12-20', '2018-12-18', 'qweqw', NULL, NULL, 12312.00, 'BS', '1', '2018-12-19 03:28:39', 2),
+(30, 'P', '18PC-0000004', 1, 1, '2018-12-05', 1, 'qweqw', 'qweq', '12312', '2018-12-11', '2018-12-07', '2018-12-13', '2018-12-12', NULL, NULL, NULL, 1231.00, 'BS', '1', '2018-12-20 01:27:16', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contract_staff`
+--
+
+CREATE TABLE `contract_staff` (
+  `contractStaffId` int(11) NOT NULL,
+  `contractId` int(11) NOT NULL,
+  `staffId` int(11) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `country`
+--
+
+CREATE TABLE `country` (
+  `countryId` int(6) NOT NULL,
+  `countryName` varchar(128) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `country`
+--
+
+INSERT INTO `country` (`countryId`, `countryName`, `dateCreated`, `lastUserId`) VALUES
+(1, 'USA', '2018-06-09 00:00:00', 1),
+(2, 'VENEZUELA', '2018-06-09 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `office`
+--
+
+CREATE TABLE `office` (
+  `officeId` int(6) NOT NULL,
+  `countryId` int(6) NOT NULL,
+  `officeName` varchar(255) NOT NULL,
+  `officeAddress` varchar(255) NOT NULL,
+  `officePhone` varchar(255) NOT NULL,
+  `officeEmail` varchar(255) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `office`
+--
+
+INSERT INTO `office` (`officeId`, `countryId`, `officeName`, `officeAddress`, `officePhone`, `officeEmail`, `dateCreated`, `lastUserId`) VALUES
+(1, 1, 'DALLAS', 'DALLAS', '', '', '2018-06-09 00:00:00', 1),
+(2, 2, 'SAN FERNANDO', '', '', '', '2018-06-09 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `position`
+--
+
+CREATE TABLE `position` (
+  `positionId` int(9) NOT NULL,
+  `positionName` varchar(128) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `project_type`
+--
+
+CREATE TABLE `project_type` (
+  `projectTypeId` int(11) NOT NULL,
+  `projectTypeName` varchar(255) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `project_type`
+--
+
+INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `lastUserId`) VALUES
+(1, 'Set de planos', '2018-08-06 06:00:00', 0),
+(7, 'Set de Estrenos', '2018-08-20 02:29:38', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `service_type`
+--
+
+CREATE TABLE `service_type` (
+  `serviceTypeId` int(11) NOT NULL,
+  `projectTypeId` int(11) NOT NULL,
+  `serviceTypeName` varchar(255) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `service_type`
+--
+
+INSERT INTO `service_type` (`serviceTypeId`, `projectTypeId`, `serviceTypeName`, `dateCreated`, `lastUserId`) VALUES
+(1, 1, 'Plano de ubicación', '2018-08-16 00:00:00', 0),
+(2, 1, 'Plano de fundaciones y notas \r\n', '2018-08-21 00:00:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `staff`
+--
+
+CREATE TABLE `staff` (
+  `staffId` int(11) NOT NULL,
+  `staffCategoryId` int(6) NOT NULL,
+  `countryId` int(6) NOT NULL,
+  `officeId` int(6) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `fullName` varchar(64) NOT NULL,
+  `positionId` int(9) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `staff_category`
+--
+
+CREATE TABLE `staff_category` (
+  `staffCategory` int(6) NOT NULL,
+  `staffCategoryName` varchar(64) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `staff_category`
+--
+
+INSERT INTO `staff_category` (`staffCategory`, `staffCategoryName`, `dateCreated`, `lastUserId`) VALUES
+(1, 'DIRECTOR', '2018-06-09 00:00:00', 1),
+(2, 'GERENTE', '2018-06-09 00:00:00', 1),
+(3, 'EMPLEADO', '2018-06-09 00:00:00', 1),
+(4, 'OBRERO', '2018-06-09 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `transaction`
+--
+
+CREATE TABLE `transaction` (
+  `transactionId` int(11) NOT NULL,
+  `transactionTypeId` int(6) NOT NULL,
+  `transactionDate` date NOT NULL,
+  `description` varchar(128) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `sign` varchar(1) DEFAULT NULL,
+  `bankId` int(6) NOT NULL,
+  `reference` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `transaction`
+--
+
+INSERT INTO `transaction` (`transactionId`, `transactionTypeId`, `transactionDate`, `description`, `amount`, `sign`, `bankId`, `reference`) VALUES
+(1, 4, '2018-11-08', 'asdasd', '213123.00', '+', 2, '12313'),
+(2, 4, '2018-11-12', 'qwe', '123.00', '+', 2, '123'),
+(3, 4, '2018-11-12', '23123', '123.00', '+', 2, '123123'),
+(5, 3, '2018-11-12', 'sad', '123.00', '-', 2, '123'),
+(6, 3, '2018-11-12', 'sad', '123.00', '-', 2, '123'),
+(7, 3, '2018-11-12', 'hola', '123.00', '-', 2, '123'),
+(17, 4, '2018-12-11', '123', '12312.00', '+', 2, '21323'),
+(18, 4, '2018-12-10', 'qweq', '1000.00', '+', 2, '12312'),
+(19, 3, '2018-12-11', 'asdas', '4000.00', '-', 2, '1231'),
+(20, 3, '2018-12-11', 'QWEQE', '23121.00', '-', 2, 'QWEQWE'),
+(21, 3, '2018-12-11', 'qwe', '121.00', '-', 2, 'qwe'),
+(22, 3, '2018-12-11', 'qwe', '121.00', '-', 2, 'qwe'),
+(30, 4, '2018-12-11', 'asdas', '700.00', '+', 2, '234'),
+(31, 3, '2018-12-11', 'qweq', '1000.00', '-', 2, '2342');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `transaction_type`
+--
+
+CREATE TABLE `transaction_type` (
+  `transactionTypeId` int(6) NOT NULL,
+  `transactionTypeName` varchar(64) NOT NULL,
+  `sign` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `transaction_type`
+--
+
+INSERT INTO `transaction_type` (`transactionTypeId`, `transactionTypeName`, `sign`) VALUES
+(3, 'PAGO', '-'),
+(4, 'ABONO', '+');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user`
+--
+
+CREATE TABLE `user` (
+  `userId` int(11) NOT NULL,
+  `userTypeName` varchar(64) NOT NULL,
+  `userLevel` int(2) NOT NULL,
+  `countryId` int(6) NOT NULL,
+  `officeId` int(6) NOT NULL,
+  `userName` varchar(64) NOT NULL,
+  `userPassword` varchar(64) NOT NULL,
+  `userEmail` varchar(30) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `user`
+--
+
+INSERT INTO `user` (`userId`, `userTypeName`, `userLevel`, `countryId`, `officeId`, `userName`, `userPassword`, `userEmail`, `remember_token`, `dateCreated`, `lastUserId`) VALUES
+(1, 'ADMINISTRADOR', 2, 1, 1, 'gabrielcarrillo2018', 'ec037f0bdfc5339525bbd807a26a07a0', 'gabrielcarrillo2018@gmail.com', '', '2018-06-09 00:00:00', 1),
+(2, 'DIRECTOR', 1, 1, 1, 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'BrrV4L4UdXCinCyk9Gb0girtdZSYgUXt2agmo83RqxJkzCIaT7qW4ouDdAg1', '2018-06-09 00:00:00', 1),
+(3, 'CLIENTE', 5, 1, 1, 'cliente1', '$2y$12$RvUF8dFWdHx54s5uUlZI4OKaADNPlBO2Ebu8aZ8QPRtKkCCa5qyKS', 'cliente1@gmail.com', 'cfStkkRasQBCQpTVIdyUFI4ntSY18Fl68RS1eFjGZej5dGszzPOSOL62v2Zn', '2018-06-09 00:00:00', 1),
+(4, 'EMPLEADO', 4, 1, 1, 'davidaparicio', '$2a$12$LjpaOM5IBmS/Ws3Qz3wgu.P98M5ETqtlRnlmxW6VhxhhGPlxdoS4C', 'proyectista1@gmail.com', '32nnllPyoXExK07A2T3P8loLQX5FWdFwl6w101jcSm7rgBO3gADpI3Nv2y4w', '2018-06-09 00:00:00', 1),
+(5, 'CLIENTE', 5, 1, 1, 'cliente2', '6dcd0e14f89d67e397b9f52bb63f5570', 'cliente2@gmail.com', '', '2018-06-09 00:00:00', 1);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `bank`
+--
+ALTER TABLE `bank`
+  ADD PRIMARY KEY (`bankId`);
+
+--
+-- Indices de la tabla `client`
+--
+ALTER TABLE `client`
+  ADD PRIMARY KEY (`clientId`);
+
+--
+-- Indices de la tabla `configuration`
+--
+ALTER TABLE `configuration`
+  ADD PRIMARY KEY (`configurationId`);
+
+--
+-- Indices de la tabla `contract`
+--
+ALTER TABLE `contract`
+  ADD PRIMARY KEY (`contractId`);
+
+--
+-- Indices de la tabla `contract_staff`
+--
+ALTER TABLE `contract_staff`
+  ADD PRIMARY KEY (`contractStaffId`);
+
+--
+-- Indices de la tabla `country`
+--
+ALTER TABLE `country`
+  ADD PRIMARY KEY (`countryId`);
+
+--
+-- Indices de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `office`
+--
+ALTER TABLE `office`
+  ADD PRIMARY KEY (`officeId`);
+
+--
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indices de la tabla `project_type`
+--
+ALTER TABLE `project_type`
+  ADD PRIMARY KEY (`projectTypeId`);
+
+--
+-- Indices de la tabla `service_type`
+--
+ALTER TABLE `service_type`
+  ADD PRIMARY KEY (`serviceTypeId`);
+
+--
+-- Indices de la tabla `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`staffId`);
+
+--
+-- Indices de la tabla `staff_category`
+--
+ALTER TABLE `staff_category`
+  ADD PRIMARY KEY (`staffCategory`);
+
+--
+-- Indices de la tabla `transaction`
+--
+ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`transactionId`),
+  ADD KEY `transactionTypeId` (`transactionTypeId`),
+  ADD KEY `bankId` (`bankId`);
+
+--
+-- Indices de la tabla `transaction_type`
+--
+ALTER TABLE `transaction_type`
+  ADD PRIMARY KEY (`transactionTypeId`);
+
+--
+-- Indices de la tabla `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`userId`),
+  ADD UNIQUE KEY `userEmail` (`userEmail`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `bank`
+--
+ALTER TABLE `bank`
+  MODIFY `bankId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `client`
+--
+ALTER TABLE `client`
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `configuration`
+--
+ALTER TABLE `configuration`
+  MODIFY `configurationId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `contract`
+--
+ALTER TABLE `contract`
+  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT de la tabla `contract_staff`
+--
+ALTER TABLE `contract_staff`
+  MODIFY `contractStaffId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `country`
+--
+ALTER TABLE `country`
+  MODIFY `countryId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `office`
+--
+ALTER TABLE `office`
+  MODIFY `officeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `project_type`
+--
+ALTER TABLE `project_type`
+  MODIFY `projectTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `service_type`
+--
+ALTER TABLE `service_type`
+  MODIFY `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `staffId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `staff_category`
+--
+ALTER TABLE `staff_category`
+  MODIFY `staffCategory` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `transaction`
+--
+ALTER TABLE `transaction`
+  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT de la tabla `transaction_type`
+--
+ALTER TABLE `transaction_type`
+  MODIFY `transactionTypeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `user`
+--
+ALTER TABLE `user`
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
