@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    <H2 class="text-success"> {{__('finished_contract_history')}} </H2>
+    <H2 class="text-success"><b> {{__('finished_contract_history')}}</b> </H2>
+    <br>
     <div class="row">
         <div class="col-xs-12 ">
 

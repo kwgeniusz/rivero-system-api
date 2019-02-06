@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "sweet-modal-vue": "^2.0.0",
-        "toastr": "^2.1.4"
+        "toastr": "^2.1.4",
+		"admin-lte": "^2.4.8"
     }
 }

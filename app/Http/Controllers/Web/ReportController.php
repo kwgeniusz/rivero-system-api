@@ -27,10 +27,18 @@ class ReportController extends Controller
         $contract = $this->oContract->findById($request->contractNumber);
 
         $tbl = <<<EOD
-         <img src="img/RGC_LOGO.jpg" alt="test alt attribute" width="150" height="90"/>
-         <div style="text-align:right"><b>Fecha:</b> {$date->format('d/m/y')}</div>
-
-         <h3 style="text-align:center"> Reporte de Contrato</h3>
+ <p>
+      <table cellspacing="0" cellpadding="0" border="0">
+        <tr>
+        <th> <img style="float:left;" src="img/RGC_LOGO.jpg" alt="test alt attribute" width="150" height="90"/></th>
+        <th> <br><br><br><br><h3 style="text-align:center"> Reporte de Contrato</h3></th>
+        <th>
+        <p style="text-align:right">
+         <b>Fecha:</b> {$date->format('d/m/y')}<br>
+         </p>
+        </th>
+       </tr>
+       </table>
          <br><br>
 
 <div style="width:10%">
@@ -40,7 +48,8 @@ class ReportController extends Controller
  <b>  Fecha de Contrato:</b> {$contract[0]->contractDate}<br />
  <b>  Cliente:</b> {$contract[0]->client->clientName}<br />
  <b>  Direccion:</b> {$contract[0]->siteAddress}<br />
- <b>  Descripcion:</b> {$contract[0]->contractDescription}<br />
+ <b>  Descripcion de Proyecto:</b> {$contract[0]->projectType->projectTypeName}<br />
+ <b>  Tipo de Proyecto:</b> {$contract[0]->serviceType->serviceTypeName}<br />
  <b>  N° de Registro:</b> {$contract[0]->registryNumber}<br />
  <b>  Fecha de inicio:</b>  {$contract[0]->startDate}<br />
  <b>  Fecha estimada de Finalizacion:</b> {$contract[0]->scheduledFinishDate}<br />

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<span class="logo-lg "><h3><b>{{__('client')}}</b></h3></span>
+<h3><b>{{__('client')}}</b></h3>
     <div class="row">
         <div class="col-xs-12 ">
             <div class="text-center">

@@ -8,6 +8,8 @@ use App\Configuration;
 use App\ContractStaff;
 use App\Country;
 use App\Office;
+use App\ProjectType;
+use App\ServiceType;
 use App\Staff;
 use Auth;
 use DB;
@@ -22,7 +24,7 @@ class Contract extends Model
     protected $primaryKey = 'contractId';
     //  protected $dateFormat = 'Y-m-d';
     protected $fillable = ['contractId', 'contractType', 'contractNumber', 'countryId', 'officeId',
-        'contractDate', 'clientId', 'siteAddress', 'contractDescription', 'registryNumber',
+        'contractDate', 'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',
         'initialComment', 'intermediateComment', 'finalComment', 'contractCost',
         'currencyName', 'contractStatus', 'dateCreated', 'lastUserId',
@@ -43,6 +45,14 @@ class Contract extends Model
     public function client()
     {
         return $this->belongsTo('App\Client', 'clientId');
+    }
+    public function projectType()
+    {
+        return $this->belongsTo('App\ProjectType', 'projectTypeId');
+    }
+    public function serviceType()
+    {
+        return $this->belongsTo('App\ServiceType', 'serviceTypeId');
     }
     public function office()
     {
@@ -252,7 +262,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $contractDescription, $registryNumber, $startDate, $scheduledFinishDate,
+        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
         $actualFinishDate, $deliveryDate, $initialComment, $contractCost, $currencyName) {
 
         $oConfiguration = new Configuration();
@@ -290,7 +300,8 @@ class Contract extends Model
         $contract->contractDate        = $contractDate;
         $contract->clientId            = $clientId;
         $contract->siteAddress         = $siteAddress;
-        $contract->contractDescription = $contractDescription;
+        $contract->projectTypeId       = $projectTypeId;
+        $contract->serviceTypeId       = $serviceTypeId;
         $contract->registryNumber      = $registryNumber;
         $contract->startDate           = $startDate;
         $contract->scheduledFinishDate = $scheduledFinishDate;

@@ -6,6 +6,8 @@ use App\Client;
 use App\Contract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
+use App\ProjectType;
+use App\ServiceType;
 use App\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +17,8 @@ class ContractController extends Controller
     private $oContract;
     private $oClient;
     private $oStaff;
+    private $oProjectType;
+    private $oServiceType;
 
     public function __construct()
     {
@@ -22,6 +26,9 @@ class ContractController extends Controller
         $this->oContract = new Contract;
         $this->oClient   = new Client;
         $this->oStaff    = new Staff;
+
+        $this->oProjectType = new ProjectType;
+        $this->oServiceType = new ServiceType;
     }
 
     public function index()
@@ -35,8 +42,11 @@ class ContractController extends Controller
     public function create($contractType)
     {
 
-        $clients = $this->oClient->getAll();
-        return view('contractregistration.create', compact('clients', 'contractType'));
+        $projects = $this->oProjectType->getAll();
+        $services = $this->oServiceType->getAll();
+        $clients  = $this->oClient->getAll();
+
+        return view('contractregistration.create', compact('clients', 'projects', 'services', 'contractType'));
     }
 
     public function store(ContractRequest $request)
@@ -49,7 +59,8 @@ class ContractController extends Controller
             $request->contractDate,
             $request->clientId,
             $request->siteAddress,
-            $request->contractDescription,
+            $request->projectTypeId,
+            $request->serviceTypeId,
             $request->registryNumber,
             $request->startDate,
             $request->scheduledFinishDate,
@@ -74,8 +85,11 @@ class ContractController extends Controller
     {
 
         $clients  = $this->oClient->getAll();
+        $projects = $this->oProjectType->getAll();
+        $services = $this->oServiceType->getAll();
         $contract = $this->oContract->FindById($id);
-        return view('contractregistration.edit', compact('contract', 'clients'));
+
+        return view('contractregistration.edit', compact('contract', 'projects', 'services', 'clients'));
     }
 
     public function update(ContractRequest $request, $id)

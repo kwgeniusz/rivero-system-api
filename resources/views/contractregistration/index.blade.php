@@ -3,8 +3,8 @@
 @section('content')
 
 
-    <H2>{{__('contracts')}}</H2>
-
+  <h3><b>{{__('contracts')}}</b></h3>
+<br>
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">

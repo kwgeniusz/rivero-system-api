@@ -8,50 +8,56 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectType extends Model
 {
 
-    public  $timestamps = false;
+    public $timestamps = false;
 
-    protected $table ='project_type';
+    protected $table      = 'project_type';
     protected $primaryKey = 'projectTypeId';
-    protected $fillable = [ 	
-    'projectTypeId',
-    'projectTypeName',
-    'dateCreated',
-    'lastUserId'
-   ];
-	//--------------------------------------------------------------------
-   /** Relations */
- 	//--------------------------------------------------------------------  
-   public function serviceType() {
-      return $this->hasMany('App\ServiceType','projectTypeId','projectTypeId');
-   }
+    protected $fillable   = [
+        'projectTypeId',
+        'projectTypeName',
+        'dateCreated',
+        'lastUserId',
+    ];
+    //--------------------------------------------------------------------
+    /** Relations */
+    //--------------------------------------------------------------------
+    public function contract()
+    {
+        return $this->hasMany('App\Contract', 'projectTypeId', 'projectTypeId');
+    }
 //--------------------------------------------------------------------
- /** Function of Models */
+    /** Function of Models */
 //--------------------------------------------------------------------
-   public function getAll() {
-      return $this->orderBy('projectTypeId','ASC')->get();
-   }
-//------------------------------------------
-   public function findById($id) {
-        return $this->where('projectTypeId', '=', $id)->get(); 
+    public function getAll()
+    {
+        return $this->orderBy('projectTypeId', 'ASC')->get();
     }
 //------------------------------------------
-   public function insertPT($projectName,$lastUserId) {
-        
-        $project = new ProjectType;
+    public function findById($id)
+    {
+        return $this->where('projectTypeId', '=', $id)->get();
+    }
+//------------------------------------------
+    public function insertPT($projectName, $lastUserId)
+    {
+
+        $project                  = new ProjectType;
         $project->projectTypeName = $projectName;
-        $project->dateCreated = date('Y-m-d H:i:s');
-        $project->lastUserId = Auth::user()->userId;
+        $project->dateCreated     = date('Y-m-d H:i:s');
+        $project->lastUserId      = Auth::user()->userId;
         $project->save();
     }
 //------------------------------------------
-    public function updatePT($projectTypeId,$projectTypeName) {		
+    public function updatePT($projectTypeId, $projectTypeName)
+    {
         $this->where('projectTypeId', $projectTypeId)->update(array(
-              'projectTypeName'  => $projectTypeName
-        ));	
-     }
+            'projectTypeName' => $projectTypeName,
+        ));
+    }
 //------------------------------------------
-     public function deletePT($projectTypeId) {		
-        return $this->where('projectTypeId', '=', $projectTypeId)->delete(); 	
-     }	
+    public function deletePT($projectTypeId)
+    {
+        return $this->where('projectTypeId', '=', $projectTypeId)->delete();
+    }
 //------------------------------------------
 }

@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers\web;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\ProjectType;
 use App\ServiceType;
-
-use Session;
+use Illuminate\Http\Request;
 
 class ServiceTypeController extends Controller
 {
-    private $oProjectType;
     private $oServiceType;
 
-    public function __construct() {
+    public function __construct()
+    {
 
-       $this->middleware('auth');
-       $this->oProjectType = new ProjectType;
-       $this->oServiceType = new ServiceType;
+        $this->middleware('auth');
+        $this->oServiceType = new ServiceType;
     }
     /**
      * Display a listing of the resource.
@@ -27,9 +23,8 @@ class ServiceTypeController extends Controller
      */
     public function index()
     {
-        $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
-        return view('typesofservices.index', compact('services','projects'));
+        return view('typesofservices.index', compact('services', 'projects'));
     }
 
     /**
@@ -41,12 +36,11 @@ class ServiceTypeController extends Controller
     public function store(Request $request)
     {
         $this->oServiceType->insertST(
-             $request->projectTypeId,
-             $request->serviceTypeName
-            );
+            $request->serviceTypeName
+        );
 
         return redirect()->route('services.index')
-                         ->with('info','Tipo de Proyecto Creado');
+            ->with('info', 'Tipo de Proyecto Creado');
     }
     /**
      * Show the form for editing the specified resource.
@@ -56,9 +50,8 @@ class ServiceTypeController extends Controller
      */
     public function edit($id)
     {
-        $projects = $this->oProjectType->getAll();
         $service = $this->oServiceType->findById($id);
-        return view('typesofservices.edit', compact('service','projects'));
+        return view('typesofservices.edit', compact('service'));
     }
 
     /**
@@ -71,12 +64,11 @@ class ServiceTypeController extends Controller
     public function update(Request $request, $id)
     {
         $this->oServiceType->updateST($id,
-            $request->projectTypeId,
             $request->serviceTypeName
-           );
+        );
 
         return redirect()->route('services.index')
-                         ->with('info','Tipo de Proyecto Actualizado');
+            ->with('info', 'Tipo de Proyecto Actualizado');
     }
 
     /**
@@ -87,7 +79,7 @@ class ServiceTypeController extends Controller
      */
     public function show($id)
     {
-      $service = $this->oServiceType->findById($id);
+        $service = $this->oServiceType->findById($id);
         return view('typesofservices.show', compact('service'));
     }
 
@@ -101,6 +93,6 @@ class ServiceTypeController extends Controller
     {
         $this->oServiceType->deleteST($id);
         return redirect()->route('services.index')
-                         ->with('info','Tipo de Proyecto Eliminado');
+            ->with('info', 'Tipo de Proyecto Eliminado');
     }
 }

@@ -4,7 +4,7 @@
 
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-default col-xs-7">
-    <div class="panel-heading"> <h3>{{__('contract_details')}}</h3></div>
+    <div class="panel-heading"> <h3><b>{{__('contract_details')}}</b></h3></div>
     <div class="panel-body">
 
       <form class="form-horizontal">
@@ -21,7 +21,7 @@
             <p class="form-control-static">{{ $contract[0]->country->countryName }}</p>
           </div>
         </div>
-     </div> 
+     </div>
 
        <div class="col-xs-6">
         <div class="form-group">
@@ -51,9 +51,15 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-5 control-label">{{__('description')}}</label>
+          <label class="col-sm-5 control-label">DESCRIPCION DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $contract[0]->contractDescription }}</p>
+            <p class="form-control-static">{{ $contract[0]->projectType->projectTypeName }}</p>
+          </div>
+        </div>
+         <div class="form-group">
+          <label class="col-sm-5 control-label">TIPO DE PROYECTO</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $contract[0]->serviceType->serviceTypeName }}</p>
           </div>
         </div>
         <div class="form-group">

@@ -9,10 +9,10 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import SweetModal from 'sweet-modal-vue/src/plugin.js'
-Vue.use(SweetModal)
+import SweetModal from 'sweet-modal-vue/src/plugin.js';
+Vue.use(SweetModal);
  
- import toastr from 'toastr'       
+      
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

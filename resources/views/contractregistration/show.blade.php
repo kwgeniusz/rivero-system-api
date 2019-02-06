@@ -4,7 +4,7 @@
 
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-danger col-xs-7">
-    <div class="panel-heading"> <h3>{{__('Are You Sure to Eliminate this Contract?')}}</h3></div>
+    <div class="panel-heading"> <h3><b>{{__('Are You Sure to Eliminate this Contract?')}}</b></h3></div>
     <div class="panel-body">
 
       <form class="form-horizontal" action="{{Route('contracts.destroy',['id' => $contract[0]->contractId])}}" method="POST">
@@ -23,7 +23,7 @@
             <p class="form-control-static">{{ $contract[0]->country->countryName }}</p>
           </div>
         </div>
-     </div> 
+     </div>
 
        <div class="col-xs-6">
         <div class="form-group">
@@ -52,10 +52,16 @@
             <p class="form-control-static">{{ $contract[0]->siteAddress }}</p>
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-sm-5 control-label">{{__('description')}}</label>
+          <div class="form-group">
+          <label class="col-sm-5 control-label">DESCRIPCION DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $contract[0]->contractDescription }}</p>
+            <p class="form-control-static">{{ $contract[0]->projectType->projectTypeName }}</p>
+          </div>
+        </div>
+         <div class="form-group">
+          <label class="col-sm-5 control-label">TIPO DE PROYECTO</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $contract[0]->serviceType->serviceTypeName }}</p>
           </div>
         </div>
         <div class="form-group">
@@ -123,8 +129,8 @@
           </div>
         </div>
       </div>
-       
-       
+
+
 
             <div class="text-center">
               <button type="submit" class="btn btn-danger">

@@ -11,14 +11,7 @@
 
       <form class="form-inline" action="{{Route('services.store')}}" method="POST">
       {{csrf_field()}}
-         <div class="form-group">
-            <label for="projectName">{{__('type_of_project')}}</label>
-            <select class="form-control" name="projectTypeId">
-                @foreach($projects as $project)
-                      <option value="{{$project->projectTypeId}}" > {{$project->projectTypeName}} </option>
-                @endforeach
-            </select>
-          </div>
+
 
          <div class="form-group">
            <label for="serviceTypeName">{{__('service_name')}}</label>
@@ -40,7 +33,6 @@
                 <tr>
                  <th>ID</th>
                  <th>{{__('type_of_service')}}</th>
-                 <th>{{__('type_of_project')}}</th>
                  <th>{{__('actions')}}</th>
                 </tr>
             </thead>
@@ -51,7 +43,6 @@
 
                    <td>{{$service->serviceTypeId}}</td>
                    <td>{{$service->serviceTypeName}}</td>
-                   <td>{{$service->projectType->projectTypeName}}</td>
                    <td><a href="{{route('services.edit', ['id' => $service->serviceTypeId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span> {{__('edit')}}
                       </a>

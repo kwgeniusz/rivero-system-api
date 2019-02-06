@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    <H2 class="text-danger">{{__('cancelled_contract_history')}}</H2>
+    <h2 class="text-danger"><b>{{__('cancelled_contract_history')}}</b></h2>
+    <br>
     <div class="row">
         <div class="col-xs-12 ">
 

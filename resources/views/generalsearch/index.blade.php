@@ -10,7 +10,7 @@
         <div class="col-xs-12">
          <div class="text-center">
 
-      <h4 class="text-info">BUSQUEDA GENERAL</h4>
+     <h3 class="text-info"><b>BUSQUEDA GENERAL</b></h3>
       <form  action="{{Route('contracts.generalSearch')}}" method="GET">
 
 

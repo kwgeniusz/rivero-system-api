@@ -3,13 +3,13 @@
 @section('content')
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-success col-xs-7">
-    <div class="panel-heading"> <h3>{{__('contract_search_by_status')}}</h3></div>
+    <div class="panel-heading"> <h3><b>{{__('contract_search_by_status')}}</b></h3></div>
     <div class="panel-body">
 
       <form class="form" action="{{Route('contracts.resultStatus')}}" method="POST">
         {{csrf_field()}}
 
-            <div class="col-xs-12">
+            <div class="col-xs-7 col-xs-offset-2">
                <div class="form-group">
               <label for="contractStatus">{{__('choose_a_status')}}</label>
               <select class="form-control" name="contractStatus" id="contractStatus">

@@ -24,18 +24,16 @@ class ContractRequest extends FormRequest
     public function rules()
     {
         return [
-            'countryId'=> 'required',
-            'officeId'=> 'required',
-            'contractDate'=> 'required',
-            'siteAddress'	=> 'required|max:100',
-            'contractDescription'=> 'required|max:100',	
-            'registryNumber'=> 'required|numeric'	,
-            'startDate'	=> 'required|max:100',
-            'scheduledFinishDate'=> 'required|max:100'	,
-            'actualFinishDate'=> 'required|max:100'	,
-            'deliveryDate'=> 'required|max:100'	,
-            'contractCost'	=> 'required|numeric',
-            'currencyName'	=> 'required|max:100',
+            'countryId'           => 'required',
+            'officeId'            => 'required',
+            'contractDate'        => 'required',
+            'siteAddress'         => 'required|max:100',
+            'startDate'           => 'required|max:100',
+            'scheduledFinishDate' => 'required|max:100',
+            'actualFinishDate'    => 'required|max:100',
+            'deliveryDate'        => 'required|max:100',
+            'contractCost'        => 'required|numeric',
+            'currencyName'        => 'required|max:100',
         ];
     }
 }

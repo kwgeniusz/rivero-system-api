@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-12-2018 a las 02:38:43
+-- Tiempo de generación: 06-02-2019 a las 03:57:12
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -100,7 +100,7 @@ CREATE TABLE `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 4, 5, '2018-06-09 00:00:00', 1),
+(1, 1, 1, 48, 5, '2018-06-09 00:00:00', 1),
 (2, 2, 2, 1, 3, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -118,8 +118,9 @@ CREATE TABLE `contract` (
   `contractDate` date NOT NULL,
   `clientId` int(11) NOT NULL,
   `siteAddress` varchar(255) NOT NULL,
-  `contractDescription` varchar(255) NOT NULL,
-  `registryNumber` varchar(32) NOT NULL,
+  `projectTypeId` int(11) NOT NULL,
+  `serviceTypeId` int(11) NOT NULL,
+  `registryNumber` varchar(32) DEFAULT NULL,
   `startDate` date NOT NULL,
   `scheduledFinishDate` date NOT NULL,
   `actualFinishDate` date NOT NULL,
@@ -129,7 +130,7 @@ CREATE TABLE `contract` (
   `finalComment` text,
   `contractCost` float(32,2) NOT NULL,
   `currencyName` varchar(64) NOT NULL,
-  `contractStatus` varchar(32) NOT NULL,
+  `contractStatus` int(2) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -138,15 +139,55 @@ CREATE TABLE `contract` (
 -- Volcado de datos para la tabla `contract`
 --
 
-INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `contractDescription`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyName`, `contractStatus`, `dateCreated`, `lastUserId`) VALUES
-(19, 'S', '18S-0000001', 1, 1, '2018-12-17', 1, 'AV MIRANDA', 'EDIFICIO DE DOS PISOS', '12312', '2018-12-05', '2018-12-13', '2018-12-12', '2018-12-13', NULL, NULL, NULL, 2333.00, 'USD', '3', '2018-12-18 01:31:46', 2),
-(20, 'P', '18PC-0000002', 1, 1, '2018-12-04', 1, 'qweq', 'qweq', '12312', '2018-11-27', '2018-12-04', '2018-12-12', '2018-12-12', NULL, NULL, NULL, 233.00, 'USD', '1', '2018-12-18 01:33:30', 2),
-(21, 'P', '18PC-0000001', 2, 2, '2018-12-17', 1, 'werw', 'werwe', '2342', '2018-12-11', '2018-12-11', '2018-12-11', '2018-12-18', NULL, NULL, NULL, 342.00, 'BS', '1', '2018-12-18 01:36:41', 2),
-(26, 'S', '18S-0000003', 2, 2, '2018-12-19', 1, '213', 'qd', '221', '2018-11-29', '2018-12-13', '2018-12-20', '2018-12-11', NULL, NULL, NULL, 2323.00, 'BS', '1', '2018-12-19 03:14:32', 2),
-(27, 'S', '18S-0000004', 1, 1, '2018-12-13', 1, 'qweq', 'qweqwe', '12312', '2018-12-07', '2018-12-07', '2018-12-19', '2018-12-12', NULL, NULL, NULL, 123123.00, 'USD', '1', '2018-12-19 03:22:54', 2),
-(28, 'S', '18S-0000005', 1, 1, '2018-12-13', 1, 'qweq', 'qwe', '122', '2018-12-22', '2018-12-14', '2018-12-06', '2018-12-06', NULL, NULL, NULL, 12312.00, 'BS', '1', '2018-12-19 03:24:04', 2),
-(29, 'P', '18PC-0000003', 1, 1, '2018-12-06', 1, 'qweq', 'qweq', '123123', '2018-12-19', '2018-12-12', '2018-12-20', '2018-12-18', 'qweqw', NULL, NULL, 12312.00, 'BS', '1', '2018-12-19 03:28:39', 2),
-(30, 'P', '18PC-0000004', 1, 1, '2018-12-05', 1, 'qweqw', 'qweq', '12312', '2018-12-11', '2018-12-07', '2018-12-13', '2018-12-12', NULL, NULL, NULL, 1231.00, 'BS', '1', '2018-12-20 01:27:16', 2);
+INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyName`, `contractStatus`, `dateCreated`, `lastUserId`) VALUES
+(1, 'P', '18PC-000001', 1, 1, '2018-01-01', 1, '3800 JORDAN VALLEY RD DALLAS TX 75253', 1, 1, '1', '2018-01-01', '2018-02-01', '2018-02-01', '2018-02-01', NULL, NULL, NULL, 0.00, 'USD', 2, '2018-09-01 00:00:00', 1),
+(2, 'P', '18PC-000002', 1, 1, '2018-01-03', 1, '9401 BARTON CREEK DR ROWLETT TX', 1, 1, '1', '2019-01-03', '2018-01-24', '2018-01-24', '2018-01-24', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
+(3, 'P', '18PC-000003', 1, 1, '2018-01-04', 1, '', 1, 1, '1', '2018-01-04', '2018-03-04', '2018-03-04', '2018-03-04', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
+(4, 'P', '18PC-000004', 1, 1, '2018-04-01', 1, '3062 Primrose Ln Farmers Branch, TX 75234', 1, 1, '1', '2018-04-01', '2018-04-30', '2018-04-30', '2018-04-30', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
+(5, 'P', '18PC-000005', 1, 1, '2018-01-05', 1, '2808 ANZIO DR DALLAS TX 75224', 1, 1, '1', '2017-12-05', '2018-01-25', '2018-01-25', '2018-01-25', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
+(6, 'P', '18PC-000006', 1, 1, '2018-01-10', 1, '', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, 0.00, 'USD', 2, '2018-09-01 00:00:00', 1),
+(7, 'P', '18PC-000007', 1, 1, '2018-01-10', 1, '7916 West Hodges Rd Dallas Tx 75217', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
+(8, 'P', '18PC-000008', 1, 1, '2018-01-11', 1, '615 Coombs Creek Dr, Dallas Tx 75211', 1, 1, '1', '2018-01-11', '2018-02-11', '2018-02-11', '2018-02-11', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
+(9, 'P', '18PC-000009', 1, 1, '2018-01-12', 1, '2217 Greenville Ave Dallas Tx 75206', 1, 1, '1', '0000-00-00', '2019-02-15', '2019-02-15', '2019-02-15', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
+(10, 'P', '18PC-000010', 1, 1, '2018-01-16', 1, '700 WINSTON DR DESOTO TX 75115', 1, 1, '1', '2018-01-16', '2018-03-16', '2018-03-16', '2018-03-16', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
+(11, 'P', '19PC-0000011', 1, 1, '2018-01-17', 1, '8740 QUINN ST DALLAS TX 75217', 1, 1, '1', '2018-01-17', '2018-01-30', '2018-01-30', '2018-01-31', NULL, NULL, NULL, 0.01, 'USD', 2, '2019-01-30 18:50:16', 2),
+(12, 'P', '19PC-0000012', 1, 1, '2019-01-16', 1, 'LOT 2581 LAKE RIDGE PERIWINKLE COURT GRAND PRAIRE DALLAS COUNTY TX', 1, 1, '1', '2019-01-17', '2018-02-01', '2018-02-01', '2018-02-02', NULL, NULL, NULL, 0.01, 'USD', 2, '2019-01-30 18:53:47', 2),
+(13, 'P', '19PC-0000013', 1, 1, '2018-01-22', 1, '2451 FRANKLIN DR MESQUITE TX 75150', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-23', NULL, NULL, NULL, 0.00, 'USD', 1, '2019-01-30 18:57:28', 2),
+(14, 'P', '19PC-0000014', 1, 1, '2018-01-22', 1, '4629 COLLEGE PARK DR, DALLAS TX 75229', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-25', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:01:03', 2),
+(15, 'P', '19PC-0000015', 1, 1, '2018-01-22', 1, '4910 LYNNACRE DR DALLAS TX  75211', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-24', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:03:02', 2),
+(16, 'P', '19PC-0000016', 1, 1, '2018-01-24', 1, '1602 WILBUR ST DALLAS TX 75224', 1, 1, '-1', '2018-01-24', '2018-02-24', '2018-02-24', '2018-02-25', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:04:48', 2),
+(17, 'P', '19PC-0000017', 1, 1, '2018-01-25', 1, '4505 KENSINGTON CT GRAND PRAIRIE TX 75052', 1, 1, '1', '2018-01-25', '2018-02-25', '2018-02-25', '2018-02-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:06:23', 2),
+(18, 'P', '19PC-0000018', 1, 1, '2018-01-26', 1, '625 BIG HORN RD OAK POINT TX', 1, 1, '1', '2018-01-26', '2018-02-26', '2018-02-26', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:09:01', 2),
+(19, 'P', '19PC-0000019', 1, 1, '2018-01-26', 1, '10939 LIMESTONE DR BALCH SPRINGS TX 75180', 1, 1, '-1', '2018-02-28', '2018-02-28', '2018-02-28', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:10:25', 2),
+(20, 'P', '19PC-0000020', 1, 1, '2018-01-27', 1, '1021 S OAK CLIFF BLVD, DALLAS TX 75217', 1, 1, '1', '2018-01-27', '2018-02-28', '2018-02-28', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:14:29', 2),
+(21, 'P', '19PC-0000021', 1, 1, '2018-01-29', 1, '3215 FAIRVIEW AVE, DALLAS TX 75223', 1, 1, '1', '2018-01-29', '2018-03-01', '2018-03-01', '2018-03-02', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:17:31', 2),
+(22, 'P', '19PC-0000022', 1, 1, '2018-01-31', 1, '301 Northpoint Dr. Coppell Tx 75019', 1, 1, '1', '2018-02-01', '2018-02-27', '2018-02-27', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:18:58', 2),
+(23, 'P', '19PC-0000023', 1, 1, '2018-01-31', 1, '3102 LAWNVIEW AVE DALLAS TX 75227', 1, 1, '-1', '2018-02-02', '2018-03-02', '2018-03-02', '2018-03-02', NULL, NULL, NULL, 100.00, 'USD', 1, '2019-01-30 20:21:49', 2),
+(24, 'P', '19PC-0000024', 1, 1, '2018-02-05', 1, '503 S Stemmons Fwy Lewisville Tx 75067', 1, 1, '1', '2018-02-05', '2018-03-05', '2018-03-05', '2018-03-05', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:23:44', 2),
+(25, 'P', '19PC-0000025', 1, 1, '2018-02-06', 1, '5107 E GRAND AVE DALLAS TX 75223', 1, 1, '1', '2018-02-06', '2018-03-06', '2018-03-06', '2018-03-07', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:26:23', 2),
+(26, 'P', '19PC-0000026', 1, 1, '2018-02-08', 1, '7355 SWEETGATE LN DENTON TX 76208', 1, 1, '1', '2018-02-08', '2018-03-08', '2018-03-08', '2018-04-08', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:28:00', 2),
+(27, 'P', '19PC-0000027', 1, 1, '2018-02-13', 1, '102 WINGREN LN ARLINGTON TX 76014', 1, 1, '1', '2018-02-13', '2018-03-13', '2018-03-13', '2018-03-13', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:30:03', 2),
+(28, 'P', '19PC-0000028', 1, 1, '2018-02-13', 1, '4902 REIGER AVE DALLAS TX 75214', 1, 1, '1', '2018-02-13', '2018-03-13', '2018-03-13', '2018-03-13', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:31:26', 2),
+(29, 'P', '19PC-0000029', 1, 1, '2018-02-15', 1, '1801 RANDOM RD CARROLTON TX 75006', 1, 1, '1', '2018-02-15', '2018-03-15', '2018-03-15', '2018-03-15', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:33:12', 2),
+(30, 'P', '19PC-0000030', 1, 1, '2018-02-20', 1, '11 WOODWAY DR DALLAS TX 75217', 1, 1, '1', '2018-02-20', '2018-03-20', '2018-02-20', '2018-02-20', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:34:24', 2),
+(31, 'P', '19PC-0000031', 1, 1, '2018-02-22', 1, '725 Fairview Ave Seagoville TX 75159', 1, 1, '1', '2018-02-22', '2018-03-22', '2018-03-22', '2018-03-22', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:35:40', 2),
+(32, 'P', '19PC-0000032', 1, 1, '2018-02-23', 1, '11532 HARRY HINES BLVD SUITE 304 DALLAS TX 75229', 1, 1, '1', '0218-02-23', '2019-03-23', '2018-03-23', '2018-03-23', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:37:13', 2),
+(33, 'P', '19PC-0000033', 1, 1, '2018-02-23', 1, '3475 ROYAL LN DALLAS TX 75229', 1, 1, '1', '2018-02-23', '2018-03-23', '2018-03-23', '2018-03-23', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:40:26', 2),
+(34, 'P', '19PC-0000034', 1, 1, '2018-02-27', 1, '4166 EASTER AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.00, 'USD', 1, '2019-02-01 00:47:19', 2),
+(35, 'P', '19PC-0000035', 1, 1, '2018-02-27', 1, '1415 E WACO AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:48:28', 2),
+(36, 'P', '19PC-0000036', 1, 1, '2018-02-27', 1, '2226 MOFFATT AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:50:00', 2),
+(37, 'P', '19PC-0000037', 1, 1, '2018-02-27', 1, '2230 MOFFATT AVE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:51:41', 2),
+(38, 'P', '19PC-0000038', 1, 1, '2018-03-02', 1, '5610 VAN WINKLE BLVD DALLAS TX', 1, 1, '1', '2018-03-02', '2018-04-02', '2018-04-02', '2018-04-02', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:53:00', 2),
+(39, 'P', '19PC-0000039', 1, 1, '2018-03-05', 1, '6829 PARKWOOD DR. NORTH RICHLAND HILL TX 75182', 1, 1, '1', '2018-03-05', '2018-03-05', '2018-04-05', '2018-04-05', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:54:12', 2),
+(40, 'P', '19PC-0000040', 1, 1, '2018-03-09', 1, '7879 SPRING VALLEY SUITE 112 DALLAS TX 75254', 1, 1, '1', '2018-03-09', '2018-04-09', '2018-04-09', '2018-04-09', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:55:24', 2),
+(41, 'P', '19PC-0000041', 1, 1, '2018-03-09', 1, '3124 Koscher Dr, Cedar Hill, Texas 75104', 1, 1, '1', '2018-03-09', '2018-04-09', '2018-04-09', '2018-04-09', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:49:44', 2),
+(42, 'P', '19PC-0000042', 1, 1, '2018-03-12', 1, '514 Stafford Dr, Seagoville, Texas 75159', 1, 1, '1', '2018-03-12', '2018-04-12', '2018-04-12', '2012-04-12', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:51:24', 2),
+(43, 'P', '19PC-0000043', 1, 1, '2018-03-12', 1, '7305 Albert Williams Drive, Dallas, TX 75241', 1, 1, '1', '2018-03-12', '2016-04-12', '2018-04-12', '2018-04-12', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:53:18', 2),
+(44, 'P', '19PC-0000044', 1, 1, '2018-03-19', 1, '2603 GLADSTONE DR DALLAS TX 75211', 1, 1, '1', '2018-03-19', '2018-04-19', '2014-04-19', '2018-04-19', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:56:17', 2),
+(45, 'P', '19PC-0000045', 1, 1, '2018-03-19', 1, '3914 LIVELY LN DALLAS TX 75220', 1, 1, '1', '2018-03-19', '2018-04-19', '2018-04-19', '2018-04-10', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:57:41', 2),
+(46, 'P', '19PC-0000046', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:01', 2),
+(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2),
+(48, 'P', '19PC-0000048', 1, 1, '2019-02-05', 1, 'urb latrindad', 1, 1, NULL, '2019-02-13', '2019-02-27', '2019-02-28', '2019-02-25', 'listo', NULL, NULL, 3000.00, 'USD', 1, '2019-02-06 01:48:42', 2);
 
 -- --------------------------------------------------------
 
@@ -271,8 +312,47 @@ CREATE TABLE `project_type` (
 --
 
 INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `lastUserId`) VALUES
-(1, 'Set de planos', '2018-08-06 06:00:00', 0),
-(7, 'Set de Estrenos', '2018-08-20 02:29:38', 1);
+(1, 'NEW', '2018-09-01 00:00:00', 1),
+(2, 'ADDITION', '2018-09-01 00:00:00', 1),
+(3, 'CO', '2018-09-01 00:00:00', 1),
+(4, 'IR', '2018-09-01 00:00:00', 1),
+(5, 'SHARE WALL', '2018-09-01 00:00:00', 1),
+(6, 'GREEN ENERGY', '2018-09-01 00:00:00', 1),
+(7, 'ADE', '2018-09-01 00:00:00', 1),
+(8, 'ELEVATION', '2018-09-01 00:00:00', 1),
+(9, 'EXISTING', '2018-09-01 00:00:00', 1),
+(10, 'FLOOR PLAN', '2018-09-01 00:00:00', 1),
+(11, 'PERBOLA', '2018-09-01 00:00:00', 1),
+(12, 'REMODEL', '2018-09-01 00:00:00', 1),
+(13, 'FENCE', '2018-09-01 00:00:00', 1),
+(14, 'RAR', '2018-09-01 00:00:00', 1),
+(15, 'INT REM', '2018-09-01 00:00:00', 1),
+(16, 'DP', '2018-09-01 00:00:00', 1),
+(17, 'PP', '2019-01-22 00:00:00', 1),
+(18, 'FRAMING', '2018-09-01 00:00:00', 1),
+(19, 'ADDITION', '2018-09-01 00:00:00', 1),
+(20, 'ADDENDUM', '2019-01-23 00:00:00', 1),
+(21, 'REPAIR', '2018-09-01 00:00:00', 1),
+(22, '3D', '2018-09-01 00:00:00', 1),
+(23, 'ELECTRICAL', '2018-09-01 00:00:00', 1),
+(24, 'SP PA', '2019-01-23 07:32:59', 1),
+(25, 'COPY', '2018-09-01 00:00:00', 1),
+(26, 'SITE PLAN', '2019-01-27 00:00:00', 1),
+(27, 'STRUCTURE', '2018-09-01 00:00:00', 1),
+(28, 'GREEN INSPEC', '2018-09-01 00:00:00', 1),
+(29, 'SURVEY', '2018-09-01 00:00:00', 1),
+(30, 'STRUCTURAL', '2018-09-01 00:00:00', 1),
+(31, 'REPAIR', '2018-09-01 00:00:00', 1),
+(32, 'OF/GALPON', '2019-01-28 00:00:00', 1),
+(33, 'PRUEBA', '2018-09-01 00:00:00', 1),
+(34, 'DEVELOPMENT', '2018-09-01 00:00:00', 1),
+(35, 'INTERIOR REMO', '2018-09-01 00:00:00', 1),
+(36, 'CORRECCIONES', '2018-09-01 00:00:00', 1),
+(37, 'ADDITION LIVING', '2018-09-01 00:00:00', 1),
+(38, 'TV', '2018-09-01 00:00:00', 1),
+(39, 'TV/PRUEBA', '2019-01-22 00:00:00', 1),
+(40, 'WALL', '2018-09-01 00:00:00', 1),
+(41, 'RETENI WALL', '2018-09-01 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -282,7 +362,6 @@ INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `
 
 CREATE TABLE `service_type` (
   `serviceTypeId` int(11) NOT NULL,
-  `projectTypeId` int(11) NOT NULL,
   `serviceTypeName` varchar(255) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL
@@ -292,9 +371,9 @@ CREATE TABLE `service_type` (
 -- Volcado de datos para la tabla `service_type`
 --
 
-INSERT INTO `service_type` (`serviceTypeId`, `projectTypeId`, `serviceTypeName`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 'Plano de ubicación', '2018-08-16 00:00:00', 0),
-(2, 1, 'Plano de fundaciones y notas \r\n', '2018-08-21 00:00:00', 0);
+INSERT INTO `service_type` (`serviceTypeId`, `serviceTypeName`, `dateCreated`, `lastUserId`) VALUES
+(1, 'COM', '2018-09-01 00:00:00', 1),
+(2, 'RES', '2018-09-01 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -420,7 +499,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`userId`, `userTypeName`, `userLevel`, `countryId`, `officeId`, `userName`, `userPassword`, `userEmail`, `remember_token`, `dateCreated`, `lastUserId`) VALUES
 (1, 'ADMINISTRADOR', 2, 1, 1, 'gabrielcarrillo2018', 'ec037f0bdfc5339525bbd807a26a07a0', 'gabrielcarrillo2018@gmail.com', '', '2018-06-09 00:00:00', 1),
-(2, 'DIRECTOR', 1, 1, 1, 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'BrrV4L4UdXCinCyk9Gb0girtdZSYgUXt2agmo83RqxJkzCIaT7qW4ouDdAg1', '2018-06-09 00:00:00', 1),
+(2, 'DIRECTOR', 1, 1, 1, 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', '9UQIcWTrpW3UOTnet46ChlZmsGTyqkSDEQzIwww0B2L83boyXXjEaIJRcP3P', '2018-06-09 00:00:00', 1),
 (3, 'CLIENTE', 5, 1, 1, 'cliente1', '$2y$12$RvUF8dFWdHx54s5uUlZI4OKaADNPlBO2Ebu8aZ8QPRtKkCCa5qyKS', 'cliente1@gmail.com', 'cfStkkRasQBCQpTVIdyUFI4ntSY18Fl68RS1eFjGZej5dGszzPOSOL62v2Zn', '2018-06-09 00:00:00', 1),
 (4, 'EMPLEADO', 4, 1, 1, 'davidaparicio', '$2a$12$LjpaOM5IBmS/Ws3Qz3wgu.P98M5ETqtlRnlmxW6VhxhhGPlxdoS4C', 'proyectista1@gmail.com', '32nnllPyoXExK07A2T3P8loLQX5FWdFwl6w101jcSm7rgBO3gADpI3Nv2y4w', '2018-06-09 00:00:00', 1),
 (5, 'CLIENTE', 5, 1, 1, 'cliente2', '6dcd0e14f89d67e397b9f52bb63f5570', 'cliente2@gmail.com', '', '2018-06-09 00:00:00', 1);
@@ -451,7 +530,9 @@ ALTER TABLE `configuration`
 -- Indices de la tabla `contract`
 --
 ALTER TABLE `contract`
-  ADD PRIMARY KEY (`contractId`);
+  ADD PRIMARY KEY (`contractId`),
+  ADD KEY `projectTypeId` (`projectTypeId`),
+  ADD KEY `serviceTypeId` (`serviceTypeId`);
 
 --
 -- Indices de la tabla `contract_staff`
@@ -554,7 +635,7 @@ ALTER TABLE `configuration`
 -- AUTO_INCREMENT de la tabla `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `contract_staff`
@@ -584,13 +665,13 @@ ALTER TABLE `office`
 -- AUTO_INCREMENT de la tabla `project_type`
 --
 ALTER TABLE `project_type`
-  MODIFY `projectTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `projectTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de la tabla `service_type`
 --
 ALTER TABLE `service_type`
-  MODIFY `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `staff`

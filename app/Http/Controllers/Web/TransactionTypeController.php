@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers\Web;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\TransactionType;
-use Session;
+use Illuminate\Http\Request;
 
 class TransactionTypeController extends Controller
 {
- 
-   private $oTransactionType;
 
-    public function __construct() {
+    private $oTransactionType;
 
-       $this->middleware('auth');
-       $this->oTransactionType = new TransactionType;
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+        $this->oTransactionType = new TransactionType;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $transaction = $this->oTransactionType->getAll();
         return view('typesoftransactions.index', compact('transaction'));
     }
@@ -33,11 +34,12 @@ class TransactionTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
-        $this->oTransactionType->insertTT( $request->transactionTypeName, $request->sign);
+        $this->oTransactionType->insertTT($request->transactionTypeName, $request->sign);
         return redirect()->route('transactionsTypes.index')
-                         ->with('info','Tipo de Proyecto Creado');
+            ->with('info', 'Tipo de Proyecto Creado');
     }
     /**
      * Show the form for editing the specified resource.
@@ -45,7 +47,8 @@ class TransactionTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
 
         $transaction = $this->oTransactionType->findById($id);
         return view('typesoftransactions.edit', compact('transaction'));
@@ -58,20 +61,22 @@ class TransactionTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-       
-        $this->oTransactionType->updateTT($id,$request->transactionTypeName);
+    public function update(Request $request, $id)
+    {
+
+        $this->oTransactionType->updateTT($id, $request->transactionTypeName);
 
         return redirect()->route('transactionsTypes.index')
-                         ->with('info','Tipo de Proyecto Actualizado');
+            ->with('info', 'Tipo de Proyecto Actualizado');
     }
-   /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
 
         $transaction = $this->oTransactionType->findById($id);
         return view('typesoftransactions.show', compact('transaction'));
@@ -83,10 +88,11 @@ class TransactionTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         $this->oTransactionType->deleteTT($id);
         return redirect()->route('transactionsTypes.index')
-                         ->with('info','Tipo de Proyecto Eliminado');
+            ->with('info', 'Tipo de Proyecto Eliminado');
     }
 }
