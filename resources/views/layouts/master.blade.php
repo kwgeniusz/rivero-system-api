@@ -20,6 +20,10 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -90,13 +94,22 @@ desired effect
 <script src="{{ asset('js/app.js') }}"></script>
 
  <script>
+  // Instancia de Input date lib Flatpickr
+  flatpickr('.flatpickr', {
+      minDate: '1920-01-01',
+      locale: 'es',
+      dateFormat: "d/m/Y",
+    });
+
+
+
+ // muestra notificaciones de alerta
     @if(Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}";
         switch(type){
             case 'info':
                 toastr.info("{{ Session::get('message') }}");
                 break;
-
             case 'warning':
                 toastr.warning("{{ Session::get('message') }}");
                 break;

@@ -12,6 +12,8 @@ window.Vue = require('vue');
 import SweetModal from 'sweet-modal-vue/src/plugin.js';
 Vue.use(SweetModal);
  
+import * as toastr from 'toastr';
+
       
 /**
  * Next, we will create a fresh Vue application instance and attach it to

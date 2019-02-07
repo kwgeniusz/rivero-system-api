@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-02-2019 a las 03:57:12
+-- Tiempo de generación: 07-02-2019 a las 05:18:07
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -100,7 +100,7 @@ CREATE TABLE `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 48, 5, '2018-06-09 00:00:00', 1),
+(1, 1, 1, 56, 5, '2018-06-09 00:00:00', 1),
 (2, 2, 2, 1, 3, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -186,8 +186,7 @@ INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `country
 (44, 'P', '19PC-0000044', 1, 1, '2018-03-19', 1, '2603 GLADSTONE DR DALLAS TX 75211', 1, 1, '1', '2018-03-19', '2018-04-19', '2014-04-19', '2018-04-19', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:56:17', 2),
 (45, 'P', '19PC-0000045', 1, 1, '2018-03-19', 1, '3914 LIVELY LN DALLAS TX 75220', 1, 1, '1', '2018-03-19', '2018-04-19', '2018-04-19', '2018-04-10', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:57:41', 2),
 (46, 'P', '19PC-0000046', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:01', 2),
-(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2),
-(48, 'P', '19PC-0000048', 1, 1, '2019-02-05', 1, 'urb latrindad', 1, 1, NULL, '2019-02-13', '2019-02-27', '2019-02-28', '2019-02-25', 'listo', NULL, NULL, 3000.00, 'USD', 1, '2019-02-06 01:48:42', 2);
+(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2);
 
 -- --------------------------------------------------------
 
@@ -623,7 +622,7 @@ ALTER TABLE `bank`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `configuration`
@@ -635,7 +634,7 @@ ALTER TABLE `configuration`
 -- AUTO_INCREMENT de la tabla `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `contract_staff`
@@ -665,13 +664,13 @@ ALTER TABLE `office`
 -- AUTO_INCREMENT de la tabla `project_type`
 --
 ALTER TABLE `project_type`
-  MODIFY `projectTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `projectTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `service_type`
 --
 ALTER TABLE `service_type`
-  MODIFY `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `staff`

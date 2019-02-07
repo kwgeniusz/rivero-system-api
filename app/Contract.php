@@ -117,6 +117,59 @@ class Contract extends Model
 
         return $newDate = date("d/m/Y", strtotime($deliveryDate));
     }
+//------------------------MUTADORES--------------------------------
+    //--------------------------------------------------------------------
+    public function setContractDateAttribute($contractDate)
+    {
+        if (empty($contractDate)) {
+            return $contractDate = null;
+        }
+        $partes                           = explode("/", $contractDate);
+        $arreglo                          = array($partes[2], $partes[1], $partes[0]);
+        $date                             = implode("-", $arreglo);
+        $this->attributes['contractDate'] = $date;
+    }
+    public function setStartDateAttribute($startDate)
+    {
+        if (empty($startDate)) {
+            return $startDate = null;
+        }
+        $partes                        = explode("/", $startDate);
+        $arreglo                       = array($partes[2], $partes[1], $partes[0]);
+        $date                          = implode("-", $arreglo);
+        $this->attributes['startDate'] = $date;
+    }
+    public function setScheduledFinishDateAttribute($scheduledFinishDate)
+    {
+        if (empty($scheduledFinishDate)) {
+            return $scheduledFinishDate = null;
+        }
+        $partes                                  = explode("/", $scheduledFinishDate);
+        $arreglo                                 = array($partes[2], $partes[1], $partes[0]);
+        $date                                    = implode("-", $arreglo);
+        $this->attributes['scheduledFinishDate'] = $date;
+    }
+    public function setActualFinishDateAttribute($actualFinishDate)
+    {
+        if (empty($actualFinishDate)) {
+            return $actualFinishDate = null;
+        }
+        $partes                               = explode("/", $actualFinishDate);
+        $arreglo                              = array($partes[2], $partes[1], $partes[0]);
+        $date                                 = implode("-", $arreglo);
+        $this->attributes['actualFinishDate'] = $date;
+    }
+    public function setDeliveryDateAttribute($deliveryDate)
+    {
+        if (empty($deliveryDate)) {
+            return $deliveryDate = null;
+        }
+        $partes                           = explode("/", $deliveryDate);
+        $arreglo                          = array($partes[2], $partes[1], $partes[0]);
+        $date                             = implode("-", $arreglo);
+        $this->attributes['deliveryDate'] = $date;
+    }
+//////////////////////////////
 
     public function getContractStatusAttribute($contractStatus)
     {
@@ -262,8 +315,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
-        $actualFinishDate, $deliveryDate, $initialComment, $contractCost, $currencyName) {
+        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $contractCost, $currencyName) {
 
         $oConfiguration = new Configuration();
         // get contract number
@@ -317,23 +369,31 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function updateContract($contractId, $contractNumber, $clientId,
-        $siteAddress, $contractDescription, $registryNumber, $startDate, $scheduledFinishDate,
-        $actualFinishDate, $initialComment, $contractCost, $currencyName) {
+    public function updateContract($contractId, $countryId, $officeId, $contractDate, $clientId,
+        $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
+        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $contractCost, $currencyName) {
 
-        $this->where('contractId', $contractId)->update(array(
-            'contractNumber'      => $contractNumber,
-            'clientId'            => $clientId,
-            'siteAddress'         => $siteAddress,
-            'contractDescription' => $contractDescription,
-            'registryNumber'      => $registryNumber,
-            'startDate'           => $startDate,
-            'scheduledFinishDate' => $scheduledFinishDate,
-            'actualFinishDate'    => $actualFinishDate,
-            'initialComment'      => $initialComment,
-            'contractCost'        => $contractCost,
-            'currencyName'        => $currencyName,
-        ));
+        $contract                      = contract::find($contractId);
+        $contract->countryId           = $countryId;
+        $contract->officeId            = $officeId;
+        $contract->contractDate        = $contractDate;
+        $contract->clientId            = $clientId;
+        $contract->siteAddress         = $siteAddress;
+        $contract->projectTypeId       = $projectTypeId;
+        $contract->serviceTypeId       = $serviceTypeId;
+        $contract->registryNumber      = $registryNumber;
+        $contract->startDate           = $startDate;
+        $contract->scheduledFinishDate = $scheduledFinishDate;
+        $contract->actualFinishDate    = $actualFinishDate;
+        $contract->deliveryDate        = $deliveryDate;
+        $contract->initialComment      = $initialComment;
+        $contract->intermediateComment = $intermediateComment;
+        $contract->finalComment        = $finalComment;
+        $contract->contractCost        = $contractCost;
+        $contract->currencyName        = $currencyName;
+
+        $contract->save();
+
     }
 //------------------------------------------
     public function deleteContract($contractId)

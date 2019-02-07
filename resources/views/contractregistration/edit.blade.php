@@ -16,7 +16,7 @@
         </div>
       </div>
 <div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-success col-xs-7">
+<div class="panel panel-success col-xs-10 col-lg-7">
     <div class="panel-heading"> <h3>{{__('edit_contract')}}</h3></div>
     <div class="panel-body">
 
@@ -36,7 +36,7 @@
 
                 <div class="form-group col-xs-5">
                   <label for="contractDate">{{__('date_of_contract')}}</label>
-                  <input type="date" class="form-control" id="contractDate" name="contractDate" value="{{ $contract[0]->contractDate }}">
+                  <input class="form-control flatpickr"  id="contractDate" name="contractDate" value="{{ $contract[0]->contractDate }}">
                 </div>
 
             <div class="form-group col-xs-7">
@@ -94,22 +94,24 @@
               </div>
             </div>
 
-            <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-5">
               <div class="form-group">
                 <label for="startDate">{{__('start_date')}}</label>
-                <input type="date" class="form-control" id="startDate" name="startDate" value="{{ $contract[0]->startDate }}">
+                <input class="form-control flatpickr" id="startDate" name="startDate" value="{{ $contract[0]->startDate }}">
               </div>
               <div class="form-group">
                 <label for="scheduledFinishDate">{{__('scheduled_finish_date')}}</label>
-                <input type="date" class="form-control" id="scheduledFinishDate" name="scheduledFinishDate" value="{{ $contract[0]->scheduledFinishDate }}">
+                <input class="form-control flatpickr" id="scheduledFinishDate" name="scheduledFinishDate" value="{{ $contract[0]->scheduledFinishDate }}">
               </div>
+
               <div class="form-group">
                 <label for="actualFinishDate">{{__('finish_date')}}</label>
-                <input type="date" class="form-control" id="actualFinishDate" name="actualFinishDate" value="{{ $contract[0]->actualFinishDate}}">
+                <input class="form-control flatpickr" id="actualFinishDate" name="actualFinishDate" value="{{ $contract[0]->actualFinishDate}}">
               </div>
               <div class="form-group">
                 <label for="deliveryDate">{{__('delivery_date')}}</label>
-                <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" value="{{  $contract[0]->deliveryDate }}">
+                <input class="form-control flatpickr" id="deliveryDate" name="deliveryDate" value="{{  $contract[0]->deliveryDate }}">
               </div>
            </div>
            </div>
@@ -163,5 +165,6 @@
     </div>
 
   </div>
+
 
 @endsection

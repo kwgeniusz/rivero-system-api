@@ -16,7 +16,7 @@
         </div>
       </div>
 <div class="col-xs-12 col-xs-offset-1">
- <div class="panel panel-success col-xs-7">
+ <div class="panel panel-success col-xs-10 col-lg-7">
    @if($contractType == 'P')
     <div class="panel-heading"> <h3><b>Nuevo Proyecto</b><h3></div>
    @elseif($contractType == 'S')
@@ -36,7 +36,7 @@
 
                 <div class="form-group col-xs-5">
                   <label for="contractDate">{{__('date_of_contract')}}</label>
-                  <input type="date" class="form-control" id="contractDate" name="contractDate" value="{{ old('contractDate') }}">
+                  <input class="form-control flatpickr" id="contractDate" name="contractDate" value="{{ old('contractDate') }}">
                 </div>
 
           <div class="form-group col-xs-7">
@@ -79,20 +79,20 @@
             <div class="col-xs-5">
               <div class="form-group ">
                 <label for="startDate">{{__('start_date')}}</label>
-                <input type="date" class="form-control" id="startDate" name="startDate" value="{{ old('startDate') }}">
+                <input class="form-control flatpickr" id="startDate" name="startDate" value="{{ old('startDate') }}">
               </div>
               <div class="form-group">
                 <label for="scheduledFinishDate">{{__('scheduled_finish_date')}}</label>
-                <input type="date" class="form-control" id="scheduledFinishDate" name="scheduledFinishDate" value="{{ old('scheduledFinishDate') }}">
+                <input class="form-control flatpickr" id="scheduledFinishDate" name="scheduledFinishDate" value="{{ old('scheduledFinishDate') }}">
               </div>
               <div class="form-group">
                 <label for="actualFinishDate">{{__('finish_date')}}</label>
-                <input type="date" class="form-control" id="actualFinishDate" name="actualFinishDate" value="{{ old('actualFinishDate') }}">
+                <input class="form-control flatpickr" id="actualFinishDate" name="actualFinishDate" value="{{ old('actualFinishDate') }}">
               </div>
 
             <div class="form-group">
                 <label for="deliveryDate">{{__('delivery_date')}}</label>
-                <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" value="{{ old('deliveryDate') }}">
+                <input class="form-control flatpickr" id="deliveryDate" name="deliveryDate" value="{{ old('deliveryDate') }}">
               </div>
            </div>
        </div>

@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-default col-xs-7">
+<div class="panel panel-default col-xs-10 col-lg-7">
     <div class="panel-heading"> <h3><b>{{__('contract_details')}}</b></h3></div>
     <div class="panel-body">
 

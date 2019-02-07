@@ -95,18 +95,25 @@ class ContractController extends Controller
     public function update(ContractRequest $request, $id)
     {
 
-        $this->oContract->editContract(
-            $request->$contractNumber,
-            $request->$clientId,
-            $request->$siteAddress,
-            $request->$contractDescription,
-            $request->$registryNumber,
-            $request->$startDate,
-            $request->$scheduledFinishDate,
-            $request->$actualFinishDate,
-            $request->$initialComment,
-            $request->$contractCost,
-            $request->$currencyName
+        $this->oContract->updateContract(
+            $id,
+            $request->countryId,
+            $request->officeId,
+            $request->contractDate,
+            $request->clientId,
+            $request->siteAddress,
+            $request->projectTypeId,
+            $request->serviceTypeId,
+            $request->registryNumber,
+            $request->startDate,
+            $request->scheduledFinishDate,
+            $request->actualFinishDate,
+            $request->deliveryDate,
+            $request->initialComment,
+            $request->intermediateComment,
+            $request->finalComment,
+            $request->contractCost,
+            $request->currencyName
         );
 
         return redirect()->route('contracts.index')
