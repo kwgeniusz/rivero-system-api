@@ -26,6 +26,8 @@ class ReportController extends Controller
         $date     = Carbon::now();
         $contract = $this->oContract->findById($request->contractNumber);
 
+        $contractNumber = __('contract');
+
         $tbl = <<<EOD
  <p>
       <table cellspacing="0" cellpadding="0" border="0">
@@ -42,8 +44,8 @@ class ReportController extends Controller
          <br><br>
 
 <div style="width:10%">
- <b> Contrato:</b>N° {$contract[0]->contractNumber}<br>
- <b>  Pais:</b> {$contract[0]->country->countryName} -
+ <b>  N°{$contractNumber} :</b> {$contract[0]->contractNumber}<br>
+ <b>  {{ __('country') }} :</b> {$contract[0]->country->countryName} -
  <b>  Oficina:</b> {$contract[0]->office->officeName}<br />
  <b>  Fecha de Contrato:</b> {$contract[0]->contractDate}<br />
  <b>  Cliente:</b> {$contract[0]->client->clientName}<br />

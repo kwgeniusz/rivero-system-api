@@ -70,8 +70,13 @@ class ContractController extends Controller
             $request->contractCost,
             $request->currencyName);
 
+        $notification = array(
+            'message'    => 'Contrato Creado Exitosamente',
+            'alert-type' => 'success',
+        );
+
         return redirect()->route('contracts.index')
-            ->with('info', 'Tipo de Proyecto Creado');
+            ->with($notification);
     }
 
     public function details($id)
@@ -116,8 +121,12 @@ class ContractController extends Controller
             $request->currencyName
         );
 
+        $notification = array(
+            'message'    => 'Contrato Modificado Exitosamente',
+            'alert-type' => 'info',
+        );
         return redirect()->route('contracts.index')
-            ->with('info', 'Tipo de Proyecto Actualizado');
+            ->with($notification);
     }
     public function show($id)
     {
@@ -130,8 +139,13 @@ class ContractController extends Controller
     {
 
         $this->oContract->deleteContract($id);
+
+        $notification = array(
+            'message'    => 'Contrato Eliminado Exitosamente',
+            'alert-type' => 'success',
+        );
         return redirect()->route('contracts.index')
-            ->with('info', 'Tipo de Proyecto Eliminado');
+            ->with($notification);
 
     }
 

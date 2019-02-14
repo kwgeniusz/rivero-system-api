@@ -41,7 +41,6 @@ if (token) {
 }
 
 
-require('admin-lte');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

@@ -29,16 +29,15 @@
 
         <select-country-office></select-country-office>
 
-            <div class="col-xs-12">
-
             <input type="hidden" name="contractType" value="{{ $contractType }}">
 
-
+             <div class="row"></div>
                 <div class="form-group col-xs-5">
                   <label for="contractDate">{{__('date_of_contract')}}</label>
                   <input class="form-control flatpickr" id="contractDate" name="contractDate" value="{{ old('contractDate') }}">
                 </div>
 
+         <div class="row"></div>
           <div class="form-group col-xs-7">
             <label for="clientId">{{__('client')}}</label>
             <select class="form-control" name="clientId" id="clientId">
@@ -47,7 +46,9 @@
                 @endforeach
             </select>
           </div>
-              <div class="form-group">
+
+
+              <div class="form-group col-xs-11">
                 <label for="siteAddress">{{__('address')}}</label>
                 <input type="text" class="form-control" id="siteAddress" name="siteAddress" value="{{ old('siteAddress') }}">
               </div>
@@ -69,33 +70,43 @@
                 @endforeach
             </select>
           </div>
-             <div class="row">
+
+
+
+           <div class="row"></div>
               <div class="form-group col-xs-6 ">
                 <label for="registryNumber">N° {{__('registration')}}</label>
-                <input type="number" class="form-control" id="registryNumber" name="registryNumber" value="{{ old('registryNumber') }}">
+                <input type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ old('registryNumber') }}">
               </div>
-            </div>
-      <div class="row">
-            <div class="col-xs-5">
-              <div class="form-group ">
+
+
+        <div class="row"></div>
+              <div class="form-group col-xs-5">
                 <label for="startDate">{{__('start_date')}}</label>
                 <input class="form-control flatpickr" id="startDate" name="startDate" value="{{ old('startDate') }}">
               </div>
+
+        <div class="row"></div>
               <div class="form-group">
-                <label for="scheduledFinishDate">{{__('scheduled_finish_date')}}</label>
+                <label class="col-xs-8" for="scheduledFinishDate">{{__('scheduled_finish_date')}}</label>
+                <div class="col-xs-5">
                 <input class="form-control flatpickr" id="scheduledFinishDate" name="scheduledFinishDate" value="{{ old('scheduledFinishDate') }}">
+                </div>
               </div>
-              <div class="form-group">
+
+        <div class="row"></div>
+              <div class="form-group col-xs-5">
                 <label for="actualFinishDate">{{__('finish_date')}}</label>
                 <input class="form-control flatpickr" id="actualFinishDate" name="actualFinishDate" value="{{ old('actualFinishDate') }}">
               </div>
 
-            <div class="form-group">
+         <div class="row"></div>
+             <div class="form-group col-xs-5">
                 <label for="deliveryDate">{{__('delivery_date')}}</label>
                 <input class="form-control flatpickr" id="deliveryDate" name="deliveryDate" value="{{ old('deliveryDate') }}">
-              </div>
-           </div>
-       </div>
+            </div>
+
+
           <div class="col-xs-12">
              <div class="form-group">
                 <label for="initialComment">{{__('initial_comment')}}</label>
@@ -129,7 +140,7 @@
                   <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
-            </div>
+
           </form>
 
 

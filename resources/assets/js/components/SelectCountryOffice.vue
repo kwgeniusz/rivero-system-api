@@ -3,7 +3,7 @@
    <div class="col-xs-6">
          <div class="form-group">
             <label for="countryId">Pais</label>
-            <select v-model="firstOption" v-on:change="getOffices()" class="form-control" name="countryId" id="countryId" >
+            <select v-model="firstOption" v-on:change="getOffices()" class="form-control" name="countryId" id="countryId">
                 <option v-for="(item, index) in list" :value="item.countryId"  >{{item.countryName  }}</option>
             </select>
           </div>  

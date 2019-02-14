@@ -17,7 +17,7 @@
             </select>
           </div> 
     </div>
-{{firstOption}} {{secondOption}} {{valueFirst}}
+
 </div>   
 </template>
 
@@ -28,16 +28,20 @@
      mounted() {
             console.log('Component mounted.')
             this.allCountrys();
+            this.getOffices();
         },
      data: function () {
           return {
-           firstOption: null,
+           firstOption: this.country,
            list: {},
-           secondOption: null,
+           secondOption: this.office,
            list2: {}
           }
     },
-
+    props: {
+           country: { type: Number, required: true },
+           office: { type: Number, required: true }
+    },
     methods: {
        allCountrys: function (){
             var url ='../../countrys/all';

@@ -11763,8 +11763,6 @@ module.exports = __webpack_require__(75);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweet_modal_vue_src_plugin_js__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_toastr__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_toastr__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -11774,12 +11772,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __webpack_require__(15);
 
+__webpack_require__(38);
+
 window.Vue = __webpack_require__(39);
 
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_sweet_modal_vue_src_plugin_js__["a" /* default */]);
 
-
+window.toastr = __webpack_require__(55);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -11844,8 +11844,6 @@ if (token) {
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-
-__webpack_require__(38);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -45352,17 +45350,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         console.log('Component mounted.');
         this.allCountrys();
+        this.getOffices();
     },
 
     data: function data() {
         return {
-            firstOption: null,
+            firstOption: this.country,
             list: {},
-            secondOption: null,
+            secondOption: this.office,
             list2: {}
         };
     },
-
+    props: {
+        country: { type: Number, required: true },
+        office: { type: Number, required: true }
+    },
     methods: {
         allCountrys: function allCountrys() {
             var _this = this;
@@ -45483,16 +45485,7 @@ var render = function() {
             )
           : _vm._e()
       ])
-    ]),
-    _vm._v(
-      "\n" +
-        _vm._s(_vm.firstOption) +
-        " " +
-        _vm._s(_vm.secondOption) +
-        " " +
-        _vm._s(_vm.valueFirst) +
-        "\n"
-    )
+    ])
   ])
 }
 var staticRenderFns = []

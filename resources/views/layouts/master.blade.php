@@ -101,8 +101,6 @@ desired effect
       dateFormat: "d/m/Y",
     });
 
-
-
  // muestra notificaciones de alerta
     @if(Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}";

@@ -7,12 +7,15 @@
 
 require('./bootstrap');
 
+require('admin-lte');
+
 window.Vue = require('vue');
 
 import SweetModal from 'sweet-modal-vue/src/plugin.js';
 Vue.use(SweetModal);
  
-import * as toastr from 'toastr';
+
+window.toastr = require('toastr');
 
       
 /**

@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\web;
 
-use Session;
 use App\Client;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     private $oClient;
 
-    public function __construct() {
-       $this->middleware('auth');
-       $this->oClient = new Client;
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->oClient = new Client;
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients =$this->oClient->getAll();
+        $clients = $this->oClient->getAll();
         return view('clients.index', compact('clients'));
     }
 
@@ -45,15 +45,20 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        $clients =$this->oClient->insertClient(
-        $request->clientName,
-        $request->clientDescription,
-        $request->clientAddress,
-        $request->clientPhone,
-        $request->clientEmail
-         );
+        $clients = $this->oClient->insertClient(
+            $request->clientName,
+            $request->clientDescription,
+            $request->clientAddress,
+            $request->clientPhone,
+            $request->clientEmail
+        );
+
+        $notification = array(
+            'message'    => 'Cliente Creado Exitosamente',
+            'alert-type' => 'success',
+        );
         return redirect()->route('clients.index')
-                         ->with('info','Tipo de Proyecto Creado');
+            ->with($notification);
     }
 
     /**
@@ -64,7 +69,7 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $client =$this->oClient->findById($id);
+        $client = $this->oClient->findById($id);
         return view('clients.edit', compact('client'));
     }
 
@@ -78,15 +83,15 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         $this->oClient->updateClient($id,
-        $request->clientName,
-        $request->clientDescription,
-        $request->clientAddress,
-        $request->clientPhone,
-        $request->clientEmail
-      );
+            $request->clientName,
+            $request->clientDescription,
+            $request->clientAddress,
+            $request->clientPhone,
+            $request->clientEmail
+        );
 
         return redirect()->route('clients.index')
-                         ->with('info','Tipo de Proyecto Actualizado');
+            ->with('info', 'Tipo de Proyecto Actualizado');
     }
     /**
      * Display the specified resource.
@@ -110,10 +115,12 @@ class ClientController extends Controller
     {
         $this->oClient->deleteClient($id);
 
+        $notification = array(
+            'message'    => 'Cliente Eliminado Exitosamente',
+            'alert-type' => 'success',
+        );
         return redirect()->route('clients.index')
-                         ->with('info','Tipo de Proyecto Eliminado');
+            ->with($notification);
     }
-
-
 
 }
