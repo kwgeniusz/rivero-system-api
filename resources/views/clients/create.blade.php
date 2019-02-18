@@ -7,7 +7,7 @@
     <div class="panel-body">
       <div class="row ">
           <div class="col-xs-12 ">
-            
+
         @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
@@ -29,16 +29,16 @@
                 <label for="clientDescription">{{__('description')}}</label>
                 <input type="text" class="form-control" id="clientDescription" name="clientDescription" value="{{ old('clientDescription') }}" placeholder="Descripción">
               </div>
-             
+
               <div class="form-group">
                 <label for="clientAddress">{{__('address')}}</label>
                 <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{ old('clientAddress') }}" placeholder="Direccion">
               </div>
-             
+
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="clientPhone">{{__('phone')}}</label>
-                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}" placeholder="04124231242">
+                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}" placeholder="04124231242" pattern="^([0-9]{3,11})" title="formato: 04124231242">
               </div>
             </div>
             <div class="col-xs-6">

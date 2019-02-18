@@ -41,7 +41,6 @@
        allCountrys: function (){
             var url ='../countrys/all';
             axios.get(url).then(response => {
-               console.log(response.data)
              this.list = response.data
             });
         },

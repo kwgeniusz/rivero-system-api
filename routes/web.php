@@ -114,3 +114,5 @@ Route::get('/countrys/all', 'Web\CountryController@all')->name('countrys.all');
 Route::get('/offices/{contract}', 'Web\OfficeController@getForCountry')->name('offices.get');
 //CONTRACTS
 Route::get('/contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
+
+Route::get('/searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');

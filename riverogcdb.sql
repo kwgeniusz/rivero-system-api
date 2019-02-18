@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-02-2019 a las 05:18:07
+-- Tiempo de generación: 18-02-2019 a las 01:38:28
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -63,10 +63,10 @@ CREATE TABLE `client` (
   `clientId` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `clientName` varchar(255) NOT NULL,
-  `clientDescription` varchar(255) NOT NULL,
-  `clientAddress` varchar(255) NOT NULL,
-  `clientPhone` varchar(255) NOT NULL,
-  `clientEmail` varchar(255) NOT NULL,
+  `clientDescription` varchar(255) DEFAULT NULL,
+  `clientAddress` varchar(255) DEFAULT NULL,
+  `clientPhone` varchar(255) DEFAULT NULL,
+  `clientEmail` varchar(255) DEFAULT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -100,8 +100,8 @@ CREATE TABLE `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 56, 5, '2018-06-09 00:00:00', 1),
-(2, 2, 2, 1, 3, '2018-06-09 00:00:00', 1);
+(1, 1, 1, 57, 5, '2018-06-09 00:00:00', 1),
+(2, 2, 2, 3, 3, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,7 @@ CREATE TABLE `contract` (
 --
 
 INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyName`, `contractStatus`, `dateCreated`, `lastUserId`) VALUES
-(1, 'P', '18PC-000001', 1, 1, '2018-01-01', 1, '3800 JORDAN VALLEY RD DALLAS TX 75253', 1, 1, '1', '2018-01-01', '2018-02-01', '2018-02-01', '2018-02-01', NULL, NULL, NULL, 0.00, 'USD', 2, '2018-09-01 00:00:00', 1),
+(1, 'P', '18PC-000001', 1, 1, '2018-01-01', 2, '3800 JORDAN VALLEY RD DALLAS TX 75253', 1, 1, '1', '2018-01-01', '2018-02-01', '2018-02-01', '2018-02-01', NULL, NULL, NULL, 0.00, 'USD', 2, '2018-09-01 00:00:00', 1),
 (2, 'P', '18PC-000002', 1, 1, '2018-01-03', 1, '9401 BARTON CREEK DR ROWLETT TX', 1, 1, '1', '2019-01-03', '2018-01-24', '2018-01-24', '2018-01-24', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
 (3, 'P', '18PC-000003', 1, 1, '2018-01-04', 1, '', 1, 1, '1', '2018-01-04', '2018-03-04', '2018-03-04', '2018-03-04', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
 (4, 'P', '18PC-000004', 1, 1, '2018-04-01', 1, '3062 Primrose Ln Farmers Branch, TX 75234', 1, 1, '1', '2018-04-01', '2018-04-30', '2018-04-30', '2018-04-30', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
@@ -186,7 +186,8 @@ INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `country
 (44, 'P', '19PC-0000044', 1, 1, '2018-03-19', 1, '2603 GLADSTONE DR DALLAS TX 75211', 1, 1, '1', '2018-03-19', '2018-04-19', '2014-04-19', '2018-04-19', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:56:17', 2),
 (45, 'P', '19PC-0000045', 1, 1, '2018-03-19', 1, '3914 LIVELY LN DALLAS TX 75220', 1, 1, '1', '2018-03-19', '2018-04-19', '2018-04-19', '2018-04-10', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:57:41', 2),
 (46, 'P', '19PC-0000046', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:01', 2),
-(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2);
+(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2),
+(48, 'P', '19PC-0000002', 2, 2, '2019-02-13', 1, 'ASD', 2, 2, 'ASD22312', '2019-02-13', '2019-02-14', '2019-02-15', '2019-02-16', NULL, NULL, NULL, 122.00, 'USD', 1, '2019-02-13 21:58:10', 2);
 
 -- --------------------------------------------------------
 
@@ -622,7 +623,7 @@ ALTER TABLE `bank`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `configuration`
@@ -634,7 +635,7 @@ ALTER TABLE `configuration`
 -- AUTO_INCREMENT de la tabla `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `contract_staff`

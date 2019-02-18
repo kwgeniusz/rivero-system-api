@@ -37,6 +37,7 @@
                   <input class="form-control flatpickr" id="contractDate" name="contractDate" value="{{ old('contractDate') }}">
                 </div>
 
+<!--
          <div class="row"></div>
           <div class="form-group col-xs-7">
             <label for="clientId">{{__('client')}}</label>
@@ -46,7 +47,10 @@
                 @endforeach
             </select>
           </div>
+-->
 
+           <div class="row"></div>
+           <search-client></search-client>
 
               <div class="form-group col-xs-11">
                 <label for="siteAddress">{{__('address')}}</label>

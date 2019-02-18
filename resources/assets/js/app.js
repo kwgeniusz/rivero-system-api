@@ -30,6 +30,8 @@ Vue.component('select-country-office-edit', require('./components/SelectCountryO
 Vue.component('select-country-office-contract', require('./components/SelectCountryOfficeContract.vue'));
 Vue.component('print-contract', require('./components/PrintContract.vue'));
 Vue.component('contract-summary', require('./components/contractsummary.vue'));
+
+Vue.component('search-client', require('./components/SearchClient.vue'));
 Vue.component('modal-change-status', require('./components/modalChangeStatus.vue'));
 
 const app = new Vue({

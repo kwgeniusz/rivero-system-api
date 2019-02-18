@@ -80,7 +80,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientRequest $request, $id)
     {
         $this->oClient->updateClient($id,
             $request->clientName,
@@ -91,7 +91,7 @@ class ClientController extends Controller
         );
 
         return redirect()->route('clients.index')
-            ->with('info', 'Tipo de Proyecto Actualizado');
+            ->with('info', 'Cliente Actualizado');
     }
     /**
      * Display the specified resource.
@@ -121,6 +121,18 @@ class ClientController extends Controller
         );
         return redirect()->route('clients.index')
             ->with($notification);
+    }
+
+//----------------QUERYS ASINCRONIOUS -------------->>>>
+    public function get($client = '')
+    {
+
+        $results = Client::select('clientId', 'clientName')
+            ->where('clientName', 'LIKE', "%$client%")
+            ->orderBy('clientName', 'ASC')
+            ->get();
+        return json_encode($results);
+
     }
 
 }

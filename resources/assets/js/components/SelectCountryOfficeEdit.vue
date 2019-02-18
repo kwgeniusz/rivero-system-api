@@ -39,8 +39,8 @@
           }
     },
     props: {
-           country: { type: Number, required: true },
-           office: { type: Number, required: true }
+           country: { type: Number},
+           office: { type: Number}
     },
     methods: {
        allCountrys: function (){

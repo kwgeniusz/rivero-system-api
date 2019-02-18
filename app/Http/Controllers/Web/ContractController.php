@@ -349,4 +349,6 @@ class ContractController extends Controller
         return view('summaryforclient.index', compact('clients'));
     }
 
+//-------QUERYS ASINCRONIOUS-----------------//
+
 }

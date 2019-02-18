@@ -24,27 +24,20 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'clientName' => 'required|max:255',
-            'clientDescription' => 'required|max:255',
-            'clientAddress' => 'required|max:255',
-            'clientPhone' => 'required|min:11|numeric',
-            'clientEmail' => 'required|max:255|email',
+            'clientName'        => 'required|max:255',
+            'clientDescription' => 'max:255',
+            'clientAddress'     => 'max:255',
         ];
     }
     /**
- * Get the error messages for the defined validation rules.
- *
- * @return array
- */
-public function messages()
-{
-    return [
-        'clientName.required' => 'Nombre y Apellido es Requerido',
-        'clientDescription.required' => 'Campo Descripcion es Requerido',
-        'clientAddress.required' => 'Campo Direccion es Requerido',
-        'clientPhone.required' => 'Campo Telefono es Requerido',
-        'clientEmail.required' => 'Campo Correo es Requerido',
-
-    ];
-}
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'clientName.required' => 'Nombre y Apellido es Requerido',
+        ];
+    }
 }
