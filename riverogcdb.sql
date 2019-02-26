@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2019 a las 01:38:28
+-- Tiempo de generación: 26-02-2019 a las 15:45:08
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -51,7 +51,7 @@ CREATE TABLE `bank` (
 --
 
 INSERT INTO `bank` (`bankId`, `bankName`, `initialBalance`, `balance01`, `balance02`, `balance03`, `balance04`, `balance05`, `balance06`, `balance07`, `balance08`, `balance09`, `balance10`, `balance11`, `balance12`) VALUES
-(2, 'BANESCO', '1000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '700.00');
+(2, 'BANESCO', '1000.00', '0.00', '2000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '700.00');
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,7 @@ CREATE TABLE `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 57, 5, '2018-06-09 00:00:00', 1),
+(1, 1, 1, 77, 10, '2018-06-09 00:00:00', 1),
 (2, 2, 2, 3, 3, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -121,14 +121,14 @@ CREATE TABLE `contract` (
   `projectTypeId` int(11) NOT NULL,
   `serviceTypeId` int(11) NOT NULL,
   `registryNumber` varchar(32) DEFAULT NULL,
-  `startDate` date NOT NULL,
-  `scheduledFinishDate` date NOT NULL,
-  `actualFinishDate` date NOT NULL,
-  `deliveryDate` date NOT NULL,
+  `startDate` date DEFAULT NULL,
+  `scheduledFinishDate` date DEFAULT NULL,
+  `actualFinishDate` date DEFAULT NULL,
+  `deliveryDate` date DEFAULT NULL,
   `initialComment` text,
   `intermediateComment` text,
   `finalComment` text,
-  `contractCost` float(32,2) NOT NULL,
+  `contractCost` float(32,2) NOT NULL DEFAULT '0.00',
   `currencyName` varchar(64) NOT NULL,
   `contractStatus` int(2) NOT NULL,
   `dateCreated` datetime NOT NULL,
@@ -186,8 +186,7 @@ INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `country
 (44, 'P', '19PC-0000044', 1, 1, '2018-03-19', 1, '2603 GLADSTONE DR DALLAS TX 75211', 1, 1, '1', '2018-03-19', '2018-04-19', '2014-04-19', '2018-04-19', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:56:17', 2),
 (45, 'P', '19PC-0000045', 1, 1, '2018-03-19', 1, '3914 LIVELY LN DALLAS TX 75220', 1, 1, '1', '2018-03-19', '2018-04-19', '2018-04-19', '2018-04-10', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:57:41', 2),
 (46, 'P', '19PC-0000046', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:01', 2),
-(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2),
-(48, 'P', '19PC-0000002', 2, 2, '2019-02-13', 1, 'ASD', 2, 2, 'ASD22312', '2019-02-13', '2019-02-14', '2019-02-15', '2019-02-16', NULL, NULL, NULL, 122.00, 'USD', 1, '2019-02-13 21:58:10', 2);
+(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2);
 
 -- --------------------------------------------------------
 
@@ -202,6 +201,13 @@ CREATE TABLE `contract_staff` (
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `contract_staff`
+--
+
+INSERT INTO `contract_staff` (`contractStaffId`, `contractId`, `staffId`, `dateCreated`, `lastUserId`) VALUES
+(6, 8, 1, '2019-02-22 17:50:23', 2);
 
 -- --------------------------------------------------------
 
@@ -284,6 +290,36 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `payment_contract`
+--
+
+CREATE TABLE `payment_contract` (
+  `paymentContractId` int(11) NOT NULL,
+  `contractId` int(11) NOT NULL,
+  `amount` float(32,2) NOT NULL DEFAULT '0.00',
+  `paymentDate` date NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `payment_precontract`
+--
+
+CREATE TABLE `payment_precontract` (
+  `paymentPrecontractId` int(11) NOT NULL,
+  `precontractId` int(11) NOT NULL,
+  `amount` float(32,2) NOT NULL,
+  `paymentDate` date NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `position`
 --
 
@@ -292,6 +328,32 @@ CREATE TABLE `position` (
   `positionName` varchar(128) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `position`
+--
+
+INSERT INTO `position` (`positionId`, `positionName`, `dateCreated`, `lastUserId`) VALUES
+(1, 'NULL', '0000-00-00 00:00:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pre_contract`
+--
+
+CREATE TABLE `pre_contract` (
+  `precontractId` int(11) NOT NULL,
+  `contractType` varchar(1) NOT NULL,
+  `countryId` int(6) NOT NULL,
+  `officeId` int(6) NOT NULL,
+  `clientId` int(11) NOT NULL,
+  `siteAddress` varchar(255) NOT NULL,
+  `projectTypeId` int(11) NOT NULL,
+  `serviceTypeId` int(11) NOT NULL,
+  `precontractCost` float(32,2) NOT NULL DEFAULT '0.00',
+  `currencyName` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -393,6 +455,13 @@ CREATE TABLE `staff` (
   `lastUserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `staff`
+--
+
+INSERT INTO `staff` (`staffId`, `staffCategoryId`, `countryId`, `officeId`, `userId`, `fullName`, `positionId`, `dateCreated`, `lastUserId`) VALUES
+(1, 3, 2, 2, 4, 'David Aparicio', 1, '2019-02-22 00:00:00', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -451,7 +520,9 @@ INSERT INTO `transaction` (`transactionId`, `transactionTypeId`, `transactionDat
 (21, 3, '2018-12-11', 'qwe', '121.00', '-', 2, 'qwe'),
 (22, 3, '2018-12-11', 'qwe', '121.00', '-', 2, 'qwe'),
 (30, 4, '2018-12-11', 'asdas', '700.00', '+', 2, '234'),
-(31, 3, '2018-12-11', 'qweq', '1000.00', '-', 2, '2342');
+(31, 3, '2018-12-11', 'qweq', '1000.00', '-', 2, '2342'),
+(32, 4, '2019-02-22', 'Abuela Nelly Casa', '1000.00', '+', 2, '122'),
+(33, 4, '2019-02-22', 'Abuela Nelly Casa', '1000.00', '+', 2, '122');
 
 -- --------------------------------------------------------
 
@@ -565,6 +636,26 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Indices de la tabla `payment_contract`
+--
+ALTER TABLE `payment_contract`
+  ADD PRIMARY KEY (`paymentContractId`),
+  ADD KEY `contractId` (`contractId`);
+
+--
+-- Indices de la tabla `payment_precontract`
+--
+ALTER TABLE `payment_precontract`
+  ADD PRIMARY KEY (`paymentPrecontractId`),
+  ADD KEY `precontractId` (`precontractId`);
+
+--
+-- Indices de la tabla `pre_contract`
+--
+ALTER TABLE `pre_contract`
+  ADD PRIMARY KEY (`precontractId`);
+
+--
 -- Indices de la tabla `project_type`
 --
 ALTER TABLE `project_type`
@@ -623,7 +714,7 @@ ALTER TABLE `bank`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `configuration`
@@ -635,13 +726,13 @@ ALTER TABLE `configuration`
 -- AUTO_INCREMENT de la tabla `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `contract_staff`
 --
 ALTER TABLE `contract_staff`
-  MODIFY `contractStaffId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `contractStaffId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `country`
@@ -662,6 +753,24 @@ ALTER TABLE `office`
   MODIFY `officeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `payment_contract`
+--
+ALTER TABLE `payment_contract`
+  MODIFY `paymentContractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `payment_precontract`
+--
+ALTER TABLE `payment_precontract`
+  MODIFY `paymentPrecontractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `pre_contract`
+--
+ALTER TABLE `pre_contract`
+  MODIFY `precontractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `project_type`
 --
 ALTER TABLE `project_type`
@@ -677,7 +786,7 @@ ALTER TABLE `service_type`
 -- AUTO_INCREMENT de la tabla `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staffId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `staffId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `staff_category`
@@ -689,7 +798,7 @@ ALTER TABLE `staff_category`
 -- AUTO_INCREMENT de la tabla `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `transaction_type`
@@ -702,6 +811,22 @@ ALTER TABLE `transaction_type`
 --
 ALTER TABLE `user`
   MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `payment_contract`
+--
+ALTER TABLE `payment_contract`
+  ADD CONSTRAINT `payment_contract_ibfk_1` FOREIGN KEY (`contractId`) REFERENCES `contract` (`contractId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `payment_precontract`
+--
+ALTER TABLE `payment_precontract`
+  ADD CONSTRAINT `payment_precontract_ibfk_1` FOREIGN KEY (`precontractId`) REFERENCES `pre_contract` (`precontractId`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

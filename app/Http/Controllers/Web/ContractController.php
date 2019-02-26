@@ -6,6 +6,8 @@ use App\Client;
 use App\Contract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
+use App\Http\Requests\PaymentRequest;
+use App\PaymentContract;
 use App\ProjectType;
 use App\ServiceType;
 use App\Staff;
@@ -19,16 +21,19 @@ class ContractController extends Controller
     private $oStaff;
     private $oProjectType;
     private $oServiceType;
+    private $oPaymentContract;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oContract = new Contract;
-        $this->oClient   = new Client;
-        $this->oStaff    = new Staff;
+        $this->oContract        = new Contract;
+        $this->oClient          = new Client;
+        $this->oStaff           = new Staff;
+        $this->oPaymentContract = new PaymentContract;
 
         $this->oProjectType = new ProjectType;
         $this->oServiceType = new ServiceType;
+
     }
 
     public function index()
@@ -67,7 +72,6 @@ class ContractController extends Controller
             $request->actualFinishDate,
             $request->deliveryDate,
             $request->initialComment,
-            $request->contractCost,
             $request->currencyName);
 
         $notification = array(
@@ -117,7 +121,6 @@ class ContractController extends Controller
             $request->initialComment,
             $request->intermediateComment,
             $request->finalComment,
-            $request->contractCost,
             $request->currencyName
         );
 
@@ -237,7 +240,7 @@ class ContractController extends Controller
             ->with('info', 'Tipo de Proyecto Eliminado');
     }
 
-/** Contracs Cancelled*/
+/**-----------CONTRACTS CANCELLED-------------*/
 
     public function getContractsCancelled()
     {
@@ -261,7 +264,7 @@ class ContractController extends Controller
             ->with('info', 'Tipo de Proyecto Eliminado');
     }
 
-/* OPTIONS */
+/* -----------OPTIONS------------- */
 
     public function changeStatus($id)
     {
@@ -297,14 +300,13 @@ class ContractController extends Controller
             $request->contractId
         );
 
-        /*  $notificacion = array(
-        'message' => 'Gracias! Su mensaje se a enviado con exito.',
-        'alert-type' => 'success'
+        $notification = array(
+            'message'    => 'Personal Agregado Al Contrato',
+            'alert-type' => 'success',
         );
-         */
 
         return redirect()->route('contracts.staff', ['id' => $request->contractId])
-            ->with('info', 'Tipo de Proyecto Creado');
+            ->with($notification);
 
     }
     public function staffRemove($id, $contractId)
@@ -312,6 +314,50 @@ class ContractController extends Controller
         $this->oContract->removeStaff($id);
         return redirect()->route('contracts.staff', ['id' => $contractId])
             ->with('info', 'Tipo de Proyecto Creado');
+    }
+
+// ---------PAYMENT -------//
+
+    public function payment($id)
+    {
+
+        $contract = $this->oContract->FindById($id);
+        $payments = $this->oPaymentContract->getAllForContract($id);
+
+        return view('contractregistration.payment', compact('contract', 'payments'));
+
+    }
+
+    public function paymentAgg(PaymentRequest $request)
+    {
+
+        $result = $this->oPaymentContract->aggPayment(
+            $request->contractId,
+            $request->amount,
+            $request->paymentDate
+        );
+
+        $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
+        );
+
+        return redirect()->route('contracts.payment', ['id' => $request->contractId])
+            ->with($notification);
+
+    }
+    public function paymentRemove($id, $amount, $contractId)
+    {
+
+        $result = $this->oPaymentContract->removePayment($id, $amount, $contractId);
+
+        $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
+        );
+
+        return redirect()->route('contracts.payment', ['id' => $contractId])
+            ->with($notification);
     }
 
     public function files($id)

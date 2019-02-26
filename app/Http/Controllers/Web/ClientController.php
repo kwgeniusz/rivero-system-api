@@ -127,7 +127,7 @@ class ClientController extends Controller
     public function get($client = '')
     {
 
-        $results = Client::select('clientId', 'clientName')
+        $results = Client::select('clientId', 'clientName', 'clientAddress')
             ->where('clientName', 'LIKE', "%$client%")
             ->orderBy('clientName', 'ASC')
             ->get();

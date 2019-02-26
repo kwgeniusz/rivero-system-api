@@ -17,6 +17,7 @@
                  <th>{{__('date_of_contract')}}</th>
                  <th>{{__('client')}}</th>
                  <th>{{__('status')}}</th>
+                     <th>COSTO</th>
                  </th>
                 </tr>
             </thead>
@@ -28,62 +29,76 @@
                     <td>{{$contract[0]->contractDate}} </td>
                     <td>{{$contract[0]->client->clientName}} </td>
                     <td>{{$contract[0]->contractStatus }} </td>
+                    <td>{{$contract[0]->contractCost }} </td>
                 </tr>
         </tbody>
       </table>
      </div>
 
      <hr>
-    <h3 class="text-info"><b>PERSONAL ASIGNADO</b></h3>
+     <h3 class="text-info"><b> PAGOS</b></h3>
+
+  <div class="col-xs-offset-3 col-xs-5 ">
+        @if ($errors->any())
+          <div class="alert alert-danger">
+              <h4>Errores:</h4>
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
+        </div>
 
 
-@if($staffs)
     <div class="row ">
      <div class="col-xs-12">
      <div class="text-center">
-      <form class="form-inline" action="{{Route('contracts.staffAgg')}}" method="POST">
+      <form class="form-inline" action="{{Route('contracts.paymentAgg')}}" method="POST">
       {{csrf_field()}}
          <div class="form-group">
-            <label for="staff">PERSONAL DISPONIBLE</label>
-            <select class="form-control" name="staffId" id="staff">
-                @foreach($staffs as $staff)
-                      <option value="{{$staff->staffId}}" >{{$staff->fullName}} </option>
-                @endforeach
-            </select>
-          </div>
+            <label for="amount" >MONTO</label>
+              <input style=" width:60%" type="number" step="0.01" class="form-control" id="amount" name="amount" required>
+         </div>
+          <div class="form-group ">
+                <label for="paymentDate">FECHA</label>
+                <input style="width:50%" class="form-control flatpickr" id="paymentDate" name="paymentDate" required>
+              </div>
            <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
            <button type="submit" class="btn btn-success">
                  <span class="fa fa-plus" aria-hidden="true"></span>
-                 {{__('agg_staff')}}
+                 Agregar Pago
             </button>
         </form>
    </div>
-      </div>
     </div>
-@endif
+    </div>
+
 
         <br>
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
             <thead>
-                <tr class="bg-warning">
+                <tr class="bg-info">
                  <th>ID</th>
-                 <th>NOMBRES Y APELLIDOS</th>
-                 <th>POSICION</th>
-                 <th>OFICINA</th>
+                 <th>MONTO</th>
+                 <th>FECHA</th>
                  <th>ACCIONES</th>
                 </tr>
             </thead>
           <tbody>
-            @foreach($contract[0]->staff as $staff)
+        <?php $acum = 0?>
+            @foreach($payments as $payment)
+
                 <tr>
-                 <td>{{$staff->staffId}}</td>
-                 <td>{{$staff->fullName}}</td>
-                 <td>{{$staff->position->positionName}}</td>
-                 <td>{{$staff->office->officeName}}</td>
+                 <td>{{ $acum = $acum +1 }}</td>
+                 <td>{{$payment->amount}}</td>
+                 <td>{{$payment->paymentDate}}</td>
                  <td>
-                  <a href="{{route('contracts.staffRemove', [
-                  'id' => $staff->pivot->contractStaffId,
+                  <a href="{{route('contracts.paymentRemove', [
+                  'id' => $payment->paymentContractId,
+                  'amount' => $payment->amount,
                   'contractId' =>$contract[0]->contractId]) }}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a></td>

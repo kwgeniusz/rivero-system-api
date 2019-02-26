@@ -46737,6 +46737,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -46749,12 +46755,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.btnRemove = true;
       this.btnAgg = false;
     }
+    if (this.cAddress) {
+      this.clientAddress = this.cAddress;
+    }
   },
 
   data: function data() {
     return {
       clientId: '',
       clientName: '',
+      clientAddress: '',
       list: '',
       style: '',
       btnAgg: true,
@@ -46772,7 +46782,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: {
     url: { type: String, default: 'C' },
     cId: { type: Number, default: null },
-    cName: { type: String, default: '' }
+    cName: { type: String, default: '' },
+    cAddress: { type: String, default: '' }
   },
   methods: {
     searchClient: function searchClient() {
@@ -46793,9 +46804,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
       }
     },
-    aggClient: function aggClient(id, name) {
+    aggClient: function aggClient(id, name, address) {
       this.clientId = id;
       this.clientName = name;
+      this.clientAddress = address;
       this.list = '';
       this.style = false;
       this.btnRemove = true;
@@ -46804,6 +46816,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     removeClient: function removeClient() {
       this.clientId = '';
       this.clientName = '';
+      this.clientAddress = '';
       this.list = '';
       this.style = false;
       this.btnRemove = false;
@@ -46952,7 +46965,11 @@ var render = function() {
                 staticClass: "result",
                 on: {
                   click: function($event) {
-                    _vm.aggClient(item.clientId, item.clientName)
+                    _vm.aggClient(
+                      item.clientId,
+                      item.clientName,
+                      item.clientAddress
+                    )
                   }
                 }
               },
@@ -46960,6 +46977,32 @@ var render = function() {
             )
           })
         )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-xs-11" }, [
+        _c("label", { attrs: { for: "siteAddress" } }, [_vm._v("DIRECCIÓN")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.clientAddress,
+              expression: "clientAddress"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", id: "siteAddress", name: "siteAddress" },
+          domProps: { value: _vm.clientAddress },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.clientAddress = $event.target.value
+            }
+          }
+        })
       ]),
       _vm._v(" "),
       _c("sweet-modal", { ref: "modalClientNew" }, [
@@ -46984,7 +47027,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-xs-offset-1 col-xs-10" }, [
           _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "clientName" } }, [
+            _c("label", { attrs: { for: "formClientName" } }, [
               _vm._v("NOMBRES Y APELLIDOS")
             ]),
             _vm._v(" "),
@@ -47016,7 +47059,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "clientDescription" } }, [
+            _c("label", { attrs: { for: "formClientDescription" } }, [
               _vm._v("DESCRIPCION")
             ]),
             _vm._v(" "),
@@ -47048,7 +47091,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "clientAddress" } }, [
+            _c("label", { attrs: { for: "formClientAddress" } }, [
               _vm._v("DIRECCION")
             ]),
             _vm._v(" "),
@@ -47081,7 +47124,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-xs-6" }, [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "clientPhone" } }, [
+              _c("label", { attrs: { for: "formClientPhone" } }, [
                 _vm._v("TELEFONO")
               ]),
               _vm._v(" "),
@@ -47117,7 +47160,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-xs-6" }, [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "clientEmail" } }, [
+              _c("label", { attrs: { for: "formClientEmail" } }, [
                 _vm._v("CORREO")
               ]),
               _vm._v(" "),

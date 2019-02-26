@@ -40,12 +40,8 @@
 
 
            <div class="row"></div>
-           <search-client url='E' c-id="{{$contract[0]->clientId}}" c-name="{{$contract[0]->client->clientName}}"></search-client>
+           <search-client url='E' c-id="{{$contract[0]->clientId}}" c-name="{{$contract[0]->client->clientName}}" c-address="{{$contract[0]->siteAddress}}"></search-client>
 
-              <div class="form-group col-xs-11">
-                <label for="siteAddress">{{__('address')}}</label>
-                <input type="text"  class="form-control" id="siteAddress" name="siteAddress" value="{{ $contract[0]->siteAddress }}">
-              </div>
 
 
           <div class="form-group col-xs-7">
@@ -120,12 +116,6 @@
               </div>
            </div>
 
-         <div class="col-xs-6">
-              <div class="form-group">
-                <label for="contractCost">{{__('contract_cost')}}</label>
-                <input type="number" class="form-control" step="0.01" id="contractCost" name="contractCost" value="{{ $contract[0]->contractCost }}">
-              </div>
-        </div>
 
             <div class="col-xs-6">
                <div class="form-group">

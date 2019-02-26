@@ -66,8 +66,12 @@ class Contract extends Model
     {
         return $this->belongsToMany('App\Staff', 'contract_staff', 'contractId', 'staffId')->withPivot('contractStaffId');
     }
+    public function payment()
+    {
+        return $this->hasMany('App\PaymentContract', 'contractId', 'contractId');
+    }
 //--------------------------------------------------------------------
-    /** Accesores y Mutadores */
+    /** Accesores  */
 //--------------------------------------------------------------------
     /**
     public function getContractCostAttribute($cost) {
@@ -315,7 +319,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $contractCost, $currencyName) {
+        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyName) {
 
         $oConfiguration = new Configuration();
         // get contract number
@@ -360,18 +364,19 @@ class Contract extends Model
         $contract->actualFinishDate    = $actualFinishDate;
         $contract->deliveryDate        = $deliveryDate;
         $contract->initialComment      = $initialComment;
-        $contract->contractCost        = $contractCost;
         $contract->currencyName        = $currencyName;
         $contract->contractStatus      = '1';
         $contract->dateCreated         = date('Y-m-d H:i:s');
         $contract->lastUserId          = Auth::user()->userId;
         $contract->save();
 
+        return $contract->contractId;
+
     }
 //------------------------------------------
     public function updateContract($contractId, $countryId, $officeId, $contractDate, $clientId,
         $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
-        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $contractCost, $currencyName) {
+        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyName) {
 
         $contract                      = contract::find($contractId);
         $contract->countryId           = $countryId;
@@ -389,7 +394,6 @@ class Contract extends Model
         $contract->initialComment      = $initialComment;
         $contract->intermediateComment = $intermediateComment;
         $contract->finalComment        = $finalComment;
-        $contract->contractCost        = $contractCost;
         $contract->currencyName        = $currencyName;
 
         $contract->save();
@@ -415,7 +419,7 @@ class Contract extends Model
                 'lastUserId'  => Auth::user()->userId,
             ]
         );
-        $contract->save();
+        return $contract->save();
 
     }
 //------------------------------------------

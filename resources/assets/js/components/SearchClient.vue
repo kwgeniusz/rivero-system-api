@@ -14,10 +14,16 @@
          </div>
 
        <div :class="{ sugerencias: this.style }">
-         <div class="result" v-for="(item, index) in list" @click="aggClient(item.clientId,item.clientName)">{{item.clientName }}</div>
+         <div class="result" v-for="(item, index) in list" @click="aggClient(item.clientId,item.clientName,item.clientAddress)">{{item.clientName }}</div>
       </div>
-    
+  
     </div>
+        <!--input Address-->      
+          <div class="form-group col-xs-11">
+                <label for="siteAddress">DIRECCIÓN</label>
+                <input type="text" class="form-control" id="siteAddress" name="siteAddress" v-model="clientAddress">
+           </div>
+
 
   
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
@@ -34,28 +40,28 @@
        </div>
         <div class="col-xs-offset-1 col-xs-10">
               <div class="form-group">
-                <label for="clientName">NOMBRES Y APELLIDOS</label>
+                <label for="formClientName">NOMBRES Y APELLIDOS</label>
                 <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="Nombres y Apellidos">
               </div>
               <div class="form-group">
-                <label for="clientDescription">DESCRIPCION</label>
+                <label for="formClientDescription">DESCRIPCION</label>
                 <input type="text" class="form-control" name="formClientDescription" v-model="formClientDescription" placeholder="Descripción">
               </div>
              
               <div class="form-group">
-                <label for="clientAddress">DIRECCION</label>
+                <label for="formClientAddress">DIRECCION</label>
                 <input type="text" class="form-control" name="formClientAddress" v-model="formClientAddress" placeholder="Direccion">
               </div>
              
               <div class="col-xs-6">
               <div class="form-group">
-                <label for="clientPhone">TELEFONO</label>
+                <label for="formClientPhone">TELEFONO</label>
                 <input type="text" class="form-control" name="formClientPhone" v-model="formClientPhone" placeholder="04124231242" pattern="^([0-9]{3,11})" title="formato: 04124231242">
               </div>
             </div>
             <div class="col-xs-6">
               <div class="form-group">
-                <label for="clientEmail">CORREO</label>
+                <label for="formClientEmail">CORREO</label>
                 <input type="email" class="form-control" name="formClientEmail" v-model="formClientEmail" placeholder="Correo">
               </div>
             </div>
@@ -94,11 +100,16 @@
               this.btnRemove = true
               this.btnAgg = false
             }
+           if(this.cAddress){
+            this.clientAddress = this.cAddress
+          }
+
         },
      data: function () {
           return {
             clientId: '',
             clientName : '',
+            clientAddress:'',
             list : '',
             style : '',
             btnAgg: true,
@@ -116,7 +127,8 @@
      props: {
            url: { type: String, default: 'C'},
            cId: { type: Number, default: null},
-           cName: { type: String, default: ''}
+           cName: { type: String, default: ''},
+           cAddress: { type: String, default: ''}
     },
     methods: {
        searchClient: function() {
@@ -136,9 +148,10 @@
               }
           
          },
-       aggClient: function (id,name){
+       aggClient: function (id,name,address){
             this.clientId = id;
             this.clientName = name;
+            this.clientAddress = address;
             this.list = ''
             this.style = false
             this.btnRemove = true
@@ -148,6 +161,7 @@
          removeClient: function (){
             this.clientId = '';
             this.clientName = '';
+            this.clientAddress = '';
             this.list = ''
             this.style = false
             this.btnRemove = false

@@ -33,7 +33,6 @@ class ContractRequest extends FormRequest
             'scheduledFinishDate' => 'required|max:100',
             'actualFinishDate'    => 'required|max:100',
             'deliveryDate'        => 'required|max:100',
-            'contractCost'        => 'required',
         ];
     }
 }

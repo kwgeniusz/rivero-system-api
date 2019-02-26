@@ -52,10 +52,6 @@
            <div class="row"></div>
            <search-client></search-client>
 
-              <div class="form-group col-xs-11">
-                <label for="siteAddress">{{__('address')}}</label>
-                <input type="text" class="form-control" id="siteAddress" name="siteAddress" value="{{ old('siteAddress') }}">
-              </div>
 
           <div class="form-group col-xs-7">
             <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
@@ -118,12 +114,6 @@
               </div>
               </div>
 
-         <div class="col-xs-6">
-              <div class="form-group">
-                <label for="contractCost">{{__('contract_cost')}}</label>
-                <input type="number" class="form-control" step="0.01" id="contractCost" name="contractCost" value="{{ old('contractCost') }}">
-              </div>
-        </div>
 
             <div class="col-xs-6">
                <div class="form-group">

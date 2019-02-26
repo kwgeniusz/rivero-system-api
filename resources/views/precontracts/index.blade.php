@@ -3,7 +3,7 @@
 @section('content')
 
 
-  <h3><b>{{__('contracts')}}</b></h3>
+  <h3><b>PRE-CONTRATOS</b></h3>
 <br>
 
   <!-- Nav tabs -->
@@ -21,7 +21,7 @@
    <div class="row">
         <div class="col-xs-12 ">
             <div class="text-center">
-            <a href="{{ route('contracts.create',['contractType' => 'P']) }}" class="btn btn-success text-center" >
+            <a href="{{ route('precontracts.create',['contractType' => 'P']) }}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Proyecto
             </a>
@@ -37,11 +37,10 @@
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr>
-                 <th>ID</th>
-                 <th>N° {{__('contract')}}</th>
+                 <th>N°</th>
                  <th>{{__('office')}}</th>
                  <th>{{__('client')}}</th>
-                 <th>{{__('status')}}</th>
+                 <th>{{__('address')}}</th>
                  <th>{{__('options')}}</th>
                  <th>{{__('actions')}}</th>
                  </th>
@@ -49,41 +48,28 @@
             </thead>
                 <tbody>
                 @foreach($projects as $project)
-
-
                 <tr>
-                    <td>{{$project->contractId}} </td>
-                    <td>{{$project->contractNumber}} </td>
+                    <td>{{$project->precontractId}} </td>
                     <td>{{$project->office->officeName}}   </td>
                     <td>{{$project->client->clientName}}   </td>
-                    <td>{{$project->contractStatus}}   </td>
-
+                    <td>{{$project->siteAddress}}   </td>
                    <td>
-                    <!--<a href="#" class="btn btn-info btn-sm">
-                   <span class="fa fa-file" aria-hidden="true"></span>  Pagos
-                     </a>-->
-                     <a href="{{route('contracts.changeStatus', ['id' => $project->contractId])}}" class="btn btn-success btn-sm">
-                     <span class="fa fa-sync" aria-hidden="true"></span>  {{__('status')}}
-                    </a>
-                    <a href="{{route('contracts.staff', ['id' => $project->contractId])}}" class="btn btn-warning btn-sm">
-                     <span class="fa fa-users" aria-hidden="true"></span>  {{__('staff')}}
-                    </a>
-                    <a href="{{route('contracts.files', ['id' => $project->contractId])}}" class="btn btn-info btn-sm">
-                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
-                    </a>
-                     <a href="{{route('contracts.payment', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm">
+                     <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Pagos
+                    </a>
+                     <a href="{{route('precontracts.convert', ['id' => $project->precontractId])}}" class="btn btn-warning btn-sm">
+                     <span class="fa fa-sync" aria-hidden="true"></span>  Convertir en Contrato
                     </a>
                  </td>
 
                    <td>
-                   <a href="{{route('contracts.details', ['id' => $project->contractId])}}" class="btn btn-default btn-sm">
+                 <!--   <a href="{{route('precontracts.details', ['id' => $project->precontractId])}}" class="btn btn-default btn-sm">
                         <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
-                    </a>
-                       <a href="{{route('contracts.edit', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm">
+                    </a>-->
+                       <a href="{{route('precontracts.edit', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>
-                    <a href="{{route('contracts.show', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm">
+                    <a href="{{route('precontracts.show', ['id' => $project->precontractId])}}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                     </a>
                  </td>
@@ -101,7 +87,7 @@
      <div class="row">
         <div class="col-xs-12 ">
             <div class="text-center">
-            <a href="{{ route('contracts.create',['contractType' => 'S']) }}" class="btn btn-success text-center" >
+            <a href="{{ route('precontracts.create',['contractType' => 'S']) }}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                   Agregar Servicio
             </a>
@@ -117,11 +103,10 @@
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr>
-                 <th>ID</th>
-                 <th>N° {{__('contract')}}</th>
+                 <th>N°</th>
                  <th>{{__('office')}}</th>
                  <th>{{__('client')}}</th>
-                 <th>{{__('status')}}</th>
+                 <th>{{__('address')}}</th>
                  <th>{{__('options')}}</th>
                  <th>{{__('actions')}}</th>
                  </th>
@@ -132,38 +117,28 @@
 
 
                 <tr>
-                    <td>{{$service->contractId}} </td>
-                    <td>{{$service->contractNumber}} </td>
+                    <td>{{$service->precontractId}} </td>
                     <td>{{$service->office->officeName}}   </td>
                     <td>{{$service->client->clientName}}   </td>
-                    <td>{{$service->contractStatus}}   </td>
+                    <td>{{$service->siteAddress}}   </td>
 
                    <td>
-                      <!--<a href="#" class="btn btn-info btn-sm">
-                   <span class="fa fa-file" aria-hidden="true"></span>  Pagos
-                     </a>-->
-                     <a href="{{route('contracts.changeStatus', ['id' => $service->contractId])}}" class="btn btn-success btn-sm">
-                     <span class="fa fa-sync" aria-hidden="true"></span>  {{__('status')}}
-                    </a>
-                    <a href="{{route('contracts.staff', ['id' => $service->contractId])}}" class="btn btn-warning btn-sm">
-                     <span class="fa fa-users" aria-hidden="true"></span>  {{__('staff')}}
-                    </a>
-                    <a href="{{route('contracts.files', ['id' => $service->contractId])}}" class="btn btn-info btn-sm">
-                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
-                    </a>
-                    <a href="{{route('contracts.payment', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm">
+                    <a href="{{route('precontracts.payment', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Pagos
+                    </a>
+                    <a href="{{route('precontracts.convert', ['id' => $service->precontractId])}}" class="btn btn-warning btn-sm">
+                     <span class="fa fa-sync" aria-hidden="true"></span>  Convertir en Contrato
                     </a>
                  </td>
 
                    <td>
-                   <a href="{{route('contracts.details', ['id' => $service->contractId])}}" class="btn btn-default btn-sm">
+                  <!-- <a href="{{route('precontracts.details', ['id' => $service->precontractId])}}" class="btn btn-default btn-sm">
                         <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
-                    </a>
-                       <a href="{{route('contracts.edit', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm">
+                    </a>-->
+                       <a href="{{route('precontracts.edit', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>
-                    <a href="{{route('contracts.show', ['id' => $service->contractId])}}" class="btn btn-danger btn-sm">
+                    <a href="{{route('precontracts.show', ['id' => $service->precontractId])}}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                     </a>
                  </td>
