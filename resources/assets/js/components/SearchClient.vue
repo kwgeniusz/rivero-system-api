@@ -170,7 +170,7 @@
         },
 
        openModal: function (){
-     
+             this.errors = [];
             this.$refs.modalClientNew.open()
         },
        createClient: function() {

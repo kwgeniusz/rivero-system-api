@@ -130,7 +130,7 @@
             <div class="text-center">
 
               <a href="{{route('contracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
             </div>

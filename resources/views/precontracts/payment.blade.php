@@ -6,7 +6,7 @@
 <div class="panel panel-default col-xs-12">
     <div class="panel-body">
 
-<div class="text-center"><h3 class="text-info">DETALLES DEL PRE-CONTRATO</h3></div>
+<div class="text-center"><h4><b>DETALLES DEL PRE-CONTRATO</b></h4></div>
  <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
             <thead>
@@ -34,8 +34,8 @@
      </div>
 
      <hr>
-     <h3 class="text-info"><b> PAGOS</b></h3>
-
+      <h4 class="text-center"><b>CUOTAS</b></h4>
+  <br>
   <div class="col-xs-offset-3 col-xs-5 ">
         @if ($errors->any())
           <div class="alert alert-danger">
@@ -66,7 +66,7 @@
            <input type="hidden" name="precontractId" value="{{$precontract[0]->precontractId}}">
            <button type="submit" class="btn btn-success">
                  <span class="fa fa-plus" aria-hidden="true"></span>
-                 Agregar Pago
+                 Agregar Cuota
             </button>
         </form>
    </div>
@@ -109,7 +109,7 @@
 
            <div class="text-center">
               <a href="{{route('precontracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
 

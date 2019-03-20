@@ -11794,7 +11794,7 @@ Vue.component('print-contract', __webpack_require__(66));
 Vue.component('contract-summary', __webpack_require__(69));
 
 Vue.component('search-client', __webpack_require__(72));
-Vue.component('modal-change-status', __webpack_require__(77));
+Vue.component('form-modal-charge', __webpack_require__(77));
 
 var app = new Vue({
   el: '#app',
@@ -46824,7 +46824,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     openModal: function openModal() {
-
+      this.errors = [];
       this.$refs.modalClientNew.open();
     },
     createClient: function createClient() {
@@ -47261,7 +47261,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\modalChangeStatus.vue"
+Component.options.__file = "resources\\assets\\js\\components\\FormModalCharge.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47270,9 +47270,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-45feb948", Component.options)
+    hotAPI.createRecord("data-v-68c3cbb6", Component.options)
   } else {
-    hotAPI.reload("data-v-45feb948", Component.options)
+    hotAPI.reload("data-v-68c3cbb6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47304,21 +47304,153 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
+  mounted: function mounted() {
+    console.log('Component FormModalCharge mounted.');
+  },
 
-    data: function data() {
-        return {};
-    },
-    methods: {
-        openModal: function openModal() {
-            this.$refs.modalChangeStatus.open();
-        }
+  data: function data() {
+    return {
+      receivable: {},
+      listBank: {},
+
+      errors: [],
+      formCollectMethod: 1,
+      formSourceBank: '',
+      formSourceBankAccount: '',
+      formCheckNumber: '',
+      formTargetBankId: '',
+      formTargetBankAccount: '',
+      formDatePaid: '',
+      btnSubmitForm: true
+    };
+  },
+  watch: {
+    formCollectMethod: function formCollectMethod() {
+      this.formSourceBank = '';
+      this.formSourceBankAccount = '';
+      this.formCheckNumber = '';
     }
+  },
+  props: {
+    rId: { type: String },
+    countryId: { type: String }
+  },
+  methods: {
+    openModal: function openModal() {
+      var _this = this;
+
+      axios.get('../receivables/get/' + this.rId).then(function (response) {
+        _this.receivable = response.data[0];
+      });
+      axios.get('../banks/country/' + this.countryId).then(function (response) {
+        _this.listBank = response.data;
+      });
+      this.errors = [];
+      this.$refs.modal.open();
+    },
+    getAccount: function getAccount() {
+      var _this2 = this;
+
+      var url = '../banks/account/' + this.formTargetBankId;
+      axios.get(url).then(function (response) {
+        console.log(response.data);
+        _this2.formTargetBankAccount = response.data[0]['bankAccount'];
+      });
+    },
+    sendForm: function sendForm() {
+      this.errors = [];
+      //VALIDATIONS
+      if (this.formCollectMethod != 1) {
+        if (!this.formSourceBank) this.errors.push('Banco de Origen es Requerido.');
+        if (!this.formSourceBankAccount) this.errors.push('Cuenta de Origen es Requerido.');
+      }
+      if (this.formCollectMethod == 2) {
+        if (!this.formCheckNumber) this.errors.push('Numero de Cheque es Requerido.');
+      }
+      if (!this.formTargetBankId) this.errors.push('Debe escoger un Banco de Destino.');
+
+      if (!this.formDatePaid) this.errors.push('Fecha del Cobro es Requerida.');
+
+      if (!this.errors.length) {
+
+        axios.post('../receivables/share', {
+          receivableId: this.receivable.receivableId,
+          amountDue: this.receivable.amountDue,
+          collectMethod: this.formCollectMethod,
+          sourceBank: this.formSourceBank,
+          sourceBankAccount: this.formSourceBankAccount,
+          checkNumber: this.formCheckNumber,
+          targetBankId: this.formTargetBankId,
+          targetBankAccount: this.formTargetBankAccount,
+          datePaid: this.formDatePaid
+        }).then(function (response) {
+          location.reload();
+          toastr.success("Cobro de Cuota Realizado");
+        });
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -47333,37 +47465,326 @@ var render = function() {
     "div",
     [
       _c(
-        "button",
+        "a",
         {
-          staticClass: "btn btn-success",
+          staticClass: "btn btn-success btn-sm",
           on: {
             click: function($event) {
-              this.$refs.modalChangeStatus.open()
+              _vm.openModal()
             }
           }
         },
-        [_vm._v("click modal")]
+        [
+          _c("span", {
+            staticClass: "fa fa-money-bill-alt",
+            attrs: { "aria-hidden": "true" }
+          }),
+          _vm._v(" COBRAR\n            ")
+        ]
       ),
       _vm._v(" "),
-      _c("sweet-modal", { ref: "modalChangeStatus" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: { slot: "button" },
-            on: {
-              click: function($event) {
-                _vm.$refs.nestedChild.open()
+      _c("sweet-modal", { ref: "modal" }, [
+        _c("h3", { staticClass: "bg-success" }, [
+          _c("b", [
+            _vm._v(
+              "COBRO EN CONTRATO N° " + _vm._s(this.receivable.sourceReference)
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _vm.errors.length
+          ? _c("div", { staticClass: "alert alert-danger" }, [
+              _c("h4", [_vm._v("Errores:")]),
+              _vm._v(" "),
+              _c(
+                "ul",
+                _vm._l(_vm.errors, function(error) {
+                  return _c("li", [_vm._v(_vm._s(error))])
+                })
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xs-offset-1 col-xs-10" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "formAmountDue" } }, [
+              _vm._v("MONTO DE LA CUOTA:")
+            ]),
+            _vm._v(" " + _vm._s(this.receivable.amountDue) + "\n              ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-8 col-xs-offset-2" }, [
+            _c("label", { attrs: { for: "formCollectMethod" } }, [
+              _vm._v("METODO DE PAGO")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.formCollectMethod,
+                    expression: "formCollectMethod"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "formCollectMethod" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.formCollectMethod = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "1" } }, [_vm._v("EFECTIVO")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [_vm._v("CHEQUE")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "3" } }, [_vm._v("TARJETA")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "4" } }, [
+                  _vm._v("TRANSFERENCIA")
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.formCollectMethod != 1
+            ? _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "formSourceBank" } }, [
+                  _vm._v("BANCO DE ORIGEN")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formSourceBank,
+                      expression: "formSourceBank"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.formSourceBank },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.formSourceBank = $event.target.value
+                    }
+                  }
+                })
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.formCollectMethod != 1
+            ? _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "formSourceBankAccount" } }, [
+                  _vm._v("CUENTA BANCARIA DE ORIGEN")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formSourceBankAccount,
+                      expression: "formSourceBankAccount"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.formSourceBankAccount },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.formSourceBankAccount = $event.target.value
+                    }
+                  }
+                })
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.formCollectMethod == 2
+            ? _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "formCheckNumber" } }, [
+                  _vm._v("N° CHEQUE")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formCheckNumber,
+                      expression: "formCheckNumber"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "number" },
+                  domProps: { value: _vm.formCheckNumber },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.formCheckNumber = $event.target.value
+                    }
+                  }
+                })
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-8 col-xs-offset-2" }, [
+            _c("label", { attrs: { for: "formTargetBankId" } }, [
+              _vm._v("BANCO DESTINO")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.formTargetBankId,
+                    expression: "formTargetBankId"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "formTargetBankId" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.formTargetBankId = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    function($event) {
+                      _vm.getAccount()
+                    }
+                  ]
+                }
+              },
+              _vm._l(_vm.listBank, function(item, index) {
+                return _c("option", { domProps: { value: item.bankId } }, [
+                  _vm._v(_vm._s(item.bankName))
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-8 col-xs-offset-2" }, [
+            _c("label", { attrs: { for: "formTargetBankAccount" } }, [
+              _vm._v("CUENTA DE DESTINO")
+            ]),
+            _vm._v(
+              ": " + _vm._s(this.formTargetBankAccount) + "\n             "
+            ),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formTargetBankAccount,
+                  expression: "formTargetBankAccount"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "hidden" },
+              domProps: { value: _vm.formTargetBankAccount },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.formTargetBankAccount = $event.target.value
+                }
               }
-            },
-            slot: "button"
-          },
-          [_vm._v("Open Child Modal")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("sweet-modal", { ref: "nestedChild" }, [
-        _vm._v("\n              This is the child modal.\n     ")
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-6 col-xs-offset-3" }, [
+            _c("label", { attrs: { for: "formDatePaid" } }, [
+              _vm._v("FECHA DEL COBRO")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formDatePaid,
+                  expression: "formDatePaid"
+                }
+              ],
+              staticClass: "form-control flatpickr",
+              attrs: { id: "formDatePaid" },
+              domProps: { value: _vm.formDatePaid },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.formDatePaid = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }),
+          _vm._v(" "),
+          _vm.btnSubmitForm
+            ? _c("div", { staticClass: "text-center" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        _vm.sendForm()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", {
+                      staticClass: "fa fa-check",
+                      attrs: { "aria-hidden": "true" }
+                    }),
+                    _vm._v("  ENVIAR\n              ")
+                  ]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("br")
+        ])
       ])
     ],
     1
@@ -47375,7 +47796,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-45feb948", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-68c3cbb6", module.exports)
   }
 }
 

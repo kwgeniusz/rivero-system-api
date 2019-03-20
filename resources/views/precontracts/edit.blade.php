@@ -85,7 +85,7 @@
                 <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
               </button>
               <a href="{{route('precontracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
           </div>

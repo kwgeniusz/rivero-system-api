@@ -12,8 +12,8 @@
 
            <br><br>
          <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center bg-success">
-            <thead>
+            <table class="table table-striped table-bordered text-center">
+            <thead class="bg-success">
                 <tr>
                  <th>ID</th>
                  <th>TIPO DE TRANSACCION</th>
@@ -52,7 +52,7 @@
         </div>
 
              <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
         </div>
         </div>

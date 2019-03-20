@@ -21,8 +21,8 @@
                 <p class="form-control-static">{{ $contract[0]->country->countryName }}</p>
               </div>
             </div>
-         </div> 
-    
+         </div>
+
            <div class="col-xs-6">
             <div class="form-group">
               <label class="col-sm-5 control-label">{{__('office')}}</label>
@@ -31,7 +31,7 @@
               </div>
             </div>
            </div>
-    
+
             <div class="form-group">
               <label class="col-sm-5 control-label">{{__('date_of_contract')}}</label>
               <div class="col-sm-7">
@@ -104,7 +104,7 @@
                 <p class="form-control-static">{{ $contract[0]->finalComment }}</p>
               </div>
             </div>
-    
+
            <div class="col-xs-6">
             <div class="form-group">
               <label class="col-sm-5 control-label">{{__('contract_cost')}}</label>
@@ -124,7 +124,7 @@
             <div class="text-center">
 
               <a href="{{route('contracts.cancelled')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
             </div>

@@ -1,16 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="text-center">
-<div class="panel panel-default col-xs-7 col-xs-offset-2">
+<div class="col-xs-7 col-xs-offset-2 text-center">
+<div class="panel panel-danger">
+    <div class="panel-heading">  <h3><b>Reporte de Egreso</b></h3></div>
+    <div class="panel-body">
 
-    <H2 class="bg-danger">Reporte de Egreso</H2>
-      <br>
-   <div class="col-xs-12">
     <form class="form" action="{{Route('reports.expenses')}}" method="POST">
         {{ csrf_field() }}
       <div class="col-xs-12">
-      
+
         <div class="col-xs-6">
           <div class="form-group">
             <label for="date1">DESDE</label>
@@ -22,7 +21,7 @@
             <label for="date2">HASTA</label>
             <input type="date" class="form-control" id="date2" name="date2" value="{{ old('date2') }}" required>
         </div>
-      
+
       </div>
       <input type="hidden" name="sign" value="-">
       <button type="submit" class="btn btn-primary">

@@ -36,7 +36,7 @@
         <li class="header">{{__('Main Menu')}}</li>
         <!-- Optionally, you can add icons to the links -->
 
-        <li class="active"><a href="home"><i class="fa fa-home"></i> <span>{{__('Home')}}</span></a></li>
+        <li class="active"><a href="{{route('home')}}"><i class="fa fa-home"></i> <span>{{__('Home')}}</span></a></li>
 
         <li class="treeview">
           <a href="#"><i class="fa fa-file-contract"></i> <span>{{__('Contracts')}}</span>
@@ -81,11 +81,14 @@
             <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li>
             <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li>
             <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li>
+            <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li>
+            <li><a href="#">{{__('debts_to_pay')}}</a></li>
+            <hr>
             <li><a href="{{route('transactions.incomeexpenses')}}">{{__('income_and_expenses_report')}}</a></li>
             <li><a href="{{route('transactions.income')}}">{{__('income_report')}}</a></li>
             <li><a href="{{route('transactions.expenses')}}">{{__('expense_report')}}</a></li>
-         <li><a href="#">{{__('accounts_receivable')}}</a></li>
-              <li><a href="#">{{__('debts_to_pay')}}</a></li>
+              <li><a href="{{route('collections.index')}}">Reporte de Cobranzas</a></li>
+              <br>
           </ul>
         </li>
 

@@ -26,7 +26,7 @@
                  Agregar Proyecto
             </a>
               <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
            </div>
            <br>
@@ -72,7 +72,7 @@
                      <span class="fa fa-file" aria-hidden="true"></span>  Documentos
                     </a>
                      <a href="{{route('contracts.payment', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Pagos
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
                     </a>
                  </td>
 

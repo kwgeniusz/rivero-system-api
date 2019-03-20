@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <H2 class="text-success"><b> {{__('finished_contract_history')}}</b> </H2>
+    <h3 class="text-success"><b>CONTRATOS FINALIZADOS</b> </h3>
     <br>
     <div class="row">
         <div class="col-xs-12 ">
@@ -9,8 +9,8 @@
 
 
          <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center bg-success">
-            <thead>
+            <table class="table table-striped table-bordered text-center">
+            <thead class="bg-success">
                 <tr>
                         <th>ID</th>
                         <th>{{__('contract_number')}}</th>
@@ -47,7 +47,7 @@
         </div>
 <div class="text-center">
        <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
 </div>
 

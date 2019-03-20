@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-02-2019 a las 15:45:08
--- Versión del servidor: 10.1.30-MariaDB
--- Versión de PHP: 7.0.27
+-- Tiempo de generación: 15-03-2019 a las 06:54:08
+-- Versión del servidor: 10.1.31-MariaDB
+-- Versión de PHP: 7.0.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,7 +30,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bank` (
   `bankId` int(6) NOT NULL,
+  `countryId` int(6) NOT NULL,
   `bankName` varchar(65) NOT NULL,
+  `bankAccount` varchar(24) NOT NULL,
   `initialBalance` decimal(13,2) NOT NULL DEFAULT '0.00',
   `balance01` decimal(13,2) NOT NULL DEFAULT '0.00',
   `balance02` decimal(13,2) NOT NULL DEFAULT '0.00',
@@ -50,8 +52,8 @@ CREATE TABLE `bank` (
 -- Volcado de datos para la tabla `bank`
 --
 
-INSERT INTO `bank` (`bankId`, `bankName`, `initialBalance`, `balance01`, `balance02`, `balance03`, `balance04`, `balance05`, `balance06`, `balance07`, `balance08`, `balance09`, `balance10`, `balance11`, `balance12`) VALUES
-(2, 'BANESCO', '1000.00', '0.00', '2000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '700.00');
+INSERT INTO `bank` (`bankId`, `countryId`, `bankName`, `bankAccount`, `initialBalance`, `balance01`, `balance02`, `balance03`, `balance04`, `balance05`, `balance06`, `balance07`, `balance08`, `balance09`, `balance10`, `balance11`, `balance12`) VALUES
+(2, 1, 'BANESCO', '01050234021234566732', '10000.00', '0.00', '0.00', '3000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2000.00');
 
 -- --------------------------------------------------------
 
@@ -100,8 +102,8 @@ CREATE TABLE `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 77, 10, '2018-06-09 00:00:00', 1),
-(2, 2, 2, 3, 3, '2018-06-09 00:00:00', 1);
+(1, 1, 1, 77, 11, '2018-06-09 00:00:00', 1),
+(2, 2, 2, 4, 3, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -128,7 +130,7 @@ CREATE TABLE `contract` (
   `initialComment` text,
   `intermediateComment` text,
   `finalComment` text,
-  `contractCost` float(32,2) NOT NULL DEFAULT '0.00',
+  `contractCost` decimal(13,2) NOT NULL DEFAULT '0.00',
   `currencyName` varchar(64) NOT NULL,
   `contractStatus` int(2) NOT NULL,
   `dateCreated` datetime NOT NULL,
@@ -140,53 +142,53 @@ CREATE TABLE `contract` (
 --
 
 INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyName`, `contractStatus`, `dateCreated`, `lastUserId`) VALUES
-(1, 'P', '18PC-000001', 1, 1, '2018-01-01', 2, '3800 JORDAN VALLEY RD DALLAS TX 75253', 1, 1, '1', '2018-01-01', '2018-02-01', '2018-02-01', '2018-02-01', NULL, NULL, NULL, 0.00, 'USD', 2, '2018-09-01 00:00:00', 1),
-(2, 'P', '18PC-000002', 1, 1, '2018-01-03', 1, '9401 BARTON CREEK DR ROWLETT TX', 1, 1, '1', '2019-01-03', '2018-01-24', '2018-01-24', '2018-01-24', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
-(3, 'P', '18PC-000003', 1, 1, '2018-01-04', 1, '', 1, 1, '1', '2018-01-04', '2018-03-04', '2018-03-04', '2018-03-04', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
-(4, 'P', '18PC-000004', 1, 1, '2018-04-01', 1, '3062 Primrose Ln Farmers Branch, TX 75234', 1, 1, '1', '2018-04-01', '2018-04-30', '2018-04-30', '2018-04-30', NULL, NULL, NULL, 0.00, 'USD', 3, '2018-09-01 00:00:00', 1),
-(5, 'P', '18PC-000005', 1, 1, '2018-01-05', 1, '2808 ANZIO DR DALLAS TX 75224', 1, 1, '1', '2017-12-05', '2018-01-25', '2018-01-25', '2018-01-25', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
-(6, 'P', '18PC-000006', 1, 1, '2018-01-10', 1, '', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, 0.00, 'USD', 2, '2018-09-01 00:00:00', 1),
-(7, 'P', '18PC-000007', 1, 1, '2018-01-10', 1, '7916 West Hodges Rd Dallas Tx 75217', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
-(8, 'P', '18PC-000008', 1, 1, '2018-01-11', 1, '615 Coombs Creek Dr, Dallas Tx 75211', 1, 1, '1', '2018-01-11', '2018-02-11', '2018-02-11', '2018-02-11', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
-(9, 'P', '18PC-000009', 1, 1, '2018-01-12', 1, '2217 Greenville Ave Dallas Tx 75206', 1, 1, '1', '0000-00-00', '2019-02-15', '2019-02-15', '2019-02-15', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
-(10, 'P', '18PC-000010', 1, 1, '2018-01-16', 1, '700 WINSTON DR DESOTO TX 75115', 1, 1, '1', '2018-01-16', '2018-03-16', '2018-03-16', '2018-03-16', NULL, NULL, NULL, 0.00, 'USD', 1, '2018-09-01 00:00:00', 1),
-(11, 'P', '19PC-0000011', 1, 1, '2018-01-17', 1, '8740 QUINN ST DALLAS TX 75217', 1, 1, '1', '2018-01-17', '2018-01-30', '2018-01-30', '2018-01-31', NULL, NULL, NULL, 0.01, 'USD', 2, '2019-01-30 18:50:16', 2),
-(12, 'P', '19PC-0000012', 1, 1, '2019-01-16', 1, 'LOT 2581 LAKE RIDGE PERIWINKLE COURT GRAND PRAIRE DALLAS COUNTY TX', 1, 1, '1', '2019-01-17', '2018-02-01', '2018-02-01', '2018-02-02', NULL, NULL, NULL, 0.01, 'USD', 2, '2019-01-30 18:53:47', 2),
-(13, 'P', '19PC-0000013', 1, 1, '2018-01-22', 1, '2451 FRANKLIN DR MESQUITE TX 75150', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-23', NULL, NULL, NULL, 0.00, 'USD', 1, '2019-01-30 18:57:28', 2),
-(14, 'P', '19PC-0000014', 1, 1, '2018-01-22', 1, '4629 COLLEGE PARK DR, DALLAS TX 75229', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-25', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:01:03', 2),
-(15, 'P', '19PC-0000015', 1, 1, '2018-01-22', 1, '4910 LYNNACRE DR DALLAS TX  75211', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-24', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:03:02', 2),
-(16, 'P', '19PC-0000016', 1, 1, '2018-01-24', 1, '1602 WILBUR ST DALLAS TX 75224', 1, 1, '-1', '2018-01-24', '2018-02-24', '2018-02-24', '2018-02-25', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:04:48', 2),
-(17, 'P', '19PC-0000017', 1, 1, '2018-01-25', 1, '4505 KENSINGTON CT GRAND PRAIRIE TX 75052', 1, 1, '1', '2018-01-25', '2018-02-25', '2018-02-25', '2018-02-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:06:23', 2),
-(18, 'P', '19PC-0000018', 1, 1, '2018-01-26', 1, '625 BIG HORN RD OAK POINT TX', 1, 1, '1', '2018-01-26', '2018-02-26', '2018-02-26', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:09:01', 2),
-(19, 'P', '19PC-0000019', 1, 1, '2018-01-26', 1, '10939 LIMESTONE DR BALCH SPRINGS TX 75180', 1, 1, '-1', '2018-02-28', '2018-02-28', '2018-02-28', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:10:25', 2),
-(20, 'P', '19PC-0000020', 1, 1, '2018-01-27', 1, '1021 S OAK CLIFF BLVD, DALLAS TX 75217', 1, 1, '1', '2018-01-27', '2018-02-28', '2018-02-28', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:14:29', 2),
-(21, 'P', '19PC-0000021', 1, 1, '2018-01-29', 1, '3215 FAIRVIEW AVE, DALLAS TX 75223', 1, 1, '1', '2018-01-29', '2018-03-01', '2018-03-01', '2018-03-02', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:17:31', 2),
-(22, 'P', '19PC-0000022', 1, 1, '2018-01-31', 1, '301 Northpoint Dr. Coppell Tx 75019', 1, 1, '1', '2018-02-01', '2018-02-27', '2018-02-27', '2018-02-28', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-01-30 20:18:58', 2),
-(23, 'P', '19PC-0000023', 1, 1, '2018-01-31', 1, '3102 LAWNVIEW AVE DALLAS TX 75227', 1, 1, '-1', '2018-02-02', '2018-03-02', '2018-03-02', '2018-03-02', NULL, NULL, NULL, 100.00, 'USD', 1, '2019-01-30 20:21:49', 2),
-(24, 'P', '19PC-0000024', 1, 1, '2018-02-05', 1, '503 S Stemmons Fwy Lewisville Tx 75067', 1, 1, '1', '2018-02-05', '2018-03-05', '2018-03-05', '2018-03-05', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:23:44', 2),
-(25, 'P', '19PC-0000025', 1, 1, '2018-02-06', 1, '5107 E GRAND AVE DALLAS TX 75223', 1, 1, '1', '2018-02-06', '2018-03-06', '2018-03-06', '2018-03-07', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:26:23', 2),
-(26, 'P', '19PC-0000026', 1, 1, '2018-02-08', 1, '7355 SWEETGATE LN DENTON TX 76208', 1, 1, '1', '2018-02-08', '2018-03-08', '2018-03-08', '2018-04-08', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:28:00', 2),
-(27, 'P', '19PC-0000027', 1, 1, '2018-02-13', 1, '102 WINGREN LN ARLINGTON TX 76014', 1, 1, '1', '2018-02-13', '2018-03-13', '2018-03-13', '2018-03-13', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:30:03', 2),
-(28, 'P', '19PC-0000028', 1, 1, '2018-02-13', 1, '4902 REIGER AVE DALLAS TX 75214', 1, 1, '1', '2018-02-13', '2018-03-13', '2018-03-13', '2018-03-13', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:31:26', 2),
-(29, 'P', '19PC-0000029', 1, 1, '2018-02-15', 1, '1801 RANDOM RD CARROLTON TX 75006', 1, 1, '1', '2018-02-15', '2018-03-15', '2018-03-15', '2018-03-15', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:33:12', 2),
-(30, 'P', '19PC-0000030', 1, 1, '2018-02-20', 1, '11 WOODWAY DR DALLAS TX 75217', 1, 1, '1', '2018-02-20', '2018-03-20', '2018-02-20', '2018-02-20', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:34:24', 2),
-(31, 'P', '19PC-0000031', 1, 1, '2018-02-22', 1, '725 Fairview Ave Seagoville TX 75159', 1, 1, '1', '2018-02-22', '2018-03-22', '2018-03-22', '2018-03-22', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:35:40', 2),
-(32, 'P', '19PC-0000032', 1, 1, '2018-02-23', 1, '11532 HARRY HINES BLVD SUITE 304 DALLAS TX 75229', 1, 1, '1', '0218-02-23', '2019-03-23', '2018-03-23', '2018-03-23', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:37:13', 2),
-(33, 'P', '19PC-0000033', 1, 1, '2018-02-23', 1, '3475 ROYAL LN DALLAS TX 75229', 1, 1, '1', '2018-02-23', '2018-03-23', '2018-03-23', '2018-03-23', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:40:26', 2),
-(34, 'P', '19PC-0000034', 1, 1, '2018-02-27', 1, '4166 EASTER AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.00, 'USD', 1, '2019-02-01 00:47:19', 2),
-(35, 'P', '19PC-0000035', 1, 1, '2018-02-27', 1, '1415 E WACO AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:48:28', 2),
-(36, 'P', '19PC-0000036', 1, 1, '2018-02-27', 1, '2226 MOFFATT AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:50:00', 2),
-(37, 'P', '19PC-0000037', 1, 1, '2018-02-27', 1, '2230 MOFFATT AVE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:51:41', 2),
-(38, 'P', '19PC-0000038', 1, 1, '2018-03-02', 1, '5610 VAN WINKLE BLVD DALLAS TX', 1, 1, '1', '2018-03-02', '2018-04-02', '2018-04-02', '2018-04-02', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:53:00', 2),
-(39, 'P', '19PC-0000039', 1, 1, '2018-03-05', 1, '6829 PARKWOOD DR. NORTH RICHLAND HILL TX 75182', 1, 1, '1', '2018-03-05', '2018-03-05', '2018-04-05', '2018-04-05', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:54:12', 2),
-(40, 'P', '19PC-0000040', 1, 1, '2018-03-09', 1, '7879 SPRING VALLEY SUITE 112 DALLAS TX 75254', 1, 1, '1', '2018-03-09', '2018-04-09', '2018-04-09', '2018-04-09', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 00:55:24', 2),
-(41, 'P', '19PC-0000041', 1, 1, '2018-03-09', 1, '3124 Koscher Dr, Cedar Hill, Texas 75104', 1, 1, '1', '2018-03-09', '2018-04-09', '2018-04-09', '2018-04-09', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:49:44', 2),
-(42, 'P', '19PC-0000042', 1, 1, '2018-03-12', 1, '514 Stafford Dr, Seagoville, Texas 75159', 1, 1, '1', '2018-03-12', '2018-04-12', '2018-04-12', '2012-04-12', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:51:24', 2),
-(43, 'P', '19PC-0000043', 1, 1, '2018-03-12', 1, '7305 Albert Williams Drive, Dallas, TX 75241', 1, 1, '1', '2018-03-12', '2016-04-12', '2018-04-12', '2018-04-12', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:53:18', 2),
-(44, 'P', '19PC-0000044', 1, 1, '2018-03-19', 1, '2603 GLADSTONE DR DALLAS TX 75211', 1, 1, '1', '2018-03-19', '2018-04-19', '2014-04-19', '2018-04-19', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:56:17', 2),
-(45, 'P', '19PC-0000045', 1, 1, '2018-03-19', 1, '3914 LIVELY LN DALLAS TX 75220', 1, 1, '1', '2018-03-19', '2018-04-19', '2018-04-19', '2018-04-10', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:57:41', 2),
-(46, 'P', '19PC-0000046', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:01', 2),
-(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, 0.01, 'USD', 1, '2019-02-01 20:59:02', 2);
+(1, 'P', '18PC-000001', 1, 1, '2018-01-01', 2, '3800 JORDAN VALLEY RD DALLAS TX 75253', 1, 1, '1', '2018-01-01', '2018-02-01', '2018-02-01', '2018-02-01', NULL, NULL, NULL, '2500.00', 'USD', 2, '2018-09-01 00:00:00', 1),
+(2, 'P', '18PC-000002', 1, 1, '2018-01-03', 1, '9401 BARTON CREEK DR ROWLETT TX', 1, 1, '1', '2019-01-03', '2018-01-24', '2018-01-24', '2018-01-24', NULL, NULL, NULL, '0.00', 'USD', 3, '2018-09-01 00:00:00', 1),
+(3, 'P', '18PC-000003', 1, 1, '2018-01-04', 1, '', 1, 1, '1', '2018-01-04', '2018-03-04', '2018-03-04', '2018-03-04', NULL, NULL, NULL, '0.00', 'USD', 3, '2018-09-01 00:00:00', 1),
+(4, 'P', '18PC-000004', 1, 1, '2018-04-01', 1, '3062 Primrose Ln Farmers Branch, TX 75234', 1, 1, '1', '2018-04-01', '2018-04-30', '2018-04-30', '2018-04-30', NULL, NULL, NULL, '0.00', 'USD', 3, '2018-09-01 00:00:00', 1),
+(5, 'P', '18PC-000005', 1, 1, '2018-01-05', 1, '2808 ANZIO DR DALLAS TX 75224', 1, 1, '1', '2017-12-05', '2018-01-25', '2018-01-25', '2018-01-25', NULL, NULL, NULL, '3000.00', 'USD', 1, '2018-09-01 00:00:00', 1),
+(6, 'P', '18PC-000006', 1, 1, '2018-01-10', 1, '', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, '100.00', 'USD', 2, '2018-09-01 00:00:00', 1),
+(7, 'P', '18PC-000007', 1, 1, '2018-01-10', 1, '7916 West Hodges Rd Dallas Tx 75217', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, '0.00', 'USD', 1, '2018-09-01 00:00:00', 1),
+(8, 'P', '18PC-000008', 1, 1, '2018-01-11', 1, '615 Coombs Creek Dr, Dallas Tx 75211', 1, 1, '1', '2018-01-11', '2018-02-11', '2018-02-11', '2018-02-11', NULL, NULL, NULL, '0.00', 'USD', 1, '2018-09-01 00:00:00', 1),
+(9, 'P', '18PC-000009', 1, 1, '2018-01-12', 1, '2217 Greenville Ave Dallas Tx 75206', 1, 1, '1', '0000-00-00', '2019-02-15', '2019-02-15', '2019-02-15', NULL, NULL, NULL, '0.00', 'USD', 1, '2018-09-01 00:00:00', 1),
+(10, 'P', '18PC-000010', 1, 1, '2018-01-16', 1, '700 WINSTON DR DESOTO TX 75115', 1, 1, '1', '2018-01-16', '2018-03-16', '2018-03-16', '2018-03-16', NULL, NULL, NULL, '0.00', 'USD', 1, '2018-09-01 00:00:00', 1),
+(11, 'P', '19PC-0000011', 1, 1, '2018-01-17', 1, '8740 QUINN ST DALLAS TX 75217', 1, 1, '1', '2018-01-17', '2018-01-30', '2018-01-30', '2018-01-31', NULL, NULL, NULL, '0.01', 'USD', 2, '2019-01-30 18:50:16', 2),
+(12, 'P', '19PC-0000012', 1, 1, '2019-01-16', 1, 'LOT 2581 LAKE RIDGE PERIWINKLE COURT GRAND PRAIRE DALLAS COUNTY TX', 1, 1, '1', '2019-01-17', '2018-02-01', '2018-02-01', '2018-02-02', NULL, NULL, NULL, '0.01', 'USD', 2, '2019-01-30 18:53:47', 2),
+(13, 'P', '19PC-0000013', 1, 1, '2018-01-22', 1, '2451 FRANKLIN DR MESQUITE TX 75150', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-23', NULL, NULL, NULL, '0.00', 'USD', 1, '2019-01-30 18:57:28', 2),
+(14, 'P', '19PC-0000014', 1, 1, '2018-01-22', 1, '4629 COLLEGE PARK DR, DALLAS TX 75229', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-25', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:01:03', 2),
+(15, 'P', '19PC-0000015', 1, 1, '2018-01-22', 1, '4910 LYNNACRE DR DALLAS TX  75211', 1, 1, '1', '2018-01-22', '2018-02-22', '2018-02-22', '2018-02-24', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:03:02', 2),
+(16, 'P', '19PC-0000016', 1, 1, '2018-01-24', 1, '1602 WILBUR ST DALLAS TX 75224', 1, 1, '-1', '2018-01-24', '2018-02-24', '2018-02-24', '2018-02-25', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:04:48', 2),
+(17, 'P', '19PC-0000017', 1, 1, '2018-01-25', 1, '4505 KENSINGTON CT GRAND PRAIRIE TX 75052', 1, 1, '1', '2018-01-25', '2018-02-25', '2018-02-25', '2018-02-27', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:06:23', 2),
+(18, 'P', '19PC-0000018', 1, 1, '2018-01-26', 1, '625 BIG HORN RD OAK POINT TX', 1, 1, '1', '2018-01-26', '2018-02-26', '2018-02-26', '2018-02-28', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:09:01', 2),
+(19, 'P', '19PC-0000019', 1, 1, '2018-01-26', 1, '10939 LIMESTONE DR BALCH SPRINGS TX 75180', 1, 1, '-1', '2018-02-28', '2018-02-28', '2018-02-28', '2018-02-28', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:10:25', 2),
+(20, 'P', '19PC-0000020', 1, 1, '2018-01-27', 1, '1021 S OAK CLIFF BLVD, DALLAS TX 75217', 1, 1, '1', '2018-01-27', '2018-02-28', '2018-02-28', '2018-02-28', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:14:29', 2),
+(21, 'P', '19PC-0000021', 1, 1, '2018-01-29', 1, '3215 FAIRVIEW AVE, DALLAS TX 75223', 1, 1, '1', '2018-01-29', '2018-03-01', '2018-03-01', '2018-03-02', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:17:31', 2),
+(22, 'P', '19PC-0000022', 1, 1, '2018-01-31', 1, '301 Northpoint Dr. Coppell Tx 75019', 1, 1, '1', '2018-02-01', '2018-02-27', '2018-02-27', '2018-02-28', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-01-30 20:18:58', 2),
+(23, 'P', '19PC-0000023', 1, 1, '2018-01-31', 1, '3102 LAWNVIEW AVE DALLAS TX 75227', 1, 1, '-1', '2018-02-02', '2018-03-02', '2018-03-02', '2018-03-02', NULL, NULL, NULL, '100.00', 'USD', 1, '2019-01-30 20:21:49', 2),
+(24, 'P', '19PC-0000024', 1, 1, '2018-02-05', 1, '503 S Stemmons Fwy Lewisville Tx 75067', 1, 1, '1', '2018-02-05', '2018-03-05', '2018-03-05', '2018-03-05', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:23:44', 2),
+(25, 'P', '19PC-0000025', 1, 1, '2018-02-06', 1, '5107 E GRAND AVE DALLAS TX 75223', 1, 1, '1', '2018-02-06', '2018-03-06', '2018-03-06', '2018-03-07', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:26:23', 2),
+(26, 'P', '19PC-0000026', 1, 1, '2018-02-08', 1, '7355 SWEETGATE LN DENTON TX 76208', 1, 1, '1', '2018-02-08', '2018-03-08', '2018-03-08', '2018-04-08', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:28:00', 2),
+(27, 'P', '19PC-0000027', 1, 1, '2018-02-13', 1, '102 WINGREN LN ARLINGTON TX 76014', 1, 1, '1', '2018-02-13', '2018-03-13', '2018-03-13', '2018-03-13', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:30:03', 2),
+(28, 'P', '19PC-0000028', 1, 1, '2018-02-13', 1, '4902 REIGER AVE DALLAS TX 75214', 1, 1, '1', '2018-02-13', '2018-03-13', '2018-03-13', '2018-03-13', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:31:26', 2),
+(29, 'P', '19PC-0000029', 1, 1, '2018-02-15', 1, '1801 RANDOM RD CARROLTON TX 75006', 1, 1, '1', '2018-02-15', '2018-03-15', '2018-03-15', '2018-03-15', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:33:12', 2),
+(30, 'P', '19PC-0000030', 1, 1, '2018-02-20', 1, '11 WOODWAY DR DALLAS TX 75217', 1, 1, '1', '2018-02-20', '2018-03-20', '2018-02-20', '2018-02-20', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:34:24', 2),
+(31, 'P', '19PC-0000031', 1, 1, '2018-02-22', 1, '725 Fairview Ave Seagoville TX 75159', 1, 1, '1', '2018-02-22', '2018-03-22', '2018-03-22', '2018-03-22', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:35:40', 2),
+(32, 'P', '19PC-0000032', 1, 1, '2018-02-23', 1, '11532 HARRY HINES BLVD SUITE 304 DALLAS TX 75229', 1, 1, '1', '0218-02-23', '2019-03-23', '2018-03-23', '2018-03-23', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:37:13', 2),
+(33, 'P', '19PC-0000033', 1, 1, '2018-02-23', 1, '3475 ROYAL LN DALLAS TX 75229', 1, 1, '1', '2018-02-23', '2018-03-23', '2018-03-23', '2018-03-23', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:40:26', 2),
+(34, 'P', '19PC-0000034', 1, 1, '2018-02-27', 1, '4166 EASTER AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, '0.00', 'USD', 1, '2019-02-01 00:47:19', 2),
+(35, 'P', '19PC-0000035', 1, 1, '2018-02-27', 1, '1415 E WACO AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:48:28', 2),
+(36, 'P', '19PC-0000036', 1, 1, '2018-02-27', 1, '2226 MOFFATT AVENUE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:50:00', 2),
+(37, 'P', '19PC-0000037', 1, 1, '2018-02-27', 1, '2230 MOFFATT AVE DALLAS TX 75216', 1, 1, '1', '2018-02-27', '2018-03-27', '2018-03-27', '2018-03-27', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:51:41', 2),
+(38, 'P', '19PC-0000038', 1, 1, '2018-03-02', 1, '5610 VAN WINKLE BLVD DALLAS TX', 1, 1, '1', '2018-03-02', '2018-04-02', '2018-04-02', '2018-04-02', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:53:00', 2),
+(39, 'P', '19PC-0000039', 1, 1, '2018-03-05', 1, '6829 PARKWOOD DR. NORTH RICHLAND HILL TX 75182', 1, 1, '1', '2018-03-05', '2018-03-05', '2018-04-05', '2018-04-05', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:54:12', 2),
+(40, 'P', '19PC-0000040', 1, 1, '2018-03-09', 1, '7879 SPRING VALLEY SUITE 112 DALLAS TX 75254', 1, 1, '1', '2018-03-09', '2018-04-09', '2018-04-09', '2018-04-09', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 00:55:24', 2),
+(41, 'P', '19PC-0000041', 1, 1, '2018-03-09', 1, '3124 Koscher Dr, Cedar Hill, Texas 75104', 1, 1, '1', '2018-03-09', '2018-04-09', '2018-04-09', '2018-04-09', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 20:49:44', 2),
+(42, 'P', '19PC-0000042', 1, 1, '2018-03-12', 1, '514 Stafford Dr, Seagoville, Texas 75159', 1, 1, '1', '2018-03-12', '2018-04-12', '2018-04-12', '2012-04-12', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 20:51:24', 2),
+(43, 'P', '19PC-0000043', 1, 1, '2018-03-12', 1, '7305 Albert Williams Drive, Dallas, TX 75241', 1, 1, '1', '2018-03-12', '2016-04-12', '2018-04-12', '2018-04-12', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 20:53:18', 2),
+(44, 'P', '19PC-0000044', 1, 1, '2018-03-19', 1, '2603 GLADSTONE DR DALLAS TX 75211', 1, 1, '1', '2018-03-19', '2018-04-19', '2014-04-19', '2018-04-19', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 20:56:17', 2),
+(45, 'P', '19PC-0000045', 1, 1, '2018-03-19', 1, '3914 LIVELY LN DALLAS TX 75220', 1, 1, '1', '2018-03-19', '2018-04-19', '2018-04-19', '2018-04-10', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 20:57:41', 2),
+(46, 'P', '19PC-0000046', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, '0.01', 'USD', 1, '2019-02-01 20:59:01', 2),
+(47, 'P', '19PC-0000047', 1, 1, '2018-03-27', 1, '6412 TEAGUE DR DALLAS TX 75241', 1, 1, '1', '2018-03-27', '2018-04-27', '2018-04-27', '2018-04-27', NULL, NULL, NULL, '5000.01', 'USD', 1, '2019-02-01 20:59:02', 2);
 
 -- --------------------------------------------------------
 
@@ -296,11 +298,23 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `payment_contract` (
   `paymentContractId` int(11) NOT NULL,
   `contractId` int(11) NOT NULL,
-  `amount` float(32,2) NOT NULL DEFAULT '0.00',
+  `amount` decimal(13,2) NOT NULL DEFAULT '0.00',
   `paymentDate` date NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `payment_contract`
+--
+
+INSERT INTO `payment_contract` (`paymentContractId`, `contractId`, `amount`, `paymentDate`, `dateCreated`, `lastUserId`) VALUES
+(11, 47, '1000.00', '2019-03-11', '2019-03-11 19:56:44', 2),
+(12, 47, '2000.00', '2019-03-11', '2019-03-11 20:07:04', 2),
+(13, 1, '2000.00', '2019-03-11', '2019-03-11 23:19:49', 2),
+(14, 1, '500.00', '2019-03-11', '2019-03-11 23:28:43', 2),
+(17, 5, '2000.00', '2019-03-11', '2019-03-12 00:18:32', 2),
+(19, 5, '1000.00', '2019-03-14', '2019-03-14 20:45:48', 2);
 
 -- --------------------------------------------------------
 
@@ -311,7 +325,7 @@ CREATE TABLE `payment_contract` (
 CREATE TABLE `payment_precontract` (
   `paymentPrecontractId` int(11) NOT NULL,
   `precontractId` int(11) NOT NULL,
-  `amount` float(32,2) NOT NULL,
+  `amount` decimal(13,2) NOT NULL,
   `paymentDate` date NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(1) NOT NULL
@@ -352,9 +366,16 @@ CREATE TABLE `pre_contract` (
   `siteAddress` varchar(255) NOT NULL,
   `projectTypeId` int(11) NOT NULL,
   `serviceTypeId` int(11) NOT NULL,
-  `precontractCost` float(32,2) NOT NULL DEFAULT '0.00',
+  `precontractCost` decimal(13,2) NOT NULL DEFAULT '0.00',
   `currencyName` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `pre_contract`
+--
+
+INSERT INTO `pre_contract` (`precontractId`, `contractType`, `countryId`, `officeId`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `precontractCost`, `currencyName`) VALUES
+(1, 'P', 2, 2, 1, 'ROCHESTER, MN', 1, 1, '0.00', 'BS');
 
 -- --------------------------------------------------------
 
@@ -415,6 +436,43 @@ INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `
 (39, 'TV/PRUEBA', '2019-01-22 00:00:00', 1),
 (40, 'WALL', '2018-09-01 00:00:00', 1),
 (41, 'RETENI WALL', '2018-09-01 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `receivable`
+--
+
+CREATE TABLE `receivable` (
+  `receivableId` int(11) NOT NULL,
+  `countryId` int(6) NOT NULL,
+  `clientId` int(11) NOT NULL,
+  `contractId` int(11) NOT NULL,
+  `paymentContractId` int(11) NOT NULL,
+  `sourceReference` varchar(24) NOT NULL,
+  `amountDue` decimal(13,2) NOT NULL,
+  `amountPaid` decimal(13,2) DEFAULT NULL,
+  `collectMethod` varchar(64) DEFAULT NULL,
+  `sourceBank` varchar(64) DEFAULT NULL,
+  `sourceBankAccount` varchar(24) DEFAULT NULL,
+  `checkNumber` int(11) DEFAULT NULL,
+  `targetBankId` int(6) DEFAULT NULL,
+  `targetBankAccount` varchar(24) DEFAULT NULL,
+  `datePaid` date DEFAULT NULL,
+  `pending` varchar(1) NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `receivable`
+--
+
+INSERT INTO `receivable` (`receivableId`, `countryId`, `clientId`, `contractId`, `paymentContractId`, `sourceReference`, `amountDue`, `amountPaid`, `collectMethod`, `sourceBank`, `sourceBankAccount`, `checkNumber`, `targetBankId`, `targetBankAccount`, `datePaid`, `pending`) VALUES
+(1, 1, 1, 47, 11, '19PC-0000047', '1000.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(2, 1, 1, 47, 12, '19PC-0000047', '2000.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(3, 1, 2, 1, 13, '18PC-000001', '2000.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(4, 1, 2, 1, 14, '18PC-000001', '500.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(7, 1, 1, 5, 17, '18PC-000005', '2000.00', '2000.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-03-15', 'N'),
+(9, 1, 1, 5, 19, '18PC-000005', '1000.00', '1000.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-03-16', 'N');
 
 -- --------------------------------------------------------
 
@@ -496,7 +554,7 @@ CREATE TABLE `transaction` (
   `transactionTypeId` int(6) NOT NULL,
   `transactionDate` date NOT NULL,
   `description` varchar(128) NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
+  `amount` decimal(13,2) NOT NULL,
   `sign` varchar(1) DEFAULT NULL,
   `bankId` int(6) NOT NULL,
   `reference` varchar(64) NOT NULL
@@ -507,22 +565,8 @@ CREATE TABLE `transaction` (
 --
 
 INSERT INTO `transaction` (`transactionId`, `transactionTypeId`, `transactionDate`, `description`, `amount`, `sign`, `bankId`, `reference`) VALUES
-(1, 4, '2018-11-08', 'asdasd', '213123.00', '+', 2, '12313'),
-(2, 4, '2018-11-12', 'qwe', '123.00', '+', 2, '123'),
-(3, 4, '2018-11-12', '23123', '123.00', '+', 2, '123123'),
-(5, 3, '2018-11-12', 'sad', '123.00', '-', 2, '123'),
-(6, 3, '2018-11-12', 'sad', '123.00', '-', 2, '123'),
-(7, 3, '2018-11-12', 'hola', '123.00', '-', 2, '123'),
-(17, 4, '2018-12-11', '123', '12312.00', '+', 2, '21323'),
-(18, 4, '2018-12-10', 'qweq', '1000.00', '+', 2, '12312'),
-(19, 3, '2018-12-11', 'asdas', '4000.00', '-', 2, '1231'),
-(20, 3, '2018-12-11', 'QWEQE', '23121.00', '-', 2, 'QWEQWE'),
-(21, 3, '2018-12-11', 'qwe', '121.00', '-', 2, 'qwe'),
-(22, 3, '2018-12-11', 'qwe', '121.00', '-', 2, 'qwe'),
-(30, 4, '2018-12-11', 'asdas', '700.00', '+', 2, '234'),
-(31, 3, '2018-12-11', 'qweq', '1000.00', '-', 2, '2342'),
-(32, 4, '2019-02-22', 'Abuela Nelly Casa', '1000.00', '+', 2, '122'),
-(33, 4, '2019-02-22', 'Abuela Nelly Casa', '1000.00', '+', 2, '122');
+(36, 1, '2019-03-15', 'asdas', '2000.00', '+', 2, '123'),
+(37, 1, '2019-03-15', 'ADA', '1000.00', '+', 2, '123');
 
 -- --------------------------------------------------------
 
@@ -541,8 +585,8 @@ CREATE TABLE `transaction_type` (
 --
 
 INSERT INTO `transaction_type` (`transactionTypeId`, `transactionTypeName`, `sign`) VALUES
-(3, 'PAGO', '-'),
-(4, 'ABONO', '+');
+(1, 'COBRO', '+'),
+(2, 'PAGO', '-');
 
 -- --------------------------------------------------------
 
@@ -662,6 +706,12 @@ ALTER TABLE `project_type`
   ADD PRIMARY KEY (`projectTypeId`);
 
 --
+-- Indices de la tabla `receivable`
+--
+ALTER TABLE `receivable`
+  ADD PRIMARY KEY (`receivableId`);
+
+--
 -- Indices de la tabla `service_type`
 --
 ALTER TABLE `service_type`
@@ -726,7 +776,7 @@ ALTER TABLE `configuration`
 -- AUTO_INCREMENT de la tabla `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `contract_staff`
@@ -756,25 +806,31 @@ ALTER TABLE `office`
 -- AUTO_INCREMENT de la tabla `payment_contract`
 --
 ALTER TABLE `payment_contract`
-  MODIFY `paymentContractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `paymentContractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `payment_precontract`
 --
 ALTER TABLE `payment_precontract`
-  MODIFY `paymentPrecontractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `paymentPrecontractId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pre_contract`
 --
 ALTER TABLE `pre_contract`
-  MODIFY `precontractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `precontractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `project_type`
 --
 ALTER TABLE `project_type`
   MODIFY `projectTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT de la tabla `receivable`
+--
+ALTER TABLE `receivable`
+  MODIFY `receivableId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `service_type`
@@ -798,13 +854,13 @@ ALTER TABLE `staff_category`
 -- AUTO_INCREMENT de la tabla `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `transaction_type`
 --
 ALTER TABLE `transaction_type`
-  MODIFY `transactionTypeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `transactionTypeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `user`

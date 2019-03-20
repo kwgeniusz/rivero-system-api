@@ -73,7 +73,6 @@ class PaymentContract extends Model
         DB::beginTransaction();
         try {
             //INSERTA PAGO
-
             $payment              = new PaymentContract;
             $payment->contractId  = $contractId;
             $payment->amount      = $amount;
@@ -81,6 +80,16 @@ class PaymentContract extends Model
             $payment->dateCreated = date('Y-m-d H:i:s');
             $payment->lastUserId  = Auth::user()->userId;
             $payment->save();
+
+            //INSERTAR A CUENTA POR COBRAR
+            $receivable                    = new Receivable;
+            $receivable->countryId         = $payment->contract->countryId;
+            $receivable->clientId          = $payment->contract->clientId;
+            $receivable->contractId        = $payment->contractId;
+            $receivable->paymentContractId = $payment->paymentContractId;
+            $receivable->sourceReference   = $payment->contract->contractNumber;
+            $receivable->amountDue         = $amount;
+            $receivable->save();
 
             //REALIZA ACTUALIZACION EN ContractCost
             $rs = DB::table('contract')->where('contractId', $contractId)->increment('contractCost', $amount);
@@ -94,7 +103,7 @@ class PaymentContract extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'success', 'msj' => 'Pago Exitoso'];
+            return $result = ['alert' => 'success', 'msj' => 'Cuota Agregado Exitosamente'];
         } else {
             return $result = ['alert' => 'error', 'msj' => $error];
         }
@@ -107,13 +116,22 @@ class PaymentContract extends Model
 
         DB::beginTransaction();
         try {
-            //ELIMINAR PAGO
-            $this->where('paymentContractId', '=', $id)->delete();
-            //REALIZA ACTUALIZACION EN ContractCost
-            $rs = DB::table('contract')->where('contractId', $contractId)->decrement('contractCost', $amount);
 
-            $success = true;
-            DB::commit();
+            $result = DB::table('receivable')->where('paymentContractId', $id)->value('pending');
+
+            if ($result == 'N') {
+                throw new \Exception('Error: La Cuota Ya se Cobro, No se puede eliminar');
+            } else {
+                //ELIMINAR PAGO
+                $this->where('paymentContractId', '=', $id)->delete();
+                //ELIMINAR DE CUENTA POR COBRAR
+                $rs = DB::table('receivable')->where('paymentContractId', $id)->delete();
+                //REALIZA ACTUALIZACION EN ContractCost
+                $rs = DB::table('contract')->where('contractId', $contractId)->decrement('contractCost', $amount);
+
+                $success = true;
+                DB::commit();
+            }
         } catch (\Exception $e) {
             $error   = $e->getMessage();
             $success = false;
@@ -121,7 +139,7 @@ class PaymentContract extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'info', 'msj' => 'Pago Eliminado'];
+            return $result = ['alert' => 'info', 'msj' => 'Cuota Eliminada'];
         } else {
             return $result = ['alert' => 'error', 'msj' => $error];
         }

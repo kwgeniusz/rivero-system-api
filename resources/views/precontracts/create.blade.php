@@ -18,9 +18,9 @@
 <div class="col-xs-12 col-xs-offset-1">
  <div class="panel panel-success col-xs-10 col-lg-7">
    @if($contractType == 'P')
-    <div class="panel-heading"> <h3><b>Precontrato - Nuevo Proyecto</b><h3></div>
+    <div class="panel-heading"> <h3><b>Pre-Contrato / Nuevo Proyecto</b><h3></div>
    @elseif($contractType == 'S')
-    <div class="panel-heading"> <h3><b>Precontrato - Nuevo Servicio</b></h3></div>
+    <div class="panel-heading"> <h3><b>Pre-Contrato / Nuevo Servicio</b></h3></div>
     @endif
     <div class="panel-body">
 
@@ -69,7 +69,7 @@
                 <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
               </button>
               <a href="{{route('precontracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
 

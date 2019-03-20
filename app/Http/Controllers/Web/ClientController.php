@@ -89,9 +89,12 @@ class ClientController extends Controller
             $request->clientPhone,
             $request->clientEmail
         );
-
+        $notification = array(
+            'message'    => 'Cliente Creado Exitosamente',
+            'alert-type' => 'success',
+        );
         return redirect()->route('clients.index')
-            ->with('info', 'Cliente Actualizado');
+            ->with($notification);
     }
     /**
      * Display the specified resource.

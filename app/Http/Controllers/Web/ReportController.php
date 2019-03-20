@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Web;
 
 use App\Contract;
 use App\Http\Controllers\Controller;
+use App\Receivable;
 use App\Transaction;
 use Auth;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -19,6 +21,8 @@ class ReportController extends Controller
         $this->middleware('auth');
         $this->oContract    = new Contract;
         $this->oTransaction = new Transaction;
+        $this->oReceivable  = new Receivable;
+
     }
 
     public function printContract(Request $request)
@@ -45,7 +49,7 @@ class ReportController extends Controller
 
 <div style="width:10%">
  <b>  N°{$contractNumber} :</b> {$contract[0]->contractNumber}<br>
- <b>  {{ __('country') }} :</b> {$contract[0]->country->countryName} -
+ <b>  Pais :</b> {$contract[0]->country->countryName} -
  <b>  Oficina:</b> {$contract[0]->office->officeName}<br />
  <b>  Fecha de Contrato:</b> {$contract[0]->contractDate}<br />
  <b>  Cliente:</b> {$contract[0]->client->clientName}<br />
@@ -335,6 +339,86 @@ EOD;
         <td width="45%" align="left">$transaction->description</td>
         <td align="right">$transaction->amount</td>
         <td width="5%" align="center">$transaction->sign</td>
+        </tr>
+
+EOD;
+            }
+            $html .= <<<EOD
+</table>
+EOD;
+
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+            // PDF::Write(0, 'Hello World');
+            $outputDestination = "F";
+            $outputPdfName     = "pdf\ $fileName.pdf";
+            PDF::Output(public_path($outputPdfName), $outputDestination);
+
+            return view('reportincome.result', compact('outputPdfName'));
+        }
+    }
+/////////////////COBRANZAS//////////////////////
+    public function collections(Request $request)
+    {
+
+        $acum       = 0;
+        $background = "";
+        $date       = Carbon::now();
+
+        $collections = $this->oReceivable->collections($request->countryId, $request->date1, $request->date2);
+        $country     = DB::table('country')->where('countryId', $request->countryId)->get(['countryName']);
+        $date1Format = Carbon::parse($request->date1);
+        $date2Format = Carbon::parse($request->date2);
+
+        if ($collections->isEmpty()) {
+            return view('reportcollections.error');
+        } else {
+
+            $html = <<<EOD
+        <p>
+        <table cellspacing="0" cellpadding="0" border="0">
+       <tr>
+        <th> <img style="float:left;" src="img/RGC_LOGO.jpg" alt="test alt attribute" width="150" height="90"/></th>
+        <th> <br><br><br><br><h3 style="text-align:center">Reporte de Cobranzas</h3></th>
+        <th>
+        <p style="text-align:right">
+         <b>Fecha:</b> {$date->format('d/m/y')}<br>
+         <b>Pais:</b> {$country[0]->countryName}<br>
+
+         </p>
+        </th>
+
+       </tr>
+       </table>
+           <p style="text-align:center"><b>Desde {$date1Format->format('d/m/Y')} - Hasta:{$date2Format->format('d/m/Y')}</b></p>
+      <br><br>
+        <table cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr style="background-color:#3366cc; color:white; font-size:11px;  font-weight: bold;" align="center">
+        <th width="5%">ID</th>
+        <th width="25%" align="left">CLIENTE</th>
+        <th width="15%">FECHA</th>
+        <th width="10%" align="right">MONTO</th>
+        <th width="40%" align="center">TIPO DE PAGO</th>
+        </tr>
+        </thead>
+EOD;
+            foreach ($collections as $receivable) {
+                $acum = $acum + 1;
+                if ($acum % 2 == 0) {
+                    $background = "#e6e6e6";
+                } else {
+                    $background = "#fbfbfb";
+                }
+                $html .= <<<EOD
+        <tr style="background-color:$background">
+        <td width="5%" align="center">$receivable->receivableId</td>
+        <td width="25%" align="left">{$receivable->client[0]->clientName}</td>
+        <td width="15%"align="center">$receivable->datePaid</td>
+        <td width="10%" align="right">$receivable->amountPaid</td>
+        <td width="40%" align="center">$receivable->collectMethod</td>
         </tr>
 
 EOD;

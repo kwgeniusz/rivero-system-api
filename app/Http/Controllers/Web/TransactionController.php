@@ -121,33 +121,4 @@ class TransactionController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-        $transaction = $this->oTransaction->findById($id);
-        return view('softransactions.edit', compact('transaction'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-        $this->oTransaction->updateTT($id, $request->transactionName);
-
-        return redirect()->route('transactionss.index')
-            ->with('info', 'Tipo de Proyecto Actualizado');
-    }
-
 }

@@ -15,26 +15,26 @@
                         <th>{{__('status')}}</th>
                         <th>{{__('actions')}}</th>
                  </th>
-                </tr>    
+                </tr>
             </thead>
                 <tbody>
-                @foreach($contracts as $contract) 
+                @foreach($contracts as $contract)
                 <tr>
                     <td>{{$contract->contractId}} </td>
                     <td>{{$contract->contractNumber}} </td>
-                    <td>{{$contract->office->officeName}}	</td>
-                    <td>{{$contract->contractDate}}	</td>
-                    <td>{{$contract->client->clientName}}	</td>
-                    <td>{{$contract->contractStatus}}	</td>
-                
+                    <td>{{$contract->office->officeName}}   </td>
+                    <td>{{$contract->contractDate}} </td>
+                    <td>{{$contract->client->clientName}}   </td>
+                    <td>{{$contract->contractStatus}}   </td>
+
 
                    <td><a href="{{route('contracts.resultStatusDetails', ['id' => $contract->contractId])}}" class="btn btn-default">
                         <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
                     </a>
-            
+
                    </td>
-                </tr> 
-                @endforeach   
+                </tr>
+                @endforeach
                 </tbody>
             </table>
 
@@ -43,7 +43,7 @@
                 <span class="fa fa-hand-point-left" aria-hidden="true"></span> {{__('return')}}
               </a>
              </div>
-             
+
         </div>
     </div>
 </div>

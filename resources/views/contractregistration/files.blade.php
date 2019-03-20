@@ -6,7 +6,7 @@
 <div class="panel panel-default col-xs-12">
     <div class="panel-body">
 
-<div class="text-center"><h3 class="text-info">DOCUMENTOS DEL CONTRATO</h3></div>
+<div class="text-center"><h4><b>DETALLES DEL CONTRATO</b></h4></div>
  <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
             <thead>
@@ -34,6 +34,9 @@
      </div>
 
      <hr>
+
+     <div class="text-center"><h4><b>DOCUMENTOS DEL CONTRATO</b></h4></div>
+     <br>
             <div class="row ">
                     <div class="col-xs-12">
                     <div class="text-center">
@@ -90,7 +93,7 @@ $filePart = explode("/", $file);?>
 
     <div class="text-center">
         <a href="{{route('contracts.index')}}" class="btn btn-warning">
-            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+            <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
         </a>
     </div>
     <br>

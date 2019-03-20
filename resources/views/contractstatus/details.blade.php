@@ -117,12 +117,12 @@
               <p class="form-control-static">{{ number_format( $contract[0]->contractCost, 2, ',', '.') }}</p>
             </div>
           </div>
-  
+
 
             <div class="text-center">
 
               <a href="{{route('contracts.searchStatus')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
             </div>

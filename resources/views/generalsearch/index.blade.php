@@ -9,8 +9,7 @@
        <div class="row ">
         <div class="col-xs-12">
          <div class="text-center">
-
-     <h3 class="text-info"><b>BUSQUEDA GENERAL</b></h3>
+       <h3><b>BUSQUEDA GENERAL</b></h3>
       <form  action="{{Route('contracts.generalSearch')}}" method="GET">
 
 
@@ -35,11 +34,11 @@
          </div>
        <br>
 
-           <button type="submit" class="btn btn-success">
+           <button type="submit" class="btn btn-primary">
                 <span class="fa fa-search" aria-hidden="true"></span> Buscar
            </button>
          <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
           </a>
     </div>
      </form>

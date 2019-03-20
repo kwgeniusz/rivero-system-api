@@ -6,7 +6,7 @@
 <div class="panel panel-default col-xs-12">
     <div class="panel-body">
 
-<div class="text-center"><h4 class="text-info">{{__('details_contract')}}</h4></div>
+<div class="text-center"><h4><b>{{__('details_contract')}}</b></h4></div>
  <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
             <thead>
@@ -36,37 +36,33 @@
      <hr>
 <div class="row ">
   <div class="col-xs-6 col-xs-offset-3">
-    <h4 class="text-info text-center">{{__('STATUS')}}</h4>
+    <h4 class="text-center"><b>{{__('STATUS')}}</b></h4>
 
 
       <form class="form" action="{{Route('contracts.updateStatus')}}" method="POST">
        {{csrf_field()}}
         {{method_field('PUT')}}
 
-
-               <div class="form-group">
+            <div class="form-group col-xs-6 col-xs-offset-3">
               <label for="contractStatus">{{__('choose_a_status')}}</label>
               <select class="form-control" name="contractStatus" id="contractStatus">
                     <option value="2" > {{__('initiates')}} </option>
                     <option value="3" > {{__('finished')}} </option>
                     <option value="4" > {{__('suspended')}} </option>
               </select>
-              </div>
+            </div>
            <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
-
-         <div class="col-xs-6">
+       <div class="row"></div>
+       <div class="text-center">
            <button type="submit" class="btn btn-success">
                  <span class="fa fa-sync" aria-hidden="true"></span>
                  {{__('change_status')}}
             </button>
-       </div>
-        <div class="col-xs-3">
-            <div class="text-center">
+
               <a href="{{route('contracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
-            </div>
-          </div>
+        </div>
 
      </form>
 

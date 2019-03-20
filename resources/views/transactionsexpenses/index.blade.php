@@ -5,15 +5,15 @@
     <div class="row">
         <div class="col-xs-12 ">
             <div class="text-center">
-            <a href="{{route('transactions.create',['sign'=>'-'])}}" class="btn btn-danger text-center" >
+            <a href="{{route('transactions.create',['sign'=>'-'])}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}} Egreso
             </a>
-       
+
            <br><br>
          <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center bg-danger">
-            <thead>
+            <table class="table table-striped table-bordered text-center">
+            <thead class="bg-danger">
                 <tr>
                  <th>ID</th>
                  <th>TIPO DE TRANSACCION</th>
@@ -42,7 +42,7 @@
                     </a> -->
                        <a href="{{route('transactions.show', ['sign'=>'-', 'id' => $transaction->transactionId])}}" class="btn btn-danger">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
-                        </a> 
+                        </a>
                    </td>
                 </tr>
                 @endforeach
@@ -52,7 +52,7 @@
         </div>
 
              <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
         </div>
         </div>

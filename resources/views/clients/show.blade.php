@@ -3,11 +3,11 @@
 @section('content')
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-danger col-xs-7">
-    <div class="panel-heading"> <h3>{{__('are_you_sure_to_eliminate_this_client?')}}</h3></div>
+    <div class="panel-heading"> <h3><b>{{__('are_you_sure_to_eliminate_this_client?')}}</b></h3></div>
     <div class="panel-body">
       <div class="row ">
           <div class="col-xs-12 ">
-            
+
 
         <form class="form" action="{{Route('clients.destroy',['id' => $client[0]->clientId] )}}" method="POST">
           {{ csrf_field() }}
@@ -20,12 +20,12 @@
                 <label for="clientDescription">{{__('description')}}</label>
                 <input type="text" class="form-control" id="clientDescription" name="clientDescription" value="{{$client[0]->clientDescription}}" placeholder="Descripción" disabled>
               </div>
-             
+
               <div class="form-group">
                 <label for="clientAddress">{{__('address')}}</label>
                 <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{$client[0]->clientAddress}}" placeholder="Direccion" disabled>
               </div>
-             
+
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="clientPhone">{{__('phone')}}</label>
@@ -41,10 +41,10 @@
 
             <div class="text-center">
               <button type="submit" class="btn btn-danger">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('delete')}}
+                <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
               </button>
               <a href="{{route('clients.index')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
             </div>

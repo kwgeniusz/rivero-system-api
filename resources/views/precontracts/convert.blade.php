@@ -4,7 +4,11 @@
 
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-warning col-xs-7">
-    <div class="panel-heading"> <h3><b>¿Esta Seguro de Convertir este elemento a Contrato?</b></h3></div>
+  @if($precontract[0]->contractType == 'P')
+    <div class="panel-heading"> <h3><b>¿Esta Seguro de Convertir este Proyecto a Contrato?</b></h3></div>
+  @else
+    <div class="panel-heading"> <h3><b>¿Esta Seguro de Convertir este Servicio a Contrato?</b></h3></div>
+  @endif
     <div class="panel-body">
 
       <form class="form-horizontal" action="{{Route('precontracts.convertAgg',['id' => $precontract[0]->precontractId])}}" method="POST">
@@ -80,7 +84,7 @@
                 <span class="fa fa-sync" aria-hidden="true"></span>  Convertir
               </button>
               <a href="{{route('precontracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
             </div>

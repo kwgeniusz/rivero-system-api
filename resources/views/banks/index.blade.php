@@ -24,7 +24,7 @@
     <br>
 
     <div class="row">
-        <div class="col-xs-10 ">
+        <div class="col-xs-10 col-xs-offset-1">
             <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
@@ -51,7 +51,7 @@
             </table>
 
                  <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
         </div>
     </div>

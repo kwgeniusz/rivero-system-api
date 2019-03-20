@@ -26,7 +26,7 @@
                  Agregar Proyecto
             </a>
               <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
            </div>
            <br>
@@ -55,7 +55,7 @@
                     <td>{{$project->siteAddress}}   </td>
                    <td>
                      <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Pagos
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
                     </a>
                      <a href="{{route('precontracts.convert', ['id' => $project->precontractId])}}" class="btn btn-warning btn-sm">
                      <span class="fa fa-sync" aria-hidden="true"></span>  Convertir en Contrato
@@ -92,7 +92,7 @@
                   Agregar Servicio
             </a>
               <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
            </div>
            <br>
@@ -124,7 +124,7 @@
 
                    <td>
                     <a href="{{route('precontracts.payment', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Pagos
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
                     </a>
                     <a href="{{route('precontracts.convert', ['id' => $service->precontractId])}}" class="btn btn-warning btn-sm">
                      <span class="fa fa-sync" aria-hidden="true"></span>  Convertir en Contrato

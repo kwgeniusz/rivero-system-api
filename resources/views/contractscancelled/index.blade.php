@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <h2 class="text-danger"><b>{{__('cancelled_contract_history')}}</b></h2>
+    <h3 class="text-danger"><b>CONTRATOS SUSPENDIDOS</b></h3>
     <br>
     <div class="row">
         <div class="col-xs-12 ">
@@ -9,8 +9,8 @@
 
 
          <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center bg-danger">
-            <thead>
+            <table class="table table-striped table-bordered text-center">
+            <thead class="bg-danger">
                 <tr>
                         <th>ID</th>
                         <th>{{__('contract_number')}}</th>
@@ -18,7 +18,7 @@
                         <th>{{__('date')}}</th>
                         <th>{{__('client')}}</th>
                         <th>{{__('status')}}</th>
-                        <th>{{__('action')}}</th>
+                        <th>{{__('actions')}}</th>
                  </th>
                 </tr>
             </thead>
@@ -48,7 +48,7 @@
 
 <div class="text-center">
        <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
        </a>
 </div>
 

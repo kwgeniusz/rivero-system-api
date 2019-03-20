@@ -3,11 +3,11 @@
 @section('content')
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-danger col-xs-7">
-    <div class="panel-heading"> <h3> Nuevo Egreso</h3></div>
+    <div class="panel-heading"> <h3> <b>Nuevo Egreso</b></h3></div>
     <div class="panel-body">
       <div class="row ">
           <div class="col-xs-12 ">
-            
+
         @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
@@ -27,17 +27,17 @@
                 <select class="form-control" name="transactionTypeId">
                   @foreach($transactionType as $transaction)
                         <option value="{{$transaction->transactionTypeId}}" > {{$transaction->transactionTypeName}} </option>
-      
+
                   @endforeach
               </select>
               </div>
               </div>
-  
+
               <div class="form-group">
                 <label for="description">DESCRIPCION</label>
                 <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}" >
               </div>
-              
+
               <div class="row ">
               <div class="form-group col-xs-4">
                 <label for="transactionDate">FECHA</label>
@@ -51,7 +51,7 @@
                 <input type="number" class="form-control" step="0.01" id="amount" name="amount" value="{{ old('amount') }}">
               </div>
               </div>
-             
+
               <div class="row ">
                 <div class="form-group col-xs-6">
                 <label for="bankId">BANCO</label>
@@ -67,10 +67,10 @@
               <div class="row ">
                 <div class="form-group col-xs-4">
                 <label for="reference">REFERENCIA</label>
-                <input type="text" class="form-control" id="reference" name="reference" value="{{ old('reference') }}" >   
+                <input type="text" class="form-control" id="reference" name="reference" value="{{ old('reference') }}" >
             </div>
             </div>
-     
+
           <input type="hidden" name="sign" value="-">
 
             <div class="text-center">
@@ -78,7 +78,7 @@
                 <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
               </button>
               <a href="{{route('transactions.index',['sign' => '-'])}}" class="btn btn-warning">
-                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
             </div>
