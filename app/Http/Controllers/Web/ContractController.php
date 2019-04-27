@@ -362,6 +362,7 @@ class ContractController extends Controller
 
     public function files($id)
     {
+        $files = '';
         $contract = $this->oContract->FindById($id);
 
         //crear el directorio si no existe
@@ -369,8 +370,13 @@ class ContractController extends Controller
         Storage::makeDirectory("docs/" . $directoryName);
 
         //obtener todos los archivos del directorio
-        $files = Storage::files("docs/" . $directoryName);
+        $allFiles = Storage::files("docs/" . $directoryName);
 
+        foreach ($allFiles as $file) {
+            $filePart = explode("/", $file);
+            $files[]  = $filePart[2];
+        }
+  
         return view('contractregistration.files', compact('contract', 'files', 'directoryName'));
     }
     public function fileAgg(Request $request)

@@ -15,9 +15,9 @@
             <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
-                 <th>ID</th>
+                 <th>CODIGO</th>
                  <th>{{__('name')}}</th>
-                 <th>{{__('description')}}</th>
+  
                  <th>{{__('phone')}}</th>
                  <th>{{__('email')}}</th>
                  <th>{{__('actions')}}</th>
@@ -27,9 +27,8 @@
                 <tbody>
                 @foreach($clients as $client)
                 <tr>
-                   <td>{{$client->clientId}}</td>
+                   <td>{{$client->clientCode}}</td>
                    <td>{{$client->clientName}}</td>
-                   <td>{{$client->clientDescription}}</td>
                    <td>{{$client->clientPhone}}</td>
                    <td>{{$client->clientEmail}}</td>
                    <td><a href="{{route('clients.edit', ['id' => $client->clientId])}}" class="btn btn-primary">

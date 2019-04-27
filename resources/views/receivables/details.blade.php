@@ -73,7 +73,9 @@ $totalDue = 0;
                         <td>{{ $acum = $acum +1 }}</td>
                         <td>{{$share->amountDue}}</td>
                         <td>
+                          @if($acum == 1)
                            <form-modal-charge r-id="{{$share->receivableId}}" country-id="{{$share->countryId}}"></form-modal-charge>
+                           @endif
                        </td>
                        </tr>
                     @endforeach

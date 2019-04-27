@@ -47362,95 +47362,109 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component FormModalCharge mounted.');
-  },
-
-  data: function data() {
-    return {
-      receivable: {},
-      listBank: {},
-
-      errors: [],
-      formCollectMethod: 1,
-      formSourceBank: '',
-      formSourceBankAccount: '',
-      formCheckNumber: '',
-      formTargetBankId: '',
-      formTargetBankAccount: '',
-      formDatePaid: '',
-      btnSubmitForm: true
-    };
-  },
-  watch: {
-    formCollectMethod: function formCollectMethod() {
-      this.formSourceBank = '';
-      this.formSourceBankAccount = '';
-      this.formCheckNumber = '';
-    }
-  },
-  props: {
-    rId: { type: String },
-    countryId: { type: String }
-  },
-  methods: {
-    openModal: function openModal() {
-      var _this = this;
-
-      axios.get('../receivables/get/' + this.rId).then(function (response) {
-        _this.receivable = response.data[0];
-      });
-      axios.get('../banks/country/' + this.countryId).then(function (response) {
-        _this.listBank = response.data;
-      });
-      this.errors = [];
-      this.$refs.modal.open();
+    mounted: function mounted() {
+        console.log('Component FormModalCharge mounted.');
     },
-    getAccount: function getAccount() {
-      var _this2 = this;
 
-      var url = '../banks/account/' + this.formTargetBankId;
-      axios.get(url).then(function (response) {
-        console.log(response.data);
-        _this2.formTargetBankAccount = response.data[0]['bankAccount'];
-      });
+    data: function data() {
+        return {
+            receivable: {},
+            listBank: {},
+
+            errors: [],
+            formCollectMethod: 1,
+            formSourceBank: '',
+            formSourceBankAccount: '',
+            formCheckNumber: '',
+            formTargetBankId: '',
+            formTargetBankAccount: '',
+            formAmountPaid: '',
+            formDatePaid: '',
+            btnSubmitForm: true
+        };
     },
-    sendForm: function sendForm() {
-      this.errors = [];
-      //VALIDATIONS
-      if (this.formCollectMethod != 1) {
-        if (!this.formSourceBank) this.errors.push('Banco de Origen es Requerido.');
-        if (!this.formSourceBankAccount) this.errors.push('Cuenta de Origen es Requerido.');
-      }
-      if (this.formCollectMethod == 2) {
-        if (!this.formCheckNumber) this.errors.push('Numero de Cheque es Requerido.');
-      }
-      if (!this.formTargetBankId) this.errors.push('Debe escoger un Banco de Destino.');
+    watch: {
+        formCollectMethod: function formCollectMethod() {
+            this.formSourceBank = '';
+            this.formSourceBankAccount = '';
+            this.formCheckNumber = '';
+        }
+    },
+    props: {
+        rId: { type: String },
+        countryId: { type: String }
+    },
+    methods: {
+        openModal: function openModal() {
+            var _this = this;
 
-      if (!this.formDatePaid) this.errors.push('Fecha del Cobro es Requerida.');
+            axios.get('../receivables/get/' + this.rId).then(function (response) {
+                _this.receivable = response.data[0];
+            });
+            axios.get('../banks/country/' + this.countryId).then(function (response) {
+                _this.listBank = response.data;
+            });
+            this.errors = [];
+            this.$refs.modal.open();
+        },
+        getAccount: function getAccount() {
+            var _this2 = this;
 
-      if (!this.errors.length) {
+            var url = '../banks/account/' + this.formTargetBankId;
+            axios.get(url).then(function (response) {
+                console.log(response.data);
+                _this2.formTargetBankAccount = response.data[0]['bankAccount'];
+            });
+        },
+        sendForm: function sendForm() {
+            this.errors = [];
+            //VALIDATIONS
+            if (this.formCollectMethod != 1) {
+                if (!this.formSourceBank) this.errors.push('Banco de Origen es Requerido.');
+                if (!this.formSourceBankAccount) this.errors.push('Cuenta de Origen es Requerido.');
+            }
+            if (this.formCollectMethod == 2) {
+                if (!this.formCheckNumber) this.errors.push('Numero de Cheque es Requerido.');
+            }
+            if (!this.formTargetBankId) this.errors.push('Debe escoger un Banco de Destino.');
 
-        axios.post('../receivables/share', {
-          receivableId: this.receivable.receivableId,
-          amountDue: this.receivable.amountDue,
-          collectMethod: this.formCollectMethod,
-          sourceBank: this.formSourceBank,
-          sourceBankAccount: this.formSourceBankAccount,
-          checkNumber: this.formCheckNumber,
-          targetBankId: this.formTargetBankId,
-          targetBankAccount: this.formTargetBankAccount,
-          datePaid: this.formDatePaid
-        }).then(function (response) {
-          location.reload();
-          toastr.success("Cobro de Cuota Realizado");
-        });
-      }
+            if (!this.formDatePaid) this.errors.push('Fecha del Cobro es Requerida.');
+
+            if (!this.formAmountPaid) this.errors.push('Monto es Requerido.');
+
+            if (!this.errors.length) {
+
+                axios.post('../receivables/share', {
+                    receivableId: this.receivable.receivableId,
+                    amountDue: this.receivable.amountDue,
+                    collectMethod: this.formCollectMethod,
+                    sourceBank: this.formSourceBank,
+                    sourceBankAccount: this.formSourceBankAccount,
+                    checkNumber: this.formCheckNumber,
+                    targetBankId: this.formTargetBankId,
+                    targetBankAccount: this.formTargetBankAccount,
+                    amountPaid: this.formAmountPaid,
+                    datePaid: this.formDatePaid
+                }).then(function (response) {
+                    if (response.data.alert == "error") {
+                        toastr.error(response.data.msj);
+                    } else {
+                        location.reload();
+                        toastr.success(response.data.msj);
+                    }
+                });
+            }
+        }
     }
-  }
 });
 
 /***/ }),
@@ -47725,6 +47739,40 @@ var render = function() {
                     return
                   }
                   _vm.formTargetBankAccount = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-6 col-xs-offset-3" }, [
+            _c("label", { attrs: { for: "formAmountPaid" } }, [
+              _vm._v("MONTO")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formAmountPaid,
+                  expression: "formAmountPaid"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                step: "0.01",
+                min: "0",
+                id: "formAmountPaid",
+                pattern: "^[0-9]+"
+              },
+              domProps: { value: _vm.formAmountPaid },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.formAmountPaid = $event.target.value
                 }
               }
             })

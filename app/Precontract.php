@@ -17,7 +17,7 @@ class Precontract extends Model
     protected $primaryKey = 'precontractId';
     //  protected $dateFormat = 'Y-m-d';
     protected $fillable = ['precontractId', 'contractType', 'countryId', 'officeId',
-        'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId',
+        'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId', 'comment',
         'currencyName',
     ];
 
@@ -68,7 +68,7 @@ class Precontract extends Model
     }
 //------------------------------------------
     public function insertPrecontract($countryId, $officeId, $contractType,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $currencyName) {
+        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $comment, $currencyName) {
 
         $precontract                = new Precontract;
         $precontract->contractType  = $contractType;
@@ -78,13 +78,14 @@ class Precontract extends Model
         $precontract->siteAddress   = $siteAddress;
         $precontract->projectTypeId = $projectTypeId;
         $precontract->serviceTypeId = $serviceTypeId;
+        $precontract->comment       = $comment;
         $precontract->currencyName  = $currencyName;
         $precontract->save();
 
     }
 //------------------------------------------
     public function updatePrecontract($precontractId, $countryId, $officeId, $clientId,
-        $siteAddress, $projectTypeId, $serviceTypeId, $currencyName) {
+        $siteAddress, $projectTypeId, $serviceTypeId, $comment, $currencyName) {
 
         $precontract                = precontract::find($precontractId);
         $precontract->countryId     = $countryId;
@@ -93,6 +94,7 @@ class Precontract extends Model
         $precontract->siteAddress   = $siteAddress;
         $precontract->projectTypeId = $projectTypeId;
         $precontract->serviceTypeId = $serviceTypeId;
+        $precontract->comment       = $comment;
         $precontract->currencyName  = $currencyName;
         $precontract->save();
 

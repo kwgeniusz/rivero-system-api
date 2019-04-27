@@ -47,7 +47,6 @@ class ClientController extends Controller
     {
         $clients = $this->oClient->insertClient(
             $request->clientName,
-            $request->clientDescription,
             $request->clientAddress,
             $request->clientPhone,
             $request->clientEmail
@@ -84,7 +83,6 @@ class ClientController extends Controller
     {
         $this->oClient->updateClient($id,
             $request->clientName,
-            $request->clientDescription,
             $request->clientAddress,
             $request->clientPhone,
             $request->clientEmail

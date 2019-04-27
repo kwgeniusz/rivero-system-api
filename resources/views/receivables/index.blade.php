@@ -34,7 +34,6 @@
             <thead class="bg-success">
                 <tr>
                  <th>CLIENTE</th>
-                 <th>DESCRIPCION</th>
                  <th>DIRECCIÓN</th>
                  <th>TELEFONO</th>
                  <th>CUOTAS</th>
@@ -46,7 +45,6 @@
             @foreach($receivables as $receivable)
                 <tr>
                      <td>{{$receivable->client[0]->clientName}}</td>
-                     <td>{{$receivable->client[0]->clientDescription}}</td>
                      <td>{{$receivable->client[0]->clientAddress}}</td>
                      <td>{{$receivable->client[0]->clientPhone}}</td>
                       <td>{{$receivable->cuotas}}</td>

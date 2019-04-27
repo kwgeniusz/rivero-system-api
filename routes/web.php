@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 //ROUTE FROM FILES
 Route::get('/uploads/{directoryName}/{file}', function ($directoryName, $file) {
-    return Storage::download("docs/$directoryName/$file");
+    return Storage::get("docs/$directoryName/$file");
 })->name('uploads');
 
 Route::get('/filesDelete/{directoryName}/{file}', function ($directoryName, $file) {
@@ -136,7 +136,7 @@ Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')
 Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');
 //ADMINISTRATION - RECEIVABLE
 Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId')->name('receivables.getForId');
-Route::post('receivables/share', 'Web\ReceivableController@update')->name('receivables.update');
+Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');
 
 //BANK
 Route::get('banks/country/{countryId}', 'Web\BankController@getForCountry')->name('banks.getForCountry');

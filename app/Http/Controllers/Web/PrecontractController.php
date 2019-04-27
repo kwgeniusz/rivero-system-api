@@ -65,6 +65,7 @@ class PrecontractController extends Controller
             $request->siteAddress,
             $request->projectTypeId,
             $request->serviceTypeId,
+            $request->comment,
             $request->currencyName);
 
         $notification = array(
@@ -105,6 +106,7 @@ class PrecontractController extends Controller
             $request->siteAddress,
             $request->projectTypeId,
             $request->serviceTypeId,
+            $request->comment,
             $request->currencyName
         );
 
@@ -167,7 +169,7 @@ class PrecontractController extends Controller
                 '',
                 '',
                 '',
-                '',
+                $precontract[0]->comment,
                 $precontract[0]->currencyName
             );
             //insertar los pagos correspondientes

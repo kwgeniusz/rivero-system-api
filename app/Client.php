@@ -14,9 +14,8 @@ class Client extends Model
     protected $table      = 'client';
     protected $primaryKey = 'clientId';
 
-    protected $fillable = ['userId', 'clientId', 'clientName',
-        'clientDescription', 'clientAddress', 'clientPhone', 'clientEmail',
-        'dateCreated', 'lastUserId'];
+    protected $fillable = ['userId', 'clientId','clientCode','clientName',
+         'clientAddress', 'clientPhone', 'clientEmail','dateCreated', 'lastUserId'];
 
 //--------------------------------------------------------------------
     /** Relations */
@@ -57,13 +56,12 @@ class Client extends Model
         return $result;
     }
 //------------------------------------------
-    public function insertClient($clientName, $clientDescription, $clientAddress, $clientPhone, $clientEmail)
+    public function insertClient($clientName, $clientAddress, $clientPhone, $clientEmail)
     {
 
         $client                    = new Client;
         $client->userId            = 1;
         $client->clientName        = $clientName;
-        $client->clientDescription = $clientDescription;
         $client->clientAddress     = $clientAddress;
         $client->clientPhone       = $clientPhone;
         $client->clientEmail       = $clientEmail;
@@ -72,11 +70,10 @@ class Client extends Model
         $client->save();
     }
 //------------------------------------------
-    public function updateClient($clientId, $clientName, $clientDescription, $clientAddress, $clientPhone, $clientEmail)
+    public function updateClient($clientId, $clientName, $clientAddress, $clientPhone, $clientEmail)
     {
         $this->where('clientId', $clientId)->update(array(
             'clientName'        => $clientName,
-            'clientDescription' => $clientDescription,
             'clientAddress'     => $clientAddress,
             'clientPhone'       => $clientPhone,
             'clientEmail'       => $clientEmail,

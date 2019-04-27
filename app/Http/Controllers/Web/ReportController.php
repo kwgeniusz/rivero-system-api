@@ -123,7 +123,7 @@ EOD;
         <td width="10%" align="center">$contract->contractDate</td>
         <td align="left">{$contract->client->clientName}</td>
         <td align="left">{$contract->siteAddress}</td>
-        <td width="35%" align="left">{$contract->contractDescription}</td>
+        <td width="35%" align="left">{$contract->initialComment}</td>
         </tr>
 
 EOD;
@@ -188,7 +188,7 @@ EOD;
         <td width="10%" align="center">$contract->contractDate</td>
         <td align="left">{$contract->office->officeName}</td>
         <td align="left">{$contract->siteAddress}</td>
-        <td width="35%" align="left">{$contract->contractDescription}</td>
+        <td width="35%" align="left">{$contract->initialComment}</td>
         </tr>
 EOD;
         }
@@ -363,16 +363,16 @@ EOD;
     public function collections(Request $request)
     {
 
-        $acum       = 0;
         $background = "";
-        $date       = Carbon::now();
 
         $collections = $this->oReceivable->collections($request->countryId, $request->date1, $request->date2);
-        $country     = DB::table('country')->where('countryId', $request->countryId)->get(['countryName']);
+        $country     = DB::table('country')->where('countryId', $request->countryId)->get(['countryName', 'currencyName']);
+
+        $date        = Carbon::now();
         $date1Format = Carbon::parse($request->date1);
         $date2Format = Carbon::parse($request->date2);
 
-        if ($collections->isEmpty()) {
+        if (!$collections) {
             return view('reportcollections.error');
         } else {
 
@@ -385,8 +385,8 @@ EOD;
         <th>
         <p style="text-align:right">
          <b>Fecha:</b> {$date->format('d/m/y')}<br>
-         <b>Pais:</b> {$country[0]->countryName}<br>
-
+         <b>Pais:</b>  {$country[0]->countryName}<br>
+         <b>Moneda:</b> {$country[0]->currencyName}<br>
          </p>
         </th>
 
@@ -405,14 +405,17 @@ EOD;
         </tr>
         </thead>
 EOD;
-            foreach ($collections as $receivable) {
-                $acum = $acum + 1;
-                if ($acum % 2 == 0) {
-                    $background = "#e6e6e6";
-                } else {
-                    $background = "#fbfbfb";
-                }
-                $html .= <<<EOD
+            $total = 0;
+            foreach ($collections as $r1) {
+                $subtotal = 0; //variable suma subtotal
+                $acum     = 0;
+                foreach ($r1 as $receivable) {
+                    $acum = $acum + 1;
+                    if ($acum % 2 == 0) {$background = "#e6e6e6";} else { $background = "#fbfbfb";}
+                    $receivable->amountPaid += $receivable->amountPercentaje;
+                    //colores de filas table
+
+                    $html .= <<<EOD
         <tr style="background-color:$background">
         <td width="5%" align="center">$receivable->receivableId</td>
         <td width="25%" align="left">{$receivable->client[0]->clientName}</td>
@@ -420,10 +423,30 @@ EOD;
         <td width="10%" align="right">$receivable->amountPaid</td>
         <td width="40%" align="center">$receivable->collectMethod</td>
         </tr>
-
 EOD;
-            }
+                    $subtotal += $receivable->amountPaid; //sumando cuotas para subtotal
+
+                } //cierre foreach interno
+                $html .= <<<EOD
+        <tr style="background-color:#B0F0BF">
+        <td width="5%" align="center"> </td>
+        <td width="25%" align="left"> </td>
+        <td width="15%" align="center"><b>Sub-Total</b> </td>
+        <td width="10%" align="right"> $subtotal </td>
+        <td width="40%" align="center"> </td>
+        </tr>
+EOD;
+                $total += $subtotal;
+
+            } //cierre foreach externo
             $html .= <<<EOD
+        <tr>
+        <td width="5%" align="center"> </td>
+        <td width="25%" align="left"> </td>
+        <td width="15%" align="center"> <b>Total:</b></td>
+        <td width="10%" align="right">$total </td>
+        <td width="40%" align="center"> </td>
+        </tr>
 </table>
 EOD;
 

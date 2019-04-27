@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-03-2019 a las 06:54:08
+-- Tiempo de generación: 22-04-2019 a las 15:18:29
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.0.29
 
@@ -53,7 +53,7 @@ CREATE TABLE `bank` (
 --
 
 INSERT INTO `bank` (`bankId`, `countryId`, `bankName`, `bankAccount`, `initialBalance`, `balance01`, `balance02`, `balance03`, `balance04`, `balance05`, `balance06`, `balance07`, `balance08`, `balance09`, `balance10`, `balance11`, `balance12`) VALUES
-(2, 1, 'BANESCO', '01050234021234566732', '10000.00', '0.00', '0.00', '3000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2000.00');
+(2, 1, 'BANESCO', '01050234021234566732', '10000.00', '0.00', '17500.00', '32943.00', '1000.00', '0.00', '0.00', '0.00', '5500.00', '0.00', '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -102,7 +102,7 @@ CREATE TABLE `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 77, 11, '2018-06-09 00:00:00', 1),
+(1, 1, 1, 79, 11, '2018-06-09 00:00:00', 1),
 (2, 2, 2, 4, 3, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -146,7 +146,7 @@ INSERT INTO `contract` (`contractId`, `contractType`, `contractNumber`, `country
 (2, 'P', '18PC-000002', 1, 1, '2018-01-03', 1, '9401 BARTON CREEK DR ROWLETT TX', 1, 1, '1', '2019-01-03', '2018-01-24', '2018-01-24', '2018-01-24', NULL, NULL, NULL, '0.00', 'USD', 3, '2018-09-01 00:00:00', 1),
 (3, 'P', '18PC-000003', 1, 1, '2018-01-04', 1, '', 1, 1, '1', '2018-01-04', '2018-03-04', '2018-03-04', '2018-03-04', NULL, NULL, NULL, '0.00', 'USD', 3, '2018-09-01 00:00:00', 1),
 (4, 'P', '18PC-000004', 1, 1, '2018-04-01', 1, '3062 Primrose Ln Farmers Branch, TX 75234', 1, 1, '1', '2018-04-01', '2018-04-30', '2018-04-30', '2018-04-30', NULL, NULL, NULL, '0.00', 'USD', 3, '2018-09-01 00:00:00', 1),
-(5, 'P', '18PC-000005', 1, 1, '2018-01-05', 1, '2808 ANZIO DR DALLAS TX 75224', 1, 1, '1', '2017-12-05', '2018-01-25', '2018-01-25', '2018-01-25', NULL, NULL, NULL, '3000.00', 'USD', 1, '2018-09-01 00:00:00', 1),
+(5, 'P', '18PC-000005', 1, 1, '2018-01-05', 1, '2808 ANZIO DR DALLAS TX 75224', 1, 1, '1', '2017-12-05', '2018-01-25', '2018-01-25', '2018-01-25', NULL, NULL, NULL, '3500.00', 'USD', 1, '2018-09-01 00:00:00', 1),
 (6, 'P', '18PC-000006', 1, 1, '2018-01-10', 1, '', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, '100.00', 'USD', 2, '2018-09-01 00:00:00', 1),
 (7, 'P', '18PC-000007', 1, 1, '2018-01-10', 1, '7916 West Hodges Rd Dallas Tx 75217', 1, 1, '1', '2018-01-10', '2018-02-10', '2018-02-10', '2018-02-10', NULL, NULL, NULL, '0.00', 'USD', 1, '2018-09-01 00:00:00', 1),
 (8, 'P', '18PC-000008', 1, 1, '2018-01-11', 1, '615 Coombs Creek Dr, Dallas Tx 75211', 1, 1, '1', '2018-01-11', '2018-02-11', '2018-02-11', '2018-02-11', NULL, NULL, NULL, '0.00', 'USD', 1, '2018-09-01 00:00:00', 1),
@@ -220,6 +220,7 @@ INSERT INTO `contract_staff` (`contractStaffId`, `contractId`, `staffId`, `dateC
 CREATE TABLE `country` (
   `countryId` int(6) NOT NULL,
   `countryName` varchar(128) NOT NULL,
+  `currencyName` varchar(64) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -228,9 +229,9 @@ CREATE TABLE `country` (
 -- Volcado de datos para la tabla `country`
 --
 
-INSERT INTO `country` (`countryId`, `countryName`, `dateCreated`, `lastUserId`) VALUES
-(1, 'USA', '2018-06-09 00:00:00', 1),
-(2, 'VENEZUELA', '2018-06-09 00:00:00', 1);
+INSERT INTO `country` (`countryId`, `countryName`, `currencyName`, `dateCreated`, `lastUserId`) VALUES
+(1, 'USA', 'USD', '2018-06-09 00:00:00', 1),
+(2, 'VENEZUELA', 'BS', '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -314,7 +315,8 @@ INSERT INTO `payment_contract` (`paymentContractId`, `contractId`, `amount`, `pa
 (13, 1, '2000.00', '2019-03-11', '2019-03-11 23:19:49', 2),
 (14, 1, '500.00', '2019-03-11', '2019-03-11 23:28:43', 2),
 (17, 5, '2000.00', '2019-03-11', '2019-03-12 00:18:32', 2),
-(19, 5, '1000.00', '2019-03-14', '2019-03-14 20:45:48', 2);
+(19, 5, '1000.00', '2019-03-14', '2019-03-14 20:45:48', 2),
+(20, 5, '500.00', '2019-03-25', '2019-03-25 06:39:06', 2);
 
 -- --------------------------------------------------------
 
@@ -366,6 +368,7 @@ CREATE TABLE `pre_contract` (
   `siteAddress` varchar(255) NOT NULL,
   `projectTypeId` int(11) NOT NULL,
   `serviceTypeId` int(11) NOT NULL,
+  `comment` text,
   `precontractCost` decimal(13,2) NOT NULL DEFAULT '0.00',
   `currencyName` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -374,8 +377,8 @@ CREATE TABLE `pre_contract` (
 -- Volcado de datos para la tabla `pre_contract`
 --
 
-INSERT INTO `pre_contract` (`precontractId`, `contractType`, `countryId`, `officeId`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `precontractCost`, `currencyName`) VALUES
-(1, 'P', 2, 2, 1, 'ROCHESTER, MN', 1, 1, '0.00', 'BS');
+INSERT INTO `pre_contract` (`precontractId`, `contractType`, `countryId`, `officeId`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `comment`, `precontractCost`, `currencyName`) VALUES
+(1, 'P', 2, 2, 1, 'ROCHESTER, MN', 1, 1, NULL, '0.00', 'BS');
 
 -- --------------------------------------------------------
 
@@ -451,7 +454,8 @@ CREATE TABLE `receivable` (
   `paymentContractId` int(11) NOT NULL,
   `sourceReference` varchar(24) NOT NULL,
   `amountDue` decimal(13,2) NOT NULL,
-  `amountPaid` decimal(13,2) DEFAULT NULL,
+  `amountPaid` decimal(13,2) DEFAULT '0.00',
+  `amountPercentaje` decimal(13,2) DEFAULT '0.00',
   `collectMethod` varchar(64) DEFAULT NULL,
   `sourceBank` varchar(64) DEFAULT NULL,
   `sourceBankAccount` varchar(24) DEFAULT NULL,
@@ -466,13 +470,14 @@ CREATE TABLE `receivable` (
 -- Volcado de datos para la tabla `receivable`
 --
 
-INSERT INTO `receivable` (`receivableId`, `countryId`, `clientId`, `contractId`, `paymentContractId`, `sourceReference`, `amountDue`, `amountPaid`, `collectMethod`, `sourceBank`, `sourceBankAccount`, `checkNumber`, `targetBankId`, `targetBankAccount`, `datePaid`, `pending`) VALUES
-(1, 1, 1, 47, 11, '19PC-0000047', '1000.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(2, 1, 1, 47, 12, '19PC-0000047', '2000.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(3, 1, 2, 1, 13, '18PC-000001', '2000.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(4, 1, 2, 1, 14, '18PC-000001', '500.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(7, 1, 1, 5, 17, '18PC-000005', '2000.00', '2000.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-03-15', 'N'),
-(9, 1, 1, 5, 19, '18PC-000005', '1000.00', '1000.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-03-16', 'N');
+INSERT INTO `receivable` (`receivableId`, `countryId`, `clientId`, `contractId`, `paymentContractId`, `sourceReference`, `amountDue`, `amountPaid`, `amountPercentaje`, `collectMethod`, `sourceBank`, `sourceBankAccount`, `checkNumber`, `targetBankId`, `targetBankAccount`, `datePaid`, `pending`) VALUES
+(1, 1, 1, 47, 11, '19PC-0000047', '1200.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(2, 1, 1, 47, 12, '19PC-0000047', '1000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(3, 1, 2, 1, 13, '18PC-000001', '2000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(4, 1, 2, 1, 14, '18PC-000001', '500.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(7, 1, 1, 5, 17, '18PC-000005', '2000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(9, 1, 1, 5, 19, '18PC-000005', '500.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(10, 1, 1, 5, 20, '18PC-000005', '1000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y');
 
 -- --------------------------------------------------------
 
@@ -559,14 +564,6 @@ CREATE TABLE `transaction` (
   `bankId` int(6) NOT NULL,
   `reference` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `transaction`
---
-
-INSERT INTO `transaction` (`transactionId`, `transactionTypeId`, `transactionDate`, `description`, `amount`, `sign`, `bankId`, `reference`) VALUES
-(36, 1, '2019-03-15', 'asdas', '2000.00', '+', 2, '123'),
-(37, 1, '2019-03-15', 'ADA', '1000.00', '+', 2, '123');
 
 -- --------------------------------------------------------
 
@@ -806,7 +803,7 @@ ALTER TABLE `office`
 -- AUTO_INCREMENT de la tabla `payment_contract`
 --
 ALTER TABLE `payment_contract`
-  MODIFY `paymentContractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `paymentContractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `payment_precontract`
@@ -830,7 +827,7 @@ ALTER TABLE `project_type`
 -- AUTO_INCREMENT de la tabla `receivable`
 --
 ALTER TABLE `receivable`
-  MODIFY `receivableId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `receivableId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `service_type`
@@ -854,13 +851,13 @@ ALTER TABLE `staff_category`
 -- AUTO_INCREMENT de la tabla `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `transaction_type`
 --
 ALTER TABLE `transaction_type`
-  MODIFY `transactionTypeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `transactionTypeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `user`

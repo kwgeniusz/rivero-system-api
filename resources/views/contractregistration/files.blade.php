@@ -66,12 +66,11 @@
                 <th>TIPO</th>
                 <th>ACCION</th>
             </tr>
+@if($files)
        @foreach ($files as $file)
-            <?php
-$ext      = pathinfo(storage_path() . $file, PATHINFO_EXTENSION);
-$filePart = explode("/", $file);?>
+   <?php $ext  = pathinfo($file, PATHINFO_EXTENSION);?>
             <tr>
-             <td><a href="{{ route('uploads', ['directoryName' => $directoryName,'file' => $filePart[2]]) }}" >{{$filePart[2]}}</a> <br>
+             <td><a href="{{ route('uploads', ['directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a> <br>
              </td>
 
              <td> {{$ext}}</td>
@@ -79,13 +78,23 @@ $filePart = explode("/", $file);?>
              <td> <a @click="$refs.modalChangeStatus.open()"  class="btn btn-primary btn-sm">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  Ver
                   </a>
-             <a href="{{ route('files.delete', ['directoryName' => $directoryName,'file' => $filePart[2]]) }}"  class="btn btn-danger btn-sm">
+             <a href="{{ route('files.delete', ['directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                  </a>
              </td>
-{{storage_path().'/'.$file}}
+{{storage_path("app/public/docs/$directoryName/$file")}}
+{{asset("storage/docs/D1119PC-0000047/$file")}}
+   <!--Windows Modal previuws-->
+        <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modalChangeStatus">
+            <b> Previzualicion Del Documento.</b>
+           <br /><br />
+           <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=" style="width:550px; height:400px;" frameborder="0">
+           </iframe>
+        </sweet-modal>
+
             </tr>
          @endforeach
+@endif
         </table>
         </div>
     </div>
@@ -99,15 +108,16 @@ $filePart = explode("/", $file);?>
     <br>
 
 
-   <!--Windows Modal previuws-->
-        <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modalChangeStatus">
-            <b> Previzualicion Del Documento.</b>
-           <br /><br />
-
-           <iframe src="http://docs.google.com/gview?url={{}}&embedded=true" style="width:550px; height:400px;" frameborder="0">
-
-           </iframe>
-        </sweet-modal>
 
 @endsection
 
+<!--
+   @if(upload is image)
+     <img src="{{image url}}"/>
+   @elseif(upload is pdf)
+     <iframe src="{{pdf url}}" frameborder="0" style="width:100%;min-height:640px;"></iframe>
+   @elseif(upload is document)
+     <iframe src="https://view.officeapps.live.com/op/view.aspx?src={{urlendoe(doc url)}}" frameborder="0" style="width:100%;min-height:640px;"></iframe>
+   @else
+     //manage things here
+   @endif -->

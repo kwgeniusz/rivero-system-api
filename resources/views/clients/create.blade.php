@@ -25,10 +25,6 @@
                 <label for="clientName">{{__('names_and_surnames')}}</label>
                 <input type="text" class="form-control" id="clientName" name="clientName" value="{{ old('clientName') }}" placeholder="Nombres y Apellidos">
               </div>
-              <div class="form-group">
-                <label for="clientDescription">{{__('description')}}</label>
-                <input type="text" class="form-control" id="clientDescription" name="clientDescription" value="{{ old('clientDescription') }}" placeholder="Descripción">
-              </div>
 
               <div class="form-group">
                 <label for="clientAddress">{{__('address')}}</label>
@@ -38,7 +34,7 @@
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="clientPhone">{{__('phone')}}</label>
-                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}" placeholder="04124231242" pattern="^([0-9]{3,11})" title="formato: 04124231242">
+                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}" placeholder="000 000 0000"  title="formato: 000 000 0000">
               </div>
             </div>
             <div class="col-xs-6">

@@ -55,6 +55,12 @@
              <input type="hidden" class="form-control"  v-model="formTargetBankAccount">
           </div> 
 
+          <div class="form-group col-xs-6 col-xs-offset-3">
+                 <label for="formAmountPaid">MONTO</label>
+                 <input type="number" step="0.01" min="0" class="form-control" id="formAmountPaid"  pattern="^[0-9]+"v-model="formAmountPaid" >
+
+          </div>
+
          <div class="form-group col-xs-6 col-xs-offset-3">
            <label for="formDatePaid">FECHA DEL COBRO</label>
             <input class="form-control flatpickr" id="formDatePaid" v-model="formDatePaid">
@@ -91,6 +97,7 @@
             formCheckNumber : '',
             formTargetBankId: '',
             formTargetBankAccount:'',
+            formAmountPaid:'',
             formDatePaid: '',
             btnSubmitForm: true,
           }
@@ -143,6 +150,8 @@
                if (!this.formDatePaid) 
                 this.errors.push('Fecha del Cobro es Requerida.');
            
+                if (!this.formAmountPaid) 
+                this.errors.push('Monto es Requerido.');
 
           if (!this.errors.length) { 
     
@@ -155,10 +164,16 @@
                 checkNumber : this.formCheckNumber,
                 targetBankId: this.formTargetBankId,
                 targetBankAccount:this.formTargetBankAccount,
+                amountPaid: this.formAmountPaid,
                 datePaid: this.formDatePaid,
             }).then(response => {
-               location.reload();
-               toastr.success("Cobro de Cuota Realizado")
+                   if (response.data.alert == "error") {
+                       toastr.error(response.data.msj)
+                   } else {
+                       location.reload();
+                       toastr.success(response.data.msj)
+                   }
+  
             })
            }
          },

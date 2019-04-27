@@ -29,15 +29,21 @@ class ReceivableController extends Controller
     }
     public function details($clientId)
     {
-        $client               = $this->oReceivable->clientPendingById($clientId);
-        $receivablesContracts = $this->oReceivable->contractsPending($clientId);
+        $client               = $this->oReceivable->clientPendingInfo($clientId);
+        $receivablesContracts = $this->oReceivable->contractsPendingAll($clientId);
+
+        //verifica si hay registros sino redirigeme a "ver todos los clientes con cuentas por cobrar"
+        if (count($client) == 0) {
+            return redirect()->route('receivables.index');
+        }
+
         return view('receivables.details', compact('receivablesContracts', 'client'));
     }
-    public function update(Request $request)
+    public function share(Request $request)
     {
         $result = $this->oReceivable->updateReceivable(
             $request->receivableId,
-            $request->amountDue,
+            $request->amountPaid,
             $request->collectMethod,
             $request->sourceBank,
             $request->sourceBankAccount,
@@ -57,8 +63,8 @@ class ReceivableController extends Controller
         if ($request->isMethod('post')) {
             $receivables = $this->oReceivable->clientsPending($request->countryId);
         }
-
         $countrys = Country::all();
+
         return view('reportcollections.index', compact('receivables', 'countrys'));
     }
 //----------------QUERYS ASINCRONIOUS-----------------//

@@ -43,10 +43,7 @@
                 <label for="formClientName">NOMBRES Y APELLIDOS</label>
                 <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="Nombres y Apellidos">
               </div>
-              <div class="form-group">
-                <label for="formClientDescription">DESCRIPCION</label>
-                <input type="text" class="form-control" name="formClientDescription" v-model="formClientDescription" placeholder="Descripción">
-              </div>
+  
              
               <div class="form-group">
                 <label for="formClientAddress">DIRECCION</label>
@@ -118,7 +115,6 @@
 
             errors: [],
             formClientName: '',
-            formClientDescription : '',
             formClientAddress: '',
             formClientPhone: '',
             formClientEmail: '',
@@ -190,14 +186,12 @@
             this.btnSubmitForm = true;
             axios.post(url,{
             clientName: this.formClientName,
-            clientDescription : this.formClientDescription,
             clientAddress: this.formClientAddress,
             clientPhone: this.formClientPhone,
             clientEmail: this.formClientEmail
             }).then(response => {
                toastr.info("Cliente Nuevo Insertado")
                this.formClientName = "";
-               this.formClientDescription= "";
                this.formClientAddress= "";
                this.formClientPhone= "";
                this.formClientEmail = "";

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Receivable extends Model
 {
+
     protected $table      = 'receivable';
     protected $primaryKey = 'receivableId';
     public $timestamps    = false;
@@ -120,7 +121,7 @@ class Receivable extends Model
             ->get();
     }
 //------------------------------------------
-    public function clientPendingById($clientId)
+    public function clientPendingInfo($clientId)
     {
         return $this->select('clientId', DB::raw('count(*) as cuotas'), DB::raw('sum(amountDue) as total'))
             ->where('pending', '=', 'Y')
@@ -129,7 +130,7 @@ class Receivable extends Model
             ->get();
     }
 //------------------------------------------
-    public function contractsPending($clientId)
+    public function contractsPendingAll($clientId)
     {
         $receivablesContracts = $this->select('sourceReference', 'receivableId', 'amountDue', 'countryId')
             ->where('pending', '=', 'Y')
@@ -140,15 +141,57 @@ class Receivable extends Model
         return $receivablesContracts->groupBy('sourceReference');
     }
 //------------------------------------------
-    public function updateReceivable($receivableId, $amountDue, $collectMethod, $sourceBank, $sourceBankAccount, $checkNumber, $targetBankId, $targetBankAccount, $datePaid)
+    public function sharePending($contractId)
     {
-        $error = null;
+        return $this->where('pending', '=', 'Y')
+            ->where('contractId', '=', $contractId)
+            ->orderBy('paymentContractId')
+            ->get();
+
+    }
+//--------------------------------------------
+    public function amountTotalContract($contractId)
+    {
+        return $this->select(DB::raw("SUM(amountDue) as amountTotal"))
+            ->where('contractId', '=', $contractId)
+            ->get();
+
+    }
+//------------------------------------------
+    public function updateReceivable($receivableId, $amountPaid, $collectMethod, $sourceBank, $sourceBankAccount, $checkNumber, $targetBankId, $targetBankAccount, $datePaid)
+    {
+        $error   = null;
+        $amountR = 0;
 
         DB::beginTransaction();
         try {
-            //PAGAR CUOTA
-            $receivable                    = Receivable::find($receivableId);
-            $receivable->amountPaid        = $amountDue;
+            //busca datos de la cuota que seleccione
+            $receivable = $this->find($receivableId);
+            //trae todas las cuotas del contrato, me sirve para saber si queda (01) y determinar que es la ultima cuota.
+            $contractShares = $this->sharePending($receivable->contractId);
+            //suma las cuotas restantes para sacar costo del contrato
+            $contractCost = 0;
+            foreach ($contractShares as $share) {
+                $contractCost += $share->amountDue;
+            }
+
+            //error si es la ultima cuota mandame errores de montos.
+            if (count($contractShares) == 1) {
+                if ($amountPaid < $receivable->amountDue) {
+                    throw new \Exception('Error: Ultima Cuota, El Monto es Insuficiente');
+                } elseif ($amountPaid > $receivable->amountDue) {
+                    throw new \Exception('Error: Ultima Cuota, El Monto a Cobrar es Muy Alto');
+                }
+                //error si lo pagado es igual o mayor que el costo del contrato.
+            } elseif ($amountPaid >= $contractCost) {
+                throw new \Exception('Error: El monto Ingresado No puede ser mayor o igual al costo Total del Contrato');
+            }
+            //comienza insercion de cuota
+            // $contractShares[1] es la cuota que le sigue a la seleccionada
+            if ($collectMethod == Receivable::CARD) {
+                $amountPercentaje             = $amountPaid * 0.03;
+                $receivable->amountPercentaje = $amountPercentaje;
+            }
             $receivable->collectMethod     = $collectMethod;
             $receivable->sourceBank        = $sourceBank;
             $receivable->sourceBankAccount = $sourceBankAccount;
@@ -157,11 +200,31 @@ class Receivable extends Model
             $receivable->targetBankAccount = $targetBankAccount;
             $receivable->datePaid          = $datePaid;
             $receivable->pending           = 'N';
-            $receivable->save();
+            //si lo pagado es menor que la cuota.
+            if ($amountPaid < $receivable->amountDue) {
 
-            //REALIZA ACTUALIZACION EN BANCO
-            $month = explode("-", $receivable->datePaid);
-            DB::table('bank')->where('bankId', $targetBankId)->increment('balance' . $month[1], $amountDue);
+                $amountR                = $receivable->amountDue - $amountPaid;
+                $receivable->amountDue  = $amountPaid;
+                $receivable->amountPaid = $amountPaid;
+                $receivable->save();
+                $this->where('receivableId', $contractShares[1]->receivableId)->increment('amountDue', $amountR);
+                //si lo paga es mayor
+            } elseif ($amountPaid > $receivable->amountDue) {
+
+                $amountR = $amountPaid - $receivable->amountDue;
+                if ($amountR >= $contractShares[1]->amountDue) {
+                    throw new \Exception('Error: No puede pagar Dos Cuotas simultaneamente, Monto Muy Alto');
+                }
+                $receivable->amountDue  = $amountPaid;
+                $receivable->amountPaid = $amountPaid;
+                $receivable->save();
+                $this->where('receivableId', $contractShares[1]->receivableId)->decrement('amountDue', $amountR);
+
+            } elseif ($amountPaid == $receivable->amountDue) {
+                $receivable->amountDue  = $amountPaid;
+                $receivable->amountPaid = $amountPaid;
+                $receivable->save();
+            }
 
             $success = true;
             DB::commit();
@@ -178,17 +241,50 @@ class Receivable extends Model
         }
 
     }
-    //------------------------------------------
+//------------------------------------------
     public function collections($countryId, $date1, $date2)
     {
 
-        $result = $this->where("countryId", "=", $countryId)
+        $result[] = $this->where("countryId", "=", $countryId)
+            ->where("collectMethod", "=", '1')
             ->where("pending", "=", 'N')
             ->where("datePaid", ">=", $date1)
             ->where("datePaid", "<=", $date2)
-            ->orderBy('receivableId', 'ASC')
+            ->orderBy('collectMethod', 'ASC')
+            ->get();
+        $result[] = $this->where("countryId", "=", $countryId)
+            ->where("collectMethod", "=", '2')
+            ->where("pending", "=", 'N')
+            ->where("datePaid", ">=", $date1)
+            ->where("datePaid", "<=", $date2)
+            ->orderBy('collectMethod', 'ASC')
+            ->get();
+        $result[] = $this->where("countryId", "=", $countryId)
+            ->where("collectMethod", "=", '3')
+            ->where("pending", "=", 'N')
+            ->where("datePaid", ">=", $date1)
+            ->where("datePaid", "<=", $date2)
+            ->orderBy('collectMethod', 'ASC')
+            ->get();
+        $result[] = $this->where("countryId", "=", $countryId)
+            ->where("collectMethod", "=", '4')
+            ->where("pending", "=", 'N')
+            ->where("datePaid", ">=", $date1)
+            ->where("datePaid", "<=", $date2)
+            ->orderBy('collectMethod', 'ASC')
             ->get();
 
-        return $result;
+        //filtrando para eliminar resultados vacios del arreglo()
+        $results = array_filter($result, function ($array) {
+            foreach ($array as $value) {
+                if ($value == []) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
+
+        return $results;
     }
 }

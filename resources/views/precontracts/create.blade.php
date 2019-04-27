@@ -53,6 +53,12 @@
             </select>
           </div>
 
+              <div class="col-xs-12">
+                 <div class="form-group">
+                   <label for="comment">{{__('initial_comment')}}</label>
+                   <textarea class="form-control" id="comment" name="comment" value="{{ old('comment') }}" rows="3"></textarea>
+                  </div>
+              </div>
             <div class="col-xs-6">
                <div class="form-group">
               <label for="currencyName">{{__('currency')}}</label>

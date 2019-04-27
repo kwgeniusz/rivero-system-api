@@ -56,7 +56,12 @@
             <p class="form-control-static">{{ $precontract[0]->serviceType->serviceTypeName }}</p>
           </div>
         </div>
-
+        <div class="form-group">
+          <label class="col-sm-5 control-label">{{__('initial_comment')}}</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $precontract[0]->comment }}</p>
+          </div>
+        </div>
        <div class="col-xs-6">
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('contract_cost')}}</label>

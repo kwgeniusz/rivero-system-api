@@ -16,10 +16,6 @@
                 <label for="clientName">{{__('names_and_surnames')}}</label>
                 <input type="text" class="form-control" id="clientName" name="clientName" value="{{$client[0]->clientName}}" placeholder="Nombres y Apellidos" disabled>
               </div>
-              <div class="form-group">
-                <label for="clientDescription">{{__('description')}}</label>
-                <input type="text" class="form-control" id="clientDescription" name="clientDescription" value="{{$client[0]->clientDescription}}" placeholder="Descripción" disabled>
-              </div>
 
               <div class="form-group">
                 <label for="clientAddress">{{__('address')}}</label>
