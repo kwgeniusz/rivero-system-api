@@ -1,3 +1,6 @@
+
+
+
 window._ = require('lodash');
 
 /**
@@ -11,6 +14,7 @@ try {
 
     require('bootstrap-sass');
 } catch (e) {}
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -36,7 +40,8 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-require ('admin-lte')
+
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

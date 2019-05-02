@@ -111,13 +111,3 @@
 
 @endsection
 
-<!--
-   @if(upload is image)
-     <img src="{{image url}}"/>
-   @elseif(upload is pdf)
-     <iframe src="{{pdf url}}" frameborder="0" style="width:100%;min-height:640px;"></iframe>
-   @elseif(upload is document)
-     <iframe src="https://view.officeapps.live.com/op/view.aspx?src={{urlendoe(doc url)}}" frameborder="0" style="width:100%;min-height:640px;"></iframe>
-   @else
-     //manage things here
-   @endif -->

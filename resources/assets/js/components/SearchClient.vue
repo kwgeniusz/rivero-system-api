@@ -39,8 +39,20 @@
          </ul>
        </div>
 
+  <div class="col-xs-offset-1 col-xs-10">
+          <div class="form-group ">
+            <label for="formClientCountry">PAIS</label>
+            <select v-model="formClientCountry" class="form-control" name="formClientCountry" id="formClientCountry">
+                  <option  :value="country.countryId"  v-for="(country) in countrys"> {{country.countryName}}</option>
+            </select>
+          </div>
 
-        <div class="col-xs-offset-1 col-xs-10">
+
+              <div class="form-group ">
+                <label for="formClientCode">CODIGO CLIENTE</label>
+                <input type="text" class="form-control "name="formClientCode" v-model="formClientCode" placeholder="CU-0000">
+              </div>
+
               <div class="form-group">
                 <label for="formClientName">NOMBRES Y APELLIDOS</label>
                 <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="Nombres y Apellidos">
@@ -110,12 +122,15 @@
             clientName : '',
             clientAddress:'',
             list : '',
+            countrys:'',
             style : '',
             btnAgg: true,
             btnRemove: false,
             btnSubmitForm: false,
 
             errors: [],
+            formClientCountry:'',
+            formClientCode:'',
             formClientName: '',
             formClientAddress: '',
             formClientPhone: '',
@@ -170,6 +185,15 @@
        openModal: function (){
              this.errors = [];
             this.$refs.modalClientNew.open()
+             if(this.url == "C"){ 
+                  var url ='../countrys/all';
+                }else{
+                  var url ='../../countrys/all';
+                }
+              axios.get(url).then(response => {
+                 this.countrys = response.data
+                });
+              
         },
        createClient: function() {
 
@@ -180,19 +204,27 @@
          }
            this.errors = [];
            //VALIDATIONS
+           if (!this.formClientCode) {
+                this.errors.push('Codigo es Requerido.');
+           }
            if (!this.formClientName) {
                 this.errors.push('Nombre y Apellido es Requerido.');
            }
+  
 
           if (!this.errors.length) { 
             this.btnSubmitForm = true;
             axios.post(url,{
+             countryId: this.formClientCountry,
+             clientCode: this.formClientCode,
             clientName: this.formClientName,
             clientAddress: this.formClientAddress,
             clientPhone: this.formClientPhone,
             clientEmail: this.formClientEmail
             }).then(response => {
                toastr.info("Cliente Nuevo Insertado")
+               this.formClientCountry = "";
+                  this.formClientCode = "";
                this.formClientName = "";
                this.formClientAddress= "";
                this.formClientPhone= "";
