@@ -12,6 +12,17 @@
         <form class="form" action="{{Route('clients.destroy',['id' => $client[0]->clientId] )}}" method="POST">
           {{ csrf_field() }}
           {{ method_field('DELETE') }}
+
+           <div class="form-group">
+                <label for="countryId">{{__('country')}}</label>
+                <input type="text" class="form-control" id="countryId" name="countryId" value="{{$client[0]->country->countryName}}" placeholder="Nombres y Apellidos" disabled>
+              </div>
+
+               <div class="form-group">
+                <label for="clientCode">CODIGO CLIENTE</label>
+                <input type="text" class="form-control" id="clientCode" name="clientCode" value="{{$client[0]->clientCode}}" placeholder="Nombres y Apellidos" disabled>
+              </div>
+
               <div class="form-group">
                 <label for="clientName">{{__('names_and_surnames')}}</label>
                 <input type="text" class="form-control" id="clientName" name="clientName" value="{{$client[0]->clientName}}" placeholder="Nombres y Apellidos" disabled>

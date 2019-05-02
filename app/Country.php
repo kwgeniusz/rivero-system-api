@@ -6,21 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    protected $table ='country';
+    protected $table      = 'country';
     protected $primaryKey = 'countryId';
-    public    $timestamps = false;
+    public $timestamps    = false;
 
-            /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
         'countryId',
-        'countryName'
-        ];
+        'countryName',
+    ];
 
-     public function contract() {
-         return $this->hasMany('App\Contract','countryId','countryId');
-      }
+    public function contract()
+    {
+        return $this->hasMany('App\Contract', 'countryId', 'countryId');
+    }
+
 }

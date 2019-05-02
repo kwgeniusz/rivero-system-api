@@ -38,6 +38,8 @@
           <li v-for="error in errors">{{ error }}</li>
          </ul>
        </div>
+
+
         <div class="col-xs-offset-1 col-xs-10">
               <div class="form-group">
                 <label for="formClientName">NOMBRES Y APELLIDOS</label>

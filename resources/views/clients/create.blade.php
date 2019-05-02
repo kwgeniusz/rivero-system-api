@@ -21,6 +21,21 @@
 
         <form class="form" action="{{Route('clients.store')}}" method="POST">
         {{csrf_field()}}
+   <div class="row">
+          <div class="form-group col-xs-4">
+            <label for="countryId">{{__('country')}}</label>
+            <select class="form-control" name="countryId" id="countryId">
+                @foreach($countrys as $country)
+                      <option value="{{$country->countryId}}" > {{$country->countryName}} </option>
+                @endforeach
+            </select>
+          </div>
+ </div>
+              <div class="form-group">
+                <label for="clientCode">CODIGO CLIENTE</label>
+                <input type="text" class="form-control" id="clientCode" name="clientCode" value="{{ old('clientCode') }}" placeholder="CU-0000">
+              </div>
+
               <div class="form-group">
                 <label for="clientName">{{__('names_and_surnames')}}</label>
                 <input type="text" class="form-control" id="clientName" name="clientName" value="{{ old('clientName') }}" placeholder="Nombres y Apellidos">

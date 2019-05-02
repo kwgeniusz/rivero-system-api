@@ -119,7 +119,7 @@ EOD;
             }
             $html .= <<<EOD
         <tr  style="background-color:$background; font-size:9px">
-        <td width="15%" align="center">$contract->contractNumber $acum</td>
+        <td width="15%" align="center">$contract->contractNumber</td>
         <td width="10%" align="center">$contract->contractDate</td>
         <td align="left">{$contract->client->clientName}</td>
         <td align="left">{$contract->siteAddress}</td>

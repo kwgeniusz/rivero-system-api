@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Client;
+use App\Country;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class ClientController extends Controller
      */
     public function index()
     {
+
         $clients = $this->oClient->getAll();
         return view('clients.index', compact('clients'));
     }
@@ -34,7 +36,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('clients.create');
+        $countrys = Country::all();
+        return view('clients.create', compact('countrys'));
     }
 
     /**
@@ -46,6 +49,8 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         $clients = $this->oClient->insertClient(
+            $request->countryId,
+            $request->clientCode,
             $request->clientName,
             $request->clientAddress,
             $request->clientPhone,
@@ -68,8 +73,9 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $client = $this->oClient->findById($id);
-        return view('clients.edit', compact('client'));
+        $countrys = Country::all();
+        $client   = $this->oClient->findById($id);
+        return view('clients.edit', compact('client', 'countrys'));
     }
 
     /**
@@ -82,13 +88,15 @@ class ClientController extends Controller
     public function update(ClientRequest $request, $id)
     {
         $this->oClient->updateClient($id,
+            $request->countryId,
+            $request->clientCode,
             $request->clientName,
             $request->clientAddress,
             $request->clientPhone,
             $request->clientEmail
         );
         $notification = array(
-            'message'    => 'Cliente Creado Exitosamente',
+            'message'    => 'Cliente Modificado Exitosamente',
             'alert-type' => 'success',
         );
         return redirect()->route('clients.index')

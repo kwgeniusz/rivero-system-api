@@ -14,8 +14,8 @@ class Client extends Model
     protected $table      = 'client';
     protected $primaryKey = 'clientId';
 
-    protected $fillable = ['userId', 'clientId','clientCode','clientName',
-         'clientAddress', 'clientPhone', 'clientEmail','dateCreated', 'lastUserId'];
+    protected $fillable = ['clientId', 'countryId', 'userId', 'clientCode', 'clientName',
+        'clientAddress', 'clientPhone', 'clientEmail', 'dateCreated', 'lastUserId'];
 
 //--------------------------------------------------------------------
     /** Relations */
@@ -23,6 +23,11 @@ class Client extends Model
     public function contract()
     {
         return $this->hasMany('App\Contract', 'clientId', 'clientId');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo('App\Country', 'countryId', 'countryId');
     }
 
 //--------------------------------------------------------------------
@@ -56,27 +61,31 @@ class Client extends Model
         return $result;
     }
 //------------------------------------------
-    public function insertClient($clientName, $clientAddress, $clientPhone, $clientEmail)
+    public function insertClient($countryId, $clientCode, $clientName, $clientAddress, $clientPhone, $clientEmail)
     {
 
-        $client                    = new Client;
-        $client->userId            = 1;
-        $client->clientName        = $clientName;
-        $client->clientAddress     = $clientAddress;
-        $client->clientPhone       = $clientPhone;
-        $client->clientEmail       = $clientEmail;
-        $client->dateCreated       = date('Y-m-d H:i:s');
-        $client->lastUserId        = Auth::user()->userId;
+        $client                = new Client;
+        $client->userId        = 1;
+        $client->countryId     = $countryId;
+        $client->clientCode    = $clientCode;
+        $client->clientName    = $clientName;
+        $client->clientAddress = $clientAddress;
+        $client->clientPhone   = $clientPhone;
+        $client->clientEmail   = $clientEmail;
+        $client->dateCreated   = date('Y-m-d H:i:s');
+        $client->lastUserId    = Auth::user()->userId;
         $client->save();
     }
 //------------------------------------------
-    public function updateClient($clientId, $clientName, $clientAddress, $clientPhone, $clientEmail)
+    public function updateClient($clientId, $countryId, $clientCode, $clientName, $clientAddress, $clientPhone, $clientEmail)
     {
         $this->where('clientId', $clientId)->update(array(
-            'clientName'        => $clientName,
-            'clientAddress'     => $clientAddress,
-            'clientPhone'       => $clientPhone,
-            'clientEmail'       => $clientEmail,
+            'countryId'     => $countryId,
+            'clientCode'    => $clientCode,
+            'clientName'    => $clientName,
+            'clientAddress' => $clientAddress,
+            'clientPhone'   => $clientPhone,
+            'clientEmail'   => $clientEmail,
         ));
     }
 //------------------------------------------

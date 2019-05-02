@@ -22,6 +22,26 @@
         <form class="form" action="{{Route('clients.update',['id' => $client[0]->clientId])}}" method="POST">
         {{csrf_field()}}
         {{method_field('PUT')}}
+
+           <div class="row">
+          <div class="form-group col-xs-4">
+            <label for="countryId">{{__('country')}}</label>
+            <select class="form-control" name="countryId" id="countryId">
+                @foreach($countrys as $country)
+                   @if($country->countryId == $client[0]->countryId)
+                      <option value="{{$country->countryId}}" selected > {{$country->countryName}} </option>
+                   @else
+                       <option value="{{$country->countryId}}" > {{$country->countryName}} </option>
+                   @endif
+                @endforeach
+
+            </select>
+          </div>
+         </div>
+              <div class="form-group">
+                <label for="clientCode">CODIGO CLIENTE</label>
+                <input type="text" class="form-control" id="clientCode" name="clientCode" value="{{$client[0]->clientCode}}" placeholder="CU-0000">
+              </div>
               <div class="form-group">
                 <label for="clientName">{{__('names_and_surnames')}}</label>
                 <input type="text" class="form-control" id="clientName" name="clientName" value="{{$client[0]->clientName}}" placeholder="Nombres y Apellidos">

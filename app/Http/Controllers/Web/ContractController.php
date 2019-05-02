@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Client;
 use App\Contract;
+use App\Country;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
 use App\Http\Requests\PaymentRequest;
@@ -46,12 +47,12 @@ class ContractController extends Controller
 
     public function create($contractType)
     {
-
+        $countrys = Country::all();
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
         $clients  = $this->oClient->getAll();
 
-        return view('contractregistration.create', compact('clients', 'projects', 'services', 'contractType'));
+        return view('contractregistration.create', compact('clients', 'projects', 'services', 'contractType', 'countrys'));
     }
 
     public function store(ContractRequest $request)
@@ -362,7 +363,7 @@ class ContractController extends Controller
 
     public function files($id)
     {
-        $files = '';
+        $files    = '';
         $contract = $this->oContract->FindById($id);
 
         //crear el directorio si no existe
@@ -376,7 +377,7 @@ class ContractController extends Controller
             $filePart = explode("/", $file);
             $files[]  = $filePart[2];
         }
-  
+
         return view('contractregistration.files', compact('contract', 'files', 'directoryName'));
     }
     public function fileAgg(Request $request)
