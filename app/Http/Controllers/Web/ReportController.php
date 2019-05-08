@@ -359,7 +359,7 @@ EOD;
             return view('reportincome.result', compact('outputPdfName'));
         }
     }
-/////////////////COBRANZAS//////////////////////
+/////////////////REPORTE DE COBRANZAS//////////////////////
     public function collections(Request $request)
     {
 
@@ -398,10 +398,10 @@ EOD;
         <thead>
         <tr style="background-color:#3366cc; color:white; font-size:11px;  font-weight: bold;" align="center">
         <th width="5%">ID</th>
-        <th width="25%" align="left">CLIENTE</th>
+        <th width="30%" align="left">CLIENTE</th>
         <th width="15%">FECHA</th>
-        <th width="10%" align="right">MONTO</th>
-        <th width="40%" align="center">TIPO DE PAGO</th>
+        <th width="20%" align="right">MONTO</th>
+        <th width="30%" align="center">TIPO DE PAGO</th>
         </tr>
         </thead>
 EOD;
@@ -413,39 +413,42 @@ EOD;
                     $acum = $acum + 1;
                     if ($acum % 2 == 0) {$background = "#e6e6e6";} else { $background = "#fbfbfb";}
                     $receivable->amountPaid += $receivable->amountPercentaje;
+                    $amountPaid = number_format($receivable->amountPaid, 2, ',', '.');
                     //colores de filas table
 
                     $html .= <<<EOD
-        <tr style="background-color:$background">
+        <tr style="background-color:$background; font-size:10px" >
         <td width="5%" align="center">$receivable->receivableId</td>
-        <td width="25%" align="left">{$receivable->client[0]->clientName}</td>
+        <td width="30%" align="left">{$receivable->client[0]->clientName}</td>
         <td width="15%"align="center">$receivable->datePaid</td>
-        <td width="10%" align="right">$receivable->amountPaid</td>
-        <td width="40%" align="center">$receivable->collectMethod</td>
+        <td width="20%" align="right">$amountPaid</td>
+        <td width="30%" align="center">$receivable->collectMethod</td>
         </tr>
 EOD;
                     $subtotal += $receivable->amountPaid; //sumando cuotas para subtotal
 
                 } //cierre foreach interno
+                $subtotal2 = number_format($subtotal, 2, ',', '.');
                 $html .= <<<EOD
-        <tr style="background-color:#B0F0BF">
+        <tr style="background-color:#B0F0BF; font-size:10px">
         <td width="5%" align="center"> </td>
-        <td width="25%" align="left"> </td>
+        <td width="30%" align="left"> </td>
         <td width="15%" align="center"><b>Sub-Total</b> </td>
-        <td width="10%" align="right"> $subtotal </td>
-        <td width="40%" align="center"> </td>
+        <td width="20%" align="right"> $subtotal2 </td>
+        <td width="30%" align="center"> </td>
         </tr>
 EOD;
                 $total += $subtotal;
 
             } //cierre foreach externo
+            $total2 = number_format($total, 2, ',', '.');
             $html .= <<<EOD
-        <tr>
+        <tr style="font-size:10px">
         <td width="5%" align="center"> </td>
-        <td width="25%" align="left"> </td>
+        <td width="30%" align="left"> </td>
         <td width="15%" align="center"> <b>Total:</b></td>
-        <td width="10%" align="right">$total </td>
-        <td width="40%" align="center"> </td>
+        <td width="20%" align="right">$total2 </td>
+        <td width="30%" align="center"> </td>
         </tr>
 </table>
 EOD;

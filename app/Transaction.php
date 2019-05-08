@@ -45,6 +45,18 @@ class Transaction extends Model
 
         return $newDate = date("d/m/Y", strtotime($transactionDate));
     }
+
+    // ------------MUTADORES-----------------//
+    public function setTransactionDateAttribute($transactionDate)
+    {
+        if (empty($transactionDate)) {
+            return $transactionDate = null;
+        }
+        $partes                              = explode("/", $transactionDate);
+        $arreglo                             = array($partes[2], $partes[1], $partes[0]);
+        $date                                = implode("-", $arreglo);
+        $this->attributes['transactionDate'] = $date;
+    }
     //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------

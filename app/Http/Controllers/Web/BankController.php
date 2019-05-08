@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Bank;
+use App\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,26 @@ class BankController extends Controller
      */
     public function index()
     {
-        $banks = $this->oBank->getAll();
-        return view('banks.index', compact('banks'));
+        $banks    = $this->oBank->getAll();
+        $countrys = Country::all();
+        foreach ($banks as $key => $bank) {
+            $saldoActual = $bank['initialBalance']
+                 + $bank['balance01']
+                 + $bank['balance02']
+                 + $bank['balance03']
+                 + $bank['balance04']
+                 + $bank['balance05']
+                 + $bank['balance06']
+                 + $bank['balance07']
+                 + $bank['balance08']
+                 + $bank['balance09']
+                 + $bank['balance10']
+                 + $bank['balance11']
+                 + $bank['balance12'];
+            $banks[$key]['saldoActual'] = number_format($saldoActual, 2, ',', '.');
+        }
+
+        return view('banks.index', compact('banks', 'countrys'));
     }
 
     /**
@@ -36,9 +55,13 @@ class BankController extends Controller
     public function store(Request $request)
     {
 
-        $this->oBank->insertB($request->bankName, 1);
+        $this->oBank->insertB($request->bankName, $request->countryId);
+        $notification = array(
+            'message'    => "Banco $request->bankName Creado",
+            'alert-type' => 'info',
+        );
         return redirect()->route('banks.index')
-            ->with('info', 'Tipo de Proyecto Creado');
+            ->with($notification);
     }
     /**
      * Show the form for editing the specified resource.
@@ -66,8 +89,12 @@ class BankController extends Controller
         $this->oBank->updateB($id, $request->bankName, $request->initialBalance, $request->balance01, $request->balance02, $request->balance03, $request->balance04, $request->balance05,
             $request->balance06, $request->balance07, $request->balance08, $request->balance09, $request->balance10, $request->balance11, $request->balance12);
 
+        $notification = array(
+            'message'    => "Banco $request->bankName Actualizado",
+            'alert-type' => 'info',
+        );
         return redirect()->route('banks.index')
-            ->with('info', 'Tipo de Proyecto Actualizado');
+            ->with($notification);
     }
     /**
      * Display the specified resource.
@@ -92,8 +119,14 @@ class BankController extends Controller
     {
 
         $this->oBank->deleteB($id);
+
+        $notification = array(
+            'message'    => 'Banco Eliminado',
+            'alert-type' => 'info',
+        );
         return redirect()->route('banks.index')
-            ->with('info', 'Tipo de Proyecto Eliminado');
+            ->with($notification);
+
     }
 //-------QUERYS ASINCRONIOUS-----------------//
     public function getForCountry($countryId)

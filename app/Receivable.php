@@ -3,6 +3,7 @@
 namespace App;
 
 use App;
+use App\Transaction;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -164,6 +165,7 @@ class Receivable extends Model
         $amountR = 0;
 
         DB::beginTransaction();
+
         try {
             //busca datos de la cuota que seleccione
             $receivable = $this->find($receivableId);
@@ -186,7 +188,7 @@ class Receivable extends Model
             } elseif ($amountPaid >= $contractCost) {
                 throw new \Exception('Error: El monto Ingresado No puede ser mayor o igual al costo Total del Contrato');
             }
-            //comienza insercion de cuota
+            //---------comienza insercion de cuota------------
             // $contractShares[1] es la cuota que le sigue a la seleccionada
             if ($collectMethod == Receivable::CARD) {
                 $amountPercentaje             = $amountPaid * 0.03;
@@ -200,7 +202,13 @@ class Receivable extends Model
             $receivable->targetBankAccount = $targetBankAccount;
             $receivable->datePaid          = $datePaid;
             $receivable->pending           = 'N';
-            //si lo pagado es menor que la cuota.
+
+            //(insert transaction and Update BANK)...
+            $month        = explode("/", $datePaid);
+            $oTransaction = new Transaction;
+            $oTransaction->insertT(1, 'CUOTA', $datePaid, $amountPaid, $targetBankId, $receivable->sourceReference, '+', $month[1]);
+
+            //------------si lo pagado es menor que la cuota.
             if ($amountPaid < $receivable->amountDue) {
 
                 $amountR                = $receivable->amountDue - $amountPaid;
@@ -208,7 +216,8 @@ class Receivable extends Model
                 $receivable->amountPaid = $amountPaid;
                 $receivable->save();
                 $this->where('receivableId', $contractShares[1]->receivableId)->increment('amountDue', $amountR);
-                //si lo paga es mayor
+
+                //----------si lo paga es mayor
             } elseif ($amountPaid > $receivable->amountDue) {
 
                 $amountR = $amountPaid - $receivable->amountDue;

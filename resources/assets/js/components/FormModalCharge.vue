@@ -154,7 +154,11 @@
                 this.errors.push('Monto es Requerido.');
 
           if (!this.errors.length) { 
-    
+        
+        // beforeSend: function () {
+          //          $button = $('#btn_crear_movimiento');
+            //        $button.attr('disabled', 'true');
+              //  },
             axios.post('../receivables/share',{
                 receivableId :  this.receivable.receivableId,
                 amountDue: this.receivable.amountDue,
