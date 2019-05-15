@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-05-2019 a las 03:24:00
+-- Tiempo de generación: 09-05-2019 a las 18:43:58
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 7.0.29
 
@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS `bank` (
   `balance10` decimal(13,2) NOT NULL DEFAULT '0.00',
   `balance11` decimal(13,2) NOT NULL DEFAULT '0.00',
   `balance12` decimal(13,2) NOT NULL DEFAULT '0.00',
-  PRIMARY KEY (`bankId`)
+  PRIMARY KEY (`bankId`),
+  KEY `bank_ibfk_1` (`countryId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
@@ -55,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `bank` (
 --
 
 INSERT INTO `bank` (`bankId`, `countryId`, `bankName`, `bankAccount`, `initialBalance`, `balance01`, `balance02`, `balance03`, `balance04`, `balance05`, `balance06`, `balance07`, `balance08`, `balance09`, `balance10`, `balance11`, `balance12`) VALUES
-(2, 1, 'BANESCO', '01050234021234566732', '10000.00', '0.00', '17500.00', '32943.00', '1000.00', '0.00', '0.00', '0.00', '5500.00', '0.00', '0.00', '0.00', '0.00');
+(2, 1, 'BANESCO', '01050234021234566732', '11000.00', '0.00', '17500.00', '32943.00', '1000.00', '5000.00', '0.00', '0.00', '5500.00', '0.00', '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -75,7 +76,8 @@ CREATE TABLE IF NOT EXISTS `client` (
   `clientEmail` varchar(255) DEFAULT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`clientId`)
+  PRIMARY KEY (`clientId`),
+  KEY `client_ibfk_1` (`countryId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 
 --
@@ -206,7 +208,10 @@ CREATE TABLE IF NOT EXISTS `contract` (
   `lastUserId` int(11) NOT NULL,
   PRIMARY KEY (`contractId`),
   KEY `projectTypeId` (`projectTypeId`),
-  KEY `serviceTypeId` (`serviceTypeId`)
+  KEY `serviceTypeId` (`serviceTypeId`),
+  KEY `countryId` (`countryId`),
+  KEY `officeId` (`officeId`),
+  KEY `clientId` (`clientId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 --
@@ -342,7 +347,8 @@ CREATE TABLE IF NOT EXISTS `office` (
   `officeEmail` varchar(255) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`officeId`)
+  PRIMARY KEY (`officeId`),
+  KEY `countryId` (`countryId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
@@ -443,7 +449,9 @@ CREATE TABLE IF NOT EXISTS `pre_contract` (
   `comment` text,
   `precontractCost` decimal(13,2) NOT NULL DEFAULT '0.00',
   `currencyName` varchar(64) NOT NULL,
-  PRIMARY KEY (`precontractId`)
+  PRIMARY KEY (`precontractId`),
+  KEY `countryId` (`countryId`),
+  KEY `officeId` (`officeId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
@@ -553,13 +561,13 @@ CREATE TABLE IF NOT EXISTS `receivable` (
 --
 
 INSERT INTO `receivable` (`receivableId`, `countryId`, `clientId`, `contractId`, `paymentContractId`, `sourceReference`, `amountDue`, `amountPaid`, `amountPercentaje`, `collectMethod`, `sourceBank`, `sourceBankAccount`, `checkNumber`, `targetBankId`, `targetBankAccount`, `datePaid`, `pending`) VALUES
-(1, 1, 1, 47, 11, '19PC-0000047', '1200.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(2, 1, 1, 47, 12, '19PC-0000047', '1000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(3, 1, 2, 1, 13, '18PC-000001', '2000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(4, 1, 2, 1, 14, '18PC-000001', '500.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(7, 1, 1, 5, 17, '18PC-000005', '2000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(9, 1, 1, 5, 19, '18PC-000005', '500.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
-(10, 1, 1, 5, 20, '18PC-000005', '1000.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y');
+(1, 1, 1, 47, 11, '19PC-0000047', '200.00', '200.00', '0.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-05-08', 'N'),
+(2, 1, 1, 47, 12, '19PC-0000047', '2000.00', '2000.00', '0.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-05-08', 'N'),
+(3, 1, 2, 1, 13, '18PC-000001', '1000.00', '1000.00', '0.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-05-08', 'N'),
+(4, 1, 2, 1, 14, '18PC-000001', '1500.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y'),
+(7, 1, 1, 5, 17, '18PC-000005', '500.00', '500.00', '0.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-05-08', 'N'),
+(9, 1, 1, 5, 19, '18PC-000005', '1600.00', '1600.00', '0.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-05-08', 'N'),
+(10, 1, 1, 5, 20, '18PC-000005', '1400.00', '1400.00', '0.00', '1', NULL, NULL, NULL, 2, '01050234021234566732', '2019-05-15', 'N');
 
 -- --------------------------------------------------------
 
@@ -601,7 +609,10 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `positionId` int(9) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`staffId`)
+  PRIMARY KEY (`staffId`),
+  KEY `staffCategoryId` (`staffCategoryId`,`countryId`,`officeId`),
+  KEY `countryId` (`countryId`),
+  KEY `officeId` (`officeId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
@@ -655,7 +666,15 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`transactionId`),
   KEY `transactionTypeId` (`transactionTypeId`),
   KEY `bankId` (`bankId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `transaction`
+--
+
+INSERT INTO `transaction` (`transactionId`, `transactionTypeId`, `transactionDate`, `description`, `amount`, `sign`, `bankId`, `reference`) VALUES
+(13, 1, '2019-05-08', 'CUOTA', '2000.00', '+', 2, '19PC-0000047'),
+(14, 1, '2019-05-08', 'CUOTA', '1000.00', '+', 2, '18PC-000001');
 
 -- --------------------------------------------------------
 
@@ -718,16 +737,66 @@ INSERT INTO `user` (`userId`, `userTypeName`, `userLevel`, `countryId`, `officeI
 --
 
 --
+-- Filtros para la tabla `bank`
+--
+ALTER TABLE `bank`
+  ADD CONSTRAINT `bank_ibfk_1` FOREIGN KEY (`countryId`) REFERENCES `country` (`countryId`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `client`
+--
+ALTER TABLE `client`
+  ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`countryId`) REFERENCES `country` (`countryId`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `contract`
+--
+ALTER TABLE `contract`
+  ADD CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`projectTypeId`) REFERENCES `project_type` (`projectTypeId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`serviceTypeId`) REFERENCES `service_type` (`serviceTypeId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `contract_ibfk_3` FOREIGN KEY (`countryId`) REFERENCES `country` (`countryId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `contract_ibfk_4` FOREIGN KEY (`officeId`) REFERENCES `office` (`officeId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `contract_ibfk_5` FOREIGN KEY (`clientId`) REFERENCES `client` (`clientId`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `office`
+--
+ALTER TABLE `office`
+  ADD CONSTRAINT `office_ibfk_1` FOREIGN KEY (`countryId`) REFERENCES `country` (`countryId`) ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `payment_contract`
 --
 ALTER TABLE `payment_contract`
-  ADD CONSTRAINT `payment_contract_ibfk_1` FOREIGN KEY (`contractId`) REFERENCES `contract` (`contractId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `payment_contract_ibfk_1` FOREIGN KEY (`contractId`) REFERENCES `contract` (`contractId`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `payment_precontract`
 --
 ALTER TABLE `payment_precontract`
-  ADD CONSTRAINT `payment_precontract_ibfk_1` FOREIGN KEY (`precontractId`) REFERENCES `pre_contract` (`precontractId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `payment_precontract_ibfk_1` FOREIGN KEY (`precontractId`) REFERENCES `pre_contract` (`precontractId`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `pre_contract`
+--
+ALTER TABLE `pre_contract`
+  ADD CONSTRAINT `pre_contract_ibfk_1` FOREIGN KEY (`countryId`) REFERENCES `country` (`countryId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pre_contract_ibfk_2` FOREIGN KEY (`officeId`) REFERENCES `office` (`officeId`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `staff`
+--
+ALTER TABLE `staff`
+  ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`staffCategoryId`) REFERENCES `staff_category` (`staffCategory`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `staff_ibfk_2` FOREIGN KEY (`countryId`) REFERENCES `country` (`countryId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `staff_ibfk_3` FOREIGN KEY (`officeId`) REFERENCES `office` (`officeId`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `transaction`
+--
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`transactionTypeId`) REFERENCES `transaction_type` (`transactionTypeId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`bankId`) REFERENCES `bank` (`bankId`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

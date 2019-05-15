@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 //ROUTE FROM FILES
 Route::get('/uploads/{directoryName}/{file}', function ($directoryName, $file) {
-    return Storage::get("docs/$directoryName/$file");
+    return Storage::download("docs/$directoryName/$file");
 })->name('uploads');
 
 Route::get('/filesDelete/{directoryName}/{file}', function ($directoryName, $file) {

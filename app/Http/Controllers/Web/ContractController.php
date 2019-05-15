@@ -363,16 +363,16 @@ class ContractController extends Controller
 
     public function files($id)
     {
-        $files    = '';
+
         $contract = $this->oContract->FindById($id);
 
         //crear el directorio si no existe
         $directoryName = "D" . $contract[0]->countryId . $contract[0]->officeId . $contract[0]->contractNumber;
-        Storage::makeDirectory("docs/" . $directoryName);
+        //Storage::makeDirectory("docs/" . $directoryName);
 
         //obtener todos los archivos del directorio
         $allFiles = Storage::files("docs/" . $directoryName);
-
+        $files    = [];
         foreach ($allFiles as $file) {
             $filePart = explode("/", $file);
             $files[]  = $filePart[2];

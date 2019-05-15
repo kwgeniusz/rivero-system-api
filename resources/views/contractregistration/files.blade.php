@@ -38,9 +38,9 @@
      <div class="text-center"><h4><b>DOCUMENTOS DEL CONTRATO</b></h4></div>
      <br>
             <div class="row ">
-                    <div class="col-xs-12">
-                    <div class="text-center">
-                     <form class="form-inline" action="{{Route('contracts.fileAgg')}}" method="POST"  enctype="multipart/form-data">
+                 <div class="col-xs-12">
+                 <div class="text-center">
+                  <form class="form-inline" action="{{Route('contracts.fileAgg')}}" method="POST"  enctype="multipart/form-data">
                      {{csrf_field()}}
                         <div class="form-group">
                           <input type="file" name="archive" id="archive">
@@ -52,7 +52,7 @@
                                 Subir Archivo
                            </button>
                         </div>
-                       </form>
+                    </form>
                   </div>
                 </div>
             </div>
@@ -66,15 +66,12 @@
                 <th>TIPO</th>
                 <th>ACCION</th>
             </tr>
-@if($files)
+      @if($files)
        @foreach ($files as $file)
-   <?php $ext  = pathinfo($file, PATHINFO_EXTENSION);?>
+            <?php $ext  = pathinfo($file, PATHINFO_EXTENSION);?>
             <tr>
-             <td><a href="{{ route('uploads', ['directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a> <br>
-             </td>
-
+             <td><a href="{{ route('uploads', ['directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a><br></td>
              <td> {{$ext}}</td>
-
              <td> <a @click="$refs.modalChangeStatus.open()"  class="btn btn-primary btn-sm">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  Ver
                   </a>
@@ -82,19 +79,19 @@
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                  </a>
              </td>
-{{storage_path("app/public/docs/$directoryName/$file")}}
-{{asset("storage/docs/D1119PC-0000047/$file")}}
+
+{{asset("storage/docs/$directoryName/$file")}}
+<!-- http://adm.riverosglobalcompany.com/docs/D1119PC-0000001/1556779145SOFTWARE.pptx-->
    <!--Windows Modal previuws-->
         <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modalChangeStatus">
             <b> Previzualicion Del Documento.</b>
            <br /><br />
-           <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=" style="width:550px; height:400px;" frameborder="0">
+           <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=http://adm.riverosglobalcompany.com/docs/D1119PC-0000002/1557891502rif nelida.pdf" style="width:550px; height:400px;" frameborder="0">
            </iframe>
         </sweet-modal>
-
             </tr>
          @endforeach
-@endif
+      @endif
         </table>
         </div>
     </div>

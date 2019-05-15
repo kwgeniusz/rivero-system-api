@@ -75,7 +75,7 @@ EOD;
         PDF::writeHTML($tbl, true, false, false, false, '');
         // PDF::Write(0, 'Hello World');
         $outputDestination = "F";
-        $outputPdfName     = "pdf\ $fileName.pdf";
+        $outputPdfName     = "pdf/$fileName.pdf";
         PDF::Output(public_path($outputPdfName), $outputDestination);
 
         return view('contractprint.result', compact('outputPdfName'));
@@ -139,7 +139,7 @@ EOD;
         PDF::writeHTML($html, true, false, false, false, '');
         // PDF::Write(0, 'Hello World');
         $outputDestination = "F";
-        $outputPdfName     = "pdf\ $fileName.pdf";
+        $outputPdfName     = "pdf/$fileName.pdf";
         PDF::Output(public_path($outputPdfName), $outputDestination);
 
         return view('contractsummary.result', compact('outputPdfName'));
@@ -152,7 +152,10 @@ EOD;
         $date       = Carbon::now();
         $contracts  = $this->oContract->findByClient($request->clientId);
 
-        $html = <<<EOD
+        if ($contracts->isEmpty()) {
+            return view('summaryforclient.error');
+        } else {
+            $html = <<<EOD
         <p>
       <table cellspacing="0" cellpadding="0" border="0">
         <tr>
@@ -175,14 +178,14 @@ EOD;
         </tr>
         </thead>
 EOD;
-        foreach ($contracts as $contract) {
-            $acum = $acum + 1;
-            if ($acum % 2 == 0) {
-                $background = "#e6e6e6";
-            } else {
-                $background = "#fbfbfb";
-            }
-            $html .= <<<EOD
+            foreach ($contracts as $contract) {
+                $acum = $acum + 1;
+                if ($acum % 2 == 0) {
+                    $background = "#e6e6e6";
+                } else {
+                    $background = "#fbfbfb";
+                }
+                $html .= <<<EOD
         <tr  style="background-color:$background; font-size:9px">
         <td width="15%" align="center">$contract->contractNumber</td>
         <td width="10%" align="center">$contract->contractDate</td>
@@ -191,23 +194,23 @@ EOD;
         <td width="35%" align="left">{$contract->initialComment}</td>
         </tr>
 EOD;
-        }
-        $html .= <<<EOD
+            }
+            $html .= <<<EOD
 </table>
 EOD;
 
-        $fileName = Auth::user()->userName;
-        PDF::SetTitle($fileName);
-        PDF::AddPage();
-        PDF::writeHTML($html, true, false, false, false, '');
-        // PDF::Write(0, 'Hello World');
-        $outputDestination = "F";
-        $outputPdfName     = "pdf\ $fileName.pdf";
-        PDF::Output(public_path($outputPdfName), $outputDestination);
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+            // PDF::Write(0, 'Hello World');
+            $outputDestination = "F";
+            $outputPdfName     = "pdf/$fileName.pdf";
+            PDF::Output(public_path($outputPdfName), $outputDestination);
 
-        return view('summaryforclient.result', compact('outputPdfName'));
+            return view('summaryforclient.result', compact('outputPdfName'));
+        }
     }
-
     //REPORT DE TRANSACTION
 
     public function transactionsSummary(Request $request)
@@ -273,7 +276,7 @@ EOD;
             PDF::writeHTML($html, true, false, false, false, '');
             // PDF::Write(0, 'Hello World');
             $outputDestination = "F";
-            $outputPdfName     = "pdf\ $fileName.pdf";
+            $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
 
             return view('reportincomeexpenses.result', compact('outputPdfName'));
@@ -353,7 +356,7 @@ EOD;
             PDF::writeHTML($html, true, false, false, false, '');
             // PDF::Write(0, 'Hello World');
             $outputDestination = "F";
-            $outputPdfName     = "pdf\ $fileName.pdf";
+            $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
 
             return view('reportincome.result', compact('outputPdfName'));
@@ -459,7 +462,7 @@ EOD;
             PDF::writeHTML($html, true, false, false, false, '');
             // PDF::Write(0, 'Hello World');
             $outputDestination = "F";
-            $outputPdfName     = "pdf\ $fileName.pdf";
+            $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
 
             return view('reportincome.result', compact('outputPdfName'));
