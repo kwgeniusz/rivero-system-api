@@ -33,6 +33,7 @@ Vue.component('contract-summary', require('./components/contractsummary.vue'));
 
 Vue.component('search-client', require('./components/SearchClient.vue'));
 Vue.component('form-modal-charge', require('./components/FormModalCharge.vue'));
+Vue.component('modal-preview-document', require('./components/ModalPreviewDocument.vue'));
 
 const app = new Vue({
     el: '#app',

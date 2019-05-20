@@ -64,32 +64,25 @@
             <tr>
                 <th>ARCHIVO</th>
                 <th>TIPO</th>
-                <th>ACCION</th>
+                <th colspan="2">ACCION</th>
             </tr>
       @if($files)
+      <?php $acum = 0;?>
        @foreach ($files as $file)
-            <?php $ext  = pathinfo($file, PATHINFO_EXTENSION);?>
-            <tr>
-             <td><a href="{{ route('uploads', ['directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a><br></td>
-             <td> {{$ext}}</td>
-             <td> <a @click="$refs.modalChangeStatus.open()"  class="btn btn-primary btn-sm">
-                <span class="fa fa-times-circle" aria-hidden="true"></span>  Ver
-                  </a>
+            <?php 
+            $ext  = pathinfo($file, PATHINFO_EXTENSION);
+            ?>
+        <tr>
+            <td><a href="{{ route('uploads', ['directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a><br></td>
+            <td> {{$ext}}</td>
+            <td>  
+              <modal-preview-document directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
+            </td>
+             <td> 
              <a href="{{ route('files.delete', ['directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">
-                <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
-                 </a>
-             </td>
-
-{{asset("storage/docs/$directoryName/$file")}}
-<!-- http://adm.riverosglobalcompany.com/docs/D1119PC-0000001/1556779145SOFTWARE.pptx-->
-   <!--Windows Modal previuws-->
-        <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modalChangeStatus">
-            <b> Previzualicion Del Documento.</b>
-           <br /><br />
-           <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=http://adm.riverosglobalcompany.com/docs/D1119PC-0000002/1557891502rif nelida.pdf" style="width:550px; height:400px;" frameborder="0">
-           </iframe>
-        </sweet-modal>
-            </tr>
+                <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}} </a>
+            </td>
+        </tr>
          @endforeach
       @endif
         </table>

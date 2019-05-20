@@ -11795,6 +11795,7 @@ Vue.component('contract-summary', __webpack_require__(69));
 
 Vue.component('search-client', __webpack_require__(72));
 Vue.component('form-modal-charge', __webpack_require__(77));
+Vue.component('modal-preview-document', __webpack_require__(92));
 
 var app = new Vue({
   el: '#app',
@@ -47515,6 +47516,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!this.errors.length) {
 
+                // beforeSend: function () {
+                //          $button = $('#btn_crear_movimiento');
+                //        $button.attr('disabled', 'true');
+                //  },
                 axios.post('../receivables/share', {
                     receivableId: this.receivable.receivableId,
                     amountDue: this.receivable.amountDue,
@@ -47927,6 +47932,220 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(95)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(93)
+/* template */
+var __vue_template__ = __webpack_require__(97)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-269958e6"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ModalPreviewDocument.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-269958e6", Component.options)
+  } else {
+    hotAPI.reload("data-v-269958e6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('Component Modal previuw Doc mounted.');
+  },
+
+  data: function data() {
+    return {};
+  },
+  props: {
+    directoryName: { type: String },
+    file: { type: String },
+    ext: { type: String }
+  },
+  computed: {
+    url: function url() {
+      if (this.ext == 'docx' || this.ext == 'pptx' || this.ext == 'xls') {
+        return 'https://view.officeapps.live.com/op/embed.aspx?src=' + window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.directoryName + '/' + this.file;
+      } else {
+        return window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.directoryName + '/' + this.file;
+      }
+    }
+  }
+});
+
+/***/ }),
+/* 94 */,
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(96);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(5)("d8ac1b40", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-269958e6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ModalPreviewDocument.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-269958e6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ModalPreviewDocument.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.iframe[data-v-269958e6]{\n width:550px;\n  height:400px\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-primary btn-sm",
+          on: {
+            click: function($event) {
+              _vm.$refs.modal.open()
+            }
+          }
+        },
+        [
+          _c("span", {
+            staticClass: "fa fa-times-circle",
+            attrs: { "aria-hidden": "true" }
+          }),
+          _vm._v("  Ver\r\n           ")
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "sweet-modal",
+        {
+          ref: "modal",
+          attrs: { "modal-theme": "dark", "overlay-theme": "dark" }
+        },
+        [
+          _c("b", [_vm._v(" Previzualicion Del Documento.")]),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("iframe", {
+            staticClass: "iframe",
+            attrs: { src: _vm.url, frameborder: "0" }
+          })
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-269958e6", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
