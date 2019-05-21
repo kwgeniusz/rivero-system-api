@@ -118,11 +118,11 @@ class BankController extends Controller
     public function destroy($id)
     {
 
-        $this->oBank->deleteB($id);
+       $result = $this->oBank->deleteB($id);
 
         $notification = array(
-            'message'    => 'Banco Eliminado',
-            'alert-type' => 'info',
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
         );
         return redirect()->route('banks.index')
             ->with($notification);

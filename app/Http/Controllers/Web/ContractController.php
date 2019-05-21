@@ -142,11 +142,11 @@ class ContractController extends Controller
     public function destroy($id)
     {
 
-        $this->oContract->deleteContract($id);
+       $result = $this->oContract->deleteContract($id);
 
-        $notification = array(
-            'message'    => 'Contrato Eliminado Exitosamente',
-            'alert-type' => 'success',
+         $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
         );
         return redirect()->route('contracts.index')
             ->with($notification);
@@ -360,7 +360,7 @@ class ContractController extends Controller
         return redirect()->route('contracts.payment', ['id' => $contractId])
             ->with($notification);
     }
-
+//---------------FILES-----------------------//
     public function files($id)
     {
 
@@ -371,11 +371,11 @@ class ContractController extends Controller
         //Storage::makeDirectory("docs/" . $directoryName);
 
         //obtener todos los archivos del directorio
-        $allFiles = Storage::files("docs/" . $directoryName);
+        $allFiles = Storage::files("docs/contracts/" . $directoryName);
         $files    = [];
         foreach ($allFiles as $file) {
             $filePart = explode("/", $file);
-            $files[]  = $filePart[2];
+            $files[]  = $filePart[3];
         }
 
         return view('contractregistration.files', compact('contract', 'files', 'directoryName'));
@@ -388,7 +388,7 @@ class ContractController extends Controller
         if ($request->hasFile('archive')) {
             $archive = $request->file('archive');
             $name    = time() . $archive->getClientOriginalName();
-            $archive->move(storage_path("app/public/docs/$directoryName"), $name);
+            $archive->move(storage_path("app/public/docs/contracts/$directoryName"), $name);
 
         }
 

@@ -19,12 +19,12 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 //ROUTE FROM FILES
-Route::get('/uploads/{directoryName}/{file}', function ($directoryName, $file) {
-    return Storage::download("docs/$directoryName/$file");
+Route::get('/uploads/{type}/{directoryName}/{file}', function ($type,$directoryName, $file) {
+    return Storage::download("docs/$type/$directoryName/$file");
 })->name('uploads');
 
-Route::get('/filesDelete/{directoryName}/{file}', function ($directoryName, $file) {
-    Storage::delete("docs/$directoryName/$file");
+Route::get('/filesDelete/{type}/{directoryName}/{file}', function ($type,$directoryName, $file) {
+    Storage::delete("docs/$type/$directoryName/$file");
     return redirect()->back();
 })->name('files.delete');
 
@@ -38,13 +38,13 @@ Route::get('/language/{locale}', function ($locale) {
 Route::get('/home', 'HomeController@index')->name('home');
 
 //ROUTES DE MODULO CONTRACTS------------------------------------------------------------------
-//PROJECTS
+//PROJECTS********
 Route::resource('projects', 'Web\ProjectTypeController', ['except' => ['create']]);
-//SERVICES
+//SERVICES********
 Route::resource('services', 'Web\ServiceTypeController', ['except' => ['create']]);
-//CLIENTS
+//CLIENTS************
 Route::resource('clients', 'Web\ClientController');
-//PRECONTRACTS
+//PRECONTRACTS**********
 Route::resource('precontracts', 'Web\PrecontractController');
 Route::get('precontractsCreate/{contractType}', 'Web\PrecontractController@create')->name('precontracts.create');
 Route::get('precontracts/{precontract}/details', 'Web\PrecontractController@details')->name('precontracts.details');
@@ -52,15 +52,18 @@ Route::get('precontracts/{precontract}/details', 'Web\PrecontractController@deta
 Route::get('precontractsPayment/{id}', 'Web\PrecontractController@payment')->name('precontracts.payment');
 Route::post('precontractsPayment/agg', 'Web\PrecontractController@paymentAgg')->name('precontracts.paymentAgg');
 Route::get('precontractsPayment/{id}/{amount}/{precontractId}/remove', 'Web\PrecontractController@paymentRemove')->name('precontracts.paymentRemove');
+
+Route::get('precontractsFile/{id}', 'Web\PrecontractController@files')->name('precontracts.files');
+Route::post('precontractsFileAgg', 'Web\PrecontractController@fileAgg')->name('precontracts.fileAgg');
+
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/Agg/{id}', 'Web\PrecontractController@convertAgg')->name('precontracts.convertAgg');
-//CONTRACT
+//CONTRACT*********
 Route::resource('contracts', 'Web\ContractController');
 Route::get('contractsCreate/{contractType}', 'Web\ContractController@create')->name('contracts.create');
 Route::get('contracts/{contract}/details', 'Web\ContractController@details')->name('contracts.details');
 //CONTRACT-OPTIONS
 Route::get('contractsChangeStatus/{contract}/', 'Web\ContractController@changeStatus')->name('contracts.changeStatus');
-
 Route::put('contractsupdateStatus', 'Web\ContractController@updateStatus')->name('contracts.updateStatus');
 
 Route::get('contractsStaff/{contract}/', 'Web\ContractController@staff')->name('contracts.staff');
@@ -73,18 +76,18 @@ Route::post('contractsFileAgg', 'Web\ContractController@fileAgg')->name('contrac
 Route::get('contractsPayment/{id}', 'Web\ContractController@payment')->name('contracts.payment');
 Route::post('contractsPayment/agg', 'Web\ContractController@paymentAgg')->name('contracts.paymentAgg');
 Route::get('contractsPayment/{id}/{amount}/{contractId}/remove', 'Web\ContractController@paymentRemove')->name('contracts.paymentRemove');
-//CONTRACT-SEARCH
+//CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');
 Route::get('contractsStatus', 'Web\ContractController@searchStatus')->name('contracts.searchStatus');
 Route::post('contractsStatus/result', 'Web\ContractController@resultStatus')->name('contracts.resultStatus');
 Route::get('contractsStatus/{contract}/', 'Web\ContractController@resultStatusDetails')->name('contracts.resultStatusDetails');
-//CONTRACT-FINISHED
+//CONTRACT-FINISHED*******
 Route::get('contractsFinished', 'Web\ContractController@getContractsFinished')->name('contracts.finished');
 Route::get('contractsFinished/{id}/details', 'Web\ContractController@detailsContractsFinished')->name('contracts.finishedDetails');
 Route::get('contractsFinished/{id}/show', 'Web\ContractController@showContractsFinished')->name('contracts.finishedShow');
 Route::delete('contractsFinished/{id}/delete', 'Web\ContractController@deleteContractsFinished')->name('contracts.finishedDelete');
-//CONTRACT-CANCELLED
+//CONTRACT-CANCELLED*********
 Route::get('contractsCancelled', 'Web\ContractController@getContractsCancelled')->name('contracts.cancelled');
 Route::get('contractsCancelled/{id}/details', 'Web\ContractController@detailsContractsCancelled')->name('contracts.cancelledDetails');
 Route::get('contractsCancelled/{id}/show', 'Web\ContractController@showContractsCancelled')->name('contracts.cancelledShow');
@@ -106,7 +109,6 @@ Route::post('transactions/store', 'Web\TransactionController@store')->name('tran
 Route::get('transactions/{id}/edit', 'Web\TransactionController@edit')->name('transactions.edit');
 Route::get('transactions/{sign}/{id}/show', 'Web\TransactionController@show')->name('transactions.show');
 Route::delete('transactions/{sign}/{id}/delete', 'Web\TransactionController@delete')->name('transactions.delete');
-
 //TYPES OF TRANSACTIONS
 Route::resource('transactionsTypes', 'Web\TransactionTypeController', ['except' => ['create']]);
 //BANK

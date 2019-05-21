@@ -9,7 +9,9 @@
       <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal">
             <b> Previzualicion Del Documento.</b>
            <br /><br />
+           <div class="embed-responsive embed-responsive-16by9">
            <iframe class="iframe" :src="url" frameborder="0"></iframe>
+         </div>
      </sweet-modal>
 
 </div>   
@@ -28,6 +30,7 @@
           }
     },
     props: {
+           typecontract: {type:String},
            directoryName: { type: String},
            file: { type: String},
            ext: { type: String}
@@ -35,9 +38,9 @@
   computed: {
     url: function () {
       if(this.ext == 'docx' || this.ext == 'pptx'|| this.ext == 'xls'){
-      return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.directoryName + '/' + this.file
+      return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typecontract+'/'+this.directoryName + '/' + this.file
       }else{ 
-      return window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.directoryName + '/' + this.file
+      return window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typecontract+'/'+this.directoryName + '/' + this.file
       }
     }
   }

@@ -59,9 +59,6 @@
                     <td>{{$project->contractStatus}}   </td>
 
                    <td>
-                    <!--<a href="#" class="btn btn-info btn-sm">
-                   <span class="fa fa-file" aria-hidden="true"></span>  Pagos
-                     </a>-->
                      <a href="{{route('contracts.changeStatus', ['id' => $project->contractId])}}" class="btn btn-success btn-sm">
                      <span class="fa fa-sync" aria-hidden="true"></span>  {{__('status')}}
                     </a>

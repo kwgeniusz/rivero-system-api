@@ -122,11 +122,11 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $this->oClient->deleteClient($id);
+        $result = $this->oClient->deleteClient($id);
 
-        $notification = array(
-            'message'    => 'Cliente Eliminado Exitosamente',
-            'alert-type' => 'success',
+         $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
         );
         return redirect()->route('clients.index')
             ->with($notification);

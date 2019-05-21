@@ -91,7 +91,20 @@ class Client extends Model
 //------------------------------------------
     public function deleteClient($clientId)
     {
-        return $this->where('clientId', '=', $clientId)->delete();
+        
+        try {
+          $this->where('clientId', '=', $clientId)->delete();
+            $success = true;
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+        }
+
+        if ($success) {
+            return $result = ['alert' => 'info', 'msj' => 'Cliente Eliminado'];
+        } else {
+            return $result = ['alert' => 'error', 'msj' => 'No se Puede Eliminar porque este registro tiene relacion con otros datos.'];
+        }
     }
 //------------------------------------------
 }

@@ -13,6 +13,8 @@ use App\Precontract;
 use App\ProjectType;
 use App\ServiceType;
 use DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class PrecontractController extends Controller
 {
@@ -182,7 +184,8 @@ class PrecontractController extends Controller
                     );
                 }
             }
-
+            
+            //$move = File::move($old_path, $new_path);
             //eliminar precontrato
             $this->oPrecontract->deletePrecontract($id);
 
@@ -251,6 +254,43 @@ class PrecontractController extends Controller
 
         return redirect()->route('precontracts.payment', ['id' => $precontractId])
             ->with($notification);
+    }
+//---------------FILES-----------------------//
+    public function files($id)
+    {
+
+        $precontract = $this->oPrecontract->FindById($id);
+
+        //crear el directorio si no existe
+        $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
+        //Storage::makeDirectory("docs/" . $directoryName);
+
+        //obtener todos los archivos del directorio
+        $allFiles = Storage::files("docs/precontracts/" . $directoryName);
+        $files    = [];
+        foreach ($allFiles as $file) {
+            $filePart = explode("/", $file);
+            $files[]  = $filePart[3];
+        }
+        dd($allFiles);
+
+        return view('precontracts.files', compact('precontract', 'files', 'directoryName'));
+    }
+    public function fileAgg(Request $request)
+    {
+        $precontract      = $this->oPrecontract->FindById($request->precontractId);
+        $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
+
+        if ($request->hasFile('archive')) {
+            $archive = $request->file('archive');
+            $name    = time() . $archive->getClientOriginalName();
+            $archive->move(storage_path("app/public/docs/precontracts/$directoryName"), $name);
+           
+        }
+        
+          $move = File::move($old_path, $new_path);
+
+        return redirect()->back();
     }
 
 }

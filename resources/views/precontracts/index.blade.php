@@ -54,6 +54,9 @@
                     <td>{{$project->client->clientName}}   </td>
                     <td>{{$project->siteAddress}}   </td>
                    <td>
+                    <a href="{{route('precontracts.files', ['id' => $project->precontractId])}}" class="btn btn-info btn-sm">
+                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
+                    </a>
                      <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
                     </a>
@@ -123,6 +126,9 @@
                     <td>{{$service->siteAddress}}   </td>
 
                    <td>
+                    <a href="{{route('precontracts.files', ['id' => $service->precontractId])}}" class="btn btn-info btn-sm">
+                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
+                    </a>
                     <a href="{{route('precontracts.payment', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
                     </a>
