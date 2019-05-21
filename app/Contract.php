@@ -403,6 +403,7 @@ class Contract extends Model
     public function deleteContract($contractId)
     {
         return $this->where('contractId', '=', $contractId)->delete();
+        
     }
 //-----------------------------------------
     //SECTIONS CONTRACTS - STAFF

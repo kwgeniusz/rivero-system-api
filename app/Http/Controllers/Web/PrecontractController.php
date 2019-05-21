@@ -15,6 +15,7 @@ use App\ServiceType;
 use DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use File;
 
 class PrecontractController extends Controller
 {
@@ -185,9 +186,24 @@ class PrecontractController extends Controller
                 }
             }
             
-            //$move = File::move($old_path, $new_path);
+            //Mover Documentos de Precontrato a el nuevo contrato
+            $contractNumber = Contract::select('contractNumber')->where('contractId', '=', $contractLastId)->get();
+            $directoryNameOld = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $id;
+            $directoryNameNew = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $contractNumber[0]['contractNumber'];
+    
+               //obtener todos los archivos del directorio y dejar solo el nombre del archivo con el foreach
+                $allFiles = Storage::files("docs/precontracts/" . $directoryNameOld);
+                $filesName   = [];
+               foreach ($allFiles as $file) {
+                   $filePart = explode("/", $file);
+                   $filesName[]  = $filePart[3];
+                  }
+             Storage::makeDirectory("docs/contracts/" . $directoryNameNew);
+             $move = Storage::move($allFiles[0], "docs/contracts/$directoryNameNew/$filesName[0]");
+
             //eliminar precontrato
             $this->oPrecontract->deletePrecontract($id);
+            Storage::deleteDirectory("docs/precontracts/" . $directoryNameOld);
 
             $success = true;
             DB::commit();
@@ -263,16 +279,14 @@ class PrecontractController extends Controller
 
         //crear el directorio si no existe
         $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
-        //Storage::makeDirectory("docs/" . $directoryName);
-
-        //obtener todos los archivos del directorio
+   
+        //obtener todos los archivos del directorio y dejar solo el nombre con el foreach
         $allFiles = Storage::files("docs/precontracts/" . $directoryName);
-        $files    = [];
+        $files   = [];
         foreach ($allFiles as $file) {
             $filePart = explode("/", $file);
             $files[]  = $filePart[3];
         }
-        dd($allFiles);
 
         return view('precontracts.files', compact('precontract', 'files', 'directoryName'));
     }
@@ -287,8 +301,6 @@ class PrecontractController extends Controller
             $archive->move(storage_path("app/public/docs/precontracts/$directoryName"), $name);
            
         }
-        
-          $move = File::move($old_path, $new_path);
 
         return redirect()->back();
     }
