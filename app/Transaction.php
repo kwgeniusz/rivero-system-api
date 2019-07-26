@@ -24,7 +24,7 @@ class Transaction extends Model
     ];
 
     //--------------------------------------------------------------------
-    /** Relations */
+               /** RELATIONS */
     //--------------------------------------------------------------------
     public function transactionType()
     {
@@ -35,18 +35,25 @@ class Transaction extends Model
         return $this->belongsTo('App\Bank', 'bankId', 'bankId');
     }
     //--------------------------------------------------------------------
-    /** Accesores y Mutadores */
-//--------------------------------------------------------------------
+               /** ACCESORES **/
+   //--------------------------------------------------------------------
+    public function getAmountAttribute($amount)
+    {
+        return decrypt($amount);
+    }
     public function getTransactionDateAttribute($transactionDate)
     {
         if (empty($transactionDate)) {
             return $transactionDate = null;
         }
-
         return $newDate = date("d/m/Y", strtotime($transactionDate));
     }
 
     // ------------MUTADORES-----------------//
+    public function setAmountAttribute($amount)
+    {
+        return $this->attributes['amount'] = encrypt($amount);
+    }
     public function setTransactionDateAttribute($transactionDate)
     {
         if (empty($transactionDate)) {
@@ -57,14 +64,13 @@ class Transaction extends Model
         $date                                = implode("-", $arreglo);
         $this->attributes['transactionDate'] = $date;
     }
-    //--------------------------------------------------------------------
+//--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function getAll()
     {
         return $this->orderBy('transactionId', 'ASC')->get();
     }
-
     //------------------------------------
     public function getAllForSign($transactionSign)
     {
@@ -120,19 +126,11 @@ class Transaction extends Model
             $transaction->reference         = $reference;
             $transaction->sign              = $sign;
             $transaction->save();
-
+            
             //REALIZA ACTUALIZACION EN BANCO
-            if ($sign == '+') {
-                DB::table('bank')->where('bankId', $bankId)->increment('balance' . $month, $amount);
-            } else {
-
-                $balance = DB::table('bank')->where('bankId', $bankId)->value('balance' . $month);
-                if ($balance < $amount) {
-                    throw new \Exception('Error: Fondos Insuficientes en Banco');
-                } else {
-                    DB::table('bank')->where('bankId', $bankId)->decrement('balance' . $month, $amount);
-                }
-            }
+            $oBank = new Bank;
+            $oBank->updateBalanceForBank($sign, $bankId, $month, $amount);
+            
             $success = true;
             DB::commit();
         } catch (\Exception $e) {
@@ -150,8 +148,29 @@ class Transaction extends Model
     }
     //------------------------------------------
     public function deleteT($id)
-    {
-        return $this->where('transactionId', '=', $id)->delete();
+    {      
+        $error = null;
+        DB::beginTransaction();
+        try {
+            //FALTA QUE CUANDO ELIMINE LA TRANSACION DESCUENTE O SUME DE BANK 
+                $transaction   = Transaction::find($id);
+              //  $oBank = new Bank;
+              //  $oBank->updateBalanceForBank($transaction->sign, $transaction->bankId, $month, $transaction->$amount);
+                $transaction->delete();
+
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+            return $result = ['alert' => 'info', 'msj' => 'Transaccion Eliminada'];
+        } else {
+            return $result = ['alert' => 'error', 'msj' => $error];
+        }
     }
     //-----------------------------------------
 

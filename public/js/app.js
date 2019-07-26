@@ -47002,7 +47002,14 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v(_vm._s(item.clientName))]
+              [
+                _vm._v(
+                  " " +
+                    _vm._s(item.clientCode) +
+                    " - " +
+                    _vm._s(item.clientName)
+                )
+              ]
             )
           })
         )
@@ -47441,6 +47448,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47481,7 +47491,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.get('../receivables/get/' + this.rId).then(function (response) {
-                _this.receivable = response.data[0];
+                _this.receivable = response.data;
             });
             axios.get('../banks/country/' + this.countryId).then(function (response) {
                 _this.listBank = response.data;
@@ -47501,12 +47511,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         sendForm: function sendForm() {
             this.errors = [];
             //VALIDATIONS
-            if (this.formCollectMethod != 1) {
-                if (!this.formSourceBank) this.errors.push('Banco de Origen es Requerido.');
-                if (!this.formSourceBankAccount) this.errors.push('Cuenta de Origen es Requerido.');
+            if (this.formCollectMethod != 1 && this.formCollectMethod != 5) {
+                // if (!this.formSourceBank) 
+                //  this.errors.push('Banco de Origen es Requerido.');
+                // if (!this.formSourceBankAccount) 
+                //  this.errors.push('Cuenta de Origen es Requerido.');
             }
             if (this.formCollectMethod == 2) {
-                if (!this.formCheckNumber) this.errors.push('Numero de Cheque es Requerido.');
+                // if (!this.formCheckNumber) 
+                //  this.errors.push('Numero de Cheque es Requerido.');
             }
             if (!this.formTargetBankId) this.errors.push('Debe escoger un Banco de Destino.');
 
@@ -47516,10 +47529,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!this.errors.length) {
 
-                // beforeSend: function () {
-                //          $button = $('#btn_crear_movimiento');
-                //        $button.attr('disabled', 'true');
-                //  },
                 axios.post('../receivables/share', {
                     receivableId: this.receivable.receivableId,
                     amountDue: this.receivable.amountDue,
@@ -47651,12 +47660,18 @@ var render = function() {
                 _vm._v(" "),
                 _c("option", { attrs: { value: "4" } }, [
                   _vm._v("TRANSFERENCIA")
-                ])
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "5" } }, [_vm._v("PAYPAL")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "6" } }, [_vm._v("DEPOSITO")])
               ]
             )
           ]),
           _vm._v(" "),
-          _vm.formCollectMethod != 1
+          _vm.formCollectMethod != 1 &&
+          _vm.formCollectMethod != 5 &&
+          _vm.formCollectMethod != 6
             ? _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "formSourceBank" } }, [
                   _vm._v("BANCO DE ORIGEN")
@@ -47686,7 +47701,9 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.formCollectMethod != 1
+          _vm.formCollectMethod != 1 &&
+          _vm.formCollectMethod != 5 &&
+          _vm.formCollectMethod != 6
             ? _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "formSourceBankAccount" } }, [
                   _vm._v("CUENTA BANCARIA DE ORIGEN")
@@ -47888,26 +47905,30 @@ var render = function() {
           _c("div", { staticClass: "row" }),
           _vm._v(" "),
           _vm.btnSubmitForm
-            ? _c("div", { staticClass: "text-center" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary",
-                    on: {
-                      click: function($event) {
-                        _vm.sendForm()
+            ? _c(
+                "div",
+                { staticClass: "text-center", attrs: { id: "btnSubmit" } },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          _vm.sendForm()
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c("span", {
-                      staticClass: "fa fa-check",
-                      attrs: { "aria-hidden": "true" }
-                    }),
-                    _vm._v("  ENVIAR\r\n              ")
-                  ]
-                )
-              ])
+                    },
+                    [
+                      _c("span", {
+                        staticClass: "fa fa-check",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v("  ENVIAR\r\n              ")
+                    ]
+                  )
+                ]
+              )
             : _vm._e(),
           _vm._v(" "),
           _c("br")
@@ -48112,16 +48133,12 @@ var render = function() {
           _c("br"),
           _c("br"),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "embed-responsive embed-responsive-16by9" },
-            [
-              _c("iframe", {
-                staticClass: "iframe",
-                attrs: { src: _vm.url, frameborder: "0" }
-              })
-            ]
-          )
+          _c("div", { staticClass: "embed-responsive embed-responsive-4by3" }, [
+            _c("iframe", {
+              staticClass: "iframe",
+              attrs: { src: _vm.url, frameborder: "0" }
+            })
+          ])
         ]
       )
     ],

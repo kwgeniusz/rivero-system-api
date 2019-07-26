@@ -27,14 +27,16 @@
                     <option value="2">CHEQUE</option>
                     <option value="3">TARJETA</option>
                     <option value="4">TRANSFERENCIA</option>
+                    <option value="5">PAYPAL</option>
+                    <option value="6">DEPOSITO</option> 
                 </select>
               </div>
 
-              <div class="form-group" v-if="formCollectMethod != 1">
+              <div class="form-group" v-if="formCollectMethod != 1 && formCollectMethod != 5 && formCollectMethod != 6">
                 <label for="formSourceBank">BANCO DE ORIGEN</label>
                 <input type="text" class="form-control" v-model="formSourceBank">
               </div>
-              <div class="form-group" v-if="formCollectMethod != 1">
+              <div class="form-group" v-if="formCollectMethod != 1 && formCollectMethod != 5 && formCollectMethod != 6">
               <label for="formSourceBankAccount">CUENTA BANCARIA DE ORIGEN</label>
                 <input type="text" class="form-control" v-model="formSourceBankAccount">
               </div>
@@ -43,6 +45,7 @@
                 <input type="number" class="form-control" v-model="formCheckNumber">
               </div>
 
+          
            <div class="form-group col-xs-8 col-xs-offset-2">
             <label for="formTargetBankId">BANCO DESTINO</label>
             <select class="form-control" id="formTargetBankId" @change="getAccount()" v-model="formTargetBankId">
@@ -66,7 +69,7 @@
             <input class="form-control flatpickr" id="formDatePaid" v-model="formDatePaid">
           </div>
               <div class="row"></div>
-            <div class="text-center" v-if="btnSubmitForm">
+            <div id="btnSubmit"class="text-center" v-if="btnSubmitForm">
               <a @click="sendForm()" class="btn btn-primary">
                 <span class="fa fa-check" aria-hidden="true"></span>  ENVIAR
               </a>
@@ -116,7 +119,7 @@
     methods: {
        openModal: function (){
            axios.get('../receivables/get/'+this.rId).then(response => {
-                 this.receivable = response.data[0]
+                 this.receivable = response.data
                 })
            axios.get('../banks/country/'+this.countryId).then(response => {
                  this.listBank = response.data
@@ -134,15 +137,15 @@
        sendForm: function() {
            this.errors = [];
            //VALIDATIONS
-        if(this.formCollectMethod != 1){ 
-               if (!this.formSourceBank) 
-                this.errors.push('Banco de Origen es Requerido.');
-               if (!this.formSourceBankAccount) 
-                this.errors.push('Cuenta de Origen es Requerido.');
+        if(this.formCollectMethod != 1 && this.formCollectMethod != 5){ 
+               // if (!this.formSourceBank) 
+               //  this.errors.push('Banco de Origen es Requerido.');
+               // if (!this.formSourceBankAccount) 
+               //  this.errors.push('Cuenta de Origen es Requerido.');
         }
          if(this.formCollectMethod == 2){ 
-               if (!this.formCheckNumber) 
-                this.errors.push('Numero de Cheque es Requerido.');
+               // if (!this.formCheckNumber) 
+               //  this.errors.push('Numero de Cheque es Requerido.');
          }
                if (!this.formTargetBankId) 
                 this.errors.push('Debe escoger un Banco de Destino.');
@@ -155,10 +158,6 @@
 
           if (!this.errors.length) { 
         
-        // beforeSend: function () {
-          //          $button = $('#btn_crear_movimiento');
-            //        $button.attr('disabled', 'true');
-              //  },
             axios.post('../receivables/share',{
                 receivableId :  this.receivable.receivableId,
                 amountDue: this.receivable.amountDue,

@@ -61,13 +61,33 @@ class Client extends Model
         return $result;
     }
 //------------------------------------------
-    public function insertClient($countryId, $clientCode, $clientName, $clientAddress, $clientPhone, $clientEmail)
+    public function insertClient($countryId, $clientName, $clientAddress, $clientPhone, $clientEmail)
     {
+
+      $oConfiguration = new Configuration();
+      $clientNumber = $oConfiguration->retrieveClientNumber($countryId);
+      $clientNumber++;
+      $oConfiguration->updateClientNumber($countryId, $clientNumber);
+
+        // make contract number format
+        $stringLength = 5;
+        $strPad       = "0";
+
+        if ($clientNumber < 1) {
+            $clientNumber = "";
+        }
+
+        $country = Country::where('countryId', $countryId)->get();
+        $format1 = $country[0]->abbreviation."-";
+        $format2 = "CU-";
+        $format3 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
+        // numero de contrato en foramto
+        $clientNumberFormat = $format1 . $format2 . $format3 ;
 
         $client                = new Client;
         $client->userId        = 1;
         $client->countryId     = $countryId;
-        $client->clientCode    = $clientCode;
+        $client->clientCode    = $clientNumberFormat;
         $client->clientName    = $clientName;
         $client->clientAddress = $clientAddress;
         $client->clientPhone   = $clientPhone;
@@ -77,11 +97,10 @@ class Client extends Model
         $client->save();
     }
 //------------------------------------------
-    public function updateClient($clientId, $countryId, $clientCode, $clientName, $clientAddress, $clientPhone, $clientEmail)
+    public function updateClient($clientId, $countryId, $clientName, $clientAddress, $clientPhone, $clientEmail)
     {
         $this->where('clientId', $clientId)->update(array(
             'countryId'     => $countryId,
-            'clientCode'    => $clientCode,
             'clientName'    => $clientName,
             'clientAddress' => $clientAddress,
             'clientPhone'   => $clientPhone,

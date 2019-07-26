@@ -14,7 +14,7 @@
          </div>
 
        <div :class="{ sugerencias: this.style }">
-         <div class="result" v-for="(item, index) in list" @click="aggClient(item.clientId,item.clientName,item.clientAddress)">{{item.clientName }}</div>
+         <div class="result" v-for="(item, index) in list" @click="aggClient(item.clientId,item.clientName,item.clientAddress)"> {{item.clientCode}} - {{item.clientName }}</div>
       </div>
   
     </div>

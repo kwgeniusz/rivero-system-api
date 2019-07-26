@@ -14,10 +14,10 @@ class Receivable extends Model
     protected $primaryKey = 'receivableId';
     public $timestamps    = false;
 
+        protected $appends = ['amountDue','amountPaid','amountPercentaje'];
+
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected $fillable = [
         'receivableId',
@@ -27,6 +27,7 @@ class Receivable extends Model
         'sourceReference',
         'amountDue',
         'amountPaid',
+        'amountpercentaje', 
         'collectMethod',
         'sourceBank',
         'sourceBankAccount',
@@ -42,13 +43,26 @@ class Receivable extends Model
     const CHECK    = '2';
     const CARD     = '3';
     const TRANSFER = '4';
+    const PAYPAL   = '5';
+    const DEPOSIT   = '6';
 //------------ACCESORES-----------------//
-    public function getdatePaidAttribute($datePaid)
+    public function getAmountDueAttribute($amountDue)
+    {
+       return decrypt($this->attributes['amountDue']);
+    }
+    public function getAmountPaidAttribute($amountPaid)
+    {
+        return decrypt($this->attributes['amountPaid']);
+    }
+    public function getAmountPercentajeAttribute($amountPercentaje)
+    {
+       return decrypt($this->attributes['amountPercentaje']);
+    }
+    public function getDatePaidAttribute($datePaid)
     {
         if (empty($datePaid)) {
             return $datePaid = null;
         }
-
         return $newDate = date("d/m/Y", strtotime($datePaid));
     }
     public function getCollectMethodAttribute($collectMethod)
@@ -68,6 +82,12 @@ class Receivable extends Model
                 case 4:
                     return "TRANSFERENCIA";
                     break;
+                case 5:
+                    return "PAYPAL";
+                    break;     
+                case 6:
+                    return "DEPOSITO";
+                    break;   
             }
         } else {
             switch ($collectMethod) {
@@ -83,11 +103,29 @@ class Receivable extends Model
                 case 4:
                     return "TRANSFER";
                     break;
+               case 5:
+                    return "PAYPAL";
+                    break; 
+               case 6:
+                    return "DEPOSIT";
+                    break;                
             }
         }
 
     }
 //------------MUTADORES-----------------//
+    public function setAmountDueAttribute($amountDue)
+    {
+        return $this->attributes['amountDue'] = encrypt($amountDue);
+    } 
+    public function setAmountPaidAttribute($amountPaid)
+    {
+        return $this->attributes['amountPaid'] = encrypt($amountPaid);
+    } 
+    public function setAmountPercentajeAttribute($amountPercentaje)
+    {
+        return $this->attributes['amountPercentaje'] = encrypt($amountPercentaje);
+    } 
     public function setDatePaidAttribute($datePaid)
     {
         if (empty($datePaid)) {
@@ -115,16 +153,18 @@ class Receivable extends Model
 //--------------------------------------------
     public function clientsPending($countryId)
     {
-        return $this->select('clientId', DB::raw('count(*) as cuotas'), DB::raw('sum(amountDue) as total'))
+        return $this->select('clientId', DB::raw('count(*) as cuotas'))
             ->where('pending', '=', 'Y')
             ->where('countryId', '=', $countryId)
             ->groupBy('clientId')
             ->get();
     }
-//------------------------------------------
+  
+
+    //------------------------------------------
     public function clientPendingInfo($clientId)
     {
-        return $this->select('clientId', DB::raw('count(*) as cuotas'), DB::raw('sum(amountDue) as total'))
+        return $this->select('clientId', DB::raw('count(*) as cuotas'))
             ->where('pending', '=', 'Y')
             ->where('clientId', '=', $clientId)
             ->groupBy('clientId')
@@ -140,6 +180,21 @@ class Receivable extends Model
             ->get();
 
         return $receivablesContracts->groupBy('sourceReference');
+    }
+  //------------------------------------------
+  public function getDueTotal($clientId)
+    {
+         $amounts = $this->select('amountDue')
+            ->where('pending', '=', 'Y')
+            ->where('clientId', '=', $clientId)
+            ->get();
+
+   
+         $amounts->map(function ($amount) {
+             $amount->dueTotal =+ $amount->amountDue;
+        
+            });
+          
     }
 //------------------------------------------
     public function sharePending($contractId)
@@ -215,7 +270,11 @@ class Receivable extends Model
                 $receivable->amountDue  = $amountPaid;
                 $receivable->amountPaid = $amountPaid;
                 $receivable->save();
-                $this->where('receivableId', $contractShares[1]->receivableId)->increment('amountDue', $amountR);
+
+                //REALIZA ACTUALIZACION EN MONTO DE LA DEUDA DE LA PROXIMA CUOTA
+              $receivableNext  = Receivable::find($contractShares[1]->receivableId);
+              $receivableNext->amountDue = $receivableNext->amountDue + $amountR;
+              $receivableNext->save();
 
                 //----------si lo paga es mayor
             } elseif ($amountPaid > $receivable->amountDue) {
@@ -227,7 +286,11 @@ class Receivable extends Model
                 $receivable->amountDue  = $amountPaid;
                 $receivable->amountPaid = $amountPaid;
                 $receivable->save();
-                $this->where('receivableId', $contractShares[1]->receivableId)->decrement('amountDue', $amountR);
+
+                  //REALIZA ACTUALIZACION EN MONTO DE LA DEUDA DE LA PROXIMA CUOTA
+                  $receivableNext  = Receivable::find($contractShares[1]->receivableId);
+                  $receivableNext->amountDue = $receivableNext->amountDue - $amountR;
+                  $receivableNext->save();
 
             } elseif ($amountPaid == $receivable->amountDue) {
                 $receivable->amountDue  = $amountPaid;
@@ -282,7 +345,20 @@ class Receivable extends Model
             ->where("datePaid", "<=", $date2)
             ->orderBy('collectMethod', 'ASC')
             ->get();
-
+       $result[] = $this->where("countryId", "=", $countryId)
+            ->where("collectMethod", "=", '5')
+            ->where("pending", "=", 'N')
+            ->where("datePaid", ">=", $date1)
+            ->where("datePaid", "<=", $date2)
+            ->orderBy('collectMethod', 'ASC')
+            ->get();
+        $result[] = $this->where("countryId", "=", $countryId)
+            ->where("collectMethod", "=", '6')
+            ->where("pending", "=", 'N')
+            ->where("datePaid", ">=", $date1)
+            ->where("datePaid", "<=", $date2)
+            ->orderBy('collectMethod', 'ASC')
+            ->get();     
         //filtrando para eliminar resultados vacios del arreglo()
         $results = array_filter($result, function ($array) {
             foreach ($array as $value) {

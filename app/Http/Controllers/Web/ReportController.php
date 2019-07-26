@@ -227,7 +227,7 @@ EOD;
             $html = <<<EOD
 
         <p>
-        <table cellspacing="0" cellpadding="0" border="0">
+        <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
         <th> <img style="float:left;" src="img/RGC_LOGO.jpg" alt="test alt attribute" width="150" height="90"/></th>
         <th> <br><br><br><br><h3 style="text-align:center">Reporte de Ingreso y Egreso</h3></th>
@@ -255,7 +255,7 @@ EOD;
                     $background = "#fbfbfb";
                 }
                 $html .= <<<EOD
-         <tr style="background-color:$background">
+         <tr style="background-color:$background; font-size:10px ">
         <td width="5%" align="center">$transaction->transactionId</td>
         <td width="10%" align="left">{$transaction->transactionType->transactionTypeName}</td>
         <td width="15%"align="center">$transaction->transactionDate</td>
@@ -335,7 +335,7 @@ EOD;
                     $background = "#fbfbfb";
                 }
                 $html .= <<<EOD
-        <tr style="background-color:$background">
+        <tr style="background-color:$background; font-size:10px">
         <td width="5%" align="center">$transaction->transactionId</td>
         <td width="10%" align="left">{$transaction->transactionType->transactionTypeName}</td>
         <td width="15%"align="center">$transaction->transactionDate</td>

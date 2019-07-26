@@ -35,45 +35,39 @@
 
     <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
-            <thead>
+             <thead>
                 <tr>
                  <th>N°</th>
-                 <th>{{__('office')}}</th>
-                 <th>{{__('client')}}</th>
+                 <th>COD. {{__('client')}}</th>
+                 <th>{{__('name')}}</th>   
                  <th>{{__('address')}}</th>
                  <th>{{__('options')}}</th>
-                 <th>{{__('actions')}}</th>
-                 </th>
                 </tr>
             </thead>
                 <tbody>
                 @foreach($projects as $project)
                 <tr>
                     <td>{{$project->precontractId}} </td>
-                    <td>{{$project->office->officeName}}   </td>
-                    <td>{{$project->client->clientName}}   </td>
-                    <td>{{$project->siteAddress}}   </td>
-                   <td>
-                    <a href="{{route('precontracts.files', ['id' => $project->precontractId])}}" class="btn btn-info btn-sm">
-                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
-                    </a>
-                     <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
-                    </a>
-                     <a href="{{route('precontracts.convert', ['id' => $project->precontractId])}}" class="btn btn-warning btn-sm">
-                     <span class="fa fa-sync" aria-hidden="true"></span>  Convertir en Contrato
-                    </a>
-                 </td>
+                    <td>{{$project->client->clientCode}}   </td>
+                    <td>{{$project->client->clientName}}   </td>  
+                    <td >{{$project->siteAddress}}   </td>
+                    <td>
 
-                   <td>
-                 <!--   <a href="{{route('precontracts.details', ['id' => $project->precontractId])}}" class="btn btn-default btn-sm">
-                        <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
-                    </a>-->
-                       <a href="{{route('precontracts.edit', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm">
-                        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
+                    <a href="{{route('precontracts.files', ['id' => $project->precontractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                     <span class="fa fa-file" aria-hidden="true"></span> 
                     </a>
-                    <a href="{{route('precontracts.show', ['id' => $project->precontractId])}}" class="btn btn-danger btn-sm">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+                     <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  
+                    </a>
+                     <a href="{{route('precontracts.convert', ['id' => $project->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
+                     <span class="fa fa-sync" aria-hidden="true"></span>  
+                    </a>
+    
+                    <a href="{{route('precontracts.edit', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
+                        <span class="fa fa-edit" aria-hidden="true"></span> 
+                    </a>
+                    <a href="{{route('precontracts.show', ['id' => $project->precontractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
+                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a>
                  </td>
 
@@ -107,12 +101,10 @@
             <thead>
                 <tr>
                  <th>N°</th>
-                 <th>{{__('office')}}</th>
-                 <th>{{__('client')}}</th>
+                 <th>COD. {{__('client')}}</th>
+                 <th>{{__('name')}}</th>   
                  <th>{{__('address')}}</th>
                  <th>{{__('options')}}</th>
-                 <th>{{__('actions')}}</th>
-                 </th>
                 </tr>
             </thead>
                 <tbody>
@@ -120,32 +112,26 @@
 
 
                 <tr>
-                    <td>{{$service->precontractId}} </td>
-                    <td>{{$service->office->officeName}}   </td>
-                    <td>{{$service->client->clientName}}   </td>
-                    <td>{{$service->siteAddress}}   </td>
+                   <td>{{$service->precontractId}} </td>
+                    <td>{{$service->client->clientCode}}   </td>
+                    <td>{{$service->client->clientName}}   </td>  
+                    <td >{{$service->siteAddress}}   </td>
+                    <td>
+                    <a href="{{route('precontracts.files', ['id' => $service->precontractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos" >
+                     <span class="fa fa-file" aria-hidden="true"></span>
+                    </a>
+                    <a href="{{route('precontracts.payment', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
+                    </a>
+                    <a href="{{route('precontracts.convert', ['id' => $service->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
+                     <span class="fa fa-sync" aria-hidden="true"></span>
+                    </a>
 
-                   <td>
-                    <a href="{{route('precontracts.files', ['id' => $service->precontractId])}}" class="btn btn-info btn-sm">
-                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
+                     <a href="{{route('precontracts.edit', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
+                        <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
-                    <a href="{{route('precontracts.payment', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
-                    </a>
-                    <a href="{{route('precontracts.convert', ['id' => $service->precontractId])}}" class="btn btn-warning btn-sm">
-                     <span class="fa fa-sync" aria-hidden="true"></span>  Convertir en Contrato
-                    </a>
-                 </td>
-
-                   <td>
-                  <!-- <a href="{{route('precontracts.details', ['id' => $service->precontractId])}}" class="btn btn-default btn-sm">
-                        <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
-                    </a>-->
-                       <a href="{{route('precontracts.edit', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm">
-                        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
-                    </a>
-                    <a href="{{route('precontracts.show', ['id' => $service->precontractId])}}" class="btn btn-danger btn-sm">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+                    <a href="{{route('precontracts.show', ['id' => $service->precontractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
+                            <span class="fa fa-times-circle" aria-hidden="true"></span>
                     </a>
                  </td>
 

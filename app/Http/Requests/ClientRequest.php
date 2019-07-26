@@ -25,7 +25,6 @@ class ClientRequest extends FormRequest
     {
         return [
             'countryId'     => 'required',
-            'clientCode'    => 'required|max:7',
             'clientName'    => 'required|max:255',
             'clientAddress' => 'max:255',
         ];

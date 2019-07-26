@@ -29,10 +29,6 @@ class ContractRequest extends FormRequest
             'contractDate'        => 'required',
             'clientId'            => 'required',
             'siteAddress'         => 'required|max:100',
-            'startDate'           => 'required|max:100',
-            'scheduledFinishDate' => 'required|max:100',
-            'actualFinishDate'    => 'required|max:100',
-            'deliveryDate'        => 'required|max:100',
         ];
     }
 }

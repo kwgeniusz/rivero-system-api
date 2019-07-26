@@ -25,6 +25,18 @@ class PaymentPrecontract extends Model
         'dateCreated',
         'lastUserId',
     ];
+
+ //------------------------ACCESORES--------------------------------
+         public function getAmountAttribute($amount)
+    {
+        return decrypt($amount);
+    }
+ //------------------------MUTADORES--------------------------------
+        public function setAmountAttribute($amount)
+    {
+        return $this->attributes['amount'] = encrypt($amount);
+    }
+//--------------
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -73,7 +85,6 @@ class PaymentPrecontract extends Model
         DB::beginTransaction();
         try {
             //INSERTA PAGO
-
             $payment                = new PaymentPrecontract;
             $payment->precontractId = $precontractId;
             $payment->amount        = $amount;
@@ -82,8 +93,10 @@ class PaymentPrecontract extends Model
             $payment->lastUserId    = Auth::user()->userId;
             $payment->save();
 
-            //REALIZA ACTUALIZACION EN ContractCost
-            $rs = DB::table('pre_contract')->where('precontractId', $precontractId)->increment('precontractCost', $amount);
+            //REALIZA ACTUALIZACION (Aumento) EN ContractCost
+            $precontractId               = Precontract::find($precontractId);
+            $precontractId->precontractCost = $precontractId->precontractCost + $amount;
+            $precontractId->save();
 
             $success = true;
             DB::commit();
@@ -109,8 +122,10 @@ class PaymentPrecontract extends Model
         try {
             //ELIMINAR PAGO
             $this->where('paymentPrecontractId', '=', $id)->delete();
-            //REALIZA ACTUALIZACION EN ContractCost
-            $rs = DB::table('pre_contract')->where('precontractId', $precontractId)->decrement('precontractCost', $amount);
+            //REALIZA ACTUALIZACION EN precontractCost
+            $precontractId                  = Precontract::find($precontractId);
+            $precontractId->precontractCost = $precontractId->precontractCost - $amount;
+            $precontractId->save();
 
             $success = true;
             DB::commit();

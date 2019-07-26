@@ -9,7 +9,7 @@
       <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal">
             <b> Previzualicion Del Documento.</b>
            <br /><br />
-           <div class="embed-responsive embed-responsive-16by9">
+           <div class="embed-responsive embed-responsive-4by3">
            <iframe class="iframe" :src="url" frameborder="0"></iframe>
          </div>
      </sweet-modal>

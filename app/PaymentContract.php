@@ -25,6 +25,8 @@ class PaymentContract extends Model
         'dateCreated',
         'lastUserId',
     ];
+
+
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -34,7 +36,10 @@ class PaymentContract extends Model
     }
 
 //------------------------ACCESORES--------------------------------
-    //--------------------------------------------------------------------
+    public function getAmountAttribute($amount)
+    {
+        return decrypt($amount);
+    }
     public function getPaymentDateAttribute($paymentDate)
     {
         if (empty($paymentDate)) {
@@ -44,7 +49,10 @@ class PaymentContract extends Model
         return $newDate = date("d/m/Y", strtotime($paymentDate));
     }
 //------------------------MUTADORES--------------------------------
-    //--------------------------------------------------------------------
+
+    public function setAmountAttribute($amount){
+            return $this->attributes['amount'] = encrypt($amount);
+     }
     public function setPaymentDateAttribute($paymentDate)
     {
         if (empty($paymentDate)) {
@@ -89,10 +97,16 @@ class PaymentContract extends Model
             $receivable->paymentContractId = $payment->paymentContractId;
             $receivable->sourceReference   = $payment->contract->contractNumber;
             $receivable->amountDue         = $amount;
+            $receivable->amountPaid        = '0.00';
+            $receivable->amountPercentaje  = '0.00';        
             $receivable->save();
 
             //REALIZA ACTUALIZACION EN ContractCost
-            $rs = DB::table('contract')->where('contractId', $contractId)->increment('contractCost', $amount);
+            $contract                      = Contract::find($contractId);
+            $contract->contractCost = $contract->contractCost + $amount;
+            $contract->save();
+
+            //(anterior)$rs = DB::table('contract')->where('contractId', $contractId)->increment('contractCost', $amount);
 
             $success = true;
             DB::commit();
@@ -126,8 +140,10 @@ class PaymentContract extends Model
                 $this->where('paymentContractId', '=', $id)->delete();
                 //ELIMINAR DE CUENTA POR COBRAR
                 $rs = DB::table('receivable')->where('paymentContractId', $id)->delete();
-                //REALIZA ACTUALIZACION EN ContractCost
-                $rs = DB::table('contract')->where('contractId', $contractId)->decrement('contractCost', $amount);
+                //REALIZA ACTUALIZACION EN CONTRACTCOST
+                $contract                      = Contract::find($contractId);
+                $contract->contractCost = $contract->contractCost - $amount;
+                $contract->save();
 
                 $success = true;
                 DB::commit();

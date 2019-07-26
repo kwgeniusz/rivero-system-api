@@ -59,11 +59,11 @@
       {{csrf_field()}}
          <div class="form-group">
             <label for="amount" >MONTO</label>
-              <input style=" width:60%" type="number" step="0.01" class="form-control" id="amount" name="amount" required>
+              <input style=" width:60%" type="number" step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
          </div>
           <div class="form-group ">
                 <label for="paymentDate">FECHA</label>
-                <input style="width:50%" class="form-control flatpickr" id="paymentDate" name="paymentDate" required>
+                <input style="width:50%" class="form-control flatpickr" id="paymentDate" name="paymentDate" required autocomplete="off">
               </div>
            <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
            <button type="submit" class="btn btn-success">

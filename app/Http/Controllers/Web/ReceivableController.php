@@ -19,12 +19,18 @@ class ReceivableController extends Controller
     public function index(Request $request)
     {
         $receivables = '';
-
+        $countrys = Country::all();
+        
         if ($request->isMethod('post')) {
             $receivables = $this->oReceivable->clientsPending($request->countryId);
+
+           
+          //  $amounts = $this->oReceivable->getDueTotal(4);
+            // dd($amounts);
+            // exiT();
+            //  $receivables->push(5)
         }
 
-        $countrys = Country::all();
         return view('receivables.index', compact('receivables', 'countrys'));
     }
     public function details($clientId)
@@ -70,8 +76,9 @@ class ReceivableController extends Controller
 //----------------QUERYS ASINCRONIOUS-----------------//
     public function getForId($receivableId)
     {
-        $receivable = $this->oReceivable->findById($receivableId);
-        return json_encode($receivable);
+        $receivable = Receivable::find($receivableId);
+       
+       return $receivable->toJson();
     }
 
 }

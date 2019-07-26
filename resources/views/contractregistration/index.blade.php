@@ -34,54 +34,46 @@
     </div>
 
     <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center ">
+            <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
                  <th>ID</th>
                  <th>N° {{__('contract')}}</th>
-                 <th>{{__('office')}}</th>
-                 <th>{{__('client')}}</th>
+                 <th>COD. {{__('client')}}</th>
+                 <th>{{__('address')}}</th>
                  <th>{{__('status')}}</th>
                  <th>{{__('options')}}</th>
-                 <th>{{__('actions')}}</th>
-                 </th>
                 </tr>
             </thead>
-                <tbody>
+            <tbody>
                 @foreach($projects as $project)
-
-
                 <tr>
                     <td>{{$project->contractId}} </td>
                     <td>{{$project->contractNumber}} </td>
-                    <td>{{$project->office->officeName}}   </td>
-                    <td>{{$project->client->clientName}}   </td>
+                    <td>{{$project->client->clientCode}}   </td>
+                    <td >{{$project->siteAddress}}   </td>
                     <td>{{$project->contractStatus}}   </td>
-
-                   <td>
-                     <a href="{{route('contracts.changeStatus', ['id' => $project->contractId])}}" class="btn btn-success btn-sm">
-                     <span class="fa fa-sync" aria-hidden="true"></span>  {{__('status')}}
+                    <td>
+                     <a href="{{route('contracts.changeStatus', ['id' => $project->contractId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('status')}}">
+                     <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a>
-                    <a href="{{route('contracts.staff', ['id' => $project->contractId])}}" class="btn btn-warning btn-sm">
-                     <span class="fa fa-users" aria-hidden="true"></span>  {{__('staff')}}
+                    <a href="{{route('contracts.staff', ['id' => $project->contractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('staff')}}">
+                     <span class="fa fa-users" aria-hidden="true"></span> 
                     </a>
-                    <a href="{{route('contracts.files', ['id' => $project->contractId])}}" class="btn btn-info btn-sm">
-                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
+                    <a href="{{route('contracts.files', ['id' => $project->contractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                     <span class="fa fa-file" aria-hidden="true"></span> 
                     </a>
-                     <a href="{{route('contracts.payment', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Cuotas
+                     <a href="{{route('contracts.payment', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
-                 </td>
-
-                   <td>
-                   <a href="{{route('contracts.details', ['id' => $project->contractId])}}" class="btn btn-default btn-sm">
-                        <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
+                   <a href="{{route('contracts.details', ['id' => $project->contractId])}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
+                        <span class="fa fa-search" aria-hidden="true"></span> 
                     </a>
-                       <a href="{{route('contracts.edit', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm">
-                        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
+                    <a href="{{route('contracts.edit', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
+                        <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
-                    <a href="{{route('contracts.show', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+                    <a href="{{route('contracts.show', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
+                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a>
                  </td>
 
@@ -112,56 +104,45 @@
 
    <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
-            <thead>
+           <thead>
                 <tr>
                  <th>ID</th>
                  <th>N° {{__('contract')}}</th>
-                 <th>{{__('office')}}</th>
-                 <th>{{__('client')}}</th>
+                 <th>COD. {{__('client')}}</th>
+                 <th>{{__('address')}}</th>
                  <th>{{__('status')}}</th>
                  <th>{{__('options')}}</th>
-                 <th>{{__('actions')}}</th>
-                 </th>
                 </tr>
             </thead>
                 <tbody>
                 @foreach($services as $service)
-
-
-                <tr>
+                  <tr>
                     <td>{{$service->contractId}} </td>
                     <td>{{$service->contractNumber}} </td>
-                    <td>{{$service->office->officeName}}   </td>
-                    <td>{{$service->client->clientName}}   </td>
+                    <td>{{$service->client->clientCode}}   </td>
+                    <td >{{$service->siteAddress}}   </td>
                     <td>{{$service->contractStatus}}   </td>
-
-                   <td>
-                      <!--<a href="#" class="btn btn-info btn-sm">
-                   <span class="fa fa-file" aria-hidden="true"></span>  Pagos
-                     </a>-->
-                     <a href="{{route('contracts.changeStatus', ['id' => $service->contractId])}}" class="btn btn-success btn-sm">
-                     <span class="fa fa-sync" aria-hidden="true"></span>  {{__('status')}}
+                    <td>
+                     <a href="{{route('contracts.changeStatus', ['id' => $service->contractId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('status')}}">
+                     <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a>
-                    <a href="{{route('contracts.staff', ['id' => $service->contractId])}}" class="btn btn-warning btn-sm">
-                     <span class="fa fa-users" aria-hidden="true"></span>  {{__('staff')}}
+                    <a href="{{route('contracts.staff', ['id' => $service->contractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('staff')}}">
+                     <span class="fa fa-users" aria-hidden="true"></span> 
                     </a>
-                    <a href="{{route('contracts.files', ['id' => $service->contractId])}}" class="btn btn-info btn-sm">
-                     <span class="fa fa-file" aria-hidden="true"></span>  Documentos
+                    <a href="{{route('contracts.files', ['id' => $service->contractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                     <span class="fa fa-file" aria-hidden="true"></span> 
                     </a>
-                    <a href="{{route('contracts.payment', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  Pagos
+                     <a href="{{route('contracts.payment', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
-                 </td>
-
-                   <td>
-                   <a href="{{route('contracts.details', ['id' => $service->contractId])}}" class="btn btn-default btn-sm">
-                        <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
+                   <a href="{{route('contracts.details', ['id' => $service->contractId])}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
+                        <span class="fa fa-search" aria-hidden="true"></span> 
+                   </a>
+                    <a href="{{route('contracts.edit', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
+                        <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
-                       <a href="{{route('contracts.edit', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm">
-                        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
-                    </a>
-                    <a href="{{route('contracts.show', ['id' => $service->contractId])}}" class="btn btn-danger btn-sm">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+                    <a href="{{route('contracts.show', ['id' => $service->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
+                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a>
                  </td>
 

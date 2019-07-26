@@ -50,7 +50,6 @@ class ClientController extends Controller
     {
         $clients = $this->oClient->insertClient(
             $request->countryId,
-            $request->clientCode,
             $request->clientName,
             $request->clientAddress,
             $request->clientPhone,
@@ -89,7 +88,6 @@ class ClientController extends Controller
     {
         $this->oClient->updateClient($id,
             $request->countryId,
-            $request->clientCode,
             $request->clientName,
             $request->clientAddress,
             $request->clientPhone,
@@ -136,7 +134,7 @@ class ClientController extends Controller
     public function get($client = '')
     {
 
-        $results = Client::select('clientId', 'clientName', 'clientAddress')
+        $results = Client::select('clientId', 'clientName', 'clientAddress','clientCode')
             ->where('clientName', 'LIKE', "%$client%")
             ->orderBy('clientName', 'ASC')
             ->get();

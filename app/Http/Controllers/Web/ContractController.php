@@ -142,12 +142,13 @@ class ContractController extends Controller
     public function destroy($id)
     {
 
-       $result = $this->oContract->deleteContract($id);
+       $this->oContract->deleteContract($id);
 
-         $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
+          $notification = array(
+            'message'    => 'Contrato Eliminado',
+            'alert-type' => 'info',
         );
+
         return redirect()->route('contracts.index')
             ->with($notification);
 

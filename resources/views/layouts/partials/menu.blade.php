@@ -46,8 +46,6 @@
           </a>
           <ul class="treeview-menu">
            @if(Auth::user()->userLevel == 1)
-            <li><a href="{{route('projects.index')}}">{{__('types_of_projects')}}</a></li>
-            <li><a href="{{route('services.index')}}">{{__('types_of_services')}}</a></li>
             <li><a href="{{route('clients.index')}}"> {{__('clients')}}   </a></li>
             <li><a href="{{route('precontracts.index')}}">Pre-Contratos</a></li>
             <li><a href="{{route('contracts.index')}}">{{__('Contracts')}}</a></li>
@@ -133,6 +131,8 @@
           <ul class="treeview-menu">
             <li><a href="#">{{__('Countries')}}</a></li>
             <li><a href="#">{{__('Offices')}}</a></li>
+            <li><a href="{{route('projects.index')}}">{{__('types_of_projects')}}</a></li>
+            <li><a href="{{route('services.index')}}">{{__('types_of_services')}}</a></li>
             <li><a href="#">{{__('Users')}}</a></li>
           </ul>
         </li>

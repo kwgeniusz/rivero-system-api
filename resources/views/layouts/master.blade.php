@@ -94,7 +94,11 @@ desired effect
 <script src="{{ asset('js/app.js') }}"></script>
 
  <script>
-  // Instancia de Input date lib Flatpickr
+  //Tooltip Boostrap 3.3
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+  // Instancia de Input date libreria Flatpickr
   flatpickr('.flatpickr', {
       minDate: '1920-01-01',
       locale: 'es',

@@ -41,7 +41,7 @@
               <div class="row ">
               <div class="form-group col-xs-4">
                 <label for="transactionDate">FECHA</label>
-                <input type="date" class="form-control" id="transactionDate" name="transactionDate" value="{{ old('transactionDate') }}">
+                <input type="date" class="form-control flatpickr" id="transactionDate" name="transactionDate" value="{{ old('transactionDate') }}">
               </div>
             </div>
 

@@ -61,7 +61,8 @@ class TransactionController extends Controller
     public function store(TransactionRequest $request)
     {
 
-        $month = explode("-", $request->transactionDate);
+        $month = explode("/", $request->transactionDate);
+
         //insert transaction and Update BANK...
         $result = $this->oTransaction->insertT(
             $request->transactionTypeId,
@@ -72,6 +73,7 @@ class TransactionController extends Controller
             $request->reference,
             $request->sign,
             $month[1]);
+
 
         $notification = array(
             'message'    => $result['msj'],
@@ -112,11 +114,17 @@ class TransactionController extends Controller
     public function delete($sign, $id)
     {
 
-        $this->oTransaction->deleteT($id);
+       $result = $this->oTransaction->deleteT($id);
+
+            $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
+             );
+
         if ($sign == '+') {
-            return redirect()->route('transactions.index', ['sign' => '+'])->with('info', 'Tipo de Proyecto Creado');
+            return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
         } else {
-            return redirect()->route('transactions.index', ['sign' => '-'])->with('info', 'Tipo de Proyecto Creado');
+            return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
         }
 
     }

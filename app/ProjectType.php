@@ -30,7 +30,7 @@ class ProjectType extends Model
 //--------------------------------------------------------------------
     public function getAll()
     {
-        return $this->orderBy('projectTypeId', 'ASC')->get();
+        return $this->orderBy('projectTypeName', 'ASC')->get();
     }
 //------------------------------------------
     public function findById($id)

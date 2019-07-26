@@ -33,7 +33,8 @@
             <table class="table table-striped table-bordered text-center">
             <thead class="bg-success">
                 <tr>
-                 <th>CLIENTE</th>
+                 <th>COD. CLIENTE</th>
+                 <th>NOMBRE</th>
                  <th>DIRECCIÓN</th>
                  <th>TELEFONO</th>
                  <th>CUOTAS</th>
@@ -44,6 +45,7 @@
                 <tbody>
             @foreach($receivables as $receivable)
                 <tr>
+                     <td>{{$receivable->client[0]->clientCode}}</td>
                      <td>{{$receivable->client[0]->clientName}}</td>
                      <td>{{$receivable->client[0]->clientAddress}}</td>
                      <td>{{$receivable->client[0]->clientPhone}}</td>

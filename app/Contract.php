@@ -81,6 +81,11 @@ class Contract extends Model
     return number_format($cost, 2, ',', '.');
     }
      */
+
+    public function getContractCostAttribute($contractCost)
+    {
+        return decrypt($contractCost);
+    }
     public function getContractDateAttribute($contractDate)
     {
         if (empty($contractDate)) {
@@ -121,8 +126,13 @@ class Contract extends Model
 
         return $newDate = date("d/m/Y", strtotime($deliveryDate));
     }
+
 //------------------------MUTADORES--------------------------------
-    //--------------------------------------------------------------------
+
+    public function setContractCostAttribute($contractCost)
+    {
+        return $this->attributes['contractCost'] = encrypt($contractCost);
+    }
     public function setContractDateAttribute($contractDate)
     {
         if (empty($contractDate)) {
@@ -260,24 +270,22 @@ class Contract extends Model
     }
 
 //--------------------------------------------------------------------
-
-//--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function getAll()
     {
-        return $this->orderBy('contractId', 'ASC')->get();
+        return $this->orderBy('contractNumber', 'ASC')->get();
     }
 //------------------------------------
     public function getAllPaginate($number)
     {
-        return $this->orderBy('contractId', 'ASC')->paginate($number);
+        return $this->orderBy('contractNumber', 'ASC')->paginate($number);
     }
 //------------------------------------
     public function getAllForStatus($contractStatus)
     {
         $result = $this->where('contractStatus', $contractStatus)
-            ->orderBy('contractId', 'ASC')
+            ->orderBy('contractNumber', 'ASC')
             ->get();
 
         return $result;
@@ -288,7 +296,7 @@ class Contract extends Model
         $result = $this->where('contractType', $contractType)
             ->where('contractStatus', $contractStatus1)
             ->orWhere('contractStatus', $contractStatus2)
-            ->orderBy('contractId', 'ASC')
+            ->orderBy('contractNumber', 'ASC')
             ->get();
 
         return $result;
@@ -330,7 +338,7 @@ class Contract extends Model
         $oConfiguration->updateContractNumber($countryId, $officeId, $contractType, $contractNumber);
 
         // make contract number format
-        $stringLength = 7;
+        $stringLength = 5;
         $strPad       = "0";
 
         if ($contractNumber < 1) {
@@ -339,14 +347,18 @@ class Contract extends Model
 
         $format1 = substr(date('Y'), 2, 2);
         if ($contractType == "P") {
-            $format2 = "PC-";
+            $format2 = "-PC-";
         } else {
-            $format2 = "S-";
+            $format2 = "-S-";
         }
-        $format3 = str_pad($contractNumber, $stringLength, $strPad, STR_PAD_LEFT);
+
+        $country = Country::where('countryId', $countryId)->get();
+        $format3 = $country[0]->abbreviation."-";
+
+        $format4 = str_pad($contractNumber, $stringLength, $strPad, STR_PAD_LEFT);
 
         // numero de contrato en foramto
-        $contractNumberFormat = $format1 . $format2 . $format3;
+        $contractNumberFormat = $format1 . $format2 . $format3 . $format4;
 
         $contract                      = new Contract;
         $contract->contractType        = $contractType;
@@ -364,6 +376,7 @@ class Contract extends Model
         $contract->actualFinishDate    = $actualFinishDate;
         $contract->deliveryDate        = $deliveryDate;
         $contract->initialComment      = $initialComment;
+        $contract->contractCost        = '0.00';
         $contract->currencyName        = $currencyName;
         $contract->contractStatus      = '1';
         $contract->dateCreated         = date('Y-m-d H:i:s');

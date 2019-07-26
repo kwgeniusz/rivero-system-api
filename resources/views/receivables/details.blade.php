@@ -11,8 +11,8 @@
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr class="bg-success">
+                 <th>CODIGO</th>
                  <th>NOMBRE</th>
-                 <th>DESCRIPCION</th>
                  <th>DIRECCION</th>
                  <th>TELEFONO</th>
                  <th>CUOTAS</th>
@@ -22,8 +22,8 @@
             </thead>
           <tbody>
                 <tr>
+                     <td>{{$client[0]->client[0]->clientCode}}</td>
                      <td>{{$client[0]->client[0]->clientName}}</td>
-                     <td>{{$client[0]->client[0]->clientDescription}}</td>
                      <td>{{$client[0]->client[0]->clientAddress}}</td>
                      <td>{{$client[0]->client[0]->clientPhone}}</td>
                      <td>{{$client[0]->cuotas}}</td>

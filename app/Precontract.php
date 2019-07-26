@@ -22,6 +22,21 @@ class Precontract extends Model
     ];
 
 //--------------------------------------------------------------------
+                     /** ACCESORES  **/
+//--------------------------------------------------------------------
+
+    public function getPrecontractCostAttribute($precontractCost)
+    {
+        return decrypt($precontractCost);
+    }
+//------------------------MUTADORES--------------------------------
+
+    public function setPrecontractCostAttribute($precontractCost)
+    {
+        return $this->attributes['precontractCost'] = encrypt($precontractCost);
+    }
+
+//--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
     public function client()
@@ -70,16 +85,17 @@ class Precontract extends Model
     public function insertPrecontract($countryId, $officeId, $contractType,
         $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $comment, $currencyName) {
 
-        $precontract                = new Precontract;
-        $precontract->contractType  = $contractType;
-        $precontract->countryId     = $countryId;
-        $precontract->officeId      = $officeId;
-        $precontract->clientId      = $clientId;
-        $precontract->siteAddress   = $siteAddress;
-        $precontract->projectTypeId = $projectTypeId;
-        $precontract->serviceTypeId = $serviceTypeId;
-        $precontract->comment       = $comment;
-        $precontract->currencyName  = $currencyName;
+        $precontract                         = new Precontract;
+        $precontract->contractType           = $contractType;
+        $precontract->countryId              = $countryId;
+        $precontract->officeId               = $officeId;
+        $precontract->clientId               = $clientId;
+        $precontract->siteAddress            = $siteAddress;
+        $precontract->projectTypeId          = $projectTypeId;
+        $precontract->serviceTypeId          = $serviceTypeId;
+        $precontract->comment                = $comment;
+        $precontract->precontractCost        = '0.00';
+        $precontract->currencyName           = $currencyName;
         $precontract->save();
 
     }

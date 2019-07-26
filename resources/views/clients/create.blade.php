@@ -31,10 +31,6 @@
             </select>
           </div>
  </div>
-              <div class="form-group">
-                <label for="clientCode">CODIGO CLIENTE</label>
-                <input type="text" class="form-control" id="clientCode" name="clientCode" value="{{ old('clientCode') }}" placeholder="CU-0000">
-              </div>
 
               <div class="form-group">
                 <label for="clientName">{{__('names_and_surnames')}}</label>
