@@ -69,14 +69,14 @@
        @foreach ($files as $file)
             <?php $ext  = pathinfo($file, PATHINFO_EXTENSION); ?>
         <tr>
-            <td><a href="{{ route('uploads', ['type' => 'precontracts','directoryName' => $directoryName,'file' => $file]) }}" >
+            <td><a href="{{ route('precontracts.fileDownload', ['typeContract' => 'precontracts','directoryName' => $directoryName,'file' => $file]) }}" >
                  {{$file}}</a><br></td>
             <td> {{$ext}}</td>
             <td>  
                <modal-preview-document typecontract="precontracts" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
             </td>
              <td> 
-             <a href="{{ route('files.delete', ['type'=> 'precontracts','directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">
+             <a href="{{ route('precontracts.fileDelete', ['typeContract'=> 'precontracts','directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}} </a>
             </td>
         </tr>

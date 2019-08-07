@@ -41,6 +41,16 @@
                 <label for="clientAddress">{{__('address')}}</label>
                 <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{ old('clientAddress') }}" placeholder="Direccion">
               </div>
+   <div class="row">
+          <div class="form-group col-xs-4">
+            <label for="contactTypeId">TIPO DE CONTACTO</label>
+            <select class="form-control" name="contactTypeId" id="contactTypeId">
+                @foreach($contactTypes as $contactType)
+                      <option value="{{$contactType->contactTypeId}}" > {{$contactType->contactTypeName}} </option>
+                @endforeach
+            </select>
+          </div>
+ </div>
 
               <div class="col-xs-6">
               <div class="form-group">

@@ -48,11 +48,6 @@
           </div>
 
 
-              <div class="form-group ">
-                <label for="formClientCode">CODIGO CLIENTE</label>
-                <input type="text" class="form-control "name="formClientCode" v-model="formClientCode" placeholder="CU-0000">
-              </div>
-
               <div class="form-group">
                 <label for="formClientName">NOMBRES Y APELLIDOS</label>
                 <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="Nombres y Apellidos">
@@ -63,7 +58,14 @@
                 <label for="formClientAddress">DIRECCION</label>
                 <input type="text" class="form-control" name="formClientAddress" v-model="formClientAddress" placeholder="Direccion">
               </div>
-             
+          
+          <div class="form-group ">
+            <label for="formContactType">TIPO DE CONTACTO</label>
+            <select v-model="formContactType" class="form-control" name="formContactType" id="formContactType">
+                  <option  :value="contactType.contactTypeId"  v-for="(contactType) in contactTypes"> {{contactType.contactTypeName}}</option>
+            </select>
+          </div>
+
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="formClientPhone">TELEFONO</label>
@@ -123,6 +125,7 @@
             clientAddress:'',
             list : '',
             countrys:'',
+            contactTypes:'',
             style : '',
             btnAgg: true,
             btnRemove: false,
@@ -130,9 +133,9 @@
 
             errors: [],
             formClientCountry:'',
-            formClientCode:'',
             formClientName: '',
             formClientAddress: '',
+            formContactType: '', 
             formClientPhone: '',
             formClientEmail: '',
           }
@@ -183,32 +186,40 @@
         },
 
        openModal: function (){
+             this.btnSubmitForm = true;
              this.errors = [];
-            this.$refs.modalClientNew.open()
-             if(this.url == "C"){ 
+             this.$refs.modalClientNew.open()
+             if(this.url == "C") { 
                   var url ='../countrys/all';
-                }else{
+                  var url2 ='../contactTypes/all'; 
+              }else{
                   var url ='../../countrys/all';
+                  var url2 ='../../contactTypes/all';
                 }
               axios.get(url).then(response => {
                  this.countrys = response.data
                 });
-              
+              axios.get(url2).then(response => {
+                 this.contactTypes = response.data
+                }); 
         },
        createClient: function() {
 
-          if(this.url == "C"){ 
+          if(this.url == "C") { 
            var url ='../clients';
          }else{
            var url ='../../clients';
          }
            this.errors = [];
            //VALIDATIONS
-           if (!this.formClientCode) {
-                this.errors.push('Codigo es Requerido.');
-           }
+           if (!this.formClientCountry) {
+                this.errors.push('Pais es Requerido.');
+           } 
            if (!this.formClientName) {
                 this.errors.push('Nombre y Apellido es Requerido.');
+           }
+          if (!this.formContactType) {
+                this.errors.push('Tipo de contacto es Requerido.');
            }
   
 
@@ -216,17 +227,17 @@
             this.btnSubmitForm = true;
             axios.post(url,{
              countryId: this.formClientCountry,
-             clientCode: this.formClientCode,
             clientName: this.formClientName,
             clientAddress: this.formClientAddress,
+            contactTypeId: this.formContactType,
             clientPhone: this.formClientPhone,
             clientEmail: this.formClientEmail
             }).then(response => {
                toastr.info("Cliente Nuevo Insertado")
                this.formClientCountry = "";
-                  this.formClientCode = "";
                this.formClientName = "";
                this.formClientAddress= "";
+               this.formContactType = "";
                this.formClientPhone= "";
                this.formClientEmail = "";
                this.$refs.modalClientNew.close();

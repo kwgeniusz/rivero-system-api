@@ -301,6 +301,7 @@ class Contract extends Model
 
         return $result;
     }
+ //------------------------------------   
 //------------------------------------------
     public function findById($id)
     {
@@ -361,6 +362,7 @@ class Contract extends Model
         $contractNumberFormat = $format1 . $format2 . $format3 . $format4;
 
         $contract                      = new Contract;
+        $contract->conId               = $contractNumber;
         $contract->contractType        = $contractType;
         $contract->contractNumber      = $contractNumberFormat;
         $contract->countryId           = $countryId;

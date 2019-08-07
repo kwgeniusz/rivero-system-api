@@ -46755,6 +46755,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -46779,6 +46781,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       clientAddress: '',
       list: '',
       countrys: '',
+      contactTypes: '',
       style: '',
       btnAgg: true,
       btnRemove: false,
@@ -46786,9 +46789,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       errors: [],
       formClientCountry: '',
-      formClientCode: '',
       formClientName: '',
       formClientAddress: '',
+      formContactType: '',
       formClientPhone: '',
       formClientEmail: ''
     };
@@ -46840,15 +46843,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     openModal: function openModal() {
       var _this2 = this;
 
+      this.btnSubmitForm = true;
       this.errors = [];
       this.$refs.modalClientNew.open();
       if (this.url == "C") {
         var url = '../countrys/all';
+        var url2 = '../contactTypes/all';
       } else {
         var url = '../../countrys/all';
+        var url2 = '../../contactTypes/all';
       }
       axios.get(url).then(function (response) {
         _this2.countrys = response.data;
+      });
+      axios.get(url2).then(function (response) {
+        _this2.contactTypes = response.data;
       });
     },
     createClient: function createClient() {
@@ -46861,28 +46870,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       this.errors = [];
       //VALIDATIONS
-      if (!this.formClientCode) {
-        this.errors.push('Codigo es Requerido.');
+      if (!this.formClientCountry) {
+        this.errors.push('Pais es Requerido.');
       }
       if (!this.formClientName) {
         this.errors.push('Nombre y Apellido es Requerido.');
+      }
+      if (!this.formContactType) {
+        this.errors.push('Tipo de contacto es Requerido.');
       }
 
       if (!this.errors.length) {
         this.btnSubmitForm = true;
         axios.post(url, {
           countryId: this.formClientCountry,
-          clientCode: this.formClientCode,
           clientName: this.formClientName,
           clientAddress: this.formClientAddress,
+          contactTypeId: this.formContactType,
           clientPhone: this.formClientPhone,
           clientEmail: this.formClientEmail
         }).then(function (response) {
           toastr.info("Cliente Nuevo Insertado");
           _this3.formClientCountry = "";
-          _this3.formClientCode = "";
           _this3.formClientName = "";
           _this3.formClientAddress = "";
+          _this3.formContactType = "";
           _this3.formClientPhone = "";
           _this3.formClientEmail = "";
           _this3.$refs.modalClientNew.close();
@@ -47106,38 +47118,6 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group " }, [
-            _c("label", { attrs: { for: "formClientCode" } }, [
-              _vm._v("CODIGO CLIENTE")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.formClientCode,
-                  expression: "formClientCode"
-                }
-              ],
-              staticClass: "form-control ",
-              attrs: {
-                type: "text",
-                name: "formClientCode",
-                placeholder: "CU-0000"
-              },
-              domProps: { value: _vm.formClientCode },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.formClientCode = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "formClientName" } }, [
               _vm._v("NOMBRES Y APELLIDOS")
@@ -47200,6 +47180,50 @@ var render = function() {
                 }
               }
             })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group " }, [
+            _c("label", { attrs: { for: "formContactType" } }, [
+              _vm._v("TIPO DE CONTACTO")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.formContactType,
+                    expression: "formContactType"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { name: "formContactType", id: "formContactType" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.formContactType = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.contactTypes, function(contactType) {
+                return _c(
+                  "option",
+                  { domProps: { value: contactType.contactTypeId } },
+                  [_vm._v(" " + _vm._s(contactType.contactTypeName))]
+                )
+              })
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-xs-6" }, [

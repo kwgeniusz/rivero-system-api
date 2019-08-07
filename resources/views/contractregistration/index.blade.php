@@ -48,7 +48,7 @@
             <tbody>
                 @foreach($projects as $project)
                 <tr>
-                    <td>{{$project->contractId}} </td>
+                    <td>{{$project->conId}} </td>
                     <td>{{$project->contractNumber}} </td>
                     <td>{{$project->client->clientCode}}   </td>
                     <td >{{$project->siteAddress}}   </td>
@@ -117,7 +117,7 @@
                 <tbody>
                 @foreach($services as $service)
                   <tr>
-                    <td>{{$service->contractId}} </td>
+                     <td>{{$service->conId}} </td>
                     <td>{{$service->contractNumber}} </td>
                     <td>{{$service->client->clientCode}}   </td>
                     <td >{{$service->siteAddress}}   </td>
@@ -155,7 +155,7 @@
 
 
 
-    </div>
+    </div> <!-- tab 2-->
 
 </div>
 

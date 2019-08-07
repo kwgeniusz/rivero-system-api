@@ -15,11 +15,12 @@
             <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
+                 <th>ID</th> 
                  <th>CODIGO</th>
                  <th>{{__('name')}}</th>
-  
                  <th>{{__('phone')}}</th>
                  <th>{{__('email')}}</th>
+                 <th>CONTACTO</th>
                  <th>{{__('actions')}}</th>
                  </th>
                 </tr>
@@ -27,10 +28,12 @@
                 <tbody>
                 @foreach($clients as $client)
                 <tr>
+                   <td>{{$client->cltId}}</td> 
                    <td>{{$client->clientCode}}</td>
                    <td>{{$client->clientName}}</td>
                    <td>{{$client->clientPhone}}</td>
                    <td>{{$client->clientEmail}}</td>
+                   <td>{{$client->contactType->contactTypeName}}</td> 
                    <td><a href="{{route('clients.edit', ['id' => $client->clientId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>

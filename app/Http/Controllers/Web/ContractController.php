@@ -12,6 +12,7 @@ use App\PaymentContract;
 use App\ProjectType;
 use App\ServiceType;
 use App\Staff;
+use App\Receivable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,6 +32,7 @@ class ContractController extends Controller
         $this->oClient          = new Client;
         $this->oStaff           = new Staff;
         $this->oPaymentContract = new PaymentContract;
+        $this->oReceivable = new Receivable;
 
         $this->oProjectType = new ProjectType;
         $this->oServiceType = new ServiceType;
@@ -94,6 +96,15 @@ class ContractController extends Controller
     public function edit($id)
     {
 
+         if($this->oReceivable->verificarPagoCuota($id)){
+
+              $notification = array(
+                  'message'    => 'Acción no Permitida, El Contrato posee cuotas pagadas',
+                  'alert-type' => 'error',
+                 );
+              return redirect()->route('contracts.index')->with($notification);
+         }
+          
         $clients  = $this->oClient->getAll();
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
@@ -233,7 +244,7 @@ class ContractController extends Controller
     public function showContractsFinished($id)
     {
         $contract = $this->oContract->FindById($id);
-        return view('contractsfinished.show', compact('contract'));
+        return view('contractsFinished.show', compact('contract'));
     }
     public function DeleteContractsFinished($id)
     {
@@ -254,7 +265,7 @@ class ContractController extends Controller
         $contract = $this->oContract->FindById($id);
         return view('contractscancelled.details', compact('contract'));
     }
-    public function showContractsCancelled($id)
+        public function showContractsCancelled($id)
     {
         $contract = $this->oContract->FindById($id);
         return view('contractscancelled.show', compact('contract'));
@@ -279,9 +290,17 @@ class ContractController extends Controller
     {
         $this->oContract->updateStatus($request->contractId, $request->contractStatus);
 
-        return redirect()->route('contracts.index')
-            ->with('info', 'Tipo de Proyecto Creado');
+        $notification = array(
+            'message'    => 'Estado Modificado Exitosamente',
+            'alert-type' => 'info',
+        );
 
+        if($request->contractStatus == 3)
+        return redirect()->route('contracts.finished')->with($notification);
+        if($request->contractStatus == 4)
+        return redirect()->route('contracts.cancelled')->with($notification);
+        else
+        return redirect()->route('contracts.index')->with($notification);
     }
 
     public function staff($id)
@@ -372,14 +391,22 @@ class ContractController extends Controller
         //Storage::makeDirectory("docs/" . $directoryName);
 
         //obtener todos los archivos del directorio
-        $allFiles = Storage::files("docs/contracts/" . $directoryName);
+        $allFiles = Storage::files("docs/contracts/previous/".$directoryName);
         $files    = [];
+
         foreach ($allFiles as $file) {
             $filePart = explode("/", $file);
-            $files[]  = $filePart[3];
+            $files[]  = $filePart[4];
         }
 
-        return view('contractregistration.files', compact('contract', 'files', 'directoryName'));
+        $allFiles2 = Storage::files("docs/contracts/processed/" . $directoryName);
+        $files2    = [];
+        foreach ($allFiles2 as $file2) {
+            $filePart2 = explode("/", $file2);
+            $files2[]  = $filePart2[4];
+        }
+
+        return view('contractregistration.files', compact('contract', 'files','files2', 'directoryName'));
     }
     public function fileAgg(Request $request)
     {
@@ -388,13 +415,25 @@ class ContractController extends Controller
 
         if ($request->hasFile('archive')) {
             $archive = $request->file('archive');
-            $name    = time() . $archive->getClientOriginalName();
-            $archive->move(storage_path("app/public/docs/contracts/$directoryName"), $name);
-
+            $name    = time() .'-'. $archive->getClientOriginalName();
+             if($request->typeDoc == 'previous')
+              $archive->move(storage_path("app/public/docs/contracts/previous/$directoryName"), $name);
+             else
+              $archive->move(storage_path("app/public/docs/contracts/processed/$directoryName"), $name);
         }
 
         return redirect()->back();
     }
+
+   public function fileDownload($typeContract,$typeDoc,$directoryName, $file)
+    {
+      return Storage::download("docs/$typeContract/$typeDoc/$directoryName/$file");
+    }
+
+   public function fileDelete($typeContract,$typeDoc,$directoryName, $file) {
+        Storage::delete("docs/$typeContract/$typeDoc/$directoryName/$file");
+       return redirect()->back();
+   }
 
 //------------FUNCTIONS PRINT----------------
     public function summaryForClient()

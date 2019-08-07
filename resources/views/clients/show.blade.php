@@ -33,6 +33,11 @@
                 <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{$client[0]->clientAddress}}" placeholder="Direccion" disabled>
               </div>
 
+              <div class="form-group">
+                <label for="contactType">TIPO DE CONTACTO</label>
+                <input type="text" class="form-control" id="contactType" name="contactType" value="{{$client[0]->contactType->contactTypeName}}" placeholder="Direccion" disabled>
+              </div>
+
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="clientPhone">{{__('phone')}}</label>

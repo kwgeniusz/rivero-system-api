@@ -198,8 +198,8 @@ class PrecontractController extends Controller
                    $filePart = explode("/", $file);
                    $filesName[]  = $filePart[3];
                   }
-             Storage::makeDirectory("docs/contracts/" . $directoryNameNew);
-             $move = Storage::move($allFiles[0], "docs/contracts/$directoryNameNew/$filesName[0]");
+             Storage::makeDirectory("docs/contracts/previous/" . $directoryNameNew);
+             $move = Storage::move($allFiles[0], "docs/contracts/previous/$directoryNameNew/$filesName[0]");
 
             //eliminar precontrato
             $this->oPrecontract->deletePrecontract($id);
@@ -297,12 +297,22 @@ class PrecontractController extends Controller
 
         if ($request->hasFile('archive')) {
             $archive = $request->file('archive');
-            $name    = time() . $archive->getClientOriginalName();
+            $name    = time() .'-'.$archive->getClientOriginalName();
             $archive->move(storage_path("app/public/docs/precontracts/$directoryName"), $name);
            
         }
 
         return redirect()->back();
     }
+
+     public function fileDownload($typeContract,$directoryName, $file)
+    {
+      return Storage::download("docs/$typeContract/$directoryName/$file");
+    }
+
+     public function fileDelete($typeContract,$directoryName, $file) {
+            Storage::delete("docs/$typeContract/$directoryName/$file");
+       return redirect()->back();
+   }
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Client;
 use App\Country;
+use App\ContactType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
@@ -37,7 +38,8 @@ class ClientController extends Controller
     public function create()
     {
         $countrys = Country::all();
-        return view('clients.create', compact('countrys'));
+        $contactTypes = ContactType::all();
+        return view('clients.create', compact('countrys','contactTypes'));
     }
 
     /**
@@ -52,6 +54,7 @@ class ClientController extends Controller
             $request->countryId,
             $request->clientName,
             $request->clientAddress,
+            $request->contactTypeId, 
             $request->clientPhone,
             $request->clientEmail
         );
@@ -73,8 +76,9 @@ class ClientController extends Controller
     public function edit($id)
     {
         $countrys = Country::all();
+        $contactTypes = ContactType::all();
         $client   = $this->oClient->findById($id);
-        return view('clients.edit', compact('client', 'countrys'));
+        return view('clients.edit', compact('client', 'countrys','contactTypes'));
     }
 
     /**
@@ -90,6 +94,7 @@ class ClientController extends Controller
             $request->countryId,
             $request->clientName,
             $request->clientAddress,
+            $request->contactTypeId,  
             $request->clientPhone,
             $request->clientEmail
         );
@@ -136,10 +141,12 @@ class ClientController extends Controller
 
         $results = Client::select('clientId', 'clientName', 'clientAddress','clientCode')
             ->where('clientName', 'LIKE', "%$client%")
+            ->orWhere('clientCode', 'LIKE', "%$client%")
             ->orderBy('clientName', 'ASC')
             ->get();
         return json_encode($results);
 
     }
+
 
 }

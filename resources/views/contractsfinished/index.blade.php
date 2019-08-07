@@ -33,11 +33,15 @@
                     <td>{{$contract->contractStatus}}   </td>
 
 
-                   <td><a href="{{route('contracts.finishedDetails', ['id' => $contract->contractId])}}" class="btn btn-default">
-                        <span class="fa fa-search" aria-hidden="true"></span>  {{__('see')}}
+                   <td>
+                       <a href="{{route('contracts.changeStatus', ['id' => $contract->contractId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('status')}}">
+                     <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a>
-                       <a href="{{route('contracts.finishedShow', ['id' => $contract->contractId])}}" class="btn btn-danger">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+                    <a href="{{route('contracts.finishedDetails', ['id' => $contract->contractId])}}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
+                        <span class="fa fa-search" aria-hidden="true"></span>
+                    </a>
+                       <a href="{{route('contracts.finishedShow', ['id' => $contract->contractId])}}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}"> 
+                            <span class="fa fa-times-circle" aria-hidden="true"></span>  
                         </a>
                    </td>
                 </tr>

@@ -18,16 +18,6 @@ Auth::routes();
 Route::get('/', function () {
     return redirect()->route('login');
 });
-//ROUTE FROM FILES
-Route::get('/uploads/{type}/{directoryName}/{file}', function ($type,$directoryName, $file) {
-    return Storage::download("docs/$type/$directoryName/$file");
-})->name('uploads');
-
-Route::get('/filesDelete/{type}/{directoryName}/{file}', function ($type,$directoryName, $file) {
-    Storage::delete("docs/$type/$directoryName/$file");
-    return redirect()->back();
-})->name('files.delete');
-
 //SWICTH CAMBIO DE LOCALITATION (LANGUAGUE)
 Route::get('/language/{locale}', function ($locale) {
     Session::put('locale', $locale);
@@ -55,6 +45,8 @@ Route::get('precontractsPayment/{id}/{amount}/{precontractId}/remove', 'Web\Prec
 
 Route::get('precontractsFile/{id}', 'Web\PrecontractController@files')->name('precontracts.files');
 Route::post('precontractsFileAgg', 'Web\PrecontractController@fileAgg')->name('precontracts.fileAgg');
+Route::get('/download/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDownload')->name('precontracts.fileDownload');
+Route::get('/fileDelete/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDelete')->name('precontracts.fileDelete');
 
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/Agg/{id}', 'Web\PrecontractController@convertAgg')->name('precontracts.convertAgg');
@@ -72,6 +64,8 @@ Route::get('contractsStaff/{id}/{contracId}/remove', 'Web\ContractController@sta
 
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
 Route::post('contractsFileAgg', 'Web\ContractController@fileAgg')->name('contracts.fileAgg');
+Route::get('/download/{typeContract}/{typeDoc}/{directoryName}/{file}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::get('/fileDelete/{typeContract}/{typeDoc}/{directoryName}/{file}', 'Web\contractController@fileDelete')->name('contracts.fileDelete');
 
 Route::get('contractsPayment/{id}', 'Web\ContractController@payment')->name('contracts.payment');
 Route::post('contractsPayment/agg', 'Web\ContractController@paymentAgg')->name('contracts.paymentAgg');
@@ -129,6 +123,8 @@ Route::get('collection-report', 'Web\ReceivableController@reportCollections')->n
 Route::post('collection-report', 'Web\ReportController@collections')->name('collections.result');
 
 //ROUTES DE AXIOS ------------------------------------------------------------------------------------------
+//CONTACT TYPE
+Route::get('contactTypes/all', 'Web\ContactTypeController@all')->name('contactTypes.all');
 //COUNTRYS
 Route::get('countrys/all', 'Web\CountryController@all')->name('countrys.all');
 //OFFICES

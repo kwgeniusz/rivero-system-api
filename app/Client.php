@@ -24,12 +24,14 @@ class Client extends Model
     {
         return $this->hasMany('App\Contract', 'clientId', 'clientId');
     }
-
     public function country()
     {
         return $this->belongsTo('App\Country', 'countryId', 'countryId');
     }
-
+       public function contactType()
+    {
+        return $this->hasOne('App\ContactType', 'contactTypeId', 'contactTypeId');
+    }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -61,14 +63,14 @@ class Client extends Model
         return $result;
     }
 //------------------------------------------
-    public function insertClient($countryId, $clientName, $clientAddress, $clientPhone, $clientEmail)
+    public function insertClient($countryId, $clientName, $clientAddress, $contactTypeId,$clientPhone, $clientEmail)
     {
 
       $oConfiguration = new Configuration();
       $clientNumber = $oConfiguration->retrieveClientNumber($countryId);
       $clientNumber++;
       $oConfiguration->updateClientNumber($countryId, $clientNumber);
-
+      
         // make contract number format
         $stringLength = 5;
         $strPad       = "0";
@@ -85,11 +87,13 @@ class Client extends Model
         $clientNumberFormat = $format1 . $format2 . $format3 ;
 
         $client                = new Client;
+        $client->cltId         = $clientNumber;
         $client->userId        = 1;
         $client->countryId     = $countryId;
         $client->clientCode    = $clientNumberFormat;
         $client->clientName    = $clientName;
         $client->clientAddress = $clientAddress;
+        $client->contactTypeId = $contactTypeId;
         $client->clientPhone   = $clientPhone;
         $client->clientEmail   = $clientEmail;
         $client->dateCreated   = date('Y-m-d H:i:s');
@@ -97,12 +101,13 @@ class Client extends Model
         $client->save();
     }
 //------------------------------------------
-    public function updateClient($clientId, $countryId, $clientName, $clientAddress, $clientPhone, $clientEmail)
+    public function updateClient($clientId, $countryId, $clientName, $clientAddress,$contactTypeId, $clientPhone, $clientEmail)
     {
         $this->where('clientId', $clientId)->update(array(
             'countryId'     => $countryId,
             'clientName'    => $clientName,
             'clientAddress' => $clientAddress,
+            'contactTypeId' => $contactTypeId,
             'clientPhone'   => $clientPhone,
             'clientEmail'   => $clientEmail,
         ));
@@ -126,4 +131,6 @@ class Client extends Model
         }
     }
 //------------------------------------------
+
+ 
 }

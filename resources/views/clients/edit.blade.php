@@ -39,6 +39,8 @@
           </div>
          </div>
  --}}
+            <input type="hidden" name="countryId" value="{{$client[0]->countryId}}">
+            
               <div class="form-group">
                 <label for="clientName">{{__('names_and_surnames')}}</label>
                 <input type="text" class="form-control" id="clientName" name="clientName" value="{{$client[0]->clientName}}" placeholder="Nombres y Apellidos">
@@ -48,7 +50,20 @@
                 <label for="clientAddress">{{__('address')}}</label>
                 <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{$client[0]->clientAddress}}" placeholder="Direccion">
               </div>
-
+  <div class="row">
+          <div class="form-group col-xs-4">
+            <label for="contactTypeId">TIPO DE CONTACTO</label>
+            <select class="form-control" name="contactTypeId" id="contactTypeId">
+                @foreach($contactTypes as $contactType)
+                   @if($contactType->contactTypeId == $client[0]->contactTypeId)
+                      <option value="{{$contactType->contactTypeId}}" selected > {{$contactType->contactTypeName}} </option>
+                   @else
+                       <option value="{{$contactType->contactTypeId}}" > {{$contactType->contactTypeName}} </option>
+                   @endif
+                @endforeach
+            </select>
+          </div>
+ </div>
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="clientPhone">{{__('phone')}}</label>

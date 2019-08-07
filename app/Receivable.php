@@ -150,6 +150,20 @@ class Receivable extends Model
     {
         return $this->where('receivableId', '=', $id)->get();
     }
+//_---------------------------
+    public function verificarPagoCuota($contractId)
+    {
+        $result = $this->where('contractId', $contractId)
+            ->where('pending', 'N')
+            ->get();
+
+           if(count($result) == 0)
+           {
+             return false;
+           }else{
+              return true;
+           }
+    }
 //--------------------------------------------
     public function clientsPending($countryId)
     {

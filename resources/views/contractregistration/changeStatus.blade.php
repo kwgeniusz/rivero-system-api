@@ -46,9 +46,27 @@
             <div class="form-group col-xs-6 col-xs-offset-3">
               <label for="contractStatus">{{__('choose_a_status')}}</label>
               <select class="form-control" name="contractStatus" id="contractStatus">
-                    <option value="2" > {{__('initiates')}} </option>
-                    <option value="3" > {{__('finished')}} </option>
-                    <option value="4" > {{__('suspended')}} </option>
+                @if ($contract[0]->contractStatus == __('vacancies'))
+                   <option value="1" selected> {{__('vacancies')}} </option>
+                @else
+                  <option value="1" > {{__('vacancies')}} </option>
+               @endif
+                    @if ($contract[0]->contractStatus == __('initiates'))
+                  <option value="2" selected> {{__('initiates')}} </option>
+                @else
+                <option value="2" > {{__('initiates')}} </option>
+               @endif
+                    @if ($contract[0]->contractStatus == __('finished'))
+                  <option value="3" selected> {{__('finished')}} </option>
+                @else
+                <option value="3" > {{__('finished')}} </option>
+               @endif
+                    @if ($contract[0]->contractStatus == __('suspended'))
+                    <option value="4" selected> {{__('suspended')}} </option>
+                @else
+                   <option value="4" > {{__('suspended')}} </option>
+               @endif
+
               </select>
             </div>
            <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
@@ -59,7 +77,7 @@
                  {{__('change_status')}}
             </button>
 
-              <a href="{{route('contracts.index')}}" class="btn btn-warning">
+              <a href="{{URL::previous()}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
         </div>
