@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-08-2019 a las 14:06:27
--- Versión del servidor: 5.7.21
--- Versión de PHP: 7.0.29
+-- Servidor: localhost:3306
+-- Tiempo de generación: 10-08-2019 a las 00:37:26
+-- Versión del servidor: 10.3.15-MariaDB-cll-lve
+-- Versión de PHP: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `riverogcdb`
+-- Base de datos: `riverosg_system`
 --
 
 -- --------------------------------------------------------
@@ -28,9 +28,8 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `bank`
 --
 
-DROP TABLE IF EXISTS `bank`;
-CREATE TABLE IF NOT EXISTS `bank` (
-  `bankId` int(6) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `bank` (
+  `bankId` int(6) NOT NULL,
   `countryId` int(6) NOT NULL,
   `bankName` varchar(65) NOT NULL,
   `bankAccount` varchar(24) NOT NULL,
@@ -46,10 +45,8 @@ CREATE TABLE IF NOT EXISTS `bank` (
   `balance09` varchar(250) DEFAULT NULL,
   `balance10` varchar(250) DEFAULT NULL,
   `balance11` varchar(250) DEFAULT NULL,
-  `balance12` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`bankId`),
-  KEY `bank_ibfk_1` (`countryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `balance12` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `bank`
@@ -64,9 +61,8 @@ INSERT INTO `bank` (`bankId`, `countryId`, `bankName`, `bankAccount`, `initialBa
 -- Estructura de tabla para la tabla `client`
 --
 
-DROP TABLE IF EXISTS `client`;
-CREATE TABLE IF NOT EXISTS `client` (
-  `clientId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `client` (
+  `clientId` int(11) NOT NULL,
   `cltId` int(11) NOT NULL,
   `countryId` int(6) NOT NULL,
   `userId` int(11) DEFAULT NULL,
@@ -77,11 +73,8 @@ CREATE TABLE IF NOT EXISTS `client` (
   `clientEmail` varchar(255) DEFAULT NULL,
   `contactTypeId` int(6) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`clientId`),
-  KEY `client_ibfk_1` (`countryId`),
-  KEY `contactTypeId` (`contactTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -189,7 +182,15 @@ INSERT INTO `client` (`clientId`, `cltId`, `countryId`, `userId`, `clientCode`, 
 (99, 99, 1, 1, 'EU-CU-00099', 'BUDDY RENOVATION', 'NO', '309 397 4245', 'buddy@buddysreno.com', 1, '2019-07-25 18:17:42', 2),
 (100, 100, 1, 1, 'EU-CU-00100', 'ROBERT JOHN', 'NO', '469 408 2344', 'robetsjohn@zoho.com', 1, '2019-07-25 18:25:23', 2),
 (101, 101, 1, 1, 'EU-CU-00101', 'BRANDON YATES', 'NO', '214 228 7086', 'brandon@ewing-properties.net', 1, '2019-07-25 18:26:22', 2),
-(102, 102, 1, 1, 'EU-CU-00102', 'WILLIAM REYES', 'NO', '469 209 2928', 'reyesremodeling@gmail.com', 1, '2019-07-25 18:28:15', 2);
+(102, 102, 1, 1, 'EU-CU-00102', 'WILLIAM REYES', 'NO', '469 209 2928', 'reyesremodeling@gmail.com', 1, '2019-07-25 18:28:15', 2),
+(109, 103, 1, 1, 'EU-CU-00103', 'JUAN ARZATE', 'NO', '214 228 1672', NULL, 1, '2019-08-07 17:09:08', 2),
+(110, 104, 1, 1, 'EU-CU-00104', 'SENI OBASA', 'NO', '732 644 4442', NULL, 1, '2019-08-07 17:09:51', 2),
+(111, 105, 1, 1, 'EU-CU-00105', 'CRISTIAN MARINEZ', 'NO', '214 971 9048', NULL, 1, '2019-08-07 17:10:50', 2),
+(112, 106, 1, 1, 'EU-CU-00106', 'ROBERT OJEDO', 'NO', '972 658 3288', 'NO@NO.COM', 1, '2019-08-07 17:11:14', 2),
+(113, 107, 1, 1, 'EU-CU-00107', 'ARTURO PAZ', '1001 RANDOM RD CARROLTON TX 75006', '469 363 4042', 'NO@NO.COM', 1, '2019-08-07 17:11:36', 2),
+(115, 108, 1, 1, 'EU-CU-00108', 'LUIS MENDEZ', 'NO', '214 769 1495', 'luis@innovationgroupelectric.com', 1, '2019-08-07 17:12:16', 2),
+(116, 109, 1, 1, 'EU-CU-00109', 'SELVIN VILLALOBO', 'NO', '214 315 9647', 'NO@NO', 1, '2019-08-07 17:13:06', 2),
+(117, 110, 1, 1, 'EU-CU-00110', 'KARLA HOYOS', 'NO', '956 598 0093', 'karlahoyoz@gmail.com', 7, '2019-08-08 20:49:39', 2);
 
 -- --------------------------------------------------------
 
@@ -197,9 +198,8 @@ INSERT INTO `client` (`clientId`, `cltId`, `countryId`, `userId`, `clientCode`, 
 -- Estructura de tabla para la tabla `configuration`
 --
 
-DROP TABLE IF EXISTS `configuration`;
-CREATE TABLE IF NOT EXISTS `configuration` (
-  `configurationId` int(6) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `configuration` (
+  `configurationId` int(6) NOT NULL,
   `countryId` int(6) NOT NULL,
   `officeId` int(6) NOT NULL,
   `projectNumber` int(6) NOT NULL,
@@ -207,16 +207,15 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   `clientNumber` int(6) NOT NULL,
   `invoiceNumber` int(11) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`configurationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `configuration`
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `clientNumber`, `invoiceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 98, 0, 102, 0, '2018-06-09 00:00:00', 1),
+(1, 1, 1, 108, 0, 110, 0, '2018-06-09 00:00:00', 1),
 (2, 2, 2, 0, 0, 0, 0, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -225,12 +224,10 @@ INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projec
 -- Estructura de tabla para la tabla `contact_type`
 --
 
-DROP TABLE IF EXISTS `contact_type`;
-CREATE TABLE IF NOT EXISTS `contact_type` (
-  `contactTypeId` int(6) NOT NULL AUTO_INCREMENT,
-  `contactTypeName` varchar(120) NOT NULL,
-  PRIMARY KEY (`contactTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+CREATE TABLE `contact_type` (
+  `contactTypeId` int(6) NOT NULL,
+  `contactTypeName` varchar(120) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `contact_type`
@@ -252,9 +249,8 @@ INSERT INTO `contact_type` (`contactTypeId`, `contactTypeName`) VALUES
 -- Estructura de tabla para la tabla `contract`
 --
 
-DROP TABLE IF EXISTS `contract`;
-CREATE TABLE IF NOT EXISTS `contract` (
-  `contractId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `contract` (
+  `contractId` int(11) NOT NULL,
   `conId` int(11) NOT NULL,
   `contractType` varchar(1) NOT NULL,
   `contractNumber` varchar(14) NOT NULL,
@@ -270,21 +266,15 @@ CREATE TABLE IF NOT EXISTS `contract` (
   `scheduledFinishDate` date DEFAULT NULL,
   `actualFinishDate` date DEFAULT NULL,
   `deliveryDate` date DEFAULT NULL,
-  `initialComment` text,
-  `intermediateComment` text,
-  `finalComment` text,
+  `initialComment` text DEFAULT NULL,
+  `intermediateComment` text DEFAULT NULL,
+  `finalComment` text DEFAULT NULL,
   `contractCost` varchar(250) NOT NULL,
   `currencyName` varchar(64) NOT NULL,
   `contractStatus` int(2) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`contractId`),
-  KEY `contract_ibfk_1` (`projectTypeId`),
-  KEY `contract_ibfk_2` (`serviceTypeId`),
-  KEY `contract_ibfk_3` (`countryId`),
-  KEY `contract_ibfk_4` (`officeId`),
-  KEY `contract_ibfk_5` (`clientId`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `contract`
@@ -388,7 +378,17 @@ INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`,
 (95, 95, 'P', '19-PC-EU-00095', 1, 1, '2019-07-13', 100, '2860 S STATE HWY 161 , GRAND PRAIRIE, TX 75052', 50, 1, NULL, '2019-07-25', '2019-07-25', '2019-07-25', '2019-07-25', NULL, NULL, NULL, 'eyJpdiI6IlVOZjB5Tmo4MlwvQ2RIWVZXTUNLejd3PT0iLCJ2YWx1ZSI6IjNaakVHbWhCRWlGbTduYm8zUml4SXc9PSIsIm1hYyI6IjU3ODVhYzNjNjVjM2Y1MDE4ZGFhNThlMWZjMzZlZGFkNGE4YmE1ODI0ZWUxM2ZjZTdlNGQ4M2NhZWNmOWIyMWQifQ==', 'USD', 1, '2019-07-25 20:32:14', 2),
 (96, 96, 'P', '19-PC-EU-00096', 1, 1, '2019-07-17', 101, '114 LESLIE ST DALLAS TX 75207', 46, 1, NULL, '2019-07-17', '2019-07-25', '2019-07-25', '2019-07-25', NULL, NULL, NULL, 'eyJpdiI6IlVleVA2clZsQkdaZFRqUjViM3RtSWc9PSIsInZhbHVlIjoib0lES08zYnNPZXNxUFF4VjF0RzVDdz09IiwibWFjIjoiYzBmZTVhMWQyNzkxOTcwYTMyN2UwYjJiYmQ1MDlkNjQ2ZjVhZTc4OWMzMjgzN2I1OWZlNjdjZTI0YmJjNjZkNCJ9', 'USD', 1, '2019-07-25 20:34:15', 2),
 (97, 97, 'P', '19-PC-EU-00097', 1, 1, '2019-07-22', 102, '3035 UTAH AVE DALLAS TX 75216', 2, 2, NULL, '2019-07-22', '2019-07-25', '2019-07-25', '2019-07-25', NULL, NULL, NULL, 'eyJpdiI6IkZ6blwvQmtsdzIwd1BrRXJBZFRUMXV3PT0iLCJ2YWx1ZSI6Ik1Ib1UzNHFsZGtIK2pwekFobUJCWnc9PSIsIm1hYyI6Ijk0OGI1NTMyNzc2OTk4MDVjMTgyOTRjYjYzYzdlYzNkODEyNTdiYjJjN2E0ODhhNWYyOWU4MTk1NzJiOTU5ODkifQ==', 'USD', 1, '2019-07-25 20:35:31', 2),
-(98, 98, 'P', '19-PC-EU-00098', 1, 1, '2019-07-23', 31, '6919 HARDISTY ST RICHLAND HILLS TX 76118', 12, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eyJpdiI6IkNoWGtQektWbW5KZnc0NmVQTzErTkE9PSIsInZhbHVlIjoiYzNvZlZiTzJNdDg2U0lpOWN4V1ppQT09IiwibWFjIjoiZmUzNzJlNTZiM2Y3ZmFiOTU4NjNhM2I0NTkyOTBhZGNlNjNlZjg4ODUwYzJhY2QwYjE3ZDdmNDA5MzdkYzcwYyJ9', 'USD', 1, '2019-07-26 18:56:18', 2);
+(98, 98, 'P', '19-PC-EU-00098', 1, 1, '2019-07-23', 31, '6919 HARDISTY ST RICHLAND HILLS TX 76118', 12, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eyJpdiI6IkNoWGtQektWbW5KZnc0NmVQTzErTkE9PSIsInZhbHVlIjoiYzNvZlZiTzJNdDg2U0lpOWN4V1ppQT09IiwibWFjIjoiZmUzNzJlNTZiM2Y3ZmFiOTU4NjNhM2I0NTkyOTBhZGNlNjNlZjg4ODUwYzJhY2QwYjE3ZDdmNDA5MzdkYzcwYyJ9', 'USD', 1, '2019-07-26 18:56:18', 2),
+(102, 99, 'P', '19-PC-EU-00099', 1, 1, '2019-07-21', 109, '1726 K AVE PLANO TX 75074', 3, 1, NULL, '2019-07-21', '2019-07-25', '2019-07-27', NULL, 'hacer floor plan site plan y parking analisis', NULL, NULL, 'eyJpdiI6IlVGOHFVWENRMTJKUVNRVEltM0tFaEE9PSIsInZhbHVlIjoiSjVaa1wvOFJ2d3dhUzRldml5dVVSUmc9PSIsIm1hYyI6ImY5ODVmMjZmOTg2YTU2OTIzYmUzYzQ2M2Q4ZTNlYjVmYmYyOGM0YWVjMzU3ZDIzODczYjExMzk2N2I4NTNiZGEifQ==', 'USD', 1, '2019-08-07 17:20:02', 2),
+(103, 100, 'P', '19-PC-EU-00100', 1, 1, '2019-07-23', 110, '4923 BARTLETT AVE DALLAS TX 75216', 51, 2, NULL, '2019-07-23', NULL, NULL, NULL, 'una adicion a una casa simple familiar pequna', NULL, NULL, 'eyJpdiI6InB1UVdrbTBobVh3OXJOWmYxNDQ3T3c9PSIsInZhbHVlIjoiXC9ROXd4dHJ6S2puWDd3NnVaWmYxbFE9PSIsIm1hYyI6ImYxOGZmZGU3YTk3OTQxZWZjNTA5OGQ4NWY5YWNiMWFmMGQ0NTc4MDMzNDc1YjJhODljYWMyMzNlZTYzZWM0ZTQifQ==', 'USD', 1, '2019-08-07 17:24:38', 2),
+(104, 101, 'P', '19-PC-EU-00101', 1, 1, '2019-07-25', 111, '4166 EASTER AVE DALLAS TX 75216', 1, 2, NULL, '2019-07-25', '2019-08-05', NULL, NULL, 'CSA NUEVA ESTILO MODERNO Y PEQUEÑA DE 2 PISOS CON 1500 SF REFERENCIAS DE FOTOS DEL CLIENTE', NULL, NULL, 'eyJpdiI6InIrSHYrTGpSaTJQdjFVKzB6M0VXQlE9PSIsInZhbHVlIjoiMStYU3JvaU14dnk3NkpPNEd3SW5rZz09IiwibWFjIjoiZTM3NTVjMTZiZTMyNmFjN2Q0N2MxMGJiODlhNDk5ZGE2ODJiNzdiNDFlNDY5YWFiNGE0MTZkODVlNDhlZDE3YSJ9', 'USD', 1, '2019-08-07 17:25:50', 2),
+(105, 102, 'P', '19-PC-EU-00102', 1, 1, '2019-07-25', 76, '701 HAVERHILL LN DALLAS TX 75217', 47, 1, NULL, '2019-07-25', NULL, NULL, NULL, 'HACER EL SITE PLAN, FFE Y SWD PARA UNA NUEVA DIRECCIÓN USANDO LOS PLANOS DE LA CASA DE 19-PC-UE-00063', NULL, NULL, 'eyJpdiI6IjhsVjNSMmxOMXhkbDJCQ3M0RE1GeWc9PSIsInZhbHVlIjoiVXc2ejdJWmZKOU9oM3hcL1BSOVJzd3c9PSIsIm1hYyI6IjFiYjcyMGQ3MzhiZmFkMmYxMzlkZTc4MWZmNzhkMGZkMDc2ZjI0NzI3MThlOTE5YTczYTBlM2QwYmQyOTg5YzAifQ==', 'USD', 1, '2019-08-07 17:26:48', 2),
+(106, 103, 'P', '19-PC-EU-00103', 1, 1, '2019-07-26', 113, '1801 RANDOM RD CARROLTON TX 75006', 2, 2, NULL, '2019-07-26', NULL, NULL, NULL, 'MODIFICAR LA PARTE EXISTENTE MÁS VIEJA DE LA CASA LA PARTE DE UN SOLO NIVEL HACER UNA PROPUESTA NUEVA DE REMODIFICAR LA CASA CON LA ENTRADA HACIA EL FRENTE DEL LOTE Y AÑADIRLE GARAGE PEGADO A LA CASA MANTENIENDO LA PARTE DE ATRÁS Y EL SEGUNDO NIVEL, HACER UNA PROPUESTA DE MAXIMO 1700 SF', NULL, NULL, 'eyJpdiI6IjkyeGN2dDRPellIRnAwbnkrMG1LcUE9PSIsInZhbHVlIjoiTldka0dZQ281ZnNFXC80UFlYWCsrb0E9PSIsIm1hYyI6ImE1NGYwYTEzNDA5ODNlMDI5YTgxZjA3NGRiYWEyZTlkMzEwZWI3YzA2OTUyYzc1YTZmM2ZiMDk2M2NhMTU5N2MifQ==', 'USD', 1, '2019-08-07 17:28:48', 2),
+(107, 104, 'P', '19-PC-EU-00104', 1, 1, '2019-07-25', 112, '5924 AZALEA LN DALLAS TX 75230', 12, 2, NULL, '2019-07-25', NULL, NULL, NULL, NULL, NULL, NULL, 'eyJpdiI6InBia2NWYzlidEtHNWpJa0lPQ1NreFE9PSIsInZhbHVlIjoiVUdaU1wvOWltZnRBaExTQlVTdDQzcmc9PSIsIm1hYyI6ImRmZjNmYzFjZDdhNWY0OWE5OTMzNmJkNzdiNjAyZDBiOWFkM2IwZDA2YjE5Mjc3NzYxYjI5YTBjYmVjODFjYjIifQ==', 'USD', 1, '2019-08-07 17:30:00', 2),
+(108, 105, 'P', '19-PC-EU-00105', 1, 1, '2019-07-30', 115, '612 DANIELDALE RD DESOTO TX 75115', 52, 2, NULL, '2019-07-30', '2019-08-08', NULL, NULL, 'EL CLIENTE QUIERE HACER UN GAME ROOM Y HAY QUE FIGURAR LA ESCALERA, EL MISMO SERA EN EL ATICO EXISTENTE SIN MODIFICAR LA ALTURA, OTRA COSA ES QUE EN EL MASTER EN EL BANO TIENE PEGADO UNA OF EL QUIERE COLOCAR UN CLOSET DE HOMBRE Y UN CLOSET DE MUJER ENTONCES EL ESPACIO DE LA OF ESTA ESTORBANDO Y HAY QUE QUITARLA Y RECONFIGURAR PARA COLOCAR AMBOS CLOSES', NULL, NULL, 'eyJpdiI6IlhDZmVGTVdCRWtacUVxTkk4Ym9SNXc9PSIsInZhbHVlIjoiaXJDa2JtaXQ5R2VnVXdqTEF1bzdGQT09IiwibWFjIjoiOTNhZTRmZGUyNDM1ODU2ZWMzMGJhYzk1ODI5Mzc4NmUzMGEzZTgzYjA4ZDhmMjRlYzAxZmE5YTgyMzM4ZjMyYyJ9', 'USD', 1, '2019-08-07 17:32:04', 2),
+(109, 106, 'P', '19-PC-EU-00106', 1, 1, '2019-07-31', 116, 'BLK A LOT 3R JONES ST LEWISVILLE TX 75057', 26, 1, NULL, '2019-07-31', NULL, NULL, NULL, 'SE LE ESTA HACIENDO UN SITE PLAN PARA PRESENTARSELO A LA CIUDAD COMO UN ANTE PROYECTO PARA LA CONSTRUCCION DE 4 GALPONES PARA USO INDUSTRIAL', NULL, NULL, 'eyJpdiI6IjlrTUNWRE1STFN4a1NaMUU3eFZqN0E9PSIsInZhbHVlIjoibkpaWHRPNTUzT0FmeExuamNFVVpOZz09IiwibWFjIjoiZTFkMmY2MDViZTMwZmFlNzk4MGI2OWQ3ZDYzOWVjMzBmZDQzYTQxZGNhZDIzMWJjM2MyOWZkYWI1NzEwZDNiMSJ9', 'USD', 1, '2019-08-07 17:33:15', 2),
+(110, 107, 'P', '19-PC-EU-00107', 1, 1, '2019-08-01', 95, '1355 NEPTUNE RD DALLAS TX 75216', 1, 2, NULL, '2019-08-01', '2019-08-09', NULL, NULL, 'DISENAR UNA CASA NUEVA', NULL, NULL, 'eyJpdiI6IlZSNHpaemp2dmJzMTdUdno2STdEd2c9PSIsInZhbHVlIjoieDlITk9uS1dGaXdvcDJPSkV6MEhrQT09IiwibWFjIjoiNGZiOWM3NzRhZDQ0ZTc3ZmFhNDc4OTA0OGEzMWMzMGM3ODNjYWVkYTU5NGI4MWNkNTczY2JiNjIyNDRjMGQyOSJ9', 'USD', 1, '2019-08-07 17:34:02', 2),
+(111, 108, 'P', '19-PC-EU-00108', 1, 1, '2019-08-08', 117, '900 E Park Row Dr Arlington, TX 76010', 53, 1, NULL, '2019-08-08', '2019-08-12', NULL, NULL, 'PLANOS MECAINICOS PARA LOCAL COMERCIAL ELLA ENVIO PLANOS EN PDF', NULL, NULL, 'eyJpdiI6IndLdW4xMFE1UHlFNThKeGFPSXZKdmc9PSIsInZhbHVlIjoiSnhFd3EzOWJUNTNldXJOVFRKXC9LTUE9PSIsIm1hYyI6IjczYjAzMWQ4MTY0ZjYxZTk2OGE0ZjQ4MjRjZGI5M2RlMDUzYjAyOTM0ZjVkOGRlYzNmYzUxZmNkMGJkNzA1ZDIifQ==', 'USD', 1, '2019-08-08 20:53:15', 2);
 
 -- --------------------------------------------------------
 
@@ -396,15 +396,13 @@ INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`,
 -- Estructura de tabla para la tabla `contract_staff`
 --
 
-DROP TABLE IF EXISTS `contract_staff`;
-CREATE TABLE IF NOT EXISTS `contract_staff` (
-  `contractStaffId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `contract_staff` (
+  `contractStaffId` int(11) NOT NULL,
   `contractId` int(11) NOT NULL,
   `staffId` int(11) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`contractStaffId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `contract_staff`
@@ -419,16 +417,14 @@ INSERT INTO `contract_staff` (`contractStaffId`, `contractId`, `staffId`, `dateC
 -- Estructura de tabla para la tabla `country`
 --
 
-DROP TABLE IF EXISTS `country`;
-CREATE TABLE IF NOT EXISTS `country` (
-  `countryId` int(6) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `country` (
+  `countryId` int(6) NOT NULL,
   `abbreviation` varchar(4) NOT NULL,
   `countryName` varchar(128) NOT NULL,
   `currencyName` varchar(64) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`countryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `country`
@@ -444,13 +440,11 @@ INSERT INTO `country` (`countryId`, `abbreviation`, `countryName`, `currencyName
 -- Estructura de tabla para la tabla `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `migrations`
@@ -466,19 +460,16 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Estructura de tabla para la tabla `office`
 --
 
-DROP TABLE IF EXISTS `office`;
-CREATE TABLE IF NOT EXISTS `office` (
-  `officeId` int(6) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `office` (
+  `officeId` int(6) NOT NULL,
   `countryId` int(6) NOT NULL,
   `officeName` varchar(255) NOT NULL,
   `officeAddress` varchar(255) NOT NULL,
   `officePhone` varchar(255) NOT NULL,
   `officeEmail` varchar(255) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`officeId`),
-  KEY `office_ibfk_1` (`countryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `office`
@@ -494,12 +485,10 @@ INSERT INTO `office` (`officeId`, `countryId`, `officeName`, `officeAddress`, `o
 -- Estructura de tabla para la tabla `password_resets`
 --
 
-DROP TABLE IF EXISTS `password_resets`;
-CREATE TABLE IF NOT EXISTS `password_resets` (
+CREATE TABLE `password_resets` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
+  `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -508,17 +497,14 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Estructura de tabla para la tabla `payment_contract`
 --
 
-DROP TABLE IF EXISTS `payment_contract`;
-CREATE TABLE IF NOT EXISTS `payment_contract` (
-  `paymentContractId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payment_contract` (
+  `paymentContractId` int(11) NOT NULL,
   `contractId` int(11) NOT NULL,
   `amount` varchar(250) NOT NULL,
   `paymentDate` date NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`paymentContractId`),
-  KEY `payment_contract_ibfk_1` (`contractId`)
-) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `payment_contract`
@@ -696,16 +682,13 @@ INSERT INTO `payment_contract` (`paymentContractId`, `contractId`, `amount`, `pa
 -- Estructura de tabla para la tabla `payment_precontract`
 --
 
-DROP TABLE IF EXISTS `payment_precontract`;
-CREATE TABLE IF NOT EXISTS `payment_precontract` (
-  `paymentPrecontractId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payment_precontract` (
+  `paymentPrecontractId` int(11) NOT NULL,
   `precontractId` int(11) NOT NULL,
   `amount` varchar(250) NOT NULL,
   `paymentDate` date NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(1) NOT NULL,
-  PRIMARY KEY (`paymentPrecontractId`),
-  KEY `payment_precontract_ibfk_1` (`precontractId`)
+  `lastUserId` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -714,8 +697,7 @@ CREATE TABLE IF NOT EXISTS `payment_precontract` (
 -- Estructura de tabla para la tabla `position`
 --
 
-DROP TABLE IF EXISTS `position`;
-CREATE TABLE IF NOT EXISTS `position` (
+CREATE TABLE `position` (
   `positionId` int(9) NOT NULL,
   `positionName` varchar(128) NOT NULL,
   `dateCreated` datetime NOT NULL,
@@ -735,9 +717,8 @@ INSERT INTO `position` (`positionId`, `positionName`, `dateCreated`, `lastUserId
 -- Estructura de tabla para la tabla `pre_contract`
 --
 
-DROP TABLE IF EXISTS `pre_contract`;
-CREATE TABLE IF NOT EXISTS `pre_contract` (
-  `precontractId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pre_contract` (
+  `precontractId` int(11) NOT NULL,
   `contractType` varchar(1) NOT NULL,
   `countryId` int(6) NOT NULL,
   `officeId` int(6) NOT NULL,
@@ -745,12 +726,9 @@ CREATE TABLE IF NOT EXISTS `pre_contract` (
   `siteAddress` varchar(255) NOT NULL,
   `projectTypeId` int(11) NOT NULL,
   `serviceTypeId` int(11) NOT NULL,
-  `comment` text,
+  `comment` text DEFAULT NULL,
   `precontractCost` varchar(250) NOT NULL,
-  `currencyName` varchar(64) NOT NULL,
-  PRIMARY KEY (`precontractId`),
-  KEY `pre_contract_ibfk_1` (`countryId`),
-  KEY `pre_contract_ibfk_2` (`officeId`)
+  `currencyName` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -759,14 +737,12 @@ CREATE TABLE IF NOT EXISTS `pre_contract` (
 -- Estructura de tabla para la tabla `project_type`
 --
 
-DROP TABLE IF EXISTS `project_type`;
-CREATE TABLE IF NOT EXISTS `project_type` (
-  `projectTypeId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `project_type` (
+  `projectTypeId` int(11) NOT NULL,
   `projectTypeName` varchar(255) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`projectTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `project_type`
@@ -820,7 +796,10 @@ INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `
 (47, 'FFE SWD', '2019-04-27 22:57:29', 2),
 (48, 'CO 3D', '2019-05-27 06:53:44', 2),
 (49, 'ARCH', '2019-05-27 07:37:22', 2),
-(50, 'MEP', '2019-07-25 20:24:43', 2);
+(50, 'MEP', '2019-07-25 20:24:43', 2),
+(51, 'ADDITION WALL', '2019-08-07 17:23:48', 2),
+(52, 'ADDITION / REMODEL', '2019-08-07 17:30:52', 2),
+(53, 'MECHANICAL', '2019-08-08 21:01:01', 2);
 
 -- --------------------------------------------------------
 
@@ -828,9 +807,8 @@ INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `
 -- Estructura de tabla para la tabla `receivable`
 --
 
-DROP TABLE IF EXISTS `receivable`;
-CREATE TABLE IF NOT EXISTS `receivable` (
-  `receivableId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `receivable` (
+  `receivableId` int(11) NOT NULL,
   `countryId` int(6) NOT NULL,
   `clientId` int(11) NOT NULL,
   `contractId` int(11) NOT NULL,
@@ -846,9 +824,8 @@ CREATE TABLE IF NOT EXISTS `receivable` (
   `targetBankId` int(6) DEFAULT NULL,
   `targetBankAccount` varchar(24) DEFAULT NULL,
   `datePaid` date DEFAULT NULL,
-  `pending` varchar(1) NOT NULL DEFAULT 'Y',
-  PRIMARY KEY (`receivableId`)
-) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=latin1;
+  `pending` varchar(1) NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `receivable`
@@ -1028,14 +1005,12 @@ INSERT INTO `receivable` (`receivableId`, `countryId`, `clientId`, `contractId`,
 -- Estructura de tabla para la tabla `service_type`
 --
 
-DROP TABLE IF EXISTS `service_type`;
-CREATE TABLE IF NOT EXISTS `service_type` (
-  `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `service_type` (
+  `serviceTypeId` int(11) NOT NULL,
   `serviceTypeName` varchar(255) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`serviceTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `service_type`
@@ -1051,9 +1026,8 @@ INSERT INTO `service_type` (`serviceTypeId`, `serviceTypeName`, `dateCreated`, `
 -- Estructura de tabla para la tabla `staff`
 --
 
-DROP TABLE IF EXISTS `staff`;
-CREATE TABLE IF NOT EXISTS `staff` (
-  `staffId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `staff` (
+  `staffId` int(11) NOT NULL,
   `staffCategoryId` int(6) NOT NULL,
   `countryId` int(6) NOT NULL,
   `officeId` int(6) NOT NULL,
@@ -1061,12 +1035,8 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `fullName` varchar(64) NOT NULL,
   `positionId` int(9) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`staffId`),
-  KEY `staff_ibfk_1` (`staffCategoryId`),
-  KEY `staff_ibfk_2` (`countryId`),
-  KEY `staff_ibfk_3` (`officeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `staff`
@@ -1081,14 +1051,12 @@ INSERT INTO `staff` (`staffId`, `staffCategoryId`, `countryId`, `officeId`, `use
 -- Estructura de tabla para la tabla `staff_category`
 --
 
-DROP TABLE IF EXISTS `staff_category`;
-CREATE TABLE IF NOT EXISTS `staff_category` (
-  `staffCategory` int(6) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `staff_category` (
+  `staffCategory` int(6) NOT NULL,
   `staffCategoryName` varchar(64) NOT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`staffCategory`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `staff_category`
@@ -1106,20 +1074,16 @@ INSERT INTO `staff_category` (`staffCategory`, `staffCategoryName`, `dateCreated
 -- Estructura de tabla para la tabla `transaction`
 --
 
-DROP TABLE IF EXISTS `transaction`;
-CREATE TABLE IF NOT EXISTS `transaction` (
-  `transactionId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `transaction` (
+  `transactionId` int(11) NOT NULL,
   `transactionTypeId` int(6) NOT NULL,
   `transactionDate` date NOT NULL,
   `description` varchar(128) NOT NULL,
   `amount` varchar(250) NOT NULL,
   `sign` varchar(1) DEFAULT NULL,
   `bankId` int(6) NOT NULL,
-  `reference` varchar(64) NOT NULL,
-  PRIMARY KEY (`transactionId`),
-  KEY `transaction_ibfk_1` (`transactionTypeId`),
-  KEY `transaction_ibfk_2` (`bankId`)
-) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=latin1;
+  `reference` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `transaction`
@@ -1296,13 +1260,11 @@ INSERT INTO `transaction` (`transactionId`, `transactionTypeId`, `transactionDat
 -- Estructura de tabla para la tabla `transaction_type`
 --
 
-DROP TABLE IF EXISTS `transaction_type`;
-CREATE TABLE IF NOT EXISTS `transaction_type` (
-  `transactionTypeId` int(6) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `transaction_type` (
+  `transactionTypeId` int(6) NOT NULL,
   `transactionTypeName` varchar(64) NOT NULL,
-  `sign` varchar(1) NOT NULL,
-  PRIMARY KEY (`transactionTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `sign` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `transaction_type`
@@ -1318,9 +1280,8 @@ INSERT INTO `transaction_type` (`transactionTypeId`, `transactionTypeName`, `sig
 -- Estructura de tabla para la tabla `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `userId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `userId` int(11) NOT NULL,
   `userTypeName` varchar(64) NOT NULL,
   `userLevel` int(2) NOT NULL,
   `countryId` int(6) NOT NULL,
@@ -1330,10 +1291,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userEmail` varchar(30) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`userId`),
-  UNIQUE KEY `userEmail` (`userEmail`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `lastUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `user`
@@ -1341,11 +1300,284 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`userId`, `userTypeName`, `userLevel`, `countryId`, `officeId`, `userName`, `userPassword`, `userEmail`, `remember_token`, `dateCreated`, `lastUserId`) VALUES
 (1, 'ADMINISTRADOR', 2, 1, 1, 'gabrielcarrillo2018', 'ec037f0bdfc5339525bbd807a26a07a0', 'gabrielcarrillo2018@gmail.com', '', '2018-06-09 00:00:00', 1),
-(2, 'DIRECTOR', 1, 1, 1, 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', '19qc6RZEDeIFGMdc2BkMHhCS4VPC1Vpwf0H5mzPfAJyStQ624a8Tt5Qyc7xX', '2018-06-09 00:00:00', 1),
+(2, 'DIRECTOR', 1, 1, 1, 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'TpqjkQxOKe6VNCx28kBFNDmXDONsI1rSm5lw0a5cOmZdPEXdMk6AQWTVoKiO', '2018-06-09 00:00:00', 1),
 (3, 'CLIENTE', 5, 1, 1, 'cliente1', '$2y$12$RvUF8dFWdHx54s5uUlZI4OKaADNPlBO2Ebu8aZ8QPRtKkCCa5qyKS', 'cliente1@gmail.com', 'cfStkkRasQBCQpTVIdyUFI4ntSY18Fl68RS1eFjGZej5dGszzPOSOL62v2Zn', '2018-06-09 00:00:00', 1),
 (4, 'EMPLEADO', 4, 1, 1, 'davidaparicio', '$2a$12$LjpaOM5IBmS/Ws3Qz3wgu.P98M5ETqtlRnlmxW6VhxhhGPlxdoS4C', 'proyectista1@gmail.com', '32nnllPyoXExK07A2T3P8loLQX5FWdFwl6w101jcSm7rgBO3gADpI3Nv2y4w', '2018-06-09 00:00:00', 1),
 (5, 'CLIENTE', 5, 1, 1, 'cliente2', '6dcd0e14f89d67e397b9f52bb63f5570', 'cliente2@gmail.com', '', '2018-06-09 00:00:00', 1),
 (6, 'DIRECTOR', 1, 1, 1, 'sarodifrisco', '$2b$10$Aa7bl90BLMhtxm8IC4g.zOeuMfR7mnmrGxY.VvDR4fdTbGof4z/AK', 'sarodifrisco@gmail.com', NULL, '2019-07-29 00:00:00', 1);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `bank`
+--
+ALTER TABLE `bank`
+  ADD PRIMARY KEY (`bankId`),
+  ADD KEY `bank_ibfk_1` (`countryId`);
+
+--
+-- Indices de la tabla `client`
+--
+ALTER TABLE `client`
+  ADD PRIMARY KEY (`clientId`),
+  ADD KEY `client_ibfk_1` (`countryId`),
+  ADD KEY `contactTypeId` (`contactTypeId`);
+
+--
+-- Indices de la tabla `configuration`
+--
+ALTER TABLE `configuration`
+  ADD PRIMARY KEY (`configurationId`);
+
+--
+-- Indices de la tabla `contact_type`
+--
+ALTER TABLE `contact_type`
+  ADD PRIMARY KEY (`contactTypeId`);
+
+--
+-- Indices de la tabla `contract`
+--
+ALTER TABLE `contract`
+  ADD PRIMARY KEY (`contractId`),
+  ADD KEY `contract_ibfk_1` (`projectTypeId`),
+  ADD KEY `contract_ibfk_2` (`serviceTypeId`),
+  ADD KEY `contract_ibfk_3` (`countryId`),
+  ADD KEY `contract_ibfk_4` (`officeId`),
+  ADD KEY `contract_ibfk_5` (`clientId`);
+
+--
+-- Indices de la tabla `contract_staff`
+--
+ALTER TABLE `contract_staff`
+  ADD PRIMARY KEY (`contractStaffId`);
+
+--
+-- Indices de la tabla `country`
+--
+ALTER TABLE `country`
+  ADD PRIMARY KEY (`countryId`);
+
+--
+-- Indices de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `office`
+--
+ALTER TABLE `office`
+  ADD PRIMARY KEY (`officeId`),
+  ADD KEY `office_ibfk_1` (`countryId`);
+
+--
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indices de la tabla `payment_contract`
+--
+ALTER TABLE `payment_contract`
+  ADD PRIMARY KEY (`paymentContractId`),
+  ADD KEY `payment_contract_ibfk_1` (`contractId`);
+
+--
+-- Indices de la tabla `payment_precontract`
+--
+ALTER TABLE `payment_precontract`
+  ADD PRIMARY KEY (`paymentPrecontractId`),
+  ADD KEY `payment_precontract_ibfk_1` (`precontractId`);
+
+--
+-- Indices de la tabla `pre_contract`
+--
+ALTER TABLE `pre_contract`
+  ADD PRIMARY KEY (`precontractId`),
+  ADD KEY `pre_contract_ibfk_1` (`countryId`),
+  ADD KEY `pre_contract_ibfk_2` (`officeId`);
+
+--
+-- Indices de la tabla `project_type`
+--
+ALTER TABLE `project_type`
+  ADD PRIMARY KEY (`projectTypeId`);
+
+--
+-- Indices de la tabla `receivable`
+--
+ALTER TABLE `receivable`
+  ADD PRIMARY KEY (`receivableId`);
+
+--
+-- Indices de la tabla `service_type`
+--
+ALTER TABLE `service_type`
+  ADD PRIMARY KEY (`serviceTypeId`);
+
+--
+-- Indices de la tabla `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`staffId`),
+  ADD KEY `staff_ibfk_1` (`staffCategoryId`),
+  ADD KEY `staff_ibfk_2` (`countryId`),
+  ADD KEY `staff_ibfk_3` (`officeId`);
+
+--
+-- Indices de la tabla `staff_category`
+--
+ALTER TABLE `staff_category`
+  ADD PRIMARY KEY (`staffCategory`);
+
+--
+-- Indices de la tabla `transaction`
+--
+ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`transactionId`),
+  ADD KEY `transaction_ibfk_1` (`transactionTypeId`),
+  ADD KEY `transaction_ibfk_2` (`bankId`);
+
+--
+-- Indices de la tabla `transaction_type`
+--
+ALTER TABLE `transaction_type`
+  ADD PRIMARY KEY (`transactionTypeId`);
+
+--
+-- Indices de la tabla `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`userId`),
+  ADD UNIQUE KEY `userEmail` (`userEmail`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `bank`
+--
+ALTER TABLE `bank`
+  MODIFY `bankId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `client`
+--
+ALTER TABLE `client`
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+
+--
+-- AUTO_INCREMENT de la tabla `configuration`
+--
+ALTER TABLE `configuration`
+  MODIFY `configurationId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `contact_type`
+--
+ALTER TABLE `contact_type`
+  MODIFY `contactTypeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `contract`
+--
+ALTER TABLE `contract`
+  MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+
+--
+-- AUTO_INCREMENT de la tabla `contract_staff`
+--
+ALTER TABLE `contract_staff`
+  MODIFY `contractStaffId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `country`
+--
+ALTER TABLE `country`
+  MODIFY `countryId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `office`
+--
+ALTER TABLE `office`
+  MODIFY `officeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `payment_contract`
+--
+ALTER TABLE `payment_contract`
+  MODIFY `paymentContractId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+
+--
+-- AUTO_INCREMENT de la tabla `payment_precontract`
+--
+ALTER TABLE `payment_precontract`
+  MODIFY `paymentPrecontractId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pre_contract`
+--
+ALTER TABLE `pre_contract`
+  MODIFY `precontractId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `project_type`
+--
+ALTER TABLE `project_type`
+  MODIFY `projectTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT de la tabla `receivable`
+--
+ALTER TABLE `receivable`
+  MODIFY `receivableId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+
+--
+-- AUTO_INCREMENT de la tabla `service_type`
+--
+ALTER TABLE `service_type`
+  MODIFY `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `staffId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `staff_category`
+--
+ALTER TABLE `staff_category`
+  MODIFY `staffCategory` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `transaction`
+--
+ALTER TABLE `transaction`
+  MODIFY `transactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+
+--
+-- AUTO_INCREMENT de la tabla `transaction_type`
+--
+ALTER TABLE `transaction_type`
+  MODIFY `transactionTypeId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `user`
+--
+ALTER TABLE `user`
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

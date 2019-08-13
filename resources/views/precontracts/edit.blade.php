@@ -36,6 +36,11 @@
            <div class="row"></div>
            <search-client url='E' c-id="{{$precontract[0]->clientId}}" c-name="{{$precontract[0]->client->clientName}}" c-address="{{$precontract[0]->siteAddress}}"></search-client>
 
+     <!--input Address-->      
+          <div class="form-group col-xs-11">
+                <label for="siteAddress">DIRECCIÓN</label>
+                <input type="text" class="form-control" id="siteAddress" name="siteAddress">
+           </div>
           <div class="form-group col-xs-7">
             <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
             <select class="form-control" name="projectTypeId" id="projectTypeId">

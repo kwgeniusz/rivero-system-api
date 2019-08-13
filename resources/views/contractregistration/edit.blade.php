@@ -30,19 +30,34 @@
            <input disabled type="text" class="form-control" id="contractNumber" name="contractNumber" value="{{ $contract[0]->contractNumber }}" placeholder="JDR-000000-18">
          </div>
 
-
-         <select-country-office-edit country="{{$contract[0]->countryId}}" office="{{$contract[0]->officeId}}"></select-country-office-edit>
+   <div class="col-xs-6">
+         <div class="form-group">
+            <label for="countryId">Pais</label>
+             <input disabled type="text" class="form-control" id="countryId" name="countryId" value="{{ $contract[0]->country->countryName }}">
+          </div>  
+        </div>  
+ 
+      <div class="col-xs-6">
+         <div class="form-group">
+            <label for="officeId">Oficina</label>
+             <input disabled type="text" class="form-control" id="officeId" name="officeId" value="{{ $contract[0]->office->officeName }}">
+          </div> 
+    </div>
 
                 <div class="form-group col-xs-5">
                   <label for="contractDate">{{__('date_of_contract')}}</label>
                   <input class="form-control flatpickr"  id="contractDate" name="contractDate" value="{{ $contract[0]->contractDate }}">
                 </div>
-
-
+        
+@if($blockEdit == false)
            <div class="row"></div>
            <search-client url='E' c-id="{{$contract[0]->clientId}}" c-name="{{$contract[0]->client->clientName}}" c-address="{{$contract[0]->siteAddress}}"></search-client>
 
-
+       <!--input Address-->      
+          <div class="form-group col-xs-11">
+                <label for="siteAddress">DIRECCIÓN</label>
+                <input type="text" class="form-control" id="siteAddress" name="siteAddress" value="{{ $contract[0]->siteAddress }}">
+           </div>  
 
           <div class="form-group col-xs-7">
             <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
@@ -75,7 +90,42 @@
                 <label for="registryNumber">N° {{__('registration')}}</label>
                 <input type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ $contract[0]->registryNumber }}">
               </div>
+  @else
+        
+         <div class="row"></div>
+              <div class="form-group col-xs-6 ">
+                <label for="clientId">{{__('client')}}</label>
+                <input disabled type="text" class="form-control" id="clientId" value="{{ $contract[0]->client->clientName }}">
+              </div>
+           <input type="hidden" name="clientId" value="{{ $contract[0]->clientId }}">
 
+       <!--input Address-->      
+          <div class="form-group col-xs-11">
+                <label for="siteAddress">DIRECCIÓN</label>
+                <input disabled type="text" class="form-control" id="siteAddress" name="siteAddress" value="{{ $contract[0]->siteAddress }}">
+           </div>  
+           <input type="hidden" name="siteAddress"  value="{{ $contract[0]->siteAddress }}">
+
+          <div class="form-group col-xs-7">
+            <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
+             <input disabled type="text" class="form-control" id="projectTypeId" name="projectTypeId" value="{{ $contract[0]->projectType->projectTypeName }}">
+          </div>
+           <input type="hidden" name="projectTypeId"  value="{{ $contract[0]->projectTypeId  }}">
+
+         <div class="form-group col-xs-7">
+            <label for="serviceTypeId">TIPO DE PROYECTO</label>
+              <input disabled type="text" class="form-control" id="serviceTypeId" value="{{ $contract[0]->serviceType->serviceTypeName }}">
+          </div>
+          <input type="hidden" name="serviceTypeId" value="{{ $contract[0]->serviceTypeId }}">
+
+           <div class="row"></div>
+              <div class="form-group col-xs-6 ">
+                <label for="registryNumber">N° {{__('registration')}}</label>
+                <input disabled type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ $contract[0]->registryNumber }}">
+              </div>
+          <input type="hidden" name="registryNumber" value="{{ $contract[0]->registryNumber }}">   
+
+@endif
           <div class="row"></div>
               <div class="form-group col-xs-5">
                 <label for="startDate">{{__('start_date')}}</label>
@@ -116,7 +166,7 @@
               </div>
            </div>
 
-
+@if($blockEdit == false)
             <div class="col-xs-6">
                <div class="form-group">
               <label for="currencyName">{{__('currency')}}</label>
@@ -131,7 +181,14 @@
               </select>
               </div>
             </div>
-
+@else
+            <div class="col-xs-6">
+               <div class="form-group">
+              <label for="currencyName">{{__('currency')}}</label>
+              <input disabled type="text" class="form-control" id="currencyName"  value="{{ $contract[0]->currencyName }}">
+            </div>
+          <input type="hidden" name="currencyName" value="{{ $contract[0]->currencyName }}">     
+@endif
 
 
           <div class="col-xs-12">

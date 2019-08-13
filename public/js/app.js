@@ -47027,32 +47027,6 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group col-xs-11" }, [
-        _c("label", { attrs: { for: "siteAddress" } }, [_vm._v("DIRECCIÓN")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.clientAddress,
-              expression: "clientAddress"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", id: "siteAddress", name: "siteAddress" },
-          domProps: { value: _vm.clientAddress },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.clientAddress = $event.target.value
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
       _c("sweet-modal", { ref: "modalClientNew" }, [
         _c("h3", { staticClass: "bg-success" }, [
           _c("b", [_vm._v("NUEVO CLIENTE")])
@@ -48058,7 +48032,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.iframe[data-v-269958e6]{\n width:550px;\n  height:400px\n}\n\n", ""]);
+exports.push([module.i, "\n.iframe[data-v-269958e6]{\n width:100%;\n  height:100%;\n}\n\n", ""]);
 
 // exports
 
@@ -48091,28 +48065,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component Modal previuw Doc mounted.');
-  },
+   mounted: function mounted() {
+      console.log('Component Modal previuw Doc mounted.');
+   },
 
-  data: function data() {
-    return {};
-  },
-  props: {
-    typecontract: { type: String },
-    directoryName: { type: String },
-    file: { type: String },
-    ext: { type: String }
-  },
-  computed: {
-    url: function url() {
-      if (this.ext == 'docx' || this.ext == 'pptx' || this.ext == 'xls') {
-        return 'https://view.officeapps.live.com/op/embed.aspx?src=' + window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.typecontract + '/' + this.directoryName + '/' + this.file;
-      } else {
-        return window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.typecontract + '/' + this.directoryName + '/' + this.file;
+   data: function data() {
+      return {};
+   },
+   props: {
+      typeContract: { type: String },
+      typeDoc: { type: String },
+      directoryName: { type: String },
+      file: { type: String },
+      ext: { type: String }
+   },
+   computed: {
+      url: function url() {
+
+         if (this.typeContract == 'precontracts') {
+            if (this.ext == 'docx' || this.ext == 'pptx' || this.ext == 'xls') {
+               return 'https://view.officeapps.live.com/op/embed.aspx?src=' + window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.typeContract + '/' + this.directoryName + '/' + this.file;
+            } else {
+               return window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.typeContract + '/' + this.directoryName + '/' + this.file;
+            }
+         } else {
+            if (this.ext == 'docx' || this.ext == 'pptx' || this.ext == 'xls') {
+               return 'https://view.officeapps.live.com/op/embed.aspx?src=' + window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.typeContract + '/' + this.typeDoc + '/' + this.directoryName + '/' + this.file;
+            } else {
+               return window.location.protocol + '//' + window.location.host + '/storage/docs/' + this.typeContract + '/' + this.typeDoc + '/' + this.directoryName + '/' + this.file;
+            }
+         }
       }
-    }
-  }
+   }
 });
 
 /***/ }),
@@ -48149,7 +48133,11 @@ var render = function() {
         "sweet-modal",
         {
           ref: "modal",
-          attrs: { "modal-theme": "dark", "overlay-theme": "dark" }
+          attrs: {
+            "modal-theme": "dark",
+            "overlay-theme": "dark",
+            width: "80%"
+          }
         },
         [
           _c("b", [_vm._v(" Previzualicion Del Documento.")]),
@@ -48157,12 +48145,19 @@ var render = function() {
           _c("br"),
           _c("br"),
           _vm._v(" "),
-          _c("div", { staticClass: "embed-responsive embed-responsive-4by3" }, [
-            _c("iframe", {
-              staticClass: "iframe",
-              attrs: { src: _vm.url, frameborder: "0" }
-            })
-          ])
+          _c(
+            "div",
+            { staticClass: "embed-responsive embed-responsive-4by3 iframe" },
+            [
+              _c("center", [
+                _c("iframe", {
+                  staticClass: "iframe",
+                  attrs: { src: _vm.url, frameborder: "0" }
+                })
+              ])
+            ],
+            1
+          )
         ]
       )
     ],

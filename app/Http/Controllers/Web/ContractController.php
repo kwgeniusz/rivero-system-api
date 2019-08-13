@@ -95,14 +95,11 @@ class ContractController extends Controller
 
     public function edit($id)
     {
+      
+      $blockEdit = false;
 
          if($this->oReceivable->verificarPagoCuota($id)){
-
-              $notification = array(
-                  'message'    => 'Acción no Permitida, El Contrato posee cuotas pagadas',
-                  'alert-type' => 'error',
-                 );
-              return redirect()->route('contracts.index')->with($notification);
+             $blockEdit = true;
          }
           
         $clients  = $this->oClient->getAll();
@@ -110,7 +107,7 @@ class ContractController extends Controller
         $services = $this->oServiceType->getAll();
         $contract = $this->oContract->FindById($id);
 
-        return view('contractregistration.edit', compact('contract', 'projects', 'services', 'clients'));
+        return view('contractregistration.edit', compact('contract', 'projects', 'services', 'clients','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
@@ -118,8 +115,8 @@ class ContractController extends Controller
 
         $this->oContract->updateContract(
             $id,
-            $request->countryId,
-            $request->officeId,
+            // $request->countryId,
+            // $request->officeId,
             $request->contractDate,
             $request->clientId,
             $request->siteAddress,

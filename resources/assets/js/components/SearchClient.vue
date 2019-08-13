@@ -19,11 +19,11 @@
   
     </div>
         <!--input Address-->      
-          <div class="form-group col-xs-11">
+<!--           <div class="form-group col-xs-11">
                 <label for="siteAddress">DIRECCIÓN</label>
                 <input type="text" class="form-control" id="siteAddress" name="siteAddress" v-model="clientAddress">
            </div>
-
+ -->
 
   
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->

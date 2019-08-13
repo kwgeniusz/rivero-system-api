@@ -6,11 +6,11 @@
            </a>
   
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
-      <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal">
+      <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal" width="80%">
             <b> Previzualicion Del Documento.</b>
            <br /><br />
-           <div class="embed-responsive embed-responsive-4by3">
-           <iframe class="iframe" :src="url" frameborder="0"></iframe>
+           <div class="embed-responsive embed-responsive-4by3 iframe">
+            <center><iframe class="iframe" :src="url" frameborder="0"></iframe></center>
          </div>
      </sweet-modal>
 
@@ -30,18 +30,30 @@
           }
     },
     props: {
-           typecontract: {type:String},
+           typeContract: {type:String},
+           typeDoc: {type:String},
            directoryName: { type: String},
            file: { type: String},
            ext: { type: String}
           },
   computed: {
     url: function () {
-      if(this.ext == 'docx' || this.ext == 'pptx'|| this.ext == 'xls'){
-      return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typecontract+'/'+this.directoryName + '/' + this.file
-      }else{ 
-      return window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typecontract+'/'+this.directoryName + '/' + this.file
-      }
+
+      if(this.typeContract == 'precontracts') { 
+          if(this.ext == 'docx' || this.ext == 'pptx'|| this.ext == 'xls'){
+             return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typeContract+'/'+this.directoryName + '/' + this.file
+          }else{ 
+             return window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typeContract+'/'+this.directoryName + '/' + this.file
+           }
+        }else{
+            if(this.ext == 'docx' || this.ext == 'pptx'|| this.ext == 'xls'){
+             return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typeContract+'/'+this.typeDoc+'/'+this.directoryName + '/' + this.file
+          }else{ 
+             return window.location.protocol+'//'+window.location.host+'/storage/docs/'+this.typeContract+'/'+this.typeDoc+'/'+this.directoryName + '/' + this.file
+           }
+
+        }
+
     }
   }
 }
@@ -50,8 +62,8 @@
 <style scoped>
 
  .iframe{
-  width:550px;
-   height:400px
+  width:100%;
+   height:100%;
  }
 
 </style>

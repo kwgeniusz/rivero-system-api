@@ -73,7 +73,7 @@
                  {{$file}}</a><br></td>
             <td> {{$ext}}</td>
             <td>  
-               <modal-preview-document typecontract="precontracts" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
+               <modal-preview-document type-contract="precontracts" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
             </td>
              <td> 
              <a href="{{ route('precontracts.fileDelete', ['typeContract'=> 'precontracts','directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">

@@ -389,13 +389,13 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function updateContract($contractId, $countryId, $officeId, $contractDate, $clientId,
+    public function updateContract($contractId, $contractDate, $clientId,
         $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
         $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyName) {
 
         $contract                      = contract::find($contractId);
-        $contract->countryId           = $countryId;
-        $contract->officeId            = $officeId;
+        // $contract->countryId           = $countryId;
+        // $contract->officeId            = $officeId;
         $contract->contractDate        = $contractDate;
         $contract->clientId            = $clientId;
         $contract->siteAddress         = $siteAddress;

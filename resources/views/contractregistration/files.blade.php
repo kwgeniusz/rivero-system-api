@@ -90,7 +90,7 @@
             <td><a href="{{ route('contracts.fileDownload', ['typeContract' => 'contracts','typeDoc' => 'previous','directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a><br></td>
             <td> {{$ext}}</td>
             <td>  
-              <modal-preview-document typecontract="contracts" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
+              <modal-preview-document type-contract="contracts" type-doc="previous" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
             </td>
              <td> 
              <a href="{{ route('contracts.fileDelete', ['typeContract' => 'contracts','typeDoc' => 'previous','directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">
@@ -150,7 +150,7 @@
             <td><a href="{{ route('contracts.fileDownload', ['typeContract' => 'contracts','typeDoc' => 'processed','directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a><br></td>
             <td> {{$ext}}</td>
             <td>  
-              <modal-preview-document typecontract="contracts" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
+              <modal-preview-document type-contract="contracts" type-doc="processed" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
             </td>
              <td> 
              <a href="{{ route('contracts.fileDelete', ['typeContract' => 'contracts','typeDoc' => 'processed','directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">

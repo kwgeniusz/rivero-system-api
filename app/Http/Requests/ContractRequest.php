@@ -24,8 +24,6 @@ class ContractRequest extends FormRequest
     public function rules()
     {
         return [
-            'countryId'           => 'required',
-            'officeId'            => 'required',
             'contractDate'        => 'required',
             'clientId'            => 'required',
             'siteAddress'         => 'required|max:100',

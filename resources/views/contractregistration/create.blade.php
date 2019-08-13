@@ -52,6 +52,11 @@
            <div class="row"></div>
            <search-client></search-client>
 
+     <!--input Address-->      
+          <div class="form-group col-xs-11">
+                <label for="siteAddress">DIRECCIÓN</label>
+                <input type="text" class="form-control" id="siteAddress" name="siteAddress">
+           </div>
 
           <div class="form-group col-xs-7">
             <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
