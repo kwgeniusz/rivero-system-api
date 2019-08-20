@@ -11,15 +11,14 @@ class User extends Authenticatable
 
    /**ROLES USERS */
     const DIRECTOR = '1';
-    const ADMINISTRATOR = '2';
-    const SUPERVISOR = '3';
-    const EMPLOYEE = '4';
-    const CLIENT = '5';
-    
-    const PROJECT = '6';
-    const PROJECTIST_GENERAL = '7';
-    const SELLER = '8';
-    
+    const OFFICE_MANAGER = '2';
+    const PROJECT_MANAGER = '3';
+    const PROJECTIST = '4';
+    const INFORMATIC = '5';
+    const EMPLOYEE = '6';
+    const SELLER = '7';
+    const CLIENT = '8';
+
     protected $table ='user';
     protected $primaryKey = 'userId';
     /**
@@ -37,12 +36,6 @@ class User extends Authenticatable
         'userEmail',
         
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'userPassword','remember_token','dateCreated'
     ];
@@ -52,7 +45,10 @@ class User extends Authenticatable
         return $this->userPassword;
     }
 
-    
+    public function getEmailForPasswordReset()
+    {
+        return $this->userEmail;
+    }
  
 
 }

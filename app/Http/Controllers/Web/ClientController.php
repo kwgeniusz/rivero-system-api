@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\Web;
 
 use App\Client;
 use App\Country;
@@ -23,10 +23,17 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // $clients = $this->oClient->getAll();
+       $clientCode = $request->clientCode;
+       $clientName     = $request->clientName;
 
-        $clients = $this->oClient->getAll();
+       $clients = Client::orderBy('cltId', 'ASC')
+            ->clientCode($clientCode)
+            ->clientName($clientName)
+            ->paginate(100);
+
         return view('clients.index', compact('clients'));
     }
 
@@ -138,14 +145,12 @@ class ClientController extends Controller
 //----------------QUERYS ASINCRONIOUS -------------->>>>
     public function get($client = '')
     {
-
         $results = Client::select('clientId', 'clientName', 'clientAddress','clientCode')
             ->where('clientName', 'LIKE', "%$client%")
             ->orWhere('clientCode', 'LIKE', "%$client%")
             ->orderBy('clientName', 'ASC')
             ->get();
         return json_encode($results);
-
     }
 
 

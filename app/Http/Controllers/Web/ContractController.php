@@ -39,11 +39,17 @@ class ContractController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
+         $contractNumber = $request->contractNumber;
+         $clientName     = $request->clientName;
+         $siteAddress     = $request->siteAddress;
+
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P');
-        $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S');
+        $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$contractNumber,$clientName,$siteAddress);
+
+        $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$contractNumber,$clientName,$siteAddress);
+        
         return view('contractregistration.index', compact('projects', 'services'));
     }
 
@@ -390,13 +396,12 @@ class ContractController extends Controller
         //obtener todos los archivos del directorio
         $allFiles = Storage::files("docs/contracts/previous/".$directoryName);
         $files    = [];
-
         foreach ($allFiles as $file) {
             $filePart = explode("/", $file);
             $files[]  = $filePart[4];
         }
 
-        $allFiles2 = Storage::files("docs/contracts/processed/" . $directoryName);
+        $allFiles2 = Storage::files("docs/contracts/processed/".$directoryName);
         $files2    = [];
         foreach ($allFiles2 as $file2) {
             $filePart2 = explode("/", $file2);

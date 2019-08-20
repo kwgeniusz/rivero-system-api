@@ -19,8 +19,8 @@
     "Home": "Inicio",
 
     "Contracts":"Contratos",
-    "types_of_projects": "Tipos de Proyectos",
-    "types_of_services": "Tipos de Servicios",
+    "types_of_projects": "Descripciones de Proyectos",
+    "types_of_services": "Usos de Proyectos",
     "clients": "Clientes",
     "contract_registration": "Registro de Contrato",
     "general_search": "Busqueda General",
@@ -94,17 +94,18 @@
     "All Right Reserved": "Todos Los Derechos Reservados",
 
     "__comment8":"------------------TRADUCCIONES DE TYPES PROJECTS",
-    "edit_project_type": "Editar Tipo de Proyecto",
-    "are_you_sure_to_eliminate_this_type_of_project?": "¿Esta Seguro de Eliminar este Tipo de Proyecto?",
-    "type_of_project": "TIPOS DE PROYECTOS",
-    "project_name": "NOMBRE DEL PROYECTO",
+    "edit_project_type": "Editar Descripcion de Proyecto",
+    "are_you_sure_to_eliminate_this_type_of_project?": "¿Esta Seguro de Eliminar esta Descripción de Proyecto?",
+    "type_of_project": "DESCRIPCIONES DE PROYECTOS",
+    "project_name": "NUEVA DESCRIPCIÓN",
+    "description": "DESCRIPCIÓN",
 
     "__comment9":"------------------TRADUCCIONES DE TYPES SERVICES",
-    "edit_service_type": "Editar Tipo de Servicio",
-    "are_you_sure_to_eliminate_this_type_of_service?": "¿Esta Seguro de Eliminar este Tipo de Servicio?",
-    "type_of_service": "TIPOS DE SERVICIOS",
-    "service_name": "NOMBRE DEL SERVICIO",
-    "TYPES": "TIPOS",
+    "edit_service_type": "Editar Uso de Proyecto",
+    "are_you_sure_to_eliminate_this_type_of_service?": "¿Esta Seguro de Eliminar este Uso de Proyecto?",
+    "type_of_service": "USOS DE PROYECTO",
+    "service_name": "NUEVO USO",
+ 
 
     "__comment10":"------------------TRADUCCIONES DE CLIENTS" ,
     "new_client":"Nuevo Cliente",
@@ -116,7 +117,7 @@
     "address": "DIRECCIÓN",
     "email": "EMAIL",
     "phone": "TELÉFONO",
-    "client": "CLIENTES",
+    "client": "CLIENTE",
 
     "__comment11":"------------------TRADUCCIONES DE CONTRACT" ,
     "contracts":"CONTRATOS",
@@ -128,7 +129,7 @@
     "office":"OFICINA",
     "staff": "Personal",
     "agg_staff": "Agregar Personal",
-    "status": "Estado",
+    "status": "ESTADO",
     "change_status": "Cambiar Estado",
     "directoris": "Change Status",
 

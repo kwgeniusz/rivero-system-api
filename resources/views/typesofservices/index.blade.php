@@ -32,7 +32,7 @@
             <thead>
                 <tr>
                  <th>ID</th>
-                 <th>{{__('type_of_service')}}</th>
+                 <th>{{__('description')}}</th>
                  <th>{{__('actions')}}</th>
                 </tr>
             </thead>

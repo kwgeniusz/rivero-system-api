@@ -59,7 +59,7 @@
           </div>
         </div>
          <div class="form-group">
-          <label class="col-sm-5 control-label">TIPO DE PROYECTO</label>
+          <label class="col-sm-5 control-label">USO DE PROYECTO</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->serviceType->serviceTypeName }}</p>
           </div>

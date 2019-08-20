@@ -11,10 +11,11 @@ require('admin-lte');
 
 window.Vue = require('vue');
 
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
+Vue.use(ClientTable);
 import SweetModal from 'sweet-modal-vue/src/plugin.js';
 Vue.use(SweetModal);
  
-
 window.toastr = require('toastr');
 
       
@@ -34,6 +35,7 @@ Vue.component('contract-summary', require('./components/contractsummary.vue'));
 Vue.component('search-client', require('./components/SearchClient.vue'));
 Vue.component('form-modal-charge', require('./components/FormModalCharge.vue'));
 Vue.component('modal-preview-document', require('./components/ModalPreviewDocument.vue'));
+Vue.component('vue-table', require('./components/VueTable.vue'));
 
 const app = new Vue({
     el: '#app',

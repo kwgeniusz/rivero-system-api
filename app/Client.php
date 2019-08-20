@@ -3,12 +3,17 @@
 namespace App;
 
 use App\Contract;
+use App\ContactType;
 use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
+   //traits
+      use SoftDeletes;
+      
     public $timestamps = false;
 
     protected $table      = 'client';
@@ -16,7 +21,7 @@ class Client extends Model
 
     protected $fillable = ['clientId', 'countryId', 'userId', 'clientCode', 'clientName',
         'clientAddress', 'clientPhone', 'clientEmail', 'dateCreated', 'lastUserId'];
-
+    protected $dates = ['deleted_at'];
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -32,6 +37,28 @@ class Client extends Model
     {
         return $this->hasOne('App\ContactType', 'contactTypeId', 'contactTypeId');
     }
+//--------------------------------------------------------------------
+    /** Accesores  */
+//--------------------------------------------------------------------
+
+//--------------------------------------------------------------------
+    /** Query Scope  */
+//--------------------------------------------------------------------
+    //nombre codigo direccion
+    public function scopeClientCode($query, $clientCode)
+    {
+        if ($clientCode) {
+            return $query->where('clientCode', 'LIKE', "%$clientCode%");
+        }
+    }
+
+      public function scopeClientName($query, $clientName)
+    {
+        if ($clientName) {
+            return $query->where('clientName', 'LIKE', "%$clientName%");
+        }
+    }
+
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------

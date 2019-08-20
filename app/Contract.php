@@ -14,9 +14,12 @@ use App\Staff;
 use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contract extends Model
 {
+    //traits
+      use SoftDeletes;
 
     public $timestamps = false;
 
@@ -33,6 +36,7 @@ class Contract extends Model
     /*protected $dates = ['contractDate','startDate',
     'scheduledFinishDate','actualFinishDate','deliveryDate'];
      */
+     protected $dates = ['deleted_at'];
     //Status Contract
     const VACANT    = '1';
     const STARTED   = '2';
@@ -127,7 +131,46 @@ class Contract extends Model
         return $newDate = date("d/m/Y", strtotime($deliveryDate));
     }
 
-//------------------------MUTADORES--------------------------------
+    public function getContractStatusAttribute($contractStatus)
+    {
+
+        if (App::getLocale() == 'es') {
+            switch ($contractStatus) {
+                case 1:
+                    return "VACANTE";
+                    break;
+                case 2:
+                    return "INICIADO";
+                    break;
+                case 3:
+                    return "FINALIZADO";
+                    break;
+                case 4:
+                    return "SUSPENDIDO";
+                    break;
+            }
+        } else {
+            switch ($contractStatus) {
+                case 1:
+                    return "VACANT";
+                    break;
+                case 2:
+                    return "STARTED";
+                    break;
+                case 3:
+                    return "FINISHED";
+                    break;
+                case 4:
+                    return "CANCELLED";
+                    break;
+            }
+        }
+
+    }
+  
+//--------------------------------------------------------------------
+    /** Mutadores  */
+//--------------------------------------------------------------------
 
     public function setContractCostAttribute($contractCost)
     {
@@ -183,46 +226,9 @@ class Contract extends Model
         $date                             = implode("-", $arreglo);
         $this->attributes['deliveryDate'] = $date;
     }
-//////////////////////////////
-
-    public function getContractStatusAttribute($contractStatus)
-    {
-
-        if (App::getLocale() == 'es') {
-            switch ($contractStatus) {
-                case 1:
-                    return "VACANTE";
-                    break;
-                case 2:
-                    return "INICIADO";
-                    break;
-                case 3:
-                    return "FINALIZADO";
-                    break;
-                case 4:
-                    return "SUSPENDIDO";
-                    break;
-            }
-        } else {
-            switch ($contractStatus) {
-                case 1:
-                    return "VACANT";
-                    break;
-                case 2:
-                    return "STARTED";
-                    break;
-                case 3:
-                    return "FINISHED";
-                    break;
-                case 4:
-                    return "CANCELLED";
-                    break;
-            }
-        }
-
-    }
 //--------------------------------------------------------------------
-    /** Query Scopes **/
+    /** Query Scope  */
+//--------------------------------------------------------------------
 
     public function scopeContractNumber($query, $contractNumber)
     {
@@ -291,13 +297,17 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType)
+    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType,$contractNumber,$clientName,$siteAddress)
     {
         $result = $this->where('contractType', $contractType)
             ->where('contractStatus', $contractStatus1)
             ->orWhere('contractStatus', $contractStatus2)
             ->orderBy('contractNumber', 'ASC')
-            ->get();
+            ->contractNumber($contractNumber)
+            ->clientName($clientName)
+            ->siteAddress($siteAddress)
+            ->paginate(100);
+           
 
         return $result;
     }
@@ -417,7 +427,7 @@ class Contract extends Model
 //------------------------------------------
     public function deleteContract($contractId)
     {
-        return $this->where('contractId', '=', $contractId)->delete();
+        return Contract::find($contractId)->delete();
         
     }
 //-----------------------------------------

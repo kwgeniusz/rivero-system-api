@@ -73,7 +73,7 @@
           </div>
 
          <div class="form-group col-xs-7">
-            <label for="serviceTypeId">TIPO DE PROYECTO</label>
+            <label for="serviceTypeId">USO DE PROYECTO</label>
             <select class="form-control" name="serviceTypeId" id="serviceTypeId">
               @foreach($services as $service)
                    @if ($service->serviceTypeId == $contract[0]->serviceTypeId)
@@ -113,7 +113,7 @@
            <input type="hidden" name="projectTypeId"  value="{{ $contract[0]->projectTypeId  }}">
 
          <div class="form-group col-xs-7">
-            <label for="serviceTypeId">TIPO DE PROYECTO</label>
+            <label for="serviceTypeId">USO DE PROYECTO</label>
               <input disabled type="text" class="form-control" id="serviceTypeId" value="{{ $contract[0]->serviceType->serviceTypeName }}">
           </div>
           <input type="hidden" name="serviceTypeId" value="{{ $contract[0]->serviceTypeId }}">

@@ -59,7 +59,7 @@
            </div>
 
           <div class="form-group col-xs-7">
-            <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
+            <label for="projectTypeId">DESCRIPCIÓN DE PROYECTO</label>
             <select class="form-control" name="projectTypeId" id="projectTypeId">
                 @foreach($projects as $project)
                       <option value="{{$project->projectTypeId}}" > {{$project->projectTypeName}} </option>
@@ -68,7 +68,7 @@
           </div>
 
              <div class="form-group col-xs-7">
-            <label for="serviceTypeId">TIPO DE PROYECTO</label>
+            <label for="serviceTypeId">USO DE PROYECTO</label>
             <select class="form-control" name="serviceTypeId" id="serviceTypeId">
                 @foreach($services as $service)
                       <option value="{{$service->serviceTypeId}}" > {{$service->serviceTypeName}} </option>

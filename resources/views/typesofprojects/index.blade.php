@@ -29,14 +29,18 @@
             <thead>
                 <tr>
                  <th>ID</th>
-                 <th>{{__('TYPES')}}</th>
+                 <th>{{__('description')}}</th>
                  <th>{{__('actions')}}</th>
                 </tr>
             </thead>
                 <tbody>
+                  @php
+                   $acum = 0
+                  @endphp
                 @foreach($projects as $project)
+                  @php ($acum += 1)
                 <tr>
-                   <td>{{$project->projectTypeId}}</td>
+                   <td>{{$acum}}</td>
                    <td>{{$project->projectTypeName}}</td>
                    <td><a href="{{route('projects.edit', ['id' => $project->projectTypeId])}}" class="btn btn-primary">
                     <span class="fa fa-edit" aria-hidden="true"></span> {{__('edit')}}

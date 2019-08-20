@@ -19,8 +19,9 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "admin-lte": "^2.4.8",
         "sweet-modal-vue": "^2.0.0",
         "toastr": "^2.1.4",
-		"admin-lte": "^2.4.8"
+        "vue-tables-2": "^1.4.70"
     }
 }

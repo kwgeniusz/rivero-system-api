@@ -6,7 +6,29 @@
   <h3><b>{{__('contracts')}}</b></h3>
 <br>
 
-  <!-- Nav tabs -->
+ <div class="row ">
+      <div class="col-xs-12 text-center">
+      <form class="form-inline" action="{{Route('contracts.index')}}" method="GET">
+
+         <div class="form-group">
+           <label for="filteredOut">Filtrado</label>
+           <input type="text" class="form-control" name="contractNumber" id="contractNumber" placeholder="N° Contrato" autocomplete="off">
+         </div>
+          <div class="form-group">
+           <input type="text" class="form-control" name="clientName" id="clientName" placeholder="Nombre Cliente" autocomplete="off">
+         </div>
+        <div class="form-group">
+           <input type="text" class="form-control" name="siteAddress" id="siteAddress" placeholder="Dirección" autocomplete="off">
+         </div>
+          <button type="submit" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Buscar">
+                <span class="fa fa-search" aria-hidden="true"></span>
+           </button>
+        </form>
+      </div>
+    </div>
+
+     <br>
+       <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
 
     <li role="presentation" class="active"><a href="#Projects" aria-controls="Projects" role="tab" data-toggle="tab">PROYECTOS</a></li>
@@ -17,7 +39,7 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="Projects">
-
+   <br>
    <div class="row">
         <div class="col-xs-12 ">
             <div class="text-center">
@@ -33,7 +55,8 @@
       </div>
     </div>
 
-    <div class="table-responsive">
+    <br>
+    <div class="table-responsive text-center">
             <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
@@ -82,11 +105,13 @@
                 @endforeach
                 </tbody>
             </table>
+
+            {{$projects->render()}}
         </div>
     </div> <!--tab 1 final-->
 
     <div role="tabpanel" class="tab-pane" id="Services">
-
+     <br>
      <div class="row">
         <div class="col-xs-12 ">
             <div class="text-center">
@@ -151,6 +176,7 @@
                 @endforeach
                 </tbody>
             </table>
+             {{$services->render()}}
         </div>
 
 
@@ -162,3 +188,44 @@
 
 
 @endsection
+
+
+
+{{--                
+<v-client-table :data="{{$projects}}" :columns="['conId','contractNumber','clientCode','siteAddress','contractStatus','actions']" :options="{
+           headings: {
+            conId: 'ID',
+            contractNumber: 'N° {{__('contract')}}',
+            clientCode: '{{__('client')}}',
+            siteAddress: '{{__('address')}}',
+            contractStatus: '{{__('status')}}',
+            actions: '{{__('options')}}'
+           },
+            sortable: ['contractNumber'],
+            filterable: ['contractNumber'],
+            // EDITABLE TEXT OPTIONS:
+            texts: {
+                count: 'Mostrar del {from} al {to} de {count} registros|{count} registros|One record',
+                first: 'Primero',
+                last: 'Ultimo',
+                filter: 'Filtrado:',
+                filterPlaceholder: 'Buscar',
+                limit: 'Records:',
+                page: 'Pagina:',
+                noResults: 'No Se encontraron Registros',
+                filterBy: 'Filter by {column}',
+                loading: 'Cargando...',
+                defaultOption: 'Select {column}',
+                columns: 'Columns',
+                  limit:'Limites:',
+            },
+        }">
+  <div slot="actions" slot-scope="props">
+     <a :href="'clients/'+props.row.contractId+'/edit'" class="btn btn-primary">
+        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
+      </a>
+    <a :href="'clients/'+props.row.contractId" class="btn btn-danger">
+        <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+       </a> 
+  </div>     
+</v-client-table> --}}

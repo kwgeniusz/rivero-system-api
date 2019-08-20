@@ -11,6 +11,28 @@
             </a>
 
            <br><br>
+
+   <div class="row ">
+      <div class="col-xs-12">
+      <form class="form-inline" action="{{Route('clients.index')}}" method="GET">
+
+         <div class="form-group">
+           <label for="filteredOut">Filtrado</label>
+           <input type="text" class="form-control" name="clientCode" id="clientCode" placeholder="Codigo" autocomplete="off">
+         </div>
+          <div class="form-group">
+           <input type="text" class="form-control" name="clientName" id="clientName" placeholder="Nombre" autocomplete="off">
+         </div>
+          <button type="submit" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Buscar">
+                <span class="fa fa-search" aria-hidden="true"></span>
+           </button>
+        </form>
+      </div>
+    </div>
+
+     <br>
+           
+
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
             <thead>
@@ -20,8 +42,8 @@
                  <th>{{__('name')}}</th>
                  <th>{{__('phone')}}</th>
                  <th>{{__('email')}}</th>
-                 <th>CONTACTO</th>
-                 <th>{{__('actions')}}</th>
+                 <th>CONTACTO</th> 
+                 <th>{{__('actions')}}</th> 
                  </th>
                 </tr>
             </thead>
@@ -45,9 +67,9 @@
                 @endforeach
                 </tbody>
             </table>
-
+                {{$clients->render()}}
         </div>
-
+  
              <a href="{{route('home')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
@@ -58,3 +80,41 @@
 
 
 @endsection
+{{-- <v-client-table :data="{{$clients}}" :columns="['cltId','clientCode','clientName','clientPhone','clientEmail','contactTypeId','actions']" :options="{
+           headings: {
+            cltId: 'ID',
+            clientCode: 'CODIGO',
+            clientName: '{{__('name')}}',
+            clientPhone: '{{__('phone')}}',
+            clientEmail: '{{__('email')}}',
+            contactTypeId: 'CONTACTO',
+            actions: '{{__('actions')}}'
+           },
+            sortable: ['clientName'],
+            filterable: ['clientName'],
+            // EDITABLE TEXT OPTIONS:
+            texts: {
+                count: 'Mostrar del {from} al {to} de {count} registros|{count} registros|One record',
+                first: 'Primero',
+                last: 'Ultimo',
+                filter: 'Filtrado:',
+                filterPlaceholder: 'Buscar',
+                limit: 'Records:',
+                page: 'Pagina:',
+                noResults: 'No Se encontraron Registros',
+                filterBy: 'Filter by {column}',
+                loading: 'Cargando...',
+                defaultOption: 'Select {column}',
+                columns: 'Columns',
+                  limit:'Limites:',
+            },
+        }">
+  <div slot="actions" slot-scope="props">
+     <a :href="'clients/'+props.row.clientId+'/edit'" class="btn btn-primary">
+        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
+      </a>
+    <a :href="'clients/'+props.row.clientId" class="btn btn-danger">
+        <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+       </a> 
+  </div>     
+</v-client-table> --}}

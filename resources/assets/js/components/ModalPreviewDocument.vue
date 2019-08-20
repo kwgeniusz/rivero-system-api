@@ -1,12 +1,12 @@
 <template>
 <div>
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
-           <a @click="$refs.modal.open()"  class="btn btn-primary btn-sm">
+           <a @click="openModal()" class="btn btn-primary btn-sm">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  Ver
            </a>
   
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
-      <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal" width="80%">
+      <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal" width="80%" v-if="showModal">
             <b> Previzualicion Del Documento.</b>
            <br /><br />
            <div class="embed-responsive embed-responsive-4by3 iframe">
@@ -26,7 +26,7 @@
            },
      data: function () {
           return {
-  
+            showModal:false
           }
     },
     props: {
@@ -55,8 +55,15 @@
         }
 
     }
-  }
+  }, methods: {
+       openModal: function() {
+           this.showModal = true
+           this.$refs.modal.open()
+
+       }
+     }
 }
+
 </script>
 
 <style scoped>

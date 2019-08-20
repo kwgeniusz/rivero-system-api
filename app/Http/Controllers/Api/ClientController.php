@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\Client;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Client;
 
 class ClientController extends Controller
 {
@@ -14,7 +15,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+       return $clients = Client::get(['clientId','clientCode','clientName','clientPhone','clientEmail','contactTypeId'])->toJson();
+      // }  return response()->json($clients);
     }
 
     /**
