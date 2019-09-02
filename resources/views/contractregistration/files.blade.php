@@ -42,137 +42,35 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active "><a class="bg-info" href="#previous" aria-controls="previous" role="tab" data-toggle="tab">PREVIOS</a></li>
     <li role="presentation"><a class="bg-info" href="#processed" aria-controls="processed" role="tab" data-toggle="tab">PROCESADOS</a></li>
+    <li role="presentation"><a class="bg-info" href="#revised" aria-controls="revised" role="tab" data-toggle="tab">REVISADOS</a></li>
+    <li role="presentation"><a class="bg-info" href="#ready" aria-controls="ready" role="tab" data-toggle="tab">LISTOS</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="previous">
         <br>
-        <div class="row ">
-                 <div class="col-xs-12">
-                 <div class="text-center">
-                  <form class="form-inline" action="{{Route('contracts.fileAgg')}}" method="POST"  enctype="multipart/form-data">
-                     {{csrf_field()}}
-                        <div class="form-group">
-                          <input type="file" name="archive" id="archive">
-                        </div>
-                        <div class="form-group">
-                          <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
-                          <input type="hidden" name="typeDoc" value="previous"> 
-                          <button type="submit" class="btn btn-success">
-                                <span class="fa fa-plus" aria-hidden="true"></span>
-                                Subir Archivo
-                           </button>
-                        </div>
-                    </form>
-
-
-                  </div>
-                </div>
-        </div>
-<div class="progress col-xs-6">
-  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-    60%
-  </div>
-</div>
-
-
-      <hr>
-    <br>
-        <div class="row">
-           <div class=" col-xs-8 col-xs-offset-2">
-            <div class="table-responsive ">
-            <table class="table table-striped table-bordered text-center ">
-              
-            <tr>
-                <th>ARCHIVO</th>
-                <th>TIPO</th>
-                <th colspan="2">ACCION</th>
-            </tr>
-      @if($files)
-      <?php $acum = 0;?>
-       @foreach ($files as $file)
-            <?php 
-            $ext  = pathinfo($file, PATHINFO_EXTENSION);
-            ?>
-        <tr>
-            <td><a href="{{ route('contracts.fileDownload', ['typeContract' => 'contracts','typeDoc' => 'previous','directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a><br></td>
-            <td> {{$ext}}</td>
-            <td>  
-              <modal-preview-document type-contract="contracts" type-doc="previous" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
-            </td>
-             <td> 
-             <a href="{{ route('contracts.fileDelete', ['typeContract' => 'contracts','typeDoc' => 'previous','directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">
-                <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}} </a>
-            </td>
-        </tr>
-         @endforeach
-      @endif
-        </table>
-        </div>
-      </div>
-    </div>
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="1"></grid-files>
    </div> <!--tab 1 final-->
 
-
     <div role="tabpanel" class="tab-pane" id="processed">
-        <br>
-            <div class="row ">
-                 <div class="col-xs-12">
-                 <div class="text-center">
-                  <form class="form-inline" action="{{Route('contracts.fileAgg')}}" method="POST"  enctype="multipart/form-data">
-                     {{csrf_field()}}
-                        <div class="form-group">
-                          <input type="file" name="archive" id="archive">
-                        </div>
-                        <div class="form-group">
-                          <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
-                          <input type="hidden" name="typeDoc" value="processed">   
-                          <button type="submit" class="btn btn-success">
-                                <span class="fa fa-plus" aria-hidden="true"></span>
-                                Subir Archivo
-                           </button>
-                        </div>
-                    </form>
-                  </div>
-                </div>
-        </div>
-      <hr>
-         <br>
-        <div class="row">
-           <div class=" col-xs-8 col-xs-offset-2">
-            <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center ">
-            <tr>
-                <th>ARCHIVO</th>
-                <th>TIPO</th>
-                <th colspan="2">ACCION</th>
-            </tr>
-      @if($files2)
-      <?php $acum = 0;?>
-       @foreach ($files2 as $file)
-            <?php 
-            $ext  = pathinfo($file, PATHINFO_EXTENSION);
-            ?>
-        <tr>
-            <td><a href="{{ route('contracts.fileDownload', ['typeContract' => 'contracts','typeDoc' => 'processed','directoryName' => $directoryName,'file' => $file]) }}" >{{$file}}</a><br></td>
-            <td> {{$ext}}</td>
-            <td>  
-              <modal-preview-document type-contract="contracts" type-doc="processed" directory-name="{{$directoryName}}" file="{{$file}}" ext="{{$ext}}"></modal-previuw-document>
-            </td>
-             <td> 
-             <a href="{{ route('contracts.fileDelete', ['typeContract' => 'contracts','typeDoc' => 'processed','directoryName' => $directoryName,'file' => $file]) }}"  class="btn btn-danger btn-sm">
-                <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}} </a>
-            </td>
-        </tr>
-         @endforeach
-      @endif
-        </table>
-        </div>
-      </div>
-    </div>
+      <br>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="2"></grid-files>
   </div>  <!--tab 2 final-->
+
+    <div role="tabpanel" class="tab-pane" id="revised">
+      <br>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="3"></grid-files>
+  </div>  <!--tab 3 final-->
+
+    <div role="tabpanel" class="tab-pane" id="ready">
+      <br>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="4"></grid-files>
+  </div>  <!--tab 4 final-->
 
 </div><!--tab container final-->
 

@@ -30,6 +30,10 @@
                 @endforeach
             </select>
           </div>
+          <div class="form-group col-xs-4">
+            <label for="clientNumberFormat">CODIGO</label>
+            <input type="text" class="form-control" id="clientNumberFormat" name="clientNumberFormat" value="{{ $clientNumberFormat}}" disabled="on">
+          </div>
  </div>
 
               <div class="form-group">

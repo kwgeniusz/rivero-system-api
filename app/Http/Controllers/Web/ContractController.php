@@ -5,20 +5,24 @@ namespace App\Http\Controllers\Web;
 use App\Client;
 use App\Contract;
 use App\Country;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ContractRequest;
-use App\Http\Requests\PaymentRequest;
+use App\Configuration;
+use App\Document;
 use App\PaymentContract;
 use App\ProjectType;
 use App\ServiceType;
 use App\Staff;
 use App\Receivable;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ContractRequest;
+use App\Http\Requests\PaymentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 
 class ContractController extends Controller
 {
     private $oContract;
+    private $oDocument;
     private $oClient;
     private $oStaff;
     private $oProjectType;
@@ -33,34 +37,35 @@ class ContractController extends Controller
         $this->oStaff           = new Staff;
         $this->oPaymentContract = new PaymentContract;
         $this->oReceivable = new Receivable;
+        $this->oDocument = new Document;
 
         $this->oProjectType = new ProjectType;
         $this->oServiceType = new ServiceType;
-
+        $this->oConfiguration = new Configuration;
     }
 
     public function index(Request $request)
     {
-         $contractNumber = $request->contractNumber;
-         $clientName     = $request->clientName;
-         $siteAddress     = $request->siteAddress;
-
+        
+        $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$contractNumber,$clientName,$siteAddress);
-
-        $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$contractNumber,$clientName,$siteAddress);
+        $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$filteredOut);
+        $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$filteredOut);
         
         return view('contractregistration.index', compact('projects', 'services'));
     }
 
     public function create($contractType)
     {
+
+        $contractNumberFormat = $this->oConfiguration->generateContractNumberFormat(Auth::user()->countryId,Auth::user()->officeId,$contractType);
+
         $countrys = Country::all();
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
         $clients  = $this->oClient->getAll();
 
-        return view('contractregistration.create', compact('clients', 'projects', 'services', 'contractType', 'countrys'));
+        return view('contractregistration.create', compact('clients', 'projects', 'services', 'contractType', 'countrys','contractNumberFormat'));
     }
 
     public function store(ContractRequest $request)
@@ -389,51 +394,33 @@ class ContractController extends Controller
 
         $contract = $this->oContract->FindById($id);
 
-        //crear el directorio si no existe
-        $directoryName = "D" . $contract[0]->countryId . $contract[0]->officeId . $contract[0]->contractNumber;
-        //Storage::makeDirectory("docs/" . $directoryName);
-
-        //obtener todos los archivos del directorio
-        $allFiles = Storage::files("docs/contracts/previous/".$directoryName);
-        $files    = [];
-        foreach ($allFiles as $file) {
-            $filePart = explode("/", $file);
-            $files[]  = $filePart[4];
-        }
-
-        $allFiles2 = Storage::files("docs/contracts/processed/".$directoryName);
-        $files2    = [];
-        foreach ($allFiles2 as $file2) {
-            $filePart2 = explode("/", $file2);
-            $files2[]  = $filePart2[4];
-        }
-
-        return view('contractregistration.files', compact('contract', 'files','files2', 'directoryName'));
+        return view('contractregistration.files', compact('contract'));
     }
     public function fileAgg(Request $request)
     {
-        $contract      = $this->oContract->FindById($request->contractId);
-        $directoryName = "D" . $contract[0]->countryId . $contract[0]->officeId . $contract[0]->contractNumber;
+         $rs = $this->oDocument->insert($request->file,$request->contractId,$request->typeDoc);
 
-        if ($request->hasFile('archive')) {
-            $archive = $request->file('archive');
-            $name    = time() .'-'. $archive->getClientOriginalName();
-             if($request->typeDoc == 'previous')
-              $archive->move(storage_path("app/public/docs/contracts/previous/$directoryName"), $name);
-             else
-              $archive->move(storage_path("app/public/docs/contracts/processed/$directoryName"), $name);
-        }
-
-        return redirect()->back();
+       if ($rs->status() == 200) {
+          return response('Hello World', 200)
+                  ->header('Content-Type', 'text/plain');
+        } else {
+           return response($rs->content(), 500)
+                  ->header('Content-Type', 'text/plain');
+        } 
     }
 
-   public function fileDownload($typeContract,$typeDoc,$directoryName, $file)
+   public function fileDownload($docId)
     {
-      return Storage::download("docs/$typeContract/$typeDoc/$directoryName/$file");
+       $file =  $this->oDocument->findById($docId);
+       return Storage::download($file[0]->docUrl,$file[0]->docName);
     }
 
-   public function fileDelete($typeContract,$typeDoc,$directoryName, $file) {
-        Storage::delete("docs/$typeContract/$typeDoc/$directoryName/$file");
+   public function fileDelete($docId) {
+        $file =  $this->oDocument->findById($docId);
+        Storage::delete($file[0]->docUrl);
+
+        $this->oDocument->deleteFile($docId);
+
        return redirect()->back();
    }
 
@@ -445,5 +432,10 @@ class ContractController extends Controller
     }
 
 //-------QUERYS ASINCRONIOUS-----------------//
+    public function getFiles($id,$type)
+    {
+        $rs  = $this->oDocument->getAllForContractAndType($id,$type);
+        return json_encode($rs);
+    }
 
 }

@@ -4,35 +4,31 @@
 <h3><b>{{__('client')}}</b></h3>
     <div class="row">
         <div class="col-xs-12 ">
-            <div class="text-center">
-            <a href="{{route('clients.create')}}" class="btn btn-success text-center" >
-                <span class="fa fa-plus" aria-hidden="true"></span>
-                   {{__('add')}}
-            </a>
-
-           <br><br>
+          <div class="text-center">
 
    <div class="row ">
       <div class="col-xs-12">
       <form class="form-inline" action="{{Route('clients.index')}}" method="GET">
 
          <div class="form-group">
-           <label for="filteredOut">Filtrado</label>
-           <input type="text" class="form-control" name="clientCode" id="clientCode" placeholder="Codigo" autocomplete="off">
+           <label for="filteredOut"></label>
+           <input type="text" class="form-control" name="filteredOut" id="filteredOut" placeholder="Filtrado" autocomplete="off">
          </div>
-          <div class="form-group">
-           <input type="text" class="form-control" name="clientName" id="clientName" placeholder="Nombre" autocomplete="off">
-         </div>
+
           <button type="submit" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Buscar">
                 <span class="fa fa-search" aria-hidden="true"></span>
            </button>
         </form>
       </div>
     </div>
-
      <br>
-           
 
+            <a href="{{route('clients.create')}}" class="btn btn-success text-center" >
+                <span class="fa fa-plus" aria-hidden="true"></span>
+                   {{__('add')}}
+            </a>
+     <br> <br>
+     
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
             <thead>

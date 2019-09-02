@@ -40,6 +40,11 @@
          </div>
  --}}
             <input type="hidden" name="countryId" value="{{$client[0]->countryId}}">
+
+            <div class="form-group">
+                <label for="clientCode">CODIGO</label>
+                <input type="text" class="form-control" id="clientCode" name="clientCode" value="{{$client[0]->clientCode}}" placeholder="Nombres y Apellidos" disabled>
+            </div>
             
               <div class="form-group">
                 <label for="clientName">{{__('names_and_surnames')}}</label>
@@ -79,7 +84,7 @@
 
             <div class="text-center">
               <button type="submit" class="btn btn-primary">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
+                <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
               </button>
               <a href="{{route('clients.index')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}

@@ -28,26 +28,20 @@
         {{csrf_field()}}
 
         <select-country-office></select-country-office>
-
+        
             <input type="hidden" name="contractType" value="{{ $contractType }}">
-
+            
+         <div class="row"></div>
+         <div class="form-group col-xs-4">
+            <label for="contractNumberFormat">N° {{__('contract')}}</label>
+            <input type="text" class="form-control" id="contractNumberFormat" name="contractNumberFormat" value="{{ $contractNumberFormat}}" disabled="on">
+          </div>
              <div class="row"></div>
                 <div class="form-group col-xs-5">
                   <label for="contractDate">{{__('date_of_contract')}}</label>
                   <input class="form-control flatpickr" id="contractDate" name="contractDate" value="{{ old('contractDate') }}">
                 </div>
 
-<!--
-         <div class="row"></div>
-          <div class="form-group col-xs-7">
-            <label for="clientId">{{__('client')}}</label>
-            <select class="form-control" name="clientId" id="clientId">
-                @foreach($clients as $client)
-                      <option value="{{$client->clientId}}" > {{$client->clientName}} </option>
-                @endforeach
-            </select>
-          </div>
--->
 
            <div class="row"></div>
            <search-client></search-client>
@@ -133,7 +127,7 @@
 
             <div class="col-xs-12 text-center">
               <button type="submit" class="btn btn-primary">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
+                <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
               </button>
               <a href="{{route('contracts.index')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}

@@ -15,6 +15,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
+   <link href="https://vjs.zencdn.net/7.6.0/video-js.css" rel="stylesheet">
+  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -69,6 +73,16 @@ desired effect
         -------------------------->
         <div id="app">
         @yield('content')
+  {{--         <video id='my-video' class='video-js' controls preload='auto' width='640' height='264'
+   data-setup='{}'>
+    <source src='{{ asset('m.mov') }}' type='video/mp4'>
+    <source src='MY_VIDEO.webm' type='video/webm'>
+    <source src="D:/mov1.mov" type="video/mp4"> 
+    <p class='vjs-no-js'>
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
+    </p>
+  </video> --}}
         </div>
     </section>
     <!-- /.content -->
@@ -82,7 +96,9 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-
+        <strong>USUARIO: </strong>{{Auth::user()->userTypeName}} |
+        <strong>OFICINA: </strong>{{Auth::user()->country->countryName}} |
+        <strong>PAIS: </strong>{{Auth::user()->office->officeName}}
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2019 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
@@ -90,9 +106,9 @@ desired effect
 
 
 <!-- REQUIRED JS SCRIPTS -->
-@routes
-<script src="{{ asset('js/app.js') }}"></script>
 
+<script src="{{ asset('js/app.js') }}"></script>
+<script src='https://vjs.zencdn.net/7.6.0/video.js'></script>
  <script>
   //Tooltip Boostrap 3.3
   $(function () {

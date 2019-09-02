@@ -19,7 +19,7 @@
               </div>
 
                <div class="form-group">
-                <label for="clientCode">CODIGO CLIENTE</label>
+                <label for="clientCode">CODIGO</label>
                 <input type="text" class="form-control" id="clientCode" name="clientCode" value="{{$client[0]->clientCode}}" placeholder="Nombres y Apellidos" disabled>
               </div>
 

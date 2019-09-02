@@ -275,6 +275,20 @@ class Contract extends Model
         }
     }
 
+     public function scopeFilter($query, $filteredOut)
+    {
+        if ($filteredOut) {
+            return $query->where('contractNumber', 'LIKE', "%$filteredOut%")
+                         ->orWhere('siteAddress', 'LIKE', "%$filteredOut%")
+                         ->orWhereHas('client', function ($query) use ($filteredOut) {
+                              return $query->where('clientCode', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('client', function ($query) use ($filteredOut) {
+                              return $query->where('clientName', 'LIKE', "%$filteredOut%");
+                          });
+        }
+    }
+
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -297,15 +311,13 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType,$contractNumber,$clientName,$siteAddress)
+    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType,$filteredOut)
     {
         $result = $this->where('contractType', $contractType)
             ->where('contractStatus', $contractStatus1)
             ->orWhere('contractStatus', $contractStatus2)
             ->orderBy('contractNumber', 'ASC')
-            ->contractNumber($contractNumber)
-            ->clientName($clientName)
-            ->siteAddress($siteAddress)
+            ->filter($filteredOut)
             ->paginate(100);
            
 
@@ -340,36 +352,12 @@ class Contract extends Model
     public function insertContract($countryId, $officeId, $contractType, $contractDate,
         $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyName) {
 
-        $oConfiguration = new Configuration();
-        // get contract number
-        $contractNumber = $oConfiguration->retrieveContractNumber($countryId, $officeId, $contractType);
-        // increment contract number
-        $contractNumber++;
-        // update contract number
-        $oConfiguration->updateContractNumber($countryId, $officeId, $contractType, $contractNumber);
-
-        // make contract number format
-        $stringLength = 5;
-        $strPad       = "0";
-
-        if ($contractNumber < 1) {
-            $contractNumber = "";
-        }
-
-        $format1 = substr(date('Y'), 2, 2);
-        if ($contractType == "P") {
-            $format2 = "-PC-";
-        } else {
-            $format2 = "-S-";
-        }
-
-        $country = Country::where('countryId', $countryId)->get();
-        $format3 = $country[0]->abbreviation."-";
-
-        $format4 = str_pad($contractNumber, $stringLength, $strPad, STR_PAD_LEFT);
-
-        // numero de contrato en foramto
-        $contractNumberFormat = $format1 . $format2 . $format3 . $format4;
+          $oConfiguration = new Configuration();
+      
+          $contractNumber = $oConfiguration->retrieveContractNumber($countryId, $officeId, $contractType);
+          $contractNumber++;
+          $contractNumberFormat = $oConfiguration->generateContractNumberFormat($countryId, $officeId, $contractType);
+                                  $oConfiguration->increaseContractNumber($countryId, $officeId, $contractType);
 
         $contract                      = new Contract;
         $contract->conId               = $contractNumber;

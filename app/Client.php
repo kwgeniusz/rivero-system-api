@@ -45,17 +45,16 @@ class Client extends Model
     /** Query Scope  */
 //--------------------------------------------------------------------
     //nombre codigo direccion
-    public function scopeClientCode($query, $clientCode)
+    public function scopeFilter($query, $filteredOut)
     {
-        if ($clientCode) {
-            return $query->where('clientCode', 'LIKE', "%$clientCode%");
-        }
-    }
-
-      public function scopeClientName($query, $clientName)
-    {
-        if ($clientName) {
-            return $query->where('clientName', 'LIKE', "%$clientName%");
+        if ($filteredOut) {
+            return $query->where('clientCode', 'LIKE', "%$filteredOut%")
+                         ->orWhere('clientName', 'LIKE', "%$filteredOut%")
+                         ->orWhere('clientPhone', 'LIKE', "%$filteredOut%")
+                         ->orWhere('clientEmail', 'LIKE', "%$filteredOut%")
+                         ->orWhereHas('contactType', function ($query) use ($filteredOut) {
+                              return $query->where('contactTypeName', 'LIKE', "%$filteredOut%");
+                          });
         }
     }
 
@@ -94,24 +93,11 @@ class Client extends Model
     {
 
       $oConfiguration = new Configuration();
+      
       $clientNumber = $oConfiguration->retrieveClientNumber($countryId);
       $clientNumber++;
-      $oConfiguration->updateClientNumber($countryId, $clientNumber);
-      
-        // make contract number format
-        $stringLength = 5;
-        $strPad       = "0";
-
-        if ($clientNumber < 1) {
-            $clientNumber = "";
-        }
-
-        $country = Country::where('countryId', $countryId)->get();
-        $format1 = $country[0]->abbreviation."-";
-        $format2 = "CU-";
-        $format3 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
-        // numero de contrato en foramto
-        $clientNumberFormat = $format1 . $format2 . $format3 ;
+      $clientNumberFormat = $oConfiguration->generateClientNumberFormat($countryId);
+                            $oConfiguration->increaseClientNumber($countryId);
 
         $client                = new Client;
         $client->cltId         = $clientNumber;
@@ -126,6 +112,8 @@ class Client extends Model
         $client->dateCreated   = date('Y-m-d H:i:s');
         $client->lastUserId    = Auth::user()->userId;
         $client->save();
+
+        return $client;
     }
 //------------------------------------------
     public function updateClient($clientId, $countryId, $clientName, $clientAddress,$contactTypeId, $clientPhone, $clientEmail)

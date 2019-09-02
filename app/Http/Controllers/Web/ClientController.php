@@ -5,18 +5,23 @@ namespace App\Http\Controllers\Web;
 use App\Client;
 use App\Country;
 use App\ContactType;
+use App\Configuration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
+use Auth;
 
 class ClientController extends Controller
 {
     private $oClient;
+    private $oConfiguration;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->oClient = new Client;
+        $this->oConfiguration = new Configuration();
+
     }
     /**
      * Display a listing of the resource.
@@ -26,12 +31,10 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         // $clients = $this->oClient->getAll();
-       $clientCode = $request->clientCode;
-       $clientName     = $request->clientName;
+       $filteredOut = $request->filteredOut;
 
        $clients = Client::orderBy('cltId', 'ASC')
-            ->clientCode($clientCode)
-            ->clientName($clientName)
+            ->filter($filteredOut)
             ->paginate(100);
 
         return view('clients.index', compact('clients'));
@@ -44,9 +47,13 @@ class ClientController extends Controller
      */
     public function create()
     {
+    
+        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(Auth::user()->countryId);
+        
         $countrys = Country::all();
         $contactTypes = ContactType::all();
-        return view('clients.create', compact('countrys','contactTypes'));
+
+        return view('clients.create', compact('countrys','contactTypes','clientNumberFormat'));
     }
 
     /**
@@ -66,6 +73,10 @@ class ClientController extends Controller
             $request->clientEmail
         );
 
+        if($request->ajax()){
+                return $clients;
+            }
+            
         $notification = array(
             'message'    => 'Cliente Creado Exitosamente',
             'alert-type' => 'success',
@@ -152,6 +163,10 @@ class ClientController extends Controller
             ->get();
         return json_encode($results);
     }
-
+   public function getNumberFormat()
+    {
+        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(Auth::user()->countryId);
+        return json_encode($clientNumberFormat);
+    }
 
 }

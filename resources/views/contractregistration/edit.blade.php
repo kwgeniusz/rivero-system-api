@@ -194,7 +194,7 @@
           <div class="col-xs-12">
             <div class="text-center">
               <button type="submit" class="btn btn-primary">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
+                <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
               </button>
               <a href="{{route('contracts.index')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}

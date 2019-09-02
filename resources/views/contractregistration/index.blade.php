@@ -4,21 +4,13 @@
 
 
   <h3><b>{{__('contracts')}}</b></h3>
-<br>
-
  <div class="row ">
       <div class="col-xs-12 text-center">
       <form class="form-inline" action="{{Route('contracts.index')}}" method="GET">
 
          <div class="form-group">
-           <label for="filteredOut">Filtrado</label>
-           <input type="text" class="form-control" name="contractNumber" id="contractNumber" placeholder="N° Contrato" autocomplete="off">
-         </div>
-          <div class="form-group">
-           <input type="text" class="form-control" name="clientName" id="clientName" placeholder="Nombre Cliente" autocomplete="off">
-         </div>
-        <div class="form-group">
-           <input type="text" class="form-control" name="siteAddress" id="siteAddress" placeholder="Dirección" autocomplete="off">
+           <label for="filteredOut"></label>
+           <input type="text" class="form-control" name="filteredOut" id="filteredOut" placeholder="Filtrado" autocomplete="off">
          </div>
           <button type="submit" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Buscar">
                 <span class="fa fa-search" aria-hidden="true"></span>
@@ -27,7 +19,6 @@
       </div>
     </div>
 
-     <br>
        <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
 
@@ -55,7 +46,6 @@
       </div>
     </div>
 
-    <br>
     <div class="table-responsive text-center">
             <table class="table table-striped table-bordered text-center">
             <thead>

@@ -25,4 +25,9 @@ class Country extends Model
         return $this->hasMany('App\Contract', 'countryId', 'countryId');
     }
 
+    public function getAbbreviation($countryId){
+        $rs = $this->where('countryId', $countryId)->get();
+        return $rs[0]->abbreviation;
+    }
+
 }

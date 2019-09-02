@@ -36,24 +36,48 @@ class Configuration extends Model
 
         return $contractNumber;
     }
-
     //--------------------------------------------------------------------
-    public function updateContractNumber($countryId, $officeId, $contractType, $contractNumber)
+  public function generateContractNumberFormat($countryId,$officeId,$contractType) {
+
+        $oCountry = new Country;
+        $contractNumber =   $this->retrieveContractNumber($countryId, $officeId, $contractType);
+        $contractNumber++;
+
+        $stringLength = 5;
+        $strPad       = "0";
+
+        if ($contractNumber < 1) {
+            $contractNumber = "";
+        }
+
+        $format1 = substr(date('Y'), 2, 2);
+        if ($contractType == "P") {
+            $format2 = "-PC-";
+        } else {
+            $format2 = "-S-";
+        }
+
+         $abbreviation = $oCountry->getAbbreviation($countryId);
+         $format3 = $abbreviation;
+
+        $format4 = str_pad($contractNumber, $stringLength, $strPad, STR_PAD_LEFT);
+
+        // numero de contrato en foramto
+       return $contractNumberFormat = $format1 . $format2 . $format3 . $format4;
+    }
+    //--------------------------------------------------------------------
+    public function increaseContractNumber($countryId, $officeId, $contractType)
     {
         if ($contractType == 'P') {
 
             $this->where('countryId', $countryId)
                 ->where('officeId', $officeId)
-                ->update(array(
-                    'projectNumber' => $contractNumber,
-                ));
+                ->increment('projectNumber');
 
         } else {
             $this->where('countryId', $countryId)
                 ->where('officeId', $officeId)
-                ->update(array(
-                    'serviceNumber' => $contractNumber,
-                ));
+                ->increment('serviceNumber');
         }
 
     }
@@ -74,13 +98,36 @@ class Configuration extends Model
         
         return $contractNumber;
     }
+    //--------------------------------------------------------------------
+     public function generateClientNumberFormat($countryId) {
+        
+        $oCountry = new Country();
+        $stringLength = 5;
+        $strPad       = "0";
+
+         $clientNumber = $this->retrieveClientNumber($countryId);
+         $clientNumber++;
+    
+        if ($clientNumber < 1) {
+            $clientNumber = "";
+        }
+         $abbreviation = $oCountry->getAbbreviation($countryId);
+         $format1 = $abbreviation;
+         $format2 = "-CU-";
+         $format3 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
+       
+        // numero de contrato en foramto
+        return $clientNumberFormat = $format1 . $format2 . $format3 ;
+         
+      }
 
     //--------------------------------------------------------------------
-    public function updateClientNumber($countryId, $clientNumber)
+     
+    public function increaseClientNumber($countryId)
     {
             $this->where('countryId', $countryId)
-                 ->update(array(
-                    'clientNumber' => $clientNumber,
-                ));
+                 ->increment('clientNumber');
     }
+
+
 }

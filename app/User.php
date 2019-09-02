@@ -21,11 +21,6 @@ class User extends Authenticatable
 
     protected $table ='user';
     protected $primaryKey = 'userId';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'userId',
         'userTypeName',
@@ -39,16 +34,27 @@ class User extends Authenticatable
     protected $hidden = [
         'userPassword','remember_token','dateCreated'
     ];
+//--------------------------------------------------------------------
+   /** Relations */
+//--------------------------------------------------------------------  
+public function country()
+{
+    return $this->belongsTo('App\Country', 'countryId');
+}
+public function office()
+{
+    return $this->belongsTo('App\Office', 'officeId');
+}
+//--------------------------------------------------------------------
+   /**  */
+//--------------------------------------------------------------------  
 
     public function getAuthPassword()
     {
         return $this->userPassword;
     }
 
-    public function getEmailForPasswordReset()
-    {
-        return $this->userEmail;
-    }
+ 
  
 
 }

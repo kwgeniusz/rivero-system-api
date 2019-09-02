@@ -46,7 +46,10 @@
                   <option  :value="country.countryId"  v-for="(country) in countrys"> {{country.countryName}}</option>
             </select>
           </div>
-
+         <div class="form-group ">
+            <label for="clientNumberFormat">CODIGO</label>
+            <input type="text" class="form-control" id="clientNumberFormat" name="clientNumberFormat" v-model="formClientNumberFormat" disabled="on">
+          </div>
 
               <div class="form-group">
                 <label for="formClientName">NOMBRES Y APELLIDOS</label>
@@ -80,11 +83,11 @@
             </div>
 
             <div class="text-center">
-              <a @click="createClient()" :disabled="btnSubmitForm"  class="btn btn-primary">
+              <a @click="createClient()" v-if="btnSubmitForm"  class="btn btn-primary">
                 <span class="fa fa-check" aria-hidden="true"></span>  GUARDAR
               </a>
             </div>
-              <br>
+              <br><br>
   </div>
 
           
@@ -138,6 +141,7 @@
             formContactType: '', 
             formClientPhone: '',
             formClientEmail: '',
+            formClientNumberFormat:'',
           }
     },
      props: {
@@ -192,6 +196,7 @@
              if(this.url == "C") { 
                   var url ='../countrys/all';
                   var url2 ='../contactTypes/all'; 
+                  var url3 ='../clientNumberFormat/get'; 
               }else{
                   var url ='../../countrys/all';
                   var url2 ='../../contactTypes/all';
@@ -201,6 +206,9 @@
                 });
               axios.get(url2).then(response => {
                  this.contactTypes = response.data
+                }); 
+              axios.get(url3).then(response => {
+                 this.formClientNumberFormat = response.data
                 }); 
         },
        createClient: function() {
@@ -224,7 +232,7 @@
   
 
           if (!this.errors.length) { 
-            this.btnSubmitForm = true;
+            this.btnSubmitForm = false;
             axios.post(url,{
              countryId: this.formClientCountry,
             clientName: this.formClientName,
@@ -233,6 +241,7 @@
             clientPhone: this.formClientPhone,
             clientEmail: this.formClientEmail
             }).then(response => {
+               this.aggClient(response.data.clientId,response.data.clientName,response.data.clientAddress)
                toastr.info("Cliente Nuevo Insertado")
                this.formClientCountry = "";
                this.formClientName = "";

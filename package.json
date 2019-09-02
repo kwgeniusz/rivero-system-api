@@ -19,9 +19,13 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "@xkeshi/image-compressor": "^0.5.3",
         "admin-lte": "^2.4.8",
+        "cropperjs": "^1.5.5",
         "sweet-modal-vue": "^2.0.0",
         "toastr": "^2.1.4",
-        "vue-tables-2": "^1.4.70"
+        "vue-moment": "^4.0.0",
+        "vue-tables-2": "^1.4.70",
+        "vue-upload-component": "^2.8.20"
     }
 }

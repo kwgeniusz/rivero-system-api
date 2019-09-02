@@ -64,8 +64,8 @@ Route::get('contractsStaff/{id}/{contracId}/remove', 'Web\ContractController@sta
 
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
 Route::post('contractsFileAgg', 'Web\ContractController@fileAgg')->name('contracts.fileAgg');
-Route::get('/download/{typeContract}/{typeDoc}/{directoryName}/{file}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
-Route::get('/fileDelete/{typeContract}/{typeDoc}/{directoryName}/{file}', 'Web\contractController@fileDelete')->name('contracts.fileDelete');
+Route::get('download/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 
 Route::get('contractsPayment/{id}', 'Web\ContractController@payment')->name('contracts.payment');
 Route::post('contractsPayment/agg', 'Web\ContractController@paymentAgg')->name('contracts.paymentAgg');
@@ -127,11 +127,14 @@ Route::post('collection-report', 'Web\ReportController@collections')->name('coll
 Route::get('contactTypes/all', 'Web\ContactTypeController@all')->name('contactTypes.all');
 //COUNTRYS
 Route::get('countrys/all', 'Web\CountryController@all')->name('countrys.all');
+//CLIENT
+Route::get('clientNumberFormat/get', 'Web\clientController@getNumberFormat')->name('clients.getNumberFormat');
 //OFFICES
 Route::get('offices/{contract}', 'Web\OfficeController@getForCountry')->name('offices.get');
 //CONTRACTS
 Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
 Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');
+Route::get('allFiles/{id}/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
 //ADMINISTRATION - RECEIVABLE
 Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId')->name('receivables.getForId');
 Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');
