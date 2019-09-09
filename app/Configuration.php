@@ -58,7 +58,7 @@ class Configuration extends Model
         }
 
          $abbreviation = $oCountry->getAbbreviation($countryId);
-         $format3 = $abbreviation;
+         $format3 = $abbreviation."-";
 
         $format4 = str_pad($contractNumber, $stringLength, $strPad, STR_PAD_LEFT);
 

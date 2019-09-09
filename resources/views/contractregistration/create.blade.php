@@ -27,7 +27,7 @@
       <form class="form" action="{{Route('contracts.store')}}" method="POST">
         {{csrf_field()}}
 
-        <select-country-office></select-country-office>
+        {{-- <select-country-office></select-country-office> --}}
         
             <input type="hidden" name="contractType" value="{{ $contractType }}">
             

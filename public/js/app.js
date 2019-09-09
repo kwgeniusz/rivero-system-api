@@ -56471,7 +56471,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     allCountrys: function allCountrys() {
       var _this = this;
 
-      var url = '../countrys/all';
+      var url = './countrys/all';
       axios.get(url).then(function (response) {
         _this.list = response.data;
       });
@@ -56479,7 +56479,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     getOffices: function getOffices() {
       var _this2 = this;
 
-      var url = '../offices/' + this.firstOption;
+      var url = './offices/' + this.firstOption;
       axios.get(url).then(function (response) {
         console.log(response.data);
         _this2.list2 = response.data;
@@ -56513,7 +56513,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: { name: "countryId", id: "countryId" },
+            attrs: { name: "countryId", id: "countryId", required: "on" },
             on: {
               change: [
                 function($event) {
@@ -56561,7 +56561,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { name: "officeId", id: "officeId" },
+                attrs: { name: "officeId", id: "officeId", required: "on" },
                 on: {
                   change: function($event) {
                     var $$selectedVal = Array.prototype.filter
@@ -58207,9 +58207,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       this.errors = [];
       //VALIDATIONS
-      if (!this.formClientCountry) {
-        this.errors.push('Pais es Requerido.');
-      }
+      // if (!this.formClientCountry) {
+      //      this.errors.push('Pais es Requerido.');
+      // } 
       if (!this.formClientName) {
         this.errors.push('Nombre y Apellido es Requerido.');
       }
@@ -58386,50 +58386,6 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "col-xs-offset-1 col-xs-10" }, [
-          _c("div", { staticClass: "form-group " }, [
-            _c("label", { attrs: { for: "formClientCountry" } }, [
-              _vm._v("PAIS")
-            ]),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.formClientCountry,
-                    expression: "formClientCountry"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { name: "formClientCountry", id: "formClientCountry" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.formClientCountry = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              _vm._l(_vm.countrys, function(country) {
-                return _c(
-                  "option",
-                  { domProps: { value: country.countryId } },
-                  [_vm._v(" " + _vm._s(country.countryName))]
-                )
-              })
-            )
-          ]),
-          _vm._v(" "),
           _c("div", { staticClass: "form-group " }, [
             _c("label", { attrs: { for: "clientNumberFormat" } }, [
               _vm._v("CODIGO")

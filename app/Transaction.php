@@ -16,6 +16,8 @@ class Transaction extends Model
     protected $fillable = [
         'transactionId',
         'transactionTypeId',
+        'countryId',
+        'officeId',
         'transactionDate',
         'description',
         'amount',
@@ -72,10 +74,12 @@ class Transaction extends Model
         return $this->orderBy('transactionId', 'ASC')->get();
     }
     //------------------------------------
-    public function getAllForSign($transactionSign)
+    public function getAllForSign($transactionSign,$countryId,$officeId)
     {
 
         $result = $this->where('sign', $transactionSign)
+                      ->where('countryId', $countryId)
+                      ->where('officeId', $officeId) 
             ->orderBy('transactionId', 'ASC')
             ->get();
 
@@ -103,13 +107,16 @@ class Transaction extends Model
         return $result;
     }
     //------------------------------------------
-    public function findById($id)
+    public function findById($id,$countryId,$officeId)
     {
-        return $this->where('transactionId', '=', $id)->get();
+        return $this->where('transactionId', '=', $id)
+                      ->where('countryId', $countryId)
+                      ->where('officeId', $officeId) 
+                      ->get();
     }
 
     //------------------------------------------
-    public function insertT($transactionTypeId, $description, $transactionDate, $amount, $bankId, $reference, $sign, $month)
+    public function insertT($transactionTypeId, $description, $transactionDate, $amount, $bankId, $reference, $sign, $month,$countryId,$officeId)
     {
 
         $error = null;
@@ -118,6 +125,8 @@ class Transaction extends Model
         try {
             //INSERTA UNA NUEVA TRANSACTION
             $transaction                    = new Transaction;
+            $transaction->countryId         = $countryId;
+            $transaction->officeId          = $officeId;
             $transaction->transactionTypeId = $transactionTypeId;
             $transaction->description       = $description;
             $transaction->transactionDate   = $transactionDate;

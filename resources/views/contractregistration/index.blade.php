@@ -79,6 +79,10 @@
                      <a href="{{route('contracts.payment', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
+                     <a href="{{route('reports.contract', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="PDF">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
+                    </a>
+                    |
                    <a href="{{route('contracts.details', ['id' => $project->contractId])}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
                         <span class="fa fa-search" aria-hidden="true"></span> 
                     </a>
@@ -150,6 +154,10 @@
                      <a href="{{route('contracts.payment', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
+                   <a href="{{route('reports.contract', ['id' => $service->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="PDF">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
+                    </a>
+                    |
                    <a href="{{route('contracts.details', ['id' => $service->contractId])}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
                         <span class="fa fa-search" aria-hidden="true"></span> 
                    </a>

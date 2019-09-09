@@ -15,7 +15,7 @@ class Precontract extends Model
 
     protected $table      = 'pre_contract';
     protected $primaryKey = 'precontractId';
-    //  protected $dateFormat = 'Y-m-d';
+    //protected $dateFormat = 'Y-m-d';
     protected $fillable = ['precontractId', 'contractType', 'countryId', 'officeId',
         'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId', 'comment',
         'currencyName',
@@ -68,18 +68,23 @@ class Precontract extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
     //------------------------------------------
-    public function getAllForType($contractType)
+    public function getAllForType($contractType,$countryId,$officeId)
     {
         $result = $this->where('contractType', $contractType)
+            ->where('countryId', $countryId)
+            ->where('officeId', $officeId) 
             ->orderBy('precontractId', 'ASC')
             ->get();
 
         return $result;
     }
 //------------------------------------------
-    public function findById($id)
+    public function findById($id,$countryId,$officeId)
     {
-        return $this->where('precontractId', '=', $id)->get();
+        return $this->where('precontractId', '=', $id)
+                     ->where('countryId', $countryId)
+                     ->where('officeId', $officeId) 
+                     ->get();
     }
 //------------------------------------------
     public function insertPrecontract($countryId, $officeId, $contractType,
@@ -116,8 +121,11 @@ class Precontract extends Model
 
     }
 //------------------------------------------
-    public function deletePrecontract($precontractId)
+    public function deletePrecontract($precontractId,$countryId,$officeId)
     {
-        return $this->where('precontractId', '=', $precontractId)->delete();
+        return $this->where('precontractId', '=', $precontractId)
+                    ->where('countryId', $countryId)
+                    ->where('officeId', $officeId) 
+                    ->delete();
     }
 }

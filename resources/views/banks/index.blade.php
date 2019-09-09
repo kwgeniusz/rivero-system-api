@@ -16,14 +16,14 @@
            <input type="text" class="form-control" name="bankName" id="bankName" required>
          </div>
 
-            <div class="form-group">
+    {{--         <div class="form-group">
             <label for="countryId">{{__('country')}}</label>
             <select class="form-control" name="countryId" id="countryId">
                 @foreach($countrys as $country)
                       <option value="{{$country->countryId}}" > {{$country->countryName}} </option>
                 @endforeach
             </select>
-          </div>
+          </div> --}}
            <button type="submit" class="btn btn-success">
                 <span class="fa fa-plus" aria-hidden="true"></span>   {{__('add')}}
             </button>

@@ -73,9 +73,9 @@ desired effect
         -------------------------->
         <div id="app">
         @yield('content')
-  {{--         <video id='my-video' class='video-js' controls preload='auto' width='640' height='264'
+{{--           <video id='my-video' class='video-js' controls preload='auto' width='640' height='264'
    data-setup='{}'>
-    <source src='{{ asset('m.mov') }}' type='video/mp4'>
+    <source src='{{ asset('m.mov') }}' type="video/quicktime">
     <source src='MY_VIDEO.webm' type='video/webm'>
     <source src="D:/mov1.mov" type="video/mp4"> 
     <p class='vjs-no-js'>
@@ -96,7 +96,7 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-        <strong>USUARIO: </strong>{{Auth::user()->userTypeName}} |
+        <strong>USUARIO: </strong>{{Auth::user()->fullName}} |
         <strong>OFICINA: </strong>{{Auth::user()->country->countryName}} |
         <strong>PAIS: </strong>{{Auth::user()->office->officeName}}
     </div>

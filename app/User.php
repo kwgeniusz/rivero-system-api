@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRoles;
 
    /**ROLES USERS */
     const DIRECTOR = '1';
@@ -21,6 +23,7 @@ class User extends Authenticatable
 
     protected $table ='user';
     protected $primaryKey = 'userId';
+    public $timestamps    = false;
     protected $fillable = [
         'userId',
         'userTypeName',
@@ -53,8 +56,18 @@ public function office()
     {
         return $this->userPassword;
     }
-
+   public function getAll()
+    {
+        return $this->orderBy('userId', 'ASC')
+                    ->get();
+    }
  
+    public function changeOffice($id,$countryId,$officeId)
+    {
+          return $this->where('userId', $id)
+                      ->update(array('countryId' => $countryId,
+                                     'officeId'        => $officeId));
+    }
  
 
 }

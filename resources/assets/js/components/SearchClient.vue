@@ -40,12 +40,12 @@
        </div>
 
   <div class="col-xs-offset-1 col-xs-10">
-          <div class="form-group ">
+      <!--     <div class="form-group ">
             <label for="formClientCountry">PAIS</label>
             <select v-model="formClientCountry" class="form-control" name="formClientCountry" id="formClientCountry">
                   <option  :value="country.countryId"  v-for="(country) in countrys"> {{country.countryName}}</option>
             </select>
-          </div>
+          </div> -->
          <div class="form-group ">
             <label for="clientNumberFormat">CODIGO</label>
             <input type="text" class="form-control" id="clientNumberFormat" name="clientNumberFormat" v-model="formClientNumberFormat" disabled="on">
@@ -220,9 +220,9 @@
          }
            this.errors = [];
            //VALIDATIONS
-           if (!this.formClientCountry) {
-                this.errors.push('Pais es Requerido.');
-           } 
+           // if (!this.formClientCountry) {
+           //      this.errors.push('Pais es Requerido.');
+           // } 
            if (!this.formClientName) {
                 this.errors.push('Nombre y Apellido es Requerido.');
            }

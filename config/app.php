@@ -229,6 +229,7 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'AdminLTE'     => Acacha\AdminLTETemplateLaravel\Facades\AdminLTE::class,
         'PDF'          => Barryvdh\DomPDF\Facade::class,
+        
     ],
 
 ];

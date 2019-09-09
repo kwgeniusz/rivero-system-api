@@ -30,12 +30,13 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        // $clients = $this->oClient->getAll();
+
        $filteredOut = $request->filteredOut;
 
        $clients = Client::orderBy('cltId', 'ASC')
-            ->filter($filteredOut)
-            ->paginate(100);
+                         ->filter($filteredOut)
+                         ->where('countryId','=', Auth::user()->countryId)
+                         ->paginate(100);
 
         return view('clients.index', compact('clients'));
     }
@@ -49,8 +50,7 @@ class ClientController extends Controller
     {
     
         $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(Auth::user()->countryId);
-        
-        $countrys = Country::all();
+        // $countrys     = Country::all();
         $contactTypes = ContactType::all();
 
         return view('clients.create', compact('countrys','contactTypes','clientNumberFormat'));
@@ -65,7 +65,7 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         $clients = $this->oClient->insertClient(
-            $request->countryId,
+            Auth::user()->countryId,
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId, 
@@ -78,11 +78,12 @@ class ClientController extends Controller
             }
             
         $notification = array(
-            'message'    => 'Cliente Creado Exitosamente',
+            'message'    => 'Cliente Creado Exitosamente '.$clients->clientCode,
             'alert-type' => 'success',
         );
+
         return redirect()->route('clients.index')
-            ->with($notification);
+                         ->with($notification);
     }
 
     /**
@@ -93,9 +94,10 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $countrys = Country::all();
+        // $countrys = Country::all();
         $contactTypes = ContactType::all();
-        $client   = $this->oClient->findById($id);
+        $client   = $this->oClient->findById($id, Auth::user()->countryId);
+
         return view('clients.edit', compact('client', 'countrys','contactTypes'));
     }
 
@@ -109,7 +111,7 @@ class ClientController extends Controller
     public function update(ClientRequest $request, $id)
     {
         $this->oClient->updateClient($id,
-            $request->countryId,
+            Auth::user()->countryId,
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId,  
@@ -131,7 +133,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = $this->oClient->findById($id);
+        $client = $this->oClient->findById($id,Auth::user()->countryId);
         return view('clients.show', compact('client'));
     }
 
@@ -143,7 +145,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->oClient->deleteClient($id);
+        $result = $this->oClient->deleteClient($id,Auth::user()->countryId);
 
          $notification = array(
             'message'    => $result['msj'],
@@ -158,9 +160,12 @@ class ClientController extends Controller
     {
         $results = Client::select('clientId', 'clientName', 'clientAddress','clientCode')
             ->where('clientName', 'LIKE', "%$client%")
+            ->where('countryId', Auth::user()->countryId)
             ->orWhere('clientCode', 'LIKE', "%$client%")
+            ->where('countryId', Auth::user()->countryId) 
             ->orderBy('clientName', 'ASC')
             ->get();
+
         return json_encode($results);
     }
    public function getNumberFormat()

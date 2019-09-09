@@ -30,8 +30,9 @@
            <input disabled type="text" class="form-control" id="precontractNumber" name="precontractNumber" value="{{ $precontract[0]->precontractId }}">
          </div>
 
-
-         <select-country-office-edit country="{{$precontract[0]->countryId}}" office="{{$precontract[0]->officeId}}"></select-country-office-edit>
+         {{-- <select-country-office-edit country="{{$precontract[0]->countryId}}" office="{{$precontract[0]->officeId}}"></select-country-office-edit> --}}
+           <input type="hidden" name="countryId" value="{{$precontract[0]->countryId}}">
+           <input type="hidden" name="officeId" value="{{$precontract[0]->officeId}}">
 
            <div class="row"></div>
            <search-client url='E' c-id="{{$precontract[0]->clientId}}" c-name="{{$precontract[0]->client->clientName}}" c-address="{{$precontract[0]->siteAddress}}"></search-client>
@@ -39,7 +40,7 @@
      <!--input Address-->      
           <div class="form-group col-xs-11">
                 <label for="siteAddress">DIRECCIÓN</label>
-                <input type="text" class="form-control" id="siteAddress" name="siteAddress">
+                <input type="text" class="form-control" id="siteAddress" name="siteAddress" value="{{ $precontract[0]->siteAddress }}">
            </div>
           <div class="form-group col-xs-7">
             <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
@@ -93,7 +94,7 @@
           <div class="col-xs-12">
             <div class="text-center">
               <button type="submit" class="btn btn-primary">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
+                <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
               </button>
               <a href="{{route('precontracts.index')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}

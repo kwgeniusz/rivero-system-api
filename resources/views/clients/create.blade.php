@@ -22,14 +22,14 @@
         <form class="form" action="{{Route('clients.store')}}" method="POST">
         {{csrf_field()}}
    <div class="row">
-          <div class="form-group col-xs-4">
+    {{--       <div class="form-group col-xs-4">
             <label for="countryId">{{__('country')}}</label>
             <select class="form-control" name="countryId" id="countryId">
                 @foreach($countrys as $country)
                       <option value="{{$country->countryId}}" > {{$country->countryName}} </option>
                 @endforeach
             </select>
-          </div>
+          </div> --}}
           <div class="form-group col-xs-4">
             <label for="clientNumberFormat">CODIGO</label>
             <input type="text" class="form-control" id="clientNumberFormat" name="clientNumberFormat" value="{{ $clientNumberFormat}}" disabled="on">

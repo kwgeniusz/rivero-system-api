@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Web;
 
 use App\Contract;
-use App\Http\Controllers\Controller;
 use App\Receivable;
 use App\Transaction;
-use Auth;
+use App\Client;
 use Carbon\Carbon;
-use DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
+use DB;
 use PDF;
 
 class ReportController extends Controller
 {
     private $oContract;
+    private $oTransaction;
+    private $oReceivable;
+    private $oClient;
 
     public function __construct()
     {
@@ -22,13 +26,13 @@ class ReportController extends Controller
         $this->oContract    = new Contract;
         $this->oTransaction = new Transaction;
         $this->oReceivable  = new Receivable;
-
+        $this->oClient      = new Client;
     }
 
     public function printContract(Request $request)
     {
         $date     = Carbon::now();
-        $contract = $this->oContract->findById($request->contractNumber);
+        $contract = $this->oContract->findById($request->id,Auth::user()->countryId,Auth::user()->officeId);
 
         $contractNumber = __('contract');
 
@@ -81,12 +85,12 @@ EOD;
         return view('contractprint.result', compact('outputPdfName'));
     }
 
-    public function summaryContract(Request $request)
+    public function summaryContractForOffice()
     {
         $acum       = 0;
         $background = "";
         $date       = Carbon::now();
-        $contracts  = $this->oContract->findByOffice($request->officeId);
+        $contracts  = $this->oContract->findByOffice(Auth::user()->officeId);
 
         $html = <<<EOD
       <p>
@@ -145,6 +149,12 @@ EOD;
         return view('contractsummary.result', compact('outputPdfName'));
     }
 
+
+    public function summaryClientForm()
+    {
+        $clients = $this->oClient->getAll(Auth::user()->countryId);
+        return view('summaryforclient.index', compact('clients'));
+    }
     public function summaryForClient(Request $request)
     {
         $acum       = 0;

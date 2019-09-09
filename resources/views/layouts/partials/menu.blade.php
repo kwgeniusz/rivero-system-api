@@ -35,9 +35,11 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">{{__('Main Menu')}}</li>
         <!-- Optionally, you can add icons to the links -->
-
+@can('A')
         <li class="active"><a href="{{route('home')}}"><i class="fa fa-home"></i> <span>{{__('Home')}}</span></a></li>
+@endcan
 
+   @can('B')
         <li class="treeview">
           <a href="#"><i class="fa fa-file-contract"></i> <span>{{__('Contracts')}}</span>
             <span class="pull-right-container">
@@ -45,29 +47,21 @@
               </span>
           </a>
           <ul class="treeview-menu">
-           @if(Auth::user()->userLevel == 1)
             <li><a href="{{route('clients.index')}}"> {{__('clients')}}   </a></li>
             <li><a href="{{route('precontracts.index')}}">Pre-Contratos</a></li>
             <li><a href="{{route('contracts.index')}}">{{__('Contracts')}}</a></li>
-            @endif
-            @if(Auth::user()->userLevel == 1 or Auth::user()->userLevel == 4)
-          <li><a href="{{route('contracts.generalSearch')}}">{{__('general_search')}}</a></li>
-          @endif
-          @if(Auth::user()->userLevel == 1)
-          <li><a href="{{route('contracts.searchStatus')}}">{{__('contract_status')}}</a></li>
+            <li><a href="{{route('contracts.generalSearch')}}">{{__('general_search')}}</a></li>
+            <li><a href="{{route('contracts.searchStatus')}}">{{__('contract_status')}}</a></li>
             <li><a href="{{route('contracts.finished')}}">{{__('contracts_finished')}}</a></li>
             <li><a href="{{route('contracts.cancelled')}}">{{__('contracts_cancelled')}}</a></li>
             <hr>
-            @endif
-        @if(Auth::user()->userLevel == 1 or Auth::user()->userLevel == 4)
-            <li><a href="{{route('contracts.print')}}">{{__('print_contract')}}</a></li>
-            <li><a href="{{route('contracts.summary')}}">{{__('contract_summary')}}</a></li>
+            {{-- <li><a href="{{route('contracts.print')}}">{{__('print_contract')}}</a></li> --}}
+            <li><a href="{{route('reports.summaryContractForOffice')}}">{{__('contract_summary')}}</a></li>
             <li><a href="{{route('contracts.summaryForClient')}}">{{__('client_summary')}}</a></li>
           </ul>
-          @endif
-          @if(Auth::user()->userLevel == 1)
         </li>
-
+@endcan
+@can('C')
         <li class="treeview">
           <a href="#"><i class="fa fa-address-card"></i> <span>{{__('administration')}}</span>
             <span class="pull-right-container">
@@ -89,7 +83,8 @@
               <br>
           </ul>
         </li>
-
+@endcan
+@can('D')
         <li class="treeview">
           <a href="#"><i class="fa fa-users"></i> <span>{{__('Human Resources')}}</span>
             <span class="pull-right-container">
@@ -110,6 +105,8 @@
               <li><a href="#">{{__('payroll_list')}}</a></li>
           </ul>
         </li>
+@endcan
+@can('E')        
         <li class="treeview">
           <a href="#"><i class="fa fa-suitcase"></i> <span>{{__('Inventory')}}</span>
             <span class="pull-right-container">
@@ -122,6 +119,8 @@
             <li><a href="#">{{__('Registration by Status')}}</a></li>
           </ul>
         </li>
+@endcan
+@can('F')        
         <li class="treeview">
           <a href="#"><i class="fa fa-wrench"></i> <span>{{__('Configuration')}}</span>
             <span class="pull-right-container">
@@ -129,16 +128,17 @@
               </span>
           </a>
           <ul class="treeview-menu">
+           @if(Auth::user()->changeOffice == 'Y') <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li> @endif
             <li><a href="#">{{__('Countries')}}</a></li>
             <li><a href="#">{{__('Offices')}}</a></li>
             <li><a href="{{route('projects.index')}}">{{__('types_of_projects')}}</a></li>
             <li><a href="{{route('services.index')}}">{{__('types_of_services')}}</a></li>
-            <li><a href="#">{{__('Users')}}</a></li>
+            <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>
           </ul>
         </li>
 
         <li>
-          @endif
+ @endcan
     <a href="{{ route('logout') }}"  onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                <i class="fa fa-power-off"></i>

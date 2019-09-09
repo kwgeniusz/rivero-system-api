@@ -2,47 +2,49 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Client;
+// use App\Client;
 use App\Contract;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\PaymentRequest;
-use App\Http\Requests\PrecontractRequest;
 use App\PaymentContract;
 use App\PaymentPrecontract;
 use App\Precontract;
 use App\ProjectType;
 use App\ServiceType;
-use DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentRequest;
+use App\Http\Requests\PrecontractRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use DB;
 use File;
+use Auth;
 
 class PrecontractController extends Controller
 {
     private $oPrecontract;
-    private $oClient;
+    // private $oClient;
     private $oProjectType;
     private $oServiceType;
     private $oPaymentPrecontract;
+    private $oPaymentContract;
+    private $oContract;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->oPrecontract        = new Precontract;
-        $this->oClient             = new Client;
+        // $this->oClient             = new Client;
+        $this->oProjectType        = new ProjectType;
+        $this->oServiceType        = new ServiceType;
         $this->oPaymentPrecontract = new PaymentPrecontract;
         $this->oPaymentContract    = new PaymentContract;
         $this->oContract           = new Contract;
-        $this->oProjectType        = new ProjectType;
-        $this->oServiceType        = new ServiceType;
-
     }
 
     public function index()
     {
         //GET LIST PrecontractS for type
-        $projects = $this->oPrecontract->getAllForType('P');
-        $services = $this->oPrecontract->getAllForType('S');
+        $projects = $this->oPrecontract->getAllForType('P',Auth::user()->countryId,Auth::user()->officeId);
+        $services = $this->oPrecontract->getAllForType('S',Auth::user()->countryId,Auth::user()->officeId);
 
         return view('precontracts.index', compact('projects', 'services'));
     }
@@ -52,17 +54,16 @@ class PrecontractController extends Controller
 
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
-        $clients  = $this->oClient->getAll();
+        // $clients  = $this->oClient->getAll();
 
-        return view('precontracts.create', compact('clients', 'projects', 'services', 'contractType'));
+        return view('precontracts.create', compact( 'projects', 'services', 'contractType'));
     }
 
     public function store(PrecontractRequest $request)
     {
-
         $this->oPrecontract->insertPrecontract(
-            $request->countryId,
-            $request->officeId,
+            Auth::user()->countryId,
+            Auth::user()->officeId,
             $request->contractType,
             $request->clientId,
             $request->siteAddress,
@@ -82,7 +83,7 @@ class PrecontractController extends Controller
 
     public function details($id)
     {
-        $precontract = $this->oPrecontract->FindById($id);
+        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
 
         return view('precontracts.details', compact('precontract'));
     }
@@ -90,12 +91,12 @@ class PrecontractController extends Controller
     public function edit($id)
     {
 
-        $clients     = $this->oClient->getAll();
+        // $clients     = $this->oClient->getAll();
         $projects    = $this->oProjectType->getAll();
         $services    = $this->oServiceType->getAll();
-        $precontract = $this->oPrecontract->FindById($id);
+        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
 
-        return view('precontracts.edit', compact('precontract', 'projects', 'services', 'clients'));
+        return view('precontracts.edit', compact('precontract', 'projects', 'services'));
     }
 
     public function update(PrecontractRequest $request, $id)
@@ -123,14 +124,14 @@ class PrecontractController extends Controller
     public function show($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id);
+        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('precontracts.show', compact('precontract'));
 
     }
     public function destroy($id)
     {
 
-        $this->oPrecontract->deletePrecontract($id);
+        $this->oPrecontract->deletePrecontract($id,Auth::user()->countryId,Auth::user()->officeId);
 
         $notification = array(
             'message'    => 'Pre-Contrato Eliminado Exitosamente',
@@ -145,7 +146,7 @@ class PrecontractController extends Controller
     public function convert($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id);
+        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('precontracts.convert', compact('precontract'));
 
     }
@@ -233,7 +234,7 @@ class PrecontractController extends Controller
     public function payment($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id);
+        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         $payments    = $this->oPaymentPrecontract->getAllForPrecontract($id);
 
         return view('precontracts.payment', compact('precontract', 'payments'));

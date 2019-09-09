@@ -20,11 +20,21 @@ class Country extends Model
         'countryName',
     ];
 
+//--------------------------------------------------------------------
+    /** Relations */
+//--------------------------------------------------------------------
     public function contract()
     {
         return $this->hasMany('App\Contract', 'countryId', 'countryId');
     }
 
+// //--------------------------------------------------------------------
+    /** Function of Models */
+//--------------------------------------------------------------------
+    public function getAll()
+    {
+        return $this->orderBy('countryId', 'ASC')->get();
+    }
     public function getAbbreviation($countryId){
         $rs = $this->where('countryId', $countryId)->get();
         return $rs[0]->abbreviation;

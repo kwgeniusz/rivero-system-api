@@ -19,13 +19,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Contract extends Model
 {
     //traits
-      use SoftDeletes;
+    use SoftDeletes;
 
     public $timestamps = false;
 
     protected $table      = 'contract';
     protected $primaryKey = 'contractId';
-    //  protected $dateFormat = 'Y-m-d';
+    //protected $dateFormat = 'Y-m-d';
     protected $fillable = ['contractId', 'contractType', 'contractNumber', 'countryId', 'officeId',
         'contractDate', 'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',
@@ -302,32 +302,39 @@ class Contract extends Model
         return $this->orderBy('contractNumber', 'ASC')->paginate($number);
     }
 //------------------------------------
-    public function getAllForStatus($contractStatus)
+    public function getAllForStatus($contractStatus,$countryId,$officeId)
     {
         $result = $this->where('contractStatus', $contractStatus)
+            ->where('countryId', $countryId)
+            ->where('officeId', $officeId) 
             ->orderBy('contractNumber', 'ASC')
             ->get();
 
         return $result;
     }
 //------------------------------------------
-    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType,$filteredOut)
+    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType,$filteredOut,$countryId,$officeId)
     {
         $result = $this->where('contractType', $contractType)
-            ->where('contractStatus', $contractStatus1)
-            ->orWhere('contractStatus', $contractStatus2)
-            ->orderBy('contractNumber', 'ASC')
-            ->filter($filteredOut)
-            ->paginate(100);
-           
-
+                       ->where('countryId', $countryId)
+                       ->where('officeId', $officeId) 
+                       ->where(function($q) use ($contractStatus1,$contractStatus2){
+                          $q->where('contractStatus', $contractStatus1)
+                          ->orWhere('contractStatus', $contractStatus2);
+                        })           
+                      ->orderBy('contractNumber', 'ASC')
+                      ->filter($filteredOut)
+                      ->paginate(100);
         return $result;
     }
  //------------------------------------   
 //------------------------------------------
-    public function findById($id)
+    public function findById($id,$countryId,$officeId)
     {
-        return $this->where('contractId', '=', $id)->get();
+        return $this->where('contractId', '=', $id)
+                    ->where('countryId', $countryId)
+                    ->where('officeId', $officeId) 
+                    ->get();
     }
 //------------------------------------------
     public function findByOffice($officeId)
@@ -413,9 +420,12 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function deleteContract($contractId)
+    public function deleteContract($contractId,$countryId,$officeId)
     {
-        return Contract::find($contractId)->delete();
+        return Contract::find($contractId)
+                       ->where('countryId', $countryId)
+                       ->where('officeId', $officeId) 
+                       ->delete();
         
     }
 //-----------------------------------------

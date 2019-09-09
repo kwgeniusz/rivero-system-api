@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Country;
-use App\Http\Controllers\Controller;
 use App\Receivable;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 class ReceivableController extends Controller
 {
@@ -19,19 +20,19 @@ class ReceivableController extends Controller
     public function index(Request $request)
     {
         $receivables = '';
-        $countrys = Country::all();
+        // $countrys = Country::all();
         
-        if ($request->isMethod('post')) {
-            $receivables = $this->oReceivable->clientsPending($request->countryId);
+        // if ($request->isMethod('post')) {
+            $receivables = $this->oReceivable->clientsPending(Auth::user()->countryId);
 
            
           //  $amounts = $this->oReceivable->getDueTotal(4);
             // dd($amounts);
             // exiT();
             //  $receivables->push(5)
-        }
+        // }
 
-        return view('receivables.index', compact('receivables', 'countrys'));
+        return view('receivables.index', compact('receivables'));
     }
     public function details($clientId)
     {

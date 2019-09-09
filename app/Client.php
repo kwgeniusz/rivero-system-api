@@ -61,14 +61,18 @@ class Client extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll()
+    public function getAll($countryId)
     {
-        return $this->orderBy('clientId', 'ASC')->get();
+        return $this->orderBy('clientId', 'ASC')
+                    ->where('countryId','=', $countryId)
+                    ->get();
     }
 //------------------------------------------
-    public function findById($id)
+    public function findById($id,$countryId)
     {
-        return $this->where('clientId', '=', $id)->get();
+        return $this->where('clientId', '=', $id)
+                    ->where('countryId','=', $countryId)
+                    ->get();
     }
 //------------------------------------------
     public function findNameByOffice($officeId)
@@ -128,11 +132,14 @@ class Client extends Model
         ));
     }
 //------------------------------------------
-    public function deleteClient($clientId)
+    public function deleteClient($clientId,$countryId)
     {
         
         try {
-          $this->where('clientId', '=', $clientId)->delete();
+          $this->where('clientId', '=', $clientId)
+               ->where('countryId', '=', $countryId)
+               ->delete();
+               
             $success = true;
         } catch (\Exception $e) {
             $error   = $e->getMessage();

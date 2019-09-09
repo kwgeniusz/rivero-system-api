@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Client;
 use App\Contract;
-use App\Country;
-use App\Configuration;
 use App\Document;
-use App\PaymentContract;
+use App\Client;
+use App\Staff;
 use App\ProjectType;
 use App\ServiceType;
-use App\Staff;
+use App\Country; //OJO
+use App\PaymentContract;
 use App\Receivable;
+use App\Configuration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
 use App\Http\Requests\PaymentRequest;
@@ -28,20 +28,23 @@ class ContractController extends Controller
     private $oProjectType;
     private $oServiceType;
     private $oPaymentContract;
+    private $oReceivable;
+    private $oConfiguration;
+    private $oCountry;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->oContract        = new Contract;
+        $this->oDocument        = new Document;
         $this->oClient          = new Client;
         $this->oStaff           = new Staff;
+        $this->oProjectType     = new ProjectType;
+        $this->oServiceType     = new ServiceType;
         $this->oPaymentContract = new PaymentContract;
-        $this->oReceivable = new Receivable;
-        $this->oDocument = new Document;
-
-        $this->oProjectType = new ProjectType;
-        $this->oServiceType = new ServiceType;
-        $this->oConfiguration = new Configuration;
+        $this->oReceivable      = new Receivable;
+        $this->oConfiguration   = new Configuration;
+        $this->oCountry         = new Country;
     }
 
     public function index(Request $request)
@@ -49,8 +52,8 @@ class ContractController extends Controller
         
         $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$filteredOut);
-        $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$filteredOut);
+        $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$filteredOut,Auth::user()->countryId,Auth::user()->officeId);
+        $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$filteredOut,Auth::user()->countryId,Auth::user()->officeId);
         
         return view('contractregistration.index', compact('projects', 'services'));
     }
@@ -60,20 +63,20 @@ class ContractController extends Controller
 
         $contractNumberFormat = $this->oConfiguration->generateContractNumberFormat(Auth::user()->countryId,Auth::user()->officeId,$contractType);
 
-        $countrys = Country::all();
+        // $countrys = $this->oCountry->getAll();
+        // $clients  = $this->oClient->getAll(Auth::user()->countryId);
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
-        $clients  = $this->oClient->getAll();
 
-        return view('contractregistration.create', compact('clients', 'projects', 'services', 'contractType', 'countrys','contractNumberFormat'));
+        return view('contractregistration.create', compact('projects', 'services', 'contractType','contractNumberFormat'));
     }
 
     public function store(ContractRequest $request)
     {
 
         $this->oContract->insertContract(
-            $request->countryId,
-            $request->officeId,
+            Auth::user()->countryId,
+            Auth::user()->officeId,
             $request->contractType,
             $request->contractDate,
             $request->clientId,
@@ -99,7 +102,7 @@ class ContractController extends Controller
 
     public function details($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
 
         return view('contractregistration.details', compact('contract'));
     }
@@ -113,12 +116,12 @@ class ContractController extends Controller
              $blockEdit = true;
          }
           
-        $clients  = $this->oClient->getAll();
+        // $clients  = $this->oClient->getAll();
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
 
-        return view('contractregistration.edit', compact('contract', 'projects', 'services', 'clients','blockEdit'));
+        return view('contractregistration.edit', compact('contract', 'projects', 'services','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
@@ -154,14 +157,14 @@ class ContractController extends Controller
     public function show($id)
     {
 
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractregistration.show', compact('contract'));
 
     }
     public function destroy($id)
     {
 
-       $this->oContract->deleteContract($id);
+       $this->oContract->deleteContract($id,Auth::user()->countryId,Auth::user()->officeId);
 
           $notification = array(
             'message'    => 'Contrato Eliminado',
@@ -191,6 +194,8 @@ class ContractController extends Controller
             ->siteAddress($siteAddress)
             ->contractStatus($contractStatus)
             ->contractDate($contractDate)
+            ->where('countryId', Auth::user()->countryId)
+            ->where('officeId', Auth::user()->officeId) 
             ->paginate(5);
 
         return view('generalsearch.index', compact('contracts'));
@@ -198,42 +203,20 @@ class ContractController extends Controller
 
     public function generalSearchDetails($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('generalsearch.details', compact('contract'));
-    }
-
-    public function getForOffice($officeId)
-    {
-
-        $listContracts            = $this->oContract->FindByOffice($officeId);
-        $listContractsSiteAddress = $this->oContract->findSiteAddressByOffice($officeId);
-        $listClientName           = $this->oClient->FindNameByOffice($officeId);
-        $listClientPhone          = $this->oClient->FindPhoneByOffice($officeId);
-
-        json_encode($listContracts);
-        json_encode($listContractsSiteAddress);
-        json_encode($listClientName);
-        json_encode($listClientPhone);
-        $allList = [$listContracts, $listClientName, $listClientPhone, $listContractsSiteAddress];
-
-        return json_encode($allList);
-    }
-
-    public function searchStatus()
-    {
-        return view('contractstatus.index');
     }
 
     public function resultStatus(Request $request)
     {
 
-        $contracts = $this->oContract->getAllForStatus($request->contractStatus);
+        $contracts = $this->oContract->getAllForStatus($request->contractStatus,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractstatus.result', compact('contracts'));
     }
 
     public function resultStatusDetails($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractstatus.details', compact('contract'));
     }
 
@@ -241,22 +224,22 @@ class ContractController extends Controller
 
     public function getContractsFinished()
     {
-        $contracts = $this->oContract->getAllForStatus(Contract::FINISHED);
+        $contracts = $this->oContract->getAllForStatus(Contract::FINISHED,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractsfinished.index', compact('contracts'));
     }
     public function detailsContractsFinished($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractsfinished.details', compact('contract'));
     }
     public function showContractsFinished($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractsFinished.show', compact('contract'));
     }
     public function DeleteContractsFinished($id)
     {
-        $this->oContract->deleteContract($id);
+        $this->oContract->deleteContract($id,Auth::user()->countryId,Auth::user()->officeId);
         return redirect()->route('contracts.finished')
             ->with('info', 'Tipo de Proyecto Eliminado');
     }
@@ -265,22 +248,22 @@ class ContractController extends Controller
 
     public function getContractsCancelled()
     {
-        $contracts = $this->oContract->getAllForStatus(Contract::CANCELLED);
+        $contracts = $this->oContract->getAllForStatus(Contract::CANCELLED,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractscancelled.index', compact('contracts'));
     }
     public function detailsContractsCancelled($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractscancelled.details', compact('contract'));
     }
         public function showContractsCancelled($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractscancelled.show', compact('contract'));
     }
     public function DeleteContractsCancelled($id)
     {
-        $this->oContract->deleteContract($id);
+        $this->oContract->deleteContract($id,Auth::user()->countryId,Auth::user()->officeId);
         return redirect()->route('contracts.cancelled')
             ->with('info', 'Tipo de Proyecto Eliminado');
     }
@@ -289,11 +272,9 @@ class ContractController extends Controller
 
     public function changeStatus($id)
     {
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         return view('contractregistration.changeStatus', compact('contract'));
-
     }
-
     public function updateStatus(Request $request)
     {
         $this->oContract->updateStatus($request->contractId, $request->contractStatus);
@@ -314,7 +295,7 @@ class ContractController extends Controller
     public function staff($id)
     {
 
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         $staffs   = $this->oStaff->getAvailableStaff($id);
 
         return view('contractregistration.staff', compact('contract', 'staffs'));
@@ -350,7 +331,7 @@ class ContractController extends Controller
     public function payment($id)
     {
 
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
         $payments = $this->oPaymentContract->getAllForContract($id);
 
         return view('contractregistration.payment', compact('contract', 'payments'));
@@ -392,7 +373,7 @@ class ContractController extends Controller
     public function files($id)
     {
 
-        $contract = $this->oContract->FindById($id);
+        $contract = $this->oContract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
 
         return view('contractregistration.files', compact('contract'));
     }
@@ -423,19 +404,28 @@ class ContractController extends Controller
 
        return redirect()->back();
    }
-
-//------------FUNCTIONS PRINT----------------
-    public function summaryForClient()
-    {
-        $clients = $this->oClient->getAll();
-        return view('summaryforclient.index', compact('clients'));
-    }
-
+   
 //-------QUERYS ASINCRONIOUS-----------------//
     public function getFiles($id,$type)
     {
         $rs  = $this->oDocument->getAllForContractAndType($id,$type);
         return json_encode($rs);
+    }
+    public function getForOffice($officeId)
+    {
+
+        $listContracts            = $this->oContract->FindByOffice($officeId);
+        $listContractsSiteAddress = $this->oContract->findSiteAddressByOffice($officeId);
+        $listClientName           = $this->oClient->FindNameByOffice($officeId);
+        $listClientPhone          = $this->oClient->FindPhoneByOffice($officeId);
+
+        json_encode($listContracts);
+        json_encode($listContractsSiteAddress);
+        json_encode($listClientName);
+        json_encode($listClientPhone);
+        $allList = [$listContracts, $listClientName, $listClientPhone, $listContractsSiteAddress];
+
+        return json_encode($allList);
     }
 
 }

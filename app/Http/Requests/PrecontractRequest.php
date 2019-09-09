@@ -24,8 +24,6 @@ class PrecontractRequest extends FormRequest
     public function rules()
     {
         return [
-            'countryId'   => 'required',
-            'officeId'    => 'required',
             'clientId'    => 'required',
             'siteAddress' => 'required|max:100',
         ];

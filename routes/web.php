@@ -28,10 +28,6 @@ Route::get('/language/{locale}', function ($locale) {
 Route::get('/home', 'HomeController@index')->name('home');
 
 //ROUTES DE MODULO CONTRACTS------------------------------------------------------------------
-//PROJECTS********
-Route::resource('projects', 'Web\ProjectTypeController', ['except' => ['create']]);
-//SERVICES********
-Route::resource('services', 'Web\ServiceTypeController', ['except' => ['create']]);
 //CLIENTS************
 Route::resource('clients', 'Web\ClientController');
 //PRECONTRACTS**********
@@ -61,7 +57,6 @@ Route::put('contractsupdateStatus', 'Web\ContractController@updateStatus')->name
 Route::get('contractsStaff/{contract}/', 'Web\ContractController@staff')->name('contracts.staff');
 Route::post('contractsStaff/agg', 'Web\ContractController@staffAgg')->name('contracts.staffAgg');
 Route::get('contractsStaff/{id}/{contracId}/remove', 'Web\ContractController@staffRemove')->name('contracts.staffRemove');
-
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
 Route::post('contractsFileAgg', 'Web\ContractController@fileAgg')->name('contracts.fileAgg');
 Route::get('download/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
@@ -73,7 +68,7 @@ Route::get('contractsPayment/{id}/{amount}/{contractId}/remove', 'Web\ContractCo
 //CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');
-Route::get('contractsStatus', 'Web\ContractController@searchStatus')->name('contracts.searchStatus');
+Route::get('contractsStatus', function () {return view('contractstatus.index');})->name('contracts.searchStatus');
 Route::post('contractsStatus/result', 'Web\ContractController@resultStatus')->name('contracts.resultStatus');
 Route::get('contractsStatus/{contract}/', 'Web\ContractController@resultStatusDetails')->name('contracts.resultStatusDetails');
 //CONTRACT-FINISHED*******
@@ -88,11 +83,11 @@ Route::get('contractsCancelled/{id}/show', 'Web\ContractController@showContracts
 Route::delete('contractsCancelled/{id}/delete', 'Web\ContractController@deleteContractsCancelled')->name('contracts.cancelledDelete');
 
 //REPORTS
-Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
-Route::post('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
-Route::get('contracts-summary', function () {return view('contractsummary.index');})->name('contracts.summary');
-Route::post('contracts-summary', 'Web\ReportController@summaryContract')->name('reports.summaryContract');
-Route::get('contracts-summary-for-clients', 'Web\ContractController@summaryForClient')->name('contracts.summaryForClient');
+// Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
+Route::get('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
+// Route::get('contracts-summary', function () {return view('contractsummary.index');})->name('contracts.summary');
+Route::get('contracts-summary', 'Web\ReportController@summaryContractForOffice')->name('reports.summaryContractForOffice');
+Route::get('contracts-summary-for-clients', 'Web\ReportController@summaryClientForm')->name('contracts.summaryForClient');
 Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForClient')->name('reports.summaryForClient');
 
 //ROUTES DE MODULO ADMINISTRATION---------------------------------------------------------------------------
@@ -121,6 +116,18 @@ Route::post('transactionsexpenses', 'Web\ReportController@transactionSummaryForS
 
 Route::get('collection-report', 'Web\ReceivableController@reportCollections')->name('collections.index');
 Route::post('collection-report', 'Web\ReportController@collections')->name('collections.result');
+
+
+//ROUTES DE MODULO CONFIGURACION----------------------------------------------------------------------------
+//CHANGE OFFICE
+Route::get('change-office', function () {return view('changeoffice.index');})->name('changeOffice.index');
+Route::post('change-office', 'Web\UserController@changeOffice')->name('changeOffice.update');
+//PROJECTS********
+Route::resource('projects', 'Web\ProjectTypeController', ['except' => ['create']]);
+//SERVICES********
+Route::resource('services', 'Web\ServiceTypeController', ['except' => ['create']]);
+//USERS
+Route::resource('users', 'Web\UserController');
 
 //ROUTES DE AXIOS ------------------------------------------------------------------------------------------
 //CONTACT TYPE

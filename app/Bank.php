@@ -147,14 +147,18 @@ class Bank extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll()
+    public function getAll($countryId)
     {
-        return $this->orderBy('bankId', 'ASC')->get();
+        return $this->orderBy('bankId', 'ASC')
+                    ->where('countryId', $countryId)
+                    ->get();
     }
 //------------------------------------------
-    public function findById($id)
+    public function findById($id,$countryId)
     {
-        return $this->where('bankId', '=', $id)->get();
+        return $this->where('bankId', '=', $id)
+                    ->where('countryId', $countryId)
+                    ->get();
     }
 //------------------------------------------
     public function insertB($bankName, $countryId)
