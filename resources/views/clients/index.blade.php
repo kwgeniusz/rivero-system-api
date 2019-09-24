@@ -22,11 +22,12 @@
       </div>
     </div>
      <br>
-
+    @can('BAA')
             <a href="{{route('clients.create')}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}}
             </a>
+   @endcan
      <br> <br>
      
          <div class="table-responsive">
@@ -52,12 +53,18 @@
                    <td>{{$client->clientPhone}}</td>
                    <td>{{$client->clientEmail}}</td>
                    <td>{{$client->contactType->contactTypeName}}</td> 
-                   <td><a href="{{route('clients.edit', ['id' => $client->clientId])}}" class="btn btn-primary">
+
+                   <td>
+                   @can('BAB')  
+                    <a href="{{route('clients.edit', ['id' => $client->clientId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>
+                    @endcan
+                    @can('BAC') 
                        <a href="{{route('clients.show', ['id' => $client->clientId])}}" class="btn btn-danger">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                         </a>
+                    @endcan    
                    </td>
                 </tr>
                 @endforeach

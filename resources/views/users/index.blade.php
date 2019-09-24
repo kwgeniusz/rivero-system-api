@@ -23,16 +23,16 @@
     </div>
      <br> --}}
 
-            <a href="{{route('clients.create')}}" class="btn btn-success text-center" >
+            <a href="{{route('users.create')}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}}
             </a>
-                <a href="{{route('clients.create')}}" class="btn btn-primary text-center" >
-                <span class="fa fa-plus" aria-hidden="true"></span>
+                <a href="{{route('roles.index')}}" class="btn btn-primary text-center" >
+                <span class="fa fa-user-circle" aria-hidden="true"></span>
                    Roles
             </a>
-                <a href="{{route('clients.create')}}" class="btn btn-warning text-center" >
-                <span class="fa fa-plus" aria-hidden="true"></span>
+                <a href="{{route('permissions.index')}}" class="btn btn-warning text-center" >
+                <span class="fa fa-handshake" aria-hidden="true"></span>
                    Permisos
             </a>
      <br> <br>
@@ -41,9 +41,11 @@
             <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
-                 <th>ID</th> 
-                 <th>{{__('name')}}</th>
+                 <th>ID</th>
+                 <th>{{__('name')}}</th> 
+                 <th>USERNAME</th>
                  <th>{{__('email')}}</th>
+                 <th>ROL</th>
                  <th>{{__('actions')}}</th> 
                  </th>
                 </tr>
@@ -51,15 +53,21 @@
                 <tbody>
                 @foreach($users as $user)
                 <tr>
+                   <td>{{$user->userId}}</td> 
                    <td>{{$user->fullName}}</td> 
                    <td>{{$user->userName}}</td>
                    <td>{{$user->email}}</td>
-                   <td><a href="{{route('users.edit', ['id' => $user->userId])}}" class="btn btn-primary">
+                   <td>{{$user->getRoleNames()}}</td>
+                   <td>
+                    <a href="{{route('users.edit', ['id' => $user->userId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>
-                       <a href="{{route('users.show', ['id' => $user->userId])}}" class="btn btn-danger">
+                   <a href="{{route('users.show', ['id' => $user->userId])}}" class="btn btn-danger">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
-                        </a>
+                    </a>
+                    <a href="{{route('users.show', ['id' => $user->userId])}}" class="btn btn-success">
+                            <span class="fa fa-handshake" aria-hidden="true"></span>  P.U
+                    </a> 
                    </td>
                 </tr>
                 @endforeach

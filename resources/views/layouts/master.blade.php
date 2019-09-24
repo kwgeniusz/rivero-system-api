@@ -97,8 +97,8 @@ desired effect
     <!-- To the right -->
     <div class="pull-right hidden-xs">
         <strong>USUARIO: </strong>{{Auth::user()->fullName}} |
-        <strong>OFICINA: </strong>{{Auth::user()->country->countryName}} |
-        <strong>PAIS: </strong>{{Auth::user()->office->officeName}}
+        <strong>PAIS: </strong>{{session('countryName')}} |
+        <strong>OFICINA: </strong>{{session('officeName')}}
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2019 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.

@@ -420,11 +420,11 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function deleteContract($contractId,$countryId,$officeId)
+    public function deleteContract($contractId)
     {
         return Contract::find($contractId)
-                       ->where('countryId', $countryId)
-                       ->where('officeId', $officeId) 
+                       // ->where('countryId', $countryId)
+                       // ->where('officeId', $officeId) 
                        ->delete();
         
     }

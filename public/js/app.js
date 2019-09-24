@@ -56467,11 +56467,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       list2: {}
     };
   },
+  props: {
+    prefUrl: { type: String }
+  },
   methods: {
     allCountrys: function allCountrys() {
       var _this = this;
 
-      var url = './countrys/all';
+      var url = this.prefUrl + 'countrys/all';
       axios.get(url).then(function (response) {
         _this.list = response.data;
       });
@@ -56479,7 +56482,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     getOffices: function getOffices() {
       var _this2 = this;
 
-      var url = './offices/' + this.firstOption;
+      var url = this.prefUrl + 'offices/' + this.firstOption;
       axios.get(url).then(function (response) {
         console.log(response.data);
         _this2.list2 = response.data;
@@ -61386,7 +61389,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       allFiles: function allFiles() {
          var _this = this;
 
-         var url = '../allFiles/' + this.contractId + '/' + this.typeDoc;
+         var url = '../contract-allFiles/' + this.contractId + '/' + this.typeDoc;
          axios.get(url).then(function (response) {
             _this.list = response.data;
          });

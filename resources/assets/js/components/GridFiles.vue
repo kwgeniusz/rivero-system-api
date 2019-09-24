@@ -87,7 +87,7 @@ export default {
   },
     methods: {
          allFiles: function (){
-            var url ='../allFiles/'+this.contractId+'/'+this.typeDoc;
+            var url ='../contract-allFiles/'+this.contractId+'/'+this.typeDoc;
             axios.get(url).then(response => {
              this.list = response.data
             });

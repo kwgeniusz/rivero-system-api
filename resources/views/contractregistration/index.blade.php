@@ -34,10 +34,12 @@
    <div class="row">
         <div class="col-xs-12 ">
             <div class="text-center">
+        @can('BCA')
             <a href="{{ route('contracts.create',['contractType' => 'P']) }}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Proyecto
             </a>
+        @endcan    
               <a href="{{route('home')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
@@ -67,31 +69,47 @@
                     <td >{{$project->siteAddress}}   </td>
                     <td>{{$project->contractStatus}}   </td>
                     <td>
+                  @can('BCE')   
                      <a href="{{route('contracts.changeStatus', ['id' => $project->contractId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('status')}}">
                      <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a>
+                  @endcan
+                  @can('BCF')
                     <a href="{{route('contracts.staff', ['id' => $project->contractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('staff')}}">
                      <span class="fa fa-users" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCG') 
                     <a href="{{route('contracts.files', ['id' => $project->contractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                      <span class="fa fa-file" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCH')   
                      <a href="{{route('contracts.payment', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCI')  
                      <a href="{{route('reports.contract', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="PDF">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
                     |
+                  @endcan
+                  @can('BCD')
                    <a href="{{route('contracts.details', ['id' => $project->contractId])}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
                         <span class="fa fa-search" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCC')
                     <a href="{{route('contracts.edit', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCB')
                     <a href="{{route('contracts.show', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a>
+                  @endcan
                  </td>
 
                 </tr>
@@ -142,31 +160,47 @@
                     <td >{{$service->siteAddress}}   </td>
                     <td>{{$service->contractStatus}}   </td>
                     <td>
+                  @can('BCE')   
                      <a href="{{route('contracts.changeStatus', ['id' => $service->contractId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('status')}}">
                      <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a>
+                  @endcan
+                  @can('BCF')  
                     <a href="{{route('contracts.staff', ['id' => $service->contractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('staff')}}">
                      <span class="fa fa-users" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCG')    
                     <a href="{{route('contracts.files', ['id' => $service->contractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                      <span class="fa fa-file" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCH')    
                      <a href="{{route('contracts.payment', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCI')    
                    <a href="{{route('reports.contract', ['id' => $service->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="PDF">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
                     |
+                  @endcan
+                  @can('BCD')   
                    <a href="{{route('contracts.details', ['id' => $service->contractId])}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
                         <span class="fa fa-search" aria-hidden="true"></span> 
                    </a>
+                  @endcan
+                  @can('BCC')   
                     <a href="{{route('contracts.edit', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
+                  @endcan
+                  @can('BCB')   
                     <a href="{{route('contracts.show', ['id' => $service->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a>
+                    @endcan 
                  </td>
 
                 </tr>

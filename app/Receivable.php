@@ -328,10 +328,11 @@ class Receivable extends Model
 
     }
 //------------------------------------------
-    public function collections($countryId, $date1, $date2)
+    public function collections($countryId,$officeId, $date1, $date2)
     {
 
-        $result[] = $this->where("countryId", "=", $countryId)
+        $result[] = $this->where('countryId', $countryId)
+            ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '1')
             ->where("pending", "=", 'N')
             ->where("datePaid", ">=", $date1)
@@ -339,6 +340,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
+            ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '2')
             ->where("pending", "=", 'N')
             ->where("datePaid", ">=", $date1)
@@ -346,6 +348,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
+            ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '3')
             ->where("pending", "=", 'N')
             ->where("datePaid", ">=", $date1)
@@ -353,6 +356,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
+            ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '4')
             ->where("pending", "=", 'N')
             ->where("datePaid", ">=", $date1)
@@ -360,6 +364,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
        $result[] = $this->where("countryId", "=", $countryId)
+            ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '5')
             ->where("pending", "=", 'N')
             ->where("datePaid", ">=", $date1)
@@ -367,6 +372,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
+            ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '6')
             ->where("pending", "=", 'N')
             ->where("datePaid", ">=", $date1)

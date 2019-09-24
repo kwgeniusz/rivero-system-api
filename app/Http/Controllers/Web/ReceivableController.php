@@ -23,7 +23,7 @@ class ReceivableController extends Controller
         // $countrys = Country::all();
         
         // if ($request->isMethod('post')) {
-            $receivables = $this->oReceivable->clientsPending(Auth::user()->countryId);
+            $receivables = $this->oReceivable->clientsPending(session('countryId'));
 
            
           //  $amounts = $this->oReceivable->getDueTotal(4);

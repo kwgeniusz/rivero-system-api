@@ -19,6 +19,7 @@ class ClientController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware("permission:BA");
         $this->oClient = new Client;
         $this->oConfiguration = new Configuration();
 
@@ -35,7 +36,7 @@ class ClientController extends Controller
 
        $clients = Client::orderBy('cltId', 'ASC')
                          ->filter($filteredOut)
-                         ->where('countryId','=', Auth::user()->countryId)
+                         ->where('countryId','=', session('countryId'))
                          ->paginate(100);
 
         return view('clients.index', compact('clients'));
@@ -49,7 +50,7 @@ class ClientController extends Controller
     public function create()
     {
     
-        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(Auth::user()->countryId);
+        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'));
         // $countrys     = Country::all();
         $contactTypes = ContactType::all();
 
@@ -65,7 +66,7 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         $clients = $this->oClient->insertClient(
-            Auth::user()->countryId,
+            session('countryId'),
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId, 
@@ -96,7 +97,7 @@ class ClientController extends Controller
     {
         // $countrys = Country::all();
         $contactTypes = ContactType::all();
-        $client   = $this->oClient->findById($id, Auth::user()->countryId);
+        $client   = $this->oClient->findById($id, session('countryId'));
 
         return view('clients.edit', compact('client', 'countrys','contactTypes'));
     }
@@ -111,7 +112,7 @@ class ClientController extends Controller
     public function update(ClientRequest $request, $id)
     {
         $this->oClient->updateClient($id,
-            Auth::user()->countryId,
+            session('countryId'),
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId,  
@@ -133,7 +134,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = $this->oClient->findById($id,Auth::user()->countryId);
+        $client = $this->oClient->findById($id,session('countryId'));
         return view('clients.show', compact('client'));
     }
 
@@ -145,7 +146,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->oClient->deleteClient($id,Auth::user()->countryId);
+        $result = $this->oClient->deleteClient($id,session('countryId'));
 
          $notification = array(
             'message'    => $result['msj'],
@@ -160,9 +161,9 @@ class ClientController extends Controller
     {
         $results = Client::select('clientId', 'clientName', 'clientAddress','clientCode')
             ->where('clientName', 'LIKE', "%$client%")
-            ->where('countryId', Auth::user()->countryId)
+            ->where('countryId', session('countryId'))
             ->orWhere('clientCode', 'LIKE', "%$client%")
-            ->where('countryId', Auth::user()->countryId) 
+            ->where('countryId', session('countryId')) 
             ->orderBy('clientName', 'ASC')
             ->get();
 
@@ -170,7 +171,7 @@ class ClientController extends Controller
     }
    public function getNumberFormat()
     {
-        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(Auth::user()->countryId);
+        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'));
         return json_encode($clientNumberFormat);
     }
 

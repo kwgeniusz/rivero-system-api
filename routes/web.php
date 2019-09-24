@@ -41,8 +41,8 @@ Route::get('precontractsPayment/{id}/{amount}/{precontractId}/remove', 'Web\Prec
 
 Route::get('precontractsFile/{id}', 'Web\PrecontractController@files')->name('precontracts.files');
 Route::post('precontractsFileAgg', 'Web\PrecontractController@fileAgg')->name('precontracts.fileAgg');
-Route::get('/download/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDownload')->name('precontracts.fileDownload');
-Route::get('/fileDelete/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDelete')->name('precontracts.fileDelete');
+Route::get('/precontract-download/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDownload')->name('precontracts.fileDownload');
+Route::get('/precontract-fileDelete/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDelete')->name('precontracts.fileDelete');
 
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/Agg/{id}', 'Web\PrecontractController@convertAgg')->name('precontracts.convertAgg');
@@ -128,7 +128,8 @@ Route::resource('projects', 'Web\ProjectTypeController', ['except' => ['create']
 Route::resource('services', 'Web\ServiceTypeController', ['except' => ['create']]);
 //USERS
 Route::resource('users', 'Web\UserController');
-
+Route::resource('roles', 'Web\RolController');
+Route::resource('permissions', 'Web\PermissionController');
 //ROUTES DE AXIOS ------------------------------------------------------------------------------------------
 //CONTACT TYPE
 Route::get('contactTypes/all', 'Web\ContactTypeController@all')->name('contactTypes.all');
@@ -141,7 +142,8 @@ Route::get('offices/{contract}', 'Web\OfficeController@getForCountry')->name('of
 //CONTRACTS
 Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
 Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');
-Route::get('allFiles/{id}/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
+Route::get('contract-allFiles/{id}/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
+Route::get('precontract-allFiles/{id}/{type}', 'Web\PrecontractController@getFiles')->name('precontract.getFiles');
 //ADMINISTRATION - RECEIVABLE
 Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId')->name('receivables.getForId');
 Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');

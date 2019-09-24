@@ -11,13 +11,13 @@
         {{csrf_field()}}
  
   
-               <div class="form-group col-xs-8">
+             <div class="form-group col-xs-8">
                 <label for="user">Usuario</label>
-                <input type="text" class="form-control" id="user" name="user" value="{{ Auth::user()->userTypeName }}" placeholder="Nombres y Apellidos" disabled="on">
-               </div>
+                <input type="text" class="form-control" id="user" name="user" value="{{ Auth::user()->fullName }}" placeholder="Nombres y Apellidos" disabled="on">
+             </div>
                <br><br>
                <div class="col-xs-12">
-                  <select-country-office></select-country-office>
+                  <select-country-office pref-url="./"></select-country-office>
                </div>
             <br><br><br>
             <div class="text-center">

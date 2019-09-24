@@ -35,9 +35,9 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">{{__('Main Menu')}}</li>
         <!-- Optionally, you can add icons to the links -->
-@can('A')
+<!-- @can('A') -->
         <li class="active"><a href="{{route('home')}}"><i class="fa fa-home"></i> <span>{{__('Home')}}</span></a></li>
-@endcan
+<!-- @endcan -->
 
    @can('B')
         <li class="treeview">
@@ -47,17 +47,18 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{route('clients.index')}}"> {{__('clients')}}   </a></li>
-            <li><a href="{{route('precontracts.index')}}">Pre-Contratos</a></li>
-            <li><a href="{{route('contracts.index')}}">{{__('Contracts')}}</a></li>
-            <li><a href="{{route('contracts.generalSearch')}}">{{__('general_search')}}</a></li>
-            <li><a href="{{route('contracts.searchStatus')}}">{{__('contract_status')}}</a></li>
-            <li><a href="{{route('contracts.finished')}}">{{__('contracts_finished')}}</a></li>
-            <li><a href="{{route('contracts.cancelled')}}">{{__('contracts_cancelled')}}</a></li>
+  @can('BA') <li><a href="{{route('clients.index')}}"> {{__('clients')}}   </a></li> @endcan
+  @can('BB') <li><a href="{{route('precontracts.index')}}">Pre-Contratos</a></li> @endcan
+  @can('BC') <li><a href="{{route('contracts.index')}}">{{__('Contracts')}}</a></li> @endcan
+  @can('BD') <li><a href="{{route('contracts.generalSearch')}}">{{__('general_search')}}</a></li> @endcan
+  @can('BE') <li><a href="{{route('contracts.searchStatus')}}">{{__('contract_status')}}</a></li> @endcan
+  @can('BF') <li><a href="{{route('contracts.finished')}}">{{__('contracts_finished')}}</a></li> @endcan
+  @can('BG') <li><a href="{{route('contracts.cancelled')}}">{{__('contracts_cancelled')}}</a></li> @endcan
             <hr>
             {{-- <li><a href="{{route('contracts.print')}}">{{__('print_contract')}}</a></li> --}}
-            <li><a href="{{route('reports.summaryContractForOffice')}}">{{__('contract_summary')}}</a></li>
-            <li><a href="{{route('contracts.summaryForClient')}}">{{__('client_summary')}}</a></li>
+  @can('BG')<li><a href="{{route('reports.summaryContractForOffice')}}">{{__('contract_summary')}}</a></li>@endcan
+   @can('BG')<li><a href="{{route('contracts.summaryForClient')}}">{{__('client_summary')}}</a></li>
+   @endcan       
           </ul>
         </li>
 @endcan
@@ -69,17 +70,17 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li>
-            <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li>
-            <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li>
-            <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li>
-            <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li>
-            <li><a href="#">{{__('debts_to_pay')}}</a></li>
-            <hr>
-            <li><a href="{{route('transactions.incomeexpenses')}}">{{__('income_and_expenses_report')}}</a></li>
-            <li><a href="{{route('transactions.income')}}">{{__('income_report')}}</a></li>
-            <li><a href="{{route('transactions.expenses')}}">{{__('expense_report')}}</a></li>
-              <li><a href="{{route('collections.index')}}">Reporte de Cobranzas</a></li>
+     @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan
+     @can('CB') <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li> @endcan
+     @can('CC') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
+     @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan
+     @can('CE') <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li> @endcan
+     @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan
+                 <hr>
+     @can('CG') <li><a href="{{route('transactions.incomeexpenses')}}">{{__('income_and_expenses_report')}}</a></li> @endcan
+     @can('CH') <li><a href="{{route('transactions.income')}}">{{__('income_report')}}</a></li> @endcan
+     @can('CI') <li><a href="{{route('transactions.expenses')}}">{{__('expense_report')}}</a></li> @endcan
+     @can('CJ')  <li><a href="{{route('collections.index')}}">Reporte de Cobranzas</a></li> @endcan
               <br>
           </ul>
         </li>
@@ -129,11 +130,11 @@
           </a>
           <ul class="treeview-menu">
            @if(Auth::user()->changeOffice == 'Y') <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li> @endif
-            <li><a href="#">{{__('Countries')}}</a></li>
-            <li><a href="#">{{__('Offices')}}</a></li>
-            <li><a href="{{route('projects.index')}}">{{__('types_of_projects')}}</a></li>
-            <li><a href="{{route('services.index')}}">{{__('types_of_services')}}</a></li>
-            <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>
+  @can('FA')  <li><a href="#">{{__('Countries')}}</a></li>@endcan
+  @can('FB')  <li><a href="#">{{__('Offices')}}</a></li>@endcan
+  @can('FC')  <li><a href="{{route('projects.index')}}">{{__('types_of_projects')}}</a></li>@endcan
+  @can('FD')  <li><a href="{{route('services.index')}}">{{__('types_of_services')}}</a></li>@endcan
+  <!-- @can('FE')  <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan -->
           </ul>
         </li>
 

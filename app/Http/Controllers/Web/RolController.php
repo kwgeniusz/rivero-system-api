@@ -6,20 +6,16 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use App\Country;
-use App\Office;
 use Auth;
 
-class UserController extends Controller
-{
-    private $oUser;
+class RolController extends Controller
+{ 
 
     public function __construct()
     {
 
         $this->middleware('auth');
-        $this->oUser = new User;
+        
     }
     /**
      * Display a listing of the resource.
@@ -28,8 +24,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->oUser->getAll();
-        return view('users.index', compact('users'));
+        $roles = Role::all();
+        return view('users.roles.index', compact('roles'));
     }
    /**
      * Show the form for creating a new resource.
@@ -42,9 +38,8 @@ class UserController extends Controller
         // $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(Auth::user()->countryId);
         // $countrys     = Country::all();
         // $contactTypes = ContactType::all();
-         $roles = Role::all();
-         $permissions = Permission::orderBy('name')->get();
-        return view('users.create',compact('roles','permissions'));
+
+        return view('users.create');
     }
     /**
      * Store a newly created resource in storage.
@@ -69,8 +64,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        // $service = $this->oUser->findById($id);
-        // return view('typesofservices.edit', compact('service'));
+        $service = $this->oUser->findById($id);
+
+        $user->getAllPermissions();
+
+        return view('users.roles.edit', compact('service'));
     }
 
     /**
@@ -118,13 +116,8 @@ class UserController extends Controller
 
     public function changeOffice(Request $request)
     {
-      // $this->oUser->changeOffice(Auth::user()->userId,$request->countryId,$request->officeId);
-    	$country = Country::find($request->countryId);
-    	$office  = Office::find($request->officeId);
-
-        session(['countryId' => $country->countryId, 'countryName' => $country->countryName]);
-        session(['officeId' => $office->officeId, 'officeName' =>$office->officeName]);
-
+        $this->oUser->changeOffice(Auth::user()->userId,$request->countryId,$request->officeId);
+       
         $notification = array(
             'message'    => 'Se ha cambiado de Oficina el Usuario',
             'alert-type' => 'success',

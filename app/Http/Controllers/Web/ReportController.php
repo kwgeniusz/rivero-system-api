@@ -32,7 +32,7 @@ class ReportController extends Controller
     public function printContract(Request $request)
     {
         $date     = Carbon::now();
-        $contract = $this->oContract->findById($request->id,Auth::user()->countryId,Auth::user()->officeId);
+        $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
 
         $contractNumber = __('contract');
 
@@ -90,7 +90,7 @@ EOD;
         $acum       = 0;
         $background = "";
         $date       = Carbon::now();
-        $contracts  = $this->oContract->findByOffice(Auth::user()->officeId);
+        $contracts  = $this->oContract->findByOffice(session('officeId'));
 
         $html = <<<EOD
       <p>
@@ -152,7 +152,7 @@ EOD;
 
     public function summaryClientForm()
     {
-        $clients = $this->oClient->getAll(Auth::user()->countryId);
+        $clients = $this->oClient->getAll(session('countryId'));
         return view('summaryforclient.index', compact('clients'));
     }
     public function summaryForClient(Request $request)
@@ -228,7 +228,7 @@ EOD;
         $acum         = 0;
         $background   = "";
         $date         = Carbon::now();
-        $transactions = $this->oTransaction->getAllForTwoDate($request->date1, $request->date2);
+        $transactions = $this->oTransaction->getAllForTwoDate($request->date1, $request->date2,session('countryId'),session('officeId'));
 
         if ($transactions->isEmpty()) {
             return view('reportincomeexpenses.error');
@@ -304,7 +304,7 @@ EOD;
         }
 
         $date         = Carbon::now();
-        $transactions = $this->oTransaction->getAllForTwoDateAndSign($request->date1, $request->date2, $request->sign);
+        $transactions = $this->oTransaction->getAllForTwoDateAndSign($request->date1, $request->date2, $request->sign,session('countryId'),session('officeId'));
 
         if ($transactions->isEmpty()) {
             if ($request->sign == '+') {
@@ -378,8 +378,8 @@ EOD;
 
         $background = "";
 
-        $collections = $this->oReceivable->collections($request->countryId, $request->date1, $request->date2);
-        $country     = DB::table('country')->where('countryId', $request->countryId)->get(['countryName', 'currencyName']);
+        $collections = $this->oReceivable->collections(session('countryId'),session('officeId'), $request->date1, $request->date2);
+        $country     = DB::table('country')->where('countryId', session('countryId'))->get(['countryName', 'currencyName']);
 
         $date        = Carbon::now();
         $date1Format = Carbon::parse($request->date1);

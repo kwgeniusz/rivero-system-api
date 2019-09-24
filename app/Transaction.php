@@ -86,10 +86,12 @@ class Transaction extends Model
         return $result;
     }
     //------------------------------------------
-    public function getAllForTwoDate($date1, $date2)
+    public function getAllForTwoDate($date1, $date2,$countryId,$officeId)
     {
         $result = $this->where("transactionDate", ">=", $date1)
             ->where("transactionDate", "<=", $date2)
+            ->where('countryId', $countryId)
+             ->where('officeId', $officeId) 
             ->orderBy('transactionId', 'ASC')
             ->get();
 
@@ -101,6 +103,8 @@ class Transaction extends Model
         $result = $this->where("transactionDate", ">=", $date1)
             ->where("transactionDate", "<=", $date2)
             ->where("sign", "=", $sign)
+            ->where('countryId', $countryId)
+            ->where('officeId', $officeId) 
             ->orderBy('transactionId', 'ASC')
             ->get();
 

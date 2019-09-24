@@ -34,22 +34,12 @@ class Rol extends Model
    /**  */
 //--------------------------------------------------------------------  
 
-    public function getAuthPassword()
-    {
-        return $this->userPassword;
-    }
    public function getAll()
     {
-        return $this->orderBy('userId', 'ASC')
+        return $this->orderBy('id', 'ASC')
                     ->get();
     }
  
-    public function changeOffice($id,$countryId,$officeId)
-    {
-          return $this->where('userId', $id)
-                      ->update(array('countryId' => $countryId,
-                                     'officeId'        => $officeId));
-    }
- 
+
 
 }

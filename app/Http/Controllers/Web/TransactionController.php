@@ -33,7 +33,7 @@ class TransactionController extends Controller
     public function index($sign)
     {
 
-        $transactions = $this->oTransaction->getAllForSign($sign,Auth::user()->countryId,Auth::user()->officeId);
+        $transactions = $this->oTransaction->getAllForSign($sign,session('countryId'),session('officeId'));
         if ($sign == '+') {
             return view('transactionsincome.index', compact('transactions'));
         } else {
@@ -45,7 +45,7 @@ class TransactionController extends Controller
     public function create($sign)
     {
         $transactionType = $this->oTransactionType->findBySign($sign);
-        $banks           = $this->oBank->getAll(Auth::user()->countryId);
+        $banks           = $this->oBank->getAll(session('countryId'));
         if ($sign == '+') {
             return view('transactionsincome.create', compact('transactionType', 'banks'));
         } else {
@@ -74,8 +74,8 @@ class TransactionController extends Controller
             $request->reference,
             $request->sign,
             $month[1],
-            Auth::user()->countryId,
-            Auth::user()->officeId);
+            session('countryId'),
+            session('officeId'));
 
 
         $notification = array(
@@ -99,7 +99,7 @@ class TransactionController extends Controller
     public function show($sign, $id)
     {
 
-        $transaction = $this->oTransaction->findById($id,Auth::user()->countryId,Auth::user()->officeId);
+        $transaction = $this->oTransaction->findById($id,session('countryId'),session('officeId'));
         if ($sign == '+') {
             return view('transactionsincome.show', compact('transaction'));
         } else {

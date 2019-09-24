@@ -43,8 +43,8 @@ class PrecontractController extends Controller
     public function index()
     {
         //GET LIST PrecontractS for type
-        $projects = $this->oPrecontract->getAllForType('P',Auth::user()->countryId,Auth::user()->officeId);
-        $services = $this->oPrecontract->getAllForType('S',Auth::user()->countryId,Auth::user()->officeId);
+        $projects = $this->oPrecontract->getAllForType('P',session('countryId'),session('officeId'));
+        $services = $this->oPrecontract->getAllForType('S',session('countryId'),session('officeId'));
 
         return view('precontracts.index', compact('projects', 'services'));
     }
@@ -62,8 +62,8 @@ class PrecontractController extends Controller
     public function store(PrecontractRequest $request)
     {
         $this->oPrecontract->insertPrecontract(
-            Auth::user()->countryId,
-            Auth::user()->officeId,
+            session('countryId'),
+            session('officeId'),
             $request->contractType,
             $request->clientId,
             $request->siteAddress,
@@ -83,7 +83,7 @@ class PrecontractController extends Controller
 
     public function details($id)
     {
-        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
 
         return view('precontracts.details', compact('precontract'));
     }
@@ -94,7 +94,7 @@ class PrecontractController extends Controller
         // $clients     = $this->oClient->getAll();
         $projects    = $this->oProjectType->getAll();
         $services    = $this->oServiceType->getAll();
-        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
 
         return view('precontracts.edit', compact('precontract', 'projects', 'services'));
     }
@@ -124,14 +124,14 @@ class PrecontractController extends Controller
     public function show($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
         return view('precontracts.show', compact('precontract'));
 
     }
     public function destroy($id)
     {
 
-        $this->oPrecontract->deletePrecontract($id,Auth::user()->countryId,Auth::user()->officeId);
+        $this->oPrecontract->deletePrecontract($id,session('countryId'),session('officeId'));
 
         $notification = array(
             'message'    => 'Pre-Contrato Eliminado Exitosamente',
@@ -146,7 +146,7 @@ class PrecontractController extends Controller
     public function convert($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
         return view('precontracts.convert', compact('precontract'));
 
     }
@@ -234,7 +234,7 @@ class PrecontractController extends Controller
     public function payment($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id,Auth::user()->countryId,Auth::user()->officeId);
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
         $payments    = $this->oPaymentPrecontract->getAllForPrecontract($id);
 
         return view('precontracts.payment', compact('precontract', 'payments'));
@@ -273,47 +273,80 @@ class PrecontractController extends Controller
             ->with($notification);
     }
 //---------------FILES-----------------------//
+   //  public function files($id)
+   //  {
+
+   //      $precontract = $this->oPrecontract->FindById($id);
+
+   //      //crear el directorio si no existe
+   //      $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
+   
+   //      //obtener todos los archivos del directorio y dejar solo el nombre con el foreach
+   //      $allFiles = Storage::files("docs/precontracts/" . $directoryName);
+   //      $files   = [];
+   //      foreach ($allFiles as $file) {
+   //          $filePart = explode("/", $file);
+   //          $files[]  = $filePart[3];
+   //      }
+
+   //      return view('precontracts.files', compact('precontract', 'files', 'directoryName'));
+   //  }
+   //  public function fileAgg(Request $request)
+   //  {
+   //      $precontract      = $this->oPrecontract->FindById($request->precontractId);
+   //      $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
+
+   //      if ($request->hasFile('archive')) {
+   //          $archive = $request->file('archive');
+   //          $name    = time() .'-'.$archive->getClientOriginalName();
+   //          $archive->move(storage_path("app/public/docs/precontracts/$directoryName"), $name);
+           
+   //      }
+
+   //      return redirect()->back();
+   //  }
+
+   //   public function fileDownload($typeContract,$directoryName, $file)
+   //  {
+   //    return Storage::download("docs/$typeContract/$directoryName/$file");
+   //  }
+
+   //   public function fileDelete($typeContract,$directoryName, $file) {
+   //          Storage::delete("docs/$typeContract/$directoryName/$file");
+   //     return redirect()->back();
+   // }
     public function files($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id);
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
 
-        //crear el directorio si no existe
-        $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
-   
-        //obtener todos los archivos del directorio y dejar solo el nombre con el foreach
-        $allFiles = Storage::files("docs/precontracts/" . $directoryName);
-        $files   = [];
-        foreach ($allFiles as $file) {
-            $filePart = explode("/", $file);
-            $files[]  = $filePart[3];
-        }
-
-        return view('precontracts.files', compact('precontract', 'files', 'directoryName'));
+        return view('precontracts.files', compact('precontract'));
     }
     public function fileAgg(Request $request)
     {
-        $precontract      = $this->oPrecontract->FindById($request->precontractId);
-        $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
+         $rs = $this->oDocument->insert($request->file,$request->contractId,$request->typeDoc);
 
-        if ($request->hasFile('archive')) {
-            $archive = $request->file('archive');
-            $name    = time() .'-'.$archive->getClientOriginalName();
-            $archive->move(storage_path("app/public/docs/precontracts/$directoryName"), $name);
-           
-        }
-
-        return redirect()->back();
+       if ($rs->status() == 200) {
+          return response('Hello World', 200)
+                  ->header('Content-Type', 'text/plain');
+        } else {
+           return response($rs->content(), 500)
+                  ->header('Content-Type', 'text/plain');
+        } 
     }
 
-     public function fileDownload($typeContract,$directoryName, $file)
+   public function fileDownload($docId)
     {
-      return Storage::download("docs/$typeContract/$directoryName/$file");
+       $file =  $this->oDocument->findById($docId);
+       return Storage::download($file[0]->docUrl,$file[0]->docName);
     }
 
-     public function fileDelete($typeContract,$directoryName, $file) {
-            Storage::delete("docs/$typeContract/$directoryName/$file");
+   public function fileDelete($docId) {
+        $file =  $this->oDocument->findById($docId);
+        Storage::delete($file[0]->docUrl);
+
+        $this->oDocument->deleteFile($docId);
+
        return redirect()->back();
    }
-
 }

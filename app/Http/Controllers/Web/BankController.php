@@ -25,7 +25,7 @@ class BankController extends Controller
      */
     public function index()
     {
-        $banks    = $this->oBank->getAll(Auth::user()->countryId);
+        $banks    = $this->oBank->getAll(session('countryId'));
         $countrys = Country::all();
         foreach ($banks as $key => $bank) {
             $saldoActual = $bank['initialBalance']
@@ -56,7 +56,7 @@ class BankController extends Controller
     public function store(Request $request)
     {
 
-        $this->oBank->insertB($request->bankName, Auth::user()->countryId);
+        $this->oBank->insertB($request->bankName, session('countryId'));
         $notification = array(
             'message'    => "Banco $request->bankName Creado",
             'alert-type' => 'info',
@@ -73,7 +73,7 @@ class BankController extends Controller
     public function edit($id)
     {
 
-        $bank = $this->oBank->findById($id,Auth::user()->countryId);
+        $bank = $this->oBank->findById($id,session('countryId'));
         return view('banks.edit', compact('bank'));
     }
 
@@ -106,7 +106,7 @@ class BankController extends Controller
     public function show($id)
     {
 
-        $bank = $this->oBank->findById($id,Auth::user()->countryId);
+        $bank = $this->oBank->findById($id,session('countryId'));
         return view('banks.show', compact('bank'));
     }
 

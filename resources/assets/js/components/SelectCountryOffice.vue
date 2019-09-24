@@ -37,15 +37,18 @@
            list2: {}
           }
     },
+      props: {
+           prefUrl: { type: String},
+    },
     methods: {
        allCountrys: function (){
-            var url ='./countrys/all';
+            var url =this.prefUrl+'countrys/all';
             axios.get(url).then(response => {
              this.list = response.data
             });
         },
        getOffices: function (){
-            var url ='./offices/'+this.firstOption;
+            var url =this.prefUrl+'offices/'+this.firstOption;
             axios.get(url).then(response => {
                console.log(response.data)
                this.list2 = response.data
