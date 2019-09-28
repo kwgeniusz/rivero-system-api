@@ -71,7 +71,7 @@ class ContractController extends Controller
         // echo $projects;
         // echo $services;
 
-        return view('contractregistration.index', compact('projects', 'services'));
+        return view('contracts.index', compact('projects', 'services'));
     }
 
     public function create($contractType)
@@ -84,7 +84,7 @@ class ContractController extends Controller
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
 
-        return view('contractregistration.create', compact('projects', 'services', 'contractType','contractNumberFormat'));
+        return view('contracts.create', compact('projects', 'services', 'contractType','contractNumberFormat'));
     }
 
     public function store(ContractRequest $request)
@@ -120,7 +120,7 @@ class ContractController extends Controller
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('contractregistration.details', compact('contract'));
+        return view('contracts.details', compact('contract'));
     }
 
     public function edit($id)
@@ -137,7 +137,7 @@ class ContractController extends Controller
         $services = $this->oServiceType->getAll();
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('contractregistration.edit', compact('contract', 'projects', 'services','blockEdit'));
+        return view('contracts.edit', compact('contract', 'projects', 'services','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
@@ -174,7 +174,7 @@ class ContractController extends Controller
     {
 
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contractregistration.show', compact('contract'));
+        return view('contracts.show', compact('contract'));
 
     }
     public function destroy($id)
@@ -289,7 +289,7 @@ class ContractController extends Controller
     public function changeStatus($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contractregistration.changeStatus', compact('contract'));
+        return view('contracts.changeStatus', compact('contract'));
     }
     public function updateStatus(Request $request)
     {
@@ -314,7 +314,7 @@ class ContractController extends Controller
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
         $staffs   = $this->oStaff->getAvailableStaff($id);
 
-        return view('contractregistration.staff', compact('contract', 'staffs'));
+        return view('contracts.staff', compact('contract', 'staffs'));
 
     }
 
@@ -350,7 +350,7 @@ class ContractController extends Controller
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
         $payments = $this->oPaymentContract->getAllForContract($id);
 
-        return view('contractregistration.payment', compact('contract', 'payments'));
+        return view('contracts.payment', compact('contract', 'payments'));
 
     }
 
@@ -391,7 +391,7 @@ class ContractController extends Controller
 
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('contractregistration.files', compact('contract'));
+        return view('contracts.files', compact('contract'));
     }
     public function fileAgg(Request $request)
     {

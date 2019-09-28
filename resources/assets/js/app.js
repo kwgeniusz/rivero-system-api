@@ -36,7 +36,7 @@ Vue.component('form-modal-charge', require('./components/FormModalCharge.vue'));
 // Vue.component('vue-table', require('./components/VueTable.vue'));
 Vue.component('vue-upload', require('./components/vueUpload.vue'));
 Vue.component('grid-files', require('./components/GridFiles.vue'));
-
+Vue.component('invoices-details', require('./components/InvoicesDetails.vue'));
 
 const app = new Vue({
     el: '#app',

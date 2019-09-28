@@ -83,6 +83,8 @@ class Configuration extends Model
     }
 
       //--------------------------------------------------------------------
+       // CLIENTES
+    //---------------------
     public function retrieveClientNumber($countryId)
     {
         //   esta consulta esta mal , porque si coloco dos paises en tabla config.
@@ -129,5 +131,49 @@ class Configuration extends Model
                  ->increment('clientNumber');
     }
 
+   //--------------------------------------------------------------------
+       // INVOICES
+      //--------------------------------------------------------------------
+    public function retrieveInvoiceNumber($countryId,$officeId)
+    {
 
+        $invoiceNumber = 0;
+        $rs             = $this->where('countryId', $countryId)
+                               ->where('officeId', $officeId)
+                               ->get();
+
+            foreach ($rs as $rs0) {
+                    $invoiceNumber = $rs0->invoiceNumber;
+                 }
+        
+        return $invoiceNumber;
+    }
+    //--------------------------------------------------------------------
+     public function generateInvoiceNumberFormat($countryId,$officeId) {
+        
+        $stringLength = 5;
+        $strPad       = "0";
+
+         $invoiceNumber = $this->retrieveInvoiceNumber($countryId,$officeId);
+         $invoiceNumber++;
+
+        if ($invoiceNumber < 1) {
+            $invoiceNumber = "";
+        }
+
+         $format3 = str_pad($invoiceNumber, $stringLength, $strPad, STR_PAD_LEFT);
+       
+        // numero de contrato en foramto
+        return $invoiceNumberFormat = $format3 ;
+         
+      }
+
+    //--------------------------------------------------------------------
+     
+    public function increaseInvoiceNumber($countryId,$officeId)
+    {
+            $this->where('countryId', $countryId)
+                 ->where('officeId', $officeId)
+                 ->increment('invoiceNumber');
+    }
 }

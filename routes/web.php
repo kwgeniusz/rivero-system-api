@@ -62,6 +62,10 @@ Route::post('contractsFileAgg', 'Web\ContractController@fileAgg')->name('contrac
 Route::get('download/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
 Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 
+Route::resource('invoices', 'Web\InvoiceController');
+Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
+Route::resource('services', 'Web\ServiceController');
+
 Route::get('contractsPayment/{id}', 'Web\ContractController@payment')->name('contracts.payment');
 Route::post('contractsPayment/agg', 'Web\ContractController@paymentAgg')->name('contracts.paymentAgg');
 Route::get('contractsPayment/{id}/{amount}/{contractId}/remove', 'Web\ContractController@paymentRemove')->name('contracts.paymentRemove');
@@ -125,7 +129,7 @@ Route::post('change-office', 'Web\UserController@changeOffice')->name('changeOff
 //PROJECTS********
 Route::resource('projects', 'Web\ProjectTypeController', ['except' => ['create']]);
 //SERVICES********
-Route::resource('services', 'Web\ServiceTypeController', ['except' => ['create']]);
+Route::resource('servicesTypes', 'Web\ServiceTypeController', ['except' => ['create']]);
 //USERS
 Route::resource('users', 'Web\UserController');
 Route::resource('roles', 'Web\RolController');

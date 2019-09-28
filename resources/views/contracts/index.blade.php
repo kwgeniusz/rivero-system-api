@@ -85,7 +85,7 @@
                     </a>
                   @endcan
                   @can('BCH')   
-                     <a href="{{route('contracts.payment', ['id' => $project->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                     <a href="{{url("invoices?id=$project->contractId")}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
                   @endcan
@@ -176,7 +176,7 @@
                     </a>
                   @endcan
                   @can('BCH')    
-                     <a href="{{route('contracts.payment', ['id' => $service->contractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                     <a href="{{url("/invoices?id=$service->contractId")}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
                   @endcan
