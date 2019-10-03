@@ -6,22 +6,25 @@
 
 <h3><b>Factura N° {{invoice[0].invoiceNumber}}</b></h3>
     <form class="form">
-        
+                 
+       <div class="alert alert-danger" v-if="errors.length">
+            <h4>Errores:</h4>
+                  <div v-for="error in errors">- {{ error }}</div>
+         </div>
+
           <div class="form-group col-xs-12">
             <label for="serviceId">SERVICIO</label>
-            <select v-model="modelService" @change="findService(modelService)" class="form-control" name="serviceId" id="serviceId">
-                      <option v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}} - Tiene Costo: {{item.hasCost}} </option>
+            <select v-model="modelServiceId" @change="selectService(modelServiceId)" class="form-control" name="serviceId" id="serviceId">
+                <option style="{color: red}" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}} - Tiene Costo: {{item.hasCost}} </option>
             </select>
           </div>
 
-
-          <div v-if="hasCost" class="form-group col-xs-5">
-            <label for="quantity">CANTIDAD</label>
-            <input v-model="modelQuantity" type="number" class="form-control" id="quantity" name="quantity"  autocomplete="off">
+         <div class="form-group col-xs-10">
+            <label for="quantity">NOMBRE DEL SERVICIO</label>
+            <input v-model="modelServiceName" type="text" class="form-control" id="serviceName" name="serviceName"  autocomplete="off">
           </div>
-
  
-        <div v-if="hasCost" class="form-group col-xs-7">
+        <div v-if="hasCost" class="form-group col-xs-4">
             <label for="unit">UNIDAD</label>
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
                 <option value="sqft" >sqft</option>
@@ -30,17 +33,25 @@
             </select>
           </div>
 
+
            <div v-if="hasCost" class="form-group col-xs-4">
                 <label for="unitCost">PRECIO</label>
                 <input v-model="modelUnitCost" type="number" class="form-control" id="unitCost" name="unitCost" autocomplete="off">
           </div>
 
-         COSTO TOTAL:   {{sumTotal}}
+          <div v-if="hasCost" class="form-group col-xs-4">
+            <label for="quantity">CANTIDAD</label>
+            <input v-model="modelQuantity" type="number" class="form-control" id="quantity" name="quantity"  autocomplete="off">
+          </div>
+
+         <div v-if="hasCost" class="form-group col-xs-4 col-xs-offset-4">
+                <label fo> COSTO TOTAL:   {{sumTotal}}</label>
+          </div>
        <div class="form-group col-xs-12">
-         <button class="btn btn-success" @click="aggRow()"> Agregar Renglon</button>
+         <button class="btn btn-success" @click.prevent="aggRow()"> Agregar Renglon</button>
        </div>
     </form>
-<!--    {{modelService}}
+<!--    {{modelServiceId}}
    {{modelQuantity}}
    {{modelUnit}}
    {{modelUnitCost}}
@@ -76,7 +87,7 @@
           <!--    <a @click="editFile(item)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
             </a> -->
-             <a @click="deleteFile(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+             <a @click="deleteInvoiceDetail(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
            </td> 
@@ -85,7 +96,7 @@
         </table>
        </div>
 
-   <!--   <sweet-modal ref="modalEdit">
+<!--      <sweet-modal ref="modalEdit">
         <h2>Editar:</h2> <br>
             <div class="form-group ">
                 <label for="input">Nombre:</label>
@@ -93,12 +104,12 @@
               </div>
         <button class="btn btn-primary" >Actualizar</button>
       </sweet-modal>
-
+ -->
      <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalDelete">
-        <h2>¿Esta seguro de eliminar este archivo?</h2> <br>
-        <p>{{doc.docName}}</p>
-        <button class="btn btn-danger" @click="sendDelete(doc.docId)">Eliminar</button>
-      </sweet-modal> -->
+        <h2>¿Esta seguro de eliminar este Renglon?</h2> <br>
+        <p>{{invoiceDetail.serviceName}}</p>
+        <button class="btn btn-danger" @click="sendDelete(invoiceDetail.invDetailId)">Eliminar</button>
+      </sweet-modal>
 
 
    </div>
@@ -121,16 +132,21 @@ export default {
         },
     data: function() {
         return {
+            errors: [],
+
             invoice: '',
             services: {},
             list: {},
             
-            hasCost: true,
-            modelService: '',
-            modelQuantity: 1.00,
+            hasCost: false,
+            modelServiceId: '',
+            modelServiceName: '',
+            modelQuantity: '',
             modelUnit: '',
-            modelUnitCost: 0.00,
-
+            modelUnitCost: '',
+            
+            //para delete
+            invoiceDetail: '',
         }
     },
   props: {
@@ -160,22 +176,22 @@ export default {
              this.list = response.data
             });
         },
-          findService: function (id){
+          selectService: function (id){
             let url ='services/'+id;
             axios.get(url).then(response => {
-              console.log(response.data[0]);
+              // console.log(response.data[0]);
               if(response.data[0].hasCost == 'N'){
-                 this.hasCost = false
+                 this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
                  this.modelUnit =''
                  this.modelUnitCost =''
-
               }else{
                  this.hasCost = true
                  this.modelQuantity= 1.00
+                 this.modelUnit = response.data[0].unit1;
+                 this.modelUnitCost = response.data[0].cost1;
               }
-             this.modelUnit = response.data[0].unit1;
-             this.modelUnitCost = response.data[0].cost1;
+             this.modelServiceName = response.data[0].serviceName;
             });
         },
        changeUnit: function(unit) {
@@ -186,20 +202,53 @@ export default {
              }
             
           },
-          /*----CRUD----- */
-          create: function(item) {
-             this.$refs.modalEdit.open()
-             this.doc = item
-          },
-          delete: function(item) {
+  /*----CRUD----- */
+        aggRow: function() {
+           this.errors = [];
+           //VALIDATIONS
+               if (!this.modelServiceId) 
+                this.errors.push('Debe Escoger un Servicio.');
+           
+               if (!this.modelServiceName) 
+                this.errors.push('Campo Nombre de Servicio es Obligatorio.');
+
+          if (!this.errors.length) { 
+
+            axios.post('invoicesDetails',{
+              invoiceId :  this.invoice[0].invoiceId,
+              serviceId :  this.modelServiceId,
+              serviceName: this.modelServiceName,
+              quantity :   this.modelQuantity,
+              unit :       this.modelUnit,
+              unitCost :   this.modelUnitCost,
+              amount :     this.sumTotal,
+
+            }).then(response => {
+                   // if (response.data.alert == "error") {
+                   //     toastr.error(response.data.msj)
+                   // } else {
+                       this.getAllInvoicesDetails();
+                       this.modelServiceId = ''
+                       this.modelServiceName = ''
+                       this.modelQuantity =''
+                       this.modelUnit =''
+                       this.modelUnitCost =''
+                       this.hasCost = false //oculta los input que tienen esta variable
+                       toastr.success(response.data.notification)
+                   // }
+  
+            })
+           }
+         },
+          deleteInvoiceDetail: function(item) {
              this.$refs.modalDelete.open()
-             this.doc= item
+             this.invoiceDetail= item
           },
-          sendDelete: function(docId) {
-             let url ='../fileDelete/'+docId;
-             axios.get(url).then(response => {
+          sendDelete: function(id) {
+             let url ='invoicesDetails/'+id;
+             axios.delete(url).then(response => {
                this.$refs.modalDelete.close()
-               this.allFiles();
+               this.getAllInvoicesDetails();
                toastr.success('Archivo Eliminado') 
             });
           },

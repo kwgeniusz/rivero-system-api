@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 24-09-2019 a las 14:06:36
+-- Tiempo de generación: 02-10-2019 a las 16:47:02
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 7.0.29
 
@@ -224,10 +224,12 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   `configurationId` int(6) NOT NULL AUTO_INCREMENT,
   `countryId` int(6) NOT NULL,
   `officeId` int(6) NOT NULL,
+  `currencyId` int(5) NOT NULL,
   `projectNumber` int(6) NOT NULL,
   `serviceNumber` int(6) NOT NULL,
   `clientNumber` int(6) NOT NULL,
   `invoiceNumber` int(11) NOT NULL,
+  `invoiceTaxPercent` float NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL,
   PRIMARY KEY (`configurationId`)
@@ -237,9 +239,9 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 -- Volcado de datos para la tabla `configuration`
 --
 
-INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `projectNumber`, `serviceNumber`, `clientNumber`, `invoiceNumber`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 131, 0, 123, 0, '2018-06-09 00:00:00', 1),
-(2, 2, 2, 0, 0, 0, 0, '2018-06-09 00:00:00', 1);
+INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `currencyId`, `projectNumber`, `serviceNumber`, `clientNumber`, `invoiceNumber`, `invoiceTaxPercent`, `dateCreated`, `lastUserId`) VALUES
+(1, 1, 1, 1, 131, 0, 123, 1, 8.25, '2018-06-09 00:00:00', 1),
+(2, 2, 2, 2, 0, 0, 0, 0, 16, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -498,6 +500,28 @@ INSERT INTO `country` (`countryId`, `abbreviation`, `countryName`, `currencyName
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `currency`
+--
+
+DROP TABLE IF EXISTS `currency`;
+CREATE TABLE IF NOT EXISTS `currency` (
+  `currencyId` int(5) NOT NULL AUTO_INCREMENT,
+  `currencyName` varchar(24) NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`currencyId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `currency`
+--
+
+INSERT INTO `currency` (`currencyId`, `currencyName`, `deleted_at`) VALUES
+(1, 'USD', NULL),
+(2, 'BS', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `document`
 --
 
@@ -628,7 +652,8 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `invoiceId` int(11) NOT NULL AUTO_INCREMENT,
   `countryId` int(6) NOT NULL,
   `officeId` int(6) NOT NULL,
-  `invoiceNumber` int(11) NOT NULL,
+  `invoiceNumber` varchar(11) NOT NULL,
+  `contractId` int(11) NOT NULL,
   `clientId` int(11) NOT NULL,
   `address` varchar(160) NOT NULL,
   `invoiceDate` date NOT NULL,
@@ -637,16 +662,17 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `taxAmount` float NOT NULL,
   `netTotal` float NOT NULL,
   `status` smallint(2) NOT NULL,
-  `active` smallint(1) NOT NULL,
-  PRIMARY KEY (`invoiceId`)
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`invoiceId`),
+  KEY `contractId` (`contractId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `invoice`
 --
 
-INSERT INTO `invoice` (`invoiceId`, `countryId`, `officeId`, `invoiceNumber`, `clientId`, `address`, `invoiceDate`, `grossTotal`, `taxPercent`, `taxAmount`, `netTotal`, `status`, `active`) VALUES
-(1, 1, 1, 1, 1, '9304 FOREST LN SUITE N274 DALLAS TX 75243', '2019-09-23', 450, 8.25, 11.25, 461.25, 2, 1);
+INSERT INTO `invoice` (`invoiceId`, `countryId`, `officeId`, `invoiceNumber`, `contractId`, `clientId`, `address`, `invoiceDate`, `grossTotal`, `taxPercent`, `taxAmount`, `netTotal`, `status`, `deleted_at`) VALUES
+(1, 1, 1, '00001', 1, 3, '9304 FOREST LN SUITE N274 DALLAS TX 75243', '2019-09-23', 450, 8.25, 11.25, 461.25, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -660,44 +686,34 @@ CREATE TABLE IF NOT EXISTS `invoice_detail` (
   `invoiceId` int(11) NOT NULL,
   `serviceId` int(11) NOT NULL,
   `serviceName` varchar(100) NOT NULL,
-  `unit` varchar(24) NOT NULL,
-  `unitCost` float NOT NULL,
-  `quantity` decimal(12,2) NOT NULL,
-  `amount` float NOT NULL,
+  `unit` varchar(24) DEFAULT NULL,
+  `unitCost` decimal(12,2) DEFAULT NULL,
+  `quantity` decimal(12,2) DEFAULT NULL,
+  `amount` decimal(12,2) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`invDetailId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `invoice_detail`
 --
 
-INSERT INTO `invoice_detail` (`invDetailId`, `invoiceId`, `serviceId`, `serviceName`, `unit`, `unitCost`, `quantity`, `amount`) VALUES
-(1, 1, 1, 'Construction plan', 'each', 450, '1.00', 450),
-(2, 1, 2, 'Site plan', 'each', 0, '0.00', 0),
-(3, 1, 5, 'Foundation Plan & Notes ', 'each', 0, '0.00', 0);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `invoice_status`
---
-
-DROP TABLE IF EXISTS `invoice_status`;
-CREATE TABLE IF NOT EXISTS `invoice_status` (
-  `invoiceStId` int(5) NOT NULL AUTO_INCREMENT,
-  `invoiceStNombre` varchar(24) NOT NULL,
-  PRIMARY KEY (`invoiceStId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `invoice_status`
---
-
-INSERT INTO `invoice_status` (`invoiceStId`, `invoiceStNombre`) VALUES
-(1, 'ABIERTO'),
-(2, 'CERRADO'),
-(3, 'PAGADO'),
-(4, 'ANULADO');
+INSERT INTO `invoice_detail` (`invDetailId`, `invoiceId`, `serviceId`, `serviceName`, `unit`, `unitCost`, `quantity`, `amount`, `deleted_at`) VALUES
+(1, 1, 1, 'Construction plan', 'each', '450.00', '1.00', '450.00', '2019-09-30 05:14:08'),
+(2, 1, 2, 'Site plan', NULL, NULL, NULL, NULL, '2019-09-30 05:14:11'),
+(3, 1, 5, 'Foundation Plan & Notes ', NULL, NULL, NULL, NULL, '2019-09-30 05:21:46'),
+(4, 1, 1, 'Construction plan', 'each', '450.00', '2.00', '900.00', '2019-09-30 05:14:05'),
+(5, 1, 4, 'Finnish Floor elevation', NULL, NULL, NULL, NULL, '2019-09-30 05:14:02'),
+(6, 1, 1, 'Construction plan', 'sqft', '1.00', '1.00', '1.00', '2019-09-30 05:13:58'),
+(7, 1, 1, 'Construction plan', 'sqft', '1.00', '1.00', '1.00', '2019-09-30 05:13:55'),
+(8, 1, 3, 'Storm Water Drainage', NULL, NULL, NULL, '0.00', '2019-09-30 05:13:51'),
+(9, 1, 4, 'Finnish Floor elevation', NULL, NULL, NULL, '0.00', '2019-09-30 05:13:46'),
+(10, 1, 1, 'Construction plan', 'sqft', '1.00', '1.00', '1.00', '2019-09-30 05:38:16'),
+(11, 1, 1, 'Construction plan number 2', 'each', '450.00', '2.00', '900.00', '2019-10-01 01:07:16'),
+(12, 1, 2, 'Site plan', NULL, NULL, NULL, '0.00', '2019-10-01 01:07:19'),
+(13, 1, 1, 'Construction plan', 'sqft', '1.00', '1.00', '1.00', NULL),
+(14, 1, 2, 'Site plan', NULL, NULL, NULL, '0.00', NULL),
+(15, 1, 1, 'Construction plan', 'sqft', '1.00', '1.00', '1.00', '2019-10-01 01:07:22');
 
 -- --------------------------------------------------------
 
@@ -1908,7 +1924,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`userId`, `countryId`, `officeId`, `changeOffice`, `fullName`, `userName`, `userPassword`, `email`, `remember_token`, `dateCreated`, `deleted_at`, `lastUserId`) VALUES
 (1, 1, 1, 'N', 'GABRIEL CARRILLO', 'gabrielcarrillo2018', 'ec037f0bdfc5339525bbd807a26a07a0', 'gabrielcarrillo2018@gmail.com', '', '2018-06-09 00:00:00', NULL, 1),
-(2, 1, 1, 'Y', 'JOSE RIVERO', 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'zPcUZbiWhrT04uZJcBELMiX6Y7Fff7hiF2bheesJ7r3kbo8hfXIC7MX4HJUs', '2018-06-09 00:00:00', NULL, 1),
+(2, 1, 1, 'Y', 'JOSE RIVERO', 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'IFoRrnwOK2etUpf8FNkdKcbXcFYZgaEI3sRwdvKDSR8GnvAj1KNugRWti7ch', '2018-06-09 00:00:00', NULL, 1),
 (3, 1, 1, 'N', 'CLIENTE 1', 'cliente1', '$2y$12$RvUF8dFWdHx54s5uUlZI4OKaADNPlBO2Ebu8aZ8QPRtKkCCa5qyKS', 'cliente1@gmail.com', 'cfStkkRasQBCQpTVIdyUFI4ntSY18Fl68RS1eFjGZej5dGszzPOSOL62v2Zn', '2018-06-09 00:00:00', NULL, 1),
 (4, 1, 1, 'N', 'DAVID APARICIO', 'davidaparicio', '$2a$12$LjpaOM5IBmS/Ws3Qz3wgu.P98M5ETqtlRnlmxW6VhxhhGPlxdoS4C', 'proyectista1@gmail.com', '32nnllPyoXExK07A2T3P8loLQX5FWdFwl6w101jcSm7rgBO3gADpI3Nv2y4w', '2018-06-09 00:00:00', NULL, 1),
 (5, 1, 1, 'N', 'CLIENTE 2', 'cliente2', '6dcd0e14f89d67e397b9f52bb63f5570', 'cliente2@gmail.com', '', '2018-06-09 00:00:00', NULL, 1),

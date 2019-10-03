@@ -35,13 +35,13 @@ class Invoice extends Model
     {
         return decrypt($contractCost);
     }
-    public function getContractDateAttribute($contractDate)
+    public function getInvoiceDateAttribute($invoiceDate)
     {
-        if (empty($contractDate)) {
-            return $contractDate = null;
+        if (empty($invoiceDate)) {
+            return $invoiceDate = null;
         }
 
-        return $newDate = date("d/m/Y", strtotime($contractDate));
+        return $newDate = date("d/m/Y", strtotime($invoiceDate));
     }
     public function getStatusAttribute($status)
     {
@@ -70,7 +70,7 @@ class Invoice extends Model
                     return "CLOSED";
                     break;
                 case 3:
-                    return "PAID_OUT";
+                    return "PAID OUT";
                     break;
                 case 4:
                     return "CANCELED";
@@ -88,15 +88,15 @@ class Invoice extends Model
     {
         return $this->attributes['contractCost'] = encrypt($contractCost);
     }
-    public function setContractDateAttribute($contractDate)
+    public function setInvoiceDateAttribute($invoiceDate)
     {
-        if (empty($contractDate)) {
-            return $contractDate = null;
+        if (empty($invoiceDate)) {
+            return $invoiceDate = null;
         }
-        $partes                           = explode("/", $contractDate);
+        $partes                           = explode("/", $invoiceDate);
         $arreglo                          = array($partes[2], $partes[1], $partes[0]);
         $date                             = implode("-", $arreglo);
-        $this->attributes['contractDate'] = $date;
+        $this->attributes['invoiceDate'] = $date;
     }
    
 
@@ -104,16 +104,6 @@ class Invoice extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll()
-    {
-        return $this->orderBy('contractNumber', 'ASC')->get();
-    }
-//------------------------------------
-    public function getAllPaginate($number)
-    {
-        return $this->orderBy('contractNumber', 'ASC')->paginate($number);
-    }
-//------------------------------------
     public function getAllByContract($contractId)
     {
         $result = $this->where('contractId', $contractId)
@@ -122,22 +112,7 @@ class Invoice extends Model
 
         return $result;
     }
-//------------------------------------------
-    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType,$filteredOut,$countryId,$officeId)
-    {
-        $result = $this->where('contractType', $contractType)
-                       ->where('countryId', $countryId)
-                       ->where('officeId', $officeId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2){
-                          $q->where('contractStatus', $contractStatus1)
-                          ->orWhere('contractStatus', $contractStatus2);
-                        })           
-                      ->orderBy('contractNumber', 'ASC')
-                      ->filter($filteredOut)
-                      ->paginate(100);
-        return $result;
-    }
- //------------------------------------   
+
 //------------------------------------------
     public function findById($id,$countryId,$officeId)
     {
@@ -146,61 +121,32 @@ class Invoice extends Model
                     ->where('officeId', $officeId) 
                     ->get();
     }
-//------------------------------------------
-    public function findByOffice($officeId)
-    {
-        return $this->where('OfficeId', '=', $officeId)->get();
-    }
-//------------------------------------------
-    public function findByClient($clientId)
-    {
-        return $this->where('clientId', '=', $clientId)->get();
-    }
-//------------------------------------------
-    public function findSiteAddressByOffice($officeId)
-    {
-        $result = DB::select("SELECT DISTINCT contract.siteAddress FROM contract
-                              INNER JOIN client ON contract.clientId = client.clientId
-                              WHERE officeId = $officeId ");
 
-        return $result;
-    }
 //------------------------------------------
-    public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyName) {
+    public function insertInv($countryId,$officeId,$contractId,$clientId, $siteAddress, $invoiceDate,$taxPercent,$status) {
 
           $oConfiguration = new Configuration();
       
-          $contractNumber = $oConfiguration->retrieveContractNumber($countryId, $officeId, $contractType);
-          $contractNumber++;
-          $contractNumberFormat = $oConfiguration->generateContractNumberFormat($countryId, $officeId, $contractType);
-                                  $oConfiguration->increaseContractNumber($countryId, $officeId, $contractType);
+          $invoiceNumberFormat = $oConfiguration->generateInvoiceNumberFormat($countryId, $officeId);
+                                  $oConfiguration->increaseInvoiceNumber($countryId, $officeId);
 
-        $contract                      = new Contract;
-        $contract->conId               = $contractNumber;
-        $contract->contractType        = $contractType;
-        $contract->contractNumber      = $contractNumberFormat;
-        $contract->countryId           = $countryId;
-        $contract->officeId            = $officeId;
-        $contract->contractDate        = $contractDate;
-        $contract->clientId            = $clientId;
-        $contract->siteAddress         = $siteAddress;
-        $contract->projectTypeId       = $projectTypeId;
-        $contract->serviceTypeId       = $serviceTypeId;
-        $contract->registryNumber      = $registryNumber;
-        $contract->startDate           = $startDate;
-        $contract->scheduledFinishDate = $scheduledFinishDate;
-        $contract->actualFinishDate    = $actualFinishDate;
-        $contract->deliveryDate        = $deliveryDate;
-        $contract->initialComment      = $initialComment;
-        $contract->contractCost        = '0.00';
-        $contract->currencyName        = $currencyName;
-        $contract->contractStatus      = '1';
-        $contract->dateCreated         = date('Y-m-d H:i:s');
-        $contract->lastUserId          = Auth::user()->userId;
-        $contract->save();
+        $invoice                   = new Invoice;
+        $invoice->countryId        =  $countryId;
+        $invoice->officeId         =  $officeId;
+        $invoice->invoiceNumber    =  $invoiceNumberFormat;
+        $invoice->contractId       =  $contractId;
+        $invoice->clientId         =  $clientId;
+        $invoice->address          =  $siteAddress;
+        $invoice->invoiceDate      =  $invoiceDate;
+        $invoice->grossTotal       =  '0.00';
+        $invoice->taxPercent       =  $taxPercent;
+        $invoice->taxAmount        =  '0.00';
+        $invoice->netTotal         =  '0.00';
+        $invoice->status           =  '1';
+        $invoice->save();
 
-        return $contract->contractId;
+      
+        return $invoice->invoiceId;
 
     }
 //------------------------------------------
@@ -233,44 +179,7 @@ class Invoice extends Model
     public function deleteContract($contractId)
     {
         return Contract::find($contractId)
-                       // ->where('countryId', $countryId)
-                       // ->where('officeId', $officeId) 
                        ->delete();
         
     }
-//-----------------------------------------
-    //SECTIONS CONTRACTS - STAFF
-    //------------------------------------------
-    public function aggStaff($staffId, $contractId)
-    {
-
-        $contract = Contract::find($contractId);
-
-        $contract->staff()->attach(
-            $staffId,
-            [
-                'dateCreated' => date('Y-m-d H:i:s'),
-                'lastUserId'  => Auth::user()->userId,
-            ]
-        );
-        return $contract->save();
-
-    }
-//------------------------------------------
-    public function removeStaff($id)
-    {
-
-        return ContractStaff::where('contractStaffId', '=', $id)->delete();
-    }
-//------------------------------------------
-
-    public function updateStatus($contractId, $contractStatus)
-    {
-
-        $this->where('contractId', $contractId)->update(array(
-            'contractStatus' => $contractStatus,
-        ));
-    }
-//-------------------------------------
-
 }

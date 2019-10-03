@@ -1,13 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-<h3><b>Facturas de Contrato: N° {{$contract[0]->contractNumber}}</b></h3>
+<h3><b>Facturas</b></h3>
+<h4><b>Contrato:</b> N° {{$contract[0]->contractNumber}}</h4>
+<h4><b>Cliente:</b> {{$contract[0]->client->clientName}}</h4>
     <div class="row">
         <div class="col-xs-12 ">
           <div class="text-center">
 
 
-            <a href="{{route('invoices.create')}}" class="btn btn-success text-center" >
+            <a href="{{route('invoices.create', ['id' => $contract[0]->contractId])}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}} Factura
             </a>
@@ -21,7 +23,7 @@
                  <th>ID</th> 
                  <th>FECHA</th>
                  <th>TOTAL</th>
-                 <th>ESTATUS</th> 
+                 <th>{{__('STATUS')}}</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
                 </tr>

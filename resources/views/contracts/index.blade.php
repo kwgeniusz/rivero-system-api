@@ -56,7 +56,7 @@
                  <th>N° {{__('contract')}}</th>
                  <th>COD. {{__('client')}}</th>
                  <th>{{__('address')}}</th>
-                 <th>{{__('status')}}</th>
+                 <th>{{__('STATUS')}}</th>
                  <th>{{__('options')}}</th>
                 </tr>
             </thead>

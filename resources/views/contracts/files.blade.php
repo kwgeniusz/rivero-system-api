@@ -6,7 +6,7 @@
 <div class="panel panel-default col-xs-12">
     <div class="panel-body">
 
-<div class="text-center"><h4><b>DETALLES DEL CONTRATO</b></h4></div>
+<div class="text-center"><h4><b>DETALLES DEL CONTRATO {{$contract[0]->siteAddress}}</b></h4></div>
  <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
             <thead>
@@ -14,6 +14,7 @@
                  <th>N° {{__('contract')}}</th>
                  <th>{{__('country')}}</th>
                  <th>{{__('office')}}</th>
+                 <th>DIRECCION       </th>
                  <th>{{__('date_of_contract')}}</th>
                  <th>{{__('client')}}</th>
                  <th>{{__('status')}}</th>
@@ -25,6 +26,7 @@
                     <td>{{$contract[0]->contractNumber}} </td>
                     <td>{{$contract[0]->country->countryName}} </td>
                     <td>{{$contract[0]->office->officeName}} </td>
+                    <td>{{$contract[0]->siteAddress}} </td>
                     <td>{{$contract[0]->contractDate}} </td>
                     <td>{{$contract[0]->client->clientName}} </td>
                     <td>{{$contract[0]->contractStatus }} </td>
@@ -35,7 +37,7 @@
 
      <hr>
 
-     <div class="text-center"><h4><b>DOCUMENTOS DEL CONTRATO</b></h4></div>
+     <div class="text-center"><h4><b>DOCUMENTOS DEL CONTRATO {{$contract[0]->siteAddress}}</b></h4></div>
      <br>
 
   <!-- Nav tabs -->

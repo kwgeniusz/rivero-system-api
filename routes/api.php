@@ -21,8 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-Route::resource('clients', 'Api\ClientController',['only' => ['index','show']]);
+// Route::resource('clients', 'Api\ClientController',['only' => ['index','show']]);
 
-Route::resource('contracts', 'Api\ContractController',['only' => ['index','show']]);
+// Route::resource('contracts', 'Api\ContractController',['only' => ['index','show']]);
 
-Route::resource('users', 'Api\UserController',['except' => ['create','edit']]);
+// Route::resource('users', 'Api\UserController',['except' => ['create','edit']]);

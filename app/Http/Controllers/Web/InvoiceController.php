@@ -31,41 +31,35 @@ class InvoiceController extends Controller
 
     public function create(Request $request)
     {
-
+        $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
         $invoiceNumberFormat = $this->oConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
+        $invoiceTaxPercent   = $this->oConfiguration->findInvoiceTaxPercent(session('countryId'),session('officeId'));
 
-        // $projects = $this->oProjectType->getAll();
-        // $services = $this->oServiceType->getAll();
 
-        return view('invoices.create', compact('invoiceNumberFormat'));
+        return view('invoices.create', compact('contract','invoiceNumberFormat','invoiceTaxPercent'));
     }
 
-    public function store(ContractRequest $request)
+    public function store(Request $request)
     {
 
-        $this->oContract->insertContract(
-            session('countryId'),
-            session('officeId'),
-            $request->contractType,
-            $request->contractDate,
-            $request->clientId,
-            $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
-            $request->registryNumber,
-            $request->startDate,
-            $request->scheduledFinishDate,
-            $request->actualFinishDate,
-            $request->deliveryDate,
-            $request->initialComment,
-            $request->currencyName);
+          $contract = $this->oContract->findById($request->contractId,session('countryId'),session('officeId'));
+
+         $invoiceId  =   $this->oInvoice->insertInv(
+                      $contract[0]->countryId,
+                      $contract[0]->officeId,
+                      $contract[0]->contractId,
+                      $contract[0]->clientId,
+                      $contract[0]->siteAddress,
+                      $request->invoiceDate,
+                      $request->invoiceTaxPercent,
+                      '1');
 
         $notification = array(
-            'message'    => 'Contrato Creado Exitosamente',
+            'message'    => 'Factura Creada, Agrege Renglones',
             'alert-type' => 'success',
         );
 
-        return redirect()->route('contracts.index')
+        return redirect()->route('invoicesDetails.index',['id' => $invoiceId])
             ->with($notification);
     }
 

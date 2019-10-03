@@ -125,41 +125,19 @@ class InvoiceDetail extends Model
         return $result;
     }
 //------------------------------------------
-    public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyName) {
+    public function insert( $invoiceId,$serviceId,$serviceName,$unit,$unitCost,$quantity,$amount) {
 
-          $oConfiguration = new Configuration();
-      
-          $contractNumber = $oConfiguration->retrieveContractNumber($countryId, $officeId, $contractType);
-          $contractNumber++;
-          $contractNumberFormat = $oConfiguration->generateContractNumberFormat($countryId, $officeId, $contractType);
-                                  $oConfiguration->increaseContractNumber($countryId, $officeId, $contractType);
+        $invDetail                   = new InvoiceDetail;
+        $invDetail->invoiceId        = $invoiceId;
+        $invDetail->serviceId        = $serviceId;
+        $invDetail->serviceName      = $serviceName;
+        $invDetail->unit             = $unit;
+        $invDetail->unitCost         = $unitCost;
+        $invDetail->quantity         = $quantity;
+        $invDetail->amount           = $amount;
+        $invDetail->save();
 
-        $contract                      = new Contract;
-        $contract->conId               = $contractNumber;
-        $contract->contractType        = $contractType;
-        $contract->contractNumber      = $contractNumberFormat;
-        $contract->countryId           = $countryId;
-        $contract->officeId            = $officeId;
-        $contract->contractDate        = $contractDate;
-        $contract->clientId            = $clientId;
-        $contract->siteAddress         = $siteAddress;
-        $contract->projectTypeId       = $projectTypeId;
-        $contract->serviceTypeId       = $serviceTypeId;
-        $contract->registryNumber      = $registryNumber;
-        $contract->startDate           = $startDate;
-        $contract->scheduledFinishDate = $scheduledFinishDate;
-        $contract->actualFinishDate    = $actualFinishDate;
-        $contract->deliveryDate        = $deliveryDate;
-        $contract->initialComment      = $initialComment;
-        $contract->contractCost        = '0.00';
-        $contract->currencyName        = $currencyName;
-        $contract->contractStatus      = '1';
-        $contract->dateCreated         = date('Y-m-d H:i:s');
-        $contract->lastUserId          = Auth::user()->userId;
-        $contract->save();
-
-        return $contract->contractId;
+        return $invDetail;
 
     }
 //------------------------------------------
@@ -189,47 +167,11 @@ class InvoiceDetail extends Model
 
     }
 //------------------------------------------
-    public function deleteContract($contractId)
+    public function deleteInv($id)
     {
-        return Contract::find($contractId)
-                       // ->where('countryId', $countryId)
-                       // ->where('officeId', $officeId) 
-                       ->delete();
+        return InvoiceDetail::find($id)->delete();
         
     }
 //-----------------------------------------
-    //SECTIONS CONTRACTS - STAFF
-    //------------------------------------------
-    public function aggStaff($staffId, $contractId)
-    {
-
-        $contract = Contract::find($contractId);
-
-        $contract->staff()->attach(
-            $staffId,
-            [
-                'dateCreated' => date('Y-m-d H:i:s'),
-                'lastUserId'  => Auth::user()->userId,
-            ]
-        );
-        return $contract->save();
-
-    }
-//------------------------------------------
-    public function removeStaff($id)
-    {
-
-        return ContractStaff::where('contractStaffId', '=', $id)->delete();
-    }
-//------------------------------------------
-
-    public function updateStatus($contractId, $contractStatus)
-    {
-
-        $this->where('contractId', $contractId)->update(array(
-            'contractStatus' => $contractStatus,
-        ));
-    }
-//-------------------------------------
 
 }

@@ -176,4 +176,20 @@ class Configuration extends Model
                  ->where('officeId', $officeId)
                  ->increment('invoiceNumber');
     }
+
+    //--------------------------------------------------------------------
+    public function findInvoiceTaxPercent($countryId,$officeId)
+    {
+
+        $invoiceTaxPercent = 0;
+        $rs             = $this->where('countryId', $countryId)
+                               ->where('officeId', $officeId)
+                               ->get();
+
+            foreach ($rs as $rs0) {
+                    $invoiceTaxPercent = $rs0->invoiceTaxPercent;
+                 }
+        
+        return $invoiceTaxPercent;
+    }
 }

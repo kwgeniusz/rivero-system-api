@@ -26,8 +26,10 @@ class InvoiceDetailController extends Controller
     public function index(Request $request)
     {
         $invoice = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->findById($invoice[0]->contractId,session('countryId'),session('officeId'));
+
         
-        return view('invoices.details.index', compact('invoice'));
+        return view('invoices.details.index', compact('invoice','contract'));
     }
 
     public function create(Request $request)
@@ -41,31 +43,25 @@ class InvoiceDetailController extends Controller
         return view('invoices.create', compact('invoiceNumberFormat'));
     }
 
-    public function store(ContractRequest $request)
+    public function store(Request $request)
     {
 
-        $this->oContract->insertContract(
-            session('countryId'),
-            session('officeId'),
-            $request->contractType,
-            $request->contractDate,
-            $request->clientId,
-            $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
-            $request->registryNumber,
-            $request->startDate,
-            $request->scheduledFinishDate,
-            $request->actualFinishDate,
-            $request->deliveryDate,
-            $request->initialComment,
-            $request->currencyName);
+        $this->oInvoiceDetail->insert(
+            $request->invoiceId,
+            $request->serviceId,
+            $request->serviceName,
+            $request->unit,
+            $request->unitCost,
+            $request->quantity,
+            $request->amount);
 
         $notification = array(
             'message'    => 'Contrato Creado Exitosamente',
             'alert-type' => 'success',
         );
-
+         if($request->ajax()){
+                return $notification;
+            }
         return redirect()->route('contracts.index')
             ->with($notification);
     }
@@ -80,22 +76,6 @@ class InvoiceDetailController extends Controller
         return view('invoices.details', compact('invoicesDetails'));
     }
 
-    public function edit($id)
-    {
-      
-      $blockEdit = false;
-
-         if($this->oReceivable->verificarPagoCuota($id)){
-             $blockEdit = true;
-         }
-          
-        // $clients  = $this->oClient->getAll();
-        $projects = $this->oProjectType->getAll();
-        $services = $this->oServiceType->getAll();
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-
-        return view('invoices.edit', compact('contract', 'projects', 'services','blockEdit'));
-    }
 
     public function update(ContractRequest $request, $id)
     {
@@ -128,5 +108,12 @@ class InvoiceDetailController extends Controller
             ->with($notification);
     }
 
-
+    public function destroy($id)
+    {
+        $this->oInvoiceDetail->deleteInv($id);
+        return     $notification = array(
+            'message'    => 'Contrato Modificado Exitosamente',
+            'alert-type' => 'info',
+        );
+    }
 }

@@ -62030,113 +62030,162 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 // import modalPreviewDocument from './ModalPreviewDocument.vue'
 // import vueUpload from './vueUpload.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-   mounted: function mounted() {
-      console.log('Component mounted.');
-      this.findInvoice();
-      this.getAllInvoicesDetails();
-      this.getAllServices();
-   },
+  mounted: function mounted() {
+    console.log('Component mounted.');
+    this.findInvoice();
+    this.getAllInvoicesDetails();
+    this.getAllServices();
+  },
 
-   data: function data() {
-      return {
-         invoice: '',
-         services: {},
-         list: {},
+  data: function data() {
+    return {
+      errors: [],
 
-         hasCost: true,
-         modelService: '',
-         modelQuantity: 1.00,
-         modelUnit: '',
-         modelUnitCost: 0.00
+      invoice: '',
+      services: {},
+      list: {},
 
-      };
-   },
-   props: {
-      invoiceId: { type: String }
-   },
-   computed: {
-      sumTotal: function sumTotal() {
-         return this.modelQuantity * this.modelUnitCost;
+      hasCost: false,
+      modelServiceId: '',
+      modelServiceName: '',
+      modelQuantity: '',
+      modelUnit: '',
+      modelUnitCost: '',
+
+      //para delete
+      invoiceDetail: ''
+    };
+  },
+  props: {
+    invoiceId: { type: String }
+  },
+  computed: {
+    sumTotal: function sumTotal() {
+      return this.modelQuantity * this.modelUnitCost;
+    }
+  },
+  methods: {
+    findInvoice: function findInvoice() {
+      var _this = this;
+
+      var url = 'invoices/' + this.invoiceId;
+      axios.get(url).then(function (response) {
+        _this.invoice = response.data;
+      });
+    },
+    getAllServices: function getAllServices() {
+      var _this2 = this;
+
+      var url = 'services';
+      axios.get(url).then(function (response) {
+        _this2.services = response.data;
+      });
+    },
+    getAllInvoicesDetails: function getAllInvoicesDetails() {
+      var _this3 = this;
+
+      var url = 'invoicesDetails/' + this.invoiceId;
+      axios.get(url).then(function (response) {
+        _this3.list = response.data;
+      });
+    },
+    selectService: function selectService(id) {
+      var _this4 = this;
+
+      var url = 'services/' + id;
+      axios.get(url).then(function (response) {
+        // console.log(response.data[0]);
+        if (response.data[0].hasCost == 'N') {
+          _this4.hasCost = false; //oculta los input que tienen esta variable
+          _this4.modelQuantity = '';
+          _this4.modelUnit = '';
+          _this4.modelUnitCost = '';
+        } else {
+          _this4.hasCost = true;
+          _this4.modelQuantity = 1.00;
+          _this4.modelUnit = response.data[0].unit1;
+          _this4.modelUnitCost = response.data[0].cost1;
+        }
+        _this4.modelServiceName = response.data[0].serviceName;
+      });
+    },
+    changeUnit: function changeUnit(unit) {
+      if (unit == 'sqft') {
+        this.modelUnitCost = this.services[0].cost1;
+      } else {
+        this.modelUnitCost = this.services[0].cost2;
       }
-   },
-   methods: {
-      findInvoice: function findInvoice() {
-         var _this = this;
+    },
+    /*----CRUD----- */
+    aggRow: function aggRow() {
+      var _this5 = this;
 
-         var url = 'invoices/' + this.invoiceId;
-         axios.get(url).then(function (response) {
-            _this.invoice = response.data;
-         });
-      },
-      getAllServices: function getAllServices() {
-         var _this2 = this;
+      this.errors = [];
+      //VALIDATIONS
+      if (!this.modelServiceId) this.errors.push('Debe Escoger un Servicio.');
 
-         var url = 'services';
-         axios.get(url).then(function (response) {
-            _this2.services = response.data;
-         });
-      },
-      getAllInvoicesDetails: function getAllInvoicesDetails() {
-         var _this3 = this;
+      if (!this.modelServiceName) this.errors.push('Campo Nombre de Servicio es Obligatorio.');
 
-         var url = 'invoicesDetails/' + this.invoiceId;
-         axios.get(url).then(function (response) {
-            _this3.list = response.data;
-         });
-      },
-      findService: function findService(id) {
-         var _this4 = this;
+      if (!this.errors.length) {
 
-         var url = 'services/' + id;
-         axios.get(url).then(function (response) {
-            console.log(response.data[0]);
-            if (response.data[0].hasCost == 'N') {
-               _this4.hasCost = false;
-               _this4.modelQuantity = '';
-               _this4.modelUnit = '';
-               _this4.modelUnitCost = '';
-            } else {
-               _this4.hasCost = true;
-               _this4.modelQuantity = 1.00;
-            }
-            _this4.modelUnit = response.data[0].unit1;
-            _this4.modelUnitCost = response.data[0].cost1;
-         });
-      },
-      changeUnit: function changeUnit(unit) {
-         if (unit == 'sqft') {
-            this.modelUnitCost = this.services[0].cost1;
-         } else {
-            this.modelUnitCost = this.services[0].cost2;
-         }
-      },
-      /*----CRUD----- */
-      create: function create(item) {
-         this.$refs.modalEdit.open();
-         this.doc = item;
-      },
-      delete: function _delete(item) {
-         this.$refs.modalDelete.open();
-         this.doc = item;
-      },
-      sendDelete: function sendDelete(docId) {
-         var _this5 = this;
+        axios.post('invoicesDetails', {
+          invoiceId: this.invoice[0].invoiceId,
+          serviceId: this.modelServiceId,
+          serviceName: this.modelServiceName,
+          quantity: this.modelQuantity,
+          unit: this.modelUnit,
+          unitCost: this.modelUnitCost,
+          amount: this.sumTotal
 
-         var url = '../fileDelete/' + docId;
-         axios.get(url).then(function (response) {
-            _this5.$refs.modalDelete.close();
-            _this5.allFiles();
-            toastr.success('Archivo Eliminado');
-         });
+        }).then(function (response) {
+          // if (response.data.alert == "error") {
+          //     toastr.error(response.data.msj)
+          // } else {
+          _this5.getAllInvoicesDetails();
+          _this5.modelServiceId = '';
+          _this5.modelServiceName = '';
+          _this5.modelQuantity = '';
+          _this5.modelUnit = '';
+          _this5.modelUnitCost = '';
+          _this5.hasCost = false; //oculta los input que tienen esta variable
+          toastr.success(response.data.notification);
+          // }
+        });
       }
-      // this.$forceUpdate()
-   } });
+    },
+    deleteInvoiceDetail: function deleteInvoiceDetail(item) {
+      this.$refs.modalDelete.open();
+      this.invoiceDetail = item;
+    },
+    sendDelete: function sendDelete(id) {
+      var _this6 = this;
+
+      var url = 'invoicesDetails/' + id;
+      axios.delete(url).then(function (response) {
+        _this6.$refs.modalDelete.close();
+        _this6.getAllInvoicesDetails();
+        toastr.success('Archivo Eliminado');
+      });
+    }
+    // this.$forceUpdate()
+  } });
 
 /***/ }),
 /* 99 */
@@ -62153,259 +62202,368 @@ var render = function() {
         "panel panel-success col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2"
     },
     [
-      _c("div", { staticClass: "panel-body" }, [
-        _c("h3", [
-          _c("b", [
-            _vm._v("Factura N° " + _vm._s(_vm.invoice[0].invoiceNumber))
-          ])
-        ]),
-        _vm._v(" "),
-        _c("form", { staticClass: "form" }, [
-          _c("div", { staticClass: "form-group col-xs-12" }, [
-            _c("label", { attrs: { for: "serviceId" } }, [_vm._v("SERVICIO")]),
+      _c(
+        "div",
+        { staticClass: "panel-body" },
+        [
+          _c("h3", [
+            _c("b", [
+              _vm._v("Factura N° " + _vm._s(_vm.invoice[0].invoiceNumber))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("form", { staticClass: "form" }, [
+            _vm.errors.length
+              ? _c(
+                  "div",
+                  { staticClass: "alert alert-danger" },
+                  [
+                    _c("h4", [_vm._v("Errores:")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.errors, function(error) {
+                      return _c("div", [_vm._v("- " + _vm._s(error))])
+                    })
+                  ],
+                  2
+                )
+              : _vm._e(),
             _vm._v(" "),
-            _c(
-              "select",
-              {
+            _c("div", { staticClass: "form-group col-xs-12" }, [
+              _c("label", { attrs: { for: "serviceId" } }, [
+                _vm._v("SERVICIO")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.modelServiceId,
+                      expression: "modelServiceId"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "serviceId", id: "serviceId" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.modelServiceId = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function($event) {
+                        _vm.selectService(_vm.modelServiceId)
+                      }
+                    ]
+                  }
+                },
+                _vm._l(_vm.services, function(item, index) {
+                  return _c(
+                    "option",
+                    {
+                      staticStyle: { "{color": "red}" },
+                      domProps: { value: item.serviceId }
+                    },
+                    [
+                      _vm._v(
+                        " " +
+                          _vm._s(item.serviceName) +
+                          " - Tiene Costo: " +
+                          _vm._s(item.hasCost) +
+                          " "
+                      )
+                    ]
+                  )
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group col-xs-10" }, [
+              _c("label", { attrs: { for: "quantity" } }, [
+                _vm._v("NOMBRE DEL SERVICIO")
+              ]),
+              _vm._v(" "),
+              _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.modelService,
-                    expression: "modelService"
+                    value: _vm.modelServiceName,
+                    expression: "modelServiceName"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { name: "serviceId", id: "serviceId" },
+                attrs: {
+                  type: "text",
+                  id: "serviceName",
+                  name: "serviceName",
+                  autocomplete: "off"
+                },
+                domProps: { value: _vm.modelServiceName },
                 on: {
-                  change: [
-                    function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.modelService = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    },
-                    function($event) {
-                      _vm.findService(_vm.modelService)
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  ]
+                    _vm.modelServiceName = $event.target.value
+                  }
                 }
-              },
-              _vm._l(_vm.services, function(item, index) {
-                return _c("option", { domProps: { value: item.serviceId } }, [
-                  _vm._v(
-                    " " +
-                      _vm._s(item.serviceName) +
-                      " - Tiene Costo: " +
-                      _vm._s(item.hasCost) +
-                      " "
+              })
+            ]),
+            _vm._v(" "),
+            _vm.hasCost
+              ? _c("div", { staticClass: "form-group col-xs-4" }, [
+                  _c("label", { attrs: { for: "unit" } }, [_vm._v("UNIDAD")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.modelUnit,
+                          expression: "modelUnit"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "unit", id: "unit" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.modelUnit = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          function($event) {
+                            _vm.changeUnit(_vm.modelUnit)
+                          }
+                        ]
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "sqft" } }, [
+                        _vm._v("sqft")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "each" } }, [
+                        _vm._v("each")
+                      ])
+                    ]
                   )
                 ])
-              })
-            )
-          ]),
-          _vm._v(" "),
-          _vm.hasCost
-            ? _c("div", { staticClass: "form-group col-xs-5" }, [
-                _c("label", { attrs: { for: "quantity" } }, [
-                  _vm._v("CANTIDAD")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.modelQuantity,
-                      expression: "modelQuantity"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "number",
-                    id: "quantity",
-                    name: "quantity",
-                    autocomplete: "off"
-                  },
-                  domProps: { value: _vm.modelQuantity },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.modelQuantity = $event.target.value
-                    }
-                  }
-                })
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.hasCost
-            ? _c("div", { staticClass: "form-group col-xs-7" }, [
-                _c("label", { attrs: { for: "unit" } }, [_vm._v("UNIDAD")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.hasCost
+              ? _c("div", { staticClass: "form-group col-xs-4" }, [
+                  _c("label", { attrs: { for: "unitCost" } }, [
+                    _vm._v("PRECIO")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.modelUnit,
-                        expression: "modelUnit"
+                        value: _vm.modelUnitCost,
+                        expression: "modelUnitCost"
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { name: "unit", id: "unit" },
+                    attrs: {
+                      type: "number",
+                      id: "unitCost",
+                      name: "unitCost",
+                      autocomplete: "off"
+                    },
+                    domProps: { value: _vm.modelUnitCost },
                     on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.modelUnit = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        },
-                        function($event) {
-                          _vm.changeUnit(_vm.modelUnit)
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
-                      ]
+                        _vm.modelUnitCost = $event.target.value
+                      }
                     }
-                  },
+                  })
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.hasCost
+              ? _c("div", { staticClass: "form-group col-xs-4" }, [
+                  _c("label", { attrs: { for: "quantity" } }, [
+                    _vm._v("CANTIDAD")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.modelQuantity,
+                        expression: "modelQuantity"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "number",
+                      id: "quantity",
+                      name: "quantity",
+                      autocomplete: "off"
+                    },
+                    domProps: { value: _vm.modelQuantity },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.modelQuantity = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.hasCost
+              ? _c(
+                  "div",
+                  { staticClass: "form-group col-xs-4 col-xs-offset-4" },
                   [
-                    _c("option", { attrs: { value: "sqft" } }, [
-                      _vm._v("sqft")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "each" } }, [_vm._v("each")])
+                    _c("label", { attrs: { fo: "" } }, [
+                      _vm._v(" COSTO TOTAL:   " + _vm._s(_vm.sumTotal))
+                    ])
                   ]
                 )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.hasCost
-            ? _c("div", { staticClass: "form-group col-xs-4" }, [
-                _c("label", { attrs: { for: "unitCost" } }, [_vm._v("PRECIO")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.modelUnitCost,
-                      expression: "modelUnitCost"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "number",
-                    id: "unitCost",
-                    name: "unitCost",
-                    autocomplete: "off"
-                  },
-                  domProps: { value: _vm.modelUnitCost },
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group col-xs-12" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
                   on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.modelUnitCost = $event.target.value
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.aggRow()
                     }
                   }
-                })
-              ])
-            : _vm._e(),
-          _vm._v(
-            "\n\n         COSTO TOTAL:   " + _vm._s(_vm.sumTotal) + "\n       "
-          ),
-          _c("div", { staticClass: "form-group col-xs-12" }, [
+                },
+                [_vm._v(" Agregar Renglon")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "table-responsive col-xs-12" }, [
             _c(
-              "button",
+              "table",
               {
-                staticClass: "btn btn-success",
-                on: {
-                  click: function($event) {
-                    _vm.aggRow()
-                  }
-                }
+                staticClass:
+                  "table table-striped table-bordered text-center bg-info"
               },
-              [_vm._v(" Agregar Renglon")]
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.list, function(item, index) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(++index))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.serviceName))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.unit))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.unitCost))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.quantity))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.amount))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            attrs: {
+                              "data-toggle": "tooltip",
+                              "data-placement": "top",
+                              title: "Eliminar"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.deleteInvoiceDetail(item)
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fa fa-times-circle",
+                              attrs: { "aria-hidden": "true" }
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ]
             )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-responsive col-xs-12" }, [
+          ]),
+          _vm._v(" "),
           _c(
-            "table",
+            "sweet-modal",
             {
-              staticClass:
-                "table table-striped table-bordered text-center bg-info"
+              ref: "modalDelete",
+              attrs: {
+                icon: "error",
+                "overlay-theme": "dark",
+                "modal-theme": "dark"
+              }
             },
             [
-              _vm._m(0),
+              _c("h2", [_vm._v("¿Esta seguro de eliminar este Renglon?")]),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.invoiceDetail.serviceName))]),
               _vm._v(" "),
               _c(
-                "tbody",
-                _vm._l(_vm.list, function(item, index) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(++index))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.serviceName))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.unit))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.unitCost))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.quantity))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.amount))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-danger btn-sm",
-                          attrs: {
-                            "data-toggle": "tooltip",
-                            "data-placement": "top",
-                            title: "Eliminar"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.deleteFile(item)
-                            }
-                          }
-                        },
-                        [
-                          _c("span", {
-                            staticClass: "fa fa-times-circle",
-                            attrs: { "aria-hidden": "true" }
-                          })
-                        ]
-                      )
-                    ])
-                  ])
-                })
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  on: {
+                    click: function($event) {
+                      _vm.sendDelete(_vm.invoiceDetail.invDetailId)
+                    }
+                  }
+                },
+                [_vm._v("Eliminar")]
               )
             ]
           )
-        ])
-      ])
+        ],
+        1
+      )
     ]
   )
 }
