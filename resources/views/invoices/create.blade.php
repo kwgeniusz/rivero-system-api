@@ -8,7 +8,16 @@
 
       <div class="row ">
           <div class="col-xs-12 ">
-
+        @if ($errors->any())
+          <div class="alert alert-danger">
+              <h4>Errores:</h4>
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
         <form class="form" action="{{Route('invoices.store')}}" method="POST">
         {{csrf_field()}}
       <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
@@ -37,7 +46,7 @@
 
         <div class="form-group col-xs-4">
             <label for="invoiceTaxPercent">IMPUESTO (%)</label>
-            <input type="text" class="form-control" id="invoiceTaxPercent" name="invoiceTaxPercent" value="{{ $invoiceTaxPercent}}" required>
+            <input type="number" class="form-control" id="invoiceTaxPercent" name="invoiceTaxPercent" value="{{ $invoiceTaxPercent}}" required>
         </div>
         </div>
       

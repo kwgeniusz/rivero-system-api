@@ -3,8 +3,10 @@
 
  <div class="panel panel-success col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
     <div class="panel-body">
-
-<h3><b>Factura N° {{invoice[0].invoiceNumber}}</b></h3>
+<h4><b>Factura N°:</b> {{invoice[0].invoiceNumber}}</h4>
+<h4><b>Dirección:</b> {{invoice[0].address}}</h4>
+<h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("DD/MM/YY") }}</h4>
+<hr>
     <form class="form">
                  
        <div class="alert alert-danger" v-if="errors.length">
@@ -47,16 +49,10 @@
          <div v-if="hasCost" class="form-group col-xs-4 col-xs-offset-4">
                 <label fo> COSTO TOTAL:   {{sumTotal}}</label>
           </div>
-       <div class="form-group col-xs-12">
+       <div class="form-group col-xs-12 text-center">
          <button class="btn btn-success" @click.prevent="aggRow()"> Agregar Renglon</button>
        </div>
     </form>
-<!--    {{modelServiceId}}
-   {{modelQuantity}}
-   {{modelUnit}}
-   {{modelUnitCost}}
-   {{hasCost}}
-   {{sumTotal}} -->
 
       <br>
       <div class="table-responsive col-xs-12">
@@ -111,6 +107,8 @@
         <button class="btn btn-danger" @click="sendDelete(invoiceDetail.invDetailId)">Eliminar</button>
       </sweet-modal>
 
+
+        
 
    </div>
  </div>
@@ -234,7 +232,7 @@ export default {
                        this.modelUnit =''
                        this.modelUnitCost =''
                        this.hasCost = false //oculta los input que tienen esta variable
-                       toastr.success(response.data.notification)
+                       toastr.success(response.data.message)
                    // }
   
             })

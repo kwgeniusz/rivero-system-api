@@ -62039,8 +62039,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 // import modalPreviewDocument from './ModalPreviewDocument.vue'
@@ -62165,7 +62163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this5.modelUnit = '';
           _this5.modelUnitCost = '';
           _this5.hasCost = false; //oculta los input que tienen esta variable
-          toastr.success(response.data.notification);
+          toastr.success(response.data.message);
           // }
         });
       }
@@ -62206,11 +62204,25 @@ var render = function() {
         "div",
         { staticClass: "panel-body" },
         [
-          _c("h3", [
-            _c("b", [
-              _vm._v("Factura N° " + _vm._s(_vm.invoice[0].invoiceNumber))
-            ])
+          _c("h4", [
+            _c("b", [_vm._v("Factura N°:")]),
+            _vm._v(" " + _vm._s(_vm.invoice[0].invoiceNumber))
           ]),
+          _vm._v(" "),
+          _c("h4", [
+            _c("b", [_vm._v("Dirección:")]),
+            _vm._v(" " + _vm._s(_vm.invoice[0].address))
+          ]),
+          _vm._v(" "),
+          _c("h4", [
+            _c("b", [_vm._v("Fecha:")]),
+            _vm._v(
+              " " +
+                _vm._s(_vm._f("moment")(_vm.invoice[0].invoiceDate, "DD/MM/YY"))
+            )
+          ]),
+          _vm._v(" "),
+          _c("hr"),
           _vm._v(" "),
           _c("form", { staticClass: "form" }, [
             _vm.errors.length
@@ -62454,7 +62466,7 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group col-xs-12" }, [
+            _c("div", { staticClass: "form-group col-xs-12 text-center" }, [
               _c(
                 "button",
                 {

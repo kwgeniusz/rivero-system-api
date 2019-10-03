@@ -56,7 +56,7 @@ class InvoiceDetailController extends Controller
             $request->amount);
 
         $notification = array(
-            'message'    => 'Contrato Creado Exitosamente',
+            'message'    => 'Renglon Agregado Correctamente',
             'alert-type' => 'success',
         );
          if($request->ajax()){

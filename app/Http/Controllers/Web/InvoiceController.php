@@ -41,8 +41,13 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
-
+           $this->validate($request, [
+                'invoiceDate' => 'required',
+                'invoiceTaxPercent' => 'required',
+           ]);
+ 
           $contract = $this->oContract->findById($request->contractId,session('countryId'),session('officeId'));
+
 
          $invoiceId  =   $this->oInvoice->insertInv(
                       $contract[0]->countryId,
