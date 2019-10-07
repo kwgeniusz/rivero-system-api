@@ -28,7 +28,10 @@ class InvoiceDetailController extends Controller
         $invoice = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
         $contract = $this->oContract->findById($invoice[0]->contractId,session('countryId'),session('officeId'));
 
-        
+        //EVITA QUE ENTREN POR URL SI ESTA CERRADA LA FACTURA
+        if ($invoice[0]->status == 'CERRADO' || $invoice[0]->status == 'CLOSED') {
+             return back()->withInput();
+        }
         return view('invoices.details.index', compact('invoice','contract'));
     }
 
@@ -46,7 +49,7 @@ class InvoiceDetailController extends Controller
     public function store(Request $request)
     {
 
-        $this->oInvoiceDetail->insert(
+       $result = $this->oInvoiceDetail->insert(
             $request->invoiceId,
             $request->serviceId,
             $request->serviceName,
@@ -55,15 +58,14 @@ class InvoiceDetailController extends Controller
             $request->quantity,
             $request->amount);
 
-        $notification = array(
-            'message'    => 'Renglon Agregado Correctamente',
-            'alert-type' => 'success',
+      $notification = array(
+            'message'    => $result['message'],
+            'alertType' => $result['alertType'],
         );
          if($request->ajax()){
                 return $notification;
             }
-        return redirect()->route('contracts.index')
-            ->with($notification);
+
     }
 
      public function show(Request $request,$id)
@@ -110,10 +112,13 @@ class InvoiceDetailController extends Controller
 
     public function destroy($id)
     {
-        $this->oInvoiceDetail->deleteInv($id);
-        return     $notification = array(
-            'message'    => 'Contrato Modificado Exitosamente',
-            'alert-type' => 'info',
+        $result = $this->oInvoiceDetail->deleteInv($id);
+
+           $notification = array(
+            'message'    => $result['message'],
+            'alertType' => $result['alertType'],
         );
+         return $notification;
+
     }
 }

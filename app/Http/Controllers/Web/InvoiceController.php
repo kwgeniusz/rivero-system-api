@@ -78,52 +78,63 @@ class InvoiceController extends Controller
         return view('invoices.details', compact('invoice'));
     }
 
+    public function closeInvoice(Request $request)
+    {
+ 
+        $this->oInvoice->changeStatus($request->invoiceId,'2');
+
+        $notification = array(
+            'message'    => 'Factura Cerrada, Puede comenzar a crear cuotas',
+            'alertType' => 'success',
+        );
+        return $notification;
+    }
     public function edit($id)
     {
       
-      $blockEdit = false;
+      // $blockEdit = false;
 
-         if($this->oReceivable->verificarPagoCuota($id)){
-             $blockEdit = true;
-         }
+        //  if($this->oReceivable->verificarPagoCuota($id)){
+        //      $blockEdit = true;
+        //  }
           
-        // $clients  = $this->oClient->getAll();
-        $projects = $this->oProjectType->getAll();
-        $services = $this->oServiceType->getAll();
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        // // $clients  = $this->oClient->getAll();
+        // $projects = $this->oProjectType->getAll();
+        // $services = $this->oServiceType->getAll();
+        // $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('invoices.edit', compact('contract', 'projects', 'services','blockEdit'));
+        // return view('invoices.edit', compact('contract', 'projects', 'services','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
     {
 
-        $this->oContract->updateContract(
-            $id,
-            // $request->countryId,
-            // $request->officeId,
-            $request->contractDate,
-            $request->clientId,
-            $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
-            $request->registryNumber,
-            $request->startDate,
-            $request->scheduledFinishDate,
-            $request->actualFinishDate,
-            $request->deliveryDate,
-            $request->initialComment,
-            $request->intermediateComment,
-            $request->finalComment,
-            $request->currencyName
-        );
+        // $this->oContract->updateContract(
+        //     $id,
+        //     // $request->countryId,
+        //     // $request->officeId,
+        //     $request->contractDate,
+        //     $request->clientId,
+        //     $request->siteAddress,
+        //     $request->projectTypeId,
+        //     $request->serviceTypeId,
+        //     $request->registryNumber,
+        //     $request->startDate,
+        //     $request->scheduledFinishDate,
+        //     $request->actualFinishDate,
+        //     $request->deliveryDate,
+        //     $request->initialComment,
+        //     $request->intermediateComment,
+        //     $request->finalComment,
+        //     $request->currencyName
+        // );
 
-        $notification = array(
-            'message'    => 'Contrato Modificado Exitosamente',
-            'alert-type' => 'info',
-        );
-        return redirect()->route('contracts.index')
-            ->with($notification);
+        // $notification = array(
+        //     'message'    => 'Contrato Modificado Exitosamente',
+        //     'alert-type' => 'info',
+        // );
+        // return redirect()->route('contracts.index')
+        //     ->with($notification);
     }
 
 

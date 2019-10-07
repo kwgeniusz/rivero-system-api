@@ -20,8 +20,10 @@
             <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
-                 <th>ID</th> 
+                 <th>N° FACTURA</th> 
                  <th>FECHA</th>
+                 <th>SUB-TOTAL</th>
+                 <th>IMPUESTO</th>
                  <th>TOTAL</th>
                  <th>{{__('STATUS')}}</th> 
                  <th>{{__('actions')}}</th> 
@@ -33,13 +35,20 @@
                 <tr>
                    <td>{{$invoice->invoiceNumber}}</td> 
                    <td>{{$invoice->invoiceDate}}</td>
-                   <td>{{$invoice->netTotal}}</td>
+                   <td>{{$invoice->grossTotal}}</td>
+                   <td>({{$invoice->taxPercent}}%) => {{$invoice->taxAmount}}</td> 
+                   <td>{{$invoice->netTotal}}</td> 
                    <td>{{$invoice->status}}</td> 
-
                    <td>
+                 @if($invoice->status == 'ABIERTO')
                   <a href="{{route('invoicesDetails.index', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
                     </a>
+                  @elseif($invoice->status == 'CERRADO')
+                   <a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-money" aria-hidden="true"></span> 
+                    </a>
+                  @endif  
                    |
                     <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
@@ -47,8 +56,7 @@
           {{--           <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
                         <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a> --}}
-                  
-                       
+                   
                    </td>
                 </tr>
                 @endforeach

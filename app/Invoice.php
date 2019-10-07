@@ -112,7 +112,6 @@ class Invoice extends Model
 
         return $result;
     }
-
 //------------------------------------------
     public function findById($id,$countryId,$officeId)
     {
@@ -174,6 +173,28 @@ class Invoice extends Model
 
         $contract->save();
 
+    }
+      public function changeStatus($invoiceId,$status) {
+        $invoice             = Invoice::find($invoiceId);
+        $invoice->status     = $status;
+        $invoice->save();
+    }
+      public function updateInvoiceTotal($sign, $invoiceId, $amount)
+    {
+        if ($sign == '+') {
+              $invoice = Invoice::find($invoiceId);
+              $invoice->grossTotal = $invoice->grossTotal + $amount;
+            } else {
+              $invoice = Invoice::find($invoiceId);
+                if ($invoice->grossTotal < $amount) {
+                    throw new \Exception('Error: El monto de la factura no puede ser menor que 0.00');
+                } else {
+                  $invoice->grossTotal = $invoice->grossTotal - $amount;
+                }
+            }
+              $invoice->taxAmount   = ($invoice->grossTotal * $invoice->taxPercent)/100;
+              $invoice->netTotal    = $invoice->taxAmount + $invoice->grossTotal;
+              $invoice->save();
     }
 //------------------------------------------
     public function deleteContract($contractId)

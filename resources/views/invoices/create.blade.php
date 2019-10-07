@@ -46,7 +46,7 @@
 
         <div class="form-group col-xs-4">
             <label for="invoiceTaxPercent">IMPUESTO (%)</label>
-            <input type="number" class="form-control" id="invoiceTaxPercent" name="invoiceTaxPercent" value="{{ $invoiceTaxPercent}}" required>
+            <input type="number" min="0.00" step="0.01" class="form-control" id="invoiceTaxPercent" name="invoiceTaxPercent" value="{{ $invoiceTaxPercent}}" required>
         </div>
         </div>
       

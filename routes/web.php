@@ -63,6 +63,7 @@ Route::get('download/{docId}', 'Web\ContractController@fileDownload')->name('con
 Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 
 Route::resource('invoices', 'Web\InvoiceController');
+Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoices.close');
 Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
 Route::resource('services', 'Web\ServiceController');
 

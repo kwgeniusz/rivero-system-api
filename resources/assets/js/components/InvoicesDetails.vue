@@ -6,6 +6,11 @@
 <h4><b>Factura N°:</b> {{invoice[0].invoiceNumber}}</h4>
 <h4><b>Dirección:</b> {{invoice[0].address}}</h4>
 <h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("DD/MM/YY") }}</h4>
+    <div class="text-right"> 
+       <a @click="closeInvoice(invoice[0])" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top">
+               <span class="fa fa-circle" aria-hidden="true"></span> Cerrar Factura
+      </a>
+    </div>
 <hr>
     <form class="form">
                  
@@ -17,7 +22,9 @@
           <div class="form-group col-xs-12">
             <label for="serviceId">SERVICIO</label>
             <select v-model="modelServiceId" @change="selectService(modelServiceId)" class="form-control" name="serviceId" id="serviceId">
-                <option style="{color: red}" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}} - Tiene Costo: {{item.hasCost}} </option>
+                <option :class="{ bold: item.hasCost == 'Y' ? true : false }" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}}
+                 </option>
+                  }
             </select>
           </div>
 
@@ -50,7 +57,9 @@
                 <label fo> COSTO TOTAL:   {{sumTotal}}</label>
           </div>
        <div class="form-group col-xs-12 text-center">
-         <button class="btn btn-success" @click.prevent="aggRow()"> Agregar Renglon</button>
+         <button class="btn btn-success" @click.prevent="aggRow()"> 
+          <span class="fa fa-plus" aria-hidden="true"></span> Agregar Renglon
+        </button>
        </div>
     </form>
 
@@ -91,7 +100,11 @@
          </tbody>
         </table>
        </div>
-
+       <div class="col-xs-12 text-center">
+            <b>Sub-Total:</b> {{invoice[0].grossTotal}} <br>
+            <b>Impuesto {{invoice[0].taxPercent}}%:</b> {{invoice[0].taxAmount}} <br>
+            <b>Total Neto:</b> {{invoice[0].netTotal}}<br>
+       </div>
 <!--      <sweet-modal ref="modalEdit">
         <h2>Editar:</h2> <br>
             <div class="form-group ">
@@ -226,18 +239,25 @@ export default {
                    //     toastr.error(response.data.msj)
                    // } else {
                        this.getAllInvoicesDetails();
+                       this.findInvoice();
+
                        this.modelServiceId = ''
                        this.modelServiceName = ''
                        this.modelQuantity =''
                        this.modelUnit =''
                        this.modelUnitCost =''
                        this.hasCost = false //oculta los input que tienen esta variable
-                       toastr.success(response.data.message)
+                       if (response.data.alertType == 'success') {
+                         toastr.success(response.data.message)
+                       } else {
+                          toastr.error(response.data.message)
+                       }
                    // }
   
             })
            }
          },
+
           deleteInvoiceDetail: function(item) {
              this.$refs.modalDelete.open()
              this.invoiceDetail= item
@@ -247,11 +267,41 @@ export default {
              axios.delete(url).then(response => {
                this.$refs.modalDelete.close()
                this.getAllInvoicesDetails();
-               toastr.success('Archivo Eliminado') 
+               this.findInvoice();
+               if (response.data.alertType == 'success') {
+                         toastr.success(response.data.message)
+                       } else {
+                          toastr.error(response.data.message)
+                       }    
             });
+          },
+         closeInvoice: function(invoice) {
+             // this.$refs.modalClose.open()
+             // this.invoiceDetail= invoice
+             if(invoice.netTotal == 0){
+                toastr.error('Error: Total Neto debe ser Mayor a 0.00')
+             }else{
+               let url ='invoicesClose';
+                axios.put(url,{invoiceId: invoice.invoiceId}).then(response => {
+                   if (response.data.alertType == 'success') {
+                         window.location.href ="invoices?id="+invoice.contractId;
+                         toastr.success(response.data.message)
+                       } else {
+                          toastr.error(response.data.message)
+                       }    
+                    });
+
+             }
+
           },
     }
        // this.$forceUpdate()
 }
  </script>
   
+<style>
+.bold {
+    font-weight:bold;
+    background:#D7F7E2;
+}
+</style>

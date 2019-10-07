@@ -486,33 +486,6 @@ module.exports = {
 /* 2 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
@@ -592,7 +565,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -817,6 +790,33 @@ function applyToTag (styleElement, obj) {
     styleElement.appendChild(document.createTextNode(css))
   }
 }
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ }),
@@ -18368,7 +18368,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(18);
-module.exports = __webpack_require__(100);
+module.exports = __webpack_require__(102);
 
 
 /***/ }),
@@ -35596,7 +35596,7 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(21)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(21)(module)))
 
 /***/ }),
 /* 21 */
@@ -49881,7 +49881,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(44).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(44).setImmediate))
 
 /***/ }),
 /* 44 */
@@ -49951,7 +49951,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 45 */
@@ -50144,7 +50144,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(8)))
 
 /***/ }),
 /* 46 */
@@ -50726,7 +50726,7 @@ var content = __webpack_require__(52);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("57487a7d", content, false, {});
+var update = __webpack_require__(3)("57487a7d", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -50745,7 +50745,7 @@ if(false) {
 /* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(false);
+exports = module.exports = __webpack_require__(2)(false);
 // imports
 
 
@@ -51559,7 +51559,7 @@ var content = __webpack_require__(58);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("1fff7153", content, false, {});
+var update = __webpack_require__(3)("1fff7153", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -51578,7 +51578,7 @@ if(false) {
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(false);
+exports = module.exports = __webpack_require__(2)(false);
 // imports
 
 
@@ -56374,7 +56374,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 62 */
@@ -57953,7 +57953,7 @@ var content = __webpack_require__(79);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("20a7057a", content, false, {});
+var update = __webpack_require__(3)("20a7057a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -57972,7 +57972,7 @@ if(false) {
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(false);
+exports = module.exports = __webpack_require__(2)(false);
 // imports
 
 
@@ -59290,7 +59290,7 @@ var content = __webpack_require__(86);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("fa7c59a4", content, false, {});
+var update = __webpack_require__(3)("fa7c59a4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59309,7 +59309,7 @@ if(false) {
 /* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(false);
+exports = module.exports = __webpack_require__(2)(false);
 // imports
 
 
@@ -61479,7 +61479,7 @@ var content = __webpack_require__(93);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("d8ac1b40", content, false, {});
+var update = __webpack_require__(3)("d8ac1b40", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -61498,7 +61498,7 @@ if(false) {
 /* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(false);
+exports = module.exports = __webpack_require__(2)(false);
 // imports
 
 
@@ -61874,15 +61874,19 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(98)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(98)
+var __vue_script__ = __webpack_require__(100)
 /* template */
-var __vue_template__ = __webpack_require__(99)
+var __vue_template__ = __webpack_require__(101)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -61918,10 +61922,63 @@ module.exports = Component.exports
 
 /***/ }),
 /* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(99);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("12fa1c90", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1806d055\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./InvoicesDetails.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1806d055\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./InvoicesDetails.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.bold {\r\n    font-weight:bold;\r\n    background:#D7F7E2;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 100 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -62045,148 +62102,177 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // import vueUpload from './vueUpload.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-    this.findInvoice();
-    this.getAllInvoicesDetails();
-    this.getAllServices();
-  },
+   mounted: function mounted() {
+      console.log('Component mounted.');
+      this.findInvoice();
+      this.getAllInvoicesDetails();
+      this.getAllServices();
+   },
 
-  data: function data() {
-    return {
-      errors: [],
+   data: function data() {
+      return {
+         errors: [],
 
-      invoice: '',
-      services: {},
-      list: {},
+         invoice: '',
+         services: {},
+         list: {},
 
-      hasCost: false,
-      modelServiceId: '',
-      modelServiceName: '',
-      modelQuantity: '',
-      modelUnit: '',
-      modelUnitCost: '',
+         hasCost: false,
+         modelServiceId: '',
+         modelServiceName: '',
+         modelQuantity: '',
+         modelUnit: '',
+         modelUnitCost: '',
 
-      //para delete
-      invoiceDetail: ''
-    };
-  },
-  props: {
-    invoiceId: { type: String }
-  },
-  computed: {
-    sumTotal: function sumTotal() {
-      return this.modelQuantity * this.modelUnitCost;
-    }
-  },
-  methods: {
-    findInvoice: function findInvoice() {
-      var _this = this;
-
-      var url = 'invoices/' + this.invoiceId;
-      axios.get(url).then(function (response) {
-        _this.invoice = response.data;
-      });
-    },
-    getAllServices: function getAllServices() {
-      var _this2 = this;
-
-      var url = 'services';
-      axios.get(url).then(function (response) {
-        _this2.services = response.data;
-      });
-    },
-    getAllInvoicesDetails: function getAllInvoicesDetails() {
-      var _this3 = this;
-
-      var url = 'invoicesDetails/' + this.invoiceId;
-      axios.get(url).then(function (response) {
-        _this3.list = response.data;
-      });
-    },
-    selectService: function selectService(id) {
-      var _this4 = this;
-
-      var url = 'services/' + id;
-      axios.get(url).then(function (response) {
-        // console.log(response.data[0]);
-        if (response.data[0].hasCost == 'N') {
-          _this4.hasCost = false; //oculta los input que tienen esta variable
-          _this4.modelQuantity = '';
-          _this4.modelUnit = '';
-          _this4.modelUnitCost = '';
-        } else {
-          _this4.hasCost = true;
-          _this4.modelQuantity = 1.00;
-          _this4.modelUnit = response.data[0].unit1;
-          _this4.modelUnitCost = response.data[0].cost1;
-        }
-        _this4.modelServiceName = response.data[0].serviceName;
-      });
-    },
-    changeUnit: function changeUnit(unit) {
-      if (unit == 'sqft') {
-        this.modelUnitCost = this.services[0].cost1;
-      } else {
-        this.modelUnitCost = this.services[0].cost2;
+         //para delete
+         invoiceDetail: ''
+      };
+   },
+   props: {
+      invoiceId: { type: String }
+   },
+   computed: {
+      sumTotal: function sumTotal() {
+         return this.modelQuantity * this.modelUnitCost;
       }
-    },
-    /*----CRUD----- */
-    aggRow: function aggRow() {
-      var _this5 = this;
+   },
+   methods: {
+      findInvoice: function findInvoice() {
+         var _this = this;
 
-      this.errors = [];
-      //VALIDATIONS
-      if (!this.modelServiceId) this.errors.push('Debe Escoger un Servicio.');
+         var url = 'invoices/' + this.invoiceId;
+         axios.get(url).then(function (response) {
+            _this.invoice = response.data;
+         });
+      },
+      getAllServices: function getAllServices() {
+         var _this2 = this;
 
-      if (!this.modelServiceName) this.errors.push('Campo Nombre de Servicio es Obligatorio.');
+         var url = 'services';
+         axios.get(url).then(function (response) {
+            _this2.services = response.data;
+         });
+      },
+      getAllInvoicesDetails: function getAllInvoicesDetails() {
+         var _this3 = this;
 
-      if (!this.errors.length) {
+         var url = 'invoicesDetails/' + this.invoiceId;
+         axios.get(url).then(function (response) {
+            _this3.list = response.data;
+         });
+      },
+      selectService: function selectService(id) {
+         var _this4 = this;
 
-        axios.post('invoicesDetails', {
-          invoiceId: this.invoice[0].invoiceId,
-          serviceId: this.modelServiceId,
-          serviceName: this.modelServiceName,
-          quantity: this.modelQuantity,
-          unit: this.modelUnit,
-          unitCost: this.modelUnitCost,
-          amount: this.sumTotal
+         var url = 'services/' + id;
+         axios.get(url).then(function (response) {
+            // console.log(response.data[0]);
+            if (response.data[0].hasCost == 'N') {
+               _this4.hasCost = false; //oculta los input que tienen esta variable
+               _this4.modelQuantity = '';
+               _this4.modelUnit = '';
+               _this4.modelUnitCost = '';
+            } else {
+               _this4.hasCost = true;
+               _this4.modelQuantity = 1.00;
+               _this4.modelUnit = response.data[0].unit1;
+               _this4.modelUnitCost = response.data[0].cost1;
+            }
+            _this4.modelServiceName = response.data[0].serviceName;
+         });
+      },
+      changeUnit: function changeUnit(unit) {
+         if (unit == 'sqft') {
+            this.modelUnitCost = this.services[0].cost1;
+         } else {
+            this.modelUnitCost = this.services[0].cost2;
+         }
+      },
+      /*----CRUD----- */
+      aggRow: function aggRow() {
+         var _this5 = this;
 
-        }).then(function (response) {
-          // if (response.data.alert == "error") {
-          //     toastr.error(response.data.msj)
-          // } else {
-          _this5.getAllInvoicesDetails();
-          _this5.modelServiceId = '';
-          _this5.modelServiceName = '';
-          _this5.modelQuantity = '';
-          _this5.modelUnit = '';
-          _this5.modelUnitCost = '';
-          _this5.hasCost = false; //oculta los input que tienen esta variable
-          toastr.success(response.data.message);
-          // }
-        });
+         this.errors = [];
+         //VALIDATIONS
+         if (!this.modelServiceId) this.errors.push('Debe Escoger un Servicio.');
+
+         if (!this.modelServiceName) this.errors.push('Campo Nombre de Servicio es Obligatorio.');
+
+         if (!this.errors.length) {
+
+            axios.post('invoicesDetails', {
+               invoiceId: this.invoice[0].invoiceId,
+               serviceId: this.modelServiceId,
+               serviceName: this.modelServiceName,
+               quantity: this.modelQuantity,
+               unit: this.modelUnit,
+               unitCost: this.modelUnitCost,
+               amount: this.sumTotal
+
+            }).then(function (response) {
+               // if (response.data.alert == "error") {
+               //     toastr.error(response.data.msj)
+               // } else {
+               _this5.getAllInvoicesDetails();
+               _this5.findInvoice();
+
+               _this5.modelServiceId = '';
+               _this5.modelServiceName = '';
+               _this5.modelQuantity = '';
+               _this5.modelUnit = '';
+               _this5.modelUnitCost = '';
+               _this5.hasCost = false; //oculta los input que tienen esta variable
+               if (response.data.alertType == 'success') {
+                  toastr.success(response.data.message);
+               } else {
+                  toastr.error(response.data.message);
+               }
+               // }
+            });
+         }
+      },
+
+      deleteInvoiceDetail: function deleteInvoiceDetail(item) {
+         this.$refs.modalDelete.open();
+         this.invoiceDetail = item;
+      },
+      sendDelete: function sendDelete(id) {
+         var _this6 = this;
+
+         var url = 'invoicesDetails/' + id;
+         axios.delete(url).then(function (response) {
+            _this6.$refs.modalDelete.close();
+            _this6.getAllInvoicesDetails();
+            _this6.findInvoice();
+            if (response.data.alertType == 'success') {
+               toastr.success(response.data.message);
+            } else {
+               toastr.error(response.data.message);
+            }
+         });
+      },
+      closeInvoice: function closeInvoice(invoice) {
+         // this.$refs.modalClose.open()
+         // this.invoiceDetail= invoice
+         if (invoice.netTotal == 0) {
+            toastr.error('Error: Total Neto debe ser Mayor a 0.00');
+         } else {
+            var url = 'invoicesClose';
+            axios.put(url, { invoiceId: invoice.invoiceId }).then(function (response) {
+               if (response.data.alertType == 'success') {
+                  window.location.href = "invoices?id=" + invoice.contractId;
+                  toastr.success(response.data.message);
+               } else {
+                  toastr.error(response.data.message);
+               }
+            });
+         }
       }
-    },
-    deleteInvoiceDetail: function deleteInvoiceDetail(item) {
-      this.$refs.modalDelete.open();
-      this.invoiceDetail = item;
-    },
-    sendDelete: function sendDelete(id) {
-      var _this6 = this;
-
-      var url = 'invoicesDetails/' + id;
-      axios.delete(url).then(function (response) {
-        _this6.$refs.modalDelete.close();
-        _this6.getAllInvoicesDetails();
-        toastr.success('Archivo Eliminado');
-      });
-    }
-    // this.$forceUpdate()
-  } });
+      // this.$forceUpdate()
+   } });
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -62219,6 +62305,28 @@ var render = function() {
             _vm._v(
               " " +
                 _vm._s(_vm._f("moment")(_vm.invoice[0].invoiceDate, "DD/MM/YY"))
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-right" }, [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-info btn-sm",
+                attrs: { "data-toggle": "tooltip", "data-placement": "top" },
+                on: {
+                  click: function($event) {
+                    _vm.closeInvoice(_vm.invoice[0])
+                  }
+                }
+              },
+              [
+                _c("span", {
+                  staticClass: "fa fa-circle",
+                  attrs: { "aria-hidden": "true" }
+                }),
+                _vm._v(" Cerrar Factura\n      ")
+              ]
             )
           ]),
           _vm._v(" "),
@@ -62279,24 +62387,24 @@ var render = function() {
                     ]
                   }
                 },
-                _vm._l(_vm.services, function(item, index) {
-                  return _c(
-                    "option",
-                    {
-                      staticStyle: { "{color": "red}" },
-                      domProps: { value: item.serviceId }
-                    },
-                    [
-                      _vm._v(
-                        " " +
-                          _vm._s(item.serviceName) +
-                          " - Tiene Costo: " +
-                          _vm._s(item.hasCost) +
-                          " "
-                      )
-                    ]
-                  )
-                })
+                [
+                  _vm._l(_vm.services, function(item, index) {
+                    return _c(
+                      "option",
+                      {
+                        class: { bold: item.hasCost == "Y" ? true : false },
+                        domProps: { value: item.serviceId }
+                      },
+                      [
+                        _vm._v(
+                          " " + _vm._s(item.serviceName) + "\n                 "
+                        )
+                      ]
+                    )
+                  }),
+                  _vm._v("\n                  }\n            ")
+                ],
+                2
               )
             ]),
             _vm._v(" "),
@@ -62478,7 +62586,13 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v(" Agregar Renglon")]
+                [
+                  _c("span", {
+                    staticClass: "fa fa-plus",
+                    attrs: { "aria-hidden": "true" }
+                  }),
+                  _vm._v(" Agregar Renglon\n        ")
+                ]
               )
             ])
           ]),
@@ -62540,6 +62654,22 @@ var render = function() {
                 )
               ]
             )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-xs-12 text-center" }, [
+            _c("b", [_vm._v("Sub-Total:")]),
+            _vm._v(" " + _vm._s(_vm.invoice[0].grossTotal) + " "),
+            _c("br"),
+            _vm._v(" "),
+            _c("b", [
+              _vm._v("Impuesto " + _vm._s(_vm.invoice[0].taxPercent) + "%:")
+            ]),
+            _vm._v(" " + _vm._s(_vm.invoice[0].taxAmount) + " "),
+            _c("br"),
+            _vm._v(" "),
+            _c("b", [_vm._v("Total Neto:")]),
+            _vm._v(" " + _vm._s(_vm.invoice[0].netTotal)),
+            _c("br")
           ]),
           _vm._v(" "),
           _c(
@@ -62613,7 +62743,7 @@ if (false) {
 }
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
