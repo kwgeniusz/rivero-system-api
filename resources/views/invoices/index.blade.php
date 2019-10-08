@@ -46,13 +46,13 @@
                     </a>
                   @elseif($invoice->status == 'CERRADO')
                    <a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
-                        <span class="fa fa-money" aria-hidden="true"></span> 
+                        <span class="fa fa-file-invoice-dollar" aria-hidden="true"></span> 
                     </a>
                   @endif  
                    |
-                    <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
+                    {{-- <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
-                    </a>
+                    </a> --}}
           {{--           <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
                         <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a> --}}

@@ -167,27 +167,25 @@
            </div>
 
 @if($blockEdit == false)
-            <div class="col-xs-6">
-               <div class="form-group">
-              <label for="currencyName">{{__('currency')}}</label>
-              <select class="form-control" name="currencyName" id="currencyName">
-                   @if($contract[0]->currencyName == "USD")
-                    <option value="USD" selected> USD </option>
-                    <option value="BS" > BS </option>
-                    @else
-                    <option value="USD"> USD </option>
-                    <option value="BS" selected> BS </option>
-                    @endif
-              </select>
-              </div>
-            </div>
+    <div class="form-group col-xs-6">
+            <label for="currencyId">USO DE PROYECTO</label>
+            <select class="form-control" name="currencyId" id="currencyId">
+              @foreach($currencies as $currency)
+                   @if ($currency->currencyId == $contract[0]->currencyId)
+              <option value="{{$currency->currencyId}}"selected> {{$currency->currencyName}} </option>
+                  @else
+               <option value="{{$currency->currencyId}}"> {{$currency->currencyName}} </option>
+                  @endif
+                @endforeach
+            </select>
+          </div>
 @else
             <div class="col-xs-6">
                <div class="form-group">
-              <label for="currencyName">{{__('currency')}}</label>
-              <input disabled type="text" class="form-control" id="currencyName"  value="{{ $contract[0]->currencyName }}">
+              <label for="currencyId">{{__('currency')}}</label>
+              <input disabled type="text" class="form-control" id="currencyId"  value="{{ $contract[0]->currency->currencyName }}">
             </div>
-          <input type="hidden" name="currencyName" value="{{ $contract[0]->currencyName }}">     
+          <input type="hidden" name="currencyId" value="{{ $contract[0]->currencyId }}">     
 @endif
 
 

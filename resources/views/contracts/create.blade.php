@@ -113,16 +113,14 @@
               </div>
               </div>
 
-
-            <div class="col-xs-6">
-               <div class="form-group">
-              <label for="currencyName">{{__('currency')}}</label>
-              <select class="form-control" name="currencyName" id="currencyName" value="{{ old('currencyName') }}">
-                    <option value="USD" > USD </option>
-                    <option value="BS" > BS </option>
-              </select>
-              </div>
-            </div>
+         <div class="form-group col-xs-7">
+            <label for="currencyId">{{__('currency')}}</label>
+            <select class="form-control" name="currencyId" id="currencyId">
+                @foreach($currencies as $currency)
+                      <option value="{{$currency->currencyId}}" > {{$currency->currencyName}} </option>
+                @endforeach
+            </select>
+          </div>
 
 
             <div class="col-xs-12 text-center">

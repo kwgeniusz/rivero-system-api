@@ -15,7 +15,7 @@ class Invoice extends Model
 
     protected $table      = 'invoice';
     protected $primaryKey = 'invoiceId';
-    protected $fillable = ['invoiceId','countryId','officeId','invoiceNumber','contractId','clientId','address','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','status'];
+    protected $fillable = ['invoiceId','countryId','officeId','invoiceNumber','contractId','clientId','address','invoiceDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','status'];
 
      protected $dates = ['deleted_at'];
     //Status Invoice
@@ -122,7 +122,7 @@ class Invoice extends Model
     }
 
 //------------------------------------------
-    public function insertInv($countryId,$officeId,$contractId,$clientId, $siteAddress, $invoiceDate,$taxPercent,$status) {
+    public function insertInv($countryId,$officeId,$contractId,$clientId, $siteAddress, $invoiceDate,$currencyId,$taxPercent,$status) {
 
           $oConfiguration = new Configuration();
       
@@ -137,6 +137,7 @@ class Invoice extends Model
         $invoice->clientId         =  $clientId;
         $invoice->address          =  $siteAddress;
         $invoice->invoiceDate      =  $invoiceDate;
+        $invoice->currencyId      =  $currencyId;
         $invoice->grossTotal       =  '0.00';
         $invoice->taxPercent       =  $taxPercent;
         $invoice->taxAmount        =  '0.00';

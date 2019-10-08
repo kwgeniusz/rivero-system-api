@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Contract;
 use App\Document;
+use App\Currency;
 use App\Client;
 use App\Staff;
 use App\ProjectType;
@@ -23,6 +24,7 @@ class ContractController extends Controller
 {
     private $oContract;
     private $oDocument;
+    private $oCurrency;
     private $oClient;
     private $oStaff;
     private $oProjectType;
@@ -48,6 +50,7 @@ class ContractController extends Controller
 
         $this->oContract        = new Contract;
         $this->oDocument        = new Document;
+        $this->oCurrency        = new Currency; 
         $this->oClient          = new Client;
         $this->oStaff           = new Staff;
         $this->oProjectType     = new ProjectType;
@@ -65,11 +68,6 @@ class ContractController extends Controller
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
         $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$filteredOut,session('countryId'),session('officeId'));
         $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$filteredOut,session('countryId'),session('officeId'));
-        
-        // echo session('countryId');
-        // echo session('officeId');
-        // echo $projects;
-        // echo $services;
 
         return view('contracts.index', compact('projects', 'services'));
     }
@@ -78,13 +76,12 @@ class ContractController extends Controller
     {
 
         $contractNumberFormat = $this->oConfiguration->generateContractNumberFormat(session('countryId'),session('officeId'),$contractType);
-
-        // $countrys = $this->oCountry->getAll();
-        // $clients  = $this->oClient->getAll(session('countryId'));
+ 
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
+        $currencies = $this->oCurrency->getAll();
 
-        return view('contracts.create', compact('projects', 'services', 'contractType','contractNumberFormat'));
+        return view('contracts.create', compact('projects', 'services','currencies','contractType','contractNumberFormat'));
     }
 
     public function store(ContractRequest $request)
@@ -105,7 +102,7 @@ class ContractController extends Controller
             $request->actualFinishDate,
             $request->deliveryDate,
             $request->initialComment,
-            $request->currencyName);
+            $request->currencyId);
 
         $notification = array(
             'message'    => 'Contrato Creado Exitosamente',
@@ -132,12 +129,12 @@ class ContractController extends Controller
              $blockEdit = true;
          }
           
-        // $clients  = $this->oClient->getAll();
         $projects = $this->oProjectType->getAll();
         $services = $this->oServiceType->getAll();
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $currencies = $this->oCurrency->getAll();
 
-        return view('contracts.edit', compact('contract', 'projects', 'services','blockEdit'));
+        return view('contracts.edit', compact('contract', 'projects', 'services','currencies','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
@@ -160,7 +157,7 @@ class ContractController extends Controller
             $request->initialComment,
             $request->intermediateComment,
             $request->finalComment,
-            $request->currencyName
+            $request->currencyId
         );
 
         $notification = array(

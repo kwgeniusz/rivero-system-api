@@ -30,7 +30,7 @@ class Contract extends Model
         'contractDate', 'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',
         'initialComment', 'intermediateComment', 'finalComment', 'contractCost',
-        'currencyName', 'contractStatus', 'dateCreated', 'lastUserId',
+        'currencyId', 'contractStatus', 'dateCreated', 'lastUserId',
     ];
 
     /*protected $dates = ['contractDate','startDate',
@@ -69,6 +69,10 @@ class Contract extends Model
     public function staff()
     {
         return $this->belongsToMany('App\Staff', 'contract_staff', 'contractId', 'staffId')->withPivot('contractStaffId');
+    }
+    public function currency()
+    {
+        return $this->hasOne('App\Currency', 'currencyId', 'currencyId');
     }
     public function payment()
     {
@@ -357,7 +361,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyName) {
+        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyId) {
 
           $oConfiguration = new Configuration();
       
@@ -384,7 +388,7 @@ class Contract extends Model
         $contract->deliveryDate        = $deliveryDate;
         $contract->initialComment      = $initialComment;
         $contract->contractCost        = '0.00';
-        $contract->currencyName        = $currencyName;
+        $contract->currencyId        = $currencyId;
         $contract->contractStatus      = '1';
         $contract->dateCreated         = date('Y-m-d H:i:s');
         $contract->lastUserId          = Auth::user()->userId;
@@ -396,7 +400,7 @@ class Contract extends Model
 //------------------------------------------
     public function updateContract($contractId, $contractDate, $clientId,
         $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
-        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyName) {
+        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyId) {
 
         $contract                      = contract::find($contractId);
         // $contract->countryId           = $countryId;
@@ -414,7 +418,7 @@ class Contract extends Model
         $contract->initialComment      = $initialComment;
         $contract->intermediateComment = $intermediateComment;
         $contract->finalComment        = $finalComment;
-        $contract->currencyName        = $currencyName;
+        $contract->currencyId          = $currencyId;
 
         $contract->save();
 

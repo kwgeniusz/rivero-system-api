@@ -379,7 +379,7 @@ EOD;
         $background = "";
 
         $collections = $this->oReceivable->collections(session('countryId'),session('officeId'), $request->date1, $request->date2);
-        $country     = DB::table('country')->where('countryId', session('countryId'))->get(['countryName', 'currencyName']);
+        $country     = DB::table('country')->where('countryId', session('countryId'))->get(['countryName']);
 
         $date        = Carbon::now();
         $date1Format = Carbon::parse($request->date1);
@@ -399,7 +399,7 @@ EOD;
         <p style="text-align:right">
          <b>Fecha:</b> {$date->format('d/m/y')}<br>
          <b>Pais:</b>  {$country[0]->countryName}<br>
-         <b>Moneda:</b> {$country[0]->currencyName}<br>
+       
          </p>
         </th>
 

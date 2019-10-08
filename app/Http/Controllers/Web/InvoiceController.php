@@ -56,6 +56,7 @@ class InvoiceController extends Controller
                       $contract[0]->clientId,
                       $contract[0]->siteAddress,
                       $request->invoiceDate,
+                      $contract[0]->currencyId, 
                       $request->invoiceTaxPercent,
                       '1');
 

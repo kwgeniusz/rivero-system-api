@@ -125,7 +125,7 @@
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('currency')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $contract[0]->currencyName }}</p>
+            <p class="form-control-static">{{ $contract[0]->currency->currencyName }}</p>
           </div>
         </div>
       </div>

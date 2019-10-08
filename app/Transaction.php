@@ -98,7 +98,7 @@ class Transaction extends Model
         return $result;
     }
     //------------------------------------------
-    public function getAllForTwoDateAndSign($date1, $date2, $sign)
+    public function getAllForTwoDateAndSign($date1, $date2, $sign,$countryId,$officeId)
     {
         $result = $this->where("transactionDate", ">=", $date1)
             ->where("transactionDate", "<=", $date2)
