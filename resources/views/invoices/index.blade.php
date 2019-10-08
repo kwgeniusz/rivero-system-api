@@ -36,7 +36,7 @@
                    <td>{{$invoice->invoiceNumber}}</td> 
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->grossTotal}}</td>
-                   <td>({{$invoice->taxPercent}}%) => {{$invoice->taxAmount}}</td> 
+                   <td>{{$invoice->taxAmount}}</td> 
                    <td>{{$invoice->netTotal}}</td> 
                    <td>{{$invoice->status}}</td> 
                    <td>
@@ -49,8 +49,8 @@
                         <span class="fa fa-file-invoice-dollar" aria-hidden="true"></span> 
                     </a>
                   @endif  
-                   |
-                    {{-- <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
+                {{--    |
+                  <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a> --}}
           {{--           <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">

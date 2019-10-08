@@ -8,8 +8,8 @@ use App\Configuration;
 use App\ContractStaff;
 use App\Country;
 use App\Office;
-use App\ProjectType;
-use App\ServiceType;
+use App\ProjectDescription;
+use App\ProjectUse;
 use App\Staff;
 use Auth;
 use DB;
@@ -27,7 +27,7 @@ class Contract extends Model
     protected $primaryKey = 'contractId';
     //protected $dateFormat = 'Y-m-d';
     protected $fillable = ['contractId', 'contractType', 'contractNumber', 'countryId', 'officeId',
-        'contractDate', 'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId', 'registryNumber',
+        'contractDate', 'clientId', 'siteAddress', 'projectDescriptionId', 'projectUseId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',
         'initialComment', 'intermediateComment', 'finalComment', 'contractCost',
         'currencyId', 'contractStatus', 'dateCreated', 'lastUserId',
@@ -50,13 +50,13 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Client', 'clientId');
     }
-    public function projectType()
+    public function projectDescription()
     {
-        return $this->belongsTo('App\ProjectType', 'projectTypeId');
+        return $this->belongsTo('App\ProjectDescription', 'projectDescriptionId');
     }
-    public function serviceType()
+    public function projectUse()
     {
-        return $this->belongsTo('App\ServiceType', 'serviceTypeId');
+        return $this->belongsTo('App\ProjectUse', 'projectUseId');
     }
     public function office()
     {
@@ -361,7 +361,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyId) {
+        $clientId, $siteAddress, $projectDescriptionId, $projectUseId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyId) {
 
           $oConfiguration = new Configuration();
       
@@ -379,8 +379,8 @@ class Contract extends Model
         $contract->contractDate        = $contractDate;
         $contract->clientId            = $clientId;
         $contract->siteAddress         = $siteAddress;
-        $contract->projectTypeId       = $projectTypeId;
-        $contract->serviceTypeId       = $serviceTypeId;
+        $contract->projectDescriptionId       = $projectDescriptionId;
+        $contract->projectUseId       = $projectUseId;
         $contract->registryNumber      = $registryNumber;
         $contract->startDate           = $startDate;
         $contract->scheduledFinishDate = $scheduledFinishDate;
@@ -399,7 +399,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function updateContract($contractId, $contractDate, $clientId,
-        $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
+        $siteAddress, $projectDescriptionId, $projectUseId, $registryNumber, $startDate, $scheduledFinishDate,
         $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyId) {
 
         $contract                      = contract::find($contractId);
@@ -408,8 +408,8 @@ class Contract extends Model
         $contract->contractDate        = $contractDate;
         $contract->clientId            = $clientId;
         $contract->siteAddress         = $siteAddress;
-        $contract->projectTypeId       = $projectTypeId;
-        $contract->serviceTypeId       = $serviceTypeId;
+        $contract->projectDescriptionId       = $projectDescriptionId;
+        $contract->projectUseId       = $projectUseId;
         $contract->registryNumber      = $registryNumber;
         $contract->startDate           = $startDate;
         $contract->scheduledFinishDate = $scheduledFinishDate;

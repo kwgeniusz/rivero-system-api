@@ -6,11 +6,6 @@
 <h4><b>Factura N°:</b> {{invoice[0].invoiceNumber}}</h4>
 <h4><b>Dirección:</b> {{invoice[0].address}}</h4>
 <h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("DD/MM/YY") }}</h4>
-    <div class="text-right"> 
-       <a @click="closeInvoice(invoice[0])" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top">
-               <span class="fa fa-circle" aria-hidden="true"></span> Cerrar Factura
-      </a>
-    </div>
 <hr>
     <form class="form">
                  
@@ -124,8 +119,16 @@
         
 
    </div>
- </div>
-
+       <div class="text-center"> 
+           <a :href="'invoices?id='+invoice[0].contractId" class="btn btn-warning btn-sm">
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  Regresar
+          </a>
+          <a @click="closeInvoice(invoice[0])" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top">
+               <span class="fa fa-circle" aria-hidden="true"></span> Cerrar Factura
+          </a>
+       </div>
+       <br>
+  </div>
  </template>
 
  <script>

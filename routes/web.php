@@ -30,6 +30,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //ROUTES DE MODULO CONTRACTS------------------------------------------------------------------
 //CLIENTS************
 Route::resource('clients', 'Web\ClientController');
+
 //PRECONTRACTS**********
 Route::resource('precontracts', 'Web\PrecontractController');
 Route::get('precontractsCreate/{contractType}', 'Web\PrecontractController@create')->name('precontracts.create');
@@ -38,14 +39,13 @@ Route::get('precontracts/{precontract}/details', 'Web\PrecontractController@deta
 Route::get('precontractsPayment/{id}', 'Web\PrecontractController@payment')->name('precontracts.payment');
 Route::post('precontractsPayment/agg', 'Web\PrecontractController@paymentAgg')->name('precontracts.paymentAgg');
 Route::get('precontractsPayment/{id}/{amount}/{precontractId}/remove', 'Web\PrecontractController@paymentRemove')->name('precontracts.paymentRemove');
-
 Route::get('precontractsFile/{id}', 'Web\PrecontractController@files')->name('precontracts.files');
 Route::post('precontractsFileAgg', 'Web\PrecontractController@fileAgg')->name('precontracts.fileAgg');
 Route::get('/precontract-download/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDownload')->name('precontracts.fileDownload');
 Route::get('/precontract-fileDelete/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDelete')->name('precontracts.fileDelete');
-
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/Agg/{id}', 'Web\PrecontractController@convertAgg')->name('precontracts.convertAgg');
+
 //CONTRACT*********
 Route::resource('contracts', 'Web\ContractController');
 Route::get('contractsCreate/{contractType}', 'Web\ContractController@create')->name('contracts.create');
@@ -53,7 +53,6 @@ Route::get('contracts/{contract}/details', 'Web\ContractController@details')->na
 //CONTRACT-OPTIONS
 Route::get('contractsChangeStatus/{contract}/', 'Web\ContractController@changeStatus')->name('contracts.changeStatus');
 Route::put('contractsupdateStatus', 'Web\ContractController@updateStatus')->name('contracts.updateStatus');
-
 Route::get('contractsStaff/{contract}/', 'Web\ContractController@staff')->name('contracts.staff');
 Route::post('contractsStaff/agg', 'Web\ContractController@staffAgg')->name('contracts.staffAgg');
 Route::get('contractsStaff/{id}/{contracId}/remove', 'Web\ContractController@staffRemove')->name('contracts.staffRemove');
@@ -128,9 +127,9 @@ Route::post('collection-report', 'Web\ReportController@collections')->name('coll
 Route::get('change-office', function () {return view('changeoffice.index');})->name('changeOffice.index');
 Route::post('change-office', 'Web\UserController@changeOffice')->name('changeOffice.update');
 //PROJECTS********
-Route::resource('projects', 'Web\ProjectTypeController', ['except' => ['create']]);
+Route::resource('projectDescriptions', 'Web\ProjectDescriptionController', ['except' => ['create']]);
 //SERVICES********
-Route::resource('servicesTypes', 'Web\ServiceTypeController', ['except' => ['create']]);
+Route::resource('projectUses', 'Web\ProjectUseController', ['except' => ['create']]);
 //USERS
 Route::resource('users', 'Web\UserController');
 Route::resource('roles', 'Web\RolController');

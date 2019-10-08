@@ -62096,6 +62096,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 // import modalPreviewDocument from './ModalPreviewDocument.vue'
@@ -62305,28 +62308,6 @@ var render = function() {
             _vm._v(
               " " +
                 _vm._s(_vm._f("moment")(_vm.invoice[0].invoiceDate, "DD/MM/YY"))
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-right" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-info btn-sm",
-                attrs: { "data-toggle": "tooltip", "data-placement": "top" },
-                on: {
-                  click: function($event) {
-                    _vm.closeInvoice(_vm.invoice[0])
-                  }
-                }
-              },
-              [
-                _c("span", {
-                  staticClass: "fa fa-circle",
-                  attrs: { "aria-hidden": "true" }
-                }),
-                _vm._v(" Cerrar Factura\n      ")
-              ]
             )
           ]),
           _vm._v(" "),
@@ -62705,7 +62686,46 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-warning btn-sm",
+            attrs: { href: "invoices?id=" + _vm.invoice[0].contractId }
+          },
+          [
+            _c("span", {
+              staticClass: "fa fa-hand-point-left",
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v("  Regresar\n          ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-info btn-sm",
+            attrs: { "data-toggle": "tooltip", "data-placement": "top" },
+            on: {
+              click: function($event) {
+                _vm.closeInvoice(_vm.invoice[0])
+              }
+            }
+          },
+          [
+            _c("span", {
+              staticClass: "fa fa-circle",
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v(" Cerrar Factura\n          ")
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("br")
     ]
   )
 }

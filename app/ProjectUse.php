@@ -5,55 +5,55 @@ namespace App;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceType extends Model
+class ProjectUse extends Model
 {
     public $timestamps = false;
 
-    protected $table      = 'service_type';
-    protected $primaryKey = 'serviceTypeId';
-    protected $fillable   = ['serviceTypeId',
-        'serviceTypeName', 'dateCreated', 'lastUserId'];
+    protected $table      = 'project_use';
+    protected $primaryKey = 'projectUseId';
+    protected $fillable   = ['projectUseId',
+        'projectUseName', 'dateCreated', 'lastUserId'];
 
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
     public function contract()
     {
-        return $this->hasMany('App\Contract', 'serviceTypeId', 'serviceTypeId');
+        return $this->hasMany('App\Contract', 'projectUseId', 'projectUseId');
     }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function getAll()
     {
-        return $this->orderBy('serviceTypeId', 'ASC')->get();
+        return $this->orderBy('projectUseId', 'ASC')->get();
     }
 //------------------------------------------
     public function findById($id)
     {
-        return $this->where('serviceTypeId', '=', $id)->get();
+        return $this->where('projectUseId', '=', $id)->get();
     }
 //------------------------------------------
-    public function insertST($serviceTypeName)
+    public function insertST($projectUseName)
     {
 
-        $service                  = new ServiceType;
-        $service->serviceTypeName = $serviceTypeName;
+        $service                  = new ProjectUse;
+        $service->projectUseName  = $projectUseName;
         $service->dateCreated     = date('Y-m-d H:i:s');
         $service->lastUserId      = Auth::user()->userId;
         $service->save();
     }
 //------------------------------------------
-    public function updateST($serviceTypeId, $serviceTypeName)
+    public function updateST($projectUseId, $projectUseName)
     {
-        $this->where('serviceTypeId', $serviceTypeId)->update(array(
-            'serviceTypeName' => $serviceTypeName,
+        $this->where('projectUseId', $projectUseId)->update(array(
+            'projectUseName' => $projectUseName,
         ));
     }
 //------------------------------------------
-    public function deleteST($serviceTypeId)
+    public function deleteST($projectUseId)
     {
-        return $this->where('serviceTypeId', '=', $serviceTypeId)->delete();
+        return $this->where('projectUseId', '=', $projectUseId)->delete();
     }
 //------------------------------------------
 }

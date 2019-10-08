@@ -60,26 +60,26 @@
            </div>  
 
           <div class="form-group col-xs-7">
-            <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
-            <select class="form-control" name="projectTypeId" id="projectTypeId">
-                @foreach($projects as $project)
-                   @if ($project->projectTypeId == $contract[0]->projectTypeId)
-              <option value="{{$project->projectTypeId}}"selected> {{$project->projectTypeName}} </option>
+            <label for="projectDescriptionId">DESCRIPCION DE PROYECTO</label>
+            <select class="form-control" name="projectDescriptionId" id="projectDescriptionId">
+                @foreach($projectsD as $project)
+                   @if ($project->projectDescriptionId == $contract[0]->projectDescriptionId)
+              <option value="{{$project->projectDescriptionId}}"selected> {{$project->projectDescriptionName}} </option>
                   @else
-               <option value="{{$project->projectTypeId}}"> {{$project->projectTypeName}} </option>
+               <option value="{{$project->projectDescriptionId}}"> {{$project->projectDescriptionName}} </option>
                @endif
                 @endforeach
             </select>
           </div>
 
          <div class="form-group col-xs-7">
-            <label for="serviceTypeId">USO DE PROYECTO</label>
-            <select class="form-control" name="serviceTypeId" id="serviceTypeId">
-              @foreach($services as $service)
-                   @if ($service->serviceTypeId == $contract[0]->serviceTypeId)
-              <option value="{{$service->serviceTypeId}}"selected> {{$service->serviceTypeName}} </option>
+            <label for="projectUseId">USO DE PROYECTO</label>
+            <select class="form-control" name="projectUseId" id="projectUseId">
+              @foreach($projectsU as $project)
+                   @if ($project->projectUseId == $contract[0]->projectUseId)
+              <option value="{{$project->projectUseId}}"selected> {{$project->projectUseName}} </option>
                   @else
-               <option value="{{$service->serviceTypeId}}"> {{$service->serviceTypeName}} </option>
+               <option value="{{$project->projectUseId}}"> {{$project->projectUseName}} </option>
                   @endif
                 @endforeach
             </select>
@@ -107,16 +107,16 @@
            <input type="hidden" name="siteAddress"  value="{{ $contract[0]->siteAddress }}">
 
           <div class="form-group col-xs-7">
-            <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
-             <input disabled type="text" class="form-control" id="projectTypeId" name="projectTypeId" value="{{ $contract[0]->projectType->projectTypeName }}">
+            <label for="projectDescriptionId">DESCRIPCION DE PROYECTO</label>
+             <input disabled type="text" class="form-control" id="projectDescriptionId" name="projectDescriptionId" value="{{ $contract[0]->projectDescription->projectDescriptionName }}">
           </div>
-           <input type="hidden" name="projectTypeId"  value="{{ $contract[0]->projectTypeId  }}">
+           <input type="hidden" name="projectDescriptionId"  value="{{ $contract[0]->projectDescriptionId  }}">
 
          <div class="form-group col-xs-7">
-            <label for="serviceTypeId">USO DE PROYECTO</label>
-              <input disabled type="text" class="form-control" id="serviceTypeId" value="{{ $contract[0]->serviceType->serviceTypeName }}">
+            <label for="projectUseId">USO DE PROYECTO</label>
+              <input disabled type="text" class="form-control" id="projectUseId" value="{{ $contract[0]->projectUse->projectUseName }}">
           </div>
-          <input type="hidden" name="serviceTypeId" value="{{ $contract[0]->serviceTypeId }}">
+          <input type="hidden" name="projectUseId" value="{{ $contract[0]->projectUseId }}">
 
            <div class="row"></div>
               <div class="form-group col-xs-6 ">

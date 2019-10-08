@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 08-10-2019 a las 03:54:11
+-- Tiempo de generación: 08-10-2019 a las 15:18:43
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 7.0.29
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   PRIMARY KEY (`clientId`),
   KEY `client_ibfk_1` (`countryId`),
   KEY `contactTypeId` (`contactTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -240,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `currencyId`, `projectNumber`, `serviceNumber`, `clientNumber`, `invoiceNumber`, `invoiceTaxPercent`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 1, 131, 0, 123, 3, 8.25, '2018-06-09 00:00:00', 1),
+(1, 1, 1, 1, 131, 0, 123, 1, 8.25, '2018-06-09 00:00:00', 1),
 (2, 2, 2, 2, 0, 0, 0, 0, 16, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -287,8 +287,8 @@ CREATE TABLE IF NOT EXISTS `contract` (
   `contractDate` date NOT NULL,
   `clientId` int(11) NOT NULL,
   `siteAddress` varchar(255) NOT NULL,
-  `projectTypeId` int(11) NOT NULL,
-  `serviceTypeId` int(11) NOT NULL,
+  `projectDescriptionId` int(11) NOT NULL,
+  `projectUseId` int(11) NOT NULL,
   `registryNumber` varchar(32) DEFAULT NULL,
   `startDate` date DEFAULT NULL,
   `scheduledFinishDate` date DEFAULT NULL,
@@ -304,8 +304,8 @@ CREATE TABLE IF NOT EXISTS `contract` (
   `deleted_at` datetime DEFAULT NULL,
   `lastUserId` int(11) NOT NULL,
   PRIMARY KEY (`contractId`),
-  KEY `contract_ibfk_1` (`projectTypeId`),
-  KEY `contract_ibfk_2` (`serviceTypeId`),
+  KEY `contract_ibfk_1` (`projectDescriptionId`),
+  KEY `contract_ibfk_2` (`projectUseId`),
   KEY `contract_ibfk_3` (`countryId`),
   KEY `contract_ibfk_4` (`officeId`),
   KEY `contract_ibfk_5` (`clientId`)
@@ -315,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `contract` (
 -- Volcado de datos para la tabla `contract`
 --
 
-INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyId`, `contractStatus`, `dateCreated`, `deleted_at`, `lastUserId`) VALUES
+INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `projectDescriptionId`, `projectUseId`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyId`, `contractStatus`, `dateCreated`, `deleted_at`, `lastUserId`) VALUES
 (1, 1, 'P', '19-PC-EU-00001', 1, 1, '2019-01-04', 3, '2036 Echo Lake Dr Dallas, TX 75253', 1, 2, '1', '2019-04-27', '2019-04-27', '2019-04-27', '2019-04-27', NULL, NULL, NULL, 'eyJpdiI6Im03M3hVZ08xZCtSajByQnNBdGxvVlE9PSIsInZhbHVlIjoicjlrNkpFMVZtM2pBT0UyXC9XdkhFd3ZjY2wzYTZCTXZDRklsT202eEpjRkU9IiwibWFjIjoiMTk0OWRjMGI3NTNkOTNhYjZjODI1OTgxZWFmMGFkZjhkMjQyNDA5YzYzMTY3ZDljZDg2YmYwNDE3ZmJlOThiNyJ9', 1, 1, '2019-04-27 22:05:08', NULL, 2),
 (2, 2, 'P', '19-PC-EU-00002', 1, 1, '2019-01-04', 4, '526 ELLA AVE DALLAS TX 75217', 1, 1, '2', '2019-04-27', '2019-04-27', '2019-04-27', '2019-04-27', NULL, NULL, NULL, 'eyJpdiI6IkY1amRRejlUOWEzeVRsencraU9Ba3c9PSIsInZhbHVlIjoiNkt2XC9VUVlFdXhBekZFSVplcXVwM0E9PSIsIm1hYyI6ImEzMzhhMGJhMzc1ZDE1N2ZjYjIwMGE2MDIwNTE5ZTU3OTc0ODE0MTg1ZjNiOGM5YWY0OTRlN2RmMjVlNmNjMTUifQ==', 1, 1, '2019-04-27 22:07:45', NULL, 2),
 (3, 3, 'P', '19-PC-EU-00003', 1, 1, '2019-01-04', 23, '4319 ELECTRA ST DALLAS TX 75215', 2, 2, '3', '2019-04-27', '2019-04-27', '2019-04-27', '2019-04-27', NULL, NULL, NULL, 'eyJpdiI6Ilh5UUhGemtcLzBcL1wvaEcxbTVEbzZ2SHc9PSIsInZhbHVlIjoiZmhzNmtcLzJheEl1REdhbzA5UGhpTnBEdmVrclRGcEtlMFUzTDVuSExIeWc9IiwibWFjIjoiZDFiZDU5ZjQ5Njc3OTNkZDU2NTBlOTRmYWQ0ZTAxMTcxYTYzMzg3YWUwYTNiM2NjZDMxMTRjMzlkZTFmNTQxYiJ9', 1, 1, '2019-04-27 22:08:54', NULL, 2),
@@ -430,7 +430,7 @@ INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`,
 (115, 112, 'P', '19-PC-EU-00112', 1, 1, '2019-08-14', 121, '909 ROBIN HOOD BLVD MESQUITE TX 75149', 1, 2, NULL, '2019-08-14', NULL, NULL, NULL, 'HACER UNA CASA NUEVA EN MESQUITE EL CLIENTE PRVEYO PLANOS EN PDF Y DIO ALGUNAS DESCRIPCIONES EJEMPLO LA CASA DEBE SER MAXIMO 2100 SQFT Y SE DEBE PARECER EN LA COCINA COMEDOR Y SALA A LA REFERENCIA QUE EL PASO ESTA CASA SE CONSTRUIRA DOS VECES CON DIFERENCIA DE HACER LOS GABLE MEDIO HIP EN FRENTE PARA QUE AMBAS CASAS QUEDEN PARECIDAS PERO NO IGUALES. EL MOSTRO UNAS REFERNECIAS Y SE CARGARAN O EXPLICARAN AL PROYECTISTA.', NULL, NULL, 'eyJpdiI6IjN3WW5TM3JjQWVDc1JCWkpcLzZDRjBBPT0iLCJ2YWx1ZSI6IlpLV2hPelNmZHAzcFgrSFc4djA4dWc9PSIsIm1hYyI6Ijc0ZmUyNjYxMWM0ZTQyODdlNDc4YjYyZmY3OGI1ZGZhNzBiYmU1ZGVmOTRlMzY2NGQwOTI1ODUxYTFjNDY4ZjgifQ==', 1, 1, '2019-08-15 14:55:55', NULL, 2),
 (116, 113, 'P', '19-PC-EU-00113', 1, 1, '2019-08-14', 121, '911 ROBIN HOOD BLVD MESQUITE TX 75149', 1, 2, NULL, '2019-08-14', NULL, NULL, NULL, 'HACER UNA CASA NUEVA EN MESQUITE EL CLIENTE PRVEYO PLANOS EN PDF Y DIO ALGUNAS DESCRIPCIONES EJEMPLO LA CASA DEBE SER MAXIMO 2100 SQFT Y SE DEBE PARECER EN LA COCINA COMEDOR Y SALA A LA REFERENCIA QUE EL PASO ESTA CASA SE CONSTRUIRA DOS VECES CON DIFERENCIA DE HACER LOS GABLE MEDIO HIP EN FRENTE PARA QUE AMBAS CASAS QUEDEN PARECIDAS PERO NO IGUALES. EL MOSTRO UNAS REFERNECIAS Y SE CARGARAN O EXPLICARAN AL PROYECTISTA.', NULL, NULL, 'eyJpdiI6ImJKUmVtbExBaVZORkpsSGNcLyswR0hnPT0iLCJ2YWx1ZSI6ImgwclVHSE05c1JtVDVYeGpuWmZJSmc9PSIsIm1hYyI6ImE2NjFiNGQzMjM1ZTFkOWM2ZWM3Mzg2MzM5Mzc2ZGEyODMxNjAyYWVhMTU5OGQ1ZDlmOWFmMGJlMWM3M2IxYzQifQ==', 1, 1, '2019-08-15 14:56:52', NULL, 2),
 (117, 114, 'P', '19-PC-EU-00114', 1, 1, '2019-08-14', 39, '4413 CINDA REE LN DALLAS TX 75216', 47, 2, NULL, '2019-08-14', NULL, NULL, NULL, 'HACER CASA NUEVA ES LA MISMA DE LEA CRES EL MISMO DISENO QUE HACE JUAN ROJAS PARA TODAS LA UBICAMOS EN ESTA NUEVA DIURECCION', NULL, NULL, 'eyJpdiI6IjU2Z0ZybDAweW9TNkI0VmNtZFlIRnc9PSIsInZhbHVlIjoiTkhacWw0R0RQdWRtTWxPSlp4UGp6QT09IiwibWFjIjoiZmQzYTgwZWM4N2U2ODljN2U4NTI4YjAwNDE3MGRiNjVhYjhjMTY3NmNjMGQyZWYwZjAwNzJhZjNhYjEwMzg5OCJ9', 1, 1, '2019-08-15 14:59:21', NULL, 2);
-INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `projectTypeId`, `serviceTypeId`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyId`, `contractStatus`, `dateCreated`, `deleted_at`, `lastUserId`) VALUES
+INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`, `countryId`, `officeId`, `contractDate`, `clientId`, `siteAddress`, `projectDescriptionId`, `projectUseId`, `registryNumber`, `startDate`, `scheduledFinishDate`, `actualFinishDate`, `deliveryDate`, `initialComment`, `intermediateComment`, `finalComment`, `contractCost`, `currencyId`, `contractStatus`, `dateCreated`, `deleted_at`, `lastUserId`) VALUES
 (118, 115, 'P', '19-PC-EU-00115', 1, 1, '2019-08-14', 99, '1400 GLASGOW RD FORT WORTH TX 76134', 15, 2, NULL, '2019-08-19', NULL, NULL, NULL, 'HACER UN INTERIOR REMODEL IGUAL QUE EN KAREN Y WINNELL', NULL, NULL, 'eyJpdiI6IkFXR21VektRcXZGMFRrNjIwclhBMUE9PSIsInZhbHVlIjoiVForUE1DKzdvZnY2QjdOVmpURlBNdz09IiwibWFjIjoiOWNjMGU4YmZiMGVjZGNlZDdmZGY4OTM5YWE2Y2Q5Zjg4MjA0MzI0Yzg3NGVlOTg3OGE0ZTZkZTQwNGUwYTA5NSJ9', 1, 1, '2019-08-20 14:09:20', NULL, 2),
 (119, 116, 'P', '19-PC-EU-00116', 1, 1, '2019-08-19', 21, '403 AVENUE E DALLAS TX 75203', 55, 2, NULL, '2019-08-19', NULL, NULL, NULL, 'HACER LA FUNDACION Y DRINAGE PLAN', NULL, NULL, 'eyJpdiI6IjdkaDFtUVV5UWt0dmR1R1B0cWVcL1VRPT0iLCJ2YWx1ZSI6InhHZTFOZzZMTW5TbHozeFBPTUpWbmc9PSIsIm1hYyI6IjhjZDNlNjgwMjgxMjZlODhkODg0MTI4OTJlY2I2MGFkY2JmOGU5MGViYTJiOTc0NTA4YjdiMjA5ZmI3YWY5MGYifQ==', 1, 1, '2019-08-20 14:19:06', NULL, 2),
 (120, 117, 'P', '19-PC-EU-00117', 1, 1, '2019-08-20', 122, '1808 SHAW ST DALLAS TX 75212', 55, 2, NULL, '2019-08-20', NULL, NULL, NULL, 'HACER LOS PLANOS DE FUNDACIONES, FRAMING, FFE Y SWD.', NULL, NULL, 'eyJpdiI6IkJ2N0k1OVBoM0hMd2NWRThhdUc4U3c9PSIsInZhbHVlIjoiQ2FWd0tXYXFBbFlFQ2dxdlBtVDlWZz09IiwibWFjIjoiZjZkZDc2MDFhM2FlZmM5MjRhMTgyMmMwZmU4YmFlOTM5NmMxOTcwMGJiNDA5MmE3ZGIyZTI2ZGJjYjEwYjdhNiJ9', 1, 1, '2019-08-20 14:21:01', NULL, 2),
@@ -666,14 +666,7 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   PRIMARY KEY (`invoiceId`),
   KEY `contractId` (`contractId`),
   KEY `currencyId` (`currencyId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `invoice`
---
-
-INSERT INTO `invoice` (`invoiceId`, `countryId`, `officeId`, `invoiceNumber`, `contractId`, `clientId`, `address`, `invoiceDate`, `currencyId`, `grossTotal`, `taxPercent`, `taxAmount`, `netTotal`, `status`, `deleted_at`) VALUES
-(1, 1, 1, '00003', 1, 3, '2036 Echo Lake Dr Dallas, TX 75253', '2019-10-07', 1, 0, 8.25, 0, 0, 1, NULL);
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -693,13 +686,6 @@ CREATE TABLE IF NOT EXISTS `invoice_detail` (
   `amount` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`invDetailId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `invoice_detail`
---
-
-INSERT INTO `invoice_detail` (`invDetailId`, `invoiceId`, `serviceId`, `serviceName`, `unit`, `unitCost`, `quantity`, `amount`) VALUES
-(57, 8, 1, 'Construction plan', 'each', '450.00', '2.00', '900.00');
 
 -- --------------------------------------------------------
 
@@ -1157,23 +1143,23 @@ CREATE TABLE IF NOT EXISTS `pre_contract` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `project_type`
+-- Estructura de tabla para la tabla `project_description`
 --
 
-DROP TABLE IF EXISTS `project_type`;
-CREATE TABLE IF NOT EXISTS `project_type` (
-  `projectTypeId` int(11) NOT NULL AUTO_INCREMENT,
-  `projectTypeName` varchar(255) NOT NULL,
+DROP TABLE IF EXISTS `project_description`;
+CREATE TABLE IF NOT EXISTS `project_description` (
+  `projectDescriptionId` int(11) NOT NULL AUTO_INCREMENT,
+  `projectDescriptionName` varchar(255) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`projectTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`projectDescriptionId`)
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `project_type`
+-- Volcado de datos para la tabla `project_description`
 --
 
-INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `lastUserId`) VALUES
+INSERT INTO `project_description` (`projectDescriptionId`, `projectDescriptionName`, `dateCreated`, `lastUserId`) VALUES
 (1, 'NEW', '2018-09-01 00:00:00', 1),
 (2, 'ADDITION', '2018-09-01 00:00:00', 1),
 (3, 'CO', '2018-09-01 00:00:00', 1),
@@ -1229,6 +1215,29 @@ INSERT INTO `project_type` (`projectTypeId`, `projectTypeName`, `dateCreated`, `
 (55, 'STRUCTURAL & CIVIL PLANS', '2019-08-20 14:38:55', 2),
 (56, 'POOL', '2019-09-06 16:59:36', 2),
 (57, 'MODIFICATION', '2019-09-06 17:05:54', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `project_use`
+--
+
+DROP TABLE IF EXISTS `project_use`;
+CREATE TABLE IF NOT EXISTS `project_use` (
+  `projectUseId` int(11) NOT NULL AUTO_INCREMENT,
+  `projectUseName` varchar(255) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `lastUserId` int(11) NOT NULL,
+  PRIMARY KEY (`projectUseId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `project_use`
+--
+
+INSERT INTO `project_use` (`projectUseId`, `projectUseName`, `dateCreated`, `lastUserId`) VALUES
+(1, 'COM', '2018-09-01 00:00:00', 1),
+(2, 'RES', '2018-09-01 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -1603,29 +1612,6 @@ INSERT INTO `service` (`serviceId`, `serviceName`, `hasCost`, `unit1`, `unit2`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `service_type`
---
-
-DROP TABLE IF EXISTS `service_type`;
-CREATE TABLE IF NOT EXISTS `service_type` (
-  `serviceTypeId` int(11) NOT NULL AUTO_INCREMENT,
-  `serviceTypeName` varchar(255) NOT NULL,
-  `dateCreated` datetime NOT NULL,
-  `lastUserId` int(11) NOT NULL,
-  PRIMARY KEY (`serviceTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `service_type`
---
-
-INSERT INTO `service_type` (`serviceTypeId`, `serviceTypeName`, `dateCreated`, `lastUserId`) VALUES
-(1, 'COM', '2018-09-01 00:00:00', 1),
-(2, 'RES', '2018-09-01 00:00:00', 1);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `staff`
 --
 
@@ -1970,8 +1956,8 @@ ALTER TABLE `client`
 -- Filtros para la tabla `contract`
 --
 ALTER TABLE `contract`
-  ADD CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`projectTypeId`) REFERENCES `project_type` (`projectTypeId`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`serviceTypeId`) REFERENCES `service_type` (`serviceTypeId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`projectDescriptionId`) REFERENCES `project_description` (`projectDescriptionId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`projectUseId`) REFERENCES `project_use` (`projectUseId`) ON UPDATE CASCADE,
   ADD CONSTRAINT `contract_ibfk_3` FOREIGN KEY (`countryId`) REFERENCES `country` (`countryId`) ON UPDATE CASCADE,
   ADD CONSTRAINT `contract_ibfk_4` FOREIGN KEY (`officeId`) REFERENCES `office` (`officeId`) ON UPDATE CASCADE,
   ADD CONSTRAINT `contract_ibfk_5` FOREIGN KEY (`clientId`) REFERENCES `client` (`clientId`) ON UPDATE CASCADE;

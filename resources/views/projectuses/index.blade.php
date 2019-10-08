@@ -9,13 +9,12 @@
         <div class="row ">
           <div class="col-xs-12">
 
-      <form class="form-inline" action="{{Route('services.store')}}" method="POST">
+      <form class="form-inline" action="{{Route('projectUses.store')}}" method="POST">
       {{csrf_field()}}
 
-
          <div class="form-group">
-           <label for="serviceTypeName">{{__('service_name')}}</label>
-           <input type="text" class="form-control" name="serviceTypeName" id="serviceTypeName" required>
+           <label for="projectUseName">{{__('service_name')}}</label>
+           <input type="text" class="form-control" name="projectUseName" id="projectUseName" required>
          </div>
            <button type="submit" class="btn btn-success">
                 <span class="fa fa-plus" aria-hidden="true"></span> {{__('add')}}
@@ -38,15 +37,15 @@
             </thead>
                 <tbody>
 
-                @foreach($services as $service)
+                @foreach($projects as $project)
                 <tr>
 
-                   <td>{{$service->serviceTypeId}}</td>
-                   <td>{{$service->serviceTypeName}}</td>
-                   <td><a href="{{route('services.edit', ['id' => $service->serviceTypeId])}}" class="btn btn-primary">
+                   <td>{{$project->projectUseId}}</td>
+                   <td>{{$project->projectUseName}}</td>
+                   <td><a href="{{route('projectUses.edit', ['id' => $project->projectUseId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span> {{__('edit')}}
                       </a>
-                       <a href="{{route('services.show', ['id' => $service->serviceTypeId])}}" class="btn btn-danger">
+                       <a href="{{route('projectUses.show', ['id' => $project->projectUseId])}}" class="btn btn-danger">
                         <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                         </a>
                    </td>

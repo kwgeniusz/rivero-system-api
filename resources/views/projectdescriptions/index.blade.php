@@ -8,11 +8,11 @@
 
     <div class="row ">
       <div class="col-xs-12">
-      <form class="form-inline" action="{{Route('projects.store')}}" method="POST">
+      <form class="form-inline" action="{{Route('projectDescriptions.store')}}" method="POST">
       {{csrf_field()}}
          <div class="form-group">
-           <label for="projectTypeName">{{__('project_name')}}</label>
-           <input type="text" class="form-control" name="projectTypeName" id="projectTypeName" required>
+           <label for="projectDescriptionName">{{__('project_name')}}</label>
+           <input type="text" class="form-control" name="projectDescriptionName" id="projectDescriptionName" required>
          </div>
            <button type="submit" class="btn btn-success">
                 <span class="fa fa-plus" aria-hidden="true"></span>   {{__('add')}}
@@ -41,11 +41,11 @@
                   @php ($acum += 1)
                 <tr>
                    <td>{{$acum}}</td>
-                   <td>{{$project->projectTypeName}}</td>
-                   <td><a href="{{route('projects.edit', ['id' => $project->projectTypeId])}}" class="btn btn-primary">
+                   <td>{{$project->projectDescriptionName}}</td>
+                   <td><a href="{{route('projectDescriptions.edit', ['id' => $project->projectDescriptionId])}}" class="btn btn-primary">
                     <span class="fa fa-edit" aria-hidden="true"></span> {{__('edit')}}
                       </a>
-                       <a href="{{route('projects.show', ['id' => $project->projectTypeId])}}" class="btn btn-danger">
+                       <a href="{{route('projectDescriptions.show', ['id' => $project->projectDescriptionId])}}" class="btn btn-danger">
                      <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                        </a>
                    </td>

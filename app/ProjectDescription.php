@@ -5,16 +5,16 @@ namespace App;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectType extends Model
+class ProjectDescription extends Model
 {
 
     public $timestamps = false;
 
-    protected $table      = 'project_type';
-    protected $primaryKey = 'projectTypeId';
+    protected $table      = 'project_description';
+    protected $primaryKey = 'projectDescriptionId';
     protected $fillable   = [
-        'projectTypeId',
-        'projectTypeName',
+        'projectDescriptionId',
+        'projectDescriptionName',
         'dateCreated',
         'lastUserId',
     ];
@@ -23,41 +23,41 @@ class ProjectType extends Model
     //--------------------------------------------------------------------
     public function contract()
     {
-        return $this->hasMany('App\Contract', 'projectTypeId', 'projectTypeId');
+        return $this->hasMany('App\Contract', 'projectDescriptionId', 'projectDescriptionId');
     }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function getAll()
     {
-        return $this->orderBy('projectTypeName', 'ASC')->get();
+        return $this->orderBy('projectDescriptionName', 'ASC')->get();
     }
 //------------------------------------------
     public function findById($id)
     {
-        return $this->where('projectTypeId', '=', $id)->get();
+        return $this->where('projectDescriptionId', '=', $id)->get();
     }
 //------------------------------------------
     public function insertPT($projectName, $lastUserId)
     {
 
-        $project                  = new ProjectType;
-        $project->projectTypeName = $projectName;
+        $project                  = new ProjectDescription;
+        $project->projectDescriptionName = $projectName;
         $project->dateCreated     = date('Y-m-d H:i:s');
         $project->lastUserId      = Auth::user()->userId;
         $project->save();
     }
 //------------------------------------------
-    public function updatePT($projectTypeId, $projectTypeName)
+    public function updatePT($projectDescriptionId, $projectDescriptionName)
     {
-        $this->where('projectTypeId', $projectTypeId)->update(array(
-            'projectTypeName' => $projectTypeName,
+        $this->where('projectDescriptionId', $projectDescriptionId)->update(array(
+            'projectDescriptionName' => $projectDescriptionName,
         ));
     }
 //------------------------------------------
-    public function deletePT($projectTypeId)
+    public function deletePT($projectDescriptionId)
     {
-        return $this->where('projectTypeId', '=', $projectTypeId)->delete();
+        return $this->where('projectDescriptionId', '=', $projectDescriptionId)->delete();
     }
 //------------------------------------------
 }

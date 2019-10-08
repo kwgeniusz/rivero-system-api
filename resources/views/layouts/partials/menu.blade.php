@@ -132,8 +132,8 @@
            @if(Auth::user()->changeOffice == 'Y') <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li> @endif
   @can('FA')  <li><a href="#">{{__('Countries')}}</a></li>@endcan
   @can('FB')  <li><a href="#">{{__('Offices')}}</a></li>@endcan
-  @can('FC')  <li><a href="{{route('projects.index')}}">{{__('types_of_projects')}}</a></li>@endcan
-  @can('FD')  <li><a href="{{route('services.index')}}">{{__('types_of_services')}}</a></li>@endcan
+  @can('FC')  <li><a href="{{route('projectDescriptions.index')}}">{{__('types_of_projects')}}</a></li>@endcan
+  @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan
   <!-- @can('FE')  <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan -->
           </ul>
         </li>

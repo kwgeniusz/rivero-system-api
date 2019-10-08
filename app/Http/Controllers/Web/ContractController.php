@@ -7,8 +7,8 @@ use App\Document;
 use App\Currency;
 use App\Client;
 use App\Staff;
-use App\ProjectType;
-use App\ServiceType;
+use App\ProjectDescription;
+use App\ProjectUse;
 use App\Country; //OJO
 use App\PaymentContract;
 use App\Receivable;
@@ -27,8 +27,8 @@ class ContractController extends Controller
     private $oCurrency;
     private $oClient;
     private $oStaff;
-    private $oProjectType;
-    private $oServiceType;
+    private $oProjectDescription;
+    private $oProjectUse;
     private $oPaymentContract;
     private $oReceivable;
     private $oConfiguration;
@@ -53,8 +53,8 @@ class ContractController extends Controller
         $this->oCurrency        = new Currency; 
         $this->oClient          = new Client;
         $this->oStaff           = new Staff;
-        $this->oProjectType     = new ProjectType;
-        $this->oServiceType     = new ServiceType;
+        $this->oProjectDescription = new ProjectDescription;
+        $this->oProjectUse     = new ProjectUse;
         $this->oPaymentContract = new PaymentContract;
         $this->oReceivable      = new Receivable;
         $this->oConfiguration   = new Configuration;
@@ -75,13 +75,13 @@ class ContractController extends Controller
     public function create($contractType)
     {
 
-        $contractNumberFormat = $this->oConfiguration->generateContractNumberFormat(session('countryId'),session('officeId'),$contractType);
+       $contractNumberFormat = $this->oConfiguration->generateContractNumberFormat(session('countryId'),session('officeId'),$contractType);
  
-        $projects = $this->oProjectType->getAll();
-        $services = $this->oServiceType->getAll();
+        $projectsD = $this->oProjectDescription->getAll();
+        $projectsU = $this->oProjectUse->getAll();
         $currencies = $this->oCurrency->getAll();
 
-        return view('contracts.create', compact('projects', 'services','currencies','contractType','contractNumberFormat'));
+        return view('contracts.create', compact('projectsD', 'projectsU','currencies','contractType','contractNumberFormat'));
     }
 
     public function store(ContractRequest $request)
@@ -94,8 +94,8 @@ class ContractController extends Controller
             $request->contractDate,
             $request->clientId,
             $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
+            $request->projectDescriptionId,
+            $request->projectUseId,
             $request->registryNumber,
             $request->startDate,
             $request->scheduledFinishDate,
@@ -129,12 +129,12 @@ class ContractController extends Controller
              $blockEdit = true;
          }
           
-        $projects = $this->oProjectType->getAll();
-        $services = $this->oServiceType->getAll();
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $projectsD = $this->oProjectDescription->getAll();
+        $projectsU = $this->oProjectUse->getAll();
         $currencies = $this->oCurrency->getAll();
 
-        return view('contracts.edit', compact('contract', 'projects', 'services','currencies','blockEdit'));
+        return view('contracts.edit', compact('contract', 'projectsD', 'projectsU','currencies','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
@@ -147,8 +147,8 @@ class ContractController extends Controller
             $request->contractDate,
             $request->clientId,
             $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
+            $request->projectDescriptionId,
+            $request->projectUseId,
             $request->registryNumber,
             $request->startDate,
             $request->scheduledFinishDate,

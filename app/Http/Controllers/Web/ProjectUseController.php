@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\ServiceType;
+use App\ProjectUse;
 use Illuminate\Http\Request;
 
-class ServiceTypeController extends Controller
+class ProjectUseController extends Controller
 {
-    private $oServiceType;
+    private $oProjectUse;
 
     public function __construct()
     {
-
         $this->middleware('auth');
-        $this->oServiceType = new ServiceType;
+        $this->oProjectUse = new ProjectUse;
     }
     /**
      * Display a listing of the resource.
@@ -23,8 +22,8 @@ class ServiceTypeController extends Controller
      */
     public function index()
     {
-        $services = $this->oServiceType->getAll();
-        return view('typesofservices.index', compact('services', 'projects'));
+        $projects = $this->oProjectUse->getAll();
+        return view('projectUseS.index', compact('projects'));
     }
 
     /**
@@ -35,12 +34,17 @@ class ServiceTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->oServiceType->insertST(
-            $request->serviceTypeName
+        $this->oProjectUse->insertST(
+            $request->projectUseName
         );
 
-        return redirect()->route('services.index')
-            ->with('info', 'Tipo de Proyecto Creado');
+        $notification = array(
+            'message'    => 'Uso de Proyecto Creado',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('projectUses.index')
+            ->with($notification);
     }
     /**
      * Show the form for editing the specified resource.
@@ -50,8 +54,8 @@ class ServiceTypeController extends Controller
      */
     public function edit($id)
     {
-        $service = $this->oServiceType->findById($id);
-        return view('typesofservices.edit', compact('service'));
+        $project = $this->oProjectUse->findById($id);
+        return view('projectuses.edit', compact('project'));
     }
 
     /**
@@ -63,12 +67,17 @@ class ServiceTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->oServiceType->updateST($id,
-            $request->serviceTypeName
+        $this->oProjectUse->updateST($id,
+            $request->projectUseName
         );
 
-        return redirect()->route('services.index')
-            ->with('info', 'Tipo de Proyecto Actualizado');
+        $notification = array(
+            'message'    => 'Uso de Proyecto Modificado',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('projectUses.index')
+            ->with($notification);
     }
 
     /**
@@ -79,8 +88,8 @@ class ServiceTypeController extends Controller
      */
     public function show($id)
     {
-        $service = $this->oServiceType->findById($id);
-        return view('typesofservices.show', compact('service'));
+        $project = $this->oProjectUse->findById($id);
+        return view('projectuses.show', compact('project'));
     }
 
     /**
@@ -91,8 +100,14 @@ class ServiceTypeController extends Controller
      */
     public function destroy($id)
     {
-        $this->oServiceType->deleteST($id);
-        return redirect()->route('services.index')
-            ->with('info', 'Tipo de Proyecto Eliminado');
+        $this->oProjectUse->deleteST($id);
+
+        $notification = array(
+            'message'    => 'Uso de Proyecto Eliminado',
+            'alert-type' => 'info',
+        );
+
+        return redirect()->route('projectUses.index')
+            ->with($notification);
     }
 }

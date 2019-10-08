@@ -6,19 +6,19 @@
 
     <div class="col-xs-5 col-offset-xs-1">
             <h3 class="text-success">{{__('edit_project_type')}}</h3 >
-                <form class="form-horizontal" action="{{Route('projects.update',['id' => $project[0]->projectTypeId])}}" method="POST">
+                <form class="form-horizontal" action="{{Route('projectDescriptions.update',['id' => $project[0]->projectDescriptionId])}}" method="POST">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
                     <div class="form-group">
-                      <label for="projectTypeId" class="col-sm-2 control-label">ID</label>
+                      <label for="projectDescriptionId" class="col-sm-2 control-label">ID</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="projectTypeId" name="projectTypeId"  value="{{$project[0]->projectTypeId}}" disabled>
+                        <input type="text" class="form-control" id="projectDescriptionId" name="projectDescriptionId"  value="{{$project[0]->projectDescriptionId}}" disabled>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="projectTypeName" class="col-sm-2 control-label">{{__('name')}}</label>
+                      <label for="projectDescriptionName" class="col-sm-2 control-label">{{__('name')}}</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="projectTypeName" name="projectTypeName" value="{{$project[0]->projectTypeName}}" >
+                        <input type="text" class="form-control" id="projectDescriptionName" name="projectDescriptionName" value="{{$project[0]->projectDescriptionName}}" >
                       </div>
                     </div>
                     <div class="form-group">
@@ -26,7 +26,7 @@
                        <button type="submit" class="btn btn-primary">
                           <span class="fa fa-check" aria-hidden="true"></span>   {{__('update')}}
                         </button>
-                       <a href="{{route('projects.index')}}" class="btn btn-warning">
+                       <a href="{{route('projectDescriptions.index')}}" class="btn btn-warning">
                           <span class="fa fa-hand-point-left" aria-hidden="true"></span>   {{__('return')}}
                         </a>
                    

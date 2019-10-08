@@ -58,8 +58,8 @@ class ReportController extends Controller
  <b>  Fecha de Contrato:</b> {$contract[0]->contractDate}<br />
  <b>  Cliente:</b> {$contract[0]->client->clientName}<br />
  <b>  Direccion:</b> {$contract[0]->siteAddress}<br />
- <b>  Descripcion de Proyecto:</b> {$contract[0]->projectType->projectTypeName}<br />
- <b>  Uso de Proyecto:</b> {$contract[0]->serviceType->serviceTypeName}<br />
+ <b>  Descripcion de Proyecto:</b> {$contract[0]->ProjectDescription->projectDescriptionName}<br />
+ <b>  Uso de Proyecto:</b> {$contract[0]->projectUse->projectUseName}<br />
  <b>  N° de Registro:</b> {$contract[0]->registryNumber}<br />
  <b>  Fecha de inicio:</b>  {$contract[0]->startDate}<br />
  <b>  Fecha estimada de Finalizacion:</b> {$contract[0]->scheduledFinishDate}<br />

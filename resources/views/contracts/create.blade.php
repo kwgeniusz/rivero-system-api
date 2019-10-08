@@ -53,19 +53,19 @@
            </div>
 
           <div class="form-group col-xs-7">
-            <label for="projectTypeId">DESCRIPCIÓN DE PROYECTO</label>
-            <select class="form-control" name="projectTypeId" id="projectTypeId">
-                @foreach($projects as $project)
-                      <option value="{{$project->projectTypeId}}" > {{$project->projectTypeName}} </option>
+            <label for="projectDescriptionId">DESCRIPCIÓN DE PROYECTO</label>
+            <select class="form-control" name="projectDescriptionId" id="projectDescriptionId">
+                @foreach($projectsD as $project)
+                      <option value="{{$project->projectDescriptionId}}" > {{$project->projectDescriptionName}} </option>
                 @endforeach
             </select>
           </div>
 
              <div class="form-group col-xs-7">
-            <label for="serviceTypeId">USO DE PROYECTO</label>
-            <select class="form-control" name="serviceTypeId" id="serviceTypeId">
-                @foreach($services as $service)
-                      <option value="{{$service->serviceTypeId}}" > {{$service->serviceTypeName}} </option>
+            <label for="projectUseId">USO DE PROYECTO</label>
+            <select class="form-control" name="projectUseId" id="projectUseId">
+                @foreach($projectsU as $project)
+                      <option value="{{$project->projectUseId}}" > {{$project->projectUseName}} </option>
                 @endforeach
             </select>
           </div>
