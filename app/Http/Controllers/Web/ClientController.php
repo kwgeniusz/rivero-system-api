@@ -15,6 +15,7 @@ class ClientController extends Controller
 {
     private $oClient;
     private $oConfiguration;
+    private $module;
 
     public function __construct()
     {
@@ -22,7 +23,6 @@ class ClientController extends Controller
         $this->middleware("permission:BA");
         $this->oClient = new Client;
         $this->oConfiguration = new Configuration();
-
     }
     /**
      * Display a listing of the resource.
@@ -39,7 +39,7 @@ class ClientController extends Controller
                          ->where('countryId','=', session('countryId'))
                          ->paginate(100);
 
-        return view('clients.index', compact('clients'));
+        return view('module_contracts.clients.index', compact('clients'));
     }
 
     /**
@@ -54,7 +54,7 @@ class ClientController extends Controller
         // $countrys     = Country::all();
         $contactTypes = ContactType::all();
 
-        return view('clients.create', compact('countrys','contactTypes','clientNumberFormat'));
+        return view('module_contracts.clients.create', compact('countrys','contactTypes','clientNumberFormat'));
     }
 
     /**
@@ -99,7 +99,7 @@ class ClientController extends Controller
         $contactTypes = ContactType::all();
         $client   = $this->oClient->findById($id, session('countryId'));
 
-        return view('clients.edit', compact('client', 'countrys','contactTypes'));
+        return view('module_contracts.clients.edit', compact('client', 'countrys','contactTypes'));
     }
 
     /**
@@ -135,7 +135,7 @@ class ClientController extends Controller
     public function show($id)
     {
         $client = $this->oClient->findById($id,session('countryId'));
-        return view('clients.show', compact('client'));
+        return view('module_contracts.clients.show', compact('client'));
     }
 
     /**

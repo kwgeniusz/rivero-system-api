@@ -44,7 +44,7 @@ class BankController extends Controller
             $banks[$key]['saldoActual'] = number_format($saldoActual, 2, ',', '.');
         }
 
-        return view('banks.index', compact('banks', 'countrys'));
+        return view('module_administration.banks.index', compact('banks', 'countrys'));
     }
 
     /**
@@ -74,7 +74,7 @@ class BankController extends Controller
     {
 
         $bank = $this->oBank->findById($id,session('countryId'));
-        return view('banks.edit', compact('bank'));
+        return view('module_administration.banks.edit', compact('bank'));
     }
 
     /**
@@ -107,7 +107,7 @@ class BankController extends Controller
     {
 
         $bank = $this->oBank->findById($id,session('countryId'));
-        return view('banks.show', compact('bank'));
+        return view('module_administration.banks.show', compact('bank'));
     }
 
     /**

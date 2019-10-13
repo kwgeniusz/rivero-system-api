@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 08-10-2019 a las 15:18:43
+-- Tiempo de generación: 11-10-2019 a las 04:24:56
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 7.0.29
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   PRIMARY KEY (`clientId`),
   KEY `client_ibfk_1` (`countryId`),
   KEY `contactTypeId` (`contactTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -211,7 +211,8 @@ INSERT INTO `client` (`clientId`, `cltId`, `countryId`, `userId`, `clientCode`, 
 (127, 120, 1, NULL, 'EU-CU-00120', 'RONALD PARK', 'NO', '214 770 8055', 'ronaldpark@kw.com', 7, '2019-08-29 13:39:06', NULL, 2),
 (128, 121, 1, NULL, 'EU-CU-00121', 'MILTON', 'NO', '972 342 4746', 'miltondfarr@gmail.com', 7, '2019-09-02 14:54:48', NULL, 2),
 (129, 122, 1, NULL, 'EU-CU-00122', 'EDUARDO JUAREZ', 'NO', '214 598 1504', 'eduardojuare@hotmail.com', 7, '2019-09-02 14:57:17', NULL, 2),
-(130, 123, 1, NULL, 'EU-CU-00123', 'LARRY JOHNSON', '214 LADIS ST DALLAS TX 75203', '214 986 1226', 'larryjohnson@hotmail.com', 1, '2019-09-06 17:03:50', NULL, 2);
+(130, 123, 1, NULL, 'EU-CU-00123', 'LARRY JOHNSON', '214 LADIS ST DALLAS TX 75203', '214 986 1226', 'larryjohnson@hotmail.com', 1, '2019-09-06 17:03:50', NULL, 2),
+(131, 124, 1, 1, 'EU-CU-00124', 'Maria perezads', 'BARRIO SIMON BOLIVAR', '04243243747', 'jesusbolivar84@gmail.com', 1, '2019-10-09 02:28:12', '2019-10-09 02:29:22', 2);
 
 -- --------------------------------------------------------
 
@@ -240,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 --
 
 INSERT INTO `configuration` (`configurationId`, `countryId`, `officeId`, `currencyId`, `projectNumber`, `serviceNumber`, `clientNumber`, `invoiceNumber`, `invoiceTaxPercent`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 1, 1, 131, 0, 123, 1, 8.25, '2018-06-09 00:00:00', 1),
+(1, 1, 1, 1, 131, 1, 123, 2, 8.25, '2018-06-09 00:00:00', 1),
 (2, 2, 2, 2, 0, 0, 0, 0, 16, '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -447,7 +448,8 @@ INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `contractNumber`,
 (131, 128, 'P', '19-PC-EU-00128', 1, 1, '2019-08-30', 129, '13350 Maham Road, Dallas, Texas 75240', 21, 1, NULL, NULL, '2019-08-30', NULL, NULL, 'REPARAR 8 APARTEAMENTO QUE SE QUEMARON 6 POR COMPLETOS Y DOS A MEDIA', NULL, NULL, 'eyJpdiI6IjJuRzY1OXFnMFRWNFJnZzNWQ0Zla0E9PSIsInZhbHVlIjoia1wvSUZTZm9qNTJRRHA2NXl4dzJFUlE9PSIsIm1hYyI6IjhmZTVlYWNlYjQ3Y2Q3MWU3ZDNiNTE5OGU4OWJhMzA4NjZhMTczN2YwOWZjYWJkYzE4NmU2MDQ1ZTI3NDQyYzIifQ==', 1, 1, '2019-09-02 14:58:46', NULL, 2),
 (132, 129, 'P', '19-PC-EU-00129', 1, 1, '2019-09-02', 31, '2812 Seaton Dr Dallas, TX 75216', 1, 2, NULL, '2019-09-02', NULL, NULL, NULL, 'HACER UNA CASA NUEVA VER REFERENCIAS LA QUIEREN DE 6 HAB MAS UNA HAB PRINCIPAL CON 4 O 5 BANOS CON CONCEPTO ABIERTO DE SALA COCINA Y COMEDOR', NULL, NULL, 'eyJpdiI6IkxLNitDajd4R2RLXC9yK0RpM2taZU5nPT0iLCJ2YWx1ZSI6ImZLa1hwS1dKdFRYd0wyVmNqUW5cLzRBPT0iLCJtYWMiOiJjNzI1NGQzNWY3Y2UxNGRhNmNkOTdkYzAyMmVjNTNhNjRhZTJhODQ1ZjFlMDZlNjc5OGViMGI4ZWIzNWUwOGJkIn0=', 1, 1, '2019-09-02 19:05:15', NULL, 2),
 (133, 130, 'P', '19-PC-EU-00130', 1, 1, '2019-09-02', 27, '1845 Juniper Ln Lewisville, TX 75077', 56, 2, NULL, '2019-09-02', NULL, NULL, NULL, 'HACER UNA PISCINA CON LOS CODIGOS ACTUALES', NULL, NULL, 'eyJpdiI6IlVtY1ZGekJRb0ZXTFwvRTRwWEJQR01nPT0iLCJ2YWx1ZSI6ImEwT1BLSEhGSUoxVGF2MWc0YndXUFE9PSIsIm1hYyI6ImRkNjFjYjU1OTY2YTA1Nzk2NzM4M2ZkZDA5ZmQ0Y2Y3ZjVlMTg0YTcwZWY4ODhhYjc4NDNkOGJlNmNjNzQzMTcifQ==', 1, 1, '2019-09-06 16:59:22', NULL, 2),
-(134, 131, 'P', '19-PC-EU-00131', 1, 1, '2019-09-03', 130, '214 LADIS ST DALLAS TX 75203', 57, 2, NULL, '2019-09-03', NULL, NULL, NULL, 'HACER UNAS MODIFICACIONES A SU CASA EN ESTA DIRECCION CREAR EL ACCESO A LA MISMA DESDE LA CALLE LADIS PASANDO POR UN ACCESO DE 10\'DE ESMN PROPUESTO EN EL TITULO DE PROPIEDAD PARA EL ACCESO A ESE LOTE.', NULL, NULL, 'eyJpdiI6ImQ2MzZ6RjdhUVl3RnN5XC9LZ2QzeFRRPT0iLCJ2YWx1ZSI6InBGSWY1Um15UTRXNHpJMkowQ1lUUnc9PSIsIm1hYyI6ImE1MzUyMjJhYWI2ZWMzOWMyY2NiMjY0NWI2NDE1NTEzNWRlMzhkZmE5M2UwN2MxYTYwZDM1ODBhNzVlNGI2MDMifQ==', 1, 1, '2019-09-06 17:05:20', NULL, 2);
+(134, 131, 'P', '19-PC-EU-00131', 1, 1, '2019-09-03', 130, '214 LADIS ST DALLAS TX 75203', 57, 2, NULL, '2019-09-03', NULL, NULL, NULL, 'HACER UNAS MODIFICACIONES A SU CASA EN ESTA DIRECCION CREAR EL ACCESO A LA MISMA DESDE LA CALLE LADIS PASANDO POR UN ACCESO DE 10\'DE ESMN PROPUESTO EN EL TITULO DE PROPIEDAD PARA EL ACCESO A ESE LOTE.', NULL, NULL, 'eyJpdiI6ImQ2MzZ6RjdhUVl3RnN5XC9LZ2QzeFRRPT0iLCJ2YWx1ZSI6InBGSWY1Um15UTRXNHpJMkowQ1lUUnc9PSIsIm1hYyI6ImE1MzUyMjJhYWI2ZWMzOWMyY2NiMjY0NWI2NDE1NTEzNWRlMzhkZmE5M2UwN2MxYTYwZDM1ODBhNzVlNGI2MDMifQ==', 1, 1, '2019-09-06 17:05:20', NULL, 2),
+(135, 1, 'S', '19-S-EU-00001', 1, 1, '2019-10-08', 9, 'BARRIO SIMON BOLIVAR', 22, 1, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eyJpdiI6IjNvSWoxb0ZKWkpKdTJyT2ZZOFhrZVE9PSIsInZhbHVlIjoiazhQRzBjM2tXTm5oMVJpYjlyMkg4dz09IiwibWFjIjoiZmM2NGM3MzNiNmNjMzM0ZTNjNmIyM2Q5ZGI5OTZkOGM2M2UyNGNjOTM5YmQwMjc5M2RkMjQ2ODM5ODA2YTdkNCJ9', 1, 2, '2019-10-09 03:38:46', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -540,7 +542,7 @@ CREATE TABLE IF NOT EXISTS `document` (
   KEY `contractId` (`contractId`),
   KEY `clientId` (`clientId`),
   KEY `precontractId` (`precontractId`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `document`
@@ -622,7 +624,9 @@ INSERT INTO `document` (`docId`, `docName`, `mimeType`, `dateUploaded`, `docUrl`
 (136, 'GH010874.MP4', 'mp4', '2019-09-02 17:16:47', 'docs/contracts/previous/D1119-PC-EU00127/JNZDx9mXxxqEEfMWfH0icmiqhh6MJYAyM2LDYOMS.mp4', 'JNZDx9mXxxqEEfMWfH0icmiqhh6MJYAyM2LDYOMS.mp4', '1', 130, NULL, 128),
 (137, 'BD387F80-475B-45A0-9D5A-2D7F1ADB0B54.jpeg', 'jpeg', '2019-09-02 19:06:25', 'docs/contracts/previous/D1119-PC-EU00129/2Wwktp4ZPOKQo1dTlzZWpdEvgiGJIrkmU5hGeHz0.jpeg', '2Wwktp4ZPOKQo1dTlzZWpdEvgiGJIrkmU5hGeHz0.jpeg', '1', 132, NULL, 31),
 (138, 'C54FC8F4-D1D0-4604-A4B7-CD5BA93027CC.jpeg', 'jpeg', '2019-09-02 19:06:25', 'docs/contracts/previous/D1119-PC-EU00129/8rB8H6fN7imr2p84AQRaiaqVIsGljsyWLtCYw2y1.jpeg', '8rB8H6fN7imr2p84AQRaiaqVIsGljsyWLtCYw2y1.jpeg', '1', 132, NULL, 31),
-(139, '427447DC-2477-4557-82C6-7FA093335F38.jpeg', 'jpeg', '2019-09-02 19:06:25', 'docs/contracts/previous/D1119-PC-EU00129/vSJvRU3xMYTFHkc5Ivu9OeFEE8V9RrkTrD4iIcx0.jpeg', 'vSJvRU3xMYTFHkc5Ivu9OeFEE8V9RrkTrD4iIcx0.jpeg', '1', 132, NULL, 31);
+(139, '427447DC-2477-4557-82C6-7FA093335F38.jpeg', 'jpeg', '2019-09-02 19:06:25', 'docs/contracts/previous/D1119-PC-EU00129/vSJvRU3xMYTFHkc5Ivu9OeFEE8V9RrkTrD4iIcx0.jpeg', 'vSJvRU3xMYTFHkc5Ivu9OeFEE8V9RrkTrD4iIcx0.jpeg', '1', 132, NULL, 31),
+(140, '001 - copia.jpg', 'jpeg', '2019-10-08 21:36:08', 'docs/contracts/previous/D1119-PC-EU-00001/gleRlphQwH2ZMTrHAYWgrEIKqXjekcu4fsFR5mmf.jpeg', 'gleRlphQwH2ZMTrHAYWgrEIKqXjekcu4fsFR5mmf.jpeg', '1', 1, NULL, 3),
+(141, '001 - copia.jpg', 'jpeg', '2019-10-09 04:03:02', 'docs/contracts/previous/D1119-S-EU-00001/p3DGnmW5ZBXQfAlkpjCHau6ut0t3SW8zyO8pQz9T.jpeg', 'p3DGnmW5ZBXQfAlkpjCHau6ut0t3SW8zyO8pQz9T.jpeg', '1', 135, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -666,7 +670,14 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   PRIMARY KEY (`invoiceId`),
   KEY `contractId` (`contractId`),
   KEY `currencyId` (`currencyId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `invoice`
+--
+
+INSERT INTO `invoice` (`invoiceId`, `countryId`, `officeId`, `invoiceNumber`, `contractId`, `clientId`, `address`, `invoiceDate`, `currencyId`, `grossTotal`, `taxPercent`, `taxAmount`, `netTotal`, `status`, `deleted_at`) VALUES
+(1, 1, 1, '00002', 1, 3, '2036 Echo Lake Dr Dallas, TX 75253', '2019-10-10', 1, 451, 8.25, 37.2075, 488.207, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -685,7 +696,17 @@ CREATE TABLE IF NOT EXISTS `invoice_detail` (
   `quantity` decimal(12,2) DEFAULT NULL,
   `amount` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`invDetailId`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `invoice_detail`
+--
+
+INSERT INTO `invoice_detail` (`invDetailId`, `invoiceId`, `serviceId`, `serviceName`, `unit`, `unitCost`, `quantity`, `amount`) VALUES
+(1, 1, 1, 'Construction plan', 'each', '450.00', '1.00', '450.00'),
+(2, 1, 4, 'Finnish Floor elevation', NULL, NULL, NULL, '0.00'),
+(3, 1, 5, 'Foundation plan & Notes', NULL, NULL, NULL, '0.00'),
+(4, 1, 1, 'plnaa', 'sqft', '1.00', '1.00', '1.00');
 
 -- --------------------------------------------------------
 
@@ -790,7 +811,7 @@ CREATE TABLE IF NOT EXISTS `office` (
 --
 
 INSERT INTO `office` (`officeId`, `countryId`, `officeName`, `officeAddress`, `officePhone`, `officeEmail`, `dateCreated`, `lastUserId`) VALUES
-(1, 1, 'DALLAS', 'DALLAS', '', '', '2018-06-09 00:00:00', 1),
+(1, 1, 'DALLAS', '9304 Forest Ln, Dallas TX, 75243, USA', '+1(214) 462-0683, +1(469) 466-9747', 'info@jdrivero.com', '2018-06-09 00:00:00', 1),
 (2, 2, 'SAN FERNANDO', '', '', '', '2018-06-09 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -1130,15 +1151,23 @@ CREATE TABLE IF NOT EXISTS `pre_contract` (
   `officeId` int(6) NOT NULL,
   `clientId` int(11) NOT NULL,
   `siteAddress` varchar(255) NOT NULL,
-  `projectTypeId` int(11) NOT NULL,
-  `serviceTypeId` int(11) NOT NULL,
+  `projectDescriptionId` int(11) NOT NULL,
+  `projectUseId` int(11) NOT NULL,
   `comment` text,
   `precontractCost` varchar(250) NOT NULL,
   `currencyId` int(5) NOT NULL,
   PRIMARY KEY (`precontractId`),
   KEY `pre_contract_ibfk_1` (`countryId`),
   KEY `pre_contract_ibfk_2` (`officeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `pre_contract`
+--
+
+INSERT INTO `pre_contract` (`precontractId`, `contractType`, `countryId`, `officeId`, `clientId`, `siteAddress`, `projectDescriptionId`, `projectUseId`, `comment`, `precontractCost`, `currencyId`) VALUES
+(1, 'P', 1, 1, 45, 'BARRIO SIMON BOLIVAR', 37, 1, NULL, 'eyJpdiI6Ik10NlNOZTJ2QnB5NHlBSngwZ0x3Wmc9PSIsInZhbHVlIjoicVhOSktidmtPdXh4b3hkcWdGTDRcL3c9PSIsIm1hYyI6IjMxMWJhZmRjM2IxY2MwMjhiODQ2ZDU3ZTZhYzVkOWVjNmY0MzRjM2Q0MDZmZDkyMzhiNzU1N2FmZTI0NDI1NGEifQ==', 2),
+(2, 'S', 1, 1, 11, 'BARRIO SIMON BOLIVAR', 37, 1, 'a', 'eyJpdiI6InpEMkh0NXBTVmt3ZVhoZFVPTGw4SWc9PSIsInZhbHVlIjoiYlZkS1JyQjhcLzExQXZIQVZZWFlTUnc9PSIsIm1hYyI6IjgxZjI0M2JhNjc1YmY4ODJlYTkxOWI4MzkwNDM4NTY0MzMyMGUwM2VlYTEwYzA0YzQ3OGY3NjI4ZjQ3NmI4NzkifQ==', 2);
 
 -- --------------------------------------------------------
 
@@ -1153,7 +1182,7 @@ CREATE TABLE IF NOT EXISTS `project_description` (
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL,
   PRIMARY KEY (`projectDescriptionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `project_description`
@@ -1229,7 +1258,7 @@ CREATE TABLE IF NOT EXISTS `project_use` (
   `dateCreated` datetime NOT NULL,
   `lastUserId` int(11) NOT NULL,
   PRIMARY KEY (`projectUseId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `project_use`
@@ -1926,7 +1955,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`userId`, `countryId`, `officeId`, `changeOffice`, `fullName`, `userName`, `userPassword`, `email`, `remember_token`, `dateCreated`, `deleted_at`, `lastUserId`) VALUES
 (1, 1, 1, 'N', 'GABRIEL CARRILLO', 'gabrielcarrillo2018', 'ec037f0bdfc5339525bbd807a26a07a0', 'gabrielcarrillo2018@gmail.com', '', '2018-06-09 00:00:00', NULL, 1),
-(2, 1, 1, 'Y', 'JOSE RIVERO', 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'IFoRrnwOK2etUpf8FNkdKcbXcFYZgaEI3sRwdvKDSR8GnvAj1KNugRWti7ch', '2018-06-09 00:00:00', NULL, 1),
+(2, 1, 1, 'Y', 'JOSE RIVERO', 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'BJNDS0WYU23stOVfUleYUAftoqgteib7rgyAomZ3whUc1yiVaKCrNtDKQ30H', '2018-06-09 00:00:00', NULL, 1),
 (3, 1, 1, 'N', 'CLIENTE 1', 'cliente1', '$2y$12$RvUF8dFWdHx54s5uUlZI4OKaADNPlBO2Ebu8aZ8QPRtKkCCa5qyKS', 'cliente1@gmail.com', 'cfStkkRasQBCQpTVIdyUFI4ntSY18Fl68RS1eFjGZej5dGszzPOSOL62v2Zn', '2018-06-09 00:00:00', NULL, 1),
 (4, 1, 1, 'N', 'DAVID APARICIO', 'davidaparicio', '$2a$12$LjpaOM5IBmS/Ws3Qz3wgu.P98M5ETqtlRnlmxW6VhxhhGPlxdoS4C', 'proyectista1@gmail.com', '32nnllPyoXExK07A2T3P8loLQX5FWdFwl6w101jcSm7rgBO3gADpI3Nv2y4w', '2018-06-09 00:00:00', NULL, 1),
 (5, 1, 1, 'N', 'CLIENTE 2', 'cliente2', '6dcd0e14f89d67e397b9f52bb63f5570', 'cliente2@gmail.com', '', '2018-06-09 00:00:00', NULL, 1),

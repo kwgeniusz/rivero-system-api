@@ -23,7 +23,7 @@ class ProjectDescriptionController extends Controller
      */
     public function index() {
         $projects = $this->oProjectDescription->getAll();
-        return view('projectdescriptions.index', compact('projects'));
+        return view('module_configuration.projectdescriptions.index', compact('projects'));
     }
 
     /**
@@ -52,7 +52,7 @@ class ProjectDescriptionController extends Controller
     public function edit($id) {
 
         $project = $this->oProjectDescription->findById($id);
-        return view('projectdescriptions.edit', compact('project'));
+        return view('module_configuration.projectdescriptions.edit', compact('project'));
     }
 
     /**
@@ -83,7 +83,7 @@ class ProjectDescriptionController extends Controller
     public function show($id) {
 
         $project = $this->oProjectDescription->findById($id);
-        return view('projectdescriptions.show', compact('project'));
+        return view('module_configuration.projectdescriptions.show', compact('project'));
     }
 
     /**

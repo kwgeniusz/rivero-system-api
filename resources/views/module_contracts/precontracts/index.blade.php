@@ -56,9 +56,9 @@
                     <a href="{{route('precontracts.files', ['id' => $project->precontractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                      <span class="fa fa-file" aria-hidden="true"></span> 
                     </a>
-                     <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+            {{--          <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  
-                    </a>
+                    </a> --}}
                      <a href="{{route('precontracts.convert', ['id' => $project->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
                      <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a>
@@ -120,9 +120,9 @@
                     <a href="{{route('precontracts.files', ['id' => $service->precontractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos" >
                      <span class="fa fa-file" aria-hidden="true"></span>
                     </a>
-                    <a href="{{route('precontracts.payment', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                   {{--  <a href="{{route('precontracts.payment', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
-                    </a>
+                    </a> --}}
                     <a href="{{route('precontracts.convert', ['id' => $service->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
                      <span class="fa fa-sync" aria-hidden="true"></span>
                     </a>

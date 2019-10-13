@@ -33,9 +33,11 @@ class ContractController extends Controller
     private $oReceivable;
     private $oConfiguration;
     private $oCountry;
+    private $module;
 
     public function __construct()
     {
+
         $this->middleware('auth');
         $this->middleware("permission:BC");
         $this->middleware("permission:BCA")->only("create", "store");
@@ -69,7 +71,7 @@ class ContractController extends Controller
         $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$filteredOut,session('countryId'),session('officeId'));
         $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$filteredOut,session('countryId'),session('officeId'));
 
-        return view('contracts.index', compact('projects', 'services'));
+        return view('module_contracts.contracts.index', compact('projects', 'services'));
     }
 
     public function create($contractType)
@@ -81,7 +83,7 @@ class ContractController extends Controller
         $projectsU = $this->oProjectUse->getAll();
         $currencies = $this->oCurrency->getAll();
 
-        return view('contracts.create', compact('projectsD', 'projectsU','currencies','contractType','contractNumberFormat'));
+        return view('module_contracts.contracts.create', compact('projectsD', 'projectsU','currencies','contractType','contractNumberFormat'));
     }
 
     public function store(ContractRequest $request)
@@ -117,7 +119,7 @@ class ContractController extends Controller
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('contracts.details', compact('contract'));
+        return view('module_contracts.contracts.details', compact('contract'));
     }
 
     public function edit($id)
@@ -134,7 +136,7 @@ class ContractController extends Controller
         $projectsU = $this->oProjectUse->getAll();
         $currencies = $this->oCurrency->getAll();
 
-        return view('contracts.edit', compact('contract', 'projectsD', 'projectsU','currencies','blockEdit'));
+        return view('module_contracts.contracts.edit', compact('contract', 'projectsD', 'projectsU','currencies','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
@@ -171,7 +173,7 @@ class ContractController extends Controller
     {
 
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contracts.show', compact('contract'));
+        return view('module_contracts.contracts.show', compact('contract'));
 
     }
     public function destroy($id)
@@ -211,26 +213,26 @@ class ContractController extends Controller
             ->where('officeId', session('officeId')) 
             ->paginate(5);
 
-        return view('generalsearch.index', compact('contracts'));
+        return view('module_contracts.generalsearch.index', compact('contracts'));
     }
 
     public function generalSearchDetails($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('generalsearch.details', compact('contract'));
+        return view('module_contracts.generalsearch.details', compact('contract'));
     }
 
     public function resultStatus(Request $request)
     {
 
         $contracts = $this->oContract->getAllForStatus($request->contractStatus,session('countryId'),session('officeId'));
-        return view('contractstatus.result', compact('contracts'));
+        return view('module_contracts.contractstatus.result', compact('contracts'));
     }
 
     public function resultStatusDetails($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contractstatus.details', compact('contract'));
+        return view('module_contracts.contractstatus.details', compact('contract'));
     }
 
 /** ----------------CONTRACS FINISHED  -------------*/
@@ -238,17 +240,17 @@ class ContractController extends Controller
     public function getContractsFinished()
     {
         $contracts = $this->oContract->getAllForStatus(Contract::FINISHED,session('countryId'),session('officeId'));
-        return view('contractsfinished.index', compact('contracts'));
+        return view('module_contracts.contractsfinished.index', compact('contracts'));
     }
     public function detailsContractsFinished($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contractsfinished.details', compact('contract'));
+        return view('module_contracts.contractsfinished.details', compact('contract'));
     }
     public function showContractsFinished($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contractsFinished.show', compact('contract'));
+        return view('module_contracts.contractsFinished.show', compact('contract'));
     }
     public function DeleteContractsFinished($id)
     {
@@ -262,17 +264,17 @@ class ContractController extends Controller
     public function getContractsCancelled()
     {
         $contracts = $this->oContract->getAllForStatus(Contract::CANCELLED,session('countryId'),session('officeId'));
-        return view('contractscancelled.index', compact('contracts'));
+        return view('module_contracts.contractscancelled.index', compact('contracts'));
     }
     public function detailsContractsCancelled($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contractscancelled.details', compact('contract'));
+        return view('module_contracts.contractscancelled.details', compact('contract'));
     }
         public function showContractsCancelled($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contractscancelled.show', compact('contract'));
+        return view('module_contracts.contractscancelled.show', compact('contract'));
     }
     public function DeleteContractsCancelled($id)
     {
@@ -286,7 +288,7 @@ class ContractController extends Controller
     public function changeStatus($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('contracts.changeStatus', compact('contract'));
+        return view('module_contracts.contracts.changeStatus', compact('contract'));
     }
     public function updateStatus(Request $request)
     {
@@ -311,7 +313,7 @@ class ContractController extends Controller
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
         $staffs   = $this->oStaff->getAvailableStaff($id);
 
-        return view('contracts.staff', compact('contract', 'staffs'));
+        return view('module_contracts.contracts.staff', compact('contract', 'staffs'));
 
     }
 
@@ -347,7 +349,7 @@ class ContractController extends Controller
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
         $payments = $this->oPaymentContract->getAllForContract($id);
 
-        return view('contracts.payment', compact('contract', 'payments'));
+        return view('module_contracts.contracts.payment', compact('contract', 'payments'));
 
     }
 
@@ -388,7 +390,7 @@ class ContractController extends Controller
 
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('contracts.files', compact('contract'));
+        return view('module_contracts.contracts.files', compact('contract'));
     }
     public function fileAgg(Request $request)
     {

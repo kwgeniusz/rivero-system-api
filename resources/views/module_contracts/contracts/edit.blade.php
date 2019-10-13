@@ -168,7 +168,7 @@
 
 @if($blockEdit == false)
     <div class="form-group col-xs-6">
-            <label for="currencyId">USO DE PROYECTO</label>
+            <label for="currencyId">{{__('currency')}}</label>
             <select class="form-control" name="currencyId" id="currencyId">
               @foreach($currencies as $currency)
                    @if ($currency->currencyId == $contract[0]->currencyId)

@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Web;
 
 // use App\Client;
 use App\Contract;
+use App\Currency;
 use App\PaymentContract;
 use App\PaymentPrecontract;
 use App\Precontract;
-use App\ProjectType;
-use App\ServiceType;
+use App\ProjectDescription;
+use App\ProjectUse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\PrecontractRequest;
@@ -22,22 +23,24 @@ class PrecontractController extends Controller
 {
     private $oPrecontract;
     // private $oClient;
-    private $oProjectType;
-    private $oServiceType;
+    private $oProjectDescription;
+    private $oProjectUse;
     private $oPaymentPrecontract;
     private $oPaymentContract;
     private $oContract;
+    private $oCurrency;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->oPrecontract        = new Precontract;
         // $this->oClient             = new Client;
-        $this->oProjectType        = new ProjectType;
-        $this->oServiceType        = new ServiceType;
+        $this->oProjectDescription = new ProjectDescription;
+        $this->oProjectUse         = new ProjectUse;
         $this->oPaymentPrecontract = new PaymentPrecontract;
         $this->oPaymentContract    = new PaymentContract;
         $this->oContract           = new Contract;
+        $this->oCurrency           = new Currency;
     }
 
     public function index()
@@ -46,17 +49,17 @@ class PrecontractController extends Controller
         $projects = $this->oPrecontract->getAllForType('P',session('countryId'),session('officeId'));
         $services = $this->oPrecontract->getAllForType('S',session('countryId'),session('officeId'));
 
-        return view('precontracts.index', compact('projects', 'services'));
+        return view('module_contracts.precontracts.index', compact('projects', 'services'));
     }
 
     public function create($contractType)
     {
 
-        $projects = $this->oProjectType->getAll();
-        $services = $this->oServiceType->getAll();
-        // $clients  = $this->oClient->getAll();
+        $projectsD = $this->oProjectDescription->getAll();
+        $projectsU = $this->oProjectUse->getAll();
+        $currencies = $this->oCurrency->getAll();
 
-        return view('precontracts.create', compact( 'projects', 'services', 'contractType'));
+        return view('module_contracts.precontracts.create', compact( 'projectsD', 'projectsU','currencies', 'contractType'));
     }
 
     public function store(PrecontractRequest $request)
@@ -67,10 +70,10 @@ class PrecontractController extends Controller
             $request->contractType,
             $request->clientId,
             $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
+            $request->projectDescriptionId,
+            $request->projectUseId,
             $request->comment,
-            $request->currencyName);
+            $request->currencyId);
 
         $notification = array(
             'message'    => 'Pre-Contrato Creado Exitosamente',
@@ -85,18 +88,20 @@ class PrecontractController extends Controller
     {
         $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('precontracts.details', compact('precontract'));
+        return view('module_contracts.precontracts.details', compact('precontract'));
     }
 
     public function edit($id)
     {
 
         // $clients     = $this->oClient->getAll();
-        $projects    = $this->oProjectType->getAll();
-        $services    = $this->oServiceType->getAll();
-        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
+        $precontract  = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
+        $projectsD    = $this->oProjectDescription->getAll();
+        $projectsU    = $this->oProjectUse->getAll();
+        $currencies = $this->oCurrency->getAll();
 
-        return view('precontracts.edit', compact('precontract', 'projects', 'services'));
+
+        return view('module_contracts.precontracts.edit', compact('precontract', 'projectsD', 'projectsU','currencies'));
     }
 
     public function update(PrecontractRequest $request, $id)
@@ -108,10 +113,10 @@ class PrecontractController extends Controller
             $request->officeId,
             $request->clientId,
             $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
+            $request->projectDescriptionId,
+            $request->projectUseId,
             $request->comment,
-            $request->currencyName
+            $request->currencyId
         );
 
         $notification = array(
@@ -125,7 +130,7 @@ class PrecontractController extends Controller
     {
 
         $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
-        return view('precontracts.show', compact('precontract'));
+        return view('module_contracts.precontracts.show', compact('precontract'));
 
     }
     public function destroy($id)
@@ -147,7 +152,7 @@ class PrecontractController extends Controller
     {
 
         $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
-        return view('precontracts.convert', compact('precontract'));
+        return view('module_contracts.precontracts.convert', compact('precontract'));
 
     }
     public function convertAgg($id)
@@ -166,15 +171,15 @@ class PrecontractController extends Controller
                 date('d/m/Y'),
                 $precontract[0]->clientId,
                 $precontract[0]->siteAddress,
-                $precontract[0]->projectTypeId,
-                $precontract[0]->serviceTypeId,
+                $precontract[0]->projectDescriptionId,
+                $precontract[0]->projectUseId,
                 '',
                 '',
                 '',
                 '',
                 '',
                 $precontract[0]->comment,
-                $precontract[0]->currencyName
+                $precontract[0]->currencyId
             );
             //insertar los pagos correspondientes
             if ($precontract[0]->payment) {
@@ -237,7 +242,7 @@ class PrecontractController extends Controller
         $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
         $payments    = $this->oPaymentPrecontract->getAllForPrecontract($id);
 
-        return view('precontracts.payment', compact('precontract', 'payments'));
+        return view('module_contracts.precontracts.payment', compact('precontract', 'payments'));
 
     }
 
@@ -289,7 +294,7 @@ class PrecontractController extends Controller
    //          $files[]  = $filePart[3];
    //      }
 
-   //      return view('precontracts.files', compact('precontract', 'files', 'directoryName'));
+   //      return view('module_contracts.precontracts.files', compact('precontract', 'files', 'directoryName'));
    //  }
    //  public function fileAgg(Request $request)
    //  {
@@ -320,7 +325,7 @@ class PrecontractController extends Controller
 
         $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
 
-        return view('precontracts.files', compact('precontract'));
+        return view('module_contracts.precontracts.files', compact('precontract'));
     }
     public function fileAgg(Request $request)
     {

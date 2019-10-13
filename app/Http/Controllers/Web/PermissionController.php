@@ -25,7 +25,7 @@ class PermissionController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('users.roles.index', compact('roles'));
+        return view('module_configuration.users.roles.index', compact('roles'));
     }
    /**
      * Show the form for creating a new resource.
@@ -39,7 +39,7 @@ class PermissionController extends Controller
         // $countrys     = Country::all();
         // $contactTypes = ContactType::all();
 
-        return view('users.create');
+        return view('module_configuration.users.create');
     }
     /**
      * Store a newly created resource in storage.
@@ -65,7 +65,7 @@ class PermissionController extends Controller
     public function edit($id)
     {
         // $service = $this->oUser->findById($id);
-        // return view('typesofservices.edit', compact('service'));
+        // return view('module_configuration.typesofservices.edit', compact('service'));
     }
 
     /**
@@ -94,7 +94,7 @@ class PermissionController extends Controller
     public function show($id)
     {
         // $service = $this->oUser->findById($id);
-        // return view('typesofservices.show', compact('service'));
+        // return view('module_configuration.typesofservices.show', compact('service'));
     }
 
     /**

@@ -26,7 +26,7 @@ class InvoiceController extends Controller
         $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
         $invoices = $this->oInvoice->getAllByContract($request->id);
 
-        return view('invoices.index', compact('invoices','contract'));
+        return view('module_contracts.invoices.index', compact('invoices','contract'));
     }
 
     public function create(Request $request)
@@ -36,7 +36,7 @@ class InvoiceController extends Controller
         $invoiceTaxPercent   = $this->oConfiguration->findInvoiceTaxPercent(session('countryId'),session('officeId'));
 
 
-        return view('invoices.create', compact('contract','invoiceNumberFormat','invoiceTaxPercent'));
+        return view('module_contracts.invoices.create', compact('contract','invoiceNumberFormat','invoiceTaxPercent'));
     }
 
     public function store(Request $request)
@@ -76,7 +76,7 @@ class InvoiceController extends Controller
           if($request->ajax()){
                 return $invoice;
             }
-        return view('invoices.details', compact('invoice'));
+        return view('module_contracts.invoices.details', compact('invoice'));
     }
 
     public function closeInvoice(Request $request)
@@ -104,7 +104,7 @@ class InvoiceController extends Controller
         // $services = $this->oServiceType->getAll();
         // $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
-        // return view('invoices.edit', compact('contract', 'projects', 'services','blockEdit'));
+        // return view('module_contracts.invoices.edit', compact('contract', 'projects', 'services','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)

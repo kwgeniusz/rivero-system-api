@@ -25,7 +25,7 @@ class TransactionTypeController extends Controller
     public function index()
     {
         $transaction = $this->oTransactionType->getAll();
-        return view('typesoftransactions.index', compact('transaction'));
+        return view('module_administration.typesoftransactions.index', compact('transaction'));
     }
 
     /**
@@ -51,7 +51,7 @@ class TransactionTypeController extends Controller
     {
 
         $transaction = $this->oTransactionType->findById($id);
-        return view('typesoftransactions.edit', compact('transaction'));
+        return view('module_administration.typesoftransactions.edit', compact('transaction'));
     }
 
     /**
@@ -79,7 +79,7 @@ class TransactionTypeController extends Controller
     {
 
         $transaction = $this->oTransactionType->findById($id);
-        return view('typesoftransactions.show', compact('transaction'));
+        return view('module_administration.typesoftransactions.show', compact('transaction'));
     }
 
     /**

@@ -23,7 +23,7 @@ class ProjectUseController extends Controller
     public function index()
     {
         $projects = $this->oProjectUse->getAll();
-        return view('projectUseS.index', compact('projects'));
+        return view('module_configuration.projectUses.index', compact('projects'));
     }
 
     /**
@@ -55,7 +55,7 @@ class ProjectUseController extends Controller
     public function edit($id)
     {
         $project = $this->oProjectUse->findById($id);
-        return view('projectuses.edit', compact('project'));
+        return view('module_configuration.projectuses.edit', compact('project'));
     }
 
     /**
@@ -89,7 +89,7 @@ class ProjectUseController extends Controller
     public function show($id)
     {
         $project = $this->oProjectUse->findById($id);
-        return view('projectuses.show', compact('project'));
+        return view('module_configuration.projectuses.show', compact('project'));
     }
 
     /**

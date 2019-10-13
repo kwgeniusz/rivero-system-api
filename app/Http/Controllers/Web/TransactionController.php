@@ -35,9 +35,9 @@ class TransactionController extends Controller
 
         $transactions = $this->oTransaction->getAllForSign($sign,session('countryId'),session('officeId'));
         if ($sign == '+') {
-            return view('transactionsincome.index', compact('transactions'));
+            return view('module_administration.transactionsincome.index', compact('transactions'));
         } else {
-            return view('transactionsexpenses.index', compact('transactions'));
+            return view('module_administration.transactionsexpenses.index', compact('transactions'));
         }
 
     }
@@ -47,9 +47,9 @@ class TransactionController extends Controller
         $transactionType = $this->oTransactionType->findBySign($sign);
         $banks           = $this->oBank->getAll(session('countryId'));
         if ($sign == '+') {
-            return view('transactionsincome.create', compact('transactionType', 'banks'));
+            return view('module_administration.transactionsincome.create', compact('transactionType', 'banks'));
         } else {
-            return view('transactionsexpenses.create', compact('transactionType', 'banks'));
+            return view('module_administration.transactionsexpenses.create', compact('transactionType', 'banks'));
         }
 
     }
@@ -101,9 +101,9 @@ class TransactionController extends Controller
 
         $transaction = $this->oTransaction->findById($id,session('countryId'),session('officeId'));
         if ($sign == '+') {
-            return view('transactionsincome.show', compact('transaction'));
+            return view('module_administration.transactionsincome.show', compact('transaction'));
         } else {
-            return view('transactionsexpenses.show', compact('transaction'));
+            return view('module_administration.transactionsexpenses.show', compact('transaction'));
         }
 
     }

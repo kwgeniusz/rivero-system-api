@@ -5,8 +5,8 @@ namespace App;
 use App\Client;
 use App\Country;
 use App\Office;
-use App\ProjectType;
-use App\ServiceType;
+use App\ProjectDescription;
+use App\Projectuse;
 use Illuminate\Database\Eloquent\Model;
 
 class Precontract extends Model
@@ -17,8 +17,8 @@ class Precontract extends Model
     protected $primaryKey = 'precontractId';
     //protected $dateFormat = 'Y-m-d';
     protected $fillable = ['precontractId', 'contractType', 'countryId', 'officeId',
-        'clientId', 'siteAddress', 'projectTypeId', 'serviceTypeId', 'comment',
-        'currencyName',
+        'clientId', 'siteAddress', 'projectDescriptionId', 'projectUseId', 'comment',
+        'currencyId',
     ];
 
 //--------------------------------------------------------------------
@@ -43,13 +43,13 @@ class Precontract extends Model
     {
         return $this->belongsTo('App\Client', 'clientId');
     }
-    public function projectType()
+    public function projectDescription()
     {
-        return $this->belongsTo('App\ProjectType', 'projectTypeId');
+        return $this->belongsTo('App\ProjectDescription', 'projectDescriptionId');
     }
-    public function serviceType()
+    public function projectUse()
     {
-        return $this->belongsTo('App\ServiceType', 'serviceTypeId');
+        return $this->belongsTo('App\ProjectUse', 'projectUseId');
     }
     public function office()
     {
@@ -58,6 +58,10 @@ class Precontract extends Model
     public function country()
     {
         return $this->belongsTo('App\Country', 'countryId');
+    }
+      public function currency()
+    {
+        return $this->hasOne('App\Currency', 'currencyId', 'currencyId');
     }
     public function payment()
     {
@@ -88,7 +92,7 @@ class Precontract extends Model
     }
 //------------------------------------------
     public function insertPrecontract($countryId, $officeId, $contractType,
-        $clientId, $siteAddress, $projectTypeId, $serviceTypeId, $comment, $currencyName) {
+        $clientId, $siteAddress, $projectDescriptionId, $projectUseId, $comment, $currencyId) {
 
         $precontract                         = new Precontract;
         $precontract->contractType           = $contractType;
@@ -96,27 +100,27 @@ class Precontract extends Model
         $precontract->officeId               = $officeId;
         $precontract->clientId               = $clientId;
         $precontract->siteAddress            = $siteAddress;
-        $precontract->projectTypeId          = $projectTypeId;
-        $precontract->serviceTypeId          = $serviceTypeId;
+        $precontract->projectDescriptionId          = $projectDescriptionId;
+        $precontract->projectUseId          = $projectUseId;
         $precontract->comment                = $comment;
         $precontract->precontractCost        = '0.00';
-        $precontract->currencyName           = $currencyName;
+        $precontract->currencyId           = $currencyId;
         $precontract->save();
 
     }
 //------------------------------------------
     public function updatePrecontract($precontractId, $countryId, $officeId, $clientId,
-        $siteAddress, $projectTypeId, $serviceTypeId, $comment, $currencyName) {
+        $siteAddress, $projectDescriptionId, $projectUseId, $comment, $currencyId) {
 
         $precontract                = precontract::find($precontractId);
         $precontract->countryId     = $countryId;
         $precontract->officeId      = $officeId;
         $precontract->clientId      = $clientId;
         $precontract->siteAddress   = $siteAddress;
-        $precontract->projectTypeId = $projectTypeId;
-        $precontract->serviceTypeId = $serviceTypeId;
+        $precontract->projectDescriptionId = $projectDescriptionId;
+        $precontract->projectUseId = $projectUseId;
         $precontract->comment       = $comment;
-        $precontract->currencyName  = $currencyName;
+        $precontract->currencyId  = $currencyId;
         $precontract->save();
 
     }

@@ -42,27 +42,27 @@
                 <label for="siteAddress">DIRECCIÓN</label>
                 <input type="text" class="form-control" id="siteAddress" name="siteAddress" value="{{ $precontract[0]->siteAddress }}">
            </div>
-          <div class="form-group col-xs-7">
-            <label for="projectTypeId">DESCRIPCION DE PROYECTO</label>
-            <select class="form-control" name="projectTypeId" id="projectTypeId">
-                @foreach($projects as $project)
-                   @if ($project->projectTypeId == $precontract[0]->projectTypeId)
-              <option value="{{$project->projectTypeId}}"selected> {{$project->projectTypeName}} </option>
+         <div class="form-group col-xs-7">
+            <label for="projectDescriptionId">DESCRIPCION DE PROYECTO</label>
+            <select class="form-control" name="projectDescriptionId" id="projectDescriptionId">
+                @foreach($projectsD as $project)
+                   @if ($project->projectDescriptionId == $precontract[0]->projectDescriptionId)
+              <option value="{{$project->projectDescriptionId}}"selected> {{$project->projectDescriptionName}} </option>
                   @else
-               <option value="{{$project->projectTypeId}}"> {{$project->projectTypeName}} </option>
+               <option value="{{$project->projectDescriptionId}}"> {{$project->projectDescriptionName}} </option>
                @endif
                 @endforeach
             </select>
           </div>
 
          <div class="form-group col-xs-7">
-            <label for="serviceTypeId">TIPO DE PROYECTO</label>
-            <select class="form-control" name="serviceTypeId" id="serviceTypeId">
-              @foreach($services as $service)
-                   @if ($service->serviceTypeId == $precontract[0]->serviceTypeId)
-              <option value="{{$service->serviceTypeId}}"selected> {{$service->serviceTypeName}} </option>
+            <label for="projectUseId">USO DE PROYECTO</label>
+            <select class="form-control" name="projectUseId" id="projectUseId">
+              @foreach($projectsU as $project)
+                   @if ($project->projectUseId == $precontract[0]->projectUseId)
+              <option value="{{$project->projectUseId}}"selected> {{$project->projectUseName}} </option>
                   @else
-               <option value="{{$service->serviceTypeId}}"> {{$service->serviceTypeName}} </option>
+               <option value="{{$project->projectUseId}}"> {{$project->projectUseName}} </option>
                   @endif
                 @endforeach
             </select>
@@ -74,20 +74,18 @@
                 <textarea class="form-control" id="comment" name="comment" rows="3">{{ $precontract[0]->comment }}</textarea>
               </div>
 
-            <div class="col-xs-6">
-               <div class="form-group">
-              <label for="currencyName">{{__('currency')}}</label>
-              <select class="form-control" name="currencyName" id="currencyName">
-                   @if($precontract[0]->currencyName == "USD")
-                    <option value="USD" selected> USD </option>
-                    <option value="BS" > BS </option>
-                    @else
-                    <option value="USD"> USD </option>
-                    <option value="BS" selected> BS </option>
-                    @endif
-              </select>
-              </div>
-            </div>
+      <div class="form-group col-xs-6">
+            <label for="currencyId">{{__('currency')}}</label>
+            <select class="form-control" name="currencyId" id="currencyId">
+              @foreach($currencies as $currency)
+                   @if ($currency->currencyId == $precontract[0]->currencyId)
+              <option value="{{$currency->currencyId}}"selected> {{$currency->currencyName}} </option>
+                  @else
+               <option value="{{$currency->currencyId}}"> {{$currency->currencyName}} </option>
+                  @endif
+                @endforeach
+            </select>
+          </div>
 
 
 

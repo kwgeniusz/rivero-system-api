@@ -3,15 +3,13 @@
 @section('content')
 
 <div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-danger col-xs-7">
-    <div class="panel-heading"> <h3><b>¿Esta Seguro de Eliminar este Pre-Contrato?</b></h3></div>
+<div class="panel panel-default col-xs-10 col-lg-7">
+    <div class="panel-heading"> <h3><b>DETALLES PRE-CONTRATO</b></h3></div>
     <div class="panel-body">
 
-      <form class="form-horizontal" action="{{Route('precontracts.destroy',['id' => $precontract[0]->precontractId])}}" method="POST">
-        {{csrf_field()}}
-        {{method_field('DELETE')}}
+      <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-5 control-label">N°</label>
+          <label class="col-sm-5 control-label">N° </label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $precontract[0]->precontractId }}</p>
           </div>
@@ -33,6 +31,7 @@
           </div>
         </div>
        </div>
+
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('client')}}</label>
           <div class="col-sm-7">
@@ -45,16 +44,16 @@
             <p class="form-control-static">{{ $precontract[0]->siteAddress }}</p>
           </div>
         </div>
-          <div class="form-group">
+        <div class="form-group">
           <label class="col-sm-5 control-label">DESCRIPCION DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->projectType->projectTypeName }}</p>
+            <p class="form-control-static">{{ $precontract[0]->projectDescripcion->projectDescripcionName }}</p>
           </div>
         </div>
          <div class="form-group">
           <label class="col-sm-5 control-label">TIPO DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->serviceType->serviceTypeName }}</p>
+            <p class="form-control-static">{{ $precontract[0]->projectUse->projectUseName }}</p>
           </div>
         </div>
         <div class="form-group">
@@ -67,7 +66,7 @@
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('contract_cost')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{  number_format( $precontract[0]->precontractCost, 2, ',', '.')}}</p>
+            <p class="form-control-static">{{ number_format( $precontract[0]->precontractCost, 2, ',', '.') }}</p>
           </div>
         </div>
       </div>
@@ -75,19 +74,14 @@
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('currency')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->currencyName }}</p>
+            <p class="form-control-static">{{ $precontract[0]->currency->currencyName }}</p>
           </div>
         </div>
       </div>
-
-
-
             <div class="text-center">
-              <button type="submit" class="btn btn-danger">
-                <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
-              </button>
+
               <a href="{{route('precontracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+                  <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>
             </div>

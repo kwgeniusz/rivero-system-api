@@ -32,7 +32,7 @@ class ReceivableController extends Controller
             //  $receivables->push(5)
         // }
 
-        return view('receivables.index', compact('receivables'));
+        return view('module_administration.receivables.index', compact('receivables'));
     }
     public function details($clientId)
     {
@@ -44,7 +44,7 @@ class ReceivableController extends Controller
             return redirect()->route('receivables.index');
         }
 
-        return view('receivables.details', compact('receivablesContracts', 'client'));
+        return view('module_administration.receivables.details', compact('receivablesContracts', 'client'));
     }
     public function share(Request $request)
     {
@@ -72,7 +72,7 @@ class ReceivableController extends Controller
         }
         $countrys = Country::all();
 
-        return view('reportcollections.index', compact('receivables', 'countrys'));
+        return view('module_administration.reportcollections.index', compact('receivables', 'countrys'));
     }
 //----------------QUERYS ASINCRONIOUS-----------------//
     public function getForId($receivableId)

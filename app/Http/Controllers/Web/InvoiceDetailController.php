@@ -32,7 +32,7 @@ class InvoiceDetailController extends Controller
         if ($invoice[0]->status == 'CERRADO' || $invoice[0]->status == 'CLOSED') {
              return back()->withInput();
         }
-        return view('invoices.details.index', compact('invoice','contract'));
+        return view('module_contracts.invoices.details.index', compact('invoice','contract'));
     }
 
     public function create(Request $request)
@@ -43,7 +43,7 @@ class InvoiceDetailController extends Controller
         // $projects = $this->oProjectType->getAll();
         // $services = $this->oServiceType->getAll();
 
-        return view('invoices.create', compact('invoiceNumberFormat'));
+        return view('module_contracts.invoices.create', compact('invoiceNumberFormat'));
     }
 
     public function store(Request $request)
@@ -75,7 +75,7 @@ class InvoiceDetailController extends Controller
           if($request->ajax()){
                 return $invoicesDetails;
             }
-        return view('invoices.details', compact('invoicesDetails'));
+        return view('module_contracts.invoices.details', compact('invoicesDetails'));
     }
 
 

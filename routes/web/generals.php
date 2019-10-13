@@ -62,6 +62,7 @@ Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('con
 Route::resource('invoices', 'Web\InvoiceController');
 Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoices.close');
 Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
+Route::get('reportsInvoice', 'Web\ReportController@printInvoice')->name('reports.invoice');
 Route::resource('services', 'Web\ServiceController');
 
 Route::get('contractsPayment/{id}', 'Web\ContractController@payment')->name('contracts.payment');
@@ -109,11 +110,11 @@ Route::get('receivables', 'Web\ReceivableController@index')->name('receivables.i
 Route::post('receivables', 'Web\ReceivableController@index')->name('receivables.index');
 Route::get('receivables/{clientId}', 'Web\ReceivableController@details')->name('receivables.details');
 //REPORTS
-Route::get('transactions-summary', function () {return view('reportincomeexpenses.index');})->name('transactions.incomeexpenses');
+Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
 Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');
-Route::get('transactions-income', function () {return view('reportincome.index');})->name('transactions.income');
+Route::get('transactions-income', function () {return view('module_administration.reportincome.index');})->name('transactions.income');
 Route::post('transactions-income', 'Web\ReportController@transactionSummaryForSign')->name('reports.income');
-Route::get('transactionsexpenses', function () {return view('reportexpenses.index');})->name('transactions.expenses');
+Route::get('transactionsexpenses', function () {return view('module_administration.reportexpenses.index');})->name('transactions.expenses');
 Route::post('transactionsexpenses', 'Web\ReportController@transactionSummaryForSign')->name('reports.expenses');
 
 Route::get('collection-report', 'Web\ReceivableController@reportCollections')->name('collections.index');

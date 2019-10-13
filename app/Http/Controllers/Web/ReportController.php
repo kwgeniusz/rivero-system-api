@@ -6,6 +6,8 @@ use App\Contract;
 use App\Receivable;
 use App\Transaction;
 use App\Client;
+use App\Invoice;
+use App\InvoiceDetail;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,6 +21,8 @@ class ReportController extends Controller
     private $oTransaction;
     private $oReceivable;
     private $oClient;
+    private $oInvoice;
+    private $oInvoiceDetail;
 
     public function __construct()
     {
@@ -27,6 +31,8 @@ class ReportController extends Controller
         $this->oTransaction = new Transaction;
         $this->oReceivable  = new Receivable;
         $this->oClient      = new Client;
+        $this->oInvoice     = new Invoice;
+        $this->oInvoiceDetail = new InvoiceDetail;
     }
 
     public function printContract(Request $request)
@@ -82,7 +88,7 @@ EOD;
         $outputPdfName     = "pdf/$fileName.pdf";
         PDF::Output(public_path($outputPdfName), $outputDestination);
 
-        return view('contractprint.result', compact('outputPdfName'));
+        return view('layouts.reports', compact('outputPdfName'));
     }
 
     public function summaryContractForOffice()
@@ -146,14 +152,14 @@ EOD;
         $outputPdfName     = "pdf/$fileName.pdf";
         PDF::Output(public_path($outputPdfName), $outputDestination);
 
-        return view('contractsummary.result', compact('outputPdfName'));
+        return view('layouts.reports', compact('outputPdfName'));
     }
 
 
     public function summaryClientForm()
     {
         $clients = $this->oClient->getAll(session('countryId'));
-        return view('summaryforclient.index', compact('clients'));
+        return view('module_contracts.summaryforclient.index', compact('clients'));
     }
     public function summaryForClient(Request $request)
     {
@@ -163,7 +169,7 @@ EOD;
         $contracts  = $this->oContract->findByClient($request->clientId);
 
         if ($contracts->isEmpty()) {
-            return view('summaryforclient.error');
+            return view('module_contracts.summaryforclient.error');
         } else {
             $html = <<<EOD
         <p>
@@ -218,7 +224,7 @@ EOD;
             $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
 
-            return view('summaryforclient.result', compact('outputPdfName'));
+            return view('layouts.reports', compact('outputPdfName'));
         }
     }
     //REPORT DE TRANSACTION
@@ -231,7 +237,7 @@ EOD;
         $transactions = $this->oTransaction->getAllForTwoDate($request->date1, $request->date2,session('countryId'),session('officeId'));
 
         if ($transactions->isEmpty()) {
-            return view('reportincomeexpenses.error');
+            return view('module_administration.reportincomeexpenses.error');
         } else {
 
             $html = <<<EOD
@@ -289,7 +295,7 @@ EOD;
             $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
 
-            return view('reportincomeexpenses.result', compact('outputPdfName'));
+            return view('layouts.reports', compact('outputPdfName'));
         }
     }
 
@@ -308,9 +314,9 @@ EOD;
 
         if ($transactions->isEmpty()) {
             if ($request->sign == '+') {
-                return view('reportincome.error');
+                return view('module_administration.reportincome.error');
             } else {
-                return view('reportexpenses.error');
+                return view('module_administration.reportexpenses.error');
             }
 
         } else {
@@ -369,7 +375,7 @@ EOD;
             $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
 
-            return view('reportincome.result', compact('outputPdfName'));
+            return view('layouts.reports', compact('outputPdfName'));
         }
     }
 /////////////////REPORTE DE COBRANZAS//////////////////////
@@ -386,7 +392,7 @@ EOD;
         $date2Format = Carbon::parse($request->date2);
 
         if (!$collections) {
-            return view('reportcollections.error');
+            return view('module_administration.reportcollections.error');
         } else {
 
             $html = <<<EOD
@@ -475,8 +481,144 @@ EOD;
             $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
 
-            return view('reportincome.result', compact('outputPdfName'));
+            return view('layouts.reports', compact('outputPdfName'));
         }
     }
+//------------------INVOICE-----------------------------//
+     public function printInvoice(Request $request)
+    {
+        $acum         = 0;
+        $date         = Carbon::now();
+        $invoice = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
+        $office     = DB::table('office')->where('officeId', session('officeId'))->get();
+        $client  = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
+        $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
 
+        if ($invoicesDetails->isEmpty()) {
+            return view('module_administration.reportincomeexpenses.error');
+        } else {
+
+            $html = <<<EOD
+
+   <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr > 
+         <th align="right"> <img style="float:center;" src="img/jdrivero.png" alt="test alt attribute" width="180" height="60"/> </th>
+       </tr>
+   </table> 
+
+    <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#F9EC51;" colspan="2" align="center"><b>INVOICE</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+             <div style="text-align:left">
+               JD Rivero Dallas INC<br>
+               {$office[0]->officeAddress}<br>
+               {$office[0]->officePhone}<br>
+               {$office[0]->officeEmail}<br>
+               www.jdrivero.com
+             </div>
+        </th>
+        <th>
+             <div style="text-align:right">
+              <b>Invoice Number:</b> {$invoice[0]->invoiceNumber}<br>
+              <b>Invoice Date:</b> {$invoice[0]->invoiceDate}<br>
+              <b>Invoice Control:</b> {$invoice[0]->invoiceNumber}<br>
+             </div>
+        </th>
+       </tr>
+</table>
+
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#F9EC51;" colspan="1" align="center"><b>CUSTOMER</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+             <div style="text-align:left">
+              <b>ID:</b> {$client[0]->clientCode}
+              <b>NAME/COMPANY:</b> {$client[0]->clientName}<br>
+              <b>ADDRESS:</b> {$client[0]->clientAddress}<br>
+              <b>PHONE:</b> {$client[0]->clientPhone}
+              <b>CONTACT:</b> {$client[0]->contactType->contactTypeName}<br>
+              <b>EMAIL:</b> {$client[0]->contactType->clientEmail}<br>
+             </div>
+        </th>
+       </tr>
+</table>
+   
+ <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr style="background-color:#F9EC51; color:black; font-size:11px;  font-weight: bold;" align="center">
+        <th width="50%">DESCRIPCION</th><th width="20%" align="right">UNIT</th><th width="10%" >QTY</th><th width="10%" align="left">UP</th><th width="10%" align="right">AMOUNT</th>
+        </tr>
+        </thead>
+EOD;
+            foreach ($invoicesDetails as $invDetail) {
+                      $acum = $acum + 1;
+                if ($acum % 2 == 0) {
+                    $background = "#e6e6e6";
+                } else {
+                    $background = "#fbfbfb";
+                }
+                $html .= <<<EOD
+        <tr style="background-color:$background; font-size:10px">
+        <td width="50%" align="center">$invDetail->serviceName</td>
+        <td width="20%" align="right">{$invDetail->unit}</td>
+        <td width="10%" align="center">$invDetail->quantity</td>
+        <td width="10%" align="left">$invDetail->unitCost</td>
+        <td width="10%" align="right">$invDetail->amount</td>
+        </tr>
+
+EOD;
+            }
+            $html .= <<<EOD
+</table>
+<p>
+<table cellspacing="0" cellpadding="0" border="0"  >
+       <tr style="font-size:10px"> 
+        <th>
+          <img style="float:center;" src="img/qr.png" alt="test alt attribute" width="100" height="90"/>
+        </th>
+        <th>
+             <div style="text-align:right">
+              <b>SubTotal:</b> {$invoice[0]->grossTotal}<br>
+              <b>Tax Rate:</b> {$invoice[0]->taxPercent}<br>
+              <b>Tax:</b> {$invoice[0]->taxAmount}<br>
+              <b>Total:</b> {$invoice[0]->netTotal}<br>
+             </div>
+        </th>
+       </tr>
+</table>
+
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#F9EC51;" colspan="1" align="center"><b>PAYMENT</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+             <div style="text-align:left">
+              <b>TERM:</b>
+             </div>
+        </th>
+       </tr>
+</table>
+EOD;
+
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+            // PDF::Write(0, 'Hello World');
+            $outputDestination = "F";
+            $outputPdfName     = "pdf/$fileName.pdf";
+            PDF::Output(public_path($outputPdfName), $outputDestination);
+
+            return view('layouts.reports', compact('outputPdfName'));
+        }
+    }
 }
