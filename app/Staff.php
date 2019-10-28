@@ -48,7 +48,10 @@ class Staff extends Model
     }
     public function getAvailableStaff($contractId)
     {
-        $result = DB::select("SELECT staff.staffId,staff.fullName FROM staff LEFT JOIN contract_staff ON contract_staff.staffId = staff.staffId AND contract_staff.contractId = $contractId WHERE  contract_staff.staffId IS NULL");
+        $result = DB::select("SELECT staff.staffId,staff.fullName FROM staff 
+                             LEFT JOIN contract_staff ON contract_staff.staffId = staff.staffId
+                             AND contract_staff.contractId = $contractId 
+                             WHERE  contract_staff.staffId IS NULL and positionId='8' ");
 
         return $result;
     }

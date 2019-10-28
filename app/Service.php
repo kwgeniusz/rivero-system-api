@@ -12,11 +12,34 @@ class Service extends Model
     protected $table      = 'service';
     protected $primaryKey = 'serviceId';
     protected $fillable   = ['serviceId', 'serviceName', 'hasCost', 'unit1','unit2','cost1','cost2','variableName'];
-    
+
+    // protected $appends = ['cost1','cost2'];
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
- 
+ //--------------------------------------------------------------------
+    /** Accesores  */
+//--------------------------------------------------------------------
+//     public function getCost1Attribute($cost1)
+//     {
+//         return decrypt($cost1);
+//     }
+//     public function getCost2Attribute($cost2)
+//     {
+//         return decrypt($cost2);
+//     }
+// //--------------------------------------------------------------------
+    /** Mutadores  */
+//--------------------------------------------------------------------
+
+    // public function setCost1Attribute($cost1)
+    // {
+    //     return $this->attributes['cost1'] = encrypt($cost1);
+    // }
+    //  public function setCost2Attribute($cost2)
+    // {
+    //     return $this->attributes['cost2'] = encrypt($cost2);
+    // }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------

@@ -553,7 +553,7 @@ EOD;
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="0" border="0">
         <thead>
         <tr style="background-color:#F9EC51; color:black; font-size:11px;  font-weight: bold;" align="center">
-        <th width="50%">DESCRIPCION</th><th width="20%" align="right">UNIT</th><th width="10%" >QTY</th><th width="10%" align="left">UP</th><th width="10%" align="right">AMOUNT</th>
+        <th width="5%" align="center">#</th><th align="left" width="45%">DESCRIPCION</th><th width="20%" align="right">UNIT</th><th width="10%" >QTY</th><th width="10%" align="left">UP</th><th width="10%" align="right">AMOUNT</th>
         </tr>
         </thead>
 EOD;
@@ -566,7 +566,8 @@ EOD;
                 }
                 $html .= <<<EOD
         <tr style="background-color:$background; font-size:10px">
-        <td width="50%" align="center">$invDetail->serviceName</td>
+        <td width="5%" align="center"></td>
+        <td width="45%" align="left">$invDetail->serviceName</td>
         <td width="20%" align="right">{$invDetail->unit}</td>
         <td width="10%" align="center">$invDetail->quantity</td>
         <td width="10%" align="left">$invDetail->unitCost</td>

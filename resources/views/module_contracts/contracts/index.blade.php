@@ -90,7 +90,7 @@
                     </a>
                   @endcan
                   @can('BCI')  
-                     <a href="{{route('reports.contract', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="PDF">
+                     <a href="{{route('reports.contract', ['id' => $project->contractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
                     |

@@ -83,8 +83,8 @@ class HomeController extends Controller
 // $role->givePermissionTo('FD');
 // $role->givePermissionTo('FE');
    if(!session()->has('countryId') && !session()->has('officeId') ) { 
-session(['countryId' => Auth::user()->countryId, 'countryName' => Auth::user()->country->countryName]); 
-session(['officeId' => Auth::user()->countryId, 'officeName' => Auth::user()->office->officeName]);
+        session(['countryId' => Auth::user()->countryId, 'countryName' => Auth::user()->country->countryName]); 
+        session(['officeId' => Auth::user()->countryId, 'officeName' => Auth::user()->office->officeName]);
     }
    return view('home');
 }

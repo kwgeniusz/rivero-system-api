@@ -14,6 +14,8 @@ class Configuration extends Model
     protected $dates      = ['dateCreated'];
 
     //--------------------------------------------------------------------
+         //CONTRACT NUMBER
+    //--------------------------------------------------------------------
     public function retrieveContractNumber($countryId, $officeId, $contractType)
     {
         //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
@@ -39,7 +41,6 @@ class Configuration extends Model
     //--------------------------------------------------------------------
   public function generateContractNumberFormat($countryId,$officeId,$contractType) {
 
-        $oCountry = new Country;
         $contractNumber =   $this->retrieveContractNumber($countryId, $officeId, $contractType);
         $contractNumber++;
 
@@ -50,15 +51,17 @@ class Configuration extends Model
             $contractNumber = "";
         }
 
-        $format1 = substr(date('Y'), 2, 2);
+       $codePrefix = $this->getCodePrefix($countryId,$officeId);
+       $format1 = $codePrefix;
+
+        $format2 = substr(date('Y'), 2, 2);
+
         if ($contractType == "P") {
-            $format2 = "-PC-";
+            $format3 = "P";
         } else {
-            $format2 = "-S-";
+            $format3 = "S";
         }
 
-         $abbreviation = $oCountry->getAbbreviation($countryId);
-         $format3 = $abbreviation."-";
 
         $format4 = str_pad($contractNumber, $stringLength, $strPad, STR_PAD_LEFT);
 
@@ -82,58 +85,59 @@ class Configuration extends Model
 
     }
 
-      //--------------------------------------------------------------------
-       // CLIENTES
-    //---------------------
-    public function retrieveClientNumber($countryId)
+    //--------------------------------------------------------------------
+         //CLIENT NUMBER 
+    //-------------------------------------------------------------------
+    public function retrieveClientNumber($countryId,$officeId)
     {
         //   esta consulta esta mal , porque si coloco dos paises en tabla config.
         //abra un conflicto y no sabra cual traer del mismo pais
 
-        $contractNumber = 0;
+        $clientNumber = 0;
         $rs             = $this->where('countryId', '=', $countryId)
+                               ->where('officeId', '=', $officeId)
                                ->get();
 
             foreach ($rs as $rs0) {
-                    $contractNumber = $rs0->clientNumber;
+                    $clientNumber = $rs0->clientNumber;
                  }
         
-        return $contractNumber;
+        return $clientNumber;
     }
     //--------------------------------------------------------------------
-     public function generateClientNumberFormat($countryId) {
+     public function generateClientNumberFormat($countryId,$officeId) {
         
-        $oCountry = new Country();
+
         $stringLength = 5;
         $strPad       = "0";
 
-         $clientNumber = $this->retrieveClientNumber($countryId);
+         $clientNumber = $this->retrieveClientNumber($countryId,$officeId);
          $clientNumber++;
     
         if ($clientNumber < 1) {
             $clientNumber = "";
         }
-         $abbreviation = $oCountry->getAbbreviation($countryId);
-         $format1 = $abbreviation;
-         $format2 = "-CU-";
-         $format3 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
+         $codePrefix = $this->getCodePrefix($countryId,$officeId);
+         $format1 = $codePrefix;
+         $format2 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
        
         // numero de contrato en foramto
-        return $clientNumberFormat = $format1 . $format2 . $format3 ;
+        return $clientNumberFormat = $format1 . $format2;
          
       }
 
     //--------------------------------------------------------------------
      
-    public function increaseClientNumber($countryId)
+    public function increaseClientNumber($countryId,$officeId)
     {
             $this->where('countryId', $countryId)
+                 ->where('officeId', $officeId)
                  ->increment('clientNumber');
     }
 
-   //--------------------------------------------------------------------
-       // INVOICES
-      //--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+         //INVOICES NUMBER
+    //-------------------------------------------------------------------
     public function retrieveInvoiceNumber($countryId,$officeId)
     {
 
@@ -151,20 +155,25 @@ class Configuration extends Model
     //--------------------------------------------------------------------
      public function generateInvoiceNumberFormat($countryId,$officeId) {
         
+        $invoiceNumber =   $this->retrieveInvoiceNumber($countryId, $officeId);
+        $invoiceNumber++;
+
         $stringLength = 5;
         $strPad       = "0";
-
-         $invoiceNumber = $this->retrieveInvoiceNumber($countryId,$officeId);
-         $invoiceNumber++;
 
         if ($invoiceNumber < 1) {
             $invoiceNumber = "";
         }
 
-         $format3 = str_pad($invoiceNumber, $stringLength, $strPad, STR_PAD_LEFT);
-       
+       $codePrefix = $this->getCodePrefix($countryId,$officeId);
+       $format1 = $codePrefix;
+
+        $format2 = substr(date('Y'), 2, 2);
+
+        $format3 = str_pad($invoiceNumber, $stringLength, $strPad, STR_PAD_LEFT);
+
         // numero de contrato en foramto
-        return $invoiceNumberFormat = $format3 ;
+       return $invoiceNumberFormat = $format1 . $format2 . $format3 ;
          
       }
 
@@ -178,6 +187,17 @@ class Configuration extends Model
     }
 
     //--------------------------------------------------------------------
+       //MISCELLANEOUS FUNCTIONS
+    //-------------------------------------------------
+    public function getCodePrefix($countryId,$officeId){
+        $rs = $this->where('countryId', $countryId)
+                   ->where('officeId', $officeId)
+                    ->get();
+ 
+        return $rs[0]->codePrefix;
+    }
+    //-------------------------------------------------
+
     public function findInvoiceTaxPercent($countryId,$officeId)
     {
 

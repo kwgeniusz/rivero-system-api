@@ -50,7 +50,7 @@ class ClientController extends Controller
     public function create()
     {
     
-        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'));
+        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'),session('officeId'));
         // $countrys     = Country::all();
         $contactTypes = ContactType::all();
 
@@ -67,6 +67,7 @@ class ClientController extends Controller
     {
         $clients = $this->oClient->insertClient(
             session('countryId'),
+            session('officeId'),
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId, 
@@ -113,6 +114,7 @@ class ClientController extends Controller
     {
         $this->oClient->updateClient($id,
             session('countryId'),
+            session('officeId'),
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId,  
@@ -171,7 +173,7 @@ class ClientController extends Controller
     }
    public function getNumberFormat()
     {
-        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'));
+        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'),session('officeId'));
         return json_encode($clientNumberFormat);
     }
 

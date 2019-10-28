@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 use App\Invoice;
 use App\Contract;
 use App\Configuration;
+use App\InvoiceDetail;
+use App\PaymentInvoice;
+use App\PaymentCondition;
+use App\Http\Requests\PaymentRequest;
 use Auth;
+use App;
 
 class InvoiceController extends Controller
 {
@@ -17,8 +22,12 @@ class InvoiceController extends Controller
     {
         $this->middleware('auth');
         $this->oInvoice        = new Invoice;
-        $this->oContract        = new Contract;
-        $this->oConfiguration        = new Configuration;
+        $this->oContract       = new Contract;
+        $this->oConfiguration  = new Configuration;
+        $this->oInvoiceDetail        = new InvoiceDetail;
+        $this->oPaymentInvoice        = new PaymentInvoice;
+        $this->oPaymentCondition  = new PaymentCondition;
+
     }
 
     public function index(Request $request)
@@ -31,12 +40,15 @@ class InvoiceController extends Controller
 
     public function create(Request $request)
     {
+ 
         $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
+        $paymentConditions = $this->oPaymentCondition->getAll(App::getLocale());
+
         $invoiceNumberFormat = $this->oConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
         $invoiceTaxPercent   = $this->oConfiguration->findInvoiceTaxPercent(session('countryId'),session('officeId'));
 
 
-        return view('module_contracts.invoices.create', compact('contract','invoiceNumberFormat','invoiceTaxPercent'));
+        return view('module_contracts.invoices.create', compact('contract','paymentConditions','invoiceNumberFormat','invoiceTaxPercent'));
     }
 
     public function store(Request $request)
@@ -49,15 +61,16 @@ class InvoiceController extends Controller
           $contract = $this->oContract->findById($request->contractId,session('countryId'),session('officeId'));
 
 
-         $invoiceId  =   $this->oInvoice->insertInv(
+          $invoiceId  =   $this->oInvoice->insertInv(
                       $contract[0]->countryId,
                       $contract[0]->officeId,
                       $contract[0]->contractId,
                       $contract[0]->clientId,
                       $contract[0]->siteAddress,
                       $request->invoiceDate,
-                      $contract[0]->currencyId, 
+                      $contract[0]->currencyId,
                       $request->invoiceTaxPercent,
+                      $request->paymentConditionId, 
                       '1');
 
         $notification = array(
@@ -137,6 +150,49 @@ class InvoiceController extends Controller
         // return redirect()->route('contracts.index')
         //     ->with($notification);
     }
+// ---------PAYMENT -------//
 
+    public function payments($id)
+    {
+
+        $invoice         = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
+        $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($invoice[0]->invoiceId);
+        $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
+
+        return view('module_contracts.invoices.payment', compact('invoice','invoiceDetails', 'payments'));
+
+    }
+
+    public function paymentsAdd(PaymentRequest $request)
+    {
+
+        $result = $this->oPaymentInvoice->addPayment(
+            $request->invoiceId,
+            $request->amount,
+            $request->paymentDate
+        );
+
+        $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
+        );
+
+        return redirect()->route('invoices.payments', ['id' => $request->invoiceId])
+            ->with($notification);
+
+    }
+    public function paymentsRemove($id, $invoiceId)
+    {
+
+        $result = $this->oPaymentInvoice->removePayment($id, $invoiceId);
+
+        $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
+        );
+
+        return redirect()->route('invoices.payments', ['id' => $invoiceId])
+            ->with($notification);
+    }
 
 }

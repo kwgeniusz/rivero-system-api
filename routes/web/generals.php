@@ -61,6 +61,10 @@ Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('con
 
 Route::resource('invoices', 'Web\InvoiceController');
 Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoices.close');
+Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');
+Route::post('invoicesPayments/add', 'Web\InvoiceController@paymentsAdd')->name('invoices.paymentsAdd');
+Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@paymentsRemove')->name('invoices.paymentsRemove');
+
 Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
 Route::get('reportsInvoice', 'Web\ReportController@printInvoice')->name('reports.invoice');
 Route::resource('services', 'Web\ServiceController');
@@ -123,7 +127,7 @@ Route::post('collection-report', 'Web\ReportController@collections')->name('coll
 
 //ROUTES DE MODULO CONFIGURACION----------------------------------------------------------------------------
 //CHANGE OFFICE
-Route::get('change-office', function () {return view('changeoffice.index');})->name('changeOffice.index');
+Route::get('change-office', function () {return view('module_configuration.changeoffice.index');})->name('changeOffice.index');
 Route::post('change-office', 'Web\UserController@changeOffice')->name('changeOffice.update');
 //PROJECTS********
 Route::resource('projectDescriptions', 'Web\ProjectDescriptionController', ['except' => ['create']]);

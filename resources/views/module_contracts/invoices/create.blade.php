@@ -38,6 +38,17 @@
                 <input type="text" class="form-control" id="contractSiteAddress" name="contractSiteAddress" value="{{ $contract[0]->siteAddress}}" disabled="on">
               </div>
 
+            <div class="form-group">
+            <label for="paymentConditionId">CONDICION DE PAGO</label>
+            <select class="form-control" name="paymentConditionId" id="paymentConditionId">
+                @foreach($paymentConditions as $paymentC)
+                      <option value="{{$paymentC->pCondId}}" >
+                        @php echo ($paymentC->pCondNameEn) ? $paymentC->pCondNameEn : $paymentC->pCondNameSp @endphp
+                     </option>
+                @endforeach
+            </select>
+          </div>
+
         <div class="row">
           <div class="form-group col-xs-5">
               <label for="invoiceDate">FECHA DE LA FACTURA:</label>

@@ -10,12 +10,10 @@ use App\Staff;
 use App\ProjectDescription;
 use App\ProjectUse;
 use App\Country; //OJO
-use App\PaymentContract;
 use App\Receivable;
 use App\Configuration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
-use App\Http\Requests\PaymentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Auth;
@@ -29,7 +27,6 @@ class ContractController extends Controller
     private $oStaff;
     private $oProjectDescription;
     private $oProjectUse;
-    private $oPaymentContract;
     private $oReceivable;
     private $oConfiguration;
     private $oCountry;
@@ -57,7 +54,6 @@ class ContractController extends Controller
         $this->oStaff           = new Staff;
         $this->oProjectDescription = new ProjectDescription;
         $this->oProjectUse     = new ProjectUse;
-        $this->oPaymentContract = new PaymentContract;
         $this->oReceivable      = new Receivable;
         $this->oConfiguration   = new Configuration;
         $this->oCountry         = new Country;
@@ -341,49 +337,6 @@ class ContractController extends Controller
             ->with('info', 'Tipo de Proyecto Creado');
     }
 
-// ---------PAYMENT -------//
-
-    public function payment($id)
-    {
-
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        $payments = $this->oPaymentContract->getAllForContract($id);
-
-        return view('module_contracts.contracts.payment', compact('contract', 'payments'));
-
-    }
-
-    public function paymentAgg(PaymentRequest $request)
-    {
-
-        $result = $this->oPaymentContract->aggPayment(
-            $request->contractId,
-            $request->amount,
-            $request->paymentDate
-        );
-
-        $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
-        );
-
-        return redirect()->route('contracts.payment', ['id' => $request->contractId])
-            ->with($notification);
-
-    }
-    public function paymentRemove($id, $amount, $contractId)
-    {
-
-        $result = $this->oPaymentContract->removePayment($id, $amount, $contractId);
-
-        $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
-        );
-
-        return redirect()->route('contracts.payment', ['id' => $contractId])
-            ->with($notification);
-    }
 //---------------FILES-----------------------//
     public function files($id)
     {

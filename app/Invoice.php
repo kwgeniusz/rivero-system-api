@@ -17,6 +17,7 @@ class Invoice extends Model
     protected $primaryKey = 'invoiceId';
     protected $fillable = ['invoiceId','countryId','officeId','invoiceNumber','contractId','clientId','address','invoiceDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','status'];
 
+     protected $appends = ['grossTotal','taxAmount','netTotal'];
      protected $dates = ['deleted_at'];
     //Status Invoice
     const OPEN    = '1';
@@ -24,16 +25,32 @@ class Invoice extends Model
     const PAID_OUT  = '3';
     const CANCELED = '4';
 
+
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-
+    public function client()
+    {
+        return $this->belongsTo('App\Client', 'clientId');
+    }
+        public function contract()
+    {
+        return $this->belongsTo('App\Contract', 'clientId');
+    }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-    public function getContractCostAttribute($contractCost)
+    public function getGrossTotalAttribute($grossTotal)
     {
-        return decrypt($contractCost);
+          return decrypt($this->attributes['grossTotal']);
+    }
+      public function getTaxAmountAttribute($taxAmount)
+    {
+          return decrypt($this->attributes['taxAmount']);
+    }
+      public function getNetTotalAttribute($netTotal)
+    {
+          return decrypt($this->attributes['netTotal']);
     }
     public function getInvoiceDateAttribute($invoiceDate)
     {
@@ -84,9 +101,17 @@ class Invoice extends Model
     /** Mutadores  */
 //--------------------------------------------------------------------
 
-    public function setContractCostAttribute($contractCost)
+    public function setGrossTotalAttribute($grossTotal)
     {
-        return $this->attributes['contractCost'] = encrypt($contractCost);
+        return $this->attributes['grossTotal'] = encrypt($grossTotal);
+    }
+        public function setTaxAmountAttribute($taxAmount)
+    {
+        return $this->attributes['taxAmount'] = encrypt($taxAmount);
+    }
+        public function setNetTotalAttribute($netTotal)
+    {
+        return $this->attributes['netTotal'] = encrypt($netTotal);
     }
     public function setInvoiceDateAttribute($invoiceDate)
     {
@@ -99,7 +124,6 @@ class Invoice extends Model
         $this->attributes['invoiceDate'] = $date;
     }
    
-
 
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -122,7 +146,7 @@ class Invoice extends Model
     }
 
 //------------------------------------------
-    public function insertInv($countryId,$officeId,$contractId,$clientId, $siteAddress, $invoiceDate,$currencyId,$taxPercent,$status) {
+    public function insertInv($countryId,$officeId,$contractId,$clientId, $siteAddress, $invoiceDate,$currencyId,$taxPercent,$paymentConditionId,$status) {
 
           $oConfiguration = new Configuration();
       
@@ -142,6 +166,7 @@ class Invoice extends Model
         $invoice->taxPercent       =  $taxPercent;
         $invoice->taxAmount        =  '0.00';
         $invoice->netTotal         =  '0.00';
+        $invoice->pCondId         =  $paymentConditionId;
         $invoice->status           =  '1';
         $invoice->save();
 
@@ -184,7 +209,8 @@ class Invoice extends Model
     {
         if ($sign == '+') {
               $invoice = Invoice::find($invoiceId);
-              $invoice->grossTotal = $invoice->grossTotal + $amount;
+                    $grossTotal = $invoice->grossTotal + $amount;
+                    $invoice->grossTotal = number_format($grossTotal, 2, '.', '');
             } else {
               $invoice = Invoice::find($invoiceId);
                 if ($invoice->grossTotal < $amount) {
@@ -193,8 +219,11 @@ class Invoice extends Model
                   $invoice->grossTotal = $invoice->grossTotal - $amount;
                 }
             }
-              $invoice->taxAmount   = ($invoice->grossTotal * $invoice->taxPercent)/100;
-              $invoice->netTotal    = $invoice->taxAmount + $invoice->grossTotal;
+              $taxAmount   = ($invoice->grossTotal * $invoice->taxPercent)/100;
+              $invoice->taxAmount = number_format($taxAmount, 2, '.', '');
+              $netTotal    = $invoice->taxAmount + $invoice->grossTotal;
+              $invoice->netTotal = number_format($netTotal, 2, '.', '');
+
               $invoice->save();
     }
 //------------------------------------------

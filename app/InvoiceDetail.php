@@ -17,7 +17,8 @@ class InvoiceDetail extends Model
     protected $table      = 'invoice_detail';
     protected $primaryKey = 'invDetailId';
     protected $fillable = ['invDetailId','invoiceId','serviceId','serviceName','unit','unitCost','quantity','amount'];
-
+  
+    protected $appends = ['unitCost','amount'];
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -25,20 +26,26 @@ class InvoiceDetail extends Model
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-    public function getContractCostAttribute($contractCost)
+    public function getUnitCostAttribute($unitCost)
     {
-        return decrypt($contractCost);
+       return decrypt($this->attributes['unitCost']);
     }
-
+    public function getAmountAttribute($amount)
+    {
+       return decrypt($this->attributes['amount']);
+    }
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
 
-    public function setContractCostAttribute($contractCost)
+    public function setUnitCostAttribute($unitCost)
     {
-        return $this->attributes['contractCost'] = encrypt($contractCost);
+        return $this->attributes['unitCost'] = encrypt($unitCost);
     }
-   
+     public function setAmountAttribute($amount)
+    {
+        return $this->attributes['amount'] = encrypt($amount);
+    }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -89,31 +96,6 @@ class InvoiceDetail extends Model
         }
     }
 //------------------------------------------
-    public function updateInv($contractId, $contractDate, $clientId,
-        $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
-        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyName) {
-
-        $contract                      = contract::find($contractId);
-        // $contract->countryId           = $countryId;
-        // $contract->officeId            = $officeId;
-        $contract->contractDate        = $contractDate;
-        $contract->clientId            = $clientId;
-        $contract->siteAddress         = $siteAddress;
-        $contract->projectTypeId       = $projectTypeId;
-        $contract->serviceTypeId       = $serviceTypeId;
-        $contract->registryNumber      = $registryNumber;
-        $contract->startDate           = $startDate;
-        $contract->scheduledFinishDate = $scheduledFinishDate;
-        $contract->actualFinishDate    = $actualFinishDate;
-        $contract->deliveryDate        = $deliveryDate;
-        $contract->initialComment      = $initialComment;
-        $contract->intermediateComment = $intermediateComment;
-        $contract->finalComment        = $finalComment;
-        $contract->currencyName        = $currencyName;
-
-        $contract->save();
-
-    }
 
 //------------------------------------------
     public function deleteInv($id)

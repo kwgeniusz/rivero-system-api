@@ -76,7 +76,7 @@ class Contract extends Model
     }
     public function payment()
     {
-        return $this->hasMany('App\PaymentContract', 'contractId', 'contractId');
+        return $this->hasMany('App\PaymentInvoice', 'contractId', 'contractId');
     }
 //--------------------------------------------------------------------
     /** Accesores  */

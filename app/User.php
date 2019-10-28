@@ -12,21 +12,27 @@ class User extends Authenticatable
     use HasRoles;
 
    /**ROLES USERS */
-    const DIRECTOR = '1';
-    const OFFICE_MANAGER = '2';
-    const PROJECT_MANAGER = '3';
-    const PROJECTIST = '4';
-    const INFORMATIC = '5';
-    const EMPLOYEE = '6';
-    const SELLER = '7';
-    const CLIENT = '8';
+    // const DIRECTOR = '1';
+    // const OFFICE_MANAGER = '2';
+    // const PROJECT_MANAGER = '3';
+    // const PROJECTIST = '4';
+    // const INFORMATIC = '5';
+    // const EMPLOYEE = '6';
+    // const SELLER = '7';
+    // const CLIENT = '8';
 
     protected $table ='user';
     protected $primaryKey = 'userId';
     public $timestamps    = false;
     protected $fillable = [
         'userId',
-        'userTypeName',
+        'countryId',
+        'officeId',
+        'defaultCountryId',
+        'defaultOfficeId',
+        'changeOffice',
+        'fullName',
+        'userName',
         'userLevel',
         'countryId',
         'officeId',
