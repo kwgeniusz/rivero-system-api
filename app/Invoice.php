@@ -33,9 +33,13 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\Client', 'clientId');
     }
-        public function contract()
+    public function contract()
     {
-        return $this->belongsTo('App\Contract', 'clientId');
+        return $this->belongsTo('App\Contract', 'contractId');
+    }
+    public function currency()
+    {
+        return $this->belongsTo('App\Currency', 'currencyId');
     }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -210,7 +214,7 @@ class Invoice extends Model
         if ($sign == '+') {
               $invoice = Invoice::find($invoiceId);
                     $grossTotal = $invoice->grossTotal + $amount;
-                    $invoice->grossTotal = number_format($grossTotal, 2, '.', '');
+                    $invoice->grossTotal = number_format((float)$grossTotal, 2, '.', '');
             } else {
               $invoice = Invoice::find($invoiceId);
                 if ($invoice->grossTotal < $amount) {
@@ -220,9 +224,9 @@ class Invoice extends Model
                 }
             }
               $taxAmount   = ($invoice->grossTotal * $invoice->taxPercent)/100;
-              $invoice->taxAmount = number_format($taxAmount, 2, '.', '');
+              $invoice->taxAmount = number_format((float)$taxAmount, 2, '.', '');
               $netTotal    = $invoice->taxAmount + $invoice->grossTotal;
-              $invoice->netTotal = number_format($netTotal, 2, '.', '');
+              $invoice->netTotal = number_format((float)$netTotal, 2, '.', '');
 
               $invoice->save();
     }

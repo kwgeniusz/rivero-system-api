@@ -89,7 +89,15 @@ class Contract extends Model
     return number_format($cost, 2, ',', '.');
     }
      */
-
+    public function getContractTypeAttribute($contractType)
+    {
+          if($contractType == 'P')
+          {
+             return  $contractType = "PROJECT";
+          }else{
+             return  $contractType = "SERVICE";
+          }
+    }
     public function getContractCostAttribute($contractCost)
     {
         return decrypt($contractCost);
@@ -350,6 +358,7 @@ class Contract extends Model
     {
         return $this->where('clientId', '=', $clientId)->get();
     }
+
 //------------------------------------------
     public function findSiteAddressByOffice($officeId)
     {

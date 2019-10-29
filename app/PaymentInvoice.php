@@ -100,7 +100,7 @@ class PaymentInvoice extends Model
             //INSERTA PAGO
             $payment              = new PaymentInvoice;
             $payment->invoiceId   = $invoiceId;
-            $payment->amount      = $amount;
+            $payment->amount      = number_format((float)$amount, 2, '.', '');;
             $payment->paymentDate = $paymentDate;
             $payment->dateCreated = date('Y-m-d H:i:s');
             $payment->lastUserId  = Auth::user()->userId;
@@ -114,7 +114,7 @@ class PaymentInvoice extends Model
             $receivable->invoiceId         =  $payment->invoiceId;
             $receivable->paymentInvoiceId  = $payment->paymentInvoiceId;
             $receivable->sourceReference   = $payment->invoice->invoiceNumber;
-            $receivable->amountDue         = $amount;
+            $receivable->amountDue         = number_format((float)$amount, 2, '.', '');
             $receivable->amountPaid        = '0.00';
             $receivable->amountPercentaje  = '0.00';        
             $receivable->save();

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Contract;
 use App\Receivable;
 use App\Transaction;
 use App\Client;
+use App\Contract;
 use App\Invoice;
 use App\InvoiceDetail;
+use App\PaymentInvoice;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,22 +18,24 @@ use PDF;
 
 class ReportController extends Controller
 {
-    private $oContract;
     private $oTransaction;
     private $oReceivable;
     private $oClient;
+    private $oContract;
     private $oInvoice;
     private $oInvoiceDetail;
+    private $oPaymentInvoice;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oContract    = new Contract;
         $this->oTransaction = new Transaction;
         $this->oReceivable  = new Receivable;
         $this->oClient      = new Client;
+        $this->oContract      = new Contract;
         $this->oInvoice     = new Invoice;
         $this->oInvoiceDetail = new InvoiceDetail;
+        $this->oPaymentInvoice = new PaymentInvoice;
     }
 
     public function printContract(Request $request)
@@ -487,12 +490,15 @@ EOD;
 //------------------INVOICE-----------------------------//
      public function printInvoice(Request $request)
     {
-        $acum         = 0;
         $date         = Carbon::now();
-        $invoice = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
-        $office     = DB::table('office')->where('officeId', session('officeId'))->get();
-        $client  = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
+        $office       = DB::table('office')->where('officeId', session('officeId'))->get();
+
+        $invoice    = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
+        $client     = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
         $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
+        $payments    = $this->oPaymentInvoice->getAllByInvoice($request->id);
+
+        $symbol = $invoice[0]->currency->currencySymbol;
 
         if ($invoicesDetails->isEmpty()) {
             return view('module_administration.reportincomeexpenses.error');
@@ -500,78 +506,112 @@ EOD;
 
             $html = <<<EOD
 
-   <table cellspacing="0" cellpadding="0" border="0"  >
-       <tr > 
-         <th align="right"> <img style="float:center;" src="img/jdrivero.png" alt="test alt attribute" width="180" height="60"/> </th>
-       </tr>
-   </table> 
+
 
     <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#F9EC51;" colspan="2" align="center"><b>INVOICE</b></th>
+        <th style="background-color:#e5db99;" colspan="3" align="center"><b>ELECTRONIC INVOICE</b></th>
        </tr>
-
+ 
        <tr style="font-size:10px"> 
-        <th>
-             <div style="text-align:left">
-               JD Rivero Dallas INC<br>
-               {$office[0]->officeAddress}<br>
-               {$office[0]->officePhone}<br>
-               {$office[0]->officeEmail}<br>
-               www.jdrivero.com
+         <th width="20%" align="left"> 
+          <img style="float:center;" src="img/logo_jd.png" alt="test alt attribute" width="95px" height="95px"/>
+         </th>
+        <th width="50%">
+             <div style="text-align:center">
+               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
+               <br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> www.jdrivero.com
              </div>
         </th>
-        <th>
-             <div style="text-align:right">
+        <th width="30%">
+             <div style="text-align:left">
               <b>Invoice Number:</b> {$invoice[0]->invoiceNumber}<br>
               <b>Invoice Date:</b> {$invoice[0]->invoiceDate}<br>
-              <b>Invoice Control:</b> {$invoice[0]->invoiceNumber}<br>
+              <b>Invoice Control:</b> <br>
              </div>
         </th>
        </tr>
 </table>
+       
 
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#F9EC51;" colspan="1" align="center"><b>CUSTOMER</b></th>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>CUSTOMER INFORMATION</b></th>
        </tr>
 
        <tr style="font-size:10px"> 
         <th>
              <div style="text-align:left">
               <b>ID:</b> {$client[0]->clientCode}
-              <b>NAME/COMPANY:</b> {$client[0]->clientName}<br>
-              <b>ADDRESS:</b> {$client[0]->clientAddress}<br>
-              <b>PHONE:</b> {$client[0]->clientPhone}
-              <b>CONTACT:</b> {$client[0]->contactType->contactTypeName}<br>
-              <b>EMAIL:</b> {$client[0]->contactType->clientEmail}<br>
+              <b>Name:</b> {$client[0]->clientName}<br>
+              <b>Billing Address:</b> {$client[0]->clientAddress}<br>
+              <b>E-mail:</b> {$client[0]->contactType->clientEmail}
+              <b>Phone:</b> {$client[0]->clientPhone}
+              <b>Reference:</b> {$client[0]->contactType->contactTypeName}<br>
              </div>
         </th>
        </tr>
 </table>
-   
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>PROJECT INFORMATION</b></th>
+       </tr>
+       <tr style="font-size:10px"> 
+        <th>
+             <div style="text-align:left">
+              <b>Project ID:</b> {$invoice[0]->contract->contractNumber}
+              <b>Project Address:</b> {$invoice[0]->contract->siteAddress}<br>
+              <b>Type:</b> {$invoice[0]->contract->contractType}<br>
+              <b>Project Description:</b> ______________
+              <b>Phone:</b> {$invoice[0]->client->clientPhone}
+              <b>Reference:</b> _________________
+             </div>
+        </th>
+       </tr>
+</table>   
+<p>
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="0" border="0">
         <thead>
-        <tr style="background-color:#F9EC51; color:black; font-size:11px;  font-weight: bold;" align="center">
-        <th width="5%" align="center">#</th><th align="left" width="45%">DESCRIPCION</th><th width="20%" align="right">UNIT</th><th width="10%" >QTY</th><th width="10%" align="left">UP</th><th width="10%" align="right">AMOUNT</th>
+        <tr style="background-color:#f2edd1; color:black; font-size:11px;  font-weight: bold;" align="center">
+        <th width="5%" align="center">#</th><th align="left" width="30%">DESCRIPCION</th><th width="20%" align="right">UNIT</th><th width="15%" >QTY</th><th width="15%" align="left">UP</th><th width="15%" align="right">AMOUNT</th>
         </tr>
         </thead>
 EOD;
+           $acum          = 0;
+           $acum2         = 0;
+           $acumInvDetail = 0;
+
             foreach ($invoicesDetails as $invDetail) {
-                      $acum = $acum + 1;
+               $acum = $acum + 1;
                 if ($acum % 2 == 0) {
-                    $background = "#e6e6e6";
+                    $background = "#f2edd1";
                 } else {
                     $background = "#fbfbfb";
                 }
+            //espacios,numeracion,precios, negritas para reglon con precios
+               if ($invDetail->unit == null) {
+                    $acum2 = "";
+                    $fontWeight= "";
+                    $space = ".........";
+                } else {
+                    $acumInvDetail = $acumInvDetail + 1;
+                    $acum2=$acumInvDetail;
+                    $fontWeight= "font-weight:bold";
+                    $space = "";
+                }
+
                 $html .= <<<EOD
-        <tr style="background-color:$background; font-size:10px">
-        <td width="5%" align="center"></td>
-        <td width="45%" align="left">$invDetail->serviceName</td>
+        <tr style="background-color:$background; font-size:10px;">
+        <td width="5%" align="center">$acum2</td>
+        <td width="30%" style="$fontWeight;"> $space $invDetail->serviceName</td>
         <td width="20%" align="right">{$invDetail->unit}</td>
-        <td width="10%" align="center">$invDetail->quantity</td>
-        <td width="10%" align="left">$invDetail->unitCost</td>
-        <td width="10%" align="right">$invDetail->amount</td>
+        <td width="15%" align="center">$invDetail->quantity</td>
+        <td width="15%" align="left">$invDetail->unitCost</td>
+        <td width="15%" align="right">$invDetail->amount</td>
         </tr>
 
 EOD;
@@ -581,23 +621,51 @@ EOD;
 <p>
 <table cellspacing="0" cellpadding="0" border="0"  >
        <tr style="font-size:10px"> 
-        <th>
+        <th width="20%">
           <img style="float:center;" src="img/qr.png" alt="test alt attribute" width="100" height="90"/>
         </th>
-        <th>
-             <div style="text-align:right">
-              <b>SubTotal:</b> {$invoice[0]->grossTotal}<br>
-              <b>Tax Rate:</b> {$invoice[0]->taxPercent}<br>
-              <b>Tax:</b> {$invoice[0]->taxAmount}<br>
-              <b>Total:</b> {$invoice[0]->netTotal}<br>
-             </div>
+        <th width="55%">
+             <b>Payment break down:</b><br>
+EOD;
+      $acum3          = 0;
+    foreach ($payments as $payment) {
+     $acum3 = $acum3 + 1;
+      $html .= <<<EOD
+              <table cellspacing="0" cellpadding="0" border="0"  >
+                <tr>
+                 <td width="5%">$acum3</td>
+                 <td width="20%">$payment->amount</td>
+                 <td width="30%">$payment->paymentDate</td>
+                 <td width="45%"></td>
+                </tr>
+              </table>
+EOD;
+  }
+
+ $html .= <<<EOD
+        </th>
+        <th width="25%">
+             <table cellspacing="0" cellpadding="0" border="0"  >
+               <tr>
+                <th><b>Subtotal:</b></th><th align="right"> {$symbol}{$invoice[0]->grossTotal}</th>
+               </tr>
+               <tr>
+                <th><b>Tax Rate:</b></th><th align="right">{$invoice[0]->taxPercent}%</th>
+               </tr>
+               <tr>
+                <th><b>Tax:</b></th><th align="right"> {$symbol}{$invoice[0]->taxAmount}</th>
+               </tr>
+                <tr>
+                <th><b>Total:</b></th><th align="right"> {$symbol}{$invoice[0]->netTotal}</th>
+               </tr>
+             </table>
         </th>
        </tr>
 </table>
 
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#F9EC51;" colspan="1" align="center"><b>PAYMENT</b></th>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Term & Condition</b></th>
        </tr>
 
        <tr style="font-size:10px"> 
@@ -610,6 +678,16 @@ EOD;
 </table>
 EOD;
 
+          PDF::setFooterCallback(function($pdf) {
+            // Position at 15 mm from bottom
+            $pdf->SetY(-15);
+            // Set font
+            $pdf->SetFont('helvetica', 'I', 8);
+            $pdf->Cell(0, 10, '© Copyright 2019 JD Rivero Global Group - All right reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            // Page number
+            $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+         });
+
             $fileName = Auth::user()->userName;
             PDF::SetTitle($fileName);
             PDF::AddPage();
@@ -618,6 +696,7 @@ EOD;
             $outputDestination = "F";
             $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);
+    
 
             return view('layouts.reports', compact('outputPdfName'));
         }

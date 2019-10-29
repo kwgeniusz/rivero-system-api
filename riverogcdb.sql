@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 24-10-2019 a las 12:58:36
+-- Tiempo de generación: 28-10-2019 a las 03:38:39
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 7.0.29
 
@@ -734,6 +734,20 @@ INSERT INTO `invoice_detail` (`invDetailId`, `invoiceId`, `serviceId`, `serviceN
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `invoice_note`
+--
+
+DROP TABLE IF EXISTS `invoice_note`;
+CREATE TABLE IF NOT EXISTS `invoice_note` (
+  `invNoteId` int(9) NOT NULL AUTO_INCREMENT,
+  `invoiceId` int(11) NOT NULL,
+  `noteId` int(6) NOT NULL,
+  PRIMARY KEY (`invNoteId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `invoice_status`
 --
 
@@ -832,6 +846,33 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (7, 'App\\User', 4),
 (7, 'App\\User', 9),
 (7, 'App\\User', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `note`
+--
+
+DROP TABLE IF EXISTS `note`;
+CREATE TABLE IF NOT EXISTS `note` (
+  `noteId` int(6) NOT NULL AUTO_INCREMENT,
+  `noteCode` int(6) NOT NULL,
+  `noteLanguage` varchar(3) NOT NULL,
+  `noteName` varchar(128) NOT NULL,
+  PRIMARY KEY (`noteId`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `note`
+--
+
+INSERT INTO `note` (`noteId`, `noteCode`, `noteLanguage`, `noteName`) VALUES
+(1, 1, 'ENG', 'City fees not included'),
+(2, 2, 'ENG', 'If we are not contractor, we need the information of the contractor'),
+(3, 3, 'ENG', 'Includes two copies'),
+(4, 1, 'ESP', 'Los honorarios de la Alcaldia no se incluyen'),
+(5, 2, 'ESP', 'Si no somos el contratista, necesitamos la información del contratista'),
+(6, 3, 'ESP', 'Se incluyen dos copias');
 
 -- --------------------------------------------------------
 

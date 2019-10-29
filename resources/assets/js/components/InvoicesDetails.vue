@@ -32,7 +32,7 @@
             <label for="unit">UNIDAD</label>
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
                 <option value="sqft" >sqft</option>
-                <option value="each" >each</option>
+                <option value="ea" >ea</option>
 
             </select>
           </div>
@@ -168,7 +168,9 @@ export default {
     },
     computed: {
       sumTotal: function () {
-          return this.modelQuantity * this.modelUnitCost
+          let sum = this.modelQuantity * this.modelUnitCost;
+          return  Number.parseFloat(sum).toFixed(2);
+            
        } 
     },
     methods: {

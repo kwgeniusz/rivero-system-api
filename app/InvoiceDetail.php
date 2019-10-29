@@ -66,6 +66,11 @@ class InvoiceDetail extends Model
 
         DB::beginTransaction();
         try {
+
+
+              if($amount == '0.00'){
+                $amount = null;
+              }
             //INSERTA UN RENGLON
              $invDetail                   = new InvoiceDetail;
              $invDetail->invoiceId        = $invoiceId;

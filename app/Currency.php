@@ -12,7 +12,7 @@ class Currency extends Model
 
     protected $table      = 'currency';
     protected $primaryKey = 'currencyId';
-    protected $fillable   = ['currencyId', 'currencyName'];
+    protected $fillable   = ['currencyId', 'currencyName','currencySymbol'];
 
      protected $dates = ['deleted_at'];
 //--------------------------------------------------------------------

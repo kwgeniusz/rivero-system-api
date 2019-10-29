@@ -62136,7 +62136,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
    },
    computed: {
       sumTotal: function sumTotal() {
-         return this.modelQuantity * this.modelUnitCost;
+         var sum = this.modelQuantity * this.modelUnitCost;
+         return Number.parseFloat(sum).toFixed(2);
       }
    },
    methods: {
@@ -62465,9 +62466,7 @@ var render = function() {
                         _vm._v("sqft")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "each" } }, [
-                        _vm._v("each")
-                      ])
+                      _c("option", { attrs: { value: "ea" } }, [_vm._v("ea")])
                     ]
                   )
                 ])
