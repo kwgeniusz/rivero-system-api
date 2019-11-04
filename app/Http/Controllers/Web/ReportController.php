@@ -506,84 +506,111 @@ EOD;
 
             $html = <<<EOD
 
-
-
-    <table cellspacing="0" cellpadding="0" border="0"  >
-       <tr>
-        <th style="background-color:#e5db99;" colspan="3" align="center"><b>ELECTRONIC INVOICE</b></th>
+    <table cellspacing="0" cellpadding="1px" border="0"  >
+       <tr >
+        <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>ELECTRONIC INVOICE</b></th>
        </tr>
  
        <tr style="font-size:10px"> 
          <th width="20%" align="left"> 
-          <img style="float:center;" src="img/logo_jd.png" alt="test alt attribute" width="95px" height="95px"/>
+          <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
          </th>
-        <th width="50%">
+        <th width="47%">
              <div style="text-align:center">
                <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
-               <br>
                <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
                <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> www.jdrivero.com
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
              </div>
         </th>
-        <th width="30%">
+        <th width="33%">
              <div style="text-align:left">
-              <b>Invoice Number:</b> {$invoice[0]->invoiceNumber}<br>
-              <b>Invoice Date:</b> {$invoice[0]->invoiceDate}<br>
-              <b>Invoice Control:</b> <br>
+              <b>Invoice number:</b> {$invoice[0]->invoiceId}<br>
+              <b>Invoice date:</b> {$invoice[0]->invoiceDate}<br>
+              <b>Control Number:</b> {$invoice[0]->invoiceNumber}<br>
+              <b>Page:</b> getAliasNumPage().'/'.getAliasNbPages()<br>
              </div>
         </th>
        </tr>
 </table>
        
 
- <table cellspacing="0" cellpadding="0" border="0"  >
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
        <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>CUSTOMER INFORMATION</b></th>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>CUSTOMER INFORMATION</b></th>
+       </tr>
+       <tr> 
+            <th colspan="1">
+               <b>ID:</b> {$client[0]->clientCode}
+            </th>
+            <th colspan="2">
+              <b>Name:</b> {$client[0]->clientName}
+            </th>
        </tr>
 
-       <tr style="font-size:10px"> 
-        <th>
-             <div style="text-align:left">
-              <b>ID:</b> {$client[0]->clientCode}
-              <b>Name:</b> {$client[0]->clientName}<br>
-              <b>Billing Address:</b> {$client[0]->clientAddress}<br>
-              <b>E-mail:</b> {$client[0]->contactType->clientEmail}
-              <b>Phone:</b> {$client[0]->clientPhone}
-              <b>Reference:</b> {$client[0]->contactType->contactTypeName}<br>
-             </div>
-        </th>
+      <tr> 
+            <th colspan="3">
+              <b>Billing Address:</b> {$client[0]->clientAddress}
+            </th>
+       </tr>
+
+     <tr> 
+            <th colspan="1">
+               <b>E-mail:</b> {$client[0]->contactType->clientEmail}
+            </th>
+            <th colspan="1">
+                   <b>Phone:</b> {$client[0]->clientPhone}
+            </th>
+            <th colspan="1">
+              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
+            </th>
        </tr>
 </table>
- <table cellspacing="0" cellpadding="0" border="0"  >
+
+
+
+
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
        <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>PROJECT INFORMATION</b></th>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
        </tr>
-       <tr style="font-size:10px"> 
-        <th>
-             <div style="text-align:left">
-              <b>Project ID:</b> {$invoice[0]->contract->contractNumber}
-              <b>Project Address:</b> {$invoice[0]->contract->siteAddress}<br>
-              <b>Type:</b> {$invoice[0]->contract->contractType}<br>
-              <b>Project Description:</b> ______________
-              <b>Phone:</b> {$invoice[0]->client->clientPhone}
-              <b>Reference:</b> _________________
-             </div>
-        </th>
+        <tr> 
+            <th>
+             <b>Project ID:</b> {$invoice[0]->contract->contractNumber}
+            </th>
+            <th colspan="2">
+             <b>Project Address:</b> {$invoice[0]->contract->siteAddress}
+            </th>
+            <th> </th>
+       </tr>
+      <tr> 
+            <th >
+              <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
+            </th>
+            <th colspan="2">
+              <b>Project Description:</b> {$invoice[0]->contract->projectDescription->projectDescriptionName}
+            </th>
+           <th> </th>
        </tr>
 </table>   
-<p>
- <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="0" border="0">
+
+ <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
         <thead>
-        <tr style="background-color:#f2edd1; color:black; font-size:11px;  font-weight: bold;" align="center">
-        <th width="5%" align="center">#</th><th align="left" width="30%">DESCRIPCION</th><th width="20%" align="right">UNIT</th><th width="15%" >QTY</th><th width="15%" align="left">UP</th><th width="15%" align="right">AMOUNT</th>
+        <tr style="background-color:#f2edd1; color:black; font-size:13px;  font-weight: bold;" align="center">
+          <th width="5%" align="center">#</th>
+          <th align="center" width="30%">DESCRIPTION</th>
+          <th width="20%" align="center">UNIT</th>
+          <th width="15%" >QTY</th>
+          <th width="15%" align="center">UP</th>
+          <th width="15%" align="center">AMOUNT</th>
         </tr>
         </thead>
 EOD;
            $acum          = 0;
            $acum2         = 0;
            $acumInvDetail = 0;
+           $moneySymbol = '';
 
             foreach ($invoicesDetails as $invDetail) {
                $acum = $acum + 1;
@@ -596,22 +623,24 @@ EOD;
                if ($invDetail->unit == null) {
                     $acum2 = "";
                     $fontWeight= "";
-                    $space = ".........";
+                    $space = "   ";
+                    $moneySymbol = '';
                 } else {
                     $acumInvDetail = $acumInvDetail + 1;
                     $acum2=$acumInvDetail;
                     $fontWeight= "font-weight:bold";
                     $space = "";
+                    $moneySymbol = '$';
                 }
 
                 $html .= <<<EOD
         <tr style="background-color:$background; font-size:10px;">
         <td width="5%" align="center">$acum2</td>
-        <td width="30%" style="$fontWeight;"> $space $invDetail->serviceName</td>
-        <td width="20%" align="right">{$invDetail->unit}</td>
+        <td width="30%" >$space$invDetail->serviceName</td>
+        <td width="20%" align="center">{$invDetail->unit}</td>
         <td width="15%" align="center">$invDetail->quantity</td>
-        <td width="15%" align="left">$invDetail->unitCost</td>
-        <td width="15%" align="right">$invDetail->amount</td>
+        <td width="15%" align="right">$moneySymbol $invDetail->unitCost</td>
+        <td width="15%" align="right">$moneySymbol $invDetail->amount</td>
         </tr>
 
 EOD;
@@ -622,12 +651,12 @@ EOD;
 <table cellspacing="0" cellpadding="0" border="0"  >
        <tr style="font-size:10px"> 
         <th width="20%">
-          <img style="float:center;" src="img/qr.png" alt="test alt attribute" width="100" height="90"/>
+          <img style="float:center;" src="img/qr.png" alt="test alt attribute" width="80" height="80"/>
         </th>
-        <th width="55%">
+        <th width="50%">
              <b>Payment break down:</b><br>
 EOD;
-      $acum3          = 0;
+      $acum3        = 0;
     foreach ($payments as $payment) {
      $acum3 = $acum3 + 1;
       $html .= <<<EOD
@@ -644,19 +673,25 @@ EOD;
 
  $html .= <<<EOD
         </th>
-        <th width="25%">
+        <th width="30%">
              <table cellspacing="0" cellpadding="0" border="0"  >
                <tr>
-                <th><b>Subtotal:</b></th><th align="right"> {$symbol}{$invoice[0]->grossTotal}</th>
+                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {$symbol}{$invoice[0]->grossTotal}</th>
                </tr>
                <tr>
-                <th><b>Tax Rate:</b></th><th align="right">{$invoice[0]->taxPercent}%</th>
+                <th><b>Tax Rate</b></th><th align="right">{$invoice[0]->taxPercent}%</th>
                </tr>
                <tr>
-                <th><b>Tax:</b></th><th align="right"> {$symbol}{$invoice[0]->taxAmount}</th>
+                <th><b>Tax</b></th><th align="right"> {$symbol}{$invoice[0]->taxAmount}</th>
                </tr>
                 <tr>
-                <th><b>Total:</b></th><th align="right"> {$symbol}{$invoice[0]->netTotal}</th>
+                <th><b>Total</b></th><th align="right"> {$symbol}{$invoice[0]->netTotal}</th>
+               </tr>
+                <tr>
+                <th><b>Amount PAID</b></th><th align="right" style="color:red"> {$symbol} 0</th>
+               </tr>
+                <tr>
+                <th><b>Balance Due</b></th><th align="right"> {$symbol} 0 </th>
                </tr>
              </table>
         </th>
@@ -677,22 +712,28 @@ EOD;
        </tr>
 </table>
 EOD;
-
           PDF::setFooterCallback(function($pdf) {
             // Position at 15 mm from bottom
             $pdf->SetY(-15);
             // Set font
             $pdf->SetFont('helvetica', 'I', 8);
-            $pdf->Cell(0, 10, '© Copyright 2019 JD Rivero Global Group - All right reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Cell(0, 9, '© Copyright 2019 JD Rivero Global Group - All right reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            // $pdf->Cell(0, 11, 'reserved Designed by Rivero Visual Group ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
             // Page number
             $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
          });
 
-            $fileName = Auth::user()->userName;
-            PDF::SetTitle($fileName);
+
+            
             PDF::AddPage();
             PDF::writeHTML($html, true, false, false, false, '');
-            // PDF::Write(0, 'Hello World');
+
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+
+
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
             $outputDestination = "F";
             $outputPdfName     = "pdf/$fileName.pdf";
             PDF::Output(public_path($outputPdfName), $outputDestination);

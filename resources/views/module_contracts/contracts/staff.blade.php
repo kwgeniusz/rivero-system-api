@@ -42,7 +42,7 @@
     <div class="row ">
      <div class="col-xs-12">
      <div class="text-center">
-      <form class="form-inline" action="{{Route('contracts.staffAgg')}}" method="POST">
+      <form class="form-inline" action="{{Route('contracts.staffAdd')}}" method="POST">
       {{csrf_field()}}
          <div class="form-group">
             <label for="staff">PERSONAL DISPONIBLE</label>
@@ -84,8 +84,8 @@
                  <td>{{$staff->office->officeName}}</td>
                  <td>
                   <a href="{{route('contracts.staffRemove', [
-                  'id' => $staff->pivot->contractStaffId,
-                  'contractId' =>$contract[0]->contractId]) }}" class="btn btn-danger btn-sm">
+                  'contractId' => $contract[0]->contractId,
+                  'staffId'    => $staff->staffId]) }}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a></td>
                 </tr>

@@ -100,6 +100,8 @@
             <b>Impuesto {{invoice[0].taxPercent}}%:</b> {{invoice[0].taxAmount}} <br>
             <b>Total Neto:</b> {{invoice[0].netTotal}}<br>
        </div>
+
+
 <!--      <sweet-modal ref="modalEdit">
         <h2>Editar:</h2> <br>
             <div class="form-group ">
@@ -115,8 +117,9 @@
         <button class="btn btn-danger" @click="sendDelete(invoiceDetail.invDetailId)">Eliminar</button>
       </sweet-modal>
 
+  <hr>
+<invoices-notes :invoice-id="invoice[0].invoiceId"></invoices-notes>
 
-        
 
    </div>
        <div class="text-center"> 
@@ -129,11 +132,12 @@
        </div>
        <br>
   </div>
- </template>
 
+
+ </template>
  <script>
 
-// import modalPreviewDocument from './ModalPreviewDocument.vue'
+import InvoicesNotes from './InvoicesNotes.vue'
 // import vueUpload from './vueUpload.vue'
 
 export default {
@@ -166,13 +170,16 @@ export default {
   props: {
            invoiceId: { type: String},
     },
-    computed: {
+  computed: {
       sumTotal: function () {
           let sum = this.modelQuantity * this.modelUnitCost;
           return  Number.parseFloat(sum).toFixed(2);
             
        } 
     },
+   components: {
+         InvoicesNotes
+  },
     methods: {
         findInvoice: function (){
             let url ='invoices/'+this.invoiceId;

@@ -313,12 +313,12 @@ class ContractController extends Controller
 
     }
 
-    public function staffAgg(Request $request)
+    public function staffAdd(Request $request)
     {
 
-        $result = $this->oContract->aggStaff(
-            $request->staffId,
-            $request->contractId
+        $result = $this->oContract->addStaff(
+            $request->contractId,
+            $request->staffId
         );
 
         $notification = array(
@@ -330,9 +330,10 @@ class ContractController extends Controller
             ->with($notification);
 
     }
-    public function staffRemove($id, $contractId)
+    public function staffRemove($contractId,$staffId)
     {
-        $this->oContract->removeStaff($id);
+        $this->oContract->removeStaff($contractId,$staffId);
+
         return redirect()->route('contracts.staff', ['id' => $contractId])
             ->with('info', 'Tipo de Proyecto Creado');
     }

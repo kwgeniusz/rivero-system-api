@@ -3,8 +3,8 @@
 namespace App;
 
 use App;
-use App\Transaction;
 use DB;
+use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class Receivable extends Model
@@ -215,7 +215,7 @@ class Receivable extends Model
     {
         return $this->where('pending', '=', 'Y')
             ->where('contractId', '=', $contractId)
-            ->orderBy('paymentContractId')
+            ->orderBy('paymentInvoiceId')
             ->get();
 
     }
@@ -275,7 +275,7 @@ class Receivable extends Model
             //(insert transaction and Update BANK)...
             $month        = explode("/", $datePaid);
             $oTransaction = new Transaction;
-            $oTransaction->insertT(1, 'CUOTA', $datePaid, $amountPaid, $targetBankId, $receivable->sourceReference, '+', $month[1]);
+            $oTransaction->insertT(1, 'CUOTA', $datePaid, $amountPaid, $targetBankId, $receivable->sourceReference, '+', $month[1],session('countryId'),session('officeId'));
 
             //------------si lo pagado es menor que la cuota.
             if ($amountPaid < $receivable->amountDue) {

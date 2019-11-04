@@ -2,7 +2,7 @@
 
 @section('content')
 <h3><b>Facturas</b></h3>
-<h4><b>Contrato:</b> N° {{$contract[0]->contractNumber}}</h4>
+<h4><b>Contrato:</b>{{$contract[0]->contractNumber}}</h4>
 <h4><b>Cliente:</b> {{$contract[0]->client->clientName}}</h4>
     <div class="row">
         <div class="col-xs-12 ">
@@ -40,11 +40,11 @@
                    <td>{{$invoice->netTotal}}</td> 
                    <td>{{$invoice->status}}</td> 
                    <td>
-                 @if($invoice->status == 'ABIERTO')
+                 @if($invoice->status == 'ABIERTO'  || $invoice->status == 'OPEN')
                   <a href="{{route('invoicesDetails.index', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
                     </a>
-                  @elseif($invoice->status == 'CERRADO')
+                  @elseif($invoice->status == 'CERRADO' || $invoice->status == 'CLOSED')
                    <a href="{{route('invoices.payments', ['id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a>

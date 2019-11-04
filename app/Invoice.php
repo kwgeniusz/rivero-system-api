@@ -41,6 +41,10 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\Currency', 'currencyId');
     }
+     public function note()
+    {
+        return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId');
+    }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -178,32 +182,6 @@ class Invoice extends Model
         return $invoice->invoiceId;
 
     }
-//------------------------------------------
-    public function updateContract($contractId, $contractDate, $clientId,
-        $siteAddress, $projectTypeId, $serviceTypeId, $registryNumber, $startDate, $scheduledFinishDate,
-        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyName) {
-
-        $contract                      = contract::find($contractId);
-        // $contract->countryId           = $countryId;
-        // $contract->officeId            = $officeId;
-        $contract->contractDate        = $contractDate;
-        $contract->clientId            = $clientId;
-        $contract->siteAddress         = $siteAddress;
-        $contract->projectTypeId       = $projectTypeId;
-        $contract->serviceTypeId       = $serviceTypeId;
-        $contract->registryNumber      = $registryNumber;
-        $contract->startDate           = $startDate;
-        $contract->scheduledFinishDate = $scheduledFinishDate;
-        $contract->actualFinishDate    = $actualFinishDate;
-        $contract->deliveryDate        = $deliveryDate;
-        $contract->initialComment      = $initialComment;
-        $contract->intermediateComment = $intermediateComment;
-        $contract->finalComment        = $finalComment;
-        $contract->currencyName        = $currencyName;
-
-        $contract->save();
-
-    }
       public function changeStatus($invoiceId,$status) {
         $invoice             = Invoice::find($invoiceId);
         $invoice->status     = $status;
@@ -230,11 +208,24 @@ class Invoice extends Model
 
               $invoice->save();
     }
+//-----------------------------------------
+    //SECTIONS NOTES
 //------------------------------------------
-    public function deleteContract($contractId)
+    public function addNote($invoiceId ,$noteId)
     {
-        return Contract::find($contractId)
-                       ->delete();
+
+        $invoice = Invoice::find($invoiceId);
+        $invoice->note()->attach($noteId);
+
+        return $invoice->save();
         
+
     }
+//------------------------------------------
+    public function removeNote($invoiceId ,$noteId)
+    {
+        $invoice = Invoice::find($invoiceId);
+        return $invoice->note()->detach($noteId);
+    }
+//------------------------------------------
 }

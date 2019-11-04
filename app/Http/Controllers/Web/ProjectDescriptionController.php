@@ -5,7 +5,6 @@ namespace App\Http\Controllers\web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ProjectDescription;
-use Session;
 
 class ProjectDescriptionController extends Controller
 {

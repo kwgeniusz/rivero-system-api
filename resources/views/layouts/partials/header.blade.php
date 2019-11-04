@@ -23,8 +23,8 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-               <li><a href="{{ route('language',['locale' => 'es']) }}">{{__('Spanish')}}</a></li>
-               <li><a href="{{ route('language',['locale' => 'en']) }}">{{__('English')}}</a></li>
+               <li><a href="{{ route('localization',['language' => 'es']) }}">{{__('Spanish')}}</a></li>
+               <li><a href="{{ route('localization',['language' => 'en']) }}">{{__('English')}}</a></li>
 
 
 

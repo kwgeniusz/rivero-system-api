@@ -61966,6 +61966,12 @@ exports.push([module.i, "\n.bold {\r\n    font-weight:bold;\r\n    background:#D
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue__);
+//
+//
+//
+//
 //
 //
 //
@@ -62101,7 +62107,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-// import modalPreviewDocument from './ModalPreviewDocument.vue'
+
 // import vueUpload from './vueUpload.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -62139,6 +62145,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          var sum = this.modelQuantity * this.modelUnitCost;
          return Number.parseFloat(sum).toFixed(2);
       }
+   },
+   components: {
+      InvoicesNotes: __WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue___default.a
    },
    methods: {
       findInvoice: function findInvoice() {
@@ -62682,7 +62691,13 @@ var render = function() {
                 [_vm._v("Eliminar")]
               )
             ]
-          )
+          ),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("invoices-notes", {
+            attrs: { "invoice-id": _vm.invoice[0].invoiceId }
+          })
         ],
         1
       ),
@@ -62766,6 +62781,342 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(122)
+/* template */
+var __vue_template__ = __webpack_require__(123)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\InvoicesNotes.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-58a2b814", Component.options)
+  } else {
+    hotAPI.reload("data-v-58a2b814", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 120 */,
+/* 121 */,
+/* 122 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+// import modalPreviewDocument from './ModalPreviewDocument.vue'
+// import vueUpload from './vueUpload.vue'
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+   mounted: function mounted() {
+      console.log('Component InvoicesNotes mounted.');
+      // this.findInvoice();
+      this.getAllNotes();
+      this.getAllNotesForInvoice();
+   },
+
+   data: function data() {
+      return {
+         errors: [],
+         notes: {},
+         listNotes: {},
+         modelNoteId: ''
+      };
+   },
+   props: {
+      invoiceId: { type: String }
+   },
+   methods: {
+      getAllNotes: function getAllNotes() {
+         var _this = this;
+
+         var url = 'notes';
+         axios.get(url).then(function (response) {
+            _this.notes = response.data;
+         });
+      },
+      getAllNotesForInvoice: function getAllNotesForInvoice() {
+         var _this2 = this;
+
+         var url = 'invoicesNotes?invoiceId=' + this.invoiceId;
+         axios.get(url).then(function (response) {
+            _this2.listNotes = response.data;
+         });
+      },
+      /*----CRUD----- */
+      add: function add() {
+         var _this3 = this;
+
+         this.errors = [];
+         //VALIDATIONS
+         if (!this.modelNoteId) this.errors.push('Debe Escoger una Nota.');
+
+         // if (!this.modelServiceName) 
+         //  this.errors.push('Campo Nombre de Servicio es Obligatorio.');
+
+         if (!this.errors.length) {
+
+            axios.post('invoicesNotes/add', {
+               invoiceId: this.invoiceId,
+               noteId: this.modelNoteId
+            }).then(function (response) {
+               _this3.getAllNotesForInvoice();
+               _this3.modelNoteId = '';
+
+               if (response.data.alertType == 'info') {
+                  toastr.info(response.data.message);
+               } else {
+                  toastr.error(response.data.message);
+               }
+            });
+         }
+      },
+      deleteNoteSend: function deleteNoteSend(noteId) {
+         var _this4 = this;
+
+         var url = 'invoicesNotes/' + this.invoiceId + '/remove/' + noteId;
+         axios.delete(url).then(function (response) {
+            _this4.getAllNotesForInvoice();
+
+            if (response.data.alertType == 'info') {
+               toastr.info(response.data.message);
+            } else {
+               toastr.error(response.data.message);
+            }
+         });
+      }
+      // this.$forceUpdate()
+   } });
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("form", { staticClass: "formNotes" }, [
+    _vm.errors.length
+      ? _c(
+          "div",
+          { staticClass: "alert alert-danger" },
+          [
+            _c("h4", [_vm._v("Errores:")]),
+            _vm._v(" "),
+            _vm._l(_vm.errors, function(error) {
+              return _c("div", [_vm._v("- " + _vm._s(error))])
+            })
+          ],
+          2
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group col-xs-10 col-xs-offset-1" }, [
+      _c("label", { attrs: { for: "noteId" } }, [_vm._v("NOTAS")]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.modelNoteId,
+              expression: "modelNoteId"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { name: "noteId", id: "noteId" },
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.modelNoteId = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        _vm._l(_vm.notes, function(item, index) {
+          return _c("option", { domProps: { value: item.noteId } }, [
+            _vm._v(" " + _vm._s(item.noteName))
+          ])
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group col-xs-12 text-center" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.add()
+            }
+          }
+        },
+        [
+          _c("span", {
+            staticClass: "fa fa-plus",
+            attrs: { "aria-hidden": "true" }
+          }),
+          _vm._v(" Agregar Nota\n    ")
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-xs-12 text-left" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "ul",
+        _vm._l(_vm.listNotes, function(note) {
+          return _c("li", [
+            _vm._v("\n          " + _vm._s(note.noteName) + "\n          "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-danger btn-xs",
+                attrs: {
+                  "data-toggle": "tooltip",
+                  "data-placement": "top",
+                  title: "Eliminar"
+                },
+                on: {
+                  click: function($event) {
+                    _vm.deleteNoteSend(note.noteId)
+                  }
+                }
+              },
+              [
+                _c("span", {
+                  staticClass: "fa fa-times-circle",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
+            )
+          ])
+        })
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", [_c("b", [_vm._v("Terminos y Condiciones")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-58a2b814", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

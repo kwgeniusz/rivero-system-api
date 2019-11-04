@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 
+use Auth;
+use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Invoice;
@@ -12,8 +14,6 @@ use App\InvoiceDetail;
 use App\PaymentInvoice;
 use App\PaymentCondition;
 use App\Http\Requests\PaymentRequest;
-use Auth;
-use App;
 
 class InvoiceController extends Controller
 {
@@ -103,54 +103,51 @@ class InvoiceController extends Controller
         );
         return $notification;
     }
-    public function edit($id)
+
+
+//---------------NOTES-----------------------//
+     public function notes(Request $request)
     {
-      
-      // $blockEdit = false;
+        $invoice = $this->oInvoice->FindById($request->invoiceId,session('countryId'),session('officeId'));
+         
+           if($request->ajax()){
+                return $invoice[0]->note;
+            }
+        // return view('module_contracts.contracts.staff', compact('contract', 'staffs'));
 
-        //  if($this->oReceivable->verificarPagoCuota($id)){
-        //      $blockEdit = true;
-        //  }
-          
-        // // $clients  = $this->oClient->getAll();
-        // $projects = $this->oProjectType->getAll();
-        // $services = $this->oServiceType->getAll();
-        // $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-
-        // return view('module_contracts.invoices.edit', compact('contract', 'projects', 'services','blockEdit'));
     }
-
-    public function update(ContractRequest $request, $id)
+    public function notesAdd(Request $request)
     {
 
-        // $this->oContract->updateContract(
-        //     $id,
-        //     // $request->countryId,
-        //     // $request->officeId,
-        //     $request->contractDate,
-        //     $request->clientId,
-        //     $request->siteAddress,
-        //     $request->projectTypeId,
-        //     $request->serviceTypeId,
-        //     $request->registryNumber,
-        //     $request->startDate,
-        //     $request->scheduledFinishDate,
-        //     $request->actualFinishDate,
-        //     $request->deliveryDate,
-        //     $request->initialComment,
-        //     $request->intermediateComment,
-        //     $request->finalComment,
-        //     $request->currencyName
-        // );
+        $result = $this->oInvoice->addNote(
+            $request->invoiceId,
+            $request->noteId
+        );
 
-        // $notification = array(
-        //     'message'    => 'Contrato Modificado Exitosamente',
-        //     'alert-type' => 'info',
-        // );
-        // return redirect()->route('contracts.index')
-        //     ->with($notification);
+        $notification = array(
+            'message'    => 'Nota Agregada a factura',
+            'alertType' => 'info',
+        );
+
+         if($request->ajax()){
+                return $notification;
+            }
     }
-// ---------PAYMENT -------//
+
+    public function notesRemove(Request $request,$invoiceId,$noteId)
+    {
+        $this->oInvoice->removeNote($invoiceId,$noteId);
+
+        
+        $notification = array(
+            'message'    => 'Nota Eliminada de factura',
+            'alertType' => 'info',
+        );
+           if($request->ajax()){
+                return $notification;
+            }
+    }
+//---------------PAYMENTS-----------------------//
 
     public function payments($id)
     {

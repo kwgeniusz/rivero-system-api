@@ -22,6 +22,7 @@ class Office extends Model
         'officeName',
         'officeAddress',
         'officePhone',
+        'officePhoneTwo',
         'officeEmail',
         'dateCreated',
         'lastUserId',

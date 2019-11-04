@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
+use Auth;
 use App\Country;
 use App\Receivable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
 
 class ReceivableController extends Controller
 {

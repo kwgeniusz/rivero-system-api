@@ -3,6 +3,8 @@
 namespace App;
 
 use App;
+use Auth;
+use DB;
 use App\Client;
 use App\Configuration;
 use App\ContractStaff;
@@ -11,8 +13,6 @@ use App\Office;
 use App\ProjectDescription;
 use App\ProjectUse;
 use App\Staff;
-use Auth;
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -444,7 +444,7 @@ class Contract extends Model
 //-----------------------------------------
     //SECTIONS CONTRACTS - STAFF
     //------------------------------------------
-    public function aggStaff($staffId, $contractId)
+    public function addStaff($contractId,$staffId)
     {
 
         $contract = Contract::find($contractId);
@@ -460,10 +460,10 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function removeStaff($id)
+    public function removeStaff($contractId,$staffId)
     {
-
-        return ContractStaff::where('contractStaffId', '=', $id)->delete();
+       $contract = Contract::find($contractId);
+        return $contract->staff()->detach($staffId);
     }
 //------------------------------------------
 
