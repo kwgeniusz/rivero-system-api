@@ -46,8 +46,8 @@
                         @guest
                         <!-- <li><a href="{{ route('login') }}">Login</a></li> -->
                         <!-- <li><a href="{{ route('register') }}">Register</a></li> -->
-                      <li><a href="{{ route('language',['locale' => 'es']) }}">{{__('Spanish')}}</a></li>
-                      <li><a href="{{ route('language',['locale' => 'en']) }}">{{__('English')}}</a></li>
+                      <li><a href="{{ route('localization',['language' => 'es']) }}">{{__('Spanish')}}</a></li>
+                      <li><a href="{{ route('localization',['language' => 'en']) }}">{{__('English')}}</a></li>
 
 
                         @else

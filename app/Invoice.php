@@ -3,6 +3,7 @@
 namespace App;
 
 use App;
+use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,6 +12,7 @@ class Invoice extends Model
     //traits
     use SoftDeletes;
 
+    // private $oDateHelper = new DateHelper;
     public $timestamps = false;
 
     protected $table      = 'invoice';
@@ -20,10 +22,10 @@ class Invoice extends Model
      protected $appends = ['grossTotal','taxAmount','netTotal'];
      protected $dates = ['deleted_at'];
     //Status Invoice
-    const OPEN    = '1';
-    const CLOSED   = '2';
+    const OPEN      = '1';
+    const CLOSED    = '2';
     const PAID_OUT  = '3';
-    const CANCELED = '4';
+    const CANCELED  = '4';
 
 
 //--------------------------------------------------------------------
@@ -43,7 +45,7 @@ class Invoice extends Model
     }
      public function note()
     {
-        return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId');
+  return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
     }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -52,21 +54,20 @@ class Invoice extends Model
     {
           return decrypt($this->attributes['grossTotal']);
     }
-      public function getTaxAmountAttribute($taxAmount)
+    public function getTaxAmountAttribute($taxAmount)
     {
           return decrypt($this->attributes['taxAmount']);
     }
-      public function getNetTotalAttribute($netTotal)
+    public function getNetTotalAttribute($netTotal)
     {
           return decrypt($this->attributes['netTotal']);
     }
     public function getInvoiceDateAttribute($invoiceDate)
     {
-        if (empty($invoiceDate)) {
-            return $invoiceDate = null;
-        }
-
-        return $newDate = date("d/m/Y", strtotime($invoiceDate));
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($invoiceDate);
+        return $newDate;
     }
     public function getStatusAttribute($status)
     {
@@ -123,13 +124,11 @@ class Invoice extends Model
     }
     public function setInvoiceDateAttribute($invoiceDate)
     {
-        if (empty($invoiceDate)) {
-            return $invoiceDate = null;
-        }
-        $partes                           = explode("/", $invoiceDate);
-        $arreglo                          = array($partes[2], $partes[1], $partes[0]);
-        $date                             = implode("-", $arreglo);
-        $this->attributes['invoiceDate'] = $date;
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($invoiceDate);
+
+        $this->attributes['invoiceDate'] = $newDate;
     }
    
 
@@ -157,11 +156,14 @@ class Invoice extends Model
     public function insertInv($countryId,$officeId,$contractId,$clientId, $siteAddress, $invoiceDate,$currencyId,$taxPercent,$paymentConditionId,$status) {
 
           $oConfiguration = new Configuration();
-      
+          $invId = $oConfiguration->retrieveInvoiceNumber($countryId, $officeId);
+          $invId++;
+
           $invoiceNumberFormat = $oConfiguration->generateInvoiceNumberFormat($countryId, $officeId);
                                   $oConfiguration->increaseInvoiceNumber($countryId, $officeId);
 
         $invoice                   = new Invoice;
+        $invoice->invId            =  $invId;
         $invoice->countryId        =  $countryId;
         $invoice->officeId         =  $officeId;
         $invoice->invoiceNumber    =  $invoiceNumberFormat;
@@ -198,7 +200,8 @@ class Invoice extends Model
                 if ($invoice->grossTotal < $amount) {
                     throw new \Exception('Error: El monto de la factura no puede ser menor que 0.00');
                 } else {
-                  $invoice->grossTotal = $invoice->grossTotal - $amount;
+                  $grossTotal = $invoice->grossTotal - $amount;
+                  $invoice->grossTotal = number_format((float)$grossTotal, 2, '.', '');
                 }
             }
               $taxAmount   = ($invoice->grossTotal * $invoice->taxPercent)/100;
@@ -213,13 +216,9 @@ class Invoice extends Model
 //------------------------------------------
     public function addNote($invoiceId ,$noteId)
     {
-
         $invoice = Invoice::find($invoiceId);
         $invoice->note()->attach($noteId);
-
         return $invoice->save();
-        
-
     }
 //------------------------------------------
     public function removeNote($invoiceId ,$noteId)

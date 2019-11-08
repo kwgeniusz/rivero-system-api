@@ -25,7 +25,7 @@ class NoteController extends Controller
     public function index(Request $request)
     {
      
-     $notes = $this->oNote->getAllByLanguage(\Session::get('language'));
+     $notes = $this->oNote->getAllByLanguage(\Session::get('countryId'));
 
            if($request->ajax()){
                 return $notes;

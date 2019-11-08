@@ -12,11 +12,26 @@ class Note extends Model
     protected $primaryKey = 'noteId';
     protected $fillable = ['noteId','noteCode','noteLanguage','noteName'];
 
+
+//--------------------------------------------------------------------
+    /** Relations */
+//--------------------------------------------------------------------
+
+     public function invoice()
+    {
+        return $this->belongsToMany('App\Invoice');
+    }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAllByLanguage($language)
+    public function getAllByLanguage($countryId)
     {
+        if($countryId == '1') { //DALLAS
+            $language = 'en';
+        } elseif($countryId == '2') { //VENEZUELA
+            $language = 'es';
+        }
+
         return $this->where('noteLanguage' , '=' , $language)
           ->orderBy('noteId', 'ASC')
           ->get();

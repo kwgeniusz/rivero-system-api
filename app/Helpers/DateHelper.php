@@ -13,25 +13,35 @@ namespace App\Helpers;
 
 use Illuminate\Http\Request;
 
-
-class FunctionHelper
+class DateHelper
 {
-
-    public function ISOToInternational($ISODate)
-    {   
-       // convert date from yyyymmdd to dd/mm/yyyy
-
-        $newDate = "";
-        $sDay = SUBSTR($ISODate,8,2);
-        $sMonth = SUBSTR($ISODate,5,2); 
-        $sYear = SUBSTR($ISODate,0,4);
-        $newDate = $sDay."/".$sMonth."/".$sYear;
-        return $newDate;
+    public function changeDateForCountry($countryId,$method) {
+        switch ($countryId) {
+            case '1': //USA
+                if($method == 'Accesor'){
+                  return 'ISOToEnglish';
+                }else{
+                  return 'EnglishToISO';  
+                }
+                break;
+             case '2': //VENEZUELA
+                if($method == 'Accesor'){
+                  return 'ISOToInternational';
+                }else{
+                  return' InternationalToISO';  
+                }
+                break;
+            default:
+                # code...
+                break;
+        }
     }
 
-
     public function ISOToInternational($ISODate)
     {   
+           if (empty($ISODate)) {
+            return $ISODate = null;
+        }
        // convert date from yyyymmdd to dd/mm/yyyy
 
         $newDate = "";
@@ -39,11 +49,16 @@ class FunctionHelper
         $sMonth = SUBSTR($ISODate,5,2); 
         $sYear = SUBSTR($ISODate,0,4);
         $newDate = $sDay."/".$sMonth."/".$sYear;
+
+
         return $newDate;
     }
 
     public function ISOToEnglish($ISODate)
     {   
+           if (empty($ISODate)) {
+            return $ISODate = null;
+        }
        // convert date from yyyymmdd to mm/dd/yyyy
 
         $newDate = "";
@@ -51,8 +66,33 @@ class FunctionHelper
         $sMonth = SUBSTR($ISODate,5,2); 
         $sYear = SUBSTR($ISODate,0,4);
         $newDate = $sMonth."/".$sDay."/".$sYear;
+
+
         return $newDate;
     }    
+
+    public function InternationalToISO($date){
+           if (empty($date)) {
+            return $date = null;
+        }
+         // convert date from dd/mm/yyyy to yyyymmdd
+        $part                           = explode("/", $date);
+        $array                          = array($part[2], $part[1], $part[0]);
+        $dateISO                        = implode("-", $array);
+
+        return $dateISO;
+    }
+
+    public function EnglishToISO($date){
+           if (empty($date)) {
+            return $date = null;
+        }
+         // convert date from mm/dd/yyyy to yyyymmdd
+        $part                           = explode("/", $date);
+        $array                          = array($part[2], $part[0],$part[1]);
+        $dateISO                        = implode("-", $array);
+        return $dateISO;
+    }
 
     ///-----------------------------------------------
     function create_MYSQL_date($dd,$mm,$yy){

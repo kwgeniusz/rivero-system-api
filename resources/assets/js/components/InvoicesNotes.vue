@@ -1,24 +1,22 @@
 
 <template> 
     <form class="formNotes">
-       <div class="alert alert-danger" v-if="errors.length">
-            <h4>Errores:</h4>
-                  <div v-for="error in errors">- {{ error }}</div>
-         </div>
-
+  
           <div class="form-group col-xs-10 col-xs-offset-1">
             <label for="noteId">NOTAS</label>
             <select v-model="modelNoteId" class="form-control" name="noteId" id="noteId">
                 <option v-for="(item,index) in notes" :value="item.noteId" > {{item.noteName}}</option>
             </select>
           </div>
-
        <div class="form-group col-xs-12 text-center">
          <button class="btn btn-primary" @click.prevent="add()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar Nota
         </button>
        </div>
-
+   <div class="col-xs-12  alert alert-danger " v-if="errors.length">
+            <h4>Errores:</h4>
+                  <div v-for="error in errors">- {{ error }}</div>
+      </div>
     <div class="col-xs-12 text-left">
           <h4><b>Terminos y Condiciones</b></h4>
            <ul>

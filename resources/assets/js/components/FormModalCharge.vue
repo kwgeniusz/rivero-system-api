@@ -1,8 +1,8 @@
 <template>
-<div>
+<label>
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
              <a class="btn btn-success btn-sm" @click="openModal()">
-              <span  class="fa fa-money-bill-alt" aria-hidden="true"></span> COBRAR
+              <span  class="fa fa-money-bill-alt" aria-hidden="true"></span> Cobrar
             </a>
   
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
@@ -78,7 +78,7 @@
       </div>
   </sweet-modal>
 
-</div>   
+</label>   
 </template>
 
 <script>

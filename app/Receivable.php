@@ -4,6 +4,7 @@ namespace App;
 
 use App;
 use DB;
+use App\Helpers\DateHelper;
 use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,10 +61,10 @@ class Receivable extends Model
     }
     public function getDatePaidAttribute($datePaid)
     {
-        if (empty($datePaid)) {
-            return $datePaid = null;
-        }
-        return $newDate = date("d/m/Y", strtotime($datePaid));
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($datePaid);
+        return $newDate;
     }
     public function getCollectMethodAttribute($collectMethod)
     {
@@ -115,26 +116,27 @@ class Receivable extends Model
     }
 //------------MUTADORES-----------------//
     public function setAmountDueAttribute($amountDue)
-    {
+    { 
+        $amountDue = number_format((float)$amountDue, 2, '.', '');
         return $this->attributes['amountDue'] = encrypt($amountDue);
     } 
     public function setAmountPaidAttribute($amountPaid)
     {
+        $amountPaid = number_format((float)$amountPaid, 2, '.', '');
         return $this->attributes['amountPaid'] = encrypt($amountPaid);
     } 
     public function setAmountPercentajeAttribute($amountPercentaje)
     {
+        $amountPercentaje = number_format((float)$amountPercentaje, 2, '.', '');
         return $this->attributes['amountPercentaje'] = encrypt($amountPercentaje);
     } 
     public function setDatePaidAttribute($datePaid)
     {
-        if (empty($datePaid)) {
-            return $datePaid = null;
-        }
-        $partes                       = explode("/", $datePaid);
-        $arreglo                      = array($partes[2], $partes[1], $partes[0]);
-        $date                         = implode("-", $arreglo);
-        $this->attributes['datePaid'] = $date;
+        $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($datePaid);
+
+        $this->attributes['datePaid'] = $newDate;
     }
 //--------------------------------------------------------------------
     /** Relations */
@@ -146,6 +148,15 @@ class Receivable extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+     public function getAllByInvoice($invoiceId)
+    {
+        $result = $this->where('invoiceId', $invoiceId)
+            ->where('pending', 'N')
+            ->orderBy('paymentInvoiceId', 'ASC')
+            ->get();
+
+        return $result;
+    }
     public function findById($id)
     {
         return $this->where('receivableId', '=', $id)->get();

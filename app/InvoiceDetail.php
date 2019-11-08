@@ -40,10 +40,16 @@ class InvoiceDetail extends Model
 
     public function setUnitCostAttribute($unitCost)
     {
+         if($unitCost != null) { 
+        $unitCost = number_format((float)$unitCost, 2, '.', '');
+    }
         return $this->attributes['unitCost'] = encrypt($unitCost);
     }
      public function setAmountAttribute($amount)
     {
+          if($amount != null) { 
+        $amount = number_format((float)$amount, 2, '.', '');
+    }
         return $this->attributes['amount'] = encrypt($amount);
     }
 //--------------------------------------------------------------------

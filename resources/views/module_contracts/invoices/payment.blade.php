@@ -90,7 +90,7 @@
                  <th>N°</th>
                  <th>MONTO</th>
                  <th>FECHA</th>
-                 <th>ACCIONES</th>
+                 <th colspan="2">ACCIONES</th>
                 </tr>
             </thead>
           <tbody>
@@ -105,13 +105,20 @@
                  <td>{{$payment->amount}}</td>
                  <td>{{$payment->paymentDate}}</td>
                  <td>
+                  <form-modal-charge r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></form-modal-charge>
                   <a href="{{route('invoices.paymentsRemove', [
                   'id' => $payment->paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
-                  </a></td>
+                  </a>
+                  
+                 </td>
                 </tr>
-               @php  $total = $total + $payment->amount;  @endphp 
+               @php  
+               $total = $total + $payment->amount; 
+               $total = number_format((float)$total, 2, '.', '');
+
+                @endphp 
               @endforeach
         </tbody>
       </table>

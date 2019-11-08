@@ -490,13 +490,15 @@ EOD;
 //------------------INVOICE-----------------------------//
      public function printInvoice(Request $request)
     {
+
         $date         = Carbon::now();
         $office       = DB::table('office')->where('officeId', session('officeId'))->get();
 
         $invoice    = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
+        // dd($invoice) ;
         $client     = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
         $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
-        $payments    = $this->oPaymentInvoice->getAllByInvoice($request->id);
+        $receivables    = $this->oReceivable->getAllByInvoice($request->id);
 
         $symbol = $invoice[0]->currency->currencySymbol;
 
@@ -504,8 +506,81 @@ EOD;
             return view('module_administration.reportincomeexpenses.error');
         } else {
 
-            $html = <<<EOD
+  // preparar variables  
+  $line = 100;  
+  $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
+  $linesperpage = 21;    // numero maximo de renglones
+  //calcular total de paginas
+  $quantityInvDetails = count($invoicesDetails);
+  $pageTotal = (intval($quantityInvDetails/$linesperpage));
+  $pageTotal++;
+   //si los registro y el limite de lineas son iguales es una pagina
+   if($quantityInvDetails == $linesperpage){
+    $pageTotal = 1;
+   }
 
+           $acum          = 0;
+           $acum2         = 0;
+           $acumInvDetail = 0;
+           $subTotalPerPage= 0;
+           $vienen = 0;
+           $moneySymbol = '';
+
+ //// inicio del ciclo de impresion
+foreach ($invoicesDetails as $invDetail) {
+//invoiceDetail
+
+  //if de header
+    if ($line > $linesperpage) { //imprimir
+            if($page > 1) {
+                  //FOOTER
+$html .= <<<EOD
+<tr style="font-size:10px">
+ <th colspan="4" align="right">
+   
+ </th>
+  <th colspan="1" align="right">
+   Sub-Total:
+ </th>
+ <th style="border-top:2px solid black" colspan="1" align="right">
+   {$invoice[0]->currency->currencySymbol} $subTotalPerPage
+ </th>
+</tr>
+</table>
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Term & Condition</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+             <div style="text-align:left">
+              <b>TERM:</b>
+                  <ul>
+
+EOD;
+foreach($invoice['0']->note as $note){ 
+ $html .= <<<EOD
+
+    <li>$note->noteName</li>
+
+EOD;
+}
+
+ $html .= <<<EOD
+                  </ul>
+             </div>
+        </th>
+       </tr>
+</table>
+EOD;
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+
+    }//endif - si la pagina es mayor que uno (1)
+
+ // imprimir encabezado de factura
+            $html = <<<EOD
     <table cellspacing="0" cellpadding="1px" border="0"  >
        <tr >
         <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>ELECTRONIC INVOICE</b></th>
@@ -515,7 +590,7 @@ EOD;
          <th width="20%" align="left"> 
           <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
          </th>
-        <th width="47%">
+        <th width="48%">
              <div style="text-align:center">
                <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
                <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
@@ -524,13 +599,35 @@ EOD;
                <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
              </div>
         </th>
-        <th width="33%">
-             <div style="text-align:left">
-              <b>Invoice number:</b> {$invoice[0]->invoiceId}<br>
-              <b>Invoice date:</b> {$invoice[0]->invoiceDate}<br>
-              <b>Control Number:</b> {$invoice[0]->invoiceNumber}<br>
-              <b>Page:</b> getAliasNumPage().'/'.getAliasNbPages()<br>
-             </div>
+    <th width="32%">
+    <br><br>
+        <table border="0">
+             <tr>
+              <td><b>Invoice number:</b></td>
+              <td align="right">{$invoice[0]->invId}</td>
+            </tr>
+            <tr>
+              <td><b>Invoice date:</b></td>
+              <td align="right">{$invoice[0]->invoiceDate}</td>
+            </tr>
+            <tr>
+              <td><b>Control number:</b></td>
+              <td align="right">{$invoice[0]->invoiceNumber}</td>
+            </tr>
+            <tr>
+              <td><b>Page:</b> $page/$pageTotal</td>
+              <td align="left"></td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td><b>Seller ID:</b></td>
+              <td align="right"></td>
+            </tr>
+         </table>     
+
         </th>
        </tr>
 </table>
@@ -568,9 +665,6 @@ EOD;
        </tr>
 </table>
 
-
-
-
  <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
        <tr>
         <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
@@ -607,48 +701,74 @@ EOD;
         </tr>
         </thead>
 EOD;
-           $acum          = 0;
-           $acum2         = 0;
-           $acumInvDetail = 0;
-           $moneySymbol = '';
 
-            foreach ($invoicesDetails as $invDetail) {
+
+       $page++;
+       $acum= 0 ;
+       $subTotalPerPage= 0;
+       $line= 1;// al pasar la pagina reinicia la linea
+
+} //fin de condicion de header
+
+               
                $acum = $acum + 1;
                 if ($acum % 2 == 0) {
                     $background = "#f2edd1";
                 } else {
                     $background = "#fbfbfb";
                 }
-            //espacios,numeracion,precios, negritas para reglon con precios
+     //espacios,numeracion,precios, negritas para reglon con precios
                if ($invDetail->unit == null) {
                     $acum2 = "";
-                    $fontWeight= "";
                     $space = "   ";
                     $moneySymbol = '';
                 } else {
                     $acumInvDetail = $acumInvDetail + 1;
                     $acum2=$acumInvDetail;
-                    $fontWeight= "font-weight:bold";
                     $space = "";
-                    $moneySymbol = '$';
+                    $moneySymbol = $invoice[0]->currency->currencySymbol;
                 }
-
+     if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
+                $html .= <<<EOD
+        <tr style="background-color:; font-size:10px;">
+        <td width="5%" align="center"></td>
+        <td width="30%" >VIENEN</td>
+        <td width="20%" align="center"></td>
+        <td width="15%" align="center"></td>
+        <td width="15%" align="center"></td>
+        <td width="15%" align="right"> {$invoice[0]->currency->currencySymbol} $vienen</td>
+        </tr>
+EOD;
+        if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
+            $subTotalPerPage += $vienen;
+         }
+    }
                 $html .= <<<EOD
         <tr style="background-color:$background; font-size:10px;">
         <td width="5%" align="center">$acum2</td>
         <td width="30%" >$space$invDetail->serviceName</td>
         <td width="20%" align="center">{$invDetail->unit}</td>
         <td width="15%" align="center">$invDetail->quantity</td>
-        <td width="15%" align="right">$moneySymbol $invDetail->unitCost</td>
-        <td width="15%" align="right">$moneySymbol $invDetail->amount</td>
+        <td width="15%" align="center">$moneySymbol  $invDetail->unitCost</td>
+        <td width="15%" align="right">$moneySymbol  $invDetail->amount</td>
         </tr>
-
 EOD;
-            }
-            $html .= <<<EOD
+
+       $subTotalPerPage += $invDetail->amount;//acumulacion de subtotal de pagina
+       $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+       $vienen =  number_format((float)$subTotalPerPage, 2, '.', '');
+
+    $line++;
+}// FIN DE FOREACH DE RENGLONES
+
+   // imprimir footer de factura
+     $html .= <<<EOD
 </table>
-<p>
 <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b></b>
+        </th>
+       </tr>
        <tr style="font-size:10px"> 
         <th width="20%">
           <img style="float:center;" src="img/qr.png" alt="test alt attribute" width="80" height="80"/>
@@ -657,19 +777,27 @@ EOD;
              <b>Payment break down:</b><br>
 EOD;
       $acum3        = 0;
-    foreach ($payments as $payment) {
+      $acumPaid     = 0;
+    foreach ($receivables as $receivable) {
      $acum3 = $acum3 + 1;
+     $acumPaid += $receivable->amountPaid;
+     $acumPaid =  number_format((float)$acumPaid, 2, '.', '');
+
       $html .= <<<EOD
               <table cellspacing="0" cellpadding="0" border="0"  >
                 <tr>
                  <td width="5%">$acum3</td>
-                 <td width="20%">$payment->amount</td>
-                 <td width="30%">$payment->paymentDate</td>
+                 <td width="20%">$receivable->amountPaid</td>
+                 <td width="20%">$receivable->collectMethod</td>
+                 <td width="20%">PAID</td>
+                 <td width="30%">$receivable->datePaid</td>
                  <td width="45%"></td>
                 </tr>
               </table>
 EOD;
   }
+   $amountRs =  $invoice[0]->netTotal-$acumPaid;
+   $amountRs =  number_format((float)$amountRs, 2, '.', '');
 
  $html .= <<<EOD
         </th>
@@ -688,16 +816,19 @@ EOD;
                 <th><b>Total</b></th><th align="right"> {$symbol}{$invoice[0]->netTotal}</th>
                </tr>
                 <tr>
-                <th><b>Amount PAID</b></th><th align="right" style="color:red"> {$symbol} 0</th>
+                <th><b>Amount PAID</b></th><th align="right" style="color:red"> {$symbol} $acumPaid </th>
                </tr>
                 <tr>
-                <th><b>Balance Due</b></th><th align="right"> {$symbol} 0 </th>
+                <th><b>Balance Due</b></th><th align="right"> {$symbol} $amountRs </th>
                </tr>
              </table>
         </th>
        </tr>
 </table>
+EOD;
 
+
+ $html .= <<<EOD
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
         <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Term & Condition</b></th>
@@ -705,9 +836,17 @@ EOD;
 
        <tr style="font-size:10px"> 
         <th>
-             <div style="text-align:left">
               <b>TERM:</b>
-             </div>
+                  <ul>
+
+EOD;
+foreach($invoice['0']->note as $note){ 
+ $html .= <<<EOD
+    <li>$note->noteName</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
         </th>
        </tr>
 </table>
@@ -717,20 +856,18 @@ EOD;
             $pdf->SetY(-15);
             // Set font
             $pdf->SetFont('helvetica', 'I', 8);
-            $pdf->Cell(0, 9, '© Copyright 2019 JD Rivero Global Group - All right reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
-            // $pdf->Cell(0, 11, 'reserved Designed by Rivero Visual Group ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Cell(0, 9, '© Copyright 2019 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Ln(4);
+            
+            $pdf->Cell(0, 9, 'By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
             // Page number
             $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
          });
 
 
-            
-            PDF::AddPage();
-            PDF::writeHTML($html, true, false, false, false, '');
 
             PDF::AddPage();
             PDF::writeHTML($html, true, false, false, false, '');
-
 
             $fileName = Auth::user()->userName;
             PDF::SetTitle($fileName);

@@ -4,6 +4,7 @@ namespace App;
 
 use Auth;
 use DB;
+use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class PaymentInvoice extends Model
@@ -34,6 +35,10 @@ class PaymentInvoice extends Model
     {
         return $this->belongsTo('App\Invoice', 'invoiceId');
     }
+    public function receivable()
+    {
+        return $this->hasOne('App\Receivable', 'receivableId');
+    }
 
 //------------------------ACCESORES--------------------------------
     public function getAmountAttribute($amount)
@@ -42,11 +47,10 @@ class PaymentInvoice extends Model
     }
     public function getPaymentDateAttribute($paymentDate)
     {
-        if (empty($paymentDate)) {
-            return $paymentDate = null;
-        }
-
-        return $newDate = date("d/m/Y", strtotime($paymentDate));
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($paymentDate);
+        return $newDate;
     }
 //------------------------MUTADORES--------------------------------
 
@@ -55,13 +59,11 @@ class PaymentInvoice extends Model
      }
     public function setPaymentDateAttribute($paymentDate)
     {
-        if (empty($paymentDate)) {
-            return $paymentDate = null;
-        }
-        $partes                          = explode("/", $paymentDate);
-        $arreglo                         = array($partes[2], $partes[1], $partes[0]);
-        $date                            = implode("-", $arreglo);
-        $this->attributes['paymentDate'] = $date;
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($paymentDate);
+
+        $this->attributes['paymentDate'] = $newDate;
     }
 //--------------------------------------------------------------------
     /** Function of Models */

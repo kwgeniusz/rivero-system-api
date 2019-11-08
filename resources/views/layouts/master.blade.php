@@ -115,12 +115,19 @@ desired effect
   $('[data-toggle="tooltip"]').tooltip()
 })
   // Instancia de Input date libreria Flatpickr
-  flatpickr('.flatpickr', {
+  @if(session('countryId') == '1')
+     flatpickr('.flatpickr', {
+      minDate: '1920-01-01',
+      locale: 'es',
+      dateFormat: "m/d/Y",
+    });
+  @elseif(session('countryId') == '2')
+      flatpickr('.flatpickr', {
       minDate: '1920-01-01',
       locale: 'es',
       dateFormat: "d/m/Y",
     });
-
+  @endif
  // muestra notificaciones de alerta
 
     @if(Session::has('message'))
