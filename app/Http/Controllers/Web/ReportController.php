@@ -502,6 +502,8 @@ EOD;
 
         $symbol = $invoice[0]->currency->currencySymbol;
 
+        \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
+
         if ($invoicesDetails->isEmpty()) {
             return view('module_administration.reportincomeexpenses.error');
         } else {
@@ -771,7 +773,7 @@ EOD;
        </tr>
        <tr style="font-size:10px"> 
         <th width="20%">
-          <img style="float:center;" src="img/qr.png" alt="test alt attribute" width="80" height="80"/>
+          <img style="float:center;" src="img/codeqr.png" alt="test alt attribute" width="80" height="80"/>
         </th>
         <th width="50%">
              <b>Payment break down:</b><br>

@@ -29,7 +29,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->oUser->getAll();
-        return view('users.index', compact('users'));
+        return view('module_configuration.users.index', compact('users'));
     }
    /**
      * Show the form for creating a new resource.
@@ -44,7 +44,7 @@ class UserController extends Controller
         // $contactTypes = ContactType::all();
          $roles = Role::all();
          $permissions = Permission::orderBy('name')->get();
-        return view('users.create',compact('roles','permissions'));
+        return view('module_configuration.users.create',compact('roles','permissions'));
     }
     /**
      * Store a newly created resource in storage.

@@ -73,6 +73,7 @@ desired effect
         -------------------------->
         <div id="app">
         @yield('content')
+        
 {{--           <video id='my-video' class='video-js' controls preload='auto' width='640' height='264'
    data-setup='{}'>
     <source src='{{ asset('m.mov') }}' type="video/quicktime">

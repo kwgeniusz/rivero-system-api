@@ -67,6 +67,7 @@ class ContractController extends Controller
         $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$filteredOut,session('countryId'),session('officeId'));
         $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$filteredOut,session('countryId'),session('officeId'));
 
+
         return view('module_contracts.contracts.index', compact('projects', 'services'));
     }
 

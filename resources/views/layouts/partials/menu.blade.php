@@ -134,7 +134,7 @@
   @can('FB')  <li><a href="#">{{__('Offices')}}</a></li>@endcan
   @can('FC')  <li><a href="{{route('projectDescriptions.index')}}">{{__('types_of_projects')}}</a></li>@endcan
   @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan
-  <!-- @can('FE')  <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan -->
+  @can('FE')  <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan
           </ul>
         </li>
 

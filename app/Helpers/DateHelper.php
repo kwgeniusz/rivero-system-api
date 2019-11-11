@@ -3,7 +3,7 @@
  *  File          : FunctionHelper.php        
  *	Type          : Helper class
  *  Function      : Provides assorted functions for input text
- *  Developer     : Gabriel Carrillo
+ *  Developer     : Manuel Castro
  *  Company       : Kamazooie Development Corporation
  *  Version       : 1.4
  *---------------------------------------------------------------------------------*/

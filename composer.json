@@ -12,7 +12,8 @@
         "laravel/tinker": "~1.0",
         "nesbot/carbon": "^1.33",
         "spatie/laravel-permission": "^2.37",
-        "tightenco/ziggy": "^0.7.1"
+        "tightenco/ziggy": "^0.7.1",
+         "aferrandini/phpqrcode": "1.0.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
