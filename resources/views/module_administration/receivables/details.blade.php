@@ -73,9 +73,12 @@ $totalDue = 0;
                         <td>{{ $acum = $acum +1 }}</td>
                         <td>{{$share->amountDue}}</td>
                         <td>
-                          @if($acum == 1)
+                          {{-- @if($acum == 1) --}}
                            <form-modal-charge r-id="{{$share->receivableId}}" country-id="{{$share->countryId}}"></form-modal-charge>
-                           @endif
+                           {{-- @endif --}}
+                {{--   <a href="{{route('receivables.printReceipt', ['receivableId' => $share->receivableId]) }}" class="btn btn-danger btn-sm">
+                            <span class="fa fa-pdf" aria-hidden="true"></span>  Recibo
+                  </a> --}}
                        </td>
                        </tr>
                     @endforeach

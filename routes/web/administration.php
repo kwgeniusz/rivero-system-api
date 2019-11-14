@@ -16,6 +16,9 @@ Route::resource('banks', 'Web\BankController', ['except' => ['create']]);
 Route::get('receivables', 'Web\ReceivableController@index')->name('receivables.index');
 Route::post('receivables', 'Web\ReceivableController@index')->name('receivables.index');
 Route::get('receivables/{clientId}', 'Web\ReceivableController@details')->name('receivables.details');
+
+Route::get('receivables/printReceipt', 'Web\ReportController@printReceipt')->name('receivables.printReceipt');
+
 //REPORTS
 Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
 Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');

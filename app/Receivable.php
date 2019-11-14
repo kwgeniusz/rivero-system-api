@@ -15,7 +15,7 @@ class Receivable extends Model
     protected $primaryKey = 'receivableId';
     public $timestamps    = false;
 
-        protected $appends = ['amountDue','amountPaid','amountPercentaje'];
+    protected $appends = ['amountDue','amountPaid','amountPercentaje'];
 
     /**
      * The attributes that are mass assignable.
@@ -177,15 +177,13 @@ class Receivable extends Model
     }
 //--------------------------------------------
     public function clientsPending($countryId)
-    {
+    { //buscar todos los clientes donde el estado No sea exitoso (4) y agrupalos para contar sus cuotas
         return $this->select('clientId', DB::raw('count(*) as cuotas'))
-            ->where('pending', '=', 'Y')
+            ->where('status', '!=', '4') 
             ->where('countryId', '=', $countryId)
             ->groupBy('clientId')
             ->get();
     }
-  
-
     //------------------------------------------
     public function clientPendingInfo($clientId)
     {
@@ -222,10 +220,10 @@ class Receivable extends Model
           
     }
 //------------------------------------------
-    public function sharePending($contractId)
+    public function sharePending($invoiceId)
     {
         return $this->where('pending', '=', 'Y')
-            ->where('contractId', '=', $contractId)
+            ->where('invoiceId', '=', $invoiceId)
             ->orderBy('paymentInvoiceId')
             ->get();
 
@@ -249,16 +247,16 @@ class Receivable extends Model
         try {
             //busca datos de la cuota que seleccione
             $receivable = $this->find($receivableId);
-            //trae todas las cuotas del contrato, me sirve para saber si queda (01) y determinar que es la ultima cuota.
-            $contractShares = $this->sharePending($receivable->contractId);
+            //trae todas las cuotas de la factura, me sirve para saber si queda (01) y determinar que es la ultima cuota.
+            $invoiceShares = $this->sharePending($receivable->invoiceId);
             //suma las cuotas restantes para sacar costo del contrato
             $contractCost = 0;
-            foreach ($contractShares as $share) {
+            foreach ($invoiceShares as $share) {
                 $contractCost += $share->amountDue;
             }
 
             //error si es la ultima cuota mandame errores de montos.
-            if (count($contractShares) == 1) {
+            if (count($invoiceShares) == 1) {
                 if ($amountPaid < $receivable->amountDue) {
                     throw new \Exception('Error: Ultima Cuota, El Monto es Insuficiente');
                 } elseif ($amountPaid > $receivable->amountDue) {
@@ -269,7 +267,7 @@ class Receivable extends Model
                 throw new \Exception('Error: El monto Ingresado No puede ser mayor o igual al costo Total del Contrato');
             }
             //---------comienza insercion de cuota------------
-            // $contractShares[1] es la cuota que le sigue a la seleccionada
+            // $invoiceShares[1] es la cuota que le sigue a la seleccionada
             if ($collectMethod == Receivable::CARD) {
                 $amountPercentaje             = $amountPaid * 0.03;
                 $receivable->amountPercentaje = $amountPercentaje;
@@ -297,7 +295,7 @@ class Receivable extends Model
                 $receivable->save();
 
                 //REALIZA ACTUALIZACION EN MONTO DE LA DEUDA DE LA PROXIMA CUOTA
-              $receivableNext  = Receivable::find($contractShares[1]->receivableId);
+              $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
               $receivableNext->amountDue = $receivableNext->amountDue + $amountR;
               $receivableNext->save();
 
@@ -305,7 +303,7 @@ class Receivable extends Model
             } elseif ($amountPaid > $receivable->amountDue) {
 
                 $amountR = $amountPaid - $receivable->amountDue;
-                if ($amountR >= $contractShares[1]->amountDue) {
+                if ($amountR >= $invoiceShares[1]->amountDue) {
                     throw new \Exception('Error: No puede pagar Dos Cuotas simultaneamente, Monto Muy Alto');
                 }
                 $receivable->amountDue  = $amountPaid;
@@ -313,7 +311,7 @@ class Receivable extends Model
                 $receivable->save();
 
                   //REALIZA ACTUALIZACION EN MONTO DE LA DEUDA DE LA PROXIMA CUOTA
-                  $receivableNext  = Receivable::find($contractShares[1]->receivableId);
+                  $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
                   $receivableNext->amountDue = $receivableNext->amountDue - $amountR;
                   $receivableNext->save();
 
