@@ -33,6 +33,7 @@ class ClientController extends Controller
     {
 
        $filteredOut = $request->filteredOut;
+ 
 
        $clients = Client::orderBy('cltId', 'ASC')
                          ->filter($filteredOut)

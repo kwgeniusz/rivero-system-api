@@ -115,6 +115,15 @@ class UserController extends Controller
         //     ->with('info', 'Tipo de Proyecto Eliminado');
     }
 
+  public function permissionsOfUser(Request $request)
+    {
+     
+         $roles = Role::all();
+         $permissions = Permission::orderBy('name')->get();
+         
+        return view('module_configuration.users.create',compact('roles','permissions'));
+
+    }
 
     public function changeOffice(Request $request)
     {

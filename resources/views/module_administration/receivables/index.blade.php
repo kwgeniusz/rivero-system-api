@@ -6,8 +6,8 @@
 
 <div class="panel-body">
 
- {{--        <div class="row ">
-          <div class="col-xs-12">
+ {{--    <div class="row ">
+       <div class="col-xs-12">
       <form class="form-inline" action="{{Route('receivables.index')}}" method="POST">
       {{csrf_field()}}
 
@@ -45,10 +45,10 @@
                 <tbody>
             @foreach($receivables as $receivable)
                 <tr>
-                     <td>{{$receivable->client[0]->clientCode}}</td>
-                     <td>{{$receivable->client[0]->clientName}}</td>
-                     <td>{{$receivable->client[0]->clientAddress}}</td>
-                     <td>{{$receivable->client[0]->clientPhone}}</td>
+                     <td>{{$receivable->client->clientCode}}</td>
+                     <td>{{$receivable->client->clientName}}</td>
+                     <td>{{$receivable->client->clientAddress}}</td>
+                     <td>{{$receivable->client->clientPhone}}</td>
                       <td>{{$receivable->cuotas}}</td>
                        <td>{{$receivable->total}}</td>
                      <td><a href="{{route('receivables.details', ['clientId' => $receivable->clientId])}}" class="btn btn-info">

@@ -45,7 +45,7 @@ class Invoice extends Model
     }
      public function note()
     {
-  return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
+      return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
     }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -105,7 +105,6 @@ class Invoice extends Model
         }
 
     }
-  
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -210,6 +209,21 @@ class Invoice extends Model
               $invoice->netTotal = number_format((float)$netTotal, 2, '.', '');
 
               $invoice->save();
+    }
+//--------------------------------------------------------------------
+    //esta funcion llama a un metodo de receivables es para sacar el balance de lo que se ha pagado de la factura
+    public function getBalance($invoiceId)
+    {
+        $invoice = $this->select('netTotal')
+            ->where('invoiceId', $invoiceId)
+            ->get();
+
+         // dd($invoice[0]->netTotal);
+          $oReceivable = new Receivable();
+          $totalPaid = $oReceivable->sumSucceedSharesForInvoice($invoiceId);
+
+          $balance = $invoice[0]->netTotal - $totalPaid;
+          return $balance;
     }
 //-----------------------------------------
     //SECTIONS NOTES

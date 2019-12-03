@@ -881,4 +881,197 @@ EOD;
             return view('layouts.reports', compact('outputPdfName'));
         }
     }
+//----------------------------------RECIBO DE PAGO DE CUOTAS EN PDF------------------------//
+ public function printReceipt(Request $request)
+    {
+
+       $receivables = $this->oReceivable->findById($request->receivableId);
+       $office       = DB::table('office')->where('officeId', session('officeId'))->get();
+       $invoice    = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('officeId'));
+       $symbol = $invoice[0]->currency->currencySymbol;
+            $html = <<<EOD
+<table cellspacing="0" cellpadding="1px" border="0">
+       <tr >
+        <th style="background-color:#efcb44;font-size:15px;color:white" colspan="3" align="center"><b>PAYMENT RECEIPT</b></th>
+       </tr>
+        <br><br>
+    <tr style="font-size:11px"> 
+         <th width="20%" align="left"> 
+          <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
+         </th>
+        <th width="57%">
+             <div style="text-align:center">
+               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+             </div>
+        </th>
+      <th width="23%" align="center">
+      <br>
+        <img style="float:center;" src="img/codeqr.png" alt="test alt attribute" width="80" height="80"/>
+      </th>
+    </tr>
+</table>
+
+<br><br><br>
+ <table cellspacing="0" cellpadding="6px" border="0" style="font-size:11px;background-color:#f4f4f5;border-radius:4px">
+       <tr>
+        <th><b>Dear</b> {$receivables[0]->client->clientName}</th>
+       </tr>
+       <tr> 
+        <th><b>We have received your payment , you can find the receipt below.</b></th>
+       </tr>
+</table>
+EOD;
+            foreach ($receivables as $receivable) {
+                $html .= <<<EOD
+<br>
+ <div align="center" style="font-size:12px"><b>Payment information</b></div>
+ <br>
+
+<table>
+<tr>
+<td style="width:20%"></td>
+<td style="width:60%">
+  <table cellspacing="0" cellpadding="6px" border="0" style="font-size:11px; border: 1px solid black;">
+  <tr style="background-color:#f4f4f5;"> 
+            <th>
+               Payment date:
+            </th>
+            <th>
+              {$receivable->datePaid}
+            </th>
+       </tr>
+
+        <tr style="background-color:#f4f4f5;"> 
+            <th>
+               Amount paid:
+            </th>
+            <th>
+                $symbol{$receivable->amountPaid}
+            </th>
+       </tr>
+
+        <tr style="background-color:#f4f4f5;"> 
+            <th>
+             Method:
+            </th>
+            <th>
+               {$receivable->paymentMethod->payMethodName}
+            </th>
+       </tr>
+      
+  </table> 
+</td>
+<td style="width:20%"></td>
+
+</tr>
+</table>
+
+<br><br>
+ <div align="center" style="font-size:12px"><b>Payment details</b></div>
+ <br>
+
+<table>
+<tr>
+<td style="width:20%"></td>
+<td style="width:60%">
+  <table  cellspacing="0" cellpadding="6px" border="0" style="font-size:11px; border: 1px solid black;">
+        <tr style="background-color:#f4f4f5;"> 
+            <th>
+               Transaction ID:
+            </th>
+            <th>
+               {$receivable->sourceReference}
+            </th>
+       </tr>
+
+        <tr style="background-color:#f4f4f5;"> 
+            <th>
+             Transaction balance:
+            </th>
+            <th>
+               $symbol  {$receivable->balance}          </th>
+       </tr>
+
+         <tr style="background-color:#f4f4f5;"> 
+            <th>
+               Customer ID:
+            </th>
+            <th>
+               {$receivable->client->clientCode}
+            </th>
+       </tr>
+
+          <tr style="background-color:#f4f4f5;"> 
+            <th>
+               Status:
+            </th>
+            <th>
+               {$receivable->receivableStatus->recName}
+            </th>
+       </tr> 
+  </table> 
+</td>
+<td style="width:20%"></td>
+
+</tr>
+</table>
+
+<br>
+<div align="center" style="font-size:12px"><b>Overpayment of <u> $symbol{$receivable->amountPaid}</u> converted to credit</b></div>
+
+EOD;
+    }
+     $html .= <<<EOD
+ <br><br>    
+ <table cellspacing="0" cellpadding="2px" border="0"  >
+       <tr>
+        <th style="background-color:#f4f4f5;" colspan="1" align="center"><b>Term & Condition</b></th>
+       </tr>
+
+       <tr style="font-size:11px"> 
+        <th>
+              <b>TERM:</b>
+                  <ul>
+
+EOD;
+foreach($invoice['0']->note as $note){ 
+ $html .= <<<EOD
+    <li>$note->noteName</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
+        </th>
+       </tr>
+</table>
+EOD;
+        PDF::setFooterCallback(function($pdf) {
+            // Position at 15 mm from bottom
+            $pdf->SetY(-15);
+            // Set font
+            $pdf->SetFont('helvetica', 'I', 8);
+            $pdf->Cell(0, 9, '© Copyright 2019 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Ln(4);
+            
+            $pdf->Cell(0, 9, 'By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            // Page number
+            // $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+         });
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
+            $outputDestination = "F";
+            $outputPdfName     = "pdf/$fileName.pdf";
+            PDF::Output(public_path($outputPdfName), $outputDestination);
+    
+
+            return view('layouts.reports', compact('outputPdfName'));
+        }
+    
 }

@@ -44,6 +44,8 @@ Route::get('precontract-allFiles/{id}/{type}', 'Web\PrecontractController@getFil
 //ADMINISTRATION - RECEIVABLE **********************
 Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId')->name('receivables.getForId');
 Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');
+Route::post('receivablesConfirmPayment', 'Web\ReceivableController@confirmPayment')->name('receivables.confirmPayment');
+
 //BANK
 Route::get('banks/country/{countryId}', 'Web\BankController@getForCountry')->name('banks.getForCountry');
 Route::get('banks/account/{bankId}', 'Web\BankController@getAccount')->name('banks.account');

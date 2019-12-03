@@ -33,6 +33,7 @@ Vue.component('print-contract', require('./components/PrintContract.vue'));
 Vue.component('contract-summary', require('./components/contractsummary.vue'));
 Vue.component('search-client', require('./components/SearchClient.vue'));
 Vue.component('form-modal-charge', require('./components/FormModalCharge.vue'));
+Vue.component('confirm-payment', require('./components/ModalConfirmPayment.vue'));
 // Vue.component('vue-table', require('./components/VueTable.vue'));
 Vue.component('vue-upload', require('./components/vueUpload.vue'));
 Vue.component('grid-files', require('./components/GridFiles.vue'));

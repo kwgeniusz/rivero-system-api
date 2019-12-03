@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-success col-xs-7">
+<div class="panel panel-success col-xs-9">
     <div class="panel-heading"> <h3><b>Nuevo Usuario</b></h3></div>
     <div class="panel-body">
       <div class="row ">
@@ -24,6 +24,18 @@
  <div class="row">
       <select-country-office pref-url="./../"></select-country-office>
 </div>
+   <div class="row"> 
+              <div class="form-group col-xs-7">
+                <label for="clientPhone">Nombre y Apellido</label>
+                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}"  title="formato: 000 000 0000">
+              </div>
+   </div>      
+    <div class="row"> 
+              <div class="form-group col-xs-7">
+                <label for="clientPhone">User Name</label>
+                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}"  title="formato: 000 000 0000">
+              </div>
+   </div>       
       <div class="row">
           <div class="form-group col-xs-4">
             <label for="rol">Roles</label>
@@ -37,20 +49,8 @@
 <div class="row">      
        <search-client url="e"></search-client>
 </div>       
-   <div class="row"> 
-              <div class="form-group col-xs-7">
-                <label for="clientPhone">Nombre y Apellido</label>
-                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}"  title="formato: 000 000 0000">
-              </div>
-   </div>      
     <div class="row"> 
-              <div class="form-group col-xs-7">
-                <label for="clientPhone">User Name</label>
-                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}"  title="formato: 000 000 0000">
-              </div>
-   </div>       
-    <div class="row"> 
-              <div class="form-group col-xs-3">
+              <div class="form-group col-xs-4">
                 <label for="clientPhone">Contraseña Automatica</label>
                 <select class="form-control" name="a">
                   <option value="Y">Si</option>

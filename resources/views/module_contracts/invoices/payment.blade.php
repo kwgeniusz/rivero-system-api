@@ -57,7 +57,6 @@
       @endif
         </div>
 
-
     <div class="row ">
      <div class="col-xs-12">
      <div class="text-center">
@@ -87,9 +86,12 @@
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr class="bg-info">
+                 <th>ESTADO</th>
                  <th>N°</th>
-                 <th>MONTO</th>
                  <th>FECHA</th>
+                 <th>MONTO INICIAL</th>
+                 <th>MONTO A PAGAR</th>
+                 <th>MONTO PAGADO</th>
                  <th colspan="2">ACCIONES</th>
                 </tr>
             </thead>
@@ -101,17 +103,43 @@
             @foreach($payments as $payment)
 
                 <tr>
+                 @if($payment->receivable->status == '1')
+                   <td class="bg-info"></td>
+                 @elseif($payment->receivable->status == '2')
+                   <td class="bg-warning"></td>
+                 @elseif($payment->receivable->status == '3')
+                  <td class="bg-danger"></td>
+                 @elseif($payment->receivable->status == '4')
+                   <td class="bg-success"></td>
+                 @endif
                  <td>{{ $acum = $acum +1 }}</td>
-                 <td>{{$payment->amount}}</td>
                  <td>{{$payment->paymentDate}}</td>
+                 <td>{{$payment->amount}}</td>
+                 <td>{{$payment->receivable->amountDue}}</td>
+                 <td>{{$payment->receivable->amountPaid}}</td>
                  <td>
+              @if($payment->receivable->paymentInvoiceId == $currentShare)
+                 @if($payment->receivable->status == '1' || $payment->receivable->status == '3')  
                   <form-modal-charge r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></form-modal-charge>
+                 @endif 
+                 @if($payment->receivable->status == '2')  
+                <confirm-payment r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></confirm-payment>
+                 @endif  
+              @endif
+
+                 @if($payment->receivable->status == '1')
                   <a href="{{route('invoices.paymentsRemove', [
                   'id' => $payment->paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
-                  
+                 @endif
+                 @if($payment->receivable->status != '1')  
+                 <a href="{{route('receivables.printReceipt', [
+                  'receivableId' => $payment->receivable->receivableId]) }}" class="btn btn-info btn-sm">
+                            <span class="fa fa-file-invoice" aria-hidden="true"></span>  Recibo
+                  </a>
+                 @endif  
                  </td>
                 </tr>
                @php  
@@ -122,6 +150,8 @@
               @endforeach
         </tbody>
       </table>
+MONTO QUE RESTA POR PAGAR:{{$invoiceBalance}}
+
                  <h3 class="text-success" align="center" >Monto Total: {{$total}}  </h3>
      </div>
 

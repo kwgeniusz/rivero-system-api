@@ -554,6 +554,7 @@ export default {
       let file = new window.File([this.addData.content], this.addData.name, {
         type: this.addData.type,
       })
+      console.log(file);
       this.$refs.upload.add(file)
     }
   }

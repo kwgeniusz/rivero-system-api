@@ -8,6 +8,7 @@ use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Invoice;
+use App\Receivable;
 use App\Contract;
 use App\Configuration;
 use App\InvoiceDetail;
@@ -22,6 +23,7 @@ class InvoiceController extends Controller
     {
         $this->middleware('auth');
         $this->oInvoice        = new Invoice;
+        $this->oReceivable        = new Receivable;
         $this->oContract       = new Contract;
         $this->oConfiguration  = new Configuration;
         $this->oInvoiceDetail        = new InvoiceDetail;
@@ -42,7 +44,7 @@ class InvoiceController extends Controller
     {
  
         $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
-        $paymentConditions = $this->oPaymentCondition->getAll(App::getLocale());
+        $paymentConditions = $this->oPaymentCondition->getAllByLanguage(session('countryId'));
 
         $invoiceNumberFormat = $this->oConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
         $invoiceTaxPercent   = $this->oConfiguration->findInvoiceTaxPercent(session('countryId'),session('officeId'));
@@ -155,8 +157,13 @@ class InvoiceController extends Controller
         $invoice         = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
         $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($invoice[0]->invoiceId);
         $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
+    
+         //saldo de la factura
+        $invoiceBalance         = $this->oInvoice->getBalance($id);
+         //saber que cuota le corresponde mostrar los botones de cobro y verificación
+        $currentShare           = $this->oReceivable->currentShare($id);
 
-        return view('module_contracts.invoices.payment', compact('invoice','invoiceDetails', 'payments'));
+        return view('module_contracts.invoices.payment', compact('invoice','invoiceDetails', 'payments','invoiceBalance','currentShare'));
 
     }
 

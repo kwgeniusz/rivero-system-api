@@ -2,13 +2,12 @@
 
 namespace App;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentCondition extends Model
+class ReceivableStatus extends Model
 {
-    protected $table      = 'payment_condition';
-    protected $primaryKey = 'pCondId';
+    protected $table      = 'receivable_status';
+    protected $primaryKey = 'recStatusId';
     public $timestamps    = false;
 
     /**
@@ -17,10 +16,11 @@ class PaymentCondition extends Model
      * @var array
      */
     protected $fillable = [
-        'pCondId',
-        'pCondCode',
-        'pCondLanguage',
-        'pCondName'
+        'recStatusId',
+        'recCode',
+        'recLanguage',
+        'recName',
+        'pending'
     ];
 //--------------------------------------------------------------------
     /** Relations */
@@ -36,9 +36,11 @@ class PaymentCondition extends Model
             $language = 'es';
         }
 
-        return $this->where('pCondLanguage' , '=' , $language)
-          ->orderBy('pCondId', 'ASC')
+        return $this->where('recLanguage' , '=' , $language)
+          ->orderBy('recCode', 'ASC')
           ->get();
 
     }
+//------------------------------------------
+//-----------
 }

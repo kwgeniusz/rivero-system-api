@@ -52,17 +52,13 @@
                     <td>{{$project->client->clientName}}   </td>  
                     <td >{{$project->siteAddress}}   </td>
                     <td>
-
-                    <a href="{{route('precontracts.files', ['id' => $project->precontractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-                    </a>
-            {{--          <a href="{{route('precontracts.payment', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span>  
-                    </a> --}}
+  
                      <a href="{{route('precontracts.convert', ['id' => $project->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
                      <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a>
-    
+                     <a href="{{url("/preinvoices?id=$project->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
+                    </a>
                     <a href="{{route('precontracts.edit', ['id' => $project->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
@@ -126,7 +122,9 @@
                     <a href="{{route('precontracts.convert', ['id' => $service->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
                      <span class="fa fa-sync" aria-hidden="true"></span>
                     </a>
-
+                     <a href="{{url("/preinvoices?id=$service->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
+                    </a>
                      <a href="{{route('precontracts.edit', ['id' => $service->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>

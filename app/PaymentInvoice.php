@@ -87,11 +87,12 @@ class PaymentInvoice extends Model
             $payments =  $this->where('invoiceId', $invoiceId)->get();
 
            //suma todas las cuotas y luego el monto que ingrese por formulario
+          //para saber si esto es mayor que el monto de la factura
             foreach ($payments as  $payment) {
                 $acum = $acum + $payment->amount ;
             }
                 $acum = $acum + $amount ;
-            //para saber si esto es mayor que el monto de la factura
+
               if ( $acum > $invoice[0]->netTotal)
               {
                 throw new \Exception("Error: El total de Cuotas no debe sobrepasar el Monto de Factura.");
@@ -117,8 +118,10 @@ class PaymentInvoice extends Model
             $receivable->paymentInvoiceId  = $payment->paymentInvoiceId;
             $receivable->sourceReference   = $payment->invoice->invoiceNumber;
             $receivable->amountDue         = number_format((float)$amount, 2, '.', '');
-            $receivable->amountPaid        = '0.00';
-            $receivable->amountPercentaje  = '0.00';        
+            $receivable->amountPaid        = '0.00'; //es necesario colocarlos en 0.00 para que que se inserten encriptados
+            $receivable->amountPercentaje  = '0.00';
+            $receivable->balance           = '0.00';      
+            $receivable->status            = '1';     
             $receivable->save();
 
             // //REALIZA ACTUALIZACION EN ContractCost (ESTO HIRA AL CERRAR FACTURAS)
@@ -150,10 +153,10 @@ class PaymentInvoice extends Model
 
         DB::beginTransaction();
         try {
-            $result = DB::table('receivable')->where('paymentInvoiceId', $id)->value('pending');
+            $result = DB::table('receivable')->where('paymentInvoiceId', $id)->value('status');
 
-            if ($result == 'N') {
-                throw new \Exception('Error: La Cuota Ya se Cobro, No se puede eliminar');
+            if ($result != '1') {
+                throw new \Exception('Error: La Cuota no se puede eliminar, se esta procesando o ya se pago');
             } else {
                 DB::table('invoice')->decrement('pQuantity');  
                 //ELIMINAR PAGO

@@ -11,5 +11,5 @@
          <iframe class="embed-responsive-item" src="{{ $outputPdfName }}"></iframe>
     </div>
 
-{{--     {{ $outputPdfName }} --}}
+    {{ $outputPdfName }}
 @endsection

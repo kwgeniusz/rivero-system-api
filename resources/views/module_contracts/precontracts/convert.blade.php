@@ -51,13 +51,13 @@
           <div class="form-group">
           <label class="col-sm-5 control-label">DESCRIPCION DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->projectType->projectTypeName }}</p>
+            <p class="form-control-static">{{ $precontract[0]->projectDescription->projectDescriptionName }}</p>
           </div>
         </div>
          <div class="form-group">
           <label class="col-sm-5 control-label">TIPO DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->serviceType->serviceTypeName }}</p>
+            <p class="form-control-static">{{ $precontract[0]->projectUse->projectUseName }}</p>
           </div>
         </div>
            <div class="form-group">

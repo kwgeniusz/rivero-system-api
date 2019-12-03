@@ -22,10 +22,10 @@
             </thead>
           <tbody>
                 <tr>
-                     <td>{{$client[0]->client[0]->clientCode}}</td>
-                     <td>{{$client[0]->client[0]->clientName}}</td>
-                     <td>{{$client[0]->client[0]->clientAddress}}</td>
-                     <td>{{$client[0]->client[0]->clientPhone}}</td>
+                     <td>{{$client[0]->client->clientCode}}</td>
+                     <td>{{$client[0]->client->clientName}}</td>
+                     <td>{{$client[0]->client->clientAddress}}</td>
+                     <td>{{$client[0]->client->clientPhone}}</td>
                      <td>{{$client[0]->cuotas}}</td>
                      <td>{{$client[0]->total}}</td>
                 </tr>
@@ -39,7 +39,7 @@
   <div class="col-xs-12">
     <h4 class="text-info text-center">DETALLES - CUENTAS POR COBRAR</h4>
          <!-- INICIO DE LA TABLA COLLAPSE COMPONENT -->
-   @foreach($receivablesContracts as $index => $contract)
+   @foreach($receivablesInvoices as $index => $invoice)
 <?php
 $acum     = 0;
 $totalDue = 0;
@@ -49,8 +49,8 @@ $totalDue = 0;
          <div class="panel-heading" role="tab" id="headingOne">
            <h4 class="panel-title">
              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#{{$index}}" aria-expanded="true" aria-controls="{{$index}}">
-              @foreach($contract as $share) <?php $totalDue += $share->amountDue?> @endforeach
-              CONTRATO N° "{{$index}}" - MONTO A COBRAR: {{$totalDue}}
+              @foreach($invoice as $share) <?php $totalDue += $share->amountDue?> @endforeach
+              FACTURA N° "{{$index}}" - MONTO A COBRAR: {{$totalDue}}
             </div>
            </h4>
          </div>
@@ -68,7 +68,7 @@ $totalDue = 0;
                        </tr>
                    </thead>
                   <tbody>
-                   @foreach($contract as $share)
+                   @foreach($invoice as $share)
                        <tr>
                         <td>{{ $acum = $acum +1 }}</td>
                         <td>{{$share->amountDue}}</td>
@@ -76,9 +76,6 @@ $totalDue = 0;
                           {{-- @if($acum == 1) --}}
                            <form-modal-charge r-id="{{$share->receivableId}}" country-id="{{$share->countryId}}"></form-modal-charge>
                            {{-- @endif --}}
-                {{--   <a href="{{route('receivables.printReceipt', ['receivableId' => $share->receivableId]) }}" class="btn btn-danger btn-sm">
-                            <span class="fa fa-pdf" aria-hidden="true"></span>  Recibo
-                  </a> --}}
                        </td>
                        </tr>
                     @endforeach

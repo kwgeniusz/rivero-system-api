@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 // use App\Client;
 use App\Contract;
 use App\Currency;
-use App\PaymentContract;
+use App\PaymentInvoice;
 use App\PaymentPrecontract;
 use App\Precontract;
 use App\ProjectDescription;
@@ -13,10 +13,8 @@ use App\ProjectUse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\PrecontractRequest;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use DB;
-use File;
 use Auth;
 
 class PrecontractController extends Controller
@@ -26,7 +24,7 @@ class PrecontractController extends Controller
     private $oProjectDescription;
     private $oProjectUse;
     private $oPaymentPrecontract;
-    private $oPaymentContract;
+    private $oPaymentInvoice;
     private $oContract;
     private $oCurrency;
 
@@ -38,7 +36,7 @@ class PrecontractController extends Controller
         $this->oProjectDescription = new ProjectDescription;
         $this->oProjectUse         = new ProjectUse;
         $this->oPaymentPrecontract = new PaymentPrecontract;
-        $this->oPaymentContract    = new PaymentContract;
+        $this->oPaymentInvoice    = new PaymentInvoice;
         $this->oContract           = new Contract;
         $this->oCurrency           = new Currency;
     }
@@ -182,31 +180,16 @@ class PrecontractController extends Controller
                 $precontract[0]->currencyId
             );
             //insertar los pagos correspondientes
-            if ($precontract[0]->payment) {
-                foreach ($precontract[0]->payment as $payment) {
-                    $result = $this->oPaymentContract->aggPayment(
-                        $contractLastId,
-                        $payment->amount,
-                        $payment->paymentDate
-                    );
-                }
-            }
+            // if ($precontract[0]->payment) {
+            //     foreach ($precontract[0]->payment as $payment) {
+            //         $result = $this->oPaymentInvoice->aggPayment(
+            //             $contractLastId,
+            //             $payment->amount,
+            //             $payment->paymentDate
+            //         );
+            //     }
+            // }
             
-            //Mover Documentos de Precontrato a el nuevo contrato
-            $contractNumber = Contract::select('contractNumber')->where('contractId', '=', $contractLastId)->get();
-            $directoryNameOld = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $id;
-            $directoryNameNew = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $contractNumber[0]['contractNumber'];
-    
-               //obtener todos los archivos del directorio y dejar solo el nombre del archivo con el foreach
-                $allFiles = Storage::files("docs/precontracts/" . $directoryNameOld);
-                $filesName   = [];
-               foreach ($allFiles as $file) {
-                   $filePart = explode("/", $file);
-                   $filesName[]  = $filePart[3];
-                  }
-             Storage::makeDirectory("docs/contracts/previous/" . $directoryNameNew);
-             $move = Storage::move($allFiles[0], "docs/contracts/previous/$directoryNameNew/$filesName[0]");
-
             //eliminar precontrato
             $this->oPrecontract->deletePrecontract($id);
             Storage::deleteDirectory("docs/precontracts/" . $directoryNameOld);
@@ -236,122 +219,4 @@ class PrecontractController extends Controller
     }
 // ---------PAYMENT -------//
 
-    public function payment($id)
-    {
-
-        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
-        $payments    = $this->oPaymentPrecontract->getAllForPrecontract($id);
-
-        return view('module_contracts.precontracts.payment', compact('precontract', 'payments'));
-
-    }
-
-    public function paymentAgg(PaymentRequest $request)
-    {
-
-        $result = $this->oPaymentPrecontract->aggPayment(
-            $request->precontractId,
-            $request->amount,
-            $request->paymentDate
-        );
-
-        $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
-        );
-
-        return redirect()->route('precontracts.payment', ['id' => $request->precontractId])
-            ->with($notification);
-
-    }
-    public function paymentRemove($id, $amount, $precontractId)
-    {
-
-        $result = $this->oPaymentPrecontract->removePayment($id, $amount, $precontractId);
-
-        $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
-        );
-
-        return redirect()->route('precontracts.payment', ['id' => $precontractId])
-            ->with($notification);
-    }
-//---------------FILES-----------------------//
-   //  public function files($id)
-   //  {
-
-   //      $precontract = $this->oPrecontract->FindById($id);
-
-   //      //crear el directorio si no existe
-   //      $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
-   
-   //      //obtener todos los archivos del directorio y dejar solo el nombre con el foreach
-   //      $allFiles = Storage::files("docs/precontracts/" . $directoryName);
-   //      $files   = [];
-   //      foreach ($allFiles as $file) {
-   //          $filePart = explode("/", $file);
-   //          $files[]  = $filePart[3];
-   //      }
-
-   //      return view('module_contracts.precontracts.files', compact('precontract', 'files', 'directoryName'));
-   //  }
-   //  public function fileAgg(Request $request)
-   //  {
-   //      $precontract      = $this->oPrecontract->FindById($request->precontractId);
-   //      $directoryName = "D" . $precontract[0]->countryId . $precontract[0]->officeId . $precontract[0]->precontractId;
-
-   //      if ($request->hasFile('archive')) {
-   //          $archive = $request->file('archive');
-   //          $name    = time() .'-'.$archive->getClientOriginalName();
-   //          $archive->move(storage_path("app/public/docs/precontracts/$directoryName"), $name);
-           
-   //      }
-
-   //      return redirect()->back();
-   //  }
-
-   //   public function fileDownload($typeContract,$directoryName, $file)
-   //  {
-   //    return Storage::download("docs/$typeContract/$directoryName/$file");
-   //  }
-
-   //   public function fileDelete($typeContract,$directoryName, $file) {
-   //          Storage::delete("docs/$typeContract/$directoryName/$file");
-   //     return redirect()->back();
-   // }
-    public function files($id)
-    {
-
-        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
-
-        return view('module_contracts.precontracts.files', compact('precontract'));
-    }
-    public function fileAgg(Request $request)
-    {
-         $rs = $this->oDocument->insert($request->file,$request->contractId,$request->typeDoc);
-
-       if ($rs->status() == 200) {
-          return response('Hello World', 200)
-                  ->header('Content-Type', 'text/plain');
-        } else {
-           return response($rs->content(), 500)
-                  ->header('Content-Type', 'text/plain');
-        } 
-    }
-
-   public function fileDownload($docId)
-    {
-       $file =  $this->oDocument->findById($docId);
-       return Storage::download($file[0]->docUrl,$file[0]->docName);
-    }
-
-   public function fileDelete($docId) {
-        $file =  $this->oDocument->findById($docId);
-        Storage::delete($file[0]->docUrl);
-
-        $this->oDocument->deleteFile($docId);
-
-       return redirect()->back();
-   }
 }

@@ -8,7 +8,7 @@
          <input type="hidden" name="clientId" :value="clientId">
          <input class="form-control" @keyup="searchClient()" name="clientName" v-model="clientName" autocomplete="off" :disabled="btnRemove">
            <span class="input-group-btn">
-             <a class="btn btn-success" @click="openModal()" v-if="btnAgg"><span class="fa fa-plus" aria-hidden="true"></span></a>
+             <form-new-client :url="url"  v-if="btnAgg" @sendClient="aggClient"/>
              <a class="btn btn-danger" @click="removeClient()" v-if="btnRemove"><span class="fa fa-times-circle" aria-hidden="true"></span></a>
           </span>
          </div>
@@ -25,85 +25,13 @@
            </div>
  -->
 
-  
-<!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
-
- <sweet-modal ref="modalClientNew">
-
-    <h3 class="bg-success"><b>NUEVO CLIENTE</b></h3>
-     <br>
-       <div class="alert alert-danger" v-if="errors.length">
-         <h4>Errores:</h4>
-         <ul>
-          <li v-for="error in errors">{{ error }}</li>
-         </ul>
-       </div>
-
-  <div class="col-xs-offset-1 col-xs-10">
-      <!--     <div class="form-group ">
-            <label for="formClientCountry">PAIS</label>
-            <select v-model="formClientCountry" class="form-control" name="formClientCountry" id="formClientCountry">
-                  <option  :value="country.countryId"  v-for="(country) in countrys"> {{country.countryName}}</option>
-            </select>
-          </div> -->
-         <div class="form-group ">
-            <label for="clientNumberFormat">CODIGO</label>
-            <input type="text" class="form-control" id="clientNumberFormat" name="clientNumberFormat" v-model="formClientNumberFormat" disabled="on">
-          </div>
-
-              <div class="form-group">
-                <label for="formClientName">NOMBRES Y APELLIDOS</label>
-                <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="Nombres y Apellidos">
-              </div>
-  
-             
-              <div class="form-group">
-                <label for="formClientAddress">DIRECCION</label>
-                <input type="text" class="form-control" name="formClientAddress" v-model="formClientAddress" placeholder="Direccion">
-              </div>
-          
-          <div class="form-group ">
-            <label for="formContactType">TIPO DE CONTACTO</label>
-            <select v-model="formContactType" class="form-control" name="formContactType" id="formContactType">
-                  <option  :value="contactType.contactTypeId"  v-for="(contactType) in contactTypes"> {{contactType.contactTypeName}}</option>
-            </select>
-          </div>
-
-              <div class="col-xs-6">
-              <div class="form-group">
-                <label for="formClientPhone">TELEFONO</label>
-                <input type="text" class="form-control" name="formClientPhone" v-model="formClientPhone" placeholder="04124231242" pattern="^([0-9]{3,11})" title="formato: 04124231242">
-              </div>
-            </div>
-            <div class="col-xs-6">
-              <div class="form-group">
-                <label for="formClientEmail">CORREO</label>
-                <input type="email" class="form-control" name="formClientEmail" v-model="formClientEmail" placeholder="Correo">
-              </div>
-            </div>
-
-            <div class="text-center">
-              <a @click="createClient()" v-if="btnSubmitForm"  class="btn btn-primary">
-                <span class="fa fa-check" aria-hidden="true"></span>  GUARDAR
-              </a>
-            </div>
-              <br><br>
-  </div>
-
-          
-    
-         <!--<a class="btn btn-success" slot="button" @click.prevent="$refs.nestedChild.open()">Open Child Modal</a>-->
-     </sweet-modal>
-
-
-     <sweet-modal ref="nestedChild">
-              This is the child modal.
-     </sweet-modal>
 
 </div>   
 </template>
 
 <script>
+
+import FormNewClient from './FormNewClient.vue'
 
     export default {
         
@@ -127,21 +55,11 @@
             clientName : '',
             clientAddress:'',
             list : '',
-            countrys:'',
-            contactTypes:'',
             style : '',
             btnAgg: true,
             btnRemove: false,
-            btnSubmitForm: false,
 
-            errors: [],
-            formClientCountry:'',
-            formClientName: '',
-            formClientAddress: '',
-            formContactType: '', 
-            formClientPhone: '',
-            formClientEmail: '',
-            formClientNumberFormat:'',
+            // switch: 'N',
           }
     },
      props: {
@@ -150,6 +68,9 @@
            cName: { type: String, default: ''},
            cAddress: { type: String, default: ''}
     },
+     components: {
+         FormNewClient
+  },
     methods: {
        searchClient: function() {
            if(this.clientName == '') {
@@ -169,6 +90,7 @@
           
          },
        aggClient: function (id,name,address){
+         console.log(id,name,address)
             this.clientId = id;
             this.clientName = name;
             this.clientAddress = address;
@@ -188,72 +110,6 @@
             this.btnAgg = true
            
         },
-
-       openModal: function (){
-             this.btnSubmitForm = true;
-             this.errors = [];
-             this.$refs.modalClientNew.open()
-             if(this.url == "C") { 
-                  var url ='../countrys/all';
-                  var url2 ='../contactTypes/all'; 
-                  var url3 ='../clientNumberFormat/get'; 
-              }else{
-                  var url ='../../countrys/all';
-                  var url2 ='../../contactTypes/all';
-                }
-              axios.get(url).then(response => {
-                 this.countrys = response.data
-                });
-              axios.get(url2).then(response => {
-                 this.contactTypes = response.data
-                }); 
-              axios.get(url3).then(response => {
-                 this.formClientNumberFormat = response.data
-                }); 
-        },
-       createClient: function() {
-
-          if(this.url == "C") { 
-           var url ='../clients';
-         }else{
-           var url ='../../clients';
-         }
-           this.errors = [];
-           //VALIDATIONS
-           // if (!this.formClientCountry) {
-           //      this.errors.push('Pais es Requerido.');
-           // } 
-           if (!this.formClientName) {
-                this.errors.push('Nombre y Apellido es Requerido.');
-           }
-          if (!this.formContactType) {
-                this.errors.push('Tipo de contacto es Requerido.');
-           }
-  
-
-          if (!this.errors.length) { 
-            this.btnSubmitForm = false;
-            axios.post(url,{
-             countryId: this.formClientCountry,
-            clientName: this.formClientName,
-            clientAddress: this.formClientAddress,
-            contactTypeId: this.formContactType,
-            clientPhone: this.formClientPhone,
-            clientEmail: this.formClientEmail
-            }).then(response => {
-               this.aggClient(response.data.clientId,response.data.clientName,response.data.clientAddress)
-               toastr.info("Cliente Nuevo Insertado")
-               this.formClientCountry = "";
-               this.formClientName = "";
-               this.formClientAddress= "";
-               this.formContactType = "";
-               this.formClientPhone= "";
-               this.formClientEmail = "";
-               this.$refs.modalClientNew.close();
-            })
-           }
-
-         },
      }
 }
 </script>

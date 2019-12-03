@@ -53,6 +53,7 @@
     <div role="tabpanel" class="tab-pane active" id="previous">
         <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        
         <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="1"></grid-files>
    </div> <!--tab 1 final-->
 

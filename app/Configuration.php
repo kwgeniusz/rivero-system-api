@@ -14,7 +14,7 @@ class Configuration extends Model
     protected $dates      = ['dateCreated'];
 
     //--------------------------------------------------------------------
-         //CONTRACT NUMBER
+    //CONTRACT NUMBER
     //--------------------------------------------------------------------
     public function retrieveContractNumber($countryId, $officeId, $contractType)
     {

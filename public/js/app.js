@@ -484,88 +484,6 @@ module.exports = {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -793,7 +711,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 var g;
@@ -817,6 +735,88 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
 
 
 /***/ }),
@@ -18319,13 +18319,13 @@ return ImageCompressor;
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(85)
+  __webpack_require__(91)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(87)
+var __vue_script__ = __webpack_require__(93)
 /* template */
-var __vue_template__ = __webpack_require__(88)
+var __vue_template__ = __webpack_require__(94)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -18368,7 +18368,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(18);
-module.exports = __webpack_require__(105);
+module.exports = __webpack_require__(111);
 
 
 /***/ }),
@@ -18411,11 +18411,12 @@ Vue.component('select-country-office-contract', __webpack_require__(68));
 Vue.component('print-contract', __webpack_require__(71));
 Vue.component('contract-summary', __webpack_require__(74));
 Vue.component('search-client', __webpack_require__(77));
-Vue.component('form-modal-charge', __webpack_require__(82));
+Vue.component('form-modal-charge', __webpack_require__(85));
+Vue.component('confirm-payment', __webpack_require__(88));
 // Vue.component('vue-table', require('./components/VueTable.vue'));
 Vue.component('vue-upload', __webpack_require__(16));
-Vue.component('grid-files', __webpack_require__(89));
-Vue.component('invoices-details', __webpack_require__(97));
+Vue.component('grid-files', __webpack_require__(95));
+Vue.component('invoices-details', __webpack_require__(103));
 
 var app = new Vue({
   el: '#app',
@@ -35596,7 +35597,7 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(21)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(21)(module)))
 
 /***/ }),
 /* 21 */
@@ -49881,7 +49882,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(44).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(44).setImmediate))
 
 /***/ }),
 /* 44 */
@@ -49951,7 +49952,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 45 */
@@ -50144,7 +50145,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(8)))
 
 /***/ }),
 /* 46 */
@@ -50726,7 +50727,7 @@ var content = __webpack_require__(52);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("57487a7d", content, false, {});
+var update = __webpack_require__(2)("57487a7d", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -50743,17 +50744,9 @@ if(false) {
 
 /***/ }),
 /* 52 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-exports = module.exports = __webpack_require__(2)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n@-webkit-keyframes animateSuccessTip {\n0% {\n    width: 0;\n    left: 1px;\n    top: 19px;\n}\n54% {\n    width: 0;\n    left: 1px;\n    top: 19px;\n}\n70% {\n    width: 50px;\n    left: -8px;\n    top: 37px;\n}\n84% {\n    width: 17px;\n    left: 21px;\n    top: 48px;\n}\n100% {\n    width: 25px;\n    left: 14px;\n    top: 45px;\n}\n}\n@keyframes animateSuccessTip {\n0% {\n    width: 0;\n    left: 1px;\n    top: 19px;\n}\n54% {\n    width: 0;\n    left: 1px;\n    top: 19px;\n}\n70% {\n    width: 50px;\n    left: -8px;\n    top: 37px;\n}\n84% {\n    width: 17px;\n    left: 21px;\n    top: 48px;\n}\n100% {\n    width: 25px;\n    left: 14px;\n    top: 45px;\n}\n}\n@-webkit-keyframes animateSuccessLong {\n0% {\n    width: 0;\n    right: 46px;\n    top: 54px;\n}\n65% {\n    width: 0;\n    right: 46px;\n    top: 54px;\n}\n84% {\n    width: 55px;\n    right: 0px;\n    top: 35px;\n}\n100% {\n    width: 47px;\n    right: 8px;\n    top: 38px;\n}\n}\n@keyframes animateSuccessLong {\n0% {\n    width: 0;\n    right: 46px;\n    top: 54px;\n}\n65% {\n    width: 0;\n    right: 46px;\n    top: 54px;\n}\n84% {\n    width: 55px;\n    right: 0px;\n    top: 35px;\n}\n100% {\n    width: 47px;\n    right: 8px;\n    top: 38px;\n}\n}\n@-webkit-keyframes rotatePlaceholder {\n0% {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n}\n5% {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n}\n12% {\n    -webkit-transform: rotate(-405deg);\n            transform: rotate(-405deg);\n}\n100% {\n    -webkit-transform: rotate(-405deg);\n            transform: rotate(-405deg);\n}\n}\n@keyframes rotatePlaceholder {\n0% {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n}\n5% {\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n}\n12% {\n    -webkit-transform: rotate(-405deg);\n            transform: rotate(-405deg);\n}\n100% {\n    -webkit-transform: rotate(-405deg);\n            transform: rotate(-405deg);\n}\n}\n.animateSuccessTip {\n  -webkit-animation: animateSuccessTip 0.75s;\n          animation: animateSuccessTip 0.75s;\n}\n.animateSuccessLong {\n  -webkit-animation: animateSuccessLong 0.75s;\n          animation: animateSuccessLong 0.75s;\n}\n.sweet-modal-icon.sweet-modal-success.animate::after {\n  -webkit-animation: rotatePlaceholder 4.25s ease-in;\n          animation: rotatePlaceholder 4.25s ease-in;\n}\n\n/* Error Icon */\n@-webkit-keyframes animateErrorIcon {\n0% {\n    -webkit-transform: rotateX(100deg);\n            transform: rotateX(100deg);\n    opacity: 0;\n}\n100% {\n    -webkit-transform: rotateX(0deg);\n            transform: rotateX(0deg);\n    opacity: 1;\n}\n}\n@keyframes animateErrorIcon {\n0% {\n    -webkit-transform: rotateX(100deg);\n            transform: rotateX(100deg);\n    opacity: 0;\n}\n100% {\n    -webkit-transform: rotateX(0deg);\n            transform: rotateX(0deg);\n    opacity: 1;\n}\n}\n.animateErrorIcon {\n  -webkit-animation: animateErrorIcon 0.5s;\n          animation: animateErrorIcon 0.5s;\n}\n@-webkit-keyframes animateXMark {\n0% {\n    -webkit-transform: scale(0.4);\n            transform: scale(0.4);\n    margin-top: 26px;\n    opacity: 0;\n}\n50% {\n    -webkit-transform: scale(0.4);\n            transform: scale(0.4);\n    margin-top: 26px;\n    opacity: 0;\n}\n80% {\n    -webkit-transform: scale(1.15);\n            transform: scale(1.15);\n    margin-top: -6px;\n}\n100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    margin-top: 0;\n    opacity: 1;\n}\n}\n@keyframes animateXMark {\n0% {\n    -webkit-transform: scale(0.4);\n            transform: scale(0.4);\n    margin-top: 26px;\n    opacity: 0;\n}\n50% {\n    -webkit-transform: scale(0.4);\n            transform: scale(0.4);\n    margin-top: 26px;\n    opacity: 0;\n}\n80% {\n    -webkit-transform: scale(1.15);\n            transform: scale(1.15);\n    margin-top: -6px;\n}\n100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    margin-top: 0;\n    opacity: 1;\n}\n}\n.animateXMark {\n  -webkit-animation: animateXMark 0.5s;\n          animation: animateXMark 0.5s;\n}\n@-webkit-keyframes pulseWarning {\n0% {\n    border-color: #F8D486;\n}\n100% {\n    border-color: #F8BB86;\n}\n}\n@keyframes pulseWarning {\n0% {\n    border-color: #F8D486;\n}\n100% {\n    border-color: #F8BB86;\n}\n}\n.pulseWarning {\n  -webkit-animation: pulseWarning 0.75s infinite alternate;\n          animation: pulseWarning 0.75s infinite alternate;\n}\n@-webkit-keyframes pulseWarningIns {\n0% {\n    background-color: #F8D486;\n}\n100% {\n    background-color: #F8BB86;\n}\n}\n@keyframes pulseWarningIns {\n0% {\n    background-color: #F8D486;\n}\n100% {\n    background-color: #F8BB86;\n}\n}\n.pulseWarningIns {\n  -webkit-animation: pulseWarningIns 0.75s infinite alternate;\n          animation: pulseWarningIns 0.75s infinite alternate;\n}\n@-webkit-keyframes rotate-loading {\n0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\n100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n}\n}\n@keyframes rotate-loading {\n0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\n100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n}\n}\n.sweet-modal-icon {\n  position: relative;\n  width: 80px;\n  height: 80px;\n  border: 4px solid gray;\n  border-radius: 50%;\n  margin: auto;\n  padding: 0;\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n}\n.sweet-modal-icon.sweet-modal-error {\n    border-color: #F44336;\n}\n.sweet-modal-icon.sweet-modal-error .sweet-modal-x-mark {\n      position: relative;\n      display: block;\n}\n.sweet-modal-icon.sweet-modal-error .sweet-modal-line {\n      display: block;\n      position: absolute;\n      top: 37px;\n      height: 5px;\n      width: 47px;\n      background-color: #F44336;\n      border-radius: 2px;\n}\n.sweet-modal-icon.sweet-modal-error .sweet-modal-line.sweet-modal-left {\n        -webkit-transform: rotate(45deg);\n                transform: rotate(45deg);\n        left: 17px;\n}\n.sweet-modal-icon.sweet-modal-error .sweet-modal-line.sweet-modal-right {\n        -webkit-transform: rotate(-45deg);\n                transform: rotate(-45deg);\n        right: 16px;\n}\n.sweet-modal-icon.sweet-modal-warning {\n    border-color: #FF9800;\n}\n.sweet-modal-icon.sweet-modal-warning .sweet-modal-body {\n      position: absolute;\n      width: 5px;\n      height: 47px;\n      left: 50%;\n      top: 10px;\n      margin-left: -2px;\n      border-radius: 2px;\n      background-color: #FF9800;\n}\n.sweet-modal-icon.sweet-modal-warning .sweet-modal-dot {\n      position: absolute;\n      left: 50%;\n      bottom: 10px;\n      width: 7px;\n      height: 7px;\n      margin-left: -3px;\n      border-radius: 50%;\n      background-color: #FF9800;\n}\n.sweet-modal-icon.sweet-modal-info {\n    border-color: #039BE5;\n}\n.sweet-modal-icon.sweet-modal-info::before {\n      content: '';\n      position: absolute;\n      width: 5px;\n      height: 29px;\n      left: 50%;\n      bottom: 17px;\n      margin-left: -2px;\n      border-radius: 2px;\n      background-color: #039BE5;\n}\n.sweet-modal-icon.sweet-modal-info::after {\n      content: '';\n      position: absolute;\n      width: 7px;\n      height: 7px;\n      top: 19px;\n      margin-left: -3px;\n      border-radius: 50%;\n      background-color: #039BE5;\n}\n.sweet-modal-icon.sweet-modal-success {\n    border-color: #4CAF50;\n}\n.sweet-modal-icon.sweet-modal-success::before, .sweet-modal-icon.sweet-modal-success::after {\n      content: '';\n      position: absolute;\n      border-radius: 40px;\n      width: 60px;\n      height: 120px;\n      background: white;\n      -webkit-transform: rotate(45deg);\n              transform: rotate(45deg);\n}\n.sweet-modal-icon.sweet-modal-success::before {\n      border-radius: 120px 0 0 120px;\n      top: -7px;\n      left: -33px;\n      -webkit-transform: rotate(-45deg);\n              transform: rotate(-45deg);\n      -webkit-transform-origin: 60px 60px;\n      transform-origin: 60px 60px;\n}\n.sweet-modal-icon.sweet-modal-success::after {\n      border-radius: 0 120px 120px 0;\n      top: -11px;\n      left: 30px;\n      -webkit-transform: rotate(-45deg);\n              transform: rotate(-45deg);\n      -webkit-transform-origin: 0px 60px;\n      transform-origin: 0px 60px;\n}\n.sweet-modal-icon.sweet-modal-success .sweet-modal-placeholder {\n      -webkit-box-sizing: content-box;\n              box-sizing: content-box;\n      position: absolute;\n      left: -4px;\n      top: -4px;\n      z-index: 2;\n      width: 80px;\n      height: 80px;\n      border: 4px solid rgba(76, 175, 80, 0.2);\n      border-radius: 50%;\n}\n.sweet-modal-icon.sweet-modal-success .sweet-modal-fix {\n      position: absolute;\n      left: 28px;\n      top: 8px;\n      z-index: 1;\n      width: 7px;\n      height: 90px;\n      background-color: white;\n      -webkit-transform: rotate(-45deg);\n              transform: rotate(-45deg);\n}\n.sweet-modal-icon.sweet-modal-success .sweet-modal-line {\n      display: block;\n      position: absolute;\n      z-index: 2;\n      height: 5px;\n      background-color: #4CAF50;\n      border-radius: 2px;\n}\n.sweet-modal-icon.sweet-modal-success .sweet-modal-line.sweet-modal-tip {\n        width: 25px;\n        left: 14px;\n        top: 46px;\n        -webkit-transform: rotate(45deg);\n                transform: rotate(45deg);\n}\n.sweet-modal-icon.sweet-modal-success .sweet-modal-line.sweet-modal-long {\n        width: 47px;\n        right: 8px;\n        top: 38px;\n        -webkit-transform: rotate(-45deg);\n                transform: rotate(-45deg);\n}\n.sweet-modal-icon.sweet-modal-custom {\n    border-radius: 0;\n    border: none;\n    background-size: contain;\n    background-position: center center;\n    background-repeat: no-repeat;\n}\n.sweet-modal.theme-dark .sweet-modal-icon.sweet-modal-success::before, .sweet-modal.theme-dark .sweet-modal-icon.sweet-modal-success::after,\n.sweet-modal.theme-dark .sweet-modal-icon.sweet-modal-success .sweet-modal-fix {\n  background-color: #182028;\n}\n.sweet-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  z-index: 9001;\n  font-size: 14px;\n  -webkit-font-smoothing: antialiased;\n  background: rgba(255, 255, 255, 0.9);\n  opacity: 0;\n  -webkit-transition: opacity 0.3s;\n  transition: opacity 0.3s;\n  -webkit-transform: translate3D(0, 0, 0);\n          transform: translate3D(0, 0, 0);\n  -webkit-perspective: 500px;\n}\n.sweet-modal-overlay.theme-dark {\n    background: rgba(24, 32, 40, 0.94);\n}\n.sweet-modal-overlay.is-visible {\n    opacity: 1;\n}\n.sweet-modal {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  background: #fff;\n  -webkit-box-shadow: 0px 8px 46px rgba(0, 0, 0, 0.08), 0px 2px 6px rgba(0, 0, 0, 0.03);\n          box-shadow: 0px 8px 46px rgba(0, 0, 0, 0.08), 0px 2px 6px rgba(0, 0, 0, 0.03);\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  max-width: 640px;\n  max-height: 100vh;\n  overflow-y: auto;\n  border-radius: 2px;\n  -webkit-transform: scale(0.9) translate(calc(-50% - 32px), -50%);\n          transform: scale(0.9) translate(calc(-50% - 32px), -50%);\n  opacity: 0;\n  -webkit-transition-property: opacity, -webkit-transform;\n  transition-property: opacity, -webkit-transform;\n  transition-property: transform, opacity;\n  transition-property: transform, opacity, -webkit-transform;\n  -webkit-transition-duration: 0.3s;\n          transition-duration: 0.3s;\n  -webkit-transition-delay: 0.05s;\n          transition-delay: 0.05s;\n  -webkit-transition-timing-function: cubic-bezier(0.52, 0.02, 0.19, 1.02);\n          transition-timing-function: cubic-bezier(0.52, 0.02, 0.19, 1.02);\n}\n.sweet-modal .sweet-box-actions {\n    position: absolute;\n    top: 12px;\n    right: 12px;\n}\n.sweet-modal .sweet-box-actions .sweet-action-close {\n      display: inline-block;\n      cursor: pointer;\n      color: #222C38;\n      text-align: center;\n      width: 42px;\n      height: 42px;\n      line-height: 42px;\n      border-radius: 50%;\n}\n.sweet-modal .sweet-box-actions .sweet-action-close svg {\n        width: 24px;\n        height: 24px;\n        vertical-align: middle;\n        margin-top: -2px;\n}\n.sweet-modal .sweet-box-actions .sweet-action-close svg path,\n        .sweet-modal .sweet-box-actions .sweet-action-close svg polygon,\n        .sweet-modal .sweet-box-actions .sweet-action-close svg rect,\n        .sweet-modal .sweet-box-actions .sweet-action-close svg circle {\n          fill: currentColor;\n}\n.sweet-modal .sweet-box-actions .sweet-action-close svg {\n          fill: currentColor;\n}\n.sweet-modal .sweet-box-actions .sweet-action-close:hover {\n        background: #039BE5;\n        color: #fff;\n}\n.sweet-modal .sweet-title {\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n    height: 64px;\n    line-height: 64px;\n    border-bottom: 1px solid #eaeaea;\n    padding-left: 32px;\n    padding-right: 64px;\n}\n.sweet-modal .sweet-title > h2 {\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden;\n      margin: 0;\n      padding: 0;\n      font-weight: 500;\n      font-size: 22px;\n}\n.sweet-modal ul.sweet-modal-tabs {\n    margin: 0;\n    padding: 0;\n    list-style-type: none;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    width: calc(100% + 32px);\n    height: 100%;\n    margin-left: -32px;\n    overflow-x: auto;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab {\n      display: block;\n      height: 100%;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a {\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        overflow: hidden;\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-align: center;\n            -ms-flex-align: center;\n                align-items: center;\n        padding-left: 20px;\n        padding-right: 20px;\n        color: #222C38;\n        text-decoration: none;\n        text-align: center;\n        height: 100%;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-title {\n          display: block;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon {\n          display: block;\n          line-height: 1.0;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon svg, .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon img {\n            width: 16px;\n            height: 16px;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon svg path,\n            .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon svg polygon,\n            .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon svg rect,\n            .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon svg circle, .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon img path,\n            .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon img polygon,\n            .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon img rect,\n            .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon img circle {\n              fill: currentColor;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon svg, .sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon img {\n              fill: currentColor;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon + span.sweet-modal-tab-title {\n          line-height: 1.0;\n          margin-top: 8px;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab:first-child a {\n        padding-left: 32px;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab.active a {\n        font-weight: 600;\n        color: #039BE5;\n}\n.sweet-modal ul.sweet-modal-tabs li.sweet-modal-tab.disabled a {\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n        cursor: default;\n        pointer-events: none;\n        color: #999;\n}\n.sweet-modal.has-tabs:not(.has-title) .sweet-title {\n    height: 84px;\n    line-height: 84px;\n}\n.sweet-modal.has-tabs.has-title ul.sweet-modal-tabs {\n    width: 100%;\n    height: 48px;\n    margin: 0;\n    border-bottom: 1px solid #eaeaea;\n}\n.sweet-modal.has-tabs.has-title ul.sweet-modal-tabs li.sweet-modal-tab a {\n      margin-top: -4px;\n}\n.sweet-modal.has-tabs.has-title ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon {\n        display: inline-block;\n}\n.sweet-modal.has-tabs.has-title ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon svg, .sweet-modal.has-tabs.has-title ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-icon img {\n          vertical-align: middle;\n          margin-top: -2px;\n          margin-right: 8px;\n}\n.sweet-modal.has-tabs.has-title ul.sweet-modal-tabs li.sweet-modal-tab a span.sweet-modal-tab-title {\n        display: inline-block;\n}\n.sweet-modal .sweet-content {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    padding-left: 32px;\n    padding-right: 32px;\n    padding-top: 24px;\n    padding-bottom: 24px;\n    line-height: 1.5;\n}\n.sweet-modal .sweet-content .sweet-content-content {\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n}\n.sweet-modal .sweet-content .sweet-modal-tab:not(.active) {\n      display: none;\n}\n.sweet-modal .sweet-content .sweet-modal-icon {\n      margin-bottom: 36px;\n}\n.sweet-modal .sweet-buttons {\n    text-align: right;\n    padding-left: 20px;\n    padding-right: 20px;\n    padding-top: 12px;\n    padding-bottom: 12px;\n}\n.sweet-modal .sweet-content + .sweet-buttons {\n    border-top: 1px solid #eaeaea;\n}\n.sweet-modal.is-alert .sweet-content {\n    display: block;\n    text-align: center;\n    font-size: 16px;\n    padding-top: 64px;\n    padding-bottom: 64px;\n}\n.sweet-modal.has-tabs.has-icon .sweet-content {\n    padding-top: 32px;\n    padding-bottom: 32px;\n}\n.sweet-modal.has-tabs.has-icon .sweet-content .sweet-content-content {\n      padding-left: 32px;\n}\n.sweet-modal.has-tabs.has-icon .sweet-content .sweet-modal-icon {\n      margin-bottom: 0;\n}\n.sweet-modal:not(.has-content) .sweet-modal-icon {\n    margin-bottom: 0;\n}\n.sweet-modal.theme-dark {\n    background: #182028;\n    color: #fff;\n}\n.sweet-modal.theme-dark .sweet-box-actions .sweet-action-close {\n      color: #fff;\n}\n.sweet-modal.theme-dark .sweet-title {\n      border-bottom-color: #090c0f;\n      -webkit-box-shadow: 0px 1px 0px #273442;\n              box-shadow: 0px 1px 0px #273442;\n}\n.sweet-modal.theme-dark ul.sweet-modal-tabs li a {\n      color: #fff;\n}\n.sweet-modal.theme-dark ul.sweet-modal-tabs li.active a {\n      color: #039BE5;\n}\n.sweet-modal.theme-dark ul.sweet-modal-tabs li.disabled a {\n      color: #3e5368;\n}\n.sweet-modal.theme-dark.has-tabs.has-title ul.sweet-modal-tabs {\n      border-bottom-color: #090c0f;\n      -webkit-box-shadow: 0px 1px 0px #273442;\n              box-shadow: 0px 1px 0px #273442;\n}\n.sweet-modal.theme-dark .sweet-content + .sweet-buttons {\n      border-top-color: #273442;\n      -webkit-box-shadow: 0px -1px 0px #090c0f;\n              box-shadow: 0px -1px 0px #090c0f;\n}\n.sweet-modal .sweet-buttons,\n  .sweet-modal .sweet-content {\n    opacity: 0;\n    -webkit-transition-property: opacity, -webkit-transform;\n    transition-property: opacity, -webkit-transform;\n    transition-property: transform, opacity;\n    transition-property: transform, opacity, -webkit-transform;\n    -webkit-transition-duration: 0.3s;\n            transition-duration: 0.3s;\n    -webkit-transition-delay: 0.09s;\n            transition-delay: 0.09s;\n    -webkit-transition-timing-function: cubic-bezier(0.52, 0.02, 0.19, 1.02);\n            transition-timing-function: cubic-bezier(0.52, 0.02, 0.19, 1.02);\n}\n.sweet-modal .sweet-content {\n    -webkit-transform: translateY(-8px);\n            transform: translateY(-8px);\n}\n.sweet-modal .sweet-buttons {\n    -webkit-transform: translateY(16px);\n            transform: translateY(16px);\n}\n.sweet-modal.is-visible {\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    opacity: 1;\n}\n.sweet-modal.is-visible .sweet-buttons,\n    .sweet-modal.is-visible .sweet-content {\n      -webkit-transform: none;\n              transform: none;\n      opacity: 1;\n}\n.sweet-modal.bounce {\n    -webkit-animation-name: bounce;\n            animation-name: bounce;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    -webkit-animation-iteration-count: 2;\n            animation-iteration-count: 2;\n    -webkit-animation-direction: alternate;\n            animation-direction: alternate;\n}\n@media screen and (min-width: 601px) {\n@-webkit-keyframes bounce {\n0% {\n        -webkit-transform: scale(1) translate(-50%, -50%);\n                transform: scale(1) translate(-50%, -50%);\n}\n50% {\n        -webkit-transform: scale(1.02) translate(calc(-50% + 8px), -50%);\n                transform: scale(1.02) translate(calc(-50% + 8px), -50%);\n}\n100% {\n        -webkit-transform: scale(1) translate(-50%, -50%);\n                transform: scale(1) translate(-50%, -50%);\n}\n}\n@keyframes bounce {\n0% {\n        -webkit-transform: scale(1) translate(-50%, -50%);\n                transform: scale(1) translate(-50%, -50%);\n}\n50% {\n        -webkit-transform: scale(1.02) translate(calc(-50% + 8px), -50%);\n                transform: scale(1.02) translate(calc(-50% + 8px), -50%);\n}\n100% {\n        -webkit-transform: scale(1) translate(-50%, -50%);\n                transform: scale(1) translate(-50%, -50%);\n}\n}\n}\n@media screen and (max-width: 600px) {\n.sweet-modal.is-mobile-fullscreen {\n      width: 100%;\n      height: 100vh;\n      left: 0;\n      top: 0;\n      -webkit-transform: scale(0.9);\n              transform: scale(0.9);\n}\n.sweet-modal.is-mobile-fullscreen.is-visible {\n        -webkit-transform: none;\n                transform: none;\n}\n.sweet-modal.is-mobile-fullscreen .sweet-buttons {\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      position: absolute;\n      bottom: 0;\n      left: 0;\n      width: 100%;\n}\n}\n", ""]);
-
-// exports
-
+throw new Error("Module build failed: Error: Node Sass does not yet support your current environment: Windows 64-bit with Unsupported runtime (72)\nFor more information on which environments are supported please see:\nhttps://github.com/sass/node-sass/releases/tag/v4.9.2\n    at module.exports (c:\\wamp64\\www\\rgc_system\\node_modules\\node-sass\\lib\\binding.js:13:13)\n    at Object.<anonymous> (c:\\wamp64\\www\\rgc_system\\node_modules\\node-sass\\lib\\index.js:14:35)\n    at Module._compile (internal/modules/cjs/loader.js:956:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:973:10)\n    at Module.load (internal/modules/cjs/loader.js:812:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:724:14)\n    at Module.require (internal/modules/cjs/loader.js:849:19)\n    at require (internal/modules/cjs/helpers.js:74:18)\n    at Object.<anonymous> (c:\\wamp64\\www\\rgc_system\\node_modules\\sass-loader\\lib\\loader.js:3:14)\n    at Module._compile (internal/modules/cjs/loader.js:956:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:973:10)\n    at Module.load (internal/modules/cjs/loader.js:812:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:724:14)\n    at Module.require (internal/modules/cjs/loader.js:849:19)\n    at require (internal/modules/cjs/helpers.js:74:18)\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:13:17)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:362:2)\n    at NormalModule.doBuild (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModule.js:182:3)\n    at NormalModule.build (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModule.js:275:15)\n    at Compilation.buildModule (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\Compilation.js:157:10)\n    at factoryCallback (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\Compilation.js:348:12)");
 
 /***/ }),
 /* 53 */
@@ -51559,7 +51552,7 @@ var content = __webpack_require__(58);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("1fff7153", content, false, {});
+var update = __webpack_require__(2)("1fff7153", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -51576,17 +51569,9 @@ if(false) {
 
 /***/ }),
 /* 58 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-exports = module.exports = __webpack_require__(2)(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
+throw new Error("Module build failed: Error: Node Sass does not yet support your current environment: Windows 64-bit with Unsupported runtime (72)\nFor more information on which environments are supported please see:\nhttps://github.com/sass/node-sass/releases/tag/v4.9.2\n    at module.exports (c:\\wamp64\\www\\rgc_system\\node_modules\\node-sass\\lib\\binding.js:13:13)\n    at Object.<anonymous> (c:\\wamp64\\www\\rgc_system\\node_modules\\node-sass\\lib\\index.js:14:35)\n    at Module._compile (internal/modules/cjs/loader.js:956:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:973:10)\n    at Module.load (internal/modules/cjs/loader.js:812:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:724:14)\n    at Module.require (internal/modules/cjs/loader.js:849:19)\n    at require (internal/modules/cjs/helpers.js:74:18)\n    at Object.<anonymous> (c:\\wamp64\\www\\rgc_system\\node_modules\\sass-loader\\lib\\loader.js:3:14)\n    at Module._compile (internal/modules/cjs/loader.js:956:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:973:10)\n    at Module.load (internal/modules/cjs/loader.js:812:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:724:14)\n    at Module.require (internal/modules/cjs/loader.js:849:19)\n    at require (internal/modules/cjs/helpers.js:74:18)\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:13:17)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:362:2)\n    at NormalModule.doBuild (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModule.js:182:3)\n    at NormalModule.build (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModule.js:275:15)\n    at Compilation.buildModule (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\Compilation.js:157:10)\n    at factoryCallback (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\Compilation.js:348:12)");
 
 /***/ }),
 /* 59 */
@@ -56374,7 +56359,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 62 */
@@ -57904,7 +57889,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(80)
 /* template */
-var __vue_template__ = __webpack_require__(81)
+var __vue_template__ = __webpack_require__(84)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -57953,7 +57938,7 @@ var content = __webpack_require__(79);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("20a7057a", content, false, {});
+var update = __webpack_require__(2)("20a7057a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -57972,7 +57957,7 @@ if(false) {
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(false);
+exports = module.exports = __webpack_require__(4)(false);
 // imports
 
 
@@ -57988,6 +57973,8 @@ exports.push([module.i, "\n.sugerencias[data-v-139a850a]{ \n margin:0px;\n width
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormNewClient_vue__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormNewClient_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormNewClient_vue__);
 //
 //
 //
@@ -58012,6 +57999,148 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('Component SearchClient mounted.');
+    //Si Recibo propiedades desde afuera preparame el input busqueda con esos valores
+    if (this.cId && this.cName) {
+      this.clientId = this.cId;
+      this.clientName = this.cName;
+      this.btnRemove = true;
+      this.btnAgg = false;
+    }
+    if (this.cAddress) {
+      this.clientAddress = this.cAddress;
+    }
+  },
+
+  data: function data() {
+    return {
+      clientId: '',
+      clientName: '',
+      clientAddress: '',
+      list: '',
+      style: '',
+      btnAgg: true,
+      btnRemove: false
+
+      // switch: 'N',
+    };
+  },
+  props: {
+    url: { type: String, default: 'C' },
+    cId: { type: Number, default: null },
+    cName: { type: String, default: '' },
+    cAddress: { type: String, default: '' }
+  },
+  components: {
+    FormNewClient: __WEBPACK_IMPORTED_MODULE_0__FormNewClient_vue___default.a
+  },
+  methods: {
+    searchClient: function searchClient() {
+      var _this = this;
+
+      if (this.clientName == '') {
+        this.list = '';
+        this.style = false;
+      } else {
+        if (this.url == "C") {
+          var url = '../searchClients/' + this.clientName;
+        } else {
+          var url = '../../searchClients/' + this.clientName;
+        }
+        axios.get(url).then(function (response) {
+          _this.list = response.data;
+          _this.style = true;
+        });
+      }
+    },
+    aggClient: function aggClient(id, name, address) {
+      console.log(id, name, address);
+      this.clientId = id;
+      this.clientName = name;
+      this.clientAddress = address;
+      this.list = '';
+      this.style = false;
+      this.btnRemove = true;
+      this.btnAgg = false;
+    },
+    removeClient: function removeClient() {
+      this.clientId = '';
+      this.clientName = '';
+      this.clientAddress = '';
+      this.list = '';
+      this.style = false;
+      this.btnRemove = false;
+      this.btnAgg = true;
+    }
+  }
+});
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(82)
+/* template */
+var __vue_template__ = __webpack_require__(83)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\FormNewClient.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d4ce3080", Component.options)
+  } else {
+    hotAPI.reload("data-v-d4ce3080", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 82 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
@@ -58097,92 +58226,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('Component SearchClient mounted.');
+    console.log('Component FormNewClient mounted.');
     //Si Recibo propiedades desde afuera preparame el input busqueda con esos valores
-    if (this.cId && this.cName) {
-      this.clientId = this.cId;
-      this.clientName = this.cName;
-      this.btnRemove = true;
-      this.btnAgg = false;
-    }
-    if (this.cAddress) {
-      this.clientAddress = this.cAddress;
-    }
+    // if(this.cId && this.cName){
+    //     this.clientId = this.cId
+    //     this.clientName = this.cName
+    //     this.btnRemove = true
+    //     this.btnAgg = false
+    //   }
+    //  if(this.cAddress){
+    //   this.clientAddress = this.cAddress
+    // }
   },
 
   data: function data() {
     return {
-      clientId: '',
-      clientName: '',
-      clientAddress: '',
-      list: '',
-      countrys: '',
-      contactTypes: '',
-      style: '',
-      btnAgg: true,
-      btnRemove: false,
-      btnSubmitForm: false,
-
       errors: [],
+      contactTypes: '',
       formClientCountry: '',
       formClientName: '',
       formClientAddress: '',
       formContactType: '',
       formClientPhone: '',
       formClientEmail: '',
-      formClientNumberFormat: ''
+      formClientNumberFormat: '',
+      btnSubmitForm: false
     };
   },
   props: {
-    url: { type: String, default: 'C' },
-    cId: { type: Number, default: null },
-    cName: { type: String, default: '' },
-    cAddress: { type: String, default: '' }
+    url: { type: String }
   },
   methods: {
-    searchClient: function searchClient() {
-      var _this = this;
-
-      if (this.clientName == '') {
-        this.list = '';
-        this.style = false;
-      } else {
-        if (this.url == "C") {
-          var url = '../searchClients/' + this.clientName;
-        } else {
-          var url = '../../searchClients/' + this.clientName;
-        }
-        axios.get(url).then(function (response) {
-          _this.list = response.data;
-          _this.style = true;
-        });
-      }
-    },
-    aggClient: function aggClient(id, name, address) {
-      this.clientId = id;
-      this.clientName = name;
-      this.clientAddress = address;
-      this.list = '';
-      this.style = false;
-      this.btnRemove = true;
-      this.btnAgg = false;
-    },
-    removeClient: function removeClient() {
-      this.clientId = '';
-      this.clientName = '';
-      this.clientAddress = '';
-      this.list = '';
-      this.style = false;
-      this.btnRemove = false;
-      this.btnAgg = true;
-    },
 
     openModal: function openModal() {
-      var _this2 = this;
+      var _this = this;
 
+      this.$refs.modalNewClient.open();
       this.btnSubmitForm = true;
       this.errors = [];
-      this.$refs.modalClientNew.open();
       if (this.url == "C") {
         var url = '../countrys/all';
         var url2 = '../contactTypes/all';
@@ -58190,19 +58271,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       } else {
         var url = '../../countrys/all';
         var url2 = '../../contactTypes/all';
+        var url3 = '../../clientNumberFormat/get';
       }
       axios.get(url).then(function (response) {
-        _this2.countrys = response.data;
+        _this.countrys = response.data;
       });
       axios.get(url2).then(function (response) {
-        _this2.contactTypes = response.data;
+        _this.contactTypes = response.data;
       });
       axios.get(url3).then(function (response) {
-        _this2.formClientNumberFormat = response.data;
+        _this.formClientNumberFormat = response.data;
       });
     },
     createClient: function createClient() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (this.url == "C") {
         var url = '../clients';
@@ -58231,15 +58313,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           clientPhone: this.formClientPhone,
           clientEmail: this.formClientEmail
         }).then(function (response) {
-          _this3.aggClient(response.data.clientId, response.data.clientName, response.data.clientAddress);
+          // this.aggClient(response.data.clientId,response.data.clientName,response.data.clientAddress)
+          console.log(response);
+          _this2.$emit("sendClient", response.data.clientId, response.data.clientName, response.data.clientAddress);
           toastr.info("Cliente Nuevo Insertado");
-          _this3.formClientCountry = "";
-          _this3.formClientName = "";
-          _this3.formClientAddress = "";
-          _this3.formContactType = "";
-          _this3.formClientPhone = "";
-          _this3.formClientEmail = "";
-          _this3.$refs.modalClientNew.close();
+          _this2.formClientCountry = "";
+          _this2.formClientName = "";
+          _this2.formClientAddress = "";
+          _this2.formContactType = "";
+          _this2.formClientPhone = "";
+          _this2.formClientEmail = "";
+          _this2.$refs.modalNewClient.close();
+        }).catch(function (e) {
+          toastr.error("Error de Servidor:" + e);
+          _this2.btnSubmitForm = true;
         });
       }
     }
@@ -58247,7 +58334,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -58257,119 +58344,25 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("div", { staticClass: "form-group col-xs-7" }, [
-        _c("label", { attrs: { for: "clientName" } }, [_vm._v("CLIENTE")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group" }, [
-          _c("input", {
-            attrs: { type: "hidden", name: "clientId" },
-            domProps: { value: _vm.clientId }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.clientName,
-                expression: "clientName"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              name: "clientName",
-              autocomplete: "off",
-              disabled: _vm.btnRemove
-            },
-            domProps: { value: _vm.clientName },
-            on: {
-              keyup: function($event) {
-                _vm.searchClient()
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.clientName = $event.target.value
-              }
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-success",
+          on: {
+            click: function($event) {
+              _vm.openModal()
             }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "input-group-btn" }, [
-            _vm.btnAgg
-              ? _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-success",
-                    on: {
-                      click: function($event) {
-                        _vm.openModal()
-                      }
-                    }
-                  },
-                  [
-                    _c("span", {
-                      staticClass: "fa fa-plus",
-                      attrs: { "aria-hidden": "true" }
-                    })
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.btnRemove
-              ? _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-danger",
-                    on: {
-                      click: function($event) {
-                        _vm.removeClient()
-                      }
-                    }
-                  },
-                  [
-                    _c("span", {
-                      staticClass: "fa fa-times-circle",
-                      attrs: { "aria-hidden": "true" }
-                    })
-                  ]
-                )
-              : _vm._e()
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { class: { sugerencias: this.style } },
-          _vm._l(_vm.list, function(item, index) {
-            return _c(
-              "div",
-              {
-                staticClass: "result",
-                on: {
-                  click: function($event) {
-                    _vm.aggClient(
-                      item.clientId,
-                      item.clientName,
-                      item.clientAddress
-                    )
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  " " +
-                    _vm._s(item.clientCode) +
-                    " - " +
-                    _vm._s(item.clientName)
-                )
-              ]
-            )
+          }
+        },
+        [
+          _c("span", {
+            staticClass: "fa fa-plus",
+            attrs: { "aria-hidden": "true" }
           })
-        )
-      ]),
+        ]
+      ),
       _vm._v(" "),
-      _c("sweet-modal", { ref: "modalClientNew" }, [
+      _c("sweet-modal", { ref: "modalNewClient" }, [
         _c("h3", { staticClass: "bg-success" }, [
           _c("b", [_vm._v("NUEVO CLIENTE")])
         ]),
@@ -58389,7 +58382,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "col-xs-offset-1 col-xs-10" }, [
+        _c("div", { staticClass: "col-xs-offset-2 col-xs-8" }, [
           _c("div", { staticClass: "form-group " }, [
             _c("label", { attrs: { for: "clientNumberFormat" } }, [
               _vm._v("CODIGO")
@@ -58423,6 +58416,8 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "formClientName" } }, [
               _vm._v("NOMBRES Y APELLIDOS")
@@ -58455,6 +58450,8 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "formClientAddress" } }, [
               _vm._v("DIRECCION")
@@ -58486,6 +58483,8 @@ var render = function() {
               }
             })
           ]),
+          _vm._v(" "),
+          _c("br"),
           _vm._v(" "),
           _c("div", { staticClass: "form-group " }, [
             _c("label", { attrs: { for: "formContactType" } }, [
@@ -58530,6 +58529,8 @@ var render = function() {
               })
             )
           ]),
+          _vm._v(" "),
+          _c("br"),
           _vm._v(" "),
           _c("div", { staticClass: "col-xs-6" }, [
             _c("div", { staticClass: "form-group" }, [
@@ -58601,7 +58602,11 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "text-center" }, [
+          _c("br"),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-xs-12" }, [
             _vm.btnSubmitForm
               ? _c(
                   "a",
@@ -58625,16 +58630,134 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("br"),
+          _c("br"),
           _c("br")
         ])
-      ]),
-      _vm._v(" "),
-      _c("sweet-modal", { ref: "nestedChild" }, [
-        _vm._v("\r\n              This is the child modal.\r\n     ")
       ])
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d4ce3080", module.exports)
+  }
+}
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "form-group col-xs-7" }, [
+      _c("label", { attrs: { for: "clientName" } }, [_vm._v("CLIENTE")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group" }, [
+        _c("input", {
+          attrs: { type: "hidden", name: "clientId" },
+          domProps: { value: _vm.clientId }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.clientName,
+              expression: "clientName"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            name: "clientName",
+            autocomplete: "off",
+            disabled: _vm.btnRemove
+          },
+          domProps: { value: _vm.clientName },
+          on: {
+            keyup: function($event) {
+              _vm.searchClient()
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.clientName = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "span",
+          { staticClass: "input-group-btn" },
+          [
+            _vm.btnAgg
+              ? _c("form-new-client", {
+                  attrs: { url: _vm.url },
+                  on: { sendClient: _vm.aggClient }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.btnRemove
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-danger",
+                    on: {
+                      click: function($event) {
+                        _vm.removeClient()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", {
+                      staticClass: "fa fa-times-circle",
+                      attrs: { "aria-hidden": "true" }
+                    })
+                  ]
+                )
+              : _vm._e()
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { class: { sugerencias: this.style } },
+        _vm._l(_vm.list, function(item, index) {
+          return _c(
+            "div",
+            {
+              staticClass: "result",
+              on: {
+                click: function($event) {
+                  _vm.aggClient(
+                    item.clientId,
+                    item.clientName,
+                    item.clientAddress
+                  )
+                }
+              }
+            },
+            [
+              _vm._v(
+                " " + _vm._s(item.clientCode) + " - " + _vm._s(item.clientName)
+              )
+            ]
+          )
+        })
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -58647,15 +58770,15 @@ if (false) {
 }
 
 /***/ }),
-/* 82 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(83)
+var __vue_script__ = __webpack_require__(86)
 /* template */
-var __vue_template__ = __webpack_require__(84)
+var __vue_template__ = __webpack_require__(87)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -58694,13 +58817,11 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 83 */
+/* 86 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -58792,6 +58913,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             receivable: {},
+            paymentMethod: {},
             listBank: {},
 
             errors: [],
@@ -58827,6 +58949,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('../banks/country/' + this.countryId).then(function (response) {
                 _this.listBank = response.data;
             });
+            axios.get('../receivables-paymentMethod').then(function (response) {
+                _this.paymentMethod = response.data;
+            });
             this.errors = [];
             this.$refs.modal.open();
         },
@@ -58842,16 +58967,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         sendForm: function sendForm() {
             this.errors = [];
             //VALIDATIONS
-            if (this.formCollectMethod != 1 && this.formCollectMethod != 5) {
-                // if (!this.formSourceBank) 
-                //  this.errors.push('Banco de Origen es Requerido.');
-                // if (!this.formSourceBankAccount) 
-                //  this.errors.push('Cuenta de Origen es Requerido.');
-            }
-            if (this.formCollectMethod == 2) {
-                // if (!this.formCheckNumber) 
-                //  this.errors.push('Numero de Cheque es Requerido.');
-            }
+            // if(this.formCollectMethod != 1 && this.formCollectMethod != 5){ 
+            //        if (!this.formSourceBank) 
+            //         this.errors.push('Banco de Origen es Requerido.');
+            //        if (!this.formSourceBankAccount) 
+            //         this.errors.push('Cuenta de Origen es Requerido.');
+            // }
+            //  if(this.formCollectMethod == 2){ 
+            //        if (!this.formCheckNumber) 
+            //         this.errors.push('Numero de Cheque es Requerido.');
+            //  }
             if (!this.formTargetBankId) this.errors.push('Debe escoger un Banco de Destino.');
 
             if (!this.formDatePaid) this.errors.push('Fecha del Cobro es Requerida.');
@@ -58885,7 +59010,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 84 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -58915,13 +59040,13 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("sweet-modal", { ref: "modal" }, [
-        _c("h3", { staticClass: "bg-success" }, [
+        _c("h3", { staticClass: "bg-primary" }, [
           _c("b", [
-            _vm._v(
-              "COBRO EN CONTRATO N° " + _vm._s(this.receivable.sourceReference)
-            )
+            _vm._v("FACTURA N° " + _vm._s(this.receivable.sourceReference))
           ])
         ]),
+        _vm._v(" "),
+        _c("h3", { staticClass: "bg-success" }, [_c("b", [_vm._v("COBRO")])]),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
@@ -58982,27 +59107,19 @@ var render = function() {
                   }
                 }
               },
-              [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("EFECTIVO")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [_vm._v("CHEQUE")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [_vm._v("TARJETA")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "4" } }, [
-                  _vm._v("TRANSFERENCIA")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "5" } }, [_vm._v("PAYPAL")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "6" } }, [_vm._v("DEPOSITO")])
-              ]
+              _vm._l(_vm.paymentMethod, function(item, index) {
+                return _c(
+                  "option",
+                  { domProps: { value: item.payMethodCode } },
+                  [_vm._v(_vm._s(item.payMethodName))]
+                )
+              })
             )
           ]),
           _vm._v(" "),
-          _vm.formCollectMethod != 1 &&
-          _vm.formCollectMethod != 5 &&
-          _vm.formCollectMethod != 6
+          _vm.formCollectMethod != 2 &&
+          _vm.formCollectMethod != 4 &&
+          _vm.formCollectMethod != 5
             ? _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "formSourceBank" } }, [
                   _vm._v("BANCO DE ORIGEN")
@@ -59032,9 +59149,9 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.formCollectMethod != 1 &&
-          _vm.formCollectMethod != 5 &&
-          _vm.formCollectMethod != 6
+          _vm.formCollectMethod != 2 &&
+          _vm.formCollectMethod != 4 &&
+          _vm.formCollectMethod != 5
             ? _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "formSourceBankAccount" } }, [
                   _vm._v("CUENTA BANCARIA DE ORIGEN")
@@ -59064,7 +59181,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.formCollectMethod == 2
+          _vm.formCollectMethod == 3
             ? _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "formCheckNumber" } }, [
                   _vm._v("N° CHEQUE")
@@ -59280,17 +59397,450 @@ if (false) {
 }
 
 /***/ }),
-/* 85 */
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(89)
+/* template */
+var __vue_template__ = __webpack_require__(90)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ModalConfirmPayment.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3c287b0c", Component.options)
+  } else {
+    hotAPI.reload("data-v-3c287b0c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 89 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component ModalConfirmPayment mounted.');
+    },
+
+    data: function data() {
+        return {
+            receivable: {},
+            paymentMethod: {},
+            listBank: {},
+
+            formCollectMethod: 1
+
+        };
+    },
+    watch: {
+        formCollectMethod: function formCollectMethod() {
+            this.formSourceBank = '';
+            this.formSourceBankAccount = '';
+            this.formCheckNumber = '';
+        }
+    },
+    props: {
+        rId: { type: String },
+        countryId: { type: String }
+    },
+    methods: {
+        openModal: function openModal() {
+            var _this = this;
+
+            axios.get('../receivables/get/' + this.rId).then(function (response) {
+                _this.receivable = response.data;
+                _this.formCollectMethod = _this.receivable.collectMethod;
+            });
+            this.$refs.modal.open();
+        },
+        success: function success() {
+            axios.post('../receivablesConfirmPayment', {
+                invoiceId: this.receivable.invoiceId,
+                receivableId: this.receivable.receivableId,
+                status: 4
+            }).then(function (response) {
+                if (response.data.alert == "error") {
+                    toastr.error(response.data.msj);
+                } else {
+                    location.reload();
+                    toastr.success(response.data.msj);
+                }
+            });
+        },
+        declined: function declined() {
+            axios.post('../receivablesConfirmPayment', {
+                invoiceId: this.receivable.invoiceId,
+                receivableId: this.receivable.receivableId,
+                status: 3
+            }).then(function (response) {
+                if (response.data.alert == "error") {
+                    toastr.error(response.data.msj);
+                } else {
+                    location.reload();
+                    toastr.success(response.data.msj);
+                }
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "label",
+    [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-warning btn-sm",
+          on: {
+            click: function($event) {
+              _vm.openModal()
+            }
+          }
+        },
+        [
+          _c("span", {
+            staticClass: "fa fa-handshake",
+            attrs: { "aria-hidden": "true" }
+          }),
+          _vm._v(" Verificar\r\n            ")
+        ]
+      ),
+      _vm._v(" "),
+      _c("sweet-modal", { ref: "modal" }, [
+        _c("h3", { staticClass: "bg-primary" }, [
+          _c("b", [
+            _vm._v("FACTURA N° " + _vm._s(this.receivable.sourceReference))
+          ])
+        ]),
+        _vm._v(" "),
+        _c("h3", { staticClass: "bg-warning" }, [
+          _c("b", [_vm._v("CONFIRMAR COBRO ")])
+        ]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xs-offset-1 col-xs-10" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "formAmountDue" } }, [
+              _vm._v("MONTO DE LA CUOTA")
+            ]),
+            _c("br"),
+            _vm._v(_vm._s(this.receivable.amountDue) + "\r\n              ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-6 col-xs-offset-3" }, [
+            _c("label", { attrs: { for: "formAmountPaid" } }, [
+              _vm._v("MONTO PAGADO")
+            ]),
+            _c("br"),
+            _vm._v(
+              " " + _vm._s(this.receivable.amountPaid) + "\r\n                 "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-8 col-xs-offset-2" }, [
+            _c("label", { attrs: { for: "formCollectMethod" } }, [
+              _vm._v("METODO DE PAGO")
+            ]),
+            _c("br"),
+            _vm._v(
+              " " +
+                _vm._s(this.receivable.collectMethod) +
+                "\r\n                "
+            ),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formCollectMethod,
+                  expression: "formCollectMethod"
+                }
+              ],
+              attrs: { type: "hidden", id: "formCollectMethod" },
+              domProps: { value: _vm.formCollectMethod },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.formCollectMethod = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm.formCollectMethod != 2 &&
+          _vm.formCollectMethod != 4 &&
+          _vm.formCollectMethod != 5
+            ? _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "formSourceBank" } }, [
+                  _vm._v("BANCO DE ORIGEN")
+                ]),
+                _c("br"),
+                _vm._v(
+                  _vm._s(this.receivable.sourceBank) + "\r\n                "
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.formCollectMethod != 2 &&
+          _vm.formCollectMethod != 4 &&
+          _vm.formCollectMethod != 5
+            ? _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "formSourceBankAccount" } }, [
+                  _vm._v("CUENTA BANCARIA DE ORIGEN")
+                ]),
+                _c("br"),
+                _vm._v(
+                  _vm._s(this.receivable.sourceBankAccount) +
+                    "\r\n                "
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.formCollectMethod == 3
+            ? _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "formCheckNumber" } }, [
+                  _vm._v("N° CHEQUE")
+                ]),
+                _c("br"),
+                _vm._v(
+                  _vm._s(this.receivable.checkNumber) + "\r\n                "
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-8 col-xs-offset-2" }, [
+            _c("label", { attrs: { for: "formTargetBankId" } }, [
+              _vm._v("BANCO DESTINO")
+            ]),
+            _c("br"),
+            _vm._v(_vm._s(this.receivable.targetBankId) + "\r\n          ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-8 col-xs-offset-2" }, [
+            _c("label", { attrs: { for: "formTargetBankAccount" } }, [
+              _vm._v("CUENTA DE DESTINO")
+            ]),
+            _c("br"),
+            _vm._v(
+              _vm._s(this.receivable.targetBankAccount) +
+                "    \r\n                     "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-xs-6 col-xs-offset-3" }, [
+            _c("label", { attrs: { for: "formDatePaid" } }, [
+              _vm._v("FECHA DEL COBRO")
+            ]),
+            _c("br"),
+            _vm._v(" " + _vm._s(this.receivable.datePaid) + "\r\n            ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-success",
+              on: {
+                click: function($event) {
+                  _vm.success()
+                }
+              }
+            },
+            [
+              _c("span", {
+                staticClass: "fa fa-check",
+                attrs: { "aria-hidden": "true" }
+              }),
+              _vm._v("  EXITOSO\r\n              ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-danger",
+              on: {
+                click: function($event) {
+                  _vm.declined()
+                }
+              }
+            },
+            [
+              _c("span", {
+                staticClass: "fa fa-times-circle",
+                attrs: { "aria-hidden": "true" }
+              }),
+              _vm._v("  DECLINAR\r\n              ")
+            ]
+          ),
+          _vm._v(" "),
+          _c("br"),
+          _c("br")
+        ])
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3c287b0c", module.exports)
+  }
+}
+
+/***/ }),
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(86);
+var content = __webpack_require__(92);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("fa7c59a4", content, false, {});
+var update = __webpack_require__(2)("fa7c59a4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59306,10 +59856,10 @@ if(false) {
 }
 
 /***/ }),
-/* 86 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(false);
+exports = module.exports = __webpack_require__(4)(false);
 // imports
 
 
@@ -59320,7 +59870,7 @@ exports.push([module.i, "\n.dropdown-menu {\r\n    position: absolute;\r\n    to
 
 
 /***/ }),
-/* 87 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59902,13 +60452,14 @@ Vue.filter('formatSize', function (size) {
       var file = new window.File([this.addData.content], this.addData.name, {
         type: this.addData.type
       });
+      console.log(file);
       this.$refs.upload.add(file);
     }
   }
 });
 
 /***/ }),
-/* 88 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -61243,15 +61794,15 @@ if (false) {
 }
 
 /***/ }),
-/* 89 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(90)
+var __vue_script__ = __webpack_require__(96)
 /* template */
-var __vue_template__ = __webpack_require__(96)
+var __vue_template__ = __webpack_require__(102)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61290,12 +61841,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 90 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ModalPreviewDocument_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ModalPreviewDocument_vue__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ModalPreviewDocument_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ModalPreviewDocument_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vueUpload_vue__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vueUpload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vueUpload_vue__);
@@ -61418,19 +61969,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
    } });
 
 /***/ }),
-/* 91 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(92)
+  __webpack_require__(98)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(94)
+var __vue_script__ = __webpack_require__(100)
 /* template */
-var __vue_template__ = __webpack_require__(95)
+var __vue_template__ = __webpack_require__(101)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61469,17 +62020,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 92 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(93);
+var content = __webpack_require__(99);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("d8ac1b40", content, false, {});
+var update = __webpack_require__(2)("d8ac1b40", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -61495,10 +62046,10 @@ if(false) {
 }
 
 /***/ }),
-/* 93 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(false);
+exports = module.exports = __webpack_require__(4)(false);
 // imports
 
 
@@ -61509,7 +62060,7 @@ exports.push([module.i, "\n.iframe[data-v-269958e6]{\n width:100%;\n  height:100
 
 
 /***/ }),
-/* 94 */
+/* 100 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61575,7 +62126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 95 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -61658,7 +62209,7 @@ if (false) {
 }
 
 /***/ }),
-/* 96 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -61870,19 +62421,19 @@ if (false) {
 }
 
 /***/ }),
-/* 97 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(98)
+  __webpack_require__(104)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(100)
+var __vue_script__ = __webpack_require__(106)
 /* template */
-var __vue_template__ = __webpack_require__(104)
+var __vue_template__ = __webpack_require__(110)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61921,17 +62472,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 98 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(99);
+var content = __webpack_require__(105);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("12fa1c90", content, false, {});
+var update = __webpack_require__(2)("12fa1c90", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -61947,10 +62498,10 @@ if(false) {
 }
 
 /***/ }),
-/* 99 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(false);
+exports = module.exports = __webpack_require__(4)(false);
 // imports
 
 
@@ -61961,12 +62512,12 @@ exports.push([module.i, "\n.bold {\r\n    font-weight:bold;\r\n    background:#D
 
 
 /***/ }),
-/* 100 */
+/* 106 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue__ = __webpack_require__(107);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__InvoicesNotes_vue__);
 //
 //
@@ -62285,15 +62836,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
    } });
 
 /***/ }),
-/* 101 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(102)
+var __vue_script__ = __webpack_require__(108)
 /* template */
-var __vue_template__ = __webpack_require__(103)
+var __vue_template__ = __webpack_require__(109)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -62332,7 +62883,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 102 */
+/* 108 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62462,7 +63013,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
    } });
 
 /***/ }),
-/* 103 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -62601,7 +63152,7 @@ if (false) {
 }
 
 /***/ }),
-/* 104 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63093,10 +63644,10 @@ if (false) {
 }
 
 /***/ }),
-/* 105 */
+/* 111 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: Node Sass does not yet support your current environment: Windows 64-bit with Unsupported runtime (72)\nFor more information on which environments are supported please see:\nhttps://github.com/sass/node-sass/releases/tag/v4.9.2\n    at module.exports (c:\\wamp64\\www\\rgc_system\\node_modules\\node-sass\\lib\\binding.js:13:13)\n    at Object.<anonymous> (c:\\wamp64\\www\\rgc_system\\node_modules\\node-sass\\lib\\index.js:14:35)\n    at Module._compile (internal/modules/cjs/loader.js:956:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:973:10)\n    at Module.load (internal/modules/cjs/loader.js:812:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:724:14)\n    at Module.require (internal/modules/cjs/loader.js:849:19)\n    at require (internal/modules/cjs/helpers.js:74:18)\n    at Object.<anonymous> (c:\\wamp64\\www\\rgc_system\\node_modules\\sass-loader\\lib\\loader.js:3:14)\n    at Module._compile (internal/modules/cjs/loader.js:956:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:973:10)\n    at Module.load (internal/modules/cjs/loader.js:812:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:724:14)\n    at Module.require (internal/modules/cjs/loader.js:849:19)\n    at require (internal/modules/cjs/helpers.js:74:18)\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:13:17)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:362:2)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModule.js:195:19\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:170:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:27:11)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (c:\\wamp64\\www\\rgc_system\\node_modules\\loader-runner\\lib\\LoaderRunner.js:362:2)\n    at NormalModule.doBuild (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModule.js:182:3)\n    at NormalModule.build (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModule.js:275:15)\n    at Compilation.buildModule (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\Compilation.js:157:10)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\Compilation.js:460:10\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModuleFactory.js:243:5\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModuleFactory.js:94:13\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\tapable\\lib\\Tapable.js:268:11\n    at NormalModuleFactory.<anonymous> (c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\CompatibilityPlugin.js:52:5)\n    at NormalModuleFactory.applyPluginsAsyncWaterfall (c:\\wamp64\\www\\rgc_system\\node_modules\\tapable\\lib\\Tapable.js:272:13)\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModuleFactory.js:69:10\n    at c:\\wamp64\\www\\rgc_system\\node_modules\\webpack\\lib\\NormalModuleFactory.js:196:7\n    at processTicksAndRejections (internal/process/task_queues.js:75:11)");
 
 /***/ })
 /******/ ]);

@@ -13,6 +13,7 @@ use App\Office;
 use App\ProjectDescription;
 use App\ProjectUse;
 use App\Staff;
+use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -81,7 +82,7 @@ class Contract extends Model
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-    /**
+    /*
     public function getContractCostAttribute($cost) {
     if(empty($cost))
     return $cost = null;
@@ -104,43 +105,38 @@ class Contract extends Model
     }
     public function getContractDateAttribute($contractDate)
     {
-        if (empty($contractDate)) {
-            return $contractDate = null;
-        }
-
-        return $newDate = date("d/m/Y", strtotime($contractDate));
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($contractDate);
+        return $newDate;
     }
     public function getStartDateAttribute($startDate)
     {
-        if (empty($startDate)) {
-            return $startDate = null;
-        }
-
-        return $newDate = date("d/m/Y", strtotime($startDate));
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($startDate);
+        return $newDate;
     }
     public function getScheduledFinishDateAttribute($scheduledFinishDate)
     {
-        if (empty($scheduledFinishDate)) {
-            return $scheduledFinishDate = null;
-        }
-
-        return $newDate = date("d/m/Y", strtotime($scheduledFinishDate));
+        $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
+        return $newDate;
     }
     public function getActualFinishDateAttribute($actualFinishDate)
     {
-        if (empty($actualFinishDate)) {
-            return $actualFinishDate = null;
-        }
-
-        return $newDate = date("d/m/Y", strtotime($actualFinishDate));
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($actualFinishDate);
+        return $newDate;
     }
     public function getDeliveryDateAttribute($deliveryDate)
     {
-        if (empty($deliveryDate)) {
-            return $deliveryDate = null;
-        }
-
-        return $newDate = date("d/m/Y", strtotime($deliveryDate));
+          $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($deliveryDate);
+        return $newDate;
     }
 
     public function getContractStatusAttribute($contractStatus)
@@ -190,53 +186,43 @@ class Contract extends Model
     }
     public function setContractDateAttribute($contractDate)
     {
-        if (empty($contractDate)) {
-            return $contractDate = null;
-        }
-        $partes                           = explode("/", $contractDate);
-        $arreglo                          = array($partes[2], $partes[1], $partes[0]);
-        $date                             = implode("-", $arreglo);
-        $this->attributes['contractDate'] = $date;
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($contractDate);
+
+        $this->attributes['contractDate'] = $newDate;
     }
     public function setStartDateAttribute($startDate)
     {
-        if (empty($startDate)) {
-            return $startDate = null;
-        }
-        $partes                        = explode("/", $startDate);
-        $arreglo                       = array($partes[2], $partes[1], $partes[0]);
-        $date                          = implode("-", $arreglo);
-        $this->attributes['startDate'] = $date;
+        $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($startDate);
+
+        $this->attributes['startDate'] = $newDate;
     }
     public function setScheduledFinishDateAttribute($scheduledFinishDate)
     {
-        if (empty($scheduledFinishDate)) {
-            return $scheduledFinishDate = null;
-        }
-        $partes                                  = explode("/", $scheduledFinishDate);
-        $arreglo                                 = array($partes[2], $partes[1], $partes[0]);
-        $date                                    = implode("-", $arreglo);
-        $this->attributes['scheduledFinishDate'] = $date;
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
+
+        $this->attributes['scheduledFinishDate'] = $newDate;
     }
     public function setActualFinishDateAttribute($actualFinishDate)
     {
-        if (empty($actualFinishDate)) {
-            return $actualFinishDate = null;
-        }
-        $partes                               = explode("/", $actualFinishDate);
-        $arreglo                              = array($partes[2], $partes[1], $partes[0]);
-        $date                                 = implode("-", $arreglo);
-        $this->attributes['actualFinishDate'] = $date;
+        $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($actualFinishDate);
+
+        $this->attributes['actualFinishDate'] = $newDate;
     }
     public function setDeliveryDateAttribute($deliveryDate)
     {
-        if (empty($deliveryDate)) {
-            return $deliveryDate = null;
-        }
-        $partes                           = explode("/", $deliveryDate);
-        $arreglo                          = array($partes[2], $partes[1], $partes[0]);
-        $date                             = implode("-", $arreglo);
-        $this->attributes['deliveryDate'] = $date;
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($deliveryDate);
+
+        $this->attributes['deliveryDate'] = $newDate;
     }
 //--------------------------------------------------------------------
     /** Query Scope  */

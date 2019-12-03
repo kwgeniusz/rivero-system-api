@@ -42,9 +42,7 @@
             <label for="paymentConditionId">CONDICION DE PAGO</label>
             <select class="form-control" name="paymentConditionId" id="paymentConditionId">
                 @foreach($paymentConditions as $paymentC)
-                      <option value="{{$paymentC->pCondId}}" >
-                        @php echo ($paymentC->pCondNameEn) ? $paymentC->pCondNameEn : $paymentC->pCondNameSp @endphp
-                     </option>
+                      <option value="{{$paymentC->pCondCode}}" >{{$paymentC->pCondName}}</option>
                 @endforeach
             </select>
           </div>

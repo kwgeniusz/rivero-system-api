@@ -2,13 +2,12 @@
 
 namespace App;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentCondition extends Model
+class PaymentMethod extends Model
 {
-    protected $table      = 'payment_condition';
-    protected $primaryKey = 'pCondId';
+    protected $table      = 'payment_method';
+    protected $primaryKey = 'payMethodId';
     public $timestamps    = false;
 
     /**
@@ -17,10 +16,11 @@ class PaymentCondition extends Model
      * @var array
      */
     protected $fillable = [
-        'pCondId',
-        'pCondCode',
-        'pCondLanguage',
-        'pCondName'
+        'payMethodId',
+        'payMethodCode',
+        'payMethodLanguage',
+        'payMethodName',
+        'verify'
     ];
 //--------------------------------------------------------------------
     /** Relations */
@@ -36,9 +36,20 @@ class PaymentCondition extends Model
             $language = 'es';
         }
 
-        return $this->where('pCondLanguage' , '=' , $language)
-          ->orderBy('pCondId', 'ASC')
+        return $this->where('payMethodLanguage' , '=' , $language)
+          ->orderBy('payMethodCode', 'ASC')
           ->get();
 
     }
+//------------------------------------------
+    public function ifIsInProcess($payMethodCode)
+    {
+        $paymentMethod = $this->select('verify')
+          ->where('payMethodCode' , '=' , $payMethodCode)
+          ->first();
+
+           return $paymentMethod->verify;
+    }
+//------------------------------------------
+//-----------
 }
