@@ -7,13 +7,13 @@
     <div class="panel-heading"> <h3><b>¿Esta Seguro de Eliminar este Pre-Contrato?</b></h3></div>
     <div class="panel-body">
 
-      <form class="form-horizontal" action="{{Route('precontracts.destroy',['id' => $precontract[0]->precontractId])}}" method="POST">
+      <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('precontracts.destroy',['id' => $precontract[0]->precontractId])}}" method="POST">
         {{csrf_field()}}
         {{method_field('DELETE')}}
         <div class="form-group">
           <label class="col-sm-5 control-label">N°</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->precontractId }}</p>
+            <p class="form-control-static">{{ $precontract[0]->preId }}</p>
           </div>
         </div>
       <div class="col-xs-6">
@@ -33,12 +33,26 @@
           </div>
         </div>
        </div>
+         <div class="form-group">
+          <label class="col-sm-5 control-label">FECHA</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $precontract[0]->precontractDate }}</p>
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('client')}}</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $precontract[0]->client->clientName }}</p>
           </div>
         </div>
+           <div class="form-group">
+          <label class="col-sm-5 control-label">TIPO DE CONTRATO</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $precontract[0]->contractType }}</p>
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('address')}}</label>
           <div class="col-sm-7">
@@ -83,7 +97,7 @@
 
 
             <div class="text-center">
-              <button type="submit" class="btn btn-danger">
+              <button type="submit" class="btn btn-danger button-prevent-multiple-submits">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
               </button>
               <a href="{{route('precontracts.index')}}" class="btn btn-warning">

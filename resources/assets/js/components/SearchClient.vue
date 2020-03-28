@@ -8,13 +8,13 @@
          <input type="hidden" name="clientId" :value="clientId">
          <input class="form-control" @keyup="searchClient()" name="clientName" v-model="clientName" autocomplete="off" :disabled="btnRemove">
            <span class="input-group-btn">
-             <form-new-client :url="url"  v-if="btnAgg" @sendClient="aggClient"/>
+             <form-new-client :prefUrl="prefUrl"  v-if="btnAgg" @sendClient="aggClient"/>
              <a class="btn btn-danger" @click="removeClient()" v-if="btnRemove"><span class="fa fa-times-circle" aria-hidden="true"></span></a>
           </span>
          </div>
 
        <div :class="{ sugerencias: this.style }">
-         <div class="result" v-for="(item, index) in list" @click="aggClient(item.clientId,item.clientName,item.clientAddress)"> {{item.clientCode}} - {{item.clientName }}</div>
+         <div class="result" v-for="(item, index) in list" @click="aggClient(item.clientId,item.clientCode,item.clientName,item.clientAddress)"> {{item.clientCode}} - {{item.clientName }}</div>
       </div>
   
     </div>
@@ -63,7 +63,7 @@ import FormNewClient from './FormNewClient.vue'
           }
     },
      props: {
-           url: { type: String, default: 'C'},
+           prefUrl: { type: String},
            cId: { type: Number, default: null},
            cName: { type: String, default: ''},
            cAddress: { type: String, default: ''}
@@ -77,11 +77,8 @@ import FormNewClient from './FormNewClient.vue'
                  this.list = ''
                  this.style =false
            } else { 
-                if(this.url == "C"){ 
-                  var url ='../searchClients/'+this.clientName;
-                }else{
-                  var url ='../../searchClients/'+this.clientName;
-                }
+
+              var url =this.prefUrl+'searchClients/'+this.clientName;
               axios.get(url).then(response => {
                  this.list = response.data
                  this.style = true
@@ -89,10 +86,10 @@ import FormNewClient from './FormNewClient.vue'
               }
           
          },
-       aggClient: function (id,name,address){
-         console.log(id,name,address)
-            this.clientId = id;
-            this.clientName = name;
+       aggClient: function (id,clientCode,name,address){
+         // console.log(id,name,address)
+            this.clientId = id;clientCode;
+            this.clientName = clientCode+'-'+name;
             this.clientAddress = address;
             this.list = ''
             this.style = false

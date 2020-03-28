@@ -17,6 +17,8 @@ class TransactionType extends Model
     'transactionTypeName',
     'sign'
    ];
+
+
 //--------------------------------------------------------------------
    /** Relations */
 //--------------------------------------------------------------------  
@@ -56,16 +58,23 @@ public function transaction()
 //--------------------------------------------------------------------
  /** Function of Models */
 //--------------------------------------------------------------------
-   public function getAll() {
-      return $this->orderBy('transactionTypeId','ASC')->get();
-   }
 //------------------------------------------
    public function findById($id) {
         return $this->where('transactionTypeId', '=', $id)->get(); 
     }
 //------------------------------------------
-   public function findBySign($sign) {
-        return $this->where('sign', '=', $sign)->get(); 
+    //esto me sirve para saber si la transaccion tiene el codigo COLLECTION O FEE
+   public function findByOfficeAndCode($officeId,$transactionTypeCode) {
+        return $this->where('officeId', '=', $officeId)
+                    ->where('transactionTypeCode', '=', $transactionTypeCode)
+                    ->get(); 
+    }  
+//------------------------------------------
+       //esto es un getAllBySign
+   public function getAllByOfficeAndSign($officeId,$sign) {
+        return $this->where('officeId', '=', $officeId)
+                    ->where('sign', '=', $sign)
+                    ->get(); 
     }
 //------------------------------------------
    public function insertTT($transactionTypeName,$sign) {

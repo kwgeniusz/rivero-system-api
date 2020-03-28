@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Invoice;
 use App\Receivable;
 use App\Contract;
-use App\Configuration;
+use App\OfficeConfiguration;
 use App\InvoiceDetail;
 use App\PaymentInvoice;
 use App\PaymentCondition;
@@ -25,7 +25,7 @@ class InvoiceController extends Controller
         $this->oInvoice        = new Invoice;
         $this->oReceivable        = new Receivable;
         $this->oContract       = new Contract;
-        $this->oConfiguration  = new Configuration;
+        $this->oOfficeConfiguration  = new OfficeConfiguration;
         $this->oInvoiceDetail        = new InvoiceDetail;
         $this->oPaymentInvoice        = new PaymentInvoice;
         $this->oPaymentCondition  = new PaymentCondition;
@@ -34,8 +34,11 @@ class InvoiceController extends Controller
 
     public function index(Request $request)
     {
+  
         $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
         $invoices = $this->oInvoice->getAllByContract($request->id);
+// $invoices[0]->push(5);
+        // dd($invoices);
 
         return view('module_contracts.invoices.index', compact('invoices','contract'));
     }
@@ -46,11 +49,12 @@ class InvoiceController extends Controller
         $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
         $paymentConditions = $this->oPaymentCondition->getAllByLanguage(session('countryId'));
 
-        $invoiceNumberFormat = $this->oConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
-        $invoiceTaxPercent   = $this->oConfiguration->findInvoiceTaxPercent(session('countryId'),session('officeId'));
+        $invId = $this->oOfficeConfiguration->retrieveInvoiceNumber(session('countryId'),session('officeId'));
+        $invId++;
+        $invoiceTaxPercent   = $this->oOfficeConfiguration->findInvoiceTaxPercent(session('countryId'),session('officeId'));
 
 
-        return view('module_contracts.invoices.create', compact('contract','paymentConditions','invoiceNumberFormat','invoiceTaxPercent'));
+        return view('module_contracts.invoices.create', compact('contract','paymentConditions','invId','invoiceTaxPercent'));
     }
 
     public function store(Request $request)
@@ -62,18 +66,18 @@ class InvoiceController extends Controller
  
           $contract = $this->oContract->findById($request->contractId,session('countryId'),session('officeId'));
 
-
           $invoiceId  =   $this->oInvoice->insertInv(
                       $contract[0]->countryId,
                       $contract[0]->officeId,
                       $contract[0]->contractId,
                       $contract[0]->clientId,
-                      $contract[0]->siteAddress,
                       $request->invoiceDate,
-                      $contract[0]->currencyId,
+                      '0.00',
                       $request->invoiceTaxPercent,
+                      '0.00',
+                      '0.00',
                       $request->paymentConditionId, 
-                      '1');
+                      Invoice::OPEN);
 
         $notification = array(
             'message'    => 'Factura Creada, Agrege Renglones',
@@ -83,7 +87,31 @@ class InvoiceController extends Controller
         return redirect()->route('invoicesDetails.index',['id' => $invoiceId])
             ->with($notification);
     }
+      public function edit($id)
+    {    
+        $invoice           = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
+        $paymentConditions = $this->oPaymentCondition->getAllByLanguage();
 
+         return view('module_contracts.invoices.edit', compact('invoice','paymentConditions'));
+    }
+      public function update(Request $request, $id)
+    {
+
+        $this->oInvoice->updateInvoice(
+            $id,
+            $request->paymentConditionId,
+            $request->invoiceDate,
+            $request->taxPercent
+        );
+
+        $notification = array(
+            'message'    => 'Datos Principales de Factura Modificados Exitosamente',
+            'alert-type' => 'info',
+        );
+        
+        return redirect()->route('invoices.index',['id' => $request->contractId])
+            ->with($notification);
+    }
     public function show(Request $request,$id)
     {
         $invoice = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
@@ -97,7 +125,7 @@ class InvoiceController extends Controller
     public function closeInvoice(Request $request)
     {
  
-        $this->oInvoice->changeStatus($request->invoiceId,'2');
+        $this->oInvoice->changeStatus($request->invoiceId, Invoice::CLOSED);
 
         $notification = array(
             'message'    => 'Factura Cerrada, Puede comenzar a crear cuotas',
@@ -106,58 +134,15 @@ class InvoiceController extends Controller
         return $notification;
     }
 
-
-//---------------NOTES-----------------------//
-     public function notes(Request $request)
-    {
-        $invoice = $this->oInvoice->FindById($request->invoiceId,session('countryId'),session('officeId'));
-         
-           if($request->ajax()){
-                return $invoice[0]->note;
-            }
-        // return view('module_contracts.contracts.staff', compact('contract', 'staffs'));
-
-    }
-    public function notesAdd(Request $request)
-    {
-
-        $result = $this->oInvoice->addNote(
-            $request->invoiceId,
-            $request->noteId
-        );
-
-        $notification = array(
-            'message'    => 'Nota Agregada a factura',
-            'alertType' => 'info',
-        );
-
-         if($request->ajax()){
-                return $notification;
-            }
-    }
-
-    public function notesRemove(Request $request,$invoiceId,$noteId)
-    {
-        $this->oInvoice->removeNote($invoiceId,$noteId);
-
-        
-        $notification = array(
-            'message'    => 'Nota Eliminada de factura',
-            'alertType' => 'info',
-        );
-           if($request->ajax()){
-                return $notification;
-            }
-    }
 //---------------PAYMENTS-----------------------//
 
     public function payments($id)
     {
 
         $invoice         = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
-        $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($invoice[0]->invoiceId);
+        $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($id);
         $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
-    
+
          //saldo de la factura
         $invoiceBalance         = $this->oInvoice->getBalance($id);
          //saber que cuota le corresponde mostrar los botones de cobro y verificación
@@ -180,7 +165,7 @@ class InvoiceController extends Controller
             'message'    => $result['msj'],
             'alert-type' => $result['alert'],
         );
-
+        
         return redirect()->route('invoices.payments', ['id' => $request->invoiceId])
             ->with($notification);
 
@@ -188,7 +173,7 @@ class InvoiceController extends Controller
     public function paymentsRemove($id, $invoiceId)
     {
 
-        $result = $this->oPaymentInvoice->removePayment($id, $invoiceId);
+        $result = $this->oPaymentInvoice->removePayment($id,$invoiceId);
 
         $notification = array(
             'message'    => $result['msj'],

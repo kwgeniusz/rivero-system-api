@@ -21,6 +21,11 @@ class ProjectUse extends Model
     {
         return $this->hasMany('App\Contract', 'projectUseId', 'projectUseId');
     }
+
+      public function projectDescription()
+    {
+        return $this->belongsToMany('App\ProjectDescription', 'project_use_description', 'projectUseId', 'projectDescriptionId')->withPivot('projectUseDescriptionId');
+    }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------

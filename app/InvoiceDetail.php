@@ -60,13 +60,13 @@ class InvoiceDetail extends Model
     public function getAllByInvoice($invoiceId)
     {
         $result = $this->where('invoiceId', $invoiceId)
-            ->orderBy('invDetailId', 'ASC')
+            ->orderBy('itemNumber', 'ASC')
             ->get();
 
         return $result;
     }
 //------------------------------------------
-    public function insert($invoiceId,$serviceId,$serviceName,$unit,$unitCost,$quantity,$amount) {
+    public function insert($invoiceId,$itemNumber,$serviceId,$serviceName,$unit,$unitCost,$quantity,$amount) {
 
      $error = null;
 
@@ -80,6 +80,7 @@ class InvoiceDetail extends Model
             //INSERTA UN RENGLON
              $invDetail                   = new InvoiceDetail;
              $invDetail->invoiceId        = $invoiceId;
+             $invDetail->itemNumber        = $itemNumber;
              $invDetail->serviceId        = $serviceId;
              $invDetail->serviceName      = $serviceName;
              $invDetail->unit             = $unit;
@@ -109,20 +110,36 @@ class InvoiceDetail extends Model
 //------------------------------------------
 
 //------------------------------------------
-    public function deleteInv($id)
+    public function deleteInv($invoiceId)
     {
            $error = null;
 
         DB::beginTransaction();
         try {
             //BUSCAR EL RENGLON PARA SACAR SU INVOICEID y amount
-             $oInvoiceDetail = InvoiceDetail::find($id);
-            
-            //REALIZA ACTUALIZACION EN FACTURA
-            $oInvoice = new Invoice;
-            $oInvoice->updateInvoiceTotal('-',$oInvoiceDetail->invoiceId, $oInvoiceDetail->amount);
-            
-            $oInvoiceDetail->delete();
+            // $oInvoiceDetail = InvoiceDetail::find($id);
+            $oReceivable = new Receivable;
+            $successShares=$oReceivable->shareSucceed($invoiceId);
+
+   if($successShares->isEmpty()) { //si esta vacio(es decir no tiene pagos, permitelo eliminar),y limpia las cuotas creadas
+                $oPaymentInvoice= new PaymentInvoice;     
+                $invoiceShares = $oPaymentInvoice->getAllByInvoice($invoiceId);
+           //remover las cuotas de la factura
+              foreach ($invoiceShares as $value) {
+                  $oPaymentInvoice->removePayment($value->paymentInvoiceId,$invoiceId);
+              }
+       //ELIMINA TODOS LOS ITEMS DE LA PROPUESTA
+             InvoiceDetail::where('invoiceId',$invoiceId)->delete();
+         
+            // //REALIZA ACTUALIZACION EN PROPUESTA
+              //BUSCO LA PROPUESTA
+            $inv = Invoice::find($invoiceId);
+            $oInvoice = new Invoice; 
+            $oInvoice->updateInvoiceTotal('-',$inv->invoiceId, $inv->grossTotal); // RESTA TODO EL MONTO DE GROSSTOTAL PARA QUE HAGA EL DESCUENTO.
+
+        }else{
+           throw new \Exception('Error: No se puede modificar renglones se ha comenzado a pagar la factura');
+        };
 
             $success = true;
             DB::commit();

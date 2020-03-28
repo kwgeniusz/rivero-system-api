@@ -93,15 +93,15 @@ class Client extends Model
         return $result;
     }
 //------------------------------------------
-    public function insertClient($countryId,$officeId, $clientName, $clientAddress, $contactTypeId,$clientPhone, $clientEmail)
+    public function insertClient($countryId, $clientName, $clientAddress, $contactTypeId,$clientPhone, $clientEmail)
     {
 
-      $oConfiguration = new Configuration();
+      $oConfiguration = new CountryConfiguration();
       
-      $clientNumber = $oConfiguration->retrieveClientNumber($countryId,$officeId);
+      $clientNumber = $oConfiguration->retrieveClientNumber($countryId);
       $clientNumber++;
-      $clientNumberFormat = $oConfiguration->generateClientNumberFormat($countryId,$officeId);
-                            $oConfiguration->increaseClientNumber($countryId,$officeId);
+      $clientNumberFormat = $oConfiguration->generateClientNumberFormat($countryId);
+                            $oConfiguration->increaseClientNumber($countryId);
 
         $client                = new Client;
         $client->cltId         = $clientNumber;
@@ -120,11 +120,10 @@ class Client extends Model
         return $client;
     }
 //------------------------------------------
-    public function updateClient($clientId, $countryId,$officeId, $clientName, $clientAddress,$contactTypeId, $clientPhone, $clientEmail)
+    public function updateClient($clientId, $countryId, $clientName, $clientAddress,$contactTypeId, $clientPhone, $clientEmail)
     {
         $this->where('clientId', $clientId)->update(array(
             'countryId'     => $countryId,
-            'officeId'     => $officeId,
             'clientName'    => $clientName,
             'clientAddress' => $clientAddress,
             'contactTypeId' => $contactTypeId,

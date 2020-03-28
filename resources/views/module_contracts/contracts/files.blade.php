@@ -53,7 +53,6 @@
     <div role="tabpanel" class="tab-pane active" id="previous">
         <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        
         <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="1"></grid-files>
    </div> <!--tab 1 final-->
 
@@ -78,7 +77,7 @@
 </div><!--tab container final-->
 
     <div class="text-center">
-        <a href="{{route('contracts.index')}}" class="btn btn-warning">
+        <a href="{{URL::previous()}}" class="btn btn-warning">
             <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
         </a>
     </div>

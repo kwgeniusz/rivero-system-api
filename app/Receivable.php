@@ -4,8 +4,11 @@ namespace App;
 
 use App;
 use DB;
+use Auth;
 use App\Helpers\DateHelper;
 use App\Transaction;
+use App\TransactionType;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Receivable extends Model
@@ -37,16 +40,22 @@ class Receivable extends Model
         'targetBankId',
         'targetBankAccount',
         'datePaid',
-        'status',
+        'recStatusCode',
     ];
+    //RECEIVABLE STATUS
+    const STATELESS     = '1';
+    const PROCESS     = '2';
+    const DECLINED    = '3';
+    const SUCCESS   = '4';
 
-    //COLLECTIONS METHOD
-    const CARD     = '1';
-    const CASH     = '2';
-    const CHECK    = '3';
-    const DEPOSIT   = '4';
-    const PAYPAL   = '5';
-    const TRANSFER = '6';
+    // //COLLECTIONS METHOD
+    const DEBIT_CARD     = '1';
+    // const CASH     = '2';
+    // const CHECK    = '3';
+    // const DEPOSIT   = '4';
+    // const PAYPAL   = '5';
+    // const TRANSFER = '6';
+    const CREDIT_CARD     = '10';
 
 //------------ACCESORES-----------------//
     public function getAmountDueAttribute($amountDue)
@@ -72,54 +81,7 @@ class Receivable extends Model
          $newDate    = $oDateHelper->$functionRs($datePaid);
         return $newDate;
     }
-//     public function getCollectMethodAttribute($collectMethod)
-//     {
 
-//         if (App::getLocale() == 'es') {
-//             switch ($collectMethod) {
-//                 case 1:
-//                     return "EFECTIVO";
-//                     break;
-//                 case 2:
-//                     return "CHEQUE";
-//                     break;
-//                 case 3:
-//                     return "TARJETA";
-//                     break;
-//                 case 4:
-//                     return "TRANSFERENCIA";
-//                     break;
-//                 case 5:
-//                     return "PAYPAL";
-//                     break;     
-//                 case 6:
-//                     return "DEPOSITO";
-//                     break;   
-//             }
-//         } else {
-//             switch ($collectMethod) {
-//                 case 1:
-//                     return "CASH";
-//                     break;
-//                 case 2:
-//                     return "CHECK";
-//                     break;
-//                 case 3:
-//                     return "CARD";
-//                     break;
-//                 case 4:
-//                     return "TRANSFER";
-//                     break;
-//                case 5:
-//                     return "PAYPAL";
-//                     break; 
-//                case 6:
-//                     return "DEPOSIT";
-//                     break;                
-//             }
-//         }
-
-//     }
 // //------------MUTADORES-----------------//
     public function setAmountDueAttribute($amountDue)
     { 
@@ -158,35 +120,42 @@ class Receivable extends Model
     }
     public function paymentMethod()
     {
-        return $this->belongsTo('App\PaymentMethod', 'collectMethod');
-    }
-     public function receivableStatus()
-    {
-        return $this->belongsTo('App\ReceivableStatus', 'status');
+        return $this->belongsTo('App\PaymentMethod', 'collectMethod','payMethodId');
     }
     public function client()
     {
         return $this->belongsTo('App\Client', 'clientId');
     } 
-
+   public function invoice()
+    {
+        return $this->belongsTo('App\Invoice', 'invoiceId');
+    } 
+  public function receivableStatus()
+    {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
+         $relation = $this->hasMany('App\ReceivableStatus', 'recStatusCode','recStatusCode');
+         //hace el filtrado por el idioma
+         //el locale cambia por el middleware que esta en localitazion,
+         //esto maneja los datos por el idioma que escpga el usuario
+         return $relation->where('language',session('countryLanguage'));
+    }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
 //_ESSTE EVENTO SE USA EN LA SECCION DE CONTRATOS EN EDITAR, PARA SABER SI SE HA PAGADO
     //SI SE COMENZO A PAGAR NO SE PUEDE MODIFICAR
-    public function verificarPagoCuota($contractId)
-    {
-        $result = $this->where('contractId', $contractId)
-            ->where('status','!=' ,'1')
-            ->get();
+    // public function verificarPagoCuota($contractId)
+    // {
+    //     $result = $this->where('contractId', $contractId)
+    //         ->where('recStatusCode','!=' ,Receivable::STATELESS)
+    //         ->get();
 
-           if(count($result) == 0)
-           {
-             return false;
-           }else{
-              return true;
-           }
-    }
+    //        if(count($result) == 0)
+    //        {
+    //          return false;
+    //        }else{
+    //           return true;
+    //        }
+    // }
 //----------------------------------------------------
      public function findById($id)
     {
@@ -194,10 +163,10 @@ class Receivable extends Model
     }
 //-----------------METODO USADO EN LA IMPRESION DE LA FACTURA   
      public function getAllByInvoice($invoiceId)
-    {
+    {   // ojo parece que esta repetida mas abajo,revisar si esta en alguna parte del codigo
         //QUE SE HALLAN PROCESADO CON EXITO
         $result = $this->where('invoiceId', $invoiceId)
-            ->where('status','=' ,'4')
+            ->where('recStatusCode','=' ,Receivable::SUCCESS)
             ->orderBy('paymentInvoiceId', 'ASC')
             ->get();
 
@@ -208,7 +177,7 @@ class Receivable extends Model
     public function clientsPending($countryId)
     { //buscar todos los clientes donde el estado No sea exitoso (4) y agrupalos para contar sus cuotas
         return $this->select('clientId', DB::raw('count(*) as cuotas'))
-            ->where('status', '!=', '4') 
+            ->where('recStatusCode', '!=', Receivable::SUCCESS) 
             ->where('countryId', '=', $countryId)
             ->groupBy('clientId')
             ->get();
@@ -218,7 +187,7 @@ class Receivable extends Model
     public function clientPendingInfo($clientId)
     {
         return $this->select('clientId', DB::raw('count(*) as cuotas'))
-            ->where('status', '!=', '4')
+            ->where('recStatusCode', '!=', Receivable::SUCCESS)
             ->where('clientId', '=', $clientId)
             ->groupBy('clientId')
             ->get();
@@ -226,19 +195,29 @@ class Receivable extends Model
 //------------------------------------------
     public function invoicesPendingAll($clientId)
     {
-        $receivablesInvoices = $this->select('sourceReference', 'receivableId', 'amountDue', 'countryId')
-            ->where('status', '!=', '4')
+        $receivablesInvoices = $this->select('receivableId','invoiceId','amountDue', 'countryId','recStatusCode')
+            ->where('recStatusCode', '!=', Receivable::SUCCESS)
             ->where('clientId', '=', $clientId)
-            ->orderBy('sourceReference')
+            ->orderBy('receivableId')
             ->get();
 
-        return $receivablesInvoices->groupBy('sourceReference');
+        return $receivablesInvoices->groupBy('invoiceId');
     }
 //------------------------------------------
       //muestra las cuotas pendientes de la factura
     public function sharePending($invoiceId)
     {
-        return $this->where('status', '!=', '4')
+        return $this->where('recStatusCode', '!=', Receivable::SUCCESS)
+            ->where('invoiceId', '=', $invoiceId)
+            ->orderBy('paymentInvoiceId')
+            ->get();
+
+    }
+//------------------------------------------
+      //muestra las cuotas pagadas de la factura
+    public function shareSucceed($invoiceId)
+    {
+        return $this->where('recStatusCode', '=', Receivable::SUCCESS)
             ->where('invoiceId', '=', $invoiceId)
             ->orderBy('paymentInvoiceId')
             ->get();
@@ -249,7 +228,7 @@ class Receivable extends Model
     public function sumSucceedSharesForInvoice($invoiceId)
     {
          $receivables = $this->select('amountPaid')
-            ->where('status', '=', '4')
+            ->where('recStatusCode', '=', Receivable::SUCCESS)
             ->where('invoiceId', '=', $invoiceId)
             ->get();
           
@@ -259,13 +238,14 @@ class Receivable extends Model
           }
           return $acum;
     }
+
 //------------------------------------------
         //esta funcion me permite saber cual es la cuota de la factura que corresponde pagar 
     public function currentShare($invoiceId)
     {
          $receivables = $this->select('paymentInvoiceId')
             ->where('invoiceId', '=', $invoiceId)
-            ->where('status', '!=', '4')
+            ->where('recStatusCode', '!=', Receivable::SUCCESS)
             ->orderBy('paymentInvoiceId')
             ->first();
 
@@ -298,10 +278,20 @@ class Receivable extends Model
 //             ->get();
 
 //     }
+    //busca todas la cuotas de una factura por dos estados, nacio 
+    //para en proceso y pagadas
+    public function getAllByInvoiceAndTwoStatus($status1,$status2,$invoiceId)
+    {
+        return $this->where('recStatusCode', '!=', Receivable::PROCESS)
+              ->where('recStatusCode', '!=', Receivable::SUCCESS)
+            ->where('invoiceId', '=', $invoiceId)
+            ->orderBy('paymentInvoiceId')
+            ->get();
 
+    }
 //------------------------------------------
     //usado para el cobro de cuotas
-    public function updateReceivable($receivableId, $amountPaid, $collectMethod, $sourceBank, $sourceBankAccount, $checkNumber, $targetBankId, $targetBankAccount, $datePaid)
+    public function updateReceivable($receivableId, $amountPaid, $collectMethod, $sourceBank, $sourceBankAccount, $checkNumber, $targetBankId, $targetBankAccount,$percent,$amountPercent,$datePaid,$userId)
     {
         $error   = null;
         $amountR = 0;
@@ -311,30 +301,29 @@ class Receivable extends Model
         try {
             //busca datos de la cuota que el usuario escogio
             $receivable = $this->find($receivableId);
-            //trae todas las cuotas de la factura, me sirve para saber si queda (01) y determinar que es la ultima cuota.
+            //trae todas las cuotas creadas por el usuario, me sirve para saber si queda (01) y determinar que es la ultima cuota.
             $invoiceShares = $this->sharePending($receivable->invoiceId);
-            //suma las cuotas restantes para sacar costo de la factura
-            $invoiceCost = 0;
+            //suma todas las cuotas creadas para la factura de receivable 
+            $totalSumCuotas = 0;
             foreach ($invoiceShares as $share) {
-                $invoiceCost += $share->amountDue;
+                $totalSumCuotas += $share->amountDue;
             }
-
             //error: si es la ultima cuota mandame errores de montos.
             if (count($invoiceShares) == 1) {
                 if ($amountPaid < $receivable->amountDue) {
-                    throw new \Exception('Error: Ultima Cuota, El Monto es Insuficiente');
+                    throw new \Exception('Error: Unica Cuota, El Monto es Insuficiente');
                 } elseif ($amountPaid > $receivable->amountDue) {
-                    throw new \Exception('Error: Ultima Cuota, El Monto a Cobrar es Muy Alto');
+                    throw new \Exception('Error: Unica Cuota, El Monto a Cobrar es Muy Alto');
                 }
-                //error si lo pagado es igual o mayor que el costo del contrato.
-            } elseif ($amountPaid >= $invoiceCost) {
-                throw new \Exception('Error: El monto Ingresado No puede ser mayor o igual al costo Total de la Factura');
+                //error si lo pagado es igual o mayor que la suma de las cuotas.
+            } elseif ($amountPaid >= $totalSumCuotas) {
+                throw new \Exception('Error: El monto Ingresado No puede ser mayor o igual al Total de la suma de las cuotas');
             }
             //---------comienza actualizacion del pago de cuota------------
             // $invoiceShares[1] es la cuota que le sigue a la seleccionada
-            if ($collectMethod == Receivable::CARD) {
-                $amountPercentaje             = $amountPaid * 0.03;
-                $receivable->amountPercentaje = $amountPercentaje;
+            if ($collectMethod == Receivable::DEBIT_CARD || $collectMethod == Receivable::CREDIT_CARD) {
+                $receivable->percent =  $percent;
+                $receivable->amountPercentaje =  $amountPercent;
             }
             $receivable->collectMethod     = $collectMethod;
             $receivable->sourceBank        = $sourceBank;
@@ -343,62 +332,95 @@ class Receivable extends Model
             $receivable->targetBankId      = $targetBankId;
             $receivable->targetBankAccount = $targetBankAccount;
             $receivable->datePaid          = $datePaid;
+            $receivable->userId            = $userId;
             
-            //verifica si el metodo de pago tiene en el campo verificacion Y o N, Y significa que debe verificarse ese metodo de pago
+       //verifica si el metodo de pago tiene en el campo verificacion Y o N, Y significa que debe verificarse ese metodo de pago
             $oPaymentMethod = new PaymentMethod;
               if( $oPaymentMethod->ifIsInProcess($collectMethod) == 'Y'){
-               $receivable->status          = '2';  
+               $receivable->recStatusCode          = Receivable::PROCESS;  
               }else{
-               $receivable->status           = '4';
-              }
+               $receivable->recStatusCode           = Receivable::SUCCESS;
+            //(insert transaction and Update BANK)... SOLO CUANDO ES EXITOSA INSERTA
+               $oDateHelper = new DateHelper;
+               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+               $newDate    = $oDateHelper->$functionRs($datePaid);
+               $month        = explode("-", $newDate);
+                       
+                       //PARA SABER EL NUMERO DE LA CUOTA QUE CORRESPONDE
+                     $sharesSucceed = $this->shareSucceed($receivable->invoiceId);
+                     $paymentNumber = count($sharesSucceed)+1;
+                     $paymentNumber = "PAYMENT #".$paymentNumber;
 
-              //saber el saldo de la factura y restar el monto pagado. para asi poner el balance en el recibo de pago
-              $receivable->balance   = $invoiceCost - $amountPaid;
+               $oTransaction = new Transaction;
+               $transactionRs1 = '';
+               $transactionRs2 = '';
+               $oTransactionType = new TransactionType;
+               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'COLLECTION');
+               $fee        = $oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
 
-            //(insert transaction and Update BANK)... "XXXXXXXXXXXXXXXXX ACOMODAAR LA TRANSACCION SE EJECUTA SOLO CUANDO ES EXITOSAXXXX
-            // $month        = explode("/", $datePaid);
-            // $oTransaction = new Transaction;
-            // $oTransaction->insertT(1, 'CUOTA', $datePaid, $amountPaid, $targetBankId, $receivable->sourceReference, '+', $month[1],session('countryId'),session('officeId'));
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+', $targetBankId, $receivable->invoiceId, $month[1],$userId);
+               
+              if($transactionRs1['alert'] == 'error') {
+                throw new \Exception($transactionRs['msj']);
+               };
+               //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE
+            if ($collectMethod == Receivable::DEBIT_CARD || $collectMethod == Receivable::CREDIT_CARD) {
 
+                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $targetBankId, $receivable->invoiceId, $month[1],$userId);
+               
+              if($transactionRs2['alert'] == 'error') {
+                throw new \Exception($transactionRs['msj']);
+               };
+             } //cierre de if transactionRs2
+       }//CIERRE DEL ELSE METODO ES UN PAGO EXITOSO SIN VERIFICACION
+            //balance de la factura saldo que falta por pagar si es cero se cambia el status de la factura a pagada(4)
+             $oInvoice       = new Invoice;
+             $invoiceBalance = $oInvoice->getBalance($receivable->invoiceId);
+             $invoiceBalance = $invoiceBalance - $amountPaid;
+             $receivable->balance = $invoiceBalance;//ASIGNO EL BALANCE A LA CUOTA SE HACE SIEMPRE CADA VEZ QUE SEA EXITOSA,PROCESADA O DECLINADA
 
-   //CUANDO EL MONTO PAGADO ES MENOR O MAYOR QUE LA CUOTA         
-            //------------si lo pagado es menor que la cuota.)
-            if ($amountPaid < $receivable->amountDue) {
-
-                $amountR                = $receivable->amountDue - $amountPaid;
-                // $receivable->amountDue  = $amountPaid;
-                $receivable->amountPaid = $amountPaid;
-                $receivable->save();
-
-                //REALIZA ACTUALIZACION EN MONTO DE LA DEUDA DE LA PROXIMA CUOTA
-            if($receivable->status == '4') {  //solo dejar actualizar la siguiente cuota si este pago es exitoso  
-              $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
-              $receivableNext->amountDue = $receivableNext->amountDue + $amountR;
-              $receivableNext->save();
+            if($receivable->recStatusCode == Receivable::SUCCESS and $invoiceBalance == 0){
+                  $oInvoice->changeStatus($receivable->invoiceId, Invoice::PAID);
+            }else{
+                  $oInvoice->changeStatus($receivable->invoiceId, Invoice::CLOSED);
             }
-                //----------si lo pagado es mayor que la cuota 
-            } elseif ($amountPaid > $receivable->amountDue) {
+           
+//CUANDO EL MONTO PAGADO ES MENOR O MAYOR QUE LA CUOTA         
+      //------------si lo pagado es menor que la cuota.)
+            if ($amountPaid < $receivable->amountDue) {
+                $amountR                = $receivable->amountDue - $amountPaid;
+                $receivable->amountPaid = $amountPaid;
+                 //REALIZA ACTUALIZACION EN MONTO DE LA DEUDA DE LA PROXIMA CUOTA
+                 if($receivable->recStatusCode == Receivable::SUCCESS) {  //solo dejar actualizar la siguiente cuota si este pago es exitoso
+                   $receivableCurrent  = Receivable::find($invoiceShares[0]->receivableId);
+                   $receivableCurrent->amountDue = $amountPaid;
+                   $receivableCurrent->save();
+                   $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
+                   $receivableNext->amountDue = $receivableNext->amountDue + $amountR;
+                   $receivableNext->save();
+                 }
+    //----------si lo pagado es mayor que la cuota 
+            }elseif ($amountPaid > $receivable->amountDue) {
 
                 $amountR = $amountPaid - $receivable->amountDue;
                 if ($amountR >= $invoiceShares[1]->amountDue) {
                     throw new \Exception('Error: No puede pagar Dos Cuotas simultaneamente, Monto Muy Alto');
                 }
-                // $receivable->amountDue  = $amountPaid;
                 $receivable->amountPaid = $amountPaid;
-                $receivable->save();
-
                   //REALIZA ACTUALIZACION EN MONTO DE LA DEUDA DE LA PROXIMA CUOTA
-            if($receivable->status == '4') {  //solo dejar actualizar la siguiente cuota si este pago es exitoso  
-                  $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
-                  $receivableNext->amountDue = $receivableNext->amountDue - $amountR;
-                  $receivableNext->save();
-            }
-
+                 if($receivable->recStatusCode == Receivable::SUCCESS) {  //solo dejar actualizar la siguiente cuota si este pago es exitoso  
+                   $receivableCurrent  = Receivable::find($invoiceShares[0]->receivableId);
+                   $receivableCurrent->amountDue = $amountPaid;
+                   $receivableCurrent->save();
+                   $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
+                   $receivableNext->amountDue = $receivableNext->amountDue - $amountR;
+                   $receivableNext->save();
+                 }
             } elseif ($amountPaid == $receivable->amountDue) {
-                // $receivable->amountDue  = $amountPaid;
                 $receivable->amountPaid = $amountPaid;
-                $receivable->save();
             }
+        
+            $receivable->save();
 
             $success = true;
             DB::commit();
@@ -416,31 +438,88 @@ class Receivable extends Model
 
     }
 //------------------------------------------
-     //METODO PARA CONFIRMAR SI LA CUOTA EN PROCESO, ES EXITOSA O DECLINADA
+     //METODO PARA CONFIRMAR SI LA CUOTA EN ES EXITOSA O DECLINADA
    public function confirmPayment($invoiceId,$receivableId,$status)
     {
-        
      $amountR=0;
-
       DB::beginTransaction();
         try {
              $receivable = $this->find($receivableId);
-             $receivable->status = $status;
+             $receivable->recStatusCode = $status;
 
+             $invoiceShares = $this->sharePending($receivable->invoiceId);
+
+             //FALTA AGREGAR LA TRANSACCION EN ESTE CASO Y EL CAMBIO DEL ESTADO DE LA FACTURA CUANDO ES PAGADA
+
+    if($status == Receivable::SUCCESS) {    //solo dejar actualizar la siguiente cuota si este pago es exitoso
+    //agregar la transaccion de la cuota exitosa
+               $oDateHelper = new DateHelper;
+               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+               $newDate    = $oDateHelper->$functionRs($receivable->datePaid);
+               $month        = explode("-", $newDate);
+
+                     $sharesSucceed = $this->shareSucceed($receivable->invoiceId);
+                     $paymentNumber = count($sharesSucceed)+1;
+                     $paymentNumber = "PAYMENT #".$paymentNumber;
+
+               $oTransaction = new Transaction;
+               $transactionRs1 = '';
+               $transactionRs2 = '';
+
+               $oTransactionType = new TransactionType;
+               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'COLLECTION');
+               $fee        = $oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
+
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+', $receivable->targetBankId, $receivable->invoiceId, $month[1],Auth::user()->userId);
+
+                    if($transactionRs1['alert'] == 'error') {
+                        throw new \Exception($transactionRs['msj']);
+                    };
+
+                //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE
+          if ($receivable->collectMethod == Receivable::DEBIT_CARD || $receivable->collectMethod == Receivable::CREDIT_CARD) {
+                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $targetBankId, $receivable->invoiceId, $month[1],Auth::user()->userId);
+
+                     if($transactionRs2['alert'] == 'error') {
+                       throw new \Exception($transactionRs['msj']);
+                     };
+             }
+    
+  
+    //si sobra dinero de este pago agregalo o descuentalo de la cuota siguiente.      
+      if (count($invoiceShares) > 1) {//si sigue una cuota despues de la que estoy cobrando
              if($receivable->amountPaid < $receivable->amountDue){
                 $amountR = $receivable->amountDue - $receivable->amountPaid;
+                
+                $receivableCurrent  = Receivable::find($invoiceShares[0]->receivableId);
+                $receivableCurrent->amountDue = $receivable->amountPaid;
+                $receivableCurrent->save();
+                $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
+                $receivableNext->amountDue = $receivableNext->amountDue + $amountR;
+                $receivableNext->save();
+
              }elseif($receivable->amountPaid > $receivable->amountDue){
                 $amountR = $receivable->amountPaid - $receivable->amountDue;
-             }
 
-            //trae todas las cuotas de la factura, me sirve para saber si queda (01) y determinar que es la ultima cuota.
-             $invoiceShares = $this->sharePending($receivable->invoiceId);
-            if($status == 4){   
-              //actualiza el monto del  siguiente cuota si es exitosa (4)
-                  $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
-                  $receivableNext->amountDue = $receivableNext->amountDue - $amountR;
-                  $receivableNext->save();
-                }
+                $receivableCurrent  = Receivable::find($invoiceShares[0]->receivableId);
+                $receivableCurrent->amountDue = $receivable->amountPaid;
+                $receivableCurrent->save();
+                $receivableNext  = Receivable::find($invoiceShares[1]->receivableId);
+                $receivableNext->amountDue = $receivableNext->amountDue - $amountR;
+                $receivableNext->save();
+             }
+        }
+        //balance de la factura saldo que falta por pagar si es cero se cambia el status de la factura a pagada(4)
+             $oInvoice       = new Invoice;
+             $invoiceBalance = $oInvoice->getBalance($receivable->invoiceId);
+             $invoiceBalance = $invoiceBalance -  $receivable->amountPaid;
+             $receivable->balance = $invoiceBalance;
+             
+             if($invoiceBalance == 0){
+                   $oInvoice->changeStatus($receivable->invoiceId, Invoice::PAID);
+              }
+    }//FIN DEL if($status == 4) 
+
 
             $receivable->save();
             $success = true;
@@ -465,7 +544,7 @@ class Receivable extends Model
         $result[] = $this->where('countryId', $countryId)
             ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '1')
-            ->where("status", "=", '4')
+            ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
             ->where("datePaid", "<=", $date2)
             ->orderBy('collectMethod', 'ASC')
@@ -473,7 +552,7 @@ class Receivable extends Model
         $result[] = $this->where("countryId", "=", $countryId)
             ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '2')
-            ->where("status", "=", '4')
+            ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
             ->where("datePaid", "<=", $date2)
             ->orderBy('collectMethod', 'ASC')
@@ -481,7 +560,7 @@ class Receivable extends Model
         $result[] = $this->where("countryId", "=", $countryId)
             ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '3')
-            ->where("status", "=", '4')
+            ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
             ->where("datePaid", "<=", $date2)
             ->orderBy('collectMethod', 'ASC')
@@ -489,7 +568,7 @@ class Receivable extends Model
         $result[] = $this->where("countryId", "=", $countryId)
             ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '4')
-            ->where("status", "=", '4')
+            ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
             ->where("datePaid", "<=", $date2)
             ->orderBy('collectMethod', 'ASC')
@@ -497,7 +576,7 @@ class Receivable extends Model
        $result[] = $this->where("countryId", "=", $countryId)
             ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '5')
-            ->where("status", "=", '4')
+            ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
             ->where("datePaid", "<=", $date2)
             ->orderBy('collectMethod', 'ASC')
@@ -505,7 +584,7 @@ class Receivable extends Model
         $result[] = $this->where("countryId", "=", $countryId)
             ->where('officeId', $officeId) 
             ->where("collectMethod", "=", '6')
-            ->where("status", "=", '4')
+            ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
             ->where("datePaid", "<=", $date2)
             ->orderBy('collectMethod', 'ASC')

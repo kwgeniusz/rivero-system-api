@@ -3,6 +3,7 @@
 namespace App;
 
 use App;
+use App\Country;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,20 +13,20 @@ class Invoice extends Model
     //traits
     use SoftDeletes;
 
-    // private $oDateHelper = new DateHelper;
     public $timestamps = false;
 
     protected $table      = 'invoice';
     protected $primaryKey = 'invoiceId';
-    protected $fillable = ['invoiceId','countryId','officeId','invoiceNumber','contractId','clientId','address','invoiceDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','status'];
+    protected $fillable = ['invoiceId','invId','countryId','officeId','contractId','clientId','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','invStatusCode'];
 
      protected $appends = ['grossTotal','taxAmount','netTotal'];
      protected $dates = ['deleted_at'];
-    //Status Invoice
+     
+    //PARA EVITAR LOS NUMEROS MAGICOS
     const OPEN      = '1';
     const CLOSED    = '2';
-    const PAID_OUT  = '3';
-    const CANCELED  = '4';
+    const PAID      = '3';
+    const CANCELLED  = '4';
 
 
 //--------------------------------------------------------------------
@@ -39,13 +40,21 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\Contract', 'contractId');
     }
-    public function currency()
-    {
-        return $this->belongsTo('App\Currency', 'currencyId');
-    }
      public function note()
     {
       return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
+    }
+       public function invoiceStatus()
+    {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
+         $relation = $this->hasMany('App\InvoiceStatus', 'invStatusCode','invStatusCode');
+         //hace el filtrado por el idioma
+         //el locale cambia por el middleware que esta en localitazion,
+         //esto maneja los datos por el idioma que escpga el usuario
+         return $relation->where('language',App::getLocale());
+    }
+  public function paymentCondition()
+    {
+      return $this->belongsTo('App\PaymentCondition', 'pCondId', 'pCondCode');
     }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -69,56 +78,24 @@ class Invoice extends Model
          $newDate    = $oDateHelper->$functionRs($invoiceDate);
         return $newDate;
     }
-    public function getStatusAttribute($status)
-    {
 
-        if (App::getLocale() == 'es') {
-            switch ($status) {
-                case 1:
-                    return "ABIERTO";
-                    break;
-                case 2:
-                    return "CERRADO";
-                    break;
-                case 3:
-                    return "PAGADO";
-                    break;
-                case 4:
-                    return "CANCELADO";
-                    break;
-            }
-        } else {
-            switch ($status) {
-                case 1:
-                    return "OPEN";
-                    break;
-                case 2:
-                    return "CLOSED";
-                    break;
-                case 3:
-                    return "PAID OUT";
-                    break;
-                case 4:
-                    return "CANCELED";
-                    break;
-            }
-        }
-
-    }
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
 
     public function setGrossTotalAttribute($grossTotal)
     {
+         $grossTotal = number_format((float)$grossTotal, 2, '.', '');
         return $this->attributes['grossTotal'] = encrypt($grossTotal);
     }
         public function setTaxAmountAttribute($taxAmount)
     {
+       $taxAmount = number_format((float)$taxAmount, 2, '.', '');
         return $this->attributes['taxAmount'] = encrypt($taxAmount);
     }
         public function setNetTotalAttribute($netTotal)
     {
+        $netTotal = number_format((float)$netTotal, 2, '.', '');
         return $this->attributes['netTotal'] = encrypt($netTotal);
     }
     public function setInvoiceDateAttribute($invoiceDate)
@@ -129,14 +106,26 @@ class Invoice extends Model
 
         $this->attributes['invoiceDate'] = $newDate;
     }
-   
-
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function getAllByContract($contractId)
     {
         $result = $this->where('contractId', $contractId)
+            ->orderBy('invoiceId', 'ASC')
+            ->get();
+
+        return $result;
+    }   
+
+     public function getAllByClientAndOffice($clientId,$officeId)
+    {
+        $result = $this->where('clientId', $clientId)
+            ->where('officeId', $officeId)
+            ->where('invStatusCode', Invoice::OPEN)
+            ->orWhere('clientId', $clientId)
+            ->where('officeId', $officeId)
+            ->where('invStatusCode', Invoice::CLOSED)
             ->orderBy('invoiceId', 'ASC')
             ->get();
 
@@ -152,42 +141,55 @@ class Invoice extends Model
     }
 
 //------------------------------------------
-    public function insertInv($countryId,$officeId,$contractId,$clientId, $siteAddress, $invoiceDate,$currencyId,$taxPercent,$paymentConditionId,$status) {
+    public function insertInv($countryId,$officeId,$contractId,$clientId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode) {
 
-          $oConfiguration = new Configuration();
+          $oConfiguration = new OfficeConfiguration();
           $invId = $oConfiguration->retrieveInvoiceNumber($countryId, $officeId);
           $invId++;
+          $oConfiguration->increaseInvoiceNumber($countryId, $officeId);
 
-          $invoiceNumberFormat = $oConfiguration->generateInvoiceNumberFormat($countryId, $officeId);
-                                  $oConfiguration->increaseInvoiceNumber($countryId, $officeId);
-
-        $invoice                   = new Invoice;
+        $invoice                   =  new Invoice;
         $invoice->invId            =  $invId;
         $invoice->countryId        =  $countryId;
         $invoice->officeId         =  $officeId;
-        $invoice->invoiceNumber    =  $invoiceNumberFormat;
         $invoice->contractId       =  $contractId;
         $invoice->clientId         =  $clientId;
-        $invoice->address          =  $siteAddress;
         $invoice->invoiceDate      =  $invoiceDate;
-        $invoice->currencyId      =  $currencyId;
-        $invoice->grossTotal       =  '0.00';
+        $invoice->grossTotal       =  $grossTotal;
         $invoice->taxPercent       =  $taxPercent;
-        $invoice->taxAmount        =  '0.00';
-        $invoice->netTotal         =  '0.00';
-        $invoice->pCondId         =  $paymentConditionId;
-        $invoice->status           =  '1';
+        $invoice->taxAmount        =  $taxAmount;
+        $invoice->netTotal         =  $netTotal;
+        $invoice->pCondId          =  $paymentConditionId;
+        $invoice->invStatusCode    =  $invStatusCode;
         $invoice->save();
 
       
-        return $invoice->invoiceId;
+        return $invoice;
 
     }
-      public function changeStatus($invoiceId,$status) {
+  //------------------------------------------   
+    public function changeStatus($invoiceId,$invStatusCode) {
+
         $invoice             = Invoice::find($invoiceId);
-        $invoice->status     = $status;
+        $invoice->invStatusCode     = $invStatusCode;
         $invoice->save();
+
     }
+
+   //------------------------------------------
+    public function updateInvoice($invoiceId, $paymentConditionId, $invoiceDate, $taxPercent) {
+
+        $invoice                     = invoice::find($invoiceId);
+        $invoice->pCondId            = $paymentConditionId;
+        $invoice->invoiceDate        = $invoiceDate;
+        $invoice->taxPercent         = $taxPercent;
+        $invoice->save();
+
+         //para ajustar los montos de la propuesta segundo el porcentaje indicado
+         $this->updateInvoiceTotal('+', $invoiceId, '0');
+
+    }
+   //--------------------------------------------- 
       public function updateInvoiceTotal($sign, $invoiceId, $amount)
     {
         if ($sign == '+') {
@@ -223,22 +225,8 @@ class Invoice extends Model
           $totalPaid = $oReceivable->sumSucceedSharesForInvoice($invoiceId);
 
           $balance = $invoice[0]->netTotal - $totalPaid;
+          $balance = number_format((float)$balance, 2, '.', '');
+
           return $balance;
     }
-//-----------------------------------------
-    //SECTIONS NOTES
-//------------------------------------------
-    public function addNote($invoiceId ,$noteId)
-    {
-        $invoice = Invoice::find($invoiceId);
-        $invoice->note()->attach($noteId);
-        return $invoice->save();
-    }
-//------------------------------------------
-    public function removeNote($invoiceId ,$noteId)
-    {
-        $invoice = Invoice::find($invoiceId);
-        return $invoice->note()->detach($noteId);
-    }
-//------------------------------------------
 }

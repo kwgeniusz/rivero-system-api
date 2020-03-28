@@ -7,11 +7,11 @@
     <div class="panel-heading"> <h3><b>{{__('Are You Sure to Eliminate this Contract?')}}</b></h3></div>
     <div class="panel-body">
 
-      <form class="form-horizontal" action="{{Route('contracts.destroy',['id' => $contract[0]->contractId])}}" method="POST">
+      <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('contracts.destroy',['id' => $contract[0]->contractId])}}" method="POST">
         {{csrf_field()}}
         {{method_field('DELETE')}}
         <div class="form-group">
-          <label class="col-sm-5 control-label">N° {{__('contract')}}</label>
+          <label class="col-sm-5 control-label">CONTROL NUMBER</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->contractNumber }}</p>
           </div>
@@ -40,6 +40,12 @@
             <p class="form-control-static">{{ $contract[0]->contractDate }}</p>
           </div>
         </div>
+            <div class="form-group">
+          <label class="col-sm-5 control-label">CLIENTE ID</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $contract[0]->client->clientCode }}</p>
+          </div>
+        </div>
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('client')}}</label>
           <div class="col-sm-7">
@@ -64,7 +70,7 @@
             <p class="form-control-static">{{ $contract[0]->projectUse->projectUseName }}</p>
           </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="col-sm-5 control-label">N° {{__('registration')}}</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->registryNumber }}</p>
@@ -93,14 +99,14 @@
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->deliveryDate }}</p>
           </div>
-        </div>
+        </div> -->
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('initial_comment')}}</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->initialComment }}</p>
           </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="col-sm-5 control-label">{{__('intermediate_comment')}}</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->intermediateComment }}</p>
@@ -111,16 +117,16 @@
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->finalComment }}</p>
           </div>
-        </div>
+        </div> -->
 
-       <div class="col-xs-6">
+      <!--  <div class="col-xs-6">
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('contract_cost')}}</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{  number_format( $contract[0]->contractCost, 2, ',', '.')}}</p>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="col-xs-6">
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('currency')}}</label>
@@ -133,7 +139,7 @@
 
 
             <div class="text-center">
-              <button type="submit" class="btn btn-danger">
+              <button type="submit" class="btn btn-danger  button-prevent-multiple-submits">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
               </button>
               <a href="{{route('contracts.index')}}" class="btn btn-warning">

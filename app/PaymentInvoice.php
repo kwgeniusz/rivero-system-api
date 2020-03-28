@@ -37,13 +37,13 @@ class PaymentInvoice extends Model
     }
     public function receivable()
     {
-        return $this->hasOne('App\Receivable', 'receivableId');
+        return $this->hasOne('App\Receivable', 'paymentInvoiceId');
     }
 
 //------------------------ACCESORES--------------------------------
     public function getAmountAttribute($amount)
     {
-        return decrypt($amount);
+         return decrypt($this->attributes['amount']);
     }
     public function getPaymentDateAttribute($paymentDate)
     {
@@ -55,6 +55,7 @@ class PaymentInvoice extends Model
 //------------------------MUTADORES--------------------------------
 
     public function setAmountAttribute($amount){
+            $amount = number_format((float)$amount, 2, '.', '');
             return $this->attributes['amount'] = encrypt($amount);
      }
     public function setPaymentDateAttribute($paymentDate)
@@ -84,26 +85,27 @@ class PaymentInvoice extends Model
         try {
             $acum = 0;
             $invoice  = Invoice::where('invoiceId', $invoiceId)->get();
-            $payments =  $this->where('invoiceId', $invoiceId)->get();
 
+            $receivables =  Receivable::where('invoiceId', $invoiceId)->get();
+      
            //suma todas las cuotas y luego el monto que ingrese por formulario
           //para saber si esto es mayor que el monto de la factura
-            foreach ($payments as  $payment) {
-                $acum = $acum + $payment->amount ;
+            foreach ($receivables as  $payment) {
+                $acum = $acum + $payment->amountDue ;
             }
                 $acum = $acum + $amount ;
-
+           
               if ( $acum > $invoice[0]->netTotal)
               {
                 throw new \Exception("Error: El total de Cuotas no debe sobrepasar el Monto de Factura.");
               }
 
-            DB::table('invoice')->increment('pQuantity');  
+            DB::table('invoice')->where('invoiceId', $invoiceId)->increment('pQuantity');  
 
             //INSERTA PAGO
             $payment              = new PaymentInvoice;
             $payment->invoiceId   = $invoiceId;
-            $payment->amount      = number_format((float)$amount, 2, '.', '');;
+            $payment->amount      = $amount;
             $payment->paymentDate = $paymentDate;
             $payment->dateCreated = date('Y-m-d H:i:s');
             $payment->lastUserId  = Auth::user()->userId;
@@ -114,14 +116,15 @@ class PaymentInvoice extends Model
             $receivable->officeId          = $payment->invoice->officeId;
             $receivable->countryId         = $payment->invoice->countryId;
             $receivable->clientId          = $payment->invoice->clientId;
-            $receivable->invoiceId         =  $payment->invoiceId;
+            $receivable->invoiceId         = $payment->invoiceId;
             $receivable->paymentInvoiceId  = $payment->paymentInvoiceId;
-            $receivable->sourceReference   = $payment->invoice->invoiceNumber;
-            $receivable->amountDue         = number_format((float)$amount, 2, '.', '');
+            $receivable->amountDue         = $amount;
             $receivable->amountPaid        = '0.00'; //es necesario colocarlos en 0.00 para que que se inserten encriptados
+            $receivable->percent        = '0';
             $receivable->amountPercentaje  = '0.00';
             $receivable->balance           = '0.00';      
-            $receivable->status            = '1';     
+            $receivable->recStatusCode            = '1';     
+            $receivable->userId            = Auth::user()->userId;     
             $receivable->save();
 
             // //REALIZA ACTUALIZACION EN ContractCost (ESTO HIRA AL CERRAR FACTURAS)
@@ -147,20 +150,21 @@ class PaymentInvoice extends Model
 
     }
 //------------------------------------------
-    public function removePayment($id)
+    public function removePayment($id,$invoiceId)
     {
         $error = null;
 
         DB::beginTransaction();
         try {
-            $result = DB::table('receivable')->where('paymentInvoiceId', $id)->value('status');
+            $result = DB::table('receivable')->where('paymentInvoiceId', $id)->value('recStatusCode');
 
             if ($result != '1') {
                 throw new \Exception('Error: La Cuota no se puede eliminar, se esta procesando o ya se pago');
             } else {
-                DB::table('invoice')->decrement('pQuantity');  
                 //ELIMINAR PAGO
                 $this->where('paymentInvoiceId', '=', $id)->delete();
+                //DESCONTAR ESA CUOTA
+                DB::table('invoice')->where('invoiceId', $invoiceId)->decrement('pQuantity');  
                 //ELIMINAR DE CUENTA POR COBRAR
                 $rs = DB::table('receivable')->where('paymentInvoiceId', $id)->delete();
                 //REALIZA ACTUALIZACION EN CONTRACTCOST

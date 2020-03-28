@@ -127,11 +127,11 @@ class UserController extends Controller
 
     public function changeOffice(Request $request)
     {
-      // $this->oUser->changeOffice(Auth::user()->userId,$request->countryId,$request->officeId);
+        
     	$country = Country::find($request->countryId);
     	$office  = Office::find($request->officeId);
 
-        session(['countryId' => $country->countryId, 'countryName' => $country->countryName]);
+        session(['countryId' => $country->countryId, 'countryName' => $country->countryName,'countryLanguage' => $country->countryConfiguration->language]);
         session(['officeId' => $office->officeId, 'officeName' =>$office->officeName]);
 
         $notification = array(

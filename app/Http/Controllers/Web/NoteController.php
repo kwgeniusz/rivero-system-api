@@ -25,96 +25,103 @@ class NoteController extends Controller
     public function index(Request $request)
     {
      
-     $notes = $this->oNote->getAllByLanguage(\Session::get('countryId'));
+     $notes = $this->oNote->getAllByOffice(session('officeId'));
 
            if($request->ajax()){
                 return $notes;
             }
 
-        // return view('module_administration.banks.index', compact('banks', 'countrys'));
+        return view('module_configuration.notes.index', compact('notes'));
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
+     public function store(Request $request)
+    {
 
-    //     $this->oBank->insertB($request->bankName, session('countryId'));
-    //     $notification = array(
-    //         'message'    => "Banco $request->bankName Creado",
-    //         'alert-type' => 'info',
-    //     );
-    //     return redirect()->route('banks.index')
-    //         ->with($notification);
-    // }
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
+         $this->oNote->insertN(
+            session('countryId'),
+            session('officeId'),
+            $request->noteName
+        );
 
-    //     $bank = $this->oBank->findById($id,session('countryId'));
-    //     return view('module_administration.banks.edit', compact('bank'));
-    // }
+        $notification = array(
+            'message'    => 'Nota Creada Exitosamente',
+            'alert-type' => 'success',
+        );
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, $id)
-    // {
+        return redirect()->route('notes.index')
+                         ->with($notification);
+    }
 
-    //     $this->oBank->updateB($id, $request->bankName, $request->initialBalance, $request->balance01, $request->balance02, $request->balance03, $request->balance04, $request->balance05,
-    //         $request->balance06, $request->balance07, $request->balance08, $request->balance09, $request->balance10, $request->balance11, $request->balance12);
 
-    //     $notification = array(
-    //         'message'    => "Banco $request->bankName Actualizado",
-    //         'alert-type' => 'info',
-    //     );
-    //     return redirect()->route('banks.index')
-    //         ->with($notification);
-    // }
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show($id)
-    // {
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $note = $this->oNote->findById($id);
+        return view('module_configuration.notes.edit', compact('note'));
+    }
 
-    //     $bank = $this->oBank->findById($id,session('countryId'));
-    //     return view('module_administration.banks.show', compact('bank'));
-    // }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        $this->oNote->updateN(
+            $request->noteId,
+            $request->noteName
+        );
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
+        $notification = array(
+            'message'    => 'Nota Modificada',
+            'alert-type' => 'success',
+        );
 
-    //    $result = $this->oBank->deleteB($id);
+        return redirect()->route('notes.index')
+            ->with($notification);
+    }
 
-    //     $notification = array(
-    //         'message'    => $result['msj'],
-    //         'alert-type' => $result['alert'],
-    //     );
-    //     return redirect()->route('banks.index')
-    //         ->with($notification);
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $id)
+    {
+        $note = $this->oNote->findById($id);
 
-    // }
+         if($request->ajax()){
+                return $note;
+            }
+
+        return view('module_configuration.notes.show', compact('note'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->oNote->deleteN($id);
+
+        $notification = array(
+            'message'    => 'Nota Eliminada',
+            'alert-type' => 'info',
+        );
+
+        return redirect()->route('notes.index')
+            ->with($notification);
+    }
 
 }

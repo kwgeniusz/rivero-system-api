@@ -17,19 +17,13 @@
       </div>
 <div class="col-xs-12 col-xs-offset-1">
  <div class="panel panel-success col-xs-10 col-lg-7">
-   @if($contractType == 'P')
-    <div class="panel-heading"> <h3><b>Nuevo Proyecto</b><h3></div>
-   @elseif($contractType == 'S')
-    <div class="panel-heading"> <h3><b>Nuevo Servicio</b></h3></div>
-    @endif
+    <div class="panel-heading"> <h3><b>Nuevo Contrato</b><h3></div>
     <div class="panel-body">
 
-      <form class="form" action="{{Route('contracts.store')}}" method="POST">
+      <form class="form  form-prevent-multiple-submits" action="{{Route('contracts.store')}}" method="POST">
         {{csrf_field()}}
 
         {{-- <select-country-office></select-country-office> --}}
-        
-            <input type="hidden" name="contractType" value="{{ $contractType }}">
             
          <div class="row"></div>
          <div class="form-group col-xs-4">
@@ -44,47 +38,63 @@
 
 
            <div class="row"></div>
-           <search-client></search-client>
+           <search-client pref-url='../'></search-client>
 
+     <div class="form-group col-xs-6">
+            <label for="contractType">TIPO DE CONTRATO</label>
+            <select class="form-control" name="contractType" id="contractType">
+                <option value="P" >P</option>
+                <option value="S" >S</option>
+            </select>
+          </div>
      <!--input Address-->      
-          <div class="form-group col-xs-11">
-                <label for="siteAddress">DIRECCIÓN</label>
-                <input type="text" class="form-control" id="siteAddress" name="siteAddress">
-           </div>
-
+        
           <div class="form-group col-xs-7">
-            <label for="projectDescriptionId">DESCRIPCIÓN DE PROYECTO</label>
-            <select class="form-control" name="projectDescriptionId" id="projectDescriptionId">
-                @foreach($projectsD as $project)
-                      <option value="{{$project->projectDescriptionId}}" > {{$project->projectDescriptionName}} </option>
-                @endforeach
-            </select>
-          </div>
+                <label for="propertyNumber">NUMERO DE LA PROPIEDAD</label>
+                <input type="number" value="{{ old('propertyNumber') }}" class="form-control" id="propertyNumber" name="propertyNumber" placeholder="5924">
+           </div>
+           <div class="form-group col-xs-7">
+                <label for="streetName">CALLE</label>
+                <input type="text" maxlength="20" value="{{ old('streetName') }}" class="form-control" id="streetName" name="streetName" placeholder="AZALEA">
+           </div>
+            <div class="form-group col-xs-3">
+                <label for="streetType">TIPO DE CALLE</label>
+                <input type="text" maxlength="10" value="{{ old('streetType') }}" class="form-control" id="streetType" name="streetType" placeholder="LN">
+           </div>
+           <div class="form-group col-xs-6">
+                <label for="suiteNumber">SUITE NUMBER</label>
+                <input type="text" maxlength="20" value="{{ old('suiteNumber') }}" class="form-control" id="suiteNumber" name="suiteNumber" placeholder="SUITE 114 (Opcional)">
+           </div>
+            <div class="form-group col-xs-8">
+                <label for="city">CIUDAD</label>
+                <input type="text" maxlength="20" value="{{ old('city') }}" class="form-control" id="city" name="city" placeholder="DALLAS">
+           </div>
+           <div class="form-group col-xs-8">
+                <label for="state">ESTADO</label>
+                <input type="text" maxlength="20" value="{{ old('state') }}" class="form-control" id="state" name="state" placeholder="TX">
+           </div>
+                   <div class="row"></div>
+            <div class="form-group col-xs-4">
+                <label for="zipCode">CODIGO POSTAL</label>
+                <input type="number" value="{{ old('zipCode') }}" class="form-control" id="zipCode" name="zipCode" placeholder="75230">
+           </div>
+           
+             <select-building-code pref-Url='../'></select-building-code>
 
-             <div class="form-group col-xs-7">
-            <label for="projectUseId">USO DE PROYECTO</label>
-            <select class="form-control" name="projectUseId" id="projectUseId">
-                @foreach($projectsU as $project)
-                      <option value="{{$project->projectUseId}}" > {{$project->projectUseName}} </option>
-                @endforeach
-            </select>
-          </div>
 
-
-
-           <div class="row"></div>
+  <!--          <div class="row"></div>
               <div class="form-group col-xs-6 ">
                 <label for="registryNumber">N° {{__('registration')}}</label>
                 <input type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ old('registryNumber') }}">
-              </div>
+              </div> -->
 
 
-        <div class="row"></div>
+  <!--       <div class="row"></div>
               <div class="form-group col-xs-5">
                 <label for="startDate">{{__('start_date')}}</label>
                 <input class="form-control flatpickr" id="startDate" name="startDate" value="{{ old('startDate') }}">
-              </div>
-
+              </div> -->
+<!-- 
         <div class="row"></div>
               <div class="form-group">
                 <label class="col-xs-8" for="scheduledFinishDate">{{__('scheduled_finish_date')}}</label>
@@ -103,7 +113,7 @@
              <div class="form-group col-xs-5">
                 <label for="deliveryDate">{{__('delivery_date')}}</label>
                 <input class="form-control flatpickr" id="deliveryDate" name="deliveryDate" value="{{ old('deliveryDate') }}">
-            </div>
+            </div> -->
 
 
           <div class="col-xs-12">
@@ -124,7 +134,7 @@
 
 
             <div class="col-xs-12 text-center">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary  button-prevent-multiple-submits">
                 <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
               </button>
               <a href="{{route('contracts.index')}}" class="btn btn-warning">

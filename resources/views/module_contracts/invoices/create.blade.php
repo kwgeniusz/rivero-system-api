@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-success col-xs-7">
-    <div class="panel-heading"> <h3><b>Nueva Factura: N° {{$invoiceNumberFormat}}</b></h3></div>
+        <div class="panel-heading"> <h3><b>Nueva Factura: N° {{$invId}}</b></h3></div>
     <div class="panel-body">
 
       <div class="row ">
@@ -18,7 +18,7 @@
               </ul>
           </div>
       @endif
-        <form class="form" action="{{Route('invoices.store')}}" method="POST">
+        <form class="form  form-prevent-multiple-submits" action="{{Route('invoices.store')}}" method="POST">
         {{csrf_field()}}
       <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
        <div class="row">
@@ -60,7 +60,7 @@
         </div>
       
             <div class="text-center">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary  button-prevent-multiple-submits">
                 <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
               </button>
               <a href="{{route('invoices.index', ['id' => $contract[0]->contractId])}}" class="btn btn-warning">

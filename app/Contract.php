@@ -6,7 +6,7 @@ use App;
 use Auth;
 use DB;
 use App\Client;
-use App\Configuration;
+use App\OfficeConfiguration;
 use App\ContractStaff;
 use App\Country;
 use App\Office;
@@ -49,7 +49,11 @@ class Contract extends Model
 //--------------------------------------------------------------------
     public function client()
     {
-        return $this->belongsTo('App\Client', 'clientId');
+        return $this->belongsTo('App\Client', 'clientId','clientId');
+    }
+    public function buildingCode()
+    {
+        return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
     }
     public function projectDescription()
     {
@@ -82,23 +86,19 @@ class Contract extends Model
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-    /*
-    public function getContractCostAttribute($cost) {
-    if(empty($cost))
-    return $cost = null;
-
-    return number_format($cost, 2, ',', '.');
-    }
-     */
-    public function getContractTypeAttribute($contractType)
-    {
-          if($contractType == 'P')
-          {
-             return  $contractType = "PROJECT";
-          }else{
-             return  $contractType = "SERVICE";
-          }
-    }
+  public function getSiteAddressAttribute()
+{
+   return $this->propertyNumber.' '.$this->streetName.' '.$this->streetType.' '.$this->suiteNumber.' '.$this->city.' '.$this->state.' '.$this->zipCode;
+}
+    // public function getContractTypeAttribute($contractType)
+    // {
+    //       if($contractType == 'P')
+    //       {
+    //          return  $contractType = "PROJECT";
+    //       }else{
+    //          return  $contractType = "SERVICE";
+    //       }
+    // }
     public function getContractCostAttribute($contractCost)
     {
         return decrypt($contractCost);
@@ -110,34 +110,34 @@ class Contract extends Model
          $newDate    = $oDateHelper->$functionRs($contractDate);
         return $newDate;
     }
-    public function getStartDateAttribute($startDate)
-    {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($startDate);
-        return $newDate;
-    }
-    public function getScheduledFinishDateAttribute($scheduledFinishDate)
-    {
-        $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
-        return $newDate;
-    }
-    public function getActualFinishDateAttribute($actualFinishDate)
-    {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($actualFinishDate);
-        return $newDate;
-    }
-    public function getDeliveryDateAttribute($deliveryDate)
-    {
-          $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($deliveryDate);
-        return $newDate;
-    }
+    // public function getStartDateAttribute($startDate)
+    // {
+    //      $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+    //      $newDate    = $oDateHelper->$functionRs($startDate);
+    //     return $newDate;
+    // }
+    // public function getScheduledFinishDateAttribute($scheduledFinishDate)
+    // {
+    //     $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+    //      $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
+    //     return $newDate;
+    // }
+    // public function getActualFinishDateAttribute($actualFinishDate)
+    // {
+    //      $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+    //      $newDate    = $oDateHelper->$functionRs($actualFinishDate);
+    //     return $newDate;
+    // }
+    // public function getDeliveryDateAttribute($deliveryDate)
+    // {
+    //       $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+    //      $newDate    = $oDateHelper->$functionRs($deliveryDate);
+    //     return $newDate;
+    // }
 
     public function getContractStatusAttribute($contractStatus)
     {
@@ -192,92 +192,98 @@ class Contract extends Model
 
         $this->attributes['contractDate'] = $newDate;
     }
-    public function setStartDateAttribute($startDate)
-    {
-        $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($startDate);
+    // public function setStartDateAttribute($startDate)
+    // {
+    //     $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+    //      $newDate    = $oDateHelper->$functionRs($startDate);
 
-        $this->attributes['startDate'] = $newDate;
-    }
-    public function setScheduledFinishDateAttribute($scheduledFinishDate)
-    {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
+    //     $this->attributes['startDate'] = $newDate;
+    // }
+    // public function setScheduledFinishDateAttribute($scheduledFinishDate)
+    // {
+    //      $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+    //      $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
 
-        $this->attributes['scheduledFinishDate'] = $newDate;
-    }
-    public function setActualFinishDateAttribute($actualFinishDate)
-    {
-        $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($actualFinishDate);
+    //     $this->attributes['scheduledFinishDate'] = $newDate;
+    // }
+    // public function setActualFinishDateAttribute($actualFinishDate)
+    // {
+    //     $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+    //      $newDate    = $oDateHelper->$functionRs($actualFinishDate);
 
-        $this->attributes['actualFinishDate'] = $newDate;
-    }
-    public function setDeliveryDateAttribute($deliveryDate)
-    {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($deliveryDate);
+    //     $this->attributes['actualFinishDate'] = $newDate;
+    // }
+    // public function setDeliveryDateAttribute($deliveryDate)
+    // {
+    //      $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+    //      $newDate    = $oDateHelper->$functionRs($deliveryDate);
 
-        $this->attributes['deliveryDate'] = $newDate;
-    }
+    //     $this->attributes['deliveryDate'] = $newDate;
+    // }
 //--------------------------------------------------------------------
     /** Query Scope  */
 //--------------------------------------------------------------------
 
-    public function scopeContractNumber($query, $contractNumber)
-    {
-        if ($contractNumber) {
-            return $query->where('contractNumber', 'LIKE', "%$contractNumber%");
-        }
-    }
+    // public function scopeContractNumber($query, $contractNumber)
+    // {
+    //     if ($contractNumber) {
+    //         return $query->where('contractNumber', 'LIKE', "%$contractNumber%");
+    //     }
+    // }
 
-    public function scopeClientName($query, $clientName)
-    {
-        if ($clientName) {
-            $query->whereHas('client', function ($query) use ($clientName) {
-                return $query->where('clientName', 'LIKE', "%$clientName%");
-            });
+    // public function scopeClientName($query, $clientName)
+    // {
+    //     if ($clientName) {
+    //         $query->whereHas('client', function ($query) use ($clientName) {
+    //             return $query->where('clientName', 'LIKE', "%$clientName%");
+    //         });
 
-        }
-    }
+    //     }
+    // }
 
-    public function scopeClientPhone($query, $clientPhone)
-    {
-        if ($clientPhone) {
-            $query->whereHas('client', function ($query) use ($clientPhone) {
-                return $query->where('clientPhone', 'LIKE', "%$clientPhone%");
-            });
+    // public function scopeClientPhone($query, $clientPhone)
+    // {
+    //     if ($clientPhone) {
+    //         $query->whereHas('client', function ($query) use ($clientPhone) {
+    //             return $query->where('clientPhone', 'LIKE', "%$clientPhone%");
+    //         });
 
-        }
-    }
-    public function scopeSiteAddress($query, $siteAddress)
-    {
-        if ($siteAddress) {
-            return $query->where('siteAddress', 'LIKE', "%$siteAddress%");
-        }
-    }
-    public function scopeContractStatus($query, $contractStatus)
-    {
-        if ($contractStatus) {
-            return $query->where('contractStatus', 'LIKE', "%$contractStatus%");
-        }
-    }
-    public function scopeContractDate($query, $contractDate)
-    {
-        if ($contractDate) {
-            return $query->where('contractDate', 'LIKE', "%$contractDate%");
-        }
-    }
+    //     }
+    // }
+    // public function scopeSiteAddress($query, $siteAddress)
+    // {
+    //     if ($siteAddress) {
+    //         return $query->where('siteAddress', 'LIKE', "%$siteAddress%");
+    //     }
+    // }
+    // public function scopeContractStatus($query, $contractStatus)
+    // {
+    //     if ($contractStatus) {
+    //         return $query->where('contractStatus', 'LIKE', "%$contractStatus%");
+    //     }
+    // }
+    // public function scopeContractDate($query, $contractDate)
+    // {
+    //     if ($contractDate) {
+    //         return $query->where('contractDate', 'LIKE', "%$contractDate%");
+    //     }
+    // }
 
      public function scopeFilter($query, $filteredOut)
     {
         if ($filteredOut) {
             return $query->where('contractNumber', 'LIKE', "%$filteredOut%")
-                         ->orWhere('siteAddress', 'LIKE', "%$filteredOut%")
+                         ->orWhere('propertyNumber', 'LIKE', "%$filteredOut%")
+                         ->orWhere('streetName', 'LIKE', "%$filteredOut%")
+                         ->orWhere('streetType', 'LIKE', "%$filteredOut%")
+                         ->orWhere('suiteNumber', 'LIKE', "%$filteredOut%")
+                         ->orWhere('city', 'LIKE', "%$filteredOut%")
+                         ->orWhere('state', 'LIKE', "%$filteredOut%")
+                         ->orWhere('zipCode', 'LIKE', "%$filteredOut%")
                          ->orWhereHas('client', function ($query) use ($filteredOut) {
                               return $query->where('clientCode', 'LIKE', "%$filteredOut%");
                           })
@@ -286,7 +292,7 @@ class Contract extends Model
                           });
         }
     }
-
+ 
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -311,21 +317,19 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForTwoStatus($contractStatus1, $contractStatus2, $contractType,$filteredOut,$countryId,$officeId)
+    public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$officeId)
     {
-        $result = $this->where('contractType', $contractType)
-                       ->where('countryId', $countryId)
+        $result = $this->where('countryId', $countryId)
                        ->where('officeId', $officeId) 
                        ->where(function($q) use ($contractStatus1,$contractStatus2){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2);
                         })           
-                      ->orderBy('contractNumber', 'ASC')
+                      ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)
-                      ->paginate(100);
+                      ->paginate(300);
         return $result;
     }
- //------------------------------------   
 //------------------------------------------
     public function findById($id,$countryId,$officeId)
     {
@@ -337,13 +341,13 @@ class Contract extends Model
 //------------------------------------------
     public function findByOffice($officeId)
     {
-        return $this->where('OfficeId', '=', $officeId)->get();
+        return $this->where('officeId', '=', $officeId)->get();
     }
 //------------------------------------------
-    public function findByClient($clientId)
-    {
-        return $this->where('clientId', '=', $clientId)->get();
-    }
+    // public function findByClient($clientId)
+    // {
+    //     return $this->where('clientId', '=', $clientId)->get();
+    // }
 
 //------------------------------------------
     public function findSiteAddressByOffice($officeId)
@@ -356,9 +360,9 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId, $siteAddress, $projectDescriptionId, $projectUseId, $registryNumber, $startDate, $scheduledFinishDate, $actualFinishDate, $deliveryDate, $initialComment, $currencyId) {
+        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $projectDescriptionId, $projectUseId, $initialComment, $currencyId) {
 
-          $oConfiguration = new Configuration();
+          $oConfiguration = new OfficeConfiguration();
       
           $contractNumber = $oConfiguration->retrieveContractNumber($countryId, $officeId, $contractType);
           $contractNumber++;
@@ -373,14 +377,21 @@ class Contract extends Model
         $contract->officeId            = $officeId;
         $contract->contractDate        = $contractDate;
         $contract->clientId            = $clientId;
-        $contract->siteAddress         = $siteAddress;
+        $contract->propertyNumber      = $propertyNumber;
+        $contract->streetName          = $streetName;
+        $contract->streetType          = $streetType;
+        $contract->suiteNumber         = $suiteNumber;
+        $contract->city                = $city;
+        $contract->state               = $state;
+        $contract->zipCode             = $zipCode;
+        $contract->buildingCodeId         = $buildingCodeId;
         $contract->projectDescriptionId       = $projectDescriptionId;
         $contract->projectUseId       = $projectUseId;
-        $contract->registryNumber      = $registryNumber;
-        $contract->startDate           = $startDate;
-        $contract->scheduledFinishDate = $scheduledFinishDate;
-        $contract->actualFinishDate    = $actualFinishDate;
-        $contract->deliveryDate        = $deliveryDate;
+        // $contract->registryNumber      = $registryNumber;
+        // $contract->startDate           = $startDate;
+        // $contract->scheduledFinishDate = $scheduledFinishDate;
+        // $contract->actualFinishDate    = $actualFinishDate;
+        // $contract->deliveryDate        = $deliveryDate;
         $contract->initialComment      = $initialComment;
         $contract->contractCost        = '0.00';
         $contract->currencyId        = $currencyId;
@@ -388,32 +399,39 @@ class Contract extends Model
         $contract->dateCreated         = date('Y-m-d H:i:s');
         $contract->lastUserId          = Auth::user()->userId;
         $contract->save();
+            
 
-        return $contract->contractId;
+        return $contract;
 
     }
 //------------------------------------------
-    public function updateContract($contractId, $contractDate, $clientId,
-        $siteAddress, $projectDescriptionId, $projectUseId, $registryNumber, $startDate, $scheduledFinishDate,
-        $actualFinishDate, $deliveryDate, $initialComment, $intermediateComment, $finalComment, $currencyId) {
+    public function updateContract($contractId,$contractType, $contractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $projectDescriptionId, $projectUseId, $initialComment, $currencyId) {
 
-        $contract                      = contract::find($contractId);
+        $contract                       = contract::find($contractId);
+        $contract->contractType         = $contractType;
         // $contract->countryId           = $countryId;
         // $contract->officeId            = $officeId;
-        $contract->contractDate        = $contractDate;
-        $contract->clientId            = $clientId;
-        $contract->siteAddress         = $siteAddress;
-        $contract->projectDescriptionId       = $projectDescriptionId;
-        $contract->projectUseId       = $projectUseId;
-        $contract->registryNumber      = $registryNumber;
-        $contract->startDate           = $startDate;
-        $contract->scheduledFinishDate = $scheduledFinishDate;
-        $contract->actualFinishDate    = $actualFinishDate;
-        $contract->deliveryDate        = $deliveryDate;
-        $contract->initialComment      = $initialComment;
-        $contract->intermediateComment = $intermediateComment;
-        $contract->finalComment        = $finalComment;
-        $contract->currencyId          = $currencyId;
+        $contract->contractDate         = $contractDate;
+        $contract->clientId             = $clientId;
+        $contract->propertyNumber         = $propertyNumber;
+        $contract->streetName             = $streetName;
+        $contract->streetType             = $streetType;
+        $contract->suiteNumber            = $suiteNumber;
+        $contract->city                   = $city;
+        $contract->state                  = $state;
+        $contract->zipCode                = $zipCode;
+        $contract->buildingCodeId       = $buildingCodeId;
+        $contract->projectDescriptionId = $projectDescriptionId;
+        $contract->projectUseId         = $projectUseId;
+        // $contract->registryNumber      = $registryNumber;
+        // $contract->startDate           = $startDate;
+        // $contract->scheduledFinishDate = $scheduledFinishDate;
+        // $contract->actualFinishDate    = $actualFinishDate;
+        // $contract->deliveryDate        = $deliveryDate;
+        $contract->initialComment       = $initialComment;
+        // $contract->intermediateComment = $intermediateComment;
+        // $contract->finalComment        = $finalComment;
+        $contract->currencyId           = $currencyId;
 
         $contract->save();
 

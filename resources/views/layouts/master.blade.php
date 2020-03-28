@@ -49,7 +49,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini ">
 
 <div class="wrapper">
 
@@ -102,15 +102,17 @@ desired effect
         <strong>OFICINA: </strong>{{session('officeName')}}
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2019 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
+    <strong>Copyright &copy; 2020 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
   </footer>
 
 
 <!-- REQUIRED JS SCRIPTS -->
 
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/submit.js') }}"></script>
 <script src='https://vjs.zencdn.net/7.6.0/video.js'></script>
  <script>
+
   //Tooltip Boostrap 3.3
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -148,6 +150,8 @@ desired effect
                 break;
         }
     @endif
+
+    
    </script>
 
 </body>

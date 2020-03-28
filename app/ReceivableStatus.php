@@ -17,30 +17,9 @@ class ReceivableStatus extends Model
      */
     protected $fillable = [
         'recStatusId',
-        'recCode',
-        'recLanguage',
-        'recName',
+        'recStatusCode',
+        'language',
+        'recStatusName',
         'pending'
     ];
-//--------------------------------------------------------------------
-    /** Relations */
-//--------------------------------------------------------------------
-//--------------------------------------------------------------------
-    /** Function of Models */
-//--------------------------------------------------------------------
-    public function getAllByLanguage($countryId)
-    {
-         if($countryId == '1') { //DALLAS
-            $language = 'en';
-        } elseif($countryId == '2') { //VENEZUELA
-            $language = 'es';
-        }
-
-        return $this->where('recLanguage' , '=' , $language)
-          ->orderBy('recCode', 'ASC')
-          ->get();
-
-    }
-//------------------------------------------
-//-----------
 }

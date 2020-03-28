@@ -16,27 +16,33 @@
             <thead class="bg-danger">
                 <tr>
                  <th>ID</th>
-                 <th>TIPO DE TRANSACCION</th>
-                 <th>DESCRIPCION</th>
                  <th>FECHA</th>
+                 <th>REFERENCIA EN BANCO O BENEFICIARIO</th>
+                 <th>METODO DE PAGO</th>
+                 <th>DETALLES MP</th>
+                 <th>MOTIVO</th>
+                 <th>EXPENSES</th>
                  <th>MONTO</th>
                  <th>BANCO</th>
-                 <th>REFERENCIA</th>
+                 <th>RESPONSABLE</th>
                  <th>{{__('actions')}}</th>
                  </th>
                 </tr>
             </thead>
                 <tbody>
+               @php $acum = 0; @endphp
                 @foreach($transactions as $transaction)
                 <tr>
-                   <td>{{$transaction->transactionId}}</td>
-                   <td>{{$transaction->transactionType->transactionTypeName}}</td>
-                   <td>{{$transaction->description}}</td>
+                   <td>{{ $acum = $acum +1 }}</td>
                    <td>{{$transaction->transactionDate}}</td>
+                   <td>{{$transaction->description}}</td>
+                   <td>{{$transaction->paymentMethod->payMethodName}}</td>
+                   <td>{{$transaction->payMethodDetails}}</td>
+                   <td>{{$transaction->reason}}</td>
+                   <td>{{$transaction->transactionType->transactionTypeName}}</td>
                    <td>{{$transaction->amount}}</td>
                    <td>{{$transaction->bank->bankName}}</td>
-                   <td>{{$transaction->reference}}</td>
-
+                   <td>{{$transaction->user->fullName}}</td>
                    <td><!-- <a href="{{route('transactions.edit', ['id' => $transaction->transactionId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a> -->

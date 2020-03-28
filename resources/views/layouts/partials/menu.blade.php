@@ -1,4 +1,4 @@
-
+{{--  --}}
 
 <!-- ESTA ES TODA LA BARRA AZUL SUPERIOR-->
 <aside class="main-sidebar">
@@ -58,7 +58,8 @@
             {{-- <li><a href="{{route('contracts.print')}}">{{__('print_contract')}}</a></li> --}}
   @can('BG')<li><a href="{{route('reports.summaryContractForOffice')}}">{{__('contract_summary')}}</a></li>@endcan
    @can('BG')<li><a href="{{route('contracts.summaryForClient')}}">{{__('client_summary')}}</a></li>
-   @endcan       
+   @endcan   
+   <br>    
           </ul>
         </li>
 @endcan
@@ -70,12 +71,12 @@
               </span>
           </a>
           <ul class="treeview-menu">
-     @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan
+     {{-- @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan --}}
      @can('CB') <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li> @endcan
      @can('CC') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
-     @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan
-     @can('CE') <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li> @endcan
-     @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan
+     {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
+     {{-- @can('CE') <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li> @endcan --}}
+     {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
                  <hr>
      @can('CG') <li><a href="{{route('transactions.incomeexpenses')}}">{{__('income_and_expenses_report')}}</a></li> @endcan
      @can('CH') <li><a href="{{route('transactions.income')}}">{{__('income_report')}}</a></li> @endcan
@@ -129,17 +130,24 @@
               </span>
           </a>
           <ul class="treeview-menu">
-           @if(Auth::user()->changeOffice == 'Y') <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li> @endif
-  @can('FA')  <li><a href="#">{{__('Countries')}}</a></li>@endcan
+           @if(Auth::user()->changeOffice == 'Y')
+          <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li>
+            @endif
+ <!--  @can('FA')  <li><a href="#">{{__('Countries')}}</a></li>@endcan
   @can('FB')  <li><a href="#">{{__('Offices')}}</a></li>@endcan
   @can('FC')  <li><a href="{{route('projectDescriptions.index')}}">{{__('types_of_projects')}}</a></li>@endcan
-  @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan
-  @can('FE')  <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan
+  @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan -->
+  @can('FE')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
+              <li><a href="{{route('services.index')}}">Servicios</a></li>
+              <li><a href="{{route('notes.index')}}">Notas</a></li>
+              <li><a href="{{route('contactTypes.index')}}">Tipo de Contacto(Clientes)</a></li>
+
+              <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>
           </ul>
         </li>
-
-        <li>
  @endcan
+   <li>
+    
     <a href="{{ route('logout') }}"  onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                <i class="fa fa-power-off"></i>

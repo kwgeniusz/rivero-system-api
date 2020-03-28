@@ -30,8 +30,7 @@
     },
     props: {
            docUrl: { type: String},
-           ext: { type: String},
-           typeDoc: {type:String}
+           ext: { type: String}
           },
   computed: {
     url: function () {

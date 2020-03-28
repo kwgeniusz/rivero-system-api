@@ -27,65 +27,65 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $user = User::find(11);
+        // $user = User::find(20);
 //              $role = Role::find(3);
 //         $user->assignRole('DIRECTOR');
 //        // echo $user; 
+        // echo $user->getAllPermissions();
+        // exit();
 //        // echo $user->getAllPermissions();
-//        // echo $user->getAllPermissions();
 
 
 
-// $role->givePermissionTo('A');
-// $role->givePermissionTo('B');
-// $role->givePermissionTo('BA');
-// $role->givePermissionTo('BAA');
-// $role->givePermissionTo('BAB');
-// $role->givePermissionTo('BAC');
-// $role->givePermissionTo('BB');
-// $role->givePermissionTo('BBA');
-// $role->givePermissionTo('BBB');
-// $role->givePermissionTo('BBC');
-// $role->givePermissionTo('BBD');
-// $role->givePermissionTo('BBE');
-// $role->givePermissionTo('BBF');
-// $role->givePermissionTo('BC');
-// $role->givePermissionTo('BCA');
-// $role->givePermissionTo('BCB');
-// $role->givePermissionTo('BCC');
-// $role->givePermissionTo('BCD');
+// $user->givePermissionTo('A');
+// $user->givePermissionTo('B');
+// $user->givePermissionTo('BA');
+// $user->givePermissionTo('BAA');
+// $user->givePermissionTo('BAB');
+// $user->givePermissionTo('BAC');
+// $user->givePermissionTo('BB');
+// $user->givePermissionTo('BBA');
+// $user->givePermissionTo('BBB');
+// $user->givePermissionTo('BBC');
+// $user->givePermissionTo('BBD');
+// $user->givePermissionTo('BBE');
+// $user->givePermissionTo('BBF');
+// $user->givePermissionTo('BC');
+// $user->givePermissionTo('BCA');
+// $user->givePermissionTo('BCB');
+// $user->givePermissionTo('BCC');
+// $user->givePermissionTo('BCD');
 // $user->givePermissionTo('BCE');
 // $user->givePermissionTo('BCF');
-// $role->givePermissionTo('BCG');
-// $role->givePermissionTo('BCH');
-// $role->givePermissionTo('BCI');
-// $role->givePermissionTo('BD');
-// $role->givePermissionTo('BE');
-// $role->givePermissionTo('BF');
-// $role->givePermissionTo('BG');
-// $role->givePermissionTo('C');
-// $role->givePermissionTo('CA');
-// $role->givePermissionTo('CB');
-// $role->givePermissionTo('CC');
-// $role->givePermissionTo('CD');
-// $role->givePermissionTo('CE');
-// $role->givePermissionTo('CF');
-// $role->givePermissionTo('CG');
-// $role->givePermissionTo('CH');
-// $role->givePermissionTo('CI');
-// $role->givePermissionTo('CJ');
-// $role->givePermissionTo('D');
-// $role->givePermissionTo('E');
-// $role->givePermissionTo('F');
-// $role->givePermissionTo('FA');
-// $role->givePermissionTo('FB');
-// $role->givePermissionTo('FC');
-// $role->givePermissionTo('FD');
-// $role->givePermissionTo('FE');
-   if(!session()->has('countryId') && !session()->has('officeId') ) { 
-        session(['countryId' => Auth::user()->countryId, 'countryName' => Auth::user()->country->countryName]); 
-        session(['officeId' => Auth::user()->countryId, 'officeName' => Auth::user()->office->officeName]);
-    }
+// $user->givePermissionTo('BCG');
+// $user->givePermissionTo('BCH');
+// $user->givePermissionTo('BCI');
+// $user->givePermissionTo('BD');
+// $user->givePermissionTo('BE');
+// $user->givePermissionTo('BF');
+// $user->givePermissionTo('BG');
+// $user->givePermissionTo('C');
+// $user->givePermissionTo('CA');
+// $user->givePermissionTo('CB');
+// $user->givePermissionTo('CC');
+// $user->givePermissionTo('CD');
+// $user->givePermissionTo('CE');
+// $user->givePermissionTo('CF');
+// $user->givePermissionTo('CG');
+// $user->givePermissionTo('CH');
+// $user->givePermissionTo('CI');
+// $user->givePermissionTo('CJ');
+// $user->givePermissionTo('D');
+// $user->givePermissionTo('E');
+// $user->givePermissionTo('F');
+// $user->givePermissionTo('FA');
+// $user->givePermissionTo('FB');
+// $user->givePermissionTo('FC');
+// $user->givePermissionTo('FD');
+// $user->givePermissionTo('FE');
+
+   //COMPROBACION CADA VEZ QUE EXISTE UN NUEVO A'O RESETEA EL CONTEADOR DE CONFIGURACION DE PROJECT
+
    return view('home');
 }
 

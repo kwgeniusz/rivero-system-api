@@ -8,6 +8,8 @@ use App\Client;
 use App\Contract;
 use App\Invoice;
 use App\InvoiceDetail;
+use App\Proposal;
+use App\ProposalDetail;
 use App\PaymentInvoice;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
@@ -23,7 +25,9 @@ class ReportController extends Controller
     private $oClient;
     private $oContract;
     private $oInvoice;
-    private $oInvoiceDetail;
+    private $oInvoiceDetail;  
+    private $oProposal;
+    private $oProposalDetail;
     private $oPaymentInvoice;
 
     public function __construct()
@@ -35,6 +39,8 @@ class ReportController extends Controller
         $this->oContract      = new Contract;
         $this->oInvoice     = new Invoice;
         $this->oInvoiceDetail = new InvoiceDetail;
+        $this->oProposal     = new Proposal;
+        $this->oProposalDetail = new ProposalDetail;
         $this->oPaymentInvoice = new PaymentInvoice;
     }
 
@@ -158,78 +164,6 @@ EOD;
         return view('layouts.reports', compact('outputPdfName'));
     }
 
-
-    public function summaryClientForm()
-    {
-        $clients = $this->oClient->getAll(session('countryId'));
-        return view('module_contracts.summaryforclient.index', compact('clients'));
-    }
-    public function summaryForClient(Request $request)
-    {
-        $acum       = 0;
-        $background = "";
-        $date       = Carbon::now();
-        $contracts  = $this->oContract->findByClient($request->clientId);
-
-        if ($contracts->isEmpty()) {
-            return view('module_contracts.summaryforclient.error');
-        } else {
-            $html = <<<EOD
-        <p>
-      <table cellspacing="0" cellpadding="0" border="0">
-        <tr>
-        <th> <img style="float:left;" src="img/RGC_LOGO.jpg" alt="test alt attribute" width="150" height="90"/></th>
-        <th> <br><br><br><br><h3 style="text-align:center"> Resumen por Cliente</h3></th>
-        <th>
-        <p style="text-align:right">
-         <b>Fecha:</b> {$date->format('d/m/y')}<br>
-         <b>Cliente:</b> {$contracts[0]->client->clientName}
-         </p>
-        </th>
-       </tr>
-       </table>
-         <br><br>
-
-        <table cellspacing="0" cellpadding="0" border="0" >
-        <thead>
-        <tr style="background-color:#3366cc; color:white; font-size:11px;  font-weight: bold;" align="center">
-        <th width="15%">CONTRATO</th><th width="10%">FECHA</th><th align="left">OFICINA</th><th align="left">DIRECCION</th><th align="left" width="35%">DESCRIPCION</th>
-        </tr>
-        </thead>
-EOD;
-            foreach ($contracts as $contract) {
-                $acum = $acum + 1;
-                if ($acum % 2 == 0) {
-                    $background = "#e6e6e6";
-                } else {
-                    $background = "#fbfbfb";
-                }
-                $html .= <<<EOD
-        <tr  style="background-color:$background; font-size:9px">
-        <td width="15%" align="center">$contract->contractNumber</td>
-        <td width="10%" align="center">$contract->contractDate</td>
-        <td align="left">{$contract->office->officeName}</td>
-        <td align="left">{$contract->siteAddress}</td>
-        <td width="35%" align="left">{$contract->initialComment}</td>
-        </tr>
-EOD;
-            }
-            $html .= <<<EOD
-</table>
-EOD;
-
-            $fileName = Auth::user()->userName;
-            PDF::SetTitle($fileName);
-            PDF::AddPage();
-            PDF::writeHTML($html, true, false, false, false, '');
-            // PDF::Write(0, 'Hello World');
-            $outputDestination = "F";
-            $outputPdfName     = "pdf/$fileName.pdf";
-            PDF::Output(public_path($outputPdfName), $outputDestination);
-
-            return view('layouts.reports', compact('outputPdfName'));
-        }
-    }
     //REPORT DE TRANSACTION
 
     public function transactionsSummary(Request $request)
@@ -434,17 +368,17 @@ EOD;
                 foreach ($r1 as $receivable) {
                     $acum = $acum + 1;
                     if ($acum % 2 == 0) {$background = "#e6e6e6";} else { $background = "#fbfbfb";}
-                    $receivable->amountPaid += $receivable->amountPercentaje;
+                    $receivable->statement += $receivable->amountPercentaje;
                     $amountPaid = number_format($receivable->amountPaid, 2, ',', '.');
                     //colores de filas table
 
                     $html .= <<<EOD
         <tr style="background-color:$background; font-size:10px" >
         <td width="5%" align="center">$receivable->receivableId</td>
-        <td width="30%" align="left">{$receivable->client[0]->clientName}</td>
+        <td width="30%" align="left">{$receivable->client->clientName}</td>
         <td width="15%"align="center">$receivable->datePaid</td>
         <td width="20%" align="right">$amountPaid</td>
-        <td width="30%" align="center">$receivable->collectMethod</td>
+        <td width="30%" align="center">{$receivable->paymentMethod->payMethodName}</td>
         </tr>
 EOD;
                     $subtotal += $receivable->amountPaid; //sumando cuotas para subtotal
@@ -495,18 +429,28 @@ EOD;
         $office       = DB::table('office')->where('officeId', session('officeId'))->get();
 
         $invoice    = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
-        // dd($invoice) ;
         $client     = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
         $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
         $receivables    = $this->oReceivable->getAllByInvoice($request->id);
+     // dd($receivables);
+     // exit();
+        $symbol = $invoice[0]->contract->currency->currencySymbol;
 
-        $symbol = $invoice[0]->currency->currencySymbol;
-
-        \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
+        // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
 
         if ($invoicesDetails->isEmpty()) {
-            return view('module_administration.reportincomeexpenses.error');
-        } else {
+                 $notification = array(
+                    'message'    => 'Error: Debe agregar renglones a la Factura',
+                    'alert-type' => 'error',
+                );
+             return redirect()->back()->with($notification);
+        }else {
+
+  if($invoice[0]->invStatusCode == Invoice::OPEN || $invoice[0]->invStatusCode == Invoice::CLOSED){
+     $status = '- COPY';
+  }elseif($invoice[0]->invStatusCode == Invoice::PAID){
+     $status = '';
+  }
 
   // preparar variables  
   $line = 100;  
@@ -545,19 +489,19 @@ $html .= <<<EOD
    Sub-Total:
  </th>
  <th style="border-top:2px solid black" colspan="1" align="right">
-   {$invoice[0]->currency->currencySymbol} $subTotalPerPage
+   {$invoice[0]->contract->currency->currencySymbol} $subTotalPerPage
  </th>
 </tr>
 </table>
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Term & Condition</b></th>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
        </tr>
 
        <tr style="font-size:10px"> 
         <th>
              <div style="text-align:left">
-              <b>TERM:</b>
+              <b>T&C:</b>
                   <ul>
 
 EOD;
@@ -577,6 +521,9 @@ EOD;
 </table>
 EOD;
             PDF::AddPage();
+             if($invoice[0]->invStatusCode == Invoice::PAID){
+              PDF::image('img/paid2.png', 70, 90, 70, '', '', '', '', false, 300);
+             }
             PDF::writeHTML($html, true, false, false, false, '');
 
     }//endif - si la pagina es mayor que uno (1)
@@ -585,7 +532,7 @@ EOD;
             $html = <<<EOD
     <table cellspacing="0" cellpadding="1px" border="0"  >
        <tr >
-        <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>ELECTRONIC INVOICE</b></th>
+        <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>ELECTRONIC INVOICE {$status}</b></th>
        </tr>
  
        <tr style="font-size:10px"> 
@@ -605,16 +552,12 @@ EOD;
     <br><br>
         <table border="0">
              <tr>
-              <td><b>Invoice number:</b></td>
+              <td><b>Invoice Number:</b></td>
               <td align="right">{$invoice[0]->invId}</td>
             </tr>
             <tr>
-              <td><b>Invoice date:</b></td>
+              <td><b>Invoice Date:</b></td>
               <td align="right">{$invoice[0]->invoiceDate}</td>
-            </tr>
-            <tr>
-              <td><b>Control number:</b></td>
-              <td align="right">{$invoice[0]->invoiceNumber}</td>
             </tr>
             <tr>
               <td><b>Page:</b> $page/$pageTotal</td>
@@ -656,7 +599,7 @@ EOD;
 
      <tr> 
             <th colspan="1">
-               <b>E-mail:</b> {$client[0]->contactType->clientEmail}
+               <b>E-mail:</b> {$client[0]->clientEmail}
             </th>
             <th colspan="1">
                    <b>Phone:</b> {$client[0]->clientPhone}
@@ -673,10 +616,10 @@ EOD;
        </tr>
         <tr> 
             <th>
-             <b>Project ID:</b> {$invoice[0]->contract->contractNumber}
+             <b>Control Number:</b> {$invoice[0]->contract->contractNumber}
             </th>
             <th colspan="2">
-             <b>Project Address:</b> {$invoice[0]->contract->siteAddress}
+             <b>Address:</b> {$invoice[0]->contract->siteAddress}
             </th>
             <th> </th>
        </tr>
@@ -685,7 +628,7 @@ EOD;
               <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
             </th>
             <th colspan="2">
-              <b>Project Description:</b> {$invoice[0]->contract->projectDescription->projectDescriptionName}
+              <b>Description:</b> {$invoice[0]->contract->projectDescription->projectDescriptionName}
             </th>
            <th> </th>
        </tr>
@@ -695,8 +638,8 @@ EOD;
         <thead>
         <tr style="background-color:#f2edd1; color:black; font-size:13px;  font-weight: bold;" align="center">
           <th width="5%" align="center">#</th>
-          <th align="center" width="30%">DESCRIPTION</th>
-          <th width="20%" align="center">UNIT</th>
+          <th align="center" width="40%">DESCRIPTION</th>
+          <th width="10%" align="center">UNIT</th>
           <th width="15%" >QTY</th>
           <th width="15%" align="center">UP</th>
           <th width="15%" align="center">AMOUNT</th>
@@ -728,28 +671,30 @@ EOD;
                     $acumInvDetail = $acumInvDetail + 1;
                     $acum2=$acumInvDetail;
                     $space = "";
-                    $moneySymbol = $invoice[0]->currency->currencySymbol;
+                    $moneySymbol = $invoice[0]->contract->currency->currencySymbol;
                 }
      if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
                 $html .= <<<EOD
         <tr style="background-color:; font-size:10px;">
         <td width="5%" align="center"></td>
-        <td width="30%" >VIENEN</td>
-        <td width="20%" align="center"></td>
+        <td width="40%" >CONTINUED</td>
+        <td width="10%" align="center"></td>
         <td width="15%" align="center"></td>
         <td width="15%" align="center"></td>
-        <td width="15%" align="right"> {$invoice[0]->currency->currencySymbol} $vienen</td>
+        <td width="15%" align="right"> {$invoice[0]->contract->currency->currencySymbol} $vienen</td>
         </tr>
 EOD;
         if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
             $subTotalPerPage += $vienen;
          }
     }
+
+
                 $html .= <<<EOD
         <tr style="background-color:$background; font-size:10px;">
         <td width="5%" align="center">$acum2</td>
-        <td width="30%" >$space$invDetail->serviceName</td>
-        <td width="20%" align="center">{$invDetail->unit}</td>
+        <td width="40%" >$space$invDetail->serviceName</td>
+        <td width="10%" align="center">{$invDetail->unit}</td>
         <td width="15%" align="center">$invDetail->quantity</td>
         <td width="15%" align="center">$moneySymbol  $invDetail->unitCost</td>
         <td width="15%" align="right">$moneySymbol  $invDetail->amount</td>
@@ -777,6 +722,7 @@ EOD;
         </th>
         <th width="50%">
              <b>Payment break down:</b><br>
+      
 EOD;
       $acum3        = 0;
       $acumPaid     = 0;
@@ -786,11 +732,11 @@ EOD;
      $acumPaid =  number_format((float)$acumPaid, 2, '.', '');
 
       $html .= <<<EOD
-              <table cellspacing="0" cellpadding="0" border="0"  >
+      <table cellspacing="0" cellpadding="0" border="0"  >
                 <tr>
-                 <td width="5%">$acum3</td>
-                 <td width="20%">$receivable->amountPaid</td>
-                 <td width="20%">$receivable->collectMethod</td>
+                 <td width="10%">$acum3)</td>
+                 <td width="20%">$moneySymbol $receivable->amountPaid</td>
+                 <td width="20%">{$receivable->paymentMethod->payMethodName}</td>
                  <td width="20%">PAID</td>
                  <td width="30%">$receivable->datePaid</td>
                  <td width="45%"></td>
@@ -802,6 +748,7 @@ EOD;
    $amountRs =  number_format((float)$amountRs, 2, '.', '');
 
  $html .= <<<EOD
+               
         </th>
         <th width="30%">
              <table cellspacing="0" cellpadding="0" border="0"  >
@@ -833,12 +780,12 @@ EOD;
  $html .= <<<EOD
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Term & Condition</b></th>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
        </tr>
 
        <tr style="font-size:10px"> 
         <th>
-              <b>TERM:</b>
+              <b>T&C:</b>
                   <ul>
 
 EOD;
@@ -853,22 +800,30 @@ EOD;
        </tr>
 </table>
 EOD;
+
           PDF::setFooterCallback(function($pdf) {
             // Position at 15 mm from bottom
             $pdf->SetY(-15);
             // Set font
             $pdf->SetFont('helvetica', 'I', 8);
-            $pdf->Cell(0, 9, '© Copyright 2019 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Cell(0, 9, '© Copyright 2020 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
             $pdf->Ln(4);
             
-            $pdf->Cell(0, 9, 'By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Cell(0, 9, 'Designed By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
             // Page number
             $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            //  $pdf->setImageScale(5);
+            // if($status=='paid'){
+            // $pdf->Image('img/paid2.png', 70, 90, 70, '', '', '', '', false, 300);
+            // }
          });
 
 
 
             PDF::AddPage();
+            if($invoice[0]->invStatusCode == Invoice::PAID){
+              PDF::image('img/paid2.png', 70, 90, 70, '', '', '', '', false, 300);
+             }
             PDF::writeHTML($html, true, false, false, false, '');
 
             $fileName = Auth::user()->userName;
@@ -888,7 +843,7 @@ EOD;
        $receivables = $this->oReceivable->findById($request->receivableId);
        $office       = DB::table('office')->where('officeId', session('officeId'))->get();
        $invoice    = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('officeId'));
-       $symbol = $invoice[0]->currency->currencySymbol;
+       $symbol = $invoice[0]->contract->currency->currencySymbol;
             $html = <<<EOD
 <table cellspacing="0" cellpadding="1px" border="0">
        <tr >
@@ -979,18 +934,26 @@ EOD;
 <td style="width:20%"></td>
 <td style="width:60%">
   <table  cellspacing="0" cellpadding="6px" border="0" style="font-size:11px; border: 1px solid black;">
+      <tr style="background-color:#f4f4f5;"> 
+            <th>
+               Control Number:
+            </th>
+            <th>
+              {$receivable->invoice->contract->contractNumber}
+            </th>
+       </tr>
         <tr style="background-color:#f4f4f5;"> 
             <th>
                Transaction ID:
             </th>
             <th>
-               {$receivable->sourceReference}
+              INVOICE #{$receivable->invoice->invId}
             </th>
        </tr>
 
         <tr style="background-color:#f4f4f5;"> 
             <th>
-             Transaction balance:
+              Balance Due:
             </th>
             <th>
                $symbol  {$receivable->balance}          </th>
@@ -1010,7 +973,7 @@ EOD;
                Status:
             </th>
             <th>
-               {$receivable->receivableStatus->recName}
+               {$receivable->receivableStatus[0]->recStatusName}
             </th>
        </tr> 
   </table> 
@@ -1029,12 +992,12 @@ EOD;
  <br><br>    
  <table cellspacing="0" cellpadding="2px" border="0"  >
        <tr>
-        <th style="background-color:#f4f4f5;" colspan="1" align="center"><b>Term & Condition</b></th>
+        <th style="background-color:#f4f4f5;" colspan="1" align="center"><b>Terms & Conditions</b></th>
        </tr>
 
        <tr style="font-size:11px"> 
         <th>
-              <b>TERM:</b>
+              <b>T&C:</b>
                   <ul>
 
 EOD;
@@ -1054,10 +1017,10 @@ EOD;
             $pdf->SetY(-15);
             // Set font
             $pdf->SetFont('helvetica', 'I', 8);
-            $pdf->Cell(0, 9, '© Copyright 2019 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Cell(0, 9, '© Copyright 2020 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
             $pdf->Ln(4);
             
-            $pdf->Cell(0, 9, 'By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Cell(0, 9, 'Designed By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
             // Page number
             // $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
          });
@@ -1073,5 +1036,807 @@ EOD;
 
             return view('layouts.reports', compact('outputPdfName'));
         }
+
+
+
+//------------------Proposal-----------------------------//
+     public function printProposal(Request $request)
+    {
+
+        $date             = Carbon::now();
+        $office           = DB::table('office')->where('officeId', session('officeId'))->get();
+        $proposal         = $this->oProposal->findById($request->id,session('countryId'),session('officeId'));
+        $proposalsDetails = $this->oProposalDetail->getAllByProposal($request->id);
+        $client           = $this->oClient->findById($proposal[0]->clientId,session('countryId'));
+        
+        $symbol = $proposal[0]->precontract->currency->currencySymbol;
+
+      //dispara error si cuotas son mayores que el monto neto de la propuesta para que el usuario ajuste cuotas.
+       $paymentSum = 0;
+        foreach ($proposal[0]->paymentProposal as $paymentProposal) {
+            $paymentSum += $paymentProposal->amount;
+        }
+
+       if($paymentSum > $proposal[0]->netTotal){
+         $notification = array(
+                    'message'    => 'Error: Las cuotas no corresponden con el precio de la propuesta, debe ajustar cuotas.',
+                    'alert-type' => 'error',
+                );
+             return redirect()->back()->with($notification);
+         }
+        //si no tiene renglones la propuesta disparar error
+        if ($proposalsDetails->isEmpty()) {
+            // return view('module_administration.reportincomeexpenses.error');
+                 $notification = array(
+                    'message'    => 'Error: Debe llenar renglones de Propuesta',
+                    'alert-type' => 'error',
+                );
+             return redirect()->back()->with($notification);
+        } else {
+
+  // preparar variables  
+  $line = 100;  
+  $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
+  $linesperpage = 21;    // numero maximo de renglones
+  //calcular total de paginas
+  $quantityPropDetails = count($proposalsDetails);
+  $pageTotal = (intval($quantityPropDetails/$linesperpage));
+  $pageTotal++;
+   //si los registro y el limite de lineas son iguales es una pagina
+   if($quantityPropDetails == $linesperpage){
+    $pageTotal = 1;
+   }
+
+           $acum          = 0;
+           $acum2         = 0;
+           $acumPropDetail = 0;
+           $subTotalPerPage= 0;
+           $vienen = 0;
+           $moneySymbol = '';
+
+ //// inicio del ciclo de impresion
+foreach ($proposalsDetails as $propDetail) {
+//invoiceDetail
+
+  //if de header
+    if ($line > $linesperpage) { //imprimir
+            if($page > 1) {
+                  //FOOTER
+$html .= <<<EOD
+<tr style="font-size:10px">
+ <th colspan="4" align="right">
+   
+ </th>
+  <th colspan="1" align="right">
+   Sub-Total:
+ </th>
+ <th style="border-top:2px solid black" colspan="1" align="right">
+   {$proposal[0]->precontract->currency->currencySymbol} $subTotalPerPage
+ </th>
+</tr>
+</table>
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+             <div style="text-align:left">
+              <b>T&C:</b>
+                  <ul>
+
+EOD;
+foreach($proposal['0']->note as $note){ 
+ $html .= <<<EOD
+
+    <li>$note->noteName</li>
+
+EOD;
+}
+
+ $html .= <<<EOD
+                  </ul>
+             </div>
+        </th>
+       </tr>
+</table>
+EOD;
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+
+    }//endif - si la pagina es mayor que uno (1)
+
+ // imprimir encabezado de factura
+            $html = <<<EOD
+    <table cellspacing="0" cellpadding="1px" border="0"  >
+       <tr >
+        <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>ELECTRONIC PROPOSAL</b></th>
+       </tr>
+ 
+       <tr style="font-size:10px"> 
+         <th width="20%" align="left"> 
+          <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
+         </th>
+        <th width="46%">
+             <div style="text-align:center">
+               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+             </div>
+        </th>
+    <th width="34%">
+    <br><br>
+        <table border="0">
+             <tr>
+              <td><b>Proposal Number:</b></td>
+              <td align="right">{$proposal[0]->propId}</td>
+            </tr>
+            <tr>
+              <td><b>Proposal Date:</b></td>
+              <td align="right">{$proposal[0]->proposalDate}</td>
+            </tr>
+
+            <tr>
+              <td><b>Page:</b> $page/$pageTotal</td>
+              <td align="left"></td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td><b>Seller ID:</b></td>
+              <td align="right"></td>
+            </tr>
+         </table>     
+
+        </th>
+       </tr>
+</table>
+       
+
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+       <tr>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>CUSTOMER INFORMATION</b></th>
+       </tr>
+       <tr> 
+            <th colspan="1">
+               <b>ID:</b> {$client[0]->clientCode}
+            </th>
+            <th colspan="2">
+              <b>Name:</b> {$client[0]->clientName}
+            </th>
+       </tr>
+
+      <tr> 
+            <th colspan="3">
+              <b>Billing Address:</b> {$client[0]->clientAddress}
+            </th>
+       </tr>
+
+     <tr> 
+            <th colspan="1">
+               <b>E-mail:</b> {$client[0]->clientEmail}
+            </th>
+            <th colspan="1">
+                   <b>Phone:</b> {$client[0]->clientPhone}
+            </th>
+            <th colspan="1">
+              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
+            </th>
+       </tr>
+</table>
+
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+       <tr>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
+       </tr>
+        <tr> 
+            <th>
+             <b>Pre-Contract ID:</b> {$proposal[0]->precontract->preId}
+            </th>
+            <th colspan="2">
+             <b>Address:</b> {$proposal[0]->precontract->siteAddress}
+            </th>
+            <th> </th>
+       </tr>
+      <tr> 
+            <th >
+              <b>Type:</b> {$proposal[0]->precontract->projectUse->projectUseName} 
+            </th>
+            <th colspan="2">
+              <b>Description:</b> {$proposal[0]->precontract->projectDescription->projectDescriptionName}
+            </th>
+           <th> </th>
+       </tr>
+</table>   
+
+ <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
+        <thead>
+        <tr style="background-color:#f2edd1; color:black; font-size:13px;  font-weight: bold;" align="center">
+          <th width="5%" align="center">#</th>
+          <th align="center" width="40%">DESCRIPTION</th>
+          <th width="10%" align="center">UNIT</th>
+          <th width="15%" >QTY</th>
+          <th width="15%" align="center">UP</th>
+          <th width="15%" align="center">AMOUNT</th>
+        </tr>
+        </thead>
+EOD;
+
+
+       $page++;
+       $acum= 0 ;
+       $subTotalPerPage= 0;
+       $line= 1;// al pasar la pagina reinicia la linea
+
+} //fin de condicion de header
+
+               
+               $acum = $acum + 1;
+                if ($acum % 2 == 0) {
+                    $background = "#f2edd1";
+                } else {
+                    $background = "#fbfbfb";
+                }
+     //espacios,numeracion,precios, negritas para reglon con precios
+               if ($propDetail->unit == null) {
+                    $acum2 = "";
+                    $space = "   ";
+                    $moneySymbol = '';
+                } else {
+                    $acumPropDetail = $acumPropDetail + 1;
+                    $acum2=$acumPropDetail;
+                    $space = "";
+                    $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;
+                }
+     if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
+                $html .= <<<EOD
+        <tr style="background-color:; font-size:10px;">
+        <td width="5%" align="center"></td>
+        <td width="40%" >CONTINUED</td>
+        <td width="10%" align="center"></td>
+        <td width="15%" align="center"></td>
+        <td width="15%" align="center"></td>
+        <td width="15%" align="right"> {$proposal[0]->precontract->currency->currencySymbol} $vienen</td>
+        </tr>
+EOD;
+        if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
+            $subTotalPerPage += $vienen;
+         }
+    }
+                $html .= <<<EOD
+        <tr style="background-color:$background; font-size:10px;">
+        <td width="5%" align="center">$acum2</td>
+        <td width="40%" >$space$propDetail->serviceName</td>
+        <td width="10%" align="center">{$propDetail->unit}</td>
+        <td width="15%" align="center">$propDetail->quantity</td>
+        <td width="15%" align="center">$moneySymbol  $propDetail->unitCost</td>
+        <td width="15%" align="right">$moneySymbol  $propDetail->amount</td>
+        </tr>
+EOD;
+
+       $subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
+       $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+       $vienen =  number_format((float)$subTotalPerPage, 2, '.', '');
+
+    $line++;
+}// FIN DE FOREACH DE RENGLONES
+
+   // imprimir footer de factura
+     $html .= <<<EOD
+</table>
+<table cellspacing="0" cellpadding="0" border="0" style= "font-size:10px;"  >
+      <tr>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b></b>
+        </th>
+       </tr>
+       <tr>
+        <th width="70%">
+             <b>Payment break down:</b><br>
+      
+EOD;
+      $acum3        = 0;
+    foreach ($proposal[0]->paymentProposal as $receivable) {
+      
+      $acum3 = $acum3 + 1;
+      $html .= <<<EOD
+      <table cellspacing="0" cellpadding="0" border="0"  >
+                <tr>
+                 <td width="10%">$acum3)</td>
+                 <td width="20%">$moneySymbol $receivable->amount</td>
+                 <td width="75%"></td>
+                </tr>
+      </table>
+EOD;
+  }
+   
+ $html .= <<<EOD
+               
+        </th>
+        <th width="30%">
+             <table cellspacing="0" cellpadding="0" border="0"  >
+               <tr>
+                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {$symbol}{$proposal[0]->grossTotal}</th>
+               </tr>
+               <tr>
+                <th><b>Tax Rate</b></th><th align="right">{$proposal[0]->taxPercent}%</th>
+               </tr>
+               <tr>
+                <th><b>Tax</b></th><th align="right"> {$symbol}{$proposal[0]->taxAmount}</th>
+               </tr>
+                <tr>
+                <th><b>Total</b></th><th align="right"> {$symbol}{$proposal[0]->netTotal}</th>
+               </tr>
+             </table>
+        </th>
+       </tr>
+</table>
+EOD;
+
+
+ $html .= <<<EOD
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+              <b>T&C:</b>
+                  <ul>
+
+EOD;
+foreach($proposal['0']->note as $note){ 
+ $html .= <<<EOD
+      <li>$note->noteName</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
+        </th>
+       </tr>
+</table>
+EOD;
+          PDF::setFooterCallback(function($pdf) {
+            // Position at 15 mm from bottom
+            $pdf->SetY(-15);
+            // Set font
+            $pdf->SetFont('helvetica', 'I', 8);
+            $pdf->Cell(0, 9, '© Copyright 2020 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Ln(4);
+            
+            $pdf->Cell(0, 9, 'Designed By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            // Page number
+            $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+         });
+
+
+
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
+            $outputDestination = "F";
+            $outputPdfName     = "pdf/$fileName.pdf";
+            PDF::Output(public_path($outputPdfName), $outputDestination);
+    
+
+            return view('layouts.reports', compact('outputPdfName'));
+        }
+    } 
+
+//------------------SIMPLE STATEMENT-----------------------------//
+     public function printStatement(Request $request)
+    {
+ //reporte traigo de transaction
+        $date         = Carbon::now();
+        $office       = DB::table('office')->where('officeId', session('officeId'))->get();
+
+        $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
+        $share          = $this->oReceivable->sharePending($request->id);
+        $client         = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
+        $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('officeId'));
+
+         if($share->isEmpty()){
+            $nextShare = '0.00';
+         }else{
+            $nextShare = $share[0]->amountDue;
+         }
+
+        $symbol = $invoice[0]->contract->currency->currencySymbol;
+
+        if ($invoice->isEmpty()) {
+            return view('module_administration.reportincomeexpenses.error');
+        } else {
+
+ // imprimir encabezado de statemen
+            $html = <<<EOD
+    <table cellspacing="0" cellpadding="1px" border="0"  >
+       <tr >
+        <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>STATEMENT</b></th>
+       </tr>
+ 
+       <tr style="font-size:9px"> 
+         <th width="20%" align="left"> 
+          <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
+         </th>
+        <th width="54%">
+             <div style="text-align:center">
+               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+             </div>
+        </th>
+    <th width="30%">
+    <br><br>
+        <table border="0">
+            <tr>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td><b>Statement Date:</b></td>
+              <td align="left">{$date->format('m/d/Y')}</td>
+            </tr>
+         </table>     
+
+        </th>
+       </tr>
+</table>
+       
+
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+       <tr>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>CUSTOMER INFORMATION</b></th>
+       </tr>
+       <tr> 
+            <th colspan="1">
+               <b>ID:</b> {$client[0]->clientCode}
+            </th>
+            <th colspan="2">
+              <b>Name:</b> {$client[0]->clientName}
+            </th>
+       </tr>
+
+      <tr> 
+            <th colspan="3">
+              <b>Billing Address:</b> {$client[0]->clientAddress}
+            </th>
+       </tr>
+
+     <tr> 
+            <th colspan="1">
+               <b>E-mail:</b> {$client[0]->clientEmail}
+            </th>
+            <th colspan="1">
+                   <b>Phone:</b> {$client[0]->clientPhone}
+            </th>
+            <th colspan="1">
+              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
+            </th>
+       </tr>
+</table>
+
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+       <tr>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
+       </tr>
+        <tr> 
+            <th>
+             <b>Control Number:</b> {$invoice[0]->contract->contractNumber}
+            </th>
+            <th colspan="2">
+             <b>Address:</b> {$invoice[0]->contract->siteAddress}
+            </th>
+            <th> </th>
+       </tr>
+      <tr> 
+            <th >
+              <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
+            </th>
+            <th colspan="2">
+              <b>Description:</b> {$invoice[0]->contract->projectDescription->projectDescriptionName}
+            </th>
+           <th> </th>
+       </tr>
+</table>   
+
+ <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
+        <thead>
+        <tr style="background-color:#f2edd1; color:black; font-size:13px;  font-weight: bold;" align="center">
+          <th width="20%" align="center">DATE</th>
+          <th width="35%" align="center">TRANSACTION</th>
+          <th width="22.5%" >AMOUNT</th>
+          <th width="22.5%" align="center">BALANCE</th>
+        </tr>
+        </thead>
+    <tr style="background-color:white; font-size:10px;">
+        <td width="20%" align="center">{$invoice[0]->invoiceDate}</td>
+        <td width="35%" align="left">ORIGINAL AMOUNT - REF. INV. {$invoice[0]->invId}</td>
+        <td width="22.5%" align="center">$symbol 0.00</td>
+        <td width="22.5%" align="center">$symbol {$invoice[0]->netTotal}</td>
+    </tr>
+EOD;
+
+
+       $acum = 0 ;
+       $statement = $invoice[0]->netTotal;
+
+ //// inicio del ciclo de impresion
+foreach ($transactions as $transaction) {
+               $acum = $acum + 1;
+                if ($acum % 2 != 0) {
+                    $background = "#f2edd1";
+                } else {
+                    $background = "#fbfbfb";
+                }
+
+                   $statement = $statement - $transaction->amount;
+                   $statement = number_format((float)$statement, 2, '.', '');
+                   
+                $html .= <<<EOD
+        <tr style="background-color:$background; font-size:10px;">
+         <td width="20%" align="center">$transaction->transactionDate</td>
+         <td width="35%" align="left"> $transaction->reason</td>
+         <td width="22.5%" align="center">$symbol $transaction->amount</td>
+         <td width="22.5%" align="center">$symbol $statement</td>
+        </tr>
+EOD;
+}// FIN DE FOREACH DE RENGLONES
+
+   // imprimir footer de factura
+ $html .= <<<EOD
+ </table>
+  <br><br>
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+       <tr style="background-color:#f2edd1;" align="center">
+        <th ><b>AMOUNT DUE NEXT PAYMENT</b>
+        </th>
+        <th ><b>1-7 DAYS PAST DUE</b>
+        </th>
+        <th ><b>8-15 DAYS PAST DUE</b>
+        </th>
+        <th ><b>OVER 16 DAYS PAST DUE</b>
+        </th>
+       </tr>
+        <tr align="center"> 
+            <th >
+             $symbol {$nextShare}
+            </th>
+            <th>
+             $symbol 0.00
+            </th>   
+              <th>
+             $symbol 0.00
+            </th>  
+               <th>
+             $symbol 0.00
+            </th>     
+       </tr>
+</table>   
+ <br><br>
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+              <b>T&C:</b>
+                  <ul>
+EOD;
+foreach($invoice['0']->note as $note){ 
+ $html .= <<<EOD
+    <li>$note->noteName</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
+        </th>
+       </tr>
+</table>
+EOD;
+          PDF::setFooterCallback(function($pdf) {
+            // Position at 15 mm from bottom
+            $pdf->SetY(-15);
+            // Set font
+            $pdf->SetFont('helvetica', 'I', 8);
+            $pdf->Cell(0, 9, '© Copyright 2020 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Ln(4);
+            
+            $pdf->Cell(0, 9, 'Designed By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            // Page number
+            $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+         });
+
+
+
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
+            $outputDestination = "F";
+            $outputPdfName     = "pdf/$fileName.pdf";
+            PDF::Output(public_path($outputPdfName), $outputDestination);
+    
+
+            return view('layouts.reports', compact('outputPdfName'));
+        }
+    }
+
+
+    public function summaryClientForm()
+    {
+        $clients = $this->oClient->getAll(session('countryId'));
+        return view('module_contracts.summaryforclient.index', compact('clients'));
+    }
+    public function summaryForClient(Request $request)
+  {
+ //reporte traigo de transaction
+        $date         = Carbon::now();
+        $office       = DB::table('office')->where('officeId', session('officeId'))->get();
+    
+        $invoices        = $this->oInvoice->getAllByClientAndOffice($request->clientId,session('officeId'));
+
+        if ($invoices->isEmpty()) {
+            return view('module_contracts.summaryforclient.error');
+        } else {
+
+        $client         = $this->oClient->findById($invoices[0]->clientId,session('countryId'));
+        $symbol         = $invoices[0]->contract->currency->currencySymbol;
+
+ // imprimir encabezado de statemen
+            $html = <<<EOD
+    <table cellspacing="0" cellpadding="1px" border="0"  >
+       <tr >
+        <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>STATEMENT</b></th>
+       </tr>
+ 
+       <tr style="font-size:9px"> 
+         <th width="20%" align="left"> 
+          <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
+         </th>
+        <th width="54%">
+             <div style="text-align:center">
+               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+             </div>
+        </th>
+    <th width="30%">
+    <br><br>
+        <table border="0">
+            <tr>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td><b>Statement Date:</b></td>
+              <td align="left">{$date->format('m/d/Y')}</td>
+            </tr>
+         </table>     
+
+        </th>
+       </tr>
+</table>
+       
+
+ <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+       <tr>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>CUSTOMER INFORMATION</b></th>
+       </tr>
+       <tr> 
+            <th colspan="1">
+               <b>ID:</b> {$client[0]->clientCode}
+            </th>
+            <th colspan="2">
+              <b>Name:</b> {$client[0]->clientName}
+            </th>
+       </tr>
+
+      <tr> 
+            <th colspan="3">
+              <b>Billing Address:</b> {$client[0]->clientAddress}
+            </th>
+       </tr>
+
+     <tr> 
+            <th colspan="1">
+               <b>E-mail:</b> {$client[0]->clientEmail}
+            </th>
+            <th colspan="1">
+                   <b>Phone:</b> {$client[0]->clientPhone}
+            </th>
+            <th colspan="1">
+              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
+            </th>
+       </tr>
+</table>
+<br><br>
+ <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
+        <thead>
+        <tr style="background-color:#f2edd1; color:black; font-size:12px;  font-weight: bold;" align="center">
+          <th width="5%" align="center">#</th>
+          <th width="25%" align="center">CONTRACT NUMBER</th>
+          <th width="10%" align="center">INVOICE</th>
+          <th width="15%" align="center">DATE</th>
+          <th width="25%" >ORIGINAL AMOUNT</th>
+          <th width="20%" align="center">BALANCE DUE</th>
+        </tr>
+        </thead>
+EOD;
+
+       $acum = 0 ;
+
+ //// inicio del ciclo de impresion
+foreach ($invoices as $invoice) {
+               $acum = $acum + 1;
+                if ($acum % 2 != 0) {
+                    $background = "#fbfbfb";
+                } else {
+                    $background = "#f2edd1";
+                }
+
+        $balanceInvoice = $this->oInvoice->getBalance($invoice->invoiceId);
+        //este if es para saltar las que ya fueron pagadas
+        // if($balanceInvoice == '0.00'){
+        //     continue;
+        // }
+                $html .= <<<EOD
+        <tr style="background-color:$background; font-size:10px;">
+          <td width="5%" align="center">$acum</td>
+          <td width="25%" align="center">{$invoice->contract->contractNumber}</td>
+          <td width="10%" align="center">#{$invoice->invId}</td>
+          <td width="15%" align="center">{$invoice->invoiceDate}</td>
+          <td width="25%" align="center">$symbol {$invoice->netTotal}</td>
+          <td width="20%" align="center">$symbol {$balanceInvoice}</td>
+        </tr>
+EOD;
+}// FIN DE FOREACH DE RENGLONES
+$html .= <<<EOD
+ 
+ </table>
+EOD;
+
+
+          PDF::setFooterCallback(function($pdf) {
+            // Position at 15 mm from bottom
+            $pdf->SetY(-15);
+            // Set font
+            $pdf->SetFont('helvetica', 'I', 8);
+            $pdf->Cell(0, 9, '© Copyright 2020 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $pdf->Ln(4);
+            
+            $pdf->Cell(0, 9, 'Designed By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            // Page number
+            $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+         });
+
+
+
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, false, false, '');
+
+            $fileName = Auth::user()->userName;
+            PDF::SetTitle($fileName);
+            $outputDestination = "F";
+            $outputPdfName     = "pdf/$fileName.pdf";
+            PDF::Output(public_path($outputPdfName), $outputDestination);
+    
+
+            return view('layouts.reports', compact('outputPdfName'));
+        }
+    }
+
     
 }

@@ -23,12 +23,12 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        $services = $this->oService->getAll();
+        $services = $this->oService->getAllByOffice(session('officeId'));
 
            if($request->ajax()){
                 return $services;
             }
-        return view('typesofservices.index', compact('services'));
+      // return view('typesofservices.index', compact('services'));
     }
 
     /**
@@ -39,10 +39,23 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $this->oServiceType->insertST(
-            $request->serviceTypeName
-        );
 
+       if($request->hasCost == 'Y') {
+            $unit1 = 'sqft'; $unit2 = 'ea';
+        }else {
+            $unit1 = 'N'; $unit2 = 'N';
+        }
+
+        $this->oService->insertS(
+            session('countryId'),
+            session('officeId'),
+            $request->serviceName,
+            $request->hasCost,
+            $unit1,
+            $unit2,
+            $request->cost1,
+            $request->cost2
+        );
         return redirect()->route('services.index')
             ->with('info', 'Tipo de Proyecto Creado');
     }
@@ -54,7 +67,7 @@ class ServiceController extends Controller
      */
     public function edit($id)
     {
-        $service = $this->oServiceType->findById($id);
+        $service = $this->oService->findById($id);
         return view('typesofservices.edit', compact('service'));
     }
 
@@ -67,7 +80,7 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->oServiceType->updateST($id,
+        $this->oService->updateS($id,
             $request->serviceTypeName
         );
 
@@ -100,7 +113,7 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        $this->oServiceType->deleteST($id);
+        $this->oService->deleteS($id);
         return redirect()->route('services.index')
             ->with('info', 'Tipo de Proyecto Eliminado');
     }

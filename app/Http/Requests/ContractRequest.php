@@ -26,7 +26,15 @@ class ContractRequest extends FormRequest
         return [
             'contractDate'        => 'required',
             'clientId'            => 'required',
-            'siteAddress'         => 'required|max:100',
+            'propertyNumber'      => 'required',
+            'streetName'      => 'required',
+            'streetType'      => 'required',
+            'city'      => 'required',
+            'state'      => 'required',
+            'zipCode'      => 'required',
+            'buildingCodeId' => 'required',
+            'projectUseId' => 'required',
+            'projectDescriptionId' => 'required'
         ];
     }
 }

@@ -2,7 +2,14 @@
 <template> 
     <div> 
 
-     <vue-upload :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload>
+     <vue-upload-previous v-if="typeDoc == 1" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-previous>
+ 
+     <vue-upload-processed v-if="typeDoc == 2" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-processed>
+     
+     <vue-upload-revised v-if="typeDoc == 3" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-revised>
+     
+     <vue-upload-ready v-if="typeDoc == 4" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-ready>
+
      <br>
       <div class="table-responsive">
           <table class="table table-striped table-bordered text-center">
@@ -20,7 +27,7 @@
             <td>{{++index}}</td>
             <td>{{item.docName}}</td>
             <td>{{item.mimeType}}</td>
-            <td>{{ item.dateUploaded| moment("DD/MM/YY,  h:mm:ss a") }}</td> 
+            <td>{{ item.dateUploaded| moment("MM/DD/YYYY,  h:mm:ss a") }}</td> 
             <td>  
              <a :href="'../download/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
                      <span class="fa fa-file" aria-hidden="true"></span> 
@@ -32,7 +39,7 @@
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
             <td>
-            <modal-preview-document type-doc="processed" :doc-url="item.docUrl" :ext="item.mimeType">
+            <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType">
             </modal-preview-document>
             </td>
            </td> 
@@ -64,7 +71,11 @@
  <script>
 
 import modalPreviewDocument from './ModalPreviewDocument.vue'
-import vueUpload from './vueUpload.vue'
+
+import vueUploadPrevious from './VueUploadPrevious.vue'
+import vueUploadProcessed from './VueUploadProcessed.vue'
+import vueUploadRevised from './VueUploadRevised.vue'
+import vueUploadReady from './VueUploadReady.vue'
 
 export default {
         
@@ -83,7 +94,13 @@ export default {
            typeDoc:{type: String}
     },
   components: {
-         modalPreviewDocument
+         modalPreviewDocument,
+
+         vueUploadPrevious,
+         vueUploadProcessed,
+         vueUploadRevised,
+         vueUploadReady
+
   },
     methods: {
          allFiles: function (){

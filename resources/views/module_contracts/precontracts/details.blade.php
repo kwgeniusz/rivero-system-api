@@ -9,7 +9,7 @@
 
       <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-5 control-label">N° </label>
+          <label class="col-sm-5 control-label">PRECONTRATO ID </label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $precontract[0]->precontractId }}</p>
           </div>
@@ -28,6 +28,15 @@
           <label class="col-sm-5 control-label">{{__('office')}}</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $precontract[0]->office->officeName }}</p>
+          </div>
+        </div>
+       </div> 
+
+        <div class="col-xs-6">
+        <div class="form-group">
+          <label class="col-sm-5 control-label">TIPO DE CONTRATO</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $precontract[0]->contractType }}</p>
           </div>
         </div>
        </div>

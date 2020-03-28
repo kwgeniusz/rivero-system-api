@@ -34,10 +34,15 @@ Vue.component('contract-summary', require('./components/contractsummary.vue'));
 Vue.component('search-client', require('./components/SearchClient.vue'));
 Vue.component('form-modal-charge', require('./components/FormModalCharge.vue'));
 Vue.component('confirm-payment', require('./components/ModalConfirmPayment.vue'));
-// Vue.component('vue-table', require('./components/VueTable.vue'));
-Vue.component('vue-upload', require('./components/vueUpload.vue'));
 Vue.component('grid-files', require('./components/GridFiles.vue'));
-Vue.component('invoices-details', require('./components/InvoicesDetails.vue'));
+
+Vue.component('select-building-code', require('./components/SelectBuildingCode.vue'));
+Vue.component('invoice-details', require('./components/InvoiceDetails.vue'));
+Vue.component('proposal-details', require('./components/ProposalDetails.vue'));
+Vue.component('service-templates', require('./components/ServiceTemplates.vue'));
+Vue.component('form-new-service', require('./components/FormNewService.vue'));
+Vue.component('form-new-note', require('./components/FormNewNote.vue'));
+
 
 const app = new Vue({
     el: '#app',

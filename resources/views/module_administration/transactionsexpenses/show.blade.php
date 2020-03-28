@@ -9,7 +9,7 @@
           <div class="col-xs-12 ">
 
 
-            <form class="form" action="{{Route('transactions.delete',['sign'=> '-','id' => $transaction[0]->transactionId] )}}" method="POST">
+            <form class="form form-prevent-multiple-submits" action="{{Route('transactions.delete',['sign'=> '-','id' => $transaction[0]->transactionId] )}}" method="POST">
               {{ csrf_field() }}
               {{ method_field('DELETE') }}
                   <div class="form-group">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-danger">
+                  <button type="submit" class="btn btn-danger button-prevent-multiple-submits">
                     <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </button>
                   <a href="{{route('transactions.index',['sign' => '-'])}}" class="btn btn-warning">

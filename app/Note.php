@@ -3,15 +3,20 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Note extends Model
 {
+      use SoftDeletes;
+
     public $timestamps = false;
 
     protected $table      = 'note';
     protected $primaryKey = 'noteId';
     protected $fillable = ['noteId','noteCode','noteLanguage','noteName'];
 
+    protected $dates = ['deleted_at'];
 
 //--------------------------------------------------------------------
     /** Relations */
@@ -24,38 +29,37 @@ class Note extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAllByLanguage($countryId)
+     public function findById($id)
     {
-        if($countryId == '1') { //DALLAS
-            $language = 'en';
-        } elseif($countryId == '2') { //VENEZUELA
-            $language = 'es';
-        }
-
-        return $this->where('noteLanguage' , '=' , $language)
+        return $this->where('noteId', '=', $id)->get();
+    }
+    public function getAllByOffice($officeId)
+    {
+        return $this->where('officeId' , '=' , $officeId)
           ->orderBy('noteId', 'ASC')
           ->get();
     }
-// //------------------------------------------
-//     public function insertNote($clientName, $clientDescription, $clientAddress, $clientPhone, $clientEmail)
-//     {
+//------------------------------------------
+    public function insertN($countryId,$officeId,$noteName)
+    {
+        $note                  = new Note;
+        $note->countryId     = $countryId;
+        $note->officeId     = $officeId;
+        $note->noteName     = $noteName;
+        $note->save();
+    }
 
-//         $client                    = new Client;
-//         $client->userId            = 1;
-//         $client->clientName        = $clientName;
-//         $client->clientDescription = $clientDescription;
-//         $client->clientAddress     = $clientAddress;
-//         $client->clientPhone       = $clientPhone;
-//         $client->clientEmail       = $clientEmail;
-//         $client->dateCreated       = date('Y-m-d H:i:s');
-//         $client->lastUserId        = Auth::user()->userId;
-//         $client->save();
-//     }
-
-// //------------------------------------------
-//     public function deleteNote($clientId)
-//     {
-//         return $this->where('clientId', '=', $clientId)->delete();
-//     }
-// //------------------------------------------
+//------------------------------------------
+    public function updateN($noteId, $noteName)
+    {
+        $this->where('noteId', $noteId)->update(array(
+            'noteName' => $noteName,
+        ));
+    }
+//------------------------------------------
+    public function deleteN($noteId)
+    {
+        return $this->where('noteId', '=', $noteId)->delete();
+    }
+//------------------------------------------
 }

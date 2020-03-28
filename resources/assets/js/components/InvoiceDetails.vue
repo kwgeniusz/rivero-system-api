@@ -3,9 +3,11 @@
 
  <div class="panel panel-success col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
     <div class="panel-body">
-<h4><b>Factura N°:</b> {{invoice[0].invoiceNumber}}</h4>
-<h4><b>Dirección:</b> {{invoice[0].address}}</h4>
-<h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("DD/MM/YY") }}</h4>
+<h4><b>Factura N°:</b> {{invoice[0].invId}}</h4>
+<h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("MM/DD/YYYY") }}</h4>
+            <a :href="'reportsInvoice?id='+invoice[0].invoiceId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Factura
+                    </a>
 <hr>
     <form class="form">
                  
@@ -21,12 +23,14 @@
                  </option>
                   }
             </select>
-          </div>
+            <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
 
+          </div>
+<!-- 
          <div class="form-group col-xs-10">
             <label for="quantity">NOMBRE DEL SERVICIO</label>
             <input v-model="modelServiceName" type="text" class="form-control" id="serviceName" name="serviceName"  autocomplete="off">
-          </div>
+          </div> -->
  
         <div v-if="hasCost" class="form-group col-xs-4">
             <label for="unit">UNIDAD</label>
@@ -52,7 +56,7 @@
                 <label fo> COSTO TOTAL:   {{sumTotal}}</label>
           </div>
        <div class="form-group col-xs-12 text-center">
-         <button class="btn btn-success" @click.prevent="aggRow()"> 
+         <button class="btn btn-success" @click.prevent="addRow()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar Renglon
         </button>
        </div>
@@ -73,7 +77,7 @@
             </tr>
             </thead>
           <tbody>   
-         <tr v-for="(item,index) in list">
+       <tr v-for="(item,index) in itemList">
             <td>{{++index}}</td>
             <td>{{item.serviceName}}</td>
             <td>{{item.unit}}</td>
@@ -81,44 +85,31 @@
             <td>{{item.quantity}}</td>
             <td>{{item.amount}}</td>
             <td>  
-             <!-- <a :href="'../download/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a> -->
-          <!--    <a @click="editFile(item)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
-                        <span class="fa fa-edit" aria-hidden="true"></span> 
-            </a> -->
-             <a @click="deleteInvoiceDetail(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+             <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
+           <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
+              <span class="fa fa-angle-double-up" aria-hidden="true"></span>
+             </button>
+            <button class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
+              <span class="fa fa-angle-double-down" aria-hidden="true"></span>
+             </button>
            </td> 
          </tr>
          </tbody>
         </table>
        </div>
        <div class="col-xs-12 text-center">
-            <b>Sub-Total:</b> {{invoice[0].grossTotal}} <br>
+<!--             <b>Sub-Total:</b> {{invoice[0].grossTotal}} <br>
             <b>Impuesto {{invoice[0].taxPercent}}%:</b> {{invoice[0].taxAmount}} <br>
-            <b>Total Neto:</b> {{invoice[0].netTotal}}<br>
+            <b>Total Neto:</b> {{invoice[0].netTotal}}<br> -->
+
+            {{invoiceNetTotal}}
+
        </div>
 
-
-<!--      <sweet-modal ref="modalEdit">
-        <h2>Editar:</h2> <br>
-            <div class="form-group ">
-                <label for="input">Nombre:</label>
-                <input type="text" class="form-control" v-model="doc.docName"><br>
-              </div>
-        <button class="btn btn-primary" >Actualizar</button>
-      </sweet-modal>
- -->
-     <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalDelete">
-        <h2>¿Esta seguro de eliminar este Renglon?</h2> <br>
-        <p>{{invoiceDetail.serviceName}}</p>
-        <button class="btn btn-danger" @click="sendDelete(invoiceDetail.invDetailId)">Eliminar</button>
-      </sweet-modal>
-
   <hr>
-<invoices-notes :invoice-id="invoice[0].invoiceId"></invoices-notes>
+<invoice-notes :invoice-id="invoice[0].invoiceId" ref="invoiceNotes"></invoice-notes>
 
 
    </div>
@@ -126,10 +117,13 @@
            <a :href="'invoices?id='+invoice[0].contractId" class="btn btn-warning btn-sm">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  Regresar
           </a>
-          <a @click="closeInvoice(invoice[0])" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top">
-               <span class="fa fa-circle" aria-hidden="true"></span> Cerrar Factura
+          <a @click.prevent="saveInvoice()" class="btn btn-info btn-sm">
+            <span class="fa fa-save" aria-hidden="true"></span>  Guardar Factura
           </a>
-       </div>
+           <a @click.prevent="itemList = []"  class="btn btn-danger btn-sm">
+            <span class="fa fa-recycle" aria-hidden="true"></span>  Vaciar
+          </a>   
+              </div>
        <br>
   </div>
 
@@ -137,8 +131,7 @@
  </template>
  <script>
 
-import InvoicesNotes from './InvoicesNotes.vue'
-// import vueUpload from './vueUpload.vue'
+import InvoiceNotes from './InvoiceNotes.vue'
 
 export default {
         
@@ -154,17 +147,17 @@ export default {
 
             invoice: '',
             services: {},
-            list: {},
+            selectedService: {},
+
+            itemList: {},
             
             hasCost: false,
             modelServiceId: '',
-            modelServiceName: '',
+            // modelServiceName: '',
             modelQuantity: '',
             modelUnit: '',
             modelUnitCost: '',
-            
-            //para delete
-            invoiceDetail: '',
+
         }
     },
   props: {
@@ -175,10 +168,33 @@ export default {
           let sum = this.modelQuantity * this.modelUnitCost;
           return  Number.parseFloat(sum).toFixed(2);
             
-       } 
+       },
+      invoiceNetTotal: function () {
+          let suma = 0;
+
+         this.itemList.forEach (function(item){
+             if(item.amount == null){item.amount=0.00}
+            suma += parseFloat(item.amount);
+            suma.toFixed(2);
+          });
+          // console.log(suma);
+
+              let taxAmount   = (parseFloat(suma).toFixed(2) * parseFloat(this.invoice[0].taxPercent).toFixed(2))/100;
+              // taxAmount.toFixed(2);
+          // console.log(taxAmount);
+
+              let netTotal    = parseFloat(taxAmount) + parseFloat(suma);
+              // netTotal.toFixed(2);
+          // console.log(netTotal);
+               return (
+                `Sub Total: ${suma} /
+               Impuesto:${this.invoice[0].taxPercent}% = ${taxAmount} /
+               Total Neto: ${netTotal}
+               ` )
+       }  
     },
    components: {
-         InvoicesNotes
+         InvoiceNotes
   },
     methods: {
         findInvoice: function (){
@@ -196,13 +212,14 @@ export default {
          getAllInvoicesDetails: function (){
             let url ='invoicesDetails/'+this.invoiceId;
             axios.get(url).then(response => {
-             this.list = response.data
+             this.itemList = response.data
             });
         },
           selectService: function (id){
             let url ='services/'+id;
             axios.get(url).then(response => {
-              // console.log(response.data[0]);
+              this.selectedService =response.data[0];
+
               if(response.data[0].hasCost == 'N'){
                  this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
@@ -214,38 +231,78 @@ export default {
                  this.modelUnit = response.data[0].unit1;
                  this.modelUnitCost = response.data[0].cost1;
               }
-             this.modelServiceName = response.data[0].serviceName;
+             // this.modelServiceName = response.data[0].serviceName;
             });
         },
        changeUnit: function(unit) {
              if(unit == 'sqft'){
-               this.modelUnitCost = this.services[0].cost1;
+               this.modelUnitCost = this.selectedService.cost1;
              }else {
-               this.modelUnitCost = this.services[0].cost2;
+               this.modelUnitCost = this.selectedService.cost2;
              }
             
           },
   /*----CRUD----- */
-        aggRow: function() {
+        addRow: function() {
            this.errors = [];
            //VALIDATIONS
                if (!this.modelServiceId) 
                 this.errors.push('Debe Escoger un Servicio.');
-           
-               if (!this.modelServiceName) 
-                this.errors.push('Campo Nombre de Servicio es Obligatorio.');
+  
+          if (!this.errors.length) { 
+          //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
+        let serviceId = this.modelServiceId;
+    
+        function filtrarPorID(obj) {
+          if ('serviceId' in obj && obj.serviceId == serviceId) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        // alert(this.modelUnitCost);
+        let service = this.services.filter(filtrarPorID);
+            //AGREGAR A ITEMLIST
+              //Nota al agregar el item debo meter un objeto con el nombre y el ID
+                 this.itemList.push({
+                                     serviceId:service[0].serviceId,
+                                     serviceName:service[0].serviceName,
+                                     quantity:this.modelQuantity,
+                                     unit:this.modelUnit,
+                                     unitCost:this.modelUnitCost,
+                                     amount:this.sumTotal,
+                                   });
+           }
+         },
+       deleteRow: function(id) {
+            //borrar valor que encuentre del arreglo
+                 this.itemList.splice(--id,1);
+          },
+         moveUp: function(rowIndex) {
+             --rowIndex;
+             this.itemList.splice(rowIndex - 1, 0, this.itemList.splice(rowIndex, 1)[0]);
+           },
+         moveDown: function(rowIndex) {
+             --rowIndex;
+             this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
+           },
+
+         saveInvoice: function() {
+           this.errors = [];
+           //VALIDATIONS
+               if (!this.itemList) 
+                this.errors.push('Debe Escoger Ingresar servicio para Guardar la Factura.');
+          
 
           if (!this.errors.length) { 
+        //ejecuta la funciona que esta en el componente hijo Proposal Notes
+          this.$refs.invoiceNotes.sendNotes();
 
-            axios.post('invoicesDetails',{
+          axios.post('invoicesDetails',{
               invoiceId :  this.invoice[0].invoiceId,
-              serviceId :  this.modelServiceId,
-              serviceName: this.modelServiceName,
-              quantity :   this.modelQuantity,
-              unit :       this.modelUnit,
-              unitCost :   this.modelUnitCost,
-              amount :     this.sumTotal,
-
+              itemList:   this.itemList,
+         
             }).then(response => {
                    // if (response.data.alert == "error") {
                    //     toastr.error(response.data.msj)
@@ -254,7 +311,7 @@ export default {
                        this.findInvoice();
 
                        this.modelServiceId = ''
-                       this.modelServiceName = ''
+                       // this.modelServiceName = ''
                        this.modelQuantity =''
                        this.modelUnit =''
                        this.modelUnitCost =''
@@ -268,45 +325,8 @@ export default {
   
             })
            }
-         },
-
-          deleteInvoiceDetail: function(item) {
-             this.$refs.modalDelete.open()
-             this.invoiceDetail= item
           },
-          sendDelete: function(id) {
-             let url ='invoicesDetails/'+id;
-             axios.delete(url).then(response => {
-               this.$refs.modalDelete.close()
-               this.getAllInvoicesDetails();
-               this.findInvoice();
-               if (response.data.alertType == 'success') {
-                         toastr.success(response.data.message)
-                       } else {
-                          toastr.error(response.data.message)
-                       }    
-            });
-          },
-         closeInvoice: function(invoice) {
-             // this.$refs.modalClose.open()
-             // this.invoiceDetail= invoice
-             if(invoice.netTotal == 0){
-                toastr.error('Error: Total Neto debe ser Mayor a 0.00')
-             }else{
-               let url ='invoicesClose';
-                axios.put(url,{invoiceId: invoice.invoiceId}).then(response => {
-                   if (response.data.alertType == 'success') {
-                         window.location.href ="invoices?id="+invoice.contractId;
-                         toastr.success(response.data.message)
-                       } else {
-                          toastr.error(response.data.message)
-                       }    
-                    });
-
-             }
-
-          },
-    }
+    }//fin de method
        // this.$forceUpdate()
 }
  </script>

@@ -20,8 +20,14 @@ class ProjectDescriptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) 
+    {
         $projects = $this->oProjectDescription->getAll();
+
+             if($request->ajax()){
+                return $projects;
+            }
+
         return view('module_configuration.projectdescriptions.index', compact('projects'));
     }
 
@@ -79,9 +85,13 @@ class ProjectDescriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request,$id) {
 
         $project = $this->oProjectDescription->findById($id);
+        
+            if($request->ajax()){
+                return $project;
+            }
         return view('module_configuration.projectdescriptions.show', compact('project'));
     }
 

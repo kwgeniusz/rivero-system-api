@@ -9,7 +9,7 @@
           <div class="col-xs-12 ">
 
 
-        <form class="form" action="{{Route('clients.destroy',['id' => $client[0]->clientId] )}}" method="POST">
+        <form class="form form-prevent-multiple-submits" action="{{Route('clients.destroy',['id' => $client[0]->clientId] )}}" method="POST">
           {{ csrf_field() }}
           {{ method_field('DELETE') }}
 
@@ -52,7 +52,7 @@
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn btn-danger">
+              <button type="submit" class="btn btn-danger  button-prevent-multiple-submits">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
               </button>
               <a href="{{route('clients.index')}}" class="btn btn-warning">

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\web;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ProjectUse;
-use Illuminate\Http\Request;
 
 class ProjectUseController extends Controller
 {
@@ -20,10 +20,15 @@ class ProjectUseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $projects = $this->oProjectUse->getAll();
-        return view('module_configuration.projectUses.index', compact('projects'));
+           
+              if($request->ajax()){
+                return $projects;
+            }
+
+        return view('module_configuration.projectuses.index', compact('projects'));
     }
 
     /**
@@ -43,7 +48,7 @@ class ProjectUseController extends Controller
             'alert-type' => 'success',
         );
 
-        return redirect()->route('projectUses.index')
+        return redirect()->route('projectuses.index')
             ->with($notification);
     }
     /**
@@ -86,9 +91,13 @@ class ProjectUseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
         $project = $this->oProjectUse->findById($id);
+
+         if($request->ajax()){
+                return $project;
+            }
         return view('module_configuration.projectuses.show', compact('project'));
     }
 
@@ -110,4 +119,12 @@ class ProjectUseController extends Controller
         return redirect()->route('projectUses.index')
             ->with($notification);
     }
+
+   public function getProjectDescription($projectUseId)
+   {
+       $projectDescriptions = ProjectUse::find($projectUseId)->projectDescription()->get();
+      
+       return $projectDescriptions;
+   }
+
 }

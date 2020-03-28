@@ -147,18 +147,26 @@ class Bank extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll($countryId)
+
+    public function findById($id,$officeId)
     {
-        return $this->orderBy('bankId', 'ASC')
-                    ->where('countryId', $countryId)
+        return $this->where('bankId', '=', $id)
+                    ->where('officeId', $officeId)
                     ->get();
     }
 //------------------------------------------
-    public function findById($id,$countryId)
+    
+    // public function getAll()
+    // {
+    //     return $this->orderBy('bankId', 'ASC')
+    //                 ->get();
+    // }
+//------------------------------------------
+       public function getAllByOffice($officeId)
     {
-        return $this->where('bankId', '=', $id)
-                    ->where('countryId', $countryId)
-                    ->get();
+        return $this->where('officeId' , '=' , $officeId)
+          ->orderBy('bankId', 'ASC')
+          ->get();
     }
 //------------------------------------------
     public function insertB($bankName, $countryId)
@@ -201,8 +209,8 @@ class Bank extends Model
         $bank->balance08      = $balance08;
         $bank->balance09      = $balance09;
         $bank->balance10      = $balance10;
-         $bank->balance11      = $balance11;
-         $bank->balance12      = $balance12;
+        $bank->balance11      = $balance11;
+        $bank->balance12      = $balance12;
         $bank->save();
 
 

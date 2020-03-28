@@ -12,7 +12,7 @@
              <div align="center"> <img  src="{{ asset('img/favicon.jpg') }}" width="40%" height="40%"> </div>
              <br>
 
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                    <form class="form-horizontal form-prevent-multiple-submits" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('userName') ? ' has-error' : '' }}">
@@ -56,8 +56,8 @@
                     -->
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                        {{__('Login')}}
+                                <button type="submit" class="btn btn-primary button-prevent-multiple-submits">
+                                     {{--   <i class="spinner fa fa-spinner fa-spin"></i>  --}}{{__('Login')}}
                                 </button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">

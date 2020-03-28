@@ -22,14 +22,19 @@
       </div>
     </div>
      <br>
+
     @can('BAA')
             <a href="{{route('clients.create')}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}}
             </a>
    @endcan
-     <br> <br>
-     
+          <a href="{{route('home')}}" class="btn btn-warning">
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+              </a>
+     <br>
+                {{$clients->render()}}
+      <br>
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
             <thead>
@@ -60,22 +65,21 @@
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>
                     @endcan
-                    @can('BAC') 
+                   <!--  @can('BAC') 
                        <a href="{{route('clients.show', ['id' => $client->clientId])}}" class="btn btn-danger">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                         </a>
-                    @endcan    
+                    @endcan     -->
                    </td>
                 </tr>
                 @endforeach
                 </tbody>
             </table>
-                {{$clients->render()}}
+
         </div>
   
-             <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
+                {{$clients->render()}}
+  
         </div>
         </div>
     </div>

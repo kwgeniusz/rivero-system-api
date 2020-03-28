@@ -4,7 +4,7 @@
 
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-default col-xs-7">
-    <div class="panel-heading"> <h3> {{__('contract_data')}} </h3></div>
+    <div class="panel-heading"> <h3> Datos del Contrato </h3></div>
     <div class="panel-body">
 
       <form class="form-horizontal">

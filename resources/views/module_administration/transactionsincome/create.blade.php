@@ -18,11 +18,44 @@
               </ul>
           </div>
       @endif
+<!-- ID  FECHA DESCRIPCION N° FACTURA  MOTIVO  METODO DE PAGO  BANCO MONTO RESPONSABLE -->
 
         <form class="form" action="{{Route('transactions.store')}}" method="POST">
         {{csrf_field()}}
+
+            <div class="row ">
+              <div class="form-group col-xs-4">
+                <label for="transactionDate">FECHA</label>
+                <input type="date" class="form-control flatpickr" id="transactionDate" name="transactionDate" value="{{ old('transactionDate') }}">
+              </div>
+            </div>
+
+
+              <div class="form-group">
+                <label for="description">DESCRIPCION</label>
+                <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}" >
+              </div>
+             
+             <div class="form-group">
+                <label for="reason">MOTIVO:</label>
+                <input type="text" class="form-control" id="reason" name="reason" value="{{ old('reason') }}" placeholder="">
+              </div>
         <div class="row ">
-          <div class="form-group col-xs-6">
+             <div class="form-group col-xs-6">
+                <label for="payMethodId">METODO DE PAGO:</label>
+                <select class="form-control" name="payMethodId">
+                  @foreach($paymentsMethod as $paymentMethod)
+                        <option value="{{$paymentMethod->payMethodId}}" > {{$paymentMethod->payMethodName}} </option>
+                  @endforeach
+              </select>
+              </div>
+              </div>
+
+              <div class="form-group">
+                <label for="payMethodDetails">DETALLES DEL METODO:</label>
+                <input type="text" class="form-control" id="payMethodDetails" name="payMethodDetails" value="{{ old('payMethodDetails') }}" placeholder="N° DE TDD,TDC,CUENTA,CHEQUE...">
+              </div>
+
                 <label for="transactionTypeId">TIPO DE TRANSACCION</label>
                 <select class="form-control" name="transactionTypeId">
                   @foreach($transactionType as $transaction)
@@ -30,20 +63,6 @@
 
                   @endforeach
               </select>
-              </div>
-              </div>
-
-              <div class="form-group">
-                <label for="description">DESCRIPCION</label>
-                <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}" >
-              </div>
-
-              <div class="row ">
-              <div class="form-group col-xs-4">
-                <label for="transactionDate">FECHA</label>
-                <input type="date" class="form-control flatpickr" id="transactionDate" name="transactionDate" value="{{ old('transactionDate') }}">
-              </div>
-            </div>
 
             <div class="row ">
               <div class="form-group col-xs-4">
@@ -63,13 +82,6 @@
               </div>
               </div>
 
-
-              <div class="row ">
-                <div class="form-group col-xs-4">
-                <label for="reference">REFERENCIA</label>
-                <input type="text" class="form-control" id="reference" name="reference" value="{{ old('reference') }}" >
-            </div>
-            </div>
 
           <input type="hidden" name="sign" value="+">
 

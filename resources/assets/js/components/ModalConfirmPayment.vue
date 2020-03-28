@@ -7,7 +7,7 @@
   
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
  <sweet-modal ref="modal">
-    <h3 class="bg-primary"><b>FACTURA N° {{ this.receivable.sourceReference }}</b></h3>
+    <h3 class="bg-primary"><b>FACTURA N° {{ this.receivable.invoiceId }}</b></h3>
     <h3 class="bg-warning"><b>CONFIRMAR COBRO </b></h3>
 
      <br>
@@ -28,17 +28,8 @@
                  <!-- <input type="number" step="0.01" min="0" class="form-control" id="formAmountPaid"  pattern="^[0-9]+"v-model="formAmountPaid" > -->
           </div>
               <div class="form-group col-xs-8 col-xs-offset-2">
-                <label for="formCollectMethod">METODO DE PAGO</label><br> {{this.receivable.collectMethod}}
+                <label for="formCollectMethod">METODO DE PAGO</label><br> {{this.paymentMethod}}
                 <input type="hidden" id="formCollectMethod" v-model="formCollectMethod">
-
-   <!--              <select class="form-control" id="formCollectMethod" v-model="formCollectMethod" disabled="on">
-                  <option v-for="(item, index) in paymentMethod" :value="item.payMethodCode">{{item.payMethodName}}</option>
-                 </select> -->
-<!--                    @if ($project->projectDescriptionId == $contract[0]->projectDescriptionId)
-              <option value="{{$project->projectDescriptionId}}"selected> {{$project->projectDescriptionName}} </option>
-                  @else
-               <option value="{{$project->projectDescriptionId}}"> {{$project->projectDescriptionName}} </option>
-               @endif -->
               </div>
 
               <div class="form-group" v-if="formCollectMethod != 2 && formCollectMethod != 4 && formCollectMethod != 5">
@@ -56,10 +47,7 @@
 
           
            <div class="form-group col-xs-8 col-xs-offset-2">
-            <label for="formTargetBankId">BANCO DESTINO</label><br>{{this.receivable.targetBankId}}
-          <!--   <select class="form-control" id="formTargetBankId" @change="getAccount()" v-model="formTargetBankId">
-                <option v-for="(item, index) in listBank" :value="item.bankId">{{item.bankName}}</option>
-            </select> -->
+            <label for="formTargetBankId">BANCO DESTINO</label><br>{{this.bank}}
           </div>  
 
            <div class="form-group col-xs-8 col-xs-offset-2">
@@ -69,7 +57,7 @@
 
 
          <div class="form-group col-xs-6 col-xs-offset-3">
-           <label for="formDatePaid">FECHA DEL COBRO</label><br> {{this.receivable.datePaid}}
+           <label for="formDatePaid">FECHA DEL COBRO</label><br> {{this.receivable.datePaid | moment("MM/DD/YYYY")}}
             <!-- <input class="form-control flatpickr" id="formDatePaid" v-model="formDatePaid"> -->
           </div>
               <div class="row"></div>
@@ -99,8 +87,9 @@
      data: function () {
           return {
            receivable : {},
-           paymentMethod: {},
-           listBank: {},
+           paymentMethod: '',
+           bank: '',
+              
 
             formCollectMethod: 1,
 
@@ -122,6 +111,8 @@
            axios.get('../receivables/get/'+this.rId).then(response => {
                  this.receivable = response.data
                  this.formCollectMethod = this.receivable.collectMethod
+                 this.paymentMethod=this.receivable.payment_method.payMethodName;
+                 this.bank=this.receivable.bank.bankName;
                 });
             this.$refs.modal.open()
         },

@@ -33,24 +33,30 @@
       </table>
   </div>
 
-     <hr>
-
+<hr>
 <div class="row ">
   <div class="col-xs-12">
     <h4 class="text-info text-center">DETALLES - CUENTAS POR COBRAR</h4>
          <!-- INICIO DE LA TABLA COLLAPSE COMPONENT -->
+
    @foreach($receivablesInvoices as $index => $invoice)
-<?php
-$acum     = 0;
-$totalDue = 0;
-?>
+     @php 
+       $acum = 0;
+       $totalDue = 0;
+     @endphp
+
      <div class="panel-group col-xs-6" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-primary">
          <div class="panel-heading" role="tab" id="headingOne">
            <h4 class="panel-title">
              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#{{$index}}" aria-expanded="true" aria-controls="{{$index}}">
-              @foreach($invoice as $share) <?php $totalDue += $share->amountDue?> @endforeach
-              FACTURA N° "{{$index}}" - MONTO A COBRAR: {{$totalDue}}
+              @foreach($invoice as $share) 
+               @php
+               $totalDue += $share->amountDue;
+               $totalDue = number_format((float)$totalDue, 2, '.', '');
+               @endphp 
+              @endforeach
+              FACTURA N° {{$index}} - MONTO A COBRAR: {{$totalDue}}
             </div>
            </h4>
          </div>
@@ -73,9 +79,13 @@ $totalDue = 0;
                         <td>{{ $acum = $acum +1 }}</td>
                         <td>{{$share->amountDue}}</td>
                         <td>
-                          {{-- @if($acum == 1) --}}
-                           <form-modal-charge r-id="{{$share->receivableId}}" country-id="{{$share->countryId}}"></form-modal-charge>
-                           {{-- @endif --}}
+                        @if($acum == 1) 
+                              @if($share->status == '1' || $share->status == '3')  
+                               <form-modal-charge r-id="{{$share->receivableId}}" country-id="{{$share->countryId}}"></form-modal-charge>
+                              @elseif($share->status == '2')  
+                               <confirm-payment r-id="{{$share->receivableId}}" country-id=" {{$share->countryId}}"></confirm-payment>
+                           @endif  
+                        @endif
                        </td>
                        </tr>
                     @endforeach

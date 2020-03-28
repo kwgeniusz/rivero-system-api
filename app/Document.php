@@ -109,9 +109,11 @@ class Document extends Model
                   ->header('Content-Type', 'text/plain');
         } 
     }
-    public function deleteFile($docId)
+    public function deleteFile($docUrl,$docId)
     {
+        Storage::delete($docUrl);
         return $this->where('docId', '=', $docId)->delete();
+
     }
 
 // //------------------------------------------

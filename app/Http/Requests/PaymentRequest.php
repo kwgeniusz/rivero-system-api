@@ -25,7 +25,7 @@ class PaymentRequest extends FormRequest
     {
         return [
             'amount'      => 'required|numeric',
-            'paymentDate' => 'required|',
+            // 'paymentDate' => 'required|',
         ];
     }
 }

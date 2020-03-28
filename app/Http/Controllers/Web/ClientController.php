@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Client;
 use App\Country;
 use App\ContactType;
-use App\Configuration;
+use App\CountryConfiguration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
@@ -14,15 +14,15 @@ use Auth;
 class ClientController extends Controller
 {
     private $oClient;
-    private $oConfiguration;
-    private $module;
+    private $oCountryConfiguration;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware("permission:BA");
         $this->oClient = new Client;
-        $this->oConfiguration = new Configuration();
+        $this->oContactType = new ContactType;
+        $this->oCountryConfiguration = new CountryConfiguration();
     }
     /**
      * Display a listing of the resource.
@@ -37,8 +37,7 @@ class ClientController extends Controller
 
        $clients = Client::orderBy('cltId', 'ASC')
                          ->filter($filteredOut)
-                         ->where('countryId','=', session('countryId'))
-                         ->paginate(100);
+                         ->paginate(300);
 
         return view('module_contracts.clients.index', compact('clients'));
     }
@@ -51,9 +50,9 @@ class ClientController extends Controller
     public function create()
     {
     
-        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'),session('officeId'));
+        $clientNumberFormat = $this->oCountryConfiguration->generateClientNumberFormat(session('countryId'));
         // $countrys     = Country::all();
-        $contactTypes = ContactType::all();
+        $contactTypes = $this->oContactType->getAllByOffice(session('officeId'));
 
         return view('module_contracts.clients.create', compact('countrys','contactTypes','clientNumberFormat'));
     }
@@ -68,7 +67,6 @@ class ClientController extends Controller
     {
         $clients = $this->oClient->insertClient(
             session('countryId'),
-            session('officeId'),
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId, 
@@ -98,7 +96,7 @@ class ClientController extends Controller
     public function edit($id)
     {
         // $countrys = Country::all();
-        $contactTypes = ContactType::all();
+        $contactTypes = $this->oContactType->getAllByOffice(session('officeId'));
         $client   = $this->oClient->findById($id, session('countryId'));
 
         return view('module_contracts.clients.edit', compact('client', 'countrys','contactTypes'));
@@ -115,7 +113,6 @@ class ClientController extends Controller
     {
         $this->oClient->updateClient($id,
             session('countryId'),
-            session('officeId'),
             $request->clientName,
             $request->clientAddress,
             $request->contactTypeId,  
@@ -174,7 +171,7 @@ class ClientController extends Controller
     }
    public function getNumberFormat()
     {
-        $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(session('countryId'),session('officeId'));
+        $clientNumberFormat = $this->oCountryConfiguration->generateClientNumberFormat(session('countryId'));
         return json_encode($clientNumberFormat);
     }
 

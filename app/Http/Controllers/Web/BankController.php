@@ -14,7 +14,6 @@ class BankController extends Controller
 
     public function __construct()
     {
-
         $this->middleware('auth');
         $this->oBank = new Bank;
     }
@@ -23,10 +22,11 @@ class BankController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banks    = $this->oBank->getAll(session('countryId'));
-        $countrys = Country::all();
+        $banks    = $this->oBank->getAllByOffice(session('officeId'));
+        // $countrys = Country::all();
+   
         foreach ($banks as $key => $bank) {
             $saldoActual = $bank['initialBalance']
                  + $bank['balance01']
@@ -44,7 +44,11 @@ class BankController extends Controller
             $banks[$key]['saldoActual'] = number_format($saldoActual, 2, ',', '.');
         }
 
-        return view('module_administration.banks.index', compact('banks', 'countrys'));
+            if($request->ajax()){
+                 return $banks;
+            }
+
+        return view('module_administration.banks.index', compact('banks'));
     }
 
     /**
@@ -73,7 +77,7 @@ class BankController extends Controller
     public function edit($id)
     {
 
-        $bank = $this->oBank->findById($id,session('countryId'));
+        $bank = $this->oBank->findById($id,session('officeId'));
         return view('module_administration.banks.edit', compact('bank'));
     }
 
@@ -106,7 +110,7 @@ class BankController extends Controller
     public function show($id)
     {
 
-        $bank = $this->oBank->findById($id,session('countryId'));
+        $bank = $this->oBank->findById($id,session('officeId'));
         return view('module_administration.banks.show', compact('bank'));
     }
 
@@ -130,10 +134,10 @@ class BankController extends Controller
 
     }
 //-------QUERYS ASINCRONIOUS-----------------//
-    public function getForCountry($countryId)
+    public function getForCountry($officeId)
     {
         $banks = Bank::select('bankId', 'bankName', 'bankAccount')
-            ->where('countryId', $countryId)
+            ->where('officeId', $officeId)
             ->orderBy('bankName', 'ASC')
             ->get();
         return json_encode($banks);

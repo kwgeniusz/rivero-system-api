@@ -39,13 +39,21 @@ class Service extends Model
     //  public function setCost2Attribute($cost2)
     // {
     //     return $this->attributes['cost2'] = encrypt($cost2);
-    // }
+    // }s
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function getAll()
     {
-        return $this->orderBy('serviceId', 'ASC')->get();
+        return $this->orderBy('serviceName', 'ASC')->get();
+    }
+//-----------------------------------------
+     public function getAllByOffice($officeId)
+    {
+
+        return $this->where('officeId' , '=' , $officeId)
+          ->orderBy('serviceName', 'ASC')
+          ->get();
     }
 //------------------------------------------
     public function findById($id)
@@ -53,26 +61,32 @@ class Service extends Model
         return $this->where('serviceId', '=', $id)->get();
     }
 //------------------------------------------
-    public function insertST($serviceTypeName)
+    public function insertS($countryId,$officeId,$serviceName,$hasCost,$unit1,$unit2,$cost1,$cost2)
     {
-
-        $service                  = new ServiceType;
-        $service->serviceTypeName = $serviceTypeName;
-        $service->dateCreated     = date('Y-m-d H:i:s');
-        $service->lastUserId      = Auth::user()->userId;
+        $service                  = new Service;
+        $service->countryId       = $countryId;
+        $service->officeId        = $officeId;
+        $service->serviceName     = $serviceName;
+        $service->hasCost         = $hasCost;
+        $service->unit1           = $unit1;
+        $service->unit2           = $unit2;
+        $service->cost1           = $cost1;
+        $service->cost2           = $cost2;
+        $service->created_at     = date('Y-m-d H:i:s');
+        // $service->lastUserId      = Auth::user()->userId;
         $service->save();
     }
 //------------------------------------------
-    public function updateST($serviceTypeId, $serviceTypeName)
+    public function updateS($serviceId, $serviceName)
     {
-        $this->where('serviceTypeId', $serviceTypeId)->update(array(
-            'serviceTypeName' => $serviceTypeName,
+        $this->where('serviceId', $serviceId)->update(array(
+            'serviceName' => $serviceName,
         ));
     }
 //------------------------------------------
-    public function deleteST($serviceTypeId)
+    public function deleteS($serviceId)
     {
-        return $this->where('serviceTypeId', '=', $serviceTypeId)->delete();
+        return $this->where('serviceId', '=', $serviceId)->delete();
     }
 //------------------------------------------
 }

@@ -8,19 +8,24 @@
 
     <form class="form" action="{{Route('reports.summaryForClient')}}" method="POST">
         {{ csrf_field() }}
-    <div class="col-xs-6 col-xs-offset-3 ">
+<!--     <div class="col-xs-6 col-xs-offset-3 ">
         <label for="clientId">{{__('client')}}</label>
         <select class="form-control" name="clientId" id="clientId">
             @foreach($clients as $client)
                   <option value="{{$client->clientId}}" > {{$client->clientName}} </option>
             @endforeach
         </select>
-        <br>
-              <button type="submit" class="btn btn-primary">
+        <br> -->
+          <div class="col-xs-12 col-xs-offset-2">
+            <search-client pref-url='./'></search-client>
+          </div> 
+
+          <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary">
                 <span class="fa fa-search" aria-hidden="true"></span> Buscar
            </button>
-      <br><br>
-      </div>
+         </div> 
+   
 
    </form>
   </div>

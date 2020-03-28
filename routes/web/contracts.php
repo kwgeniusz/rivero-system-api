@@ -6,22 +6,21 @@
 Route::resource('clients', 'Web\ClientController');
 //PRECONTRACTS**********
 Route::resource('precontracts', 'Web\PrecontractController');
-Route::get('precontractsCreate/{contractType}', 'Web\PrecontractController@create')->name('precontracts.create');
 Route::get('precontracts/{precontract}/details', 'Web\PrecontractController@details')->name('precontracts.details');
 //PRECONTRACTS-OPTIONS
-Route::get('precontractsPayment/{id}', 'Web\PrecontractController@payment')->name('precontracts.payment');
-Route::post('precontractsPayment/agg', 'Web\PrecontractController@paymentAgg')->name('precontracts.paymentAgg');
-Route::get('precontractsPayment/{id}/{amount}/{precontractId}/remove', 'Web\PrecontractController@paymentRemove')->name('precontracts.paymentRemove');
-Route::get('precontractsFile/{id}', 'Web\PrecontractController@files')->name('precontracts.files');
-Route::post('precontractsFileAgg', 'Web\PrecontractController@fileAgg')->name('precontracts.fileAgg');
-Route::get('/precontract-download/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDownload')->name('precontracts.fileDownload');
-Route::get('/precontract-fileDelete/{typeContract}/{directoryName}/{file}', 'Web\PrecontractController@fileDelete')->name('precontracts.fileDelete');
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/Agg/{id}', 'Web\PrecontractController@convertAgg')->name('precontracts.convertAgg');
+//PROPOSAL*********
+Route::resource('proposals', 'Web\ProposalController');
+Route::resource('proposalsDetails', 'Web\ProposalDetailController');
+Route::resource('proposalsNotes', 'Web\ProposalNoteController');
+
+Route::get('proposalsPayments/{id}', 'Web\ProposalController@payments')->name('proposals.payments');
+Route::post('proposalsPayments/add', 'Web\ProposalController@paymentsAdd')->name('proposals.paymentsAdd');
+Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@paymentsRemove')->name('proposals.paymentsRemove');
 
 //CONTRACT*********
-Route::resource('contracts', 'Web\ContractController');
-Route::get('contractsCreate/{contractType}', 'Web\ContractController@create')->name('contracts.create');
+Route::resource('contracts', 'Web\ContractController', ['except' => ['create']]);
 Route::get('contracts/{contract}/details', 'Web\ContractController@details')->name('contracts.details');
 //CONTRACT-OPTIONS
 Route::get('contractsChangeStatus/{contract}/', 'Web\ContractController@changeStatus')->name('contracts.changeStatus');
@@ -37,24 +36,18 @@ Route::get('download/{docId}', 'Web\ContractController@fileDownload')->name('con
 Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 //INVOICES*********
 Route::resource('invoices', 'Web\InvoiceController');
+Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
+Route::resource('invoicesNotes', 'Web\InvoiceNoteController');
+
 Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoices.close');
 Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');
 Route::post('invoicesPayments/add', 'Web\InvoiceController@paymentsAdd')->name('invoices.paymentsAdd');
 Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@paymentsRemove')->name('invoices.paymentsRemove');
 
-Route::get('invoicesNotes', 'Web\InvoiceController@notes')->name('invoices.notes');
-Route::post('invoicesNotes/add', 'Web\InvoiceController@notesAdd')->name('invoices.notesAdd');
-Route::delete('invoicesNotes/{invoiceId}/remove/{noteId}', 'Web\InvoiceController@notesRemove')->name('invoices.notesRemove');
-Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
-
-Route::resource('services', 'Web\ServiceController');
-Route::resource('notes', 'Web\NoteController');
-Route::get('reportsInvoice', 'Web\ReportController@printInvoice')->name('reports.invoice');
-
 //CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');
-Route::get('contractsStatus', function () {return view('contractstatus.index');})->name('contracts.searchStatus');
+Route::get('contractsStatus', function () {return view('module_contracts.contractstatus.index');})->name('contracts.searchStatus');
 Route::post('contractsStatus/result', 'Web\ContractController@resultStatus')->name('contracts.resultStatus');
 Route::get('contractsStatus/{contract}/', 'Web\ContractController@resultStatusDetails')->name('contracts.resultStatusDetails');
 //CONTRACT-FINISHED*******
@@ -68,10 +61,14 @@ Route::get('contractsCancelled/{id}/details', 'Web\ContractController@detailsCon
 Route::get('contractsCancelled/{id}/show', 'Web\ContractController@showContractsCancelled')->name('contracts.cancelledShow');
 Route::delete('contractsCancelled/{id}/delete', 'Web\ContractController@deleteContractsCancelled')->name('contracts.cancelledDelete');
 
-//REPORTS
+//-----------------------------REPORTS---------------------------------------------------//
 // Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
 Route::get('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
 // Route::get('contracts-summary', function () {return view('contractsummary.index');})->name('contracts.summary');
 Route::get('contracts-summary', 'Web\ReportController@summaryContractForOffice')->name('reports.summaryContractForOffice');
 Route::get('contracts-summary-for-clients', 'Web\ReportController@summaryClientForm')->name('contracts.summaryForClient');
 Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForClient')->name('reports.summaryForClient');
+Route::get('reportsInvoice', 'Web\ReportController@printInvoice')->name('reports.invoice');
+Route::get('reportsProposal', 'Web\ReportController@printProposal')->name('reports.proposal');
+Route::get('reportsStatement', 'Web\ReportController@printStatement')->name('reports.statement');
+

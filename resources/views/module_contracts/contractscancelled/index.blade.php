@@ -13,10 +13,14 @@
             <thead class="bg-danger">
                 <tr>
                         <th>ID</th>
-                        <th>{{__('contract_number')}}</th>
-                        <th>{{__('office')}}</th>
-                        <th>{{__('date')}}</th>
-                        <th>{{__('client')}}</th>
+                        <th>N° {{__('contract')}}</th>
+                        <th>COD. {{__('client')}}</th>
+                        <th>{{__('name')}}</th>   
+                        <th>{{__('address')}}</th>
+                        <th>BUILDING CODE</th>
+                        <th>DESCRIPTION</th>
+                        <th>USO</th>
+                        <th>TIPO</th>
                         <th>{{__('status')}}</th>
                         <th>{{__('actions')}}</th>
                  </th>
@@ -25,11 +29,21 @@
                 <tbody>
                 @foreach($contracts as $contract)
                 <tr>
-                    <td>{{$contract->contractId}} </td>
+                    <td>{{$contract->conId}} </td>
                     <td>{{$contract->contractNumber}} </td>
-                    <td>{{$contract->office->officeName}}   </td>
-                    <td>{{$contract->contractDate}} </td>
-                    <td>{{$contract->client->clientName}}   </td>
+                    <td>{{$contract->client->clientCode}}</p></td>
+                    <td>{{$contract->client->clientName}}   </td>  
+                       <td >{{$contract->propertyNumber}}
+                        {{$contract->streetName}}
+                        {{$contract->streetType}}
+                        {{$contract->suiteNumber}}
+                        {{$contract->city}}
+                        {{$contract->state}}
+                        {{$contract->zipCode}}   </td>
+                    <td>{{$contract->buildingCode->buildingCodeName}}   </td>
+                    <td>{{$contract->projectDescription->projectDescriptionName}}   </td>
+                    <td>{{$contract->projectUse->projectUseName}}   </td>
+                    <td>{{$contract->contractType}}   </td>
                     <td>{{$contract->contractStatus}}   </td>
 
 
@@ -40,9 +54,14 @@
                     <a href="{{route('contracts.cancelledDetails', ['id' => $contract->contractId])}}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
                         <span class="fa fa-search" aria-hidden="true"></span>  
                     </a>
-                       <a href="{{route('contracts.cancelledShow', ['id' => $contract->contractId])}}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
+                      @can('BCG') 
+                    <a href="{{route('contracts.files', ['id' => $contract->contractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                     <span class="fa fa-file" aria-hidden="true"></span> 
+                    </a>
+                  @endcan 
+                <!--        <a href="{{route('contracts.cancelledShow', ['id' => $contract->contractId])}}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  
-                        </a>
+                        </a> -->
                    </td>
                 </tr>
                 @endforeach

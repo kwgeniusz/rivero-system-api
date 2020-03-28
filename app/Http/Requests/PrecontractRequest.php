@@ -24,8 +24,17 @@ class PrecontractRequest extends FormRequest
     public function rules()
     {
         return [
-            'clientId'    => 'required',
-            'siteAddress' => 'required|max:100',
+            'precontractDate'        => 'required',
+            'clientId'            => 'required',
+            'propertyNumber'      => 'required',
+            'streetName'      => 'required',
+            'streetType'      => 'required',
+            'city'      => 'required',
+            'state'      => 'required',
+            'zipCode'      => 'required',
+            'buildingCodeId' => 'required',
+            'projectUseId' => 'required',
+            'projectDescriptionId' => 'required'
         ];
     }
 }

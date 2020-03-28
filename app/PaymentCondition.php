@@ -19,7 +19,7 @@ class PaymentCondition extends Model
     protected $fillable = [
         'pCondId',
         'pCondCode',
-        'pCondLanguage',
+        'language',
         'pCondName'
     ];
 //--------------------------------------------------------------------
@@ -28,15 +28,10 @@ class PaymentCondition extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAllByLanguage($countryId)
+    public function getAllByLanguage()
     {
-         if($countryId == '1') { //DALLAS
-            $language = 'en';
-        } elseif($countryId == '2') { //VENEZUELA
-            $language = 'es';
-        }
-
-        return $this->where('pCondLanguage' , '=' , $language)
+         //se trae las condiciones de pago por el lenguaje que esta en la tabla pais
+        return $this->where('language' , '=' , session('countryLanguage'))
           ->orderBy('pCondId', 'ASC')
           ->get();
 

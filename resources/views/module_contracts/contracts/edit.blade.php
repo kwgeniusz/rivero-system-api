@@ -26,7 +26,7 @@
         {{method_field('PUT')}}
 
         <div class="form-group col-xs-7">
-           <label for="contractNumber">N° {{__('contract')}} </label>
+           <label for="contractNumber">CONTROL NUMBER </label>
            <input disabled type="text" class="form-control" id="contractNumber" name="contractNumber" value="{{ $contract[0]->contractNumber }}" placeholder="JDR-000000-18">
          </div>
 
@@ -51,45 +51,65 @@
         
 @if($blockEdit == false)
            <div class="row"></div>
-           <search-client url='E' c-id="{{$contract[0]->clientId}}" c-name="{{$contract[0]->client->clientName}}" c-address="{{$contract[0]->siteAddress}}"></search-client>
+           <search-client pref-url='../../' c-id="{{$contract[0]->clientId}}" c-name="{{$contract[0]->client->clientName}}" c-address="{{$contract[0]->siteAddress}}"></search-client>
 
-       <!--input Address-->      
-          <div class="form-group col-xs-11">
-                <label for="siteAddress">DIRECCIÓN</label>
-                <input type="text" class="form-control" id="siteAddress" name="siteAddress" value="{{ $contract[0]->siteAddress }}">
-           </div>  
-
-          <div class="form-group col-xs-7">
-            <label for="projectDescriptionId">DESCRIPCION DE PROYECTO</label>
-            <select class="form-control" name="projectDescriptionId" id="projectDescriptionId">
-                @foreach($projectsD as $project)
-                   @if ($project->projectDescriptionId == $contract[0]->projectDescriptionId)
-              <option value="{{$project->projectDescriptionId}}"selected> {{$project->projectDescriptionName}} </option>
+          <div class="form-group col-xs-6">
+            <label for="contractType">TIPO DE CONTRATO</label>
+            <select class="form-control" name="contractType" id="contractType">
+                 @foreach($currencies as $currency)
+                   @if ('P' == $contract[0]->contractType)
+                     <option value="P" selected>P</option>
+                     <option value="S" >S</option>
                   @else
-               <option value="{{$project->projectDescriptionId}}"> {{$project->projectDescriptionName}} </option>
-               @endif
-                @endforeach
-            </select>
-          </div>
-
-         <div class="form-group col-xs-7">
-            <label for="projectUseId">USO DE PROYECTO</label>
-            <select class="form-control" name="projectUseId" id="projectUseId">
-              @foreach($projectsU as $project)
-                   @if ($project->projectUseId == $contract[0]->projectUseId)
-              <option value="{{$project->projectUseId}}"selected> {{$project->projectUseName}} </option>
-                  @else
-               <option value="{{$project->projectUseId}}"> {{$project->projectUseName}} </option>
+                     <option value="P">P</option>
+                     <option value="S" selected>S</option>
                   @endif
                 @endforeach
             </select>
           </div>
+       <!--input Address-->      
+        <div class="form-group col-xs-7">
+                <label for="propertyNumber">NUMERO DE LA PROPIEDAD</label>
+                <input type="number" value="{{$contract[0]->propertyNumber }}" class="form-control" id="propertyNumber" name="propertyNumber" placeholder="5924">
+           </div>
+           <div class="form-group col-xs-7">
+                <label for="streetName">CALLE</label>
+                <input type="text" maxlength="20" value="{{$contract[0]->streetName }}" class="form-control" id="streetName" name="streetName" placeholder="AZALEA">
+           </div>
+            <div class="form-group col-xs-3">
+                <label for="streetType">TIPO DE CALLE</label>
+                <input type="text" maxlength="10" value="{{$contract[0]->streetType }}" class="form-control" id="streetType" name="streetType" placeholder="LN">
+           </div>
+           <div class="form-group col-xs-6">
+                <label for="suiteNumber">SUITE NUMBER</label>
+                <input type="text" maxlength="20" value="{{$contract[0]->suiteNumber }}" class="form-control" id="suiteNumber" name="suiteNumber" placeholder="SUITE 114 (Opcional)">
+           </div>
+            <div class="form-group col-xs-8">
+                <label for="city">CIUDAD</label>
+                <input type="text" maxlength="20" value="{{$contract[0]->city }}" class="form-control" id="city" name="city" placeholder="DALLAS">
+           </div>
+           <div class="form-group col-xs-8">
+                <label for="state">ESTADO</label>
+                <input type="text" maxlength="20" value="{{$contract[0]->state }}" class="form-control" id="state" name="state" placeholder="TX">
+           </div>
+                   <div class="row"></div>
+            <div class="form-group col-xs-4">
+                <label for="zipCode">CODIGO POSTAL</label>
+                <input type="number" value="{{$contract[0]->zipCode }}" class="form-control" id="zipCode" name="zipCode" placeholder="75230">
+           </div>
 
-           <div class="row"></div>
+             <select-building-code 
+             pref-Url='../../' 
+             prop-building-code='{{$contract[0]->buildingCodeId}}' 
+             prop-project-use='{{$contract[0]->projectUseId}}' 
+             prop-project-description='{{$contract[0]->projectDescriptionId}}'></select-building-code>
+         
+
+       <!--     <div class="row"></div>
               <div class="form-group col-xs-6 ">
                 <label for="registryNumber">N° {{__('registration')}}</label>
                 <input type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ $contract[0]->registryNumber }}">
-              </div>
+              </div> -->
   @else
         
          <div class="row"></div>
@@ -118,15 +138,15 @@
           </div>
           <input type="hidden" name="projectUseId" value="{{ $contract[0]->projectUseId }}">
 
-           <div class="row"></div>
+ <!--           <div class="row"></div>
               <div class="form-group col-xs-6 ">
                 <label for="registryNumber">N° {{__('registration')}}</label>
                 <input disabled type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ $contract[0]->registryNumber }}">
               </div>
-          <input type="hidden" name="registryNumber" value="{{ $contract[0]->registryNumber }}">   
+          <input type="hidden" name="registryNumber" value="{{ $contract[0]->registryNumber }}">    -->
 
 @endif
-          <div class="row"></div>
+        <!--   <div class="row"></div>
               <div class="form-group col-xs-5">
                 <label for="startDate">{{__('start_date')}}</label>
                 <input class="form-control flatpickr" id="startDate" name="startDate" value="{{ $contract[0]->startDate }}">
@@ -148,7 +168,7 @@
 
                 <label for="deliveryDate">{{__('delivery_date')}}</label>
                 <input class="form-control flatpickr" id="deliveryDate" name="deliveryDate" value="{{ $contract[0]->deliveryDate}}">
-              </div>
+              </div> -->
 
 
         <div class="col-xs-12">
@@ -156,7 +176,7 @@
                 <label for="initialComment">{{__('initial_comment')}}</label>
                 <textarea class="form-control" id="initialComment" name="initialComment" rows="3">{{ $contract[0]->initialComment }}</textarea>
               </div>
-             <div class="form-group">
+     <!--         <div class="form-group">
                 <label for="intermediateComment">{{__('intermediate_comment')}}</label>
                 <textarea class="form-control" id="intermediateComment" name="intermediateComment" rows="3">{{ $contract[0]->intermediateComment }}</textarea>
               </div>
@@ -164,7 +184,7 @@
                 <label for="finalComment">{{__('final_comment')}}</label>
                 <textarea class="form-control" id="finalComment" name="finalComment" rows="3">{{ $contract[0]->finalComment }}</textarea>
               </div>
-           </div>
+           </div> -->
 
 @if($blockEdit == false)
     <div class="form-group col-xs-6">
@@ -178,7 +198,7 @@
                   @endif
                 @endforeach
             </select>
-          </div>
+    </div>
 @else
             <div class="col-xs-6">
                <div class="form-group">

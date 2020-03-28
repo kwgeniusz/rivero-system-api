@@ -23,15 +23,14 @@ class ReceivableController extends Controller
     {
         $receivables = '';
         // $countrys = Country::all();
-        
-        // if ($request->isMethod('post')) {
+      
             $receivables = $this->oReceivable->clientsPending(session('countryId'));
-            
+        
            
-          //  $amounts = $this->oReceivable->getDueTotal(4);
+            // $amounts = $this->oReceivable->getDueTotal(4);
             // dd($amounts);
             // exiT();
-            //  $receivables->push(5)
+//            //  $receivables->push(5)
         // }
 
         return view('module_administration.receivables.index', compact('receivables'));
@@ -59,7 +58,10 @@ class ReceivableController extends Controller
             $request->checkNumber,
             $request->targetBankId,
             $request->targetBankAccount,
-            $request->datePaid
+            $request->percent,
+            $request->amountPercent,
+            $request->datePaid,
+            Auth::user()->userId
         );
 
         return $result;
@@ -88,7 +90,7 @@ class ReceivableController extends Controller
     }
     public function paymentMethod()
     {
-        $paymentMethod = $this->oPaymentMethod->getAllByLanguage(\Session::get('countryId'));
+        $paymentMethod = $this->oPaymentMethod->getAll();
 
         return $paymentMethod->toJson();  
     }

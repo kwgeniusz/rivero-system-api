@@ -17,8 +17,7 @@ class PaymentMethod extends Model
      */
     protected $fillable = [
         'payMethodId',
-        'payMethodCode',
-        'payMethodLanguage',
+        'officeId',
         'payMethodName',
         'verify'
     ];
@@ -28,24 +27,17 @@ class PaymentMethod extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAllByLanguage($countryId)
+    public function getAll()
     {
-         if($countryId == '1') { //DALLAS
-            $language = 'en';
-        } elseif($countryId == '2') { //VENEZUELA
-            $language = 'es';
-        }
-
-        return $this->where('payMethodLanguage' , '=' , $language)
-          ->orderBy('payMethodCode', 'ASC')
-          ->get();
+        return $this->orderBy('payMethodName', 'ASC')
+                    ->get();
 
     }
 //------------------------------------------
-    public function ifIsInProcess($payMethodCode)
+    public function ifIsInProcess($payMethodId)
     {
         $paymentMethod = $this->select('verify')
-          ->where('payMethodCode' , '=' , $payMethodCode)
+          ->where('payMethodId' , '=' , $payMethodId)
           ->first();
 
            return $paymentMethod->verify;

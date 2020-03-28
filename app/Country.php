@@ -18,6 +18,7 @@ class Country extends Model
     protected $fillable = [
         'countryId',
         'countryName',
+        'language',
     ];
 
 //--------------------------------------------------------------------
@@ -27,6 +28,10 @@ class Country extends Model
     {
         return $this->hasMany('App\Contract', 'countryId', 'countryId');
     }
+    public function countryConfiguration()
+    {
+        return $this->hasOne('App\CountryConfiguration', 'countryId', 'countryId');
+    }
 
 // //--------------------------------------------------------------------
     /** Function of Models */
@@ -35,9 +40,14 @@ class Country extends Model
     {
         return $this->orderBy('countryId', 'ASC')->get();
     }
-    public function getAbbreviation($countryId){
-        $rs = $this->where('countryId', $countryId)->get();
-        return $rs[0]->abbreviation;
-    }
 
+    // public function getAbbreviation($countryId){
+    //     $rs = $this->where('countryId', $countryId)->get();
+    //     return $rs[0]->abbreviation;
+    // }
+
+   // public function getLanguage($countryId){
+   //      $rs = $this->where('countryId', $countryId)->get();
+   //      return $rs[0]->language;
+   //  }
 }

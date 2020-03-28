@@ -5,7 +5,7 @@
  <a class="btn btn-success" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span></a>
 
  <sweet-modal ref="modalNewClient">
-
+    <form class="form  form-prevent-multiple-submits">
     <h3 class="bg-success"><b>NUEVO CLIENTE</b></h3>
      <br>
        <div class="alert alert-danger" v-if="errors.length">
@@ -28,14 +28,14 @@
           </div>
            <br>
               <div class="form-group">
-                <label for="formClientName">NOMBRES Y APELLIDOS</label>
-                <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="Nombres y Apellidos">
+                <label for="formClientName">NOMBRE Y APELLIDO / EMPRESA</label>
+                <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="">
               </div>
   <br>
              
               <div class="form-group">
                 <label for="formClientAddress">DIRECCION</label>
-                <input type="text" class="form-control" name="formClientAddress" v-model="formClientAddress" placeholder="Direccion">
+                <input type="text" class="form-control" name="formClientAddress" v-model="formClientAddress" placeholder="5924 Azalea Ln Dallas, TX 75230">
               </div>
       <br>    
           <div class="form-group ">
@@ -48,7 +48,7 @@
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="formClientPhone">TELEFONO</label>
-                <input type="text" class="form-control" name="formClientPhone" v-model="formClientPhone" placeholder="04124231242" pattern="^([0-9]{3,11})" title="formato: 04124231242">
+                <input type="text" class="form-control" name="formClientPhone" v-model="formClientPhone" placeholder="(000) 000 0000" pattern="^([0-9]{3,11})" title="formato: 04124231242">
               </div>
             </div>
             <div class="col-xs-6">
@@ -59,13 +59,13 @@
             </div>
 <br><br><br>
             <div class="col-xs-12">
-              <a @click="createClient()" v-if="btnSubmitForm"  class="btn btn-primary">
+              <a @click="createClient()" v-if="btnSubmitForm"  class="btn btn-primary button-prevent-multiple-submits">
                 <span class="fa fa-check" aria-hidden="true"></span>  GUARDAR
               </a>
             </div>
          <br><br><br>    
   </div>
-
+</form>
          <!--<a class="btn btn-success" slot="button" @click.prevent="$refs.nestedChild.open()">Open Child Modal</a>-->
 </sweet-modal>
 
@@ -112,7 +112,7 @@
           }
     },
      props: {
-           url: { type: String},
+           prefUrl: { type: String},
     },
     methods: {
 
@@ -120,15 +120,10 @@
           this.$refs.modalNewClient.open()
              this.btnSubmitForm = true;
              this.errors = [];
-             if(this.url == "C") { 
-                  var url ='../countrys/all';
-                  var url2 ='../contactTypes/all'; 
-                  var url3 ='../clientNumberFormat/get'; 
-              }else{
-                  var url ='../../countrys/all';
-                  var url2 ='../../contactTypes/all';
-                  var url3 ='../../clientNumberFormat/get'; 
-                }
+                  var url =this.prefUrl+'countrys/all';
+                  var url2 =this.prefUrl+'contactTypes'; 
+                  var url3 =this.prefUrl+'clientNumberFormat/get'; 
+        
               axios.get(url).then(response => {
                  this.countrys = response.data
                 });
@@ -141,11 +136,8 @@
         },
        createClient: function() {
 
-          if(this.url == "C") { 
-           var url ='../clients';
-         }else{
-           var url ='../../clients';
-         }
+           var url =this.prefUrl+'clients';
+           
            this.errors = [];
            //VALIDATIONS
            // if (!this.formClientCountry) {

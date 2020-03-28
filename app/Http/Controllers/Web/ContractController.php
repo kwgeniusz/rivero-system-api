@@ -7,11 +7,8 @@ use App\Document;
 use App\Currency;
 use App\Client;
 use App\Staff;
-use App\ProjectDescription;
-use App\ProjectUse;
-use App\Country; //OJO
 use App\Receivable;
-use App\Configuration;
+use App\OfficeConfiguration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
 use Illuminate\Http\Request;
@@ -25,12 +22,9 @@ class ContractController extends Controller
     private $oCurrency;
     private $oClient;
     private $oStaff;
-    private $oProjectDescription;
-    private $oProjectUse;
     private $oReceivable;
-    private $oConfiguration;
-    private $oCountry;
-    private $module;
+    private $oOfficeConfiguration;
+    private $oBuildingCode;
 
     public function __construct()
     {
@@ -52,11 +46,8 @@ class ContractController extends Controller
         $this->oCurrency        = new Currency; 
         $this->oClient          = new Client;
         $this->oStaff           = new Staff;
-        $this->oProjectDescription = new ProjectDescription;
-        $this->oProjectUse     = new ProjectUse;
         $this->oReceivable      = new Receivable;
-        $this->oConfiguration   = new Configuration;
-        $this->oCountry         = new Country;
+        $this->oOfficeConfiguration   = new OfficeConfiguration;
     }
 
     public function index(Request $request)
@@ -64,42 +55,44 @@ class ContractController extends Controller
         
         $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $projects = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'P',$filteredOut,session('countryId'),session('officeId'));
-        $services = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED, 'S',$filteredOut,session('countryId'),session('officeId'));
+        $contracts = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED,$filteredOut,session('countryId'),session('officeId'));
 
-
-        return view('module_contracts.contracts.index', compact('projects', 'services'));
+        return view('module_contracts.contracts.index', compact('contracts'));
     }
 
-    public function create($contractType)
+    public function create()
     {
 
-       $contractNumberFormat = $this->oConfiguration->generateContractNumberFormat(session('countryId'),session('officeId'),$contractType);
- 
-        $projectsD = $this->oProjectDescription->getAll();
-        $projectsU = $this->oProjectUse->getAll();
-        $currencies = $this->oCurrency->getAll();
+       $contractNumberFormat = $this->oOfficeConfiguration->generateContractNumberFormat(session('countryId'),session('officeId'));
+       $currencies   = $this->oCurrency->getAll();
 
-        return view('module_contracts.contracts.create', compact('projectsD', 'projectsU','currencies','contractType','contractNumberFormat'));
+        return view('module_contracts.contracts.create', compact('currencies','contractNumberFormat'));
     }
 
     public function store(ContractRequest $request)
     {
 
-        $this->oContract->insertContract(
+       $newContract = $this->oContract->insertContract(
             session('countryId'),
             session('officeId'),
             $request->contractType,
             $request->contractDate,
             $request->clientId,
-            $request->siteAddress,
+            $request->propertyNumber,
+            $request->streetName,
+            $request->streetType,
+            $request->suiteNumber,
+            $request->city,
+            $request->state,
+            $request->zipCode,     
+            $request->buildingCodeId,
             $request->projectDescriptionId,
             $request->projectUseId,
-            $request->registryNumber,
-            $request->startDate,
-            $request->scheduledFinishDate,
-            $request->actualFinishDate,
-            $request->deliveryDate,
+            // $request->registryNumber,
+            // $request->startDate,
+            // $request->scheduledFinishDate,
+            // $request->actualFinishDate,
+            // $request->deliveryDate,
             $request->initialComment,
             $request->currencyId);
 
@@ -107,9 +100,8 @@ class ContractController extends Controller
             'message'    => 'Contrato Creado Exitosamente',
             'alert-type' => 'success',
         );
-
-        return redirect()->route('contracts.index')
-            ->with($notification);
+    
+        return redirect()->route('invoices.create', ['id' => $newContract->contractId])->with($notification);
     }
 
     public function details($id)
@@ -124,16 +116,14 @@ class ContractController extends Controller
       
       $blockEdit = false;
 
-         if($this->oReceivable->verificarPagoCuota($id)){
-             $blockEdit = true;
-         }
+         // if($this->oReceivable->verificarPagoCuota($id)){
+         //     $blockEdit = true;
+         // }
           
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        $projectsD = $this->oProjectDescription->getAll();
-        $projectsU = $this->oProjectUse->getAll();
         $currencies = $this->oCurrency->getAll();
 
-        return view('module_contracts.contracts.edit', compact('contract', 'projectsD', 'projectsU','currencies','blockEdit'));
+        return view('module_contracts.contracts.edit', compact('contract','currencies','blockEdit'));
     }
 
     public function update(ContractRequest $request, $id)
@@ -143,19 +133,27 @@ class ContractController extends Controller
             $id,
             // $request->countryId,
             // $request->officeId,
+            $request->contractType,
             $request->contractDate,
             $request->clientId,
-            $request->siteAddress,
+            $request->propertyNumber,
+            $request->streetName,
+            $request->streetType,
+            $request->suiteNumber,
+            $request->city,
+            $request->state,
+            $request->zipCode,     
+            $request->buildingCodeId,
             $request->projectDescriptionId,
             $request->projectUseId,
-            $request->registryNumber,
-            $request->startDate,
-            $request->scheduledFinishDate,
-            $request->actualFinishDate,
-            $request->deliveryDate,
+            // $request->registryNumber,
+            // $request->startDate,
+            // $request->scheduledFinishDate,
+            // $request->actualFinishDate,
+            // $request->deliveryDate,
             $request->initialComment,
-            $request->intermediateComment,
-            $request->finalComment,
+            // $request->intermediateComment,
+            // $request->finalComment,
             $request->currencyId
         );
 
@@ -249,7 +247,7 @@ class ContractController extends Controller
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
         return view('module_contracts.contractsFinished.show', compact('contract'));
     }
-    public function DeleteContractsFinished($id)
+    public function deleteContractsFinished($id)
     {
         $this->oContract->deleteContract($id,session('countryId'),session('officeId'));
         return redirect()->route('contracts.finished')
@@ -273,7 +271,7 @@ class ContractController extends Controller
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
         return view('module_contracts.contractscancelled.show', compact('contract'));
     }
-    public function DeleteContractsCancelled($id)
+    public function deleteContractsCancelled($id)
     {
         $this->oContract->deleteContract($id,session('countryId'),session('officeId'));
         return redirect()->route('contracts.cancelled')
@@ -367,10 +365,9 @@ class ContractController extends Controller
     }
 
    public function fileDelete($docId) {
+    
         $file =  $this->oDocument->findById($docId);
-        Storage::delete($file[0]->docUrl);
-
-        $this->oDocument->deleteFile($docId);
+        $this->oDocument->deleteFile($file[0]->docUrl,$docId);
 
        return redirect()->back();
    }

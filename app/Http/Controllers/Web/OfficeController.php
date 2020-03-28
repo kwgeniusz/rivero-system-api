@@ -10,7 +10,7 @@ class OfficeController extends Controller
 {
     public function getForCountry($countryId){
 
-     $offices = Office::where('officeId', $countryId)
+     $offices = Office::where('countryId', $countryId)
                               ->orderBy('officeName','ASC')
                               ->get();
         return json_encode($offices);

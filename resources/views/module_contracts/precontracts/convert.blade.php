@@ -4,26 +4,23 @@
 
 <div class="col-xs-12 col-xs-offset-1">
 <div class="panel panel-warning col-xs-7">
-  @if($precontract[0]->contractType == 'P')
-    <div class="panel-heading"> <h3><b>¿Esta Seguro de Convertir este Proyecto a Contrato?</b></h3></div>
-  @else
-    <div class="panel-heading"> <h3><b>¿Esta Seguro de Convertir este Servicio a Contrato?</b></h3></div>
-  @endif
+    <div class="panel-heading"> <h3><b>¿Esta Seguro de Convertir este Precontrato a Contrato?</b></h3></div>
     <div class="panel-body">
 
-      <form class="form-horizontal" action="{{Route('precontracts.convertAgg',['id' => $precontract[0]->precontractId])}}" method="POST">
+      <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('precontracts.convertAgg',['id' => $proposal[0]->proposalId])}}" method="POST">
         {{csrf_field()}}
         <div class="form-group">
           <label class="col-sm-5 control-label">N°</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->precontractId }}</p>
+            <p class="form-control-static">{{ $precontract->preId }}</p>
           </div>
         </div>
+           
       <div class="col-xs-6">
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('country')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->country->countryName }}</p>
+            <p class="form-control-static">{{ $precontract->country->countryName }}</p>
           </div>
         </div>
      </div>
@@ -32,45 +29,60 @@
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('office')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->office->officeName }}</p>
+            <p class="form-control-static">{{ $precontract->office->officeName }}</p>
           </div>
         </div>
        </div>
+      <div class="form-group">
+          <label class="col-sm-5 control-label">FECHA</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $precontract->precontractDate }}</p>
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('client')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->client->clientName }}</p>
+            <p class="form-control-static">{{ $precontract->client->clientName }}</p>
           </div>
         </div>
+
+        <div class="form-group">
+          <label class="col-sm-5 control-label">TIPO DE CONTRATO</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{ $precontract->contractType }}</p>
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('address')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->siteAddress }}</p>
+            <p class="form-control-static">{{ $precontract->siteAddress }}</p>
           </div>
         </div>
           <div class="form-group">
           <label class="col-sm-5 control-label">DESCRIPCION DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->projectDescription->projectDescriptionName }}</p>
+            <p class="form-control-static">{{ $precontract->projectDescription->projectDescriptionName }}</p>
           </div>
         </div>
          <div class="form-group">
           <label class="col-sm-5 control-label">TIPO DE PROYECTO</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->projectUse->projectUseName }}</p>
+            <p class="form-control-static">{{ $precontract->projectUse->projectUseName }}</p>
           </div>
         </div>
            <div class="form-group">
           <label class="col-sm-5 control-label">{{__('initial_comment')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->comment }}</p>
+            <p class="form-control-static">{{ $precontract->comment }}</p>
           </div>
         </div>
        <div class="col-xs-6">
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('contract_cost')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{  number_format( $precontract[0]->precontractCost, 2, ',', '.')}}</p>
+            <p class="form-control-static">{{  number_format( $precontract->precontractCost, 2, ',', '.')}}</p>
           </div>
         </div>
       </div>
@@ -78,18 +90,19 @@
         <div class="form-group">
           <label class="col-sm-5 control-label">{{__('currency')}}</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->currencyName }}</p>
+            <p class="form-control-static">{{ $precontract->currency->currencyName }}</p>
           </div>
         </div>
       </div>
 
 
 
+
             <div class="text-center">
-              <button type="submit" class="btn btn-success">
+              <button type="submit" class="btn btn-success  button-prevent-multiple-submits">
                 <span class="fa fa-sync" aria-hidden="true"></span>  Convertir
               </button>
-              <a href="{{route('precontracts.index')}}" class="btn btn-warning">
+              <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             </div>

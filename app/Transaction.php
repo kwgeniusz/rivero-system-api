@@ -2,6 +2,8 @@
 
 namespace App;
 
+
+use App\Helpers\DateHelper;
 use App\TransactionType;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -13,17 +15,21 @@ class Transaction extends Model
     protected $table      = 'transaction';
     protected $primaryKey = 'transactionId';
     //  protected $dateFormat = 'Y-m-d';
-    protected $fillable = [
-        'transactionId',
-        'transactionTypeId',
-        'countryId',
-        'officeId',
-        'transactionDate',
-        'description',
-        'amount',
-        'bankId',
-        'reference',
-    ];
+    protected $fillable = [ 
+               'transactionId',
+               'countryId',
+               'officeId',
+               'transactionTypeId',
+               'description',
+               'payMethodId',
+               'payMethodDetails',
+               'reason',
+               'transactionDate',
+               'amount',
+               'sign',
+               'bankId',
+               'invoiceId',
+               'deleted_at'];
 
     //--------------------------------------------------------------------
                /** RELATIONS */
@@ -32,9 +38,21 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\TransactionType', 'transactionTypeId', 'transactionTypeId');
     }
+     public function paymentMethod()
+    {
+        return $this->belongsTo('App\PaymentMethod', 'payMethodId', 'payMethodId');
+    }
     public function bank()
     {
         return $this->belongsTo('App\Bank', 'bankId', 'bankId');
+    }
+     public function invoice()
+    {
+        return $this->belongsTo('App\Invoice', 'invoiceId', 'invoiceId');
+    }
+     public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'userId');
     }
     //--------------------------------------------------------------------
                /** ACCESORES **/
@@ -45,26 +63,25 @@ class Transaction extends Model
     }
     public function getTransactionDateAttribute($transactionDate)
     {
-        if (empty($transactionDate)) {
-            return $transactionDate = null;
-        }
-        return $newDate = date("d/m/Y", strtotime($transactionDate));
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+         $newDate    = $oDateHelper->$functionRs($transactionDate);
+        return $newDate;
     }
 
     // ------------MUTADORES-----------------//
     public function setAmountAttribute($amount)
     {
+         $amount = number_format((float)$amount, 2, '.', '');
         return $this->attributes['amount'] = encrypt($amount);
     }
     public function setTransactionDateAttribute($transactionDate)
     {
-        if (empty($transactionDate)) {
-            return $transactionDate = null;
-        }
-        $partes                              = explode("/", $transactionDate);
-        $arreglo                             = array($partes[2], $partes[1], $partes[0]);
-        $date                                = implode("-", $arreglo);
-        $this->attributes['transactionDate'] = $date;
+         $oDateHelper = new DateHelper;
+         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+         $newDate    = $oDateHelper->$functionRs($transactionDate);
+
+        $this->attributes['transactionDate'] = $newDate;
     }
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -72,6 +89,21 @@ class Transaction extends Model
     public function getAll()
     {
         return $this->orderBy('transactionId', 'ASC')->get();
+    }
+  //----------------------------------------------------------------------
+       public function getAllByInvoice($invoiceId,$countryId,$officeId)
+    { 
+        //OJO DEBE LLEVARSE POR SIGNOS 
+     $result = Transaction::select()
+        ->join('transaction_type', 'transaction_type.transactionTypeId', '=', 'transaction.transactionTypeId')
+        ->where('transaction.countryId', $countryId) 
+        ->where('transaction.officeId',$officeId)
+        ->where('transaction.invoiceId',$invoiceId)
+        ->where('transaction_type.transactionTypeCode', 'COLLECTION')
+        ->orderBy('transaction.transactionId', 'ASC')
+        ->get();
+
+        return $result;
     }
     //------------------------------------
     public function getAllForSign($transactionSign,$countryId,$officeId)
@@ -85,6 +117,7 @@ class Transaction extends Model
 
         return $result;
     }
+
     //------------------------------------------
     public function getAllForTwoDate($date1, $date2,$countryId,$officeId)
     {
@@ -120,7 +153,7 @@ class Transaction extends Model
     }
 
     //------------------------------------------
-    public function insertT($transactionTypeId, $description, $transactionDate, $amount, $bankId, $reference, $sign, $month,$countryId,$officeId)
+    public function insertT($countryId,$officeId, $transactionTypeId,$description, $payMethodId, $payMethodDetails, $reason, $transactionDate, $amount, $sign, $bankId,$invoiceId,$month,$userId)
     {
 
         $error = null;
@@ -133,16 +166,24 @@ class Transaction extends Model
             $transaction->officeId          = $officeId;
             $transaction->transactionTypeId = $transactionTypeId;
             $transaction->description       = $description;
+            $transaction->payMethodId      = $payMethodId;
+            $transaction->payMethodDetails = $payMethodDetails;
+            $transaction->reason            = $reason;
             $transaction->transactionDate   = $transactionDate;
             $transaction->amount            = $amount;
-            $transaction->bankId            = $bankId;
-            $transaction->reference         = $reference;
             $transaction->sign              = $sign;
+            $transaction->bankId            = $bankId;
+            $transaction->invoiceId         = $invoiceId;
+            $transaction->userId            = $userId;
+            
+            //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
+            //
+
             $transaction->save();
             
             //REALIZA ACTUALIZACION EN BANCO
-            $oBank = new Bank;
-            $oBank->updateBalanceForBank($sign, $bankId, $month, $amount);
+            // $oBank = new Bank;
+            // $oBank->updateBalanceForBank($sign, $bankId, $month, $amount);
             
             $success = true;
             DB::commit();

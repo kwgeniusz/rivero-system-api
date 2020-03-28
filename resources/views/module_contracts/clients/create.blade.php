@@ -19,7 +19,7 @@
           </div>
       @endif
 
-        <form class="form" action="{{Route('clients.store')}}" method="POST">
+        <form class="form form-prevent-multiple-submits" action="{{Route('clients.store')}}" method="POST">
         {{csrf_field()}}
    <div class="row">
     {{--       <div class="form-group col-xs-4">
@@ -37,13 +37,13 @@
  </div>
 
               <div class="form-group">
-                <label for="clientName">{{__('names_and_surnames')}}</label>
-                <input type="text" class="form-control" id="clientName" name="clientName" value="{{ old('clientName') }}" placeholder="Nombres y Apellidos">
+                <label for="clientName">NOMBRE Y APELLIDO / EMPRESA</label>
+                <input type="text" class="form-control" id="clientName" name="clientName" value="{{ old('clientName') }}" placeholder="">
               </div>
 
               <div class="form-group">
                 <label for="clientAddress">{{__('address')}}</label>
-                <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{ old('clientAddress') }}" placeholder="Direccion">
+                <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{ old('clientAddress') }}" placeholder="5924 Azalea Ln Dallas, TX 75230">
               </div>
    <div class="row">
           <div class="form-group col-xs-4">
@@ -59,7 +59,7 @@
               <div class="col-xs-6">
               <div class="form-group">
                 <label for="clientPhone">{{__('phone')}}</label>
-                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}" placeholder="000 000 0000"  title="formato: 000 000 0000">
+                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{ old('clientPhone') }}" placeholder="(000) 000 0000"  title="formato: (000) 000 0000">
               </div>
             </div>
             <div class="col-xs-6">
@@ -70,7 +70,7 @@
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary  button-prevent-multiple-submits">
                 <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
               </button>
               <a href="{{route('clients.index')}}" class="btn btn-warning">

@@ -8,10 +8,10 @@
   </button>
   <h1 id="example-title" class="example-title">Full Example</h1> -->
 
-  <div v-show="$refs.upload && $refs.upload.dropActive" class="drop-active">
+  <div v-show="$refs.upload4 && $refs.upload4.dropActive" class="drop-active">
     <h3>Soltar archivos para cargar</h3>
   </div>
-  <div class="upload" v-show="!isOption">
+  <div class="upload4" v-show="!isOption">
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-if="!files.length">
+          <tr v-if="!files4.length">
             <td colspan="7">
               <div class="text-center p-5">
                 <h4>Suelte archivos en cualquier lugar para cargar<br/>o</h4>
@@ -34,7 +34,7 @@
               </div>
             </td>
           </tr>
-          <tr v-for="(file, index) in files" :key="file.id">
+          <tr v-for="(file, index) in files4" :key="file.id">
             <td>{{index}}</td>
             <td>
               <img v-if="file.thumb" :src="file.thumb" width="40" height="auto" />
@@ -62,14 +62,14 @@
                 </button>
                 <div class="dropdown-menu">
                   <!-- <a :class="{'dropdown-item': true, disabled: file.active || file.success || file.error === 'compressing'}" href="#" @click.prevent="file.active || file.success || file.error === 'compressing' ? false :  onEditFileShow(file)">Edit</a> -->
-                  <a :class="{'dropdown-item': true, disabled: !file.active}" href="#" @click.prevent="file.active ? $refs.upload.update(file, {error: 'cancel'}) : false">Cancelar</a>
+                  <a :class="{'dropdown-item': true, disabled: !file.active}" href="#" @click.prevent="file.active ? $refs.upload4.update(file, {error: 'cancel'}) : false">Cancelar</a>
 
-                  <a class="dropdown-item" href="#" v-if="file.active" @click.prevent="$refs.upload.update(file, {active: false})">Abortar</a>
-                  <a class="dropdown-item" href="#" v-else-if="file.error && file.error !== 'compressing' && $refs.upload.features.html5" @click.prevent="$refs.upload.update(file, {active: true, error: '', progress: '0.00'})">Reintentar carga</a>
-                  <a :class="{'dropdown-item': true, disabled: file.success || file.error === 'compressing'}" href="#" v-else @click.prevent="file.success || file.error === 'compressing' ? false : $refs.upload.update(file, {active: true})">Cargar</a>
+                  <a class="dropdown-item" href="#" v-if="file.active" @click.prevent="$refs.upload4.update(file, {active: false})">Abortar</a>
+                  <a class="dropdown-item" href="#" v-else-if="file.error && file.error !== 'compressing' && $refs.upload4.features.html5" @click.prevent="$refs.upload4.update(file, {active: true, error: '', progress: '0.00'})">Reintentar carga</a>
+                  <a :class="{'dropdown-item': true, disabled: file.success || file.error === 'compressing'}" href="#" v-else @click.prevent="file.success || file.error === 'compressing' ? false : $refs.upload4.update(file, {active: true})">Cargar</a>
 
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#" @click.prevent="$refs.upload.remove(file)">Remover</a>
+                  <a class="dropdown-item" href="#" @click.prevent="$refs.upload4.remove(file)">Remover</a>
                 </div>
               </div>
             </td>
@@ -100,10 +100,11 @@
           :drop="drop"
           :drop-directory="dropDirectory"
           :add-index="addIndex"
-          v-model="files"
+          v-model="files4"
           @input-filter="inputFilter"
           @input-file="inputFile"
-          ref="upload">
+          ref="upload4"
+          input-id="file4">
           <i class="fa fa-plus"></i>
           Seleccionar
         </file-upload>
@@ -113,11 +114,11 @@
           <a class="dropdown-item" href="#" @click.prevent="addData.show = true">Add data</a>
         </div> -->
       </div>
-      <button type="button" class="btn btn-success" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="$refs.upload.active = true">
+      <button type="button" class="btn btn-success" v-if="!$refs.upload4 || !$refs.upload4.active" @click.prevent="$refs.upload4.active = true">
         <i class="fa fa-arrow-up" aria-hidden="true"></i>
         Iniciar Carga
       </button>
-      <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload.active = false">
+      <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload4.active = false">
         <i class="fa fa-stop" aria-hidden="true"></i>
         Detener Carga
       </button>
@@ -331,6 +332,7 @@ import Cropper from 'cropperjs'
 import ImageCompressor from '@xkeshi/image-compressor'
 import FileUpload from 'vue-upload-component'
 
+
 export default {
   components: {
     FileUpload,
@@ -339,9 +341,9 @@ export default {
   },
   data:function () {
     return {
-      files: [],
-      accept: 'image/png,image/gif,image/jpeg,image/webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,video/mp4,video/quicktime,audio/mp3, application/acad, application/x-acad, application/autocad_dwg, image/x-dwg, application/dwg, application/x-dwg, application/x-autocad, image/vnd.dwg, drawing/dwg',
-      extensions: 'gif,jpg,jpeg,png,webp,pdf,doc,docx,ppt,pptx,xls,xlsx,,mp4,mov,mp3,dwg',
+      files4: [],
+      accept: '',
+      extensions: 'gif,jpg,jpeg,png,webp,pdf,doc,docx,ppt,pptx,xls,xlsx,mp4,mov,mp3,dwg,dxf,dwf,bin,bak,HEIC,zip,tif',                                                                                                                    
       // extensions: ['gif', 'jpg', 'jpeg','png', 'webp'],
       // extensions: /\.(gif|jpe?g|png|webp)$/i,
       minSize: 1024,
@@ -352,7 +354,7 @@ export default {
       dropDirectory: false,
       addIndex: false,
       thread: 3,
-      name: 'file',
+      name: 'file4',
       postAction: '../contractsFileAgg',
       putAction: '../contractsFileAgg',
       headers: {
@@ -386,7 +388,7 @@ export default {
     'editFile.show'(newValue, oldValue) {
       // 关闭了 自动删除 error
       if (!newValue && oldValue) {
-        this.$refs.upload.update(this.editFile.id, { error: this.editFile.error || '' })
+        this.$refs.upload4.update(this.editFile.id, { error: this.editFile.error || '' })
       }
       if (newValue) {
         this.$nextTick(function () {
@@ -437,10 +439,10 @@ export default {
           })
           imageCompressor.compress(newFile.file)
             .then((file) => {
-              this.$refs.upload.update(newFile, { error: '', file, size: file.size, type: file.type })
+              this.$refs.upload4.update(newFile, { error: '', file, size: file.size, type: file.type })
             })
             .catch((err) => {
-              this.$refs.upload.update(newFile, { error: err.message || 'compress' })
+              this.$refs.upload4.update(newFile, { error: err.message || 'compress' })
             })
         }
       }
@@ -468,7 +470,7 @@ export default {
           // beforeSend
           // min size
           if (newFile.size >= 0 && this.minSize > 0 && newFile.size < this.minSize) {
-            this.$refs.upload.update(newFile, { error: 'size' })
+            this.$refs.upload4.update(newFile, { error: 'size' })
           }
         }
         if (newFile.progress !== oldFile.progress) {
@@ -479,7 +481,7 @@ export default {
         }
         if (newFile.success && !oldFile.success) {
                 this.$emit('insert')
-                this.$refs.upload.remove(newFile) 
+                this.$refs.upload4.remove(newFile) 
         }
       }
       if (!newFile && oldFile) {
@@ -493,8 +495,8 @@ export default {
       }
       // Automatically activate upload
       if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
-        if (this.uploadAuto && !this.$refs.upload.active) {
-          this.$refs.upload.active = true
+        if (this.uploadAuto && !this.$refs.upload4.active) {
+          this.$refs.upload4.active = true
         }
       }
     },
@@ -503,10 +505,10 @@ export default {
     },
     onEditFileShow(file) {
       this.editFile = { ...file, show: true }
-      this.$refs.upload.update(file, { error: 'edit' })
+      this.$refs.upload4.update(file, { error: 'edit' })
     },
     onEditorFile() {
-      if (!this.$refs.upload.features.html5) {
+      if (!this.$refs.upload4.features.html5) {
         this.alert('Your browser does not support')
         this.editFile.show = false
         return
@@ -523,17 +525,17 @@ export default {
         data.file = new File([arr], data.name, { type: this.editFile.type })
         data.size = data.file.size
       }
-      this.$refs.upload.update(this.editFile.id, data)
+      this.$refs.upload4.update(this.editFile.id, data)
       this.editFile.error = ''
       this.editFile.show = false
     },
     // add folader
     onAddFolader() {
-      if (!this.$refs.upload.features.directory) {
+      if (!this.$refs.upload4.features.directory) {
         this.alert('Your browser does not support')
         return
       }
-      let input = this.$refs.upload.$el.querySelector('input')
+      let input = this.$refs.upload4.$el.querySelector('input')
       input.directory = true
       input.webkitdirectory = true
       this.directory = true
@@ -547,7 +549,7 @@ export default {
     },
     onAddData() {
       this.addData.show = false
-      if (!this.$refs.upload.features.html5) {
+      if (!this.$refs.upload4.features.html5) {
         this.alert('Your browser does not support')
         return
       }
@@ -555,7 +557,7 @@ export default {
         type: this.addData.type,
       })
       console.log(file);
-      this.$refs.upload.add(file)
+      this.$refs.upload4.add(file)
     }
   }
 }

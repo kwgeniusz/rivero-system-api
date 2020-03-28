@@ -7,6 +7,7 @@ use App\Http\Requests\TransactionRequest;
 use Illuminate\Http\Request;
 use App\Bank;
 use App\Transaction;
+use App\PaymentMethod;
 use App\TransactionType;
 use Auth;
 
@@ -15,6 +16,7 @@ class TransactionController extends Controller
 
     private $oTransaction;
     private $oTransactionType;
+    private $oPaymentMethod;
     private $oBank;
 
     public function __construct()
@@ -23,6 +25,7 @@ class TransactionController extends Controller
         $this->middleware('auth');
         $this->oTransaction     = new Transaction;
         $this->oTransactionType = new TransactionType;
+        $this->oPaymentMethod   = new PaymentMethod;
         $this->oBank            = new Bank;
     }
     /**
@@ -44,12 +47,13 @@ class TransactionController extends Controller
 
     public function create($sign)
     {
-        $transactionType = $this->oTransactionType->findBySign($sign);
-        $banks           = $this->oBank->getAll(session('countryId'));
+        $transactionType = $this->oTransactionType->getAllByOfficeAndSign(session('officeId'),$sign);
+        $paymentsMethod   = $this->oPaymentMethod->getAll();
+        $banks           = $this->oBank->getAllByOffice(session('officeId'));
         if ($sign == '+') {
-            return view('module_administration.transactionsincome.create', compact('transactionType', 'banks'));
+            return view('module_administration.transactionsincome.create', compact('paymentsMethod','transactionType', 'banks'));
         } else {
-            return view('module_administration.transactionsexpenses.create', compact('transactionType', 'banks'));
+            return view('module_administration.transactionsexpenses.create', compact('paymentsMethod','transactionType', 'banks'));
         }
 
     }
@@ -63,19 +67,26 @@ class TransactionController extends Controller
     {
 
         $month = explode("/", $request->transactionDate);
+        //   $file=$request->file('file');
+        //   dd($file);
 
+        //   exit(); 
         //insert transaction and Update BANK...
         $result = $this->oTransaction->insertT(
+            session('countryId'),
+            session('officeId'),
             $request->transactionTypeId,
             $request->description,
+            $request->payMethodId,
+            $request->payMethodDetails,
+            $request->reason,
             $request->transactionDate,
             $request->amount,
-            $request->bankId,
-            $request->reference,
             $request->sign,
+            $request->bankId,
+            $request->invoiceId,
             $month[1],
-            session('countryId'),
-            session('officeId'));
+            Auth::user()->userId);
 
 
         $notification = array(
@@ -116,7 +127,7 @@ class TransactionController extends Controller
      */
     public function delete($sign, $id)
     {
-
+         //VALIDAR QUE NO ENTRE SI TIENE FACTURA RELACIONADA EN LA TABLA
        $result = $this->oTransaction->deleteT($id);
 
             $notification = array(

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Invoice;
 use App\InvoiceDetail;
 use App\Contract;
-use App\Configuration;
+use App\OfficeConfiguration;
 use Auth;
 
 class InvoiceDetailController extends Controller
@@ -20,7 +20,7 @@ class InvoiceDetailController extends Controller
         $this->oInvoice        = new Invoice;
         $this->oInvoiceDetail        = new InvoiceDetail;
         $this->oContract             = new Contract;
-        $this->oConfiguration        = new Configuration;
+        $this->oOfficeConfiguration        = new OfficeConfiguration;
     }
 
     public function index(Request $request)
@@ -38,7 +38,7 @@ class InvoiceDetailController extends Controller
     public function create(Request $request)
     {
 
-        $invoiceNumberFormat = $this->oConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
+        $invoiceNumberFormat = $this->oOfficeConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
 
         // $projects = $this->oProjectType->getAll();
         // $services = $this->oServiceType->getAll();
@@ -48,20 +48,34 @@ class InvoiceDetailController extends Controller
 
     public function store(Request $request)
     {
-
-       $result = $this->oInvoiceDetail->insert(
-            $request->invoiceId,
-            $request->serviceId,
-            $request->serviceName,
-            $request->unit,
-            $request->unitCost,
-            $request->quantity,
-            $request->amount);
-
-      $notification = array(
-            'message'    => $result['message'],
-            'alertType' => $result['alertType'],
+//VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
+        $this->oInvoiceDetail->deleteInv($request->invoiceId);
+    
+    //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
+     if(!empty($request->itemList)) {
+        foreach ($request->itemList as $key => $item) {
+           $result = $this->oInvoiceDetail->insert(
+                          $request->invoiceId,
+                          ++$key,
+                          $item['serviceId'],
+                          $item['serviceName'],
+                          $item['unit'],
+                          $item['unitCost'],
+                          $item['quantity'],
+                          $item['amount']);
+             }
+        $notification = array(
+          'message'    => $result['message'],
+          'alertType' => $result['alertType'],
         );
+      }else{
+        $notification = array(
+          'message'    => 'Renglones Guardados',
+          'alertType' => 'success',
+        );
+      };//fin 1 else
+
+      //envia siempre la notificacion para saber que if fue cumplido 
          if($request->ajax()){
                 return $notification;
             }
@@ -110,15 +124,15 @@ class InvoiceDetailController extends Controller
             ->with($notification);
     }
 
-    public function destroy($id)
-    {
-        $result = $this->oInvoiceDetail->deleteInv($id);
+    // public function destroy($id)
+    // {
+    //     $result = $this->oInvoiceDetail->deleteInv($id);
 
-           $notification = array(
-            'message'    => $result['message'],
-            'alertType' => $result['alertType'],
-        );
-         return $notification;
+    //        $notification = array(
+    //         'message'    => $result['message'],
+    //         'alertType' => $result['alertType'],
+    //     );
+    //      return $notification;
 
-    }
+    // }
 }

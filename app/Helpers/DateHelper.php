@@ -94,6 +94,8 @@ class DateHelper
         return $dateISO;
     }
 
+
+
     ///-----------------------------------------------
     function create_MYSQL_date($dd,$mm,$yy){
       if (strlen($mm) <2) {
@@ -144,3 +146,4 @@ class DateHelper
  
 	 
 }
+
