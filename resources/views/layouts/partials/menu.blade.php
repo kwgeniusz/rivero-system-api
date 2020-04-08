@@ -94,6 +94,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
+              <li><a href="#">{{__('departments')}}</a></li>
               <li><a href="#">{{__('Type of Payroll')}}</a></li>
               <li><a href="#">{{__('Charges')}}</a></li>
               <li><a href="#">{{__('Type of Transactions')}}</a></li>
@@ -133,11 +134,14 @@
            @if(Auth::user()->changeOffice == 'Y')
           <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li>
             @endif
- <!--  @can('FA')  <li><a href="#">{{__('Countries')}}</a></li>@endcan
-  @can('FB')  <li><a href="#">{{__('Offices')}}</a></li>@endcan
-  @can('FC')  <li><a href="{{route('projectDescriptions.index')}}">{{__('types_of_projects')}}</a></li>@endcan
-  @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan -->
-  @can('FE')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
+            <!-- 
+              @can('FA')  <li><a href="#">{{__('Countries')}}</a></li>@endcan
+              @can('FB')  <li><a href="#">{{__('Offices')}}</a></li>@endcan
+              @can('FC')  <li><a href="{{route('projectDescriptions.index')}}">{{__('types_of_projects')}}</a></li>@endcan
+              @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan 
+            -->
+              <li><a href="{{--route('#')--}}">{{__('Company')}}</a></li>
+              @can('FE')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
               <li><a href="{{route('services.index')}}">Servicios</a></li>
               <li><a href="{{route('notes.index')}}">Notas</a></li>
               <li><a href="{{route('contactTypes.index')}}">Tipo de Contacto(Clientes)</a></li>
