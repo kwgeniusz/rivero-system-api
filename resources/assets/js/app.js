@@ -61,6 +61,10 @@ Vue.component('add-position', require('./components/rrhh/position/addPosition.vu
 Vue.component('main-transactions-type', require('./components/rrhh/transactionstype/mainTransactionsType.vue'));
 Vue.component('list-transaction-type', require('./components/rrhh/transactionstype/listTransactionType.vue'));
 Vue.component('addUp-transactions-type', require('./components/rrhh/transactionstype/addUpTransactionsType.vue'));
+//--> periods
+Vue.component('main-periods', require('./components/rrhh/periods/mainPeriods.vue'));
+Vue.component('list-periods', require('./components/rrhh/periods/listPeriods.vue'));
+Vue.component('addUp-periods', require('./components/rrhh/periods/addUpPeriods.vue'));
 
 
 

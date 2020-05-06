@@ -42,3 +42,12 @@ Route::get('transactionstypes/', 'Web\HrTransactionTypeController@index');
 Route::post('transactionstypes/post', 'Web\HrTransactionTypeController@store');
 Route::put('transactionstypes/put/{id}', 'Web\HrTransactionTypeController@update');
 Route::delete('transactionstypes/delete/{id}', 'Web\HrTransactionTypeController@destroy');
+
+// Periods
+Route::get('periods/', function () {
+    return view('rrhh.periods.index');
+})->name('periods.index'); 
+Route::get('periods/list/', 'Web\PeriodsController@index');
+Route::post('periods/post', 'Web\PeriodsController@store');
+Route::put('periods/put/{id}', 'Web\PeriodsController@update');
+Route::delete('periods/delete/{id}', 'Web\PeriodsController@destroy');
