@@ -30,7 +30,7 @@ class PrintInvoice extends Controller
   foreach ($rs2 as $rsd) {              // renglones  invoiceDetail
 
     // imprimir encabezado de factura
-    if ($line > $linesperpage) ghuj{               // imprimir
+    if ($line > $linesperpage){               // imprimir
        
        if ($page > 0) {                                 
           // imprimir pie de pagina

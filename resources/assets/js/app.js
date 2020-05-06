@@ -43,11 +43,46 @@ Vue.component('service-templates', require('./components/ServiceTemplates.vue'))
 Vue.component('form-new-service', require('./components/FormNewService.vue'));
 Vue.component('form-new-note', require('./components/FormNewNote.vue'));
 
+//########### human resource components #############
+// --> Department
+Vue.component('rrhh-departments', require('./components/rrhh/department/rrhhDepartments.vue'));
+Vue.component('rrhh-table-departments', require('./components/rrhh/department/rrhhTableDepartaments.vue'));
+Vue.component('add-Departements', require('./components/rrhh/department/addDepartements.vue'));
+Vue.component('add-Departements', require('./components/rrhh/department/addDepartements.vue'));
+// --> payroll type
+Vue.component('mainpayroll-type', require('./components/rrhh/payrolltype/mainPayrollType.vue'));
+Vue.component('listpayroll-type', require('./components/rrhh/payrolltype/listPayrollType.vue'));
+Vue.component('AddUp-Payroll-Type', require('./components/rrhh/payrolltype/AddUpPayrollType.vue'));
+// --> position
+Vue.component('main-position', require('./components/rrhh/position/mainPosition.vue'));
+Vue.component('list-position', require('./components/rrhh/position/listPosition.vue'));
+Vue.component('add-position', require('./components/rrhh/position/addPosition.vue'));
+//--> Transactions Type
+Vue.component('main-transactions-type', require('./components/rrhh/transactionstype/mainTransactionsType.vue'));
+Vue.component('list-transaction-type', require('./components/rrhh/transactionstype/listTransactionType.vue'));
+Vue.component('addUp-transactions-type', require('./components/rrhh/transactionstype/addUpTransactionsType.vue'));
+
+
+
+//############ COMFIGURATION COMPANY COMPONENTS ##############
+Vue.component('main-company', require('./components/configuration/company/mainCompany.vue'));
+Vue.component('panel-heading-add', require('./components/configuration/company/panelHeadingAdd.vue'));
+Vue.component('panel-heading-update', require('./components/configuration/company/panelHeadingUpdate.vue'));
+Vue.component('list-company', require('./components/configuration/company/listCompany.vue'));
+
+
+
+// ########### srcComponent 
+Vue.component('button-form', require('./components/srcComponent/buttonForm.vue'));
+
+
+
+
 
 const app = new Vue({
     el: '#app',
     data: {
-       
+        menu:-1,
         },
     methods: {
        

@@ -94,18 +94,31 @@
               </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="#">{{__('departments')}}</a></li>
-              <li><a href="#">{{__('Type of Payroll')}}</a></li>
-              <li><a href="#">{{__('Charges')}}</a></li>
-              <li><a href="#">{{__('Type of Transactions')}}</a></li>
+              <li><a href="{{route('departments.index')}}">{{__('departments')}}</a></li>
+              <li><a href="{{route('charges.index')}}">{{__('Charges')}}</a></li>
+              <li><a href="{{route('payroll_type.index')}}">{{__('Type of Payroll')}}</a></li>
+              <li><a href="{{route('transactions_type.index')}}">{{__('Type of Transactions')}}</a></li>
               <li><a href="#">{{__('periods')}}</a></li>
+              <li><a href="#">Tipos de Procesos</a></li>
               <li><a href="#">{{__('personnel')}}</a></li>
-              <li><a href="#">{{__('calculate_payroll')}}</a></li>
-              <li><a href="#">{{__('calculate_special_payroll')}}</a></li>
-              <li><a href="#">{{__('update_payroll')}}</a></li>
+              <li><a href="#">Cambios Generales de Salarios</a></li>
               <hr>
-              <li><a href="#">{{__('payment_receipt')}}</a></li>
-              <li><a href="#">{{__('payroll_list')}}</a></li>
+              <li><a href="#">Transacciones Fijas</a></li>
+              <li><a href="#">Transacciones Variables</a></li>
+              <li><a href="#">Carlcular Pre-nomina</a></li>
+              <li><a href="#">Imprimir Pre-nomina</a></li>
+              <li><a href="#">Generar Asientos Contables</a></li>
+              {{-- <li><a href="#">{{__('update_payroll')}}</a></li>
+              <li><a href="#">{{__('calculate_payroll')}}</a></li>
+              <li><a href="#">{{__('calculate_special_payroll')}}</a></li> --}}
+              <hr>
+              <li><a href="#">Resumen de Trabajadores</a></li>
+              <li><a href="#">Trabajadores Por Departamento</a></li>
+              <li><a href="#">Expediente</a></li>
+              <li><a href="#">Nomina de Pago</a></li>
+              <li><a href="#">Recibo de Pago</a></li>
+              {{-- <li><a href="#">{{__('payment_receipt')}}</a></li>
+              <li><a href="#">{{__('payroll_list')}}</a></li> --}}
           </ul>
         </li>
 @endcan
@@ -140,7 +153,7 @@
               @can('FC')  <li><a href="{{route('projectDescriptions.index')}}">{{__('types_of_projects')}}</a></li>@endcan
               @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan 
             -->
-              <li><a href="{{--route('#')--}}">{{__('Company')}}</a></li>
+              <li><a href="{{route('company.index')}}">{{__('Company')}}</a></li>
               @can('FE')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
               <li><a href="{{route('services.index')}}">Servicios</a></li>
               <li><a href="{{route('notes.index')}}">Notas</a></li>

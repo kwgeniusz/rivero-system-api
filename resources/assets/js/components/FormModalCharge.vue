@@ -83,7 +83,7 @@
 
 
               <div class="row"></div>
-            <div id="btnSubmit"class="text-center" v-if="btnSubmitForm">
+            <div id="btnSubmit" class="text-center" v-if="btnSubmitForm">
               <a @click="sendForm()" class="btn btn-primary">
                 <span class="fa fa-check" aria-hidden="true"></span>  ENVIAR
               </a>

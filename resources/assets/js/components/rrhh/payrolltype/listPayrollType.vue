@@ -1,0 +1,89 @@
+<template>
+
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>{{namePanel}}</h4></div>
+
+            <div class="table-responsive text-center">
+                <table class="table table-striped table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>N</th>
+                            <th>Nombre del tipo de nomina</th>
+                            <th>Descripcion del tipo de nomina</th>
+                            <th>Pais</th>
+                            <th>Opt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                        <tr v-for="(payrollType, index) in objPayRollType" :key="payrollType.payrollTypeId">
+                            
+                            <td >{{index + 1}}</td>
+                            <td class="form-inline">  
+                                {{payrollType.payrollTypeName}} 
+                            </td>
+                            <td>
+                                {{payrollType.payrollTypeDescription}}
+                            </td>
+                            <td>
+                                {{payrollType.countryName}}
+                            </td>
+                            
+                            <td> 
+                                <button v-on:click="editPayrollType(index, payrollType.payrollTypeId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i></button>  
+                                <button v-on:click="deletePayrollType(index,payrollType.payrollTypeId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                            </td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div><!-- table-responsive text-center -->
+        </div>
+    </div>
+        
+</template>
+
+<script>
+    export default {
+        mounted() {
+            console.log('Component mounted.')
+        },
+        data(){
+            return{
+
+            }
+        },
+        props: {
+            namePanel: {
+                type: String,
+                default: 'Listado tipo de Nomina',
+            },
+            objPayRollType:{},
+        },
+        methods: {
+            editPayrollType(index, id){
+                // paso solamente el index para pasar al formulario el objeto del indice seleccionado,
+                // de esta manera no tengo que buscar los datos en la DB nuevamente
+                this.$emit("indexEdit",index)
+                // console.log('enviado')
+            },
+            deletePayrollType(index,id){
+                // console.log(index)
+                // const indexIs = this.objPayRollType[index]
+            
+                if (confirm("Delete?") ){
+                    axios.delete(`payrolltypes/delete/${id}`).then(()=>{
+
+                        this.$emit("delPayrollType",[index,id])
+                    })
+                    .catch(function (error) {
+                        alert("Error")
+                        console.log(error);
+                    });
+                }
+                
+                // console.log('enviado')
+            }
+        }
+    }
+</script>

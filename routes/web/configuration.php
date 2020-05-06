@@ -25,3 +25,17 @@ Route::resource('users/{userId}/Permissions', 'Web\UserController@permissionsOfU
 
 Route::resource('roles', 'Web\RolController');
 Route::resource('permissions', 'Web\PermissionController');
+
+// Configuration: Create company
+Route::get('company/', function () {
+    return view('module_configuration.company.index');
+})->name('company.index');
+
+Route::get('companys/', 'Web\CompanyController@index');
+Route::get('companys/contrys', 'Web\CompanyController@comboContry');
+Route::get('companys/offices/{id}', 'Web\CompanyController@combOffice');
+Route::get('companys/show/{id}', 'Web\CompanyController@editCompany');
+Route::post('companys/', 'Web\CompanyController@store');
+Route::put('companys/{id}', 'Web\CompanyController@update');
+Route::delete('companys/{id}', 'Web\CompanyController@destroy');
+
