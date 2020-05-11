@@ -7,17 +7,17 @@
                     
                     <div class="panel-body" >
                         <form role="form" v-on:submit.prevent="newValueOfSixField()" id="formSixField" >
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-10">
                                 <label for="field1" class="form-group" v-text="nameField1"></label>
                                 <input type="text" v-model="varFieldOne" class="form-control " id="field1" name = "field1" v-bind:placeholder="nameField1">
 
                             </div>
-                            <div class="form-group col-md-7">
+                            <div class="form-group col-md-8">
                                 <label for="field2" class="form-group" v-text="nameField2"></label>
                                 <input  type="text" v-model="varFieldTwo" class="form-control " id="field2" name = "field2" v-bind:placeholder="nameField2">
                                 
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <label for="field3" class="form-group" v-text="nameField3"></label>
                                 <input type="text" v-model="varFieldThree" class="form-control " id="field3" name = "field3" v-bind:placeholder="nameField3">
                                 

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-md-12">
+    <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading"><h4>{{namePanelList}}</h4></div>
 
@@ -9,45 +9,33 @@
                     <thead>
                         <tr>
                             <th>N.</th>
-                            <th>Nombre del periodo</th>
+                            <th>Codigo</th>
+                            <th>Nombre del Proceso</th>
                             <th>Pais</th>
                             <th>Empresa</th>
-                            <th>Año</th>
-                            <th>Tipo de Nomina</th>
-                            <th>Desde</th>
-                            <th>Hasta</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
     
-                        <tr v-for="(Periods, index) in objPeriods" :key="Periods.periodId">
+                        <tr v-for="(Process, index) in objProcess" :key="Process.hrprocessId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
-                                {{Periods.periodName}}
+                                {{Process.processCode}}
                             </td>
                             <td > 
-                                {{Periods.countryName}} 
+                                {{Process.processName}} 
                             </td>
                             <td>
-                                {{Periods.companyShortName}}
+                                {{Process.countryName}}
                             </td>
                             <td>
-                                {{Periods.year}}
+                                {{Process.companyShortName}}
                             </td>
-                            <td>
-                                {{Periods.payrollTypeName}} 
-                            </td>
-                            <td>
-                                {{Periods.periodFrom}}
-                            </td>
-                            <td>
-                                {{Periods.periodTo}}
-                            </td>
-                            
                             <td> 
-                                <button v-on:click="editRow(index, Periods.periodId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
-                                <button v-on:click="deleterow(index, Periods.periodId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                                <button v-on:click="detailRow(index, Process.hrprocessId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  
+                                <button v-on:click="editRow(index, Process.hrprocessId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
+                                <button v-on:click="deleterow(index, Process.hrprocessId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
                             </td>
                         </tr>
                     </tbody>
@@ -61,6 +49,7 @@
 <script>
     export default {
         mounted() {
+            
             console.log('Component mounted.')
         },
         data(){
@@ -73,9 +62,16 @@
                 type: String,
                 default: 'Name defauld',
             },
-            objPeriods:{},
+            objProcess:{},
         },
         methods: {
+            detailRow(index, id){
+                
+                const objEditProcessDetail = this.objProcess[index]
+                // console.log(id)
+              
+                this.$emit("processDetail", objEditProcessDetail)
+            },
             editRow(index, id){
                 
                 // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
@@ -87,7 +83,7 @@
                 // console.log('index ' + index)
                 // console.log('id ' + id)
                 // return
-                const indexIs = this.objPeriods[index]
+                // const indexIs = this.objProcess[index]
             
                 if (confirm("Delete?") ){
                     axios.delete(`periods/delete/${id}`).then(()=>{

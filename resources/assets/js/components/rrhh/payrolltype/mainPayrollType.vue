@@ -64,11 +64,11 @@
                 objPayRollType:[],
                 objEdit:[],
                 formStatus: 0,
-                namePanel: "Agregar tipo de nomina",
-                namePanel2: "Editar tipo de nomina",
-                nameField1: "Seleccione el pais",
-                nameField2: "Nombre del tipo de nomina",
-                nameField3: "Descripcion del tipo de nomina",
+                namePanel: "AGREGAR TIPO DE NÓMINA",
+                namePanel2: "EDITAR TIPO DE NÓMINA",
+                nameField1: "PAÍS",
+                nameField2: "NOMBRE EL TIPO DE NÓMINA",
+                nameField3: "DESCRIPCIÓN DEL TIPO DE NÓMINA",
                 
             }
         },

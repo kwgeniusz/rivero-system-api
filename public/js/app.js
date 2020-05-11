@@ -18815,7 +18815,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(20);
-module.exports = __webpack_require__(209);
+module.exports = __webpack_require__(218);
 
 
 /***/ }),
@@ -18891,15 +18891,23 @@ Vue.component('addUp-transactions-type', __webpack_require__(182));
 Vue.component('main-periods', __webpack_require__(185));
 Vue.component('list-periods', __webpack_require__(188));
 Vue.component('addUp-periods', __webpack_require__(191));
+//--> process
+Vue.component('main-process', __webpack_require__(194));
+Vue.component('list-process', __webpack_require__(197));
+Vue.component('addUp-process', __webpack_require__(200));
+//--> process-Detail
+Vue.component('main-process-detail', __webpack_require__(230));
+Vue.component('list-process-detail', __webpack_require__(233));
+Vue.component('add-up-process-detail', __webpack_require__(236));
 
 //############ COMFIGURATION COMPANY COMPONENTS ##############
-Vue.component('main-company', __webpack_require__(194));
-Vue.component('panel-heading-add', __webpack_require__(197));
-Vue.component('panel-heading-update', __webpack_require__(200));
-Vue.component('list-company', __webpack_require__(203));
+Vue.component('main-company', __webpack_require__(203));
+Vue.component('panel-heading-add', __webpack_require__(206));
+Vue.component('panel-heading-update', __webpack_require__(209));
+Vue.component('list-company', __webpack_require__(212));
 
 // ########### srcComponent 
-Vue.component('button-form', __webpack_require__(206));
+Vue.component('button-form', __webpack_require__(215));
 
 var app = new Vue({
   el: '#app',
@@ -74755,9 +74763,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             parents: [],
             formStatus: 0,
             editId: '',
-            nameField1: 'Compañia',
-            nameField2: 'Nombre Departamento',
-            nameField3: 'Departamento Padre'
+            nameField1: 'COMPAÑIA',
+            nameField2: 'DEPARTAMENTO',
+            nameField3: 'DEPARTAMENTO PADRE'
         };
     },
 
@@ -75202,13 +75210,13 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Company")]),
+        _c("th", [_vm._v("Empresa")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Department Name")]),
+        _c("th", [_vm._v("Departamento")]),
         _vm._v(" "),
         _c("th", [_vm._v("Departamento Padre")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Options")])
+        _c("th", [_vm._v("Acciones")])
       ])
     ])
   }
@@ -75414,12 +75422,12 @@ var render = function() {
         _vm.editId === 0
           ? _c("div", { staticClass: "panel-heading", style: _vm.addSuccess }, [
               _c("h4", { staticClass: "text-uppercase" }, [
-                _vm._v("Add Departments")
+                _vm._v("Agregar Departamento")
               ])
             ])
           : _c("div", { staticClass: "panel-heading", style: _vm.ediPrimary }, [
               _c("h4", { staticClass: "text-uppercase" }, [
-                _vm._v("Update Departments")
+                _vm._v("Actualizar Departamento")
               ])
             ]),
         _vm._v(" "),
@@ -75735,11 +75743,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             objPayRollType: [],
             objEdit: [],
             formStatus: 0,
-            namePanel: "Agregar tipo de nomina",
-            namePanel2: "Editar tipo de nomina",
-            nameField1: "Seleccione el pais",
-            nameField2: "Nombre del tipo de nomina",
-            nameField3: "Descripcion del tipo de nomina"
+            namePanel: "AGREGAR TIPO DE NÓMINA",
+            namePanel2: "EDITAR TIPO DE NÓMINA",
+            nameField1: "PAÍS",
+            nameField2: "NOMBRE EL TIPO DE NÓMINA",
+            nameField3: "DESCRIPCIÓN DEL TIPO DE NÓMINA"
 
         };
     },
@@ -76105,7 +76113,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Pais")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Opt")])
+        _c("th", [_vm._v("Acciones")])
       ])
     ])
   }
@@ -76680,16 +76688,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             objHrPosition: [],
             objEdit: [],
             formStatus: 0,
-            namePanel: "Agregar Cargo",
-            namePanel2: "Editar Cargo",
-            nameField1: "Seleccione el pais",
-            nameField2: "Codigo del cargo",
-            nameField3: "Nombre del cargo",
-            nameField4: "Salario base mensual",
-            nameField5: "Codigo moneda",
-            nameField6: "Salario local mensual",
-            nameField7: "Codigo moneda local",
-            nameField8: "Salario diario local"
+            namePanel: "AGREGAR CARGO",
+            namePanel2: "EDITAR CARGO",
+            nameField1: "PAÍS",
+            nameField2: "CODIGO CARGO",
+            nameField3: "NOMBRE DEL CARGO",
+            nameField4: "SALARIO BASE MENSUAL",
+            nameField5: "CÓDIGO MONEDA",
+            nameField6: "SALARIO LOCAL MENSUAL",
+            nameField7: "CÓDIGO MONEDA LOCAL",
+            nameField8: "SALARIO DIARIO LOCAL"
 
         };
     },
@@ -77136,7 +77144,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Salario diario ")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Opt")])
+        _c("th", [_vm._v("Acciones")])
       ])
     ])
   }
@@ -77203,6 +77211,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -77566,7 +77576,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-5" }, [
+                  _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
                       attrs: { for: "positionCode" },
@@ -77599,8 +77609,10 @@ var render = function() {
                         }
                       }
                     })
-                  ]),
-                  _vm._v(" "),
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-7" }, [
                     _c("label", {
                       staticClass: "form-group",
@@ -78057,16 +78069,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             objHrTansType: [],
             objEdit: [],
             formStatus: 0,
-            namePanelList: "Tipos de transacciones",
-            namePanel: "Agregar tipo de transaccion",
-            namePanel2: "Editar tipo de transaccion",
-            nameField1: "Seleccione el pais",
-            nameField2: "Empresa",
-            nameField3: "Cod. Transaccion",
-            nameField4: "Nombre del tipo de transaccion",
-            nameField5: "Calculo en base al salario?",
-            nameField6: "Transaccion de ingreso?",
-            nameField7: "Transacción con saldo?",
+            namePanelList: "TIPOS DE TRANSACCIONES",
+            namePanel: "AGREGAR TIPO DE TRANSACCIÓN",
+            namePanel2: "EDITAR TIPO DE TRANSACCIÓN",
+            nameField1: "PAÍS",
+            nameField2: "EMPRESA",
+            nameField3: "CODIGO",
+            nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
+            nameField5: "CALCULO EN SALARIO BASE?",
+            nameField6: "TRANSACCIÓN de ingreso?",
+            nameField7: "TRANSACCIÓN CON SALARIO?",
             nameField8: ""
 
         };
@@ -78501,7 +78513,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Trans. con saldo")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Opt")])
+        _c("th", [_vm._v("Acciones")])
       ])
     ])
   }
@@ -79373,16 +79385,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             objPeriods: [],
             objEdit: [],
             formStatus: 0,
-            namePanelList: "Periodos",
-            namePanel: "Agregar Periodo",
-            namePanel2: "Editar Periodo",
-            nameField1: "Seleccione el pais",
-            nameField2: "Empresa",
-            nameField3: "Tipo de Nomina",
-            nameField4: "Nombre del Periodo",
-            nameField5: "Año",
-            nameField6: "Desde",
-            nameField7: "Hasta",
+            namePanelList: "PERÍODOS",
+            namePanel: "AGREGAR PERÍODO",
+            namePanel2: "EDITAR PERÍODO",
+            nameField1: "PAÍS",
+            nameField2: "EMPRESA",
+            nameField3: "TIPO DE NÓMINA",
+            nameField4: "NOMBRE DEL PERÍODO",
+            nameField5: "AÑO",
+            nameField6: "DESDE",
+            nameField7: "HASTA",
             nameField8: ""
 
         };
@@ -79809,7 +79821,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Hasta")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Opt")])
+        _c("th", [_vm._v("Acciones")])
       ])
     ])
   }
@@ -80573,6 +80585,1272 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/components/rrhh/process/mainProcess.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-183fbd1e", Component.options)
+  } else {
+    hotAPI.reload("data-v-183fbd1e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 195 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('process/list').then(function (response) {
+            _this.objProcess = response.data.process;
+            console.log(_this.objProcess);
+            // debugger
+        });
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            objProcess: [],
+            objEdit: [],
+            objEditDetail: [],
+            objProcessDetail: {},
+            formStatus: 0,
+            namePanelList: "TIPOS DE PROCESOS",
+            namePanel: "AGREGAR TIPO DE PROCESO",
+            namePanel2: "EDITAR TIPO DE PROCESO",
+            nameField1: "CÓDIGO",
+            nameField2: "PAÍS",
+            nameField3: "EMPRESA",
+            nameField4: "NOMBRE DEL PROCESO",
+            nameField5: "",
+            nameField6: "",
+            nameField7: "",
+            nameField8: ""
+
+        };
+    },
+
+    methods: {
+        addFormStatus: function addFormStatus() {
+            this.formStatus = 1;
+        },
+        addProcessDetail: function addProcessDetail() {
+            this.formStatus = 4;
+        },
+        showlist: function showlist() {
+            var _this2 = this;
+
+            this.formStatus = 0;
+            axios.get('process/list').then(function (response) {
+                _this2.objProcess = response.data.process;
+            });
+        },
+        showlistDetail: function showlistDetail() {
+            console.log(this.objProcessDetail);
+            this.formStatus = 3;
+
+            // axios.get('process/list').then( response => {
+            // this.objProcess = response.data.process
+
+            // })
+        },
+        indexEdit: function indexEdit(index) {
+            this.formStatus = 2;
+            // console.log('recibido')
+            this.objEdit = this.objProcess[index];
+            // console.log( this.objEdit)
+        },
+        delrow: function delrow(indexId) {
+            // console.log(indexId)
+            this.objProcess.splice(indexId[0], 1);
+        },
+        processDetail: function processDetail(obj) {
+            // console.log('entro objeto')
+            // console.log(obj)
+            this.formStatus = 3;
+            this.objProcessDetail = obj;
+        },
+        cancDetail: function cancDetail() {
+            var _this3 = this;
+
+            this.formStatus = 0;
+            axios.get('process/list').then(function (response) {
+                _this3.objProcess = response.data.process;
+            });
+        },
+        indexEditDetail: function indexEditDetail(params) {
+
+            // console.log('params')
+            // console.log(params)
+            this.formStatus = 5;
+            this.objEditDetail = params;
+        }
+    }
+});
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.formStatus === 0
+      ? _c(
+          "div",
+          [
+            _c("button-form", {
+              attrs: { buttonType: 0 },
+              on: { addf: _vm.addFormStatus }
+            }),
+            _vm._v(" "),
+            _c("list-process", {
+              attrs: {
+                objProcess: _vm.objProcess,
+                namePanelList: _vm.namePanelList
+              },
+              on: {
+                indexEdit: _vm.indexEdit,
+                delrow: _vm.delrow,
+                processDetail: _vm.processDetail
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 1
+      ? _c(
+          "div",
+          [
+            _c("addUp-process", {
+              attrs: {
+                namePanel: _vm.namePanel,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8
+              },
+              on: { showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 2
+      ? _c(
+          "div",
+          [
+            _c("addUp-process", {
+              attrs: {
+                namePanel2: _vm.namePanel2,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8,
+                objEdit: _vm.objEdit,
+                editId: 1
+              },
+              on: { showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 3
+      ? _c(
+          "div",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("button-form", {
+              attrs: { buttonType: 0 },
+              on: { addf: _vm.addProcessDetail, cancDetail: _vm.cancDetail }
+            }),
+            _vm._v(" "),
+            _c("list-process-detail", {
+              attrs: { objProcessDetail: _vm.objProcessDetail },
+              on: { indexEditDetail: _vm.indexEditDetail }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 4
+      ? _c(
+          "div",
+          [
+            _c("add-up-process-detail", {
+              attrs: { objProcessDetails: _vm.objProcessDetail },
+              on: { showlistDetail: _vm.showlistDetail }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 5
+      ? _c(
+          "div",
+          [
+            _c("add-up-process-detail", {
+              attrs: {
+                objProcessDetails: _vm.objProcessDetail,
+                objEditDetail: _vm.objEditDetail,
+                editId: 1
+              },
+              on: { showlistDetail: _vm.showlistDetail }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("DETALLES DEL PROCESO")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-183fbd1e", module.exports)
+  }
+}
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(198)
+/* template */
+var __vue_template__ = __webpack_require__(199)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/process/listProcess.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4c9ac119", Component.options)
+  } else {
+    hotAPI.reload("data-v-4c9ac119", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 198 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {};
+    },
+
+    props: {
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objProcess: {}
+    },
+    methods: {
+        detailRow: function detailRow(index, id) {
+
+            var objEditProcessDetail = this.objProcess[index];
+            // console.log(id)
+
+            this.$emit("processDetail", objEditProcessDetail);
+        },
+        editRow: function editRow(index, id) {
+
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+
+            this.$emit("indexEdit", index);
+        },
+        deleterow: function deleterow(index, id) {
+            var _this = this;
+
+            // console.log('index ' + index)
+            // console.log('id ' + id)
+            // return
+            // const indexIs = this.objProcess[index]
+
+            if (confirm("Delete?")) {
+                axios.delete('periods/delete/' + id).then(function () {
+
+                    _this.$emit("delrow", [index, id]);
+                }).catch(function (error) {
+                    alert("Error");
+                    console.log(error);
+                });
+            }
+
+            // console.log('enviado')
+        }
+    }
+});
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "panel-heading" }, [
+        _c("h4", [_vm._v(_vm._s(_vm.namePanelList))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "table-responsive text-center" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped table-bordered text-center" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.objProcess, function(Process, index) {
+                return _c("tr", { key: Process.hrprocessId }, [
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "form-inline" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Process.processCode) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      " \n                            " +
+                        _vm._s(Process.processName) +
+                        " \n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Process.countryName) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Process.companyShortName) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-info",
+                        on: {
+                          click: function($event) {
+                            return _vm.detailRow(index, Process.hrprocessId)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", {
+                          staticClass: " \tglyphicon glyphicon-th-list"
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.editRow(index, Process.hrprocessId)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleterow(index, Process.hrprocessId)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Codigo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre del Proceso")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pais")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Empresa")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4c9ac119", module.exports)
+  }
+}
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(201)
+/* template */
+var __vue_template__ = __webpack_require__(202)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/process/addUpProcess.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-058babbb", Component.options)
+  } else {
+    hotAPI.reload("data-v-058babbb", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 201 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('periods/list/').then(function (res) {
+            // const eeeee = res.data
+            _this.selectCountrys = res.data.countrys.map(function (item) {
+                return { id: item.countryId, vText: item.countryName };
+            });
+            _this.selectCompanys = res.data.companys.map(function (item) {
+                return { id: item.companyId, vText: item.companyName };
+            });
+            // console.log(eeeee)
+            // debugger
+        });
+
+        if (this.editId > 0) {
+            this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
+            this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId;
+            this.processCode = document.querySelector("#processCode").value = this.objEdit.processCode;
+            this.processName = document.querySelector("#processName").value = this.objEdit.processName;
+        }
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            selectCountry: '',
+            companyId: '',
+            processCode: '',
+            processName: '',
+            selectCountrys: {},
+            selectCompanys: {},
+            selectPayrollType: {}
+        };
+    },
+
+    props: {
+        namePanel: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        namePanel2: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        editId: {
+            type: Number,
+            default: 0
+        },
+        nameField1: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField2: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField3: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField4: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField5: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField6: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField7: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField8: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        objEdit: {}
+
+    },
+    methods: {
+        newUpForm: function newUpForm() {
+
+            if (this.editId === 0) {
+
+                var params = {
+                    countryId: this.selectCountry,
+                    companyId: this.companyId,
+                    processCode: this.processCode,
+                    processName: this.processName
+
+                    // console.log(params)
+                    // debugger
+
+
+                };axios.post('process/post', params).then(function (response) {
+                    console.log(response);
+                    if (response.statusText == "OK") {
+                        alert("Success");
+                        document.querySelector("#newUpForm").reset();
+                    } else {
+                        console.log(response);
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            } else {
+                var _params = {
+                    countryId: this.selectCountry,
+                    companyId: this.companyId,
+                    processCode: this.processCode,
+                    processName: this.processName
+                };
+
+                var url = "process/put/" + this.objEdit.hrprocessId;
+                axios.put(url, _params).then(function (response) {
+                    console.log(response);
+                    if (response.statusText == "OK") {
+                        alert("Success");
+                        document.querySelector("#newUpForm").reset();
+                    } else {
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            }
+        },
+        cancf: function cancf() {
+            this.$emit('showlist', 0);
+        }
+    },
+    computed: {
+        addSuccess: function addSuccess() {
+            return {
+                background: '#dff0d8'
+
+            };
+        },
+        ediPrimary: function ediPrimary() {
+            return {
+                background: '#d9edf7'
+
+            };
+        }
+
+    }
+});
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _vm.editId === 0
+            ? _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.addSuccess },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel))
+                  ])
+                ]
+              )
+            : _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.ediPrimary },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel2))
+                  ])
+                ]
+              ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "form",
+              {
+                staticClass: "form",
+                attrs: { role: "form", id: "newUpForm" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.newUpForm()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-3" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "processCode" },
+                      domProps: { textContent: _vm._s(_vm.nameField1) }
+                    }),
+                    _vm._v(" "),
+                    _vm.editId === 0
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.processCode,
+                              expression: "processCode"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "processCode",
+                            placeholder: _vm.nameField1,
+                            required: "required"
+                          },
+                          domProps: { value: _vm.processCode },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.processCode = $event.target.value
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.processCode,
+                              expression: "processCode"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            disabled: "disabled",
+                            type: "text",
+                            id: "processCode",
+                            placeholder: _vm.nameField1,
+                            required: "required"
+                          },
+                          domProps: { value: _vm.processCode },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.processCode = $event.target.value
+                            }
+                          }
+                        })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-3 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "selectCountry" },
+                      domProps: { textContent: _vm._s(_vm.nameField2) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selectCountry,
+                            expression: "selectCountry"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "selectCountry", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.selectCountry = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectCountrys, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-5 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "companyId" },
+                      domProps: { textContent: _vm._s(_vm.nameField3) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.companyId,
+                            expression: "companyId"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "companyId", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.companyId = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectCompanys, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-7" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "processName" },
+                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.processName,
+                          expression: "processName"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "processName",
+                        placeholder: _vm.nameField4,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.processName },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.processName = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.editId === 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 1 },
+                          on: { cancf: _vm.cancf }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.editId > 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 2 },
+                          on: { cancf: _vm.cancf }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-058babbb", module.exports)
+  }
+}
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(204)
+/* template */
+var __vue_template__ = __webpack_require__(205)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/components/configuration/company/mainCompany.vue"
 
 /* hot reload */
@@ -80595,7 +81873,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 195 */
+/* 204 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80686,12 +81964,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 field1: 1
 
             }],
-            nameField1: 'Nombre Compañia',
-            nameField2: 'Nombre Corto Compañia',
-            nameField3: 'Rif',
-            nameField4: 'Pais',
-            nameField5: 'Oficina',
-            nameField6: 'Dirección'
+            nameField1: 'NOMBRE COMPAÑIA',
+            nameField2: 'NOMBRE CORTO COMPAÑIA',
+            nameField3: 'RIF',
+            nameField4: 'PAÍS',
+            nameField5: 'OFICINA',
+            nameField6: 'DIRECCION'
         };
     },
 
@@ -80721,7 +81999,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 196 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -80811,15 +82089,15 @@ if (false) {
 }
 
 /***/ }),
-/* 197 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(198)
+var __vue_script__ = __webpack_require__(207)
 /* template */
-var __vue_template__ = __webpack_require__(199)
+var __vue_template__ = __webpack_require__(208)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -80858,7 +82136,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 198 */
+/* 207 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81030,7 +82308,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 199 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -81065,7 +82343,7 @@ var render = function() {
               }
             },
             [
-              _c("div", { staticClass: "form-group col-md-12" }, [
+              _c("div", { staticClass: "form-group col-md-10" }, [
                 _c("label", {
                   staticClass: "form-group",
                   attrs: { for: "field1" },
@@ -81100,7 +82378,7 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-7" }, [
+              _c("div", { staticClass: "form-group col-md-8" }, [
                 _c("label", {
                   staticClass: "form-group",
                   attrs: { for: "field2" },
@@ -81135,7 +82413,7 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-5" }, [
+              _c("div", { staticClass: "form-group col-md-6" }, [
                 _c("label", {
                   staticClass: "form-group",
                   attrs: { for: "field3" },
@@ -81322,15 +82600,15 @@ if (false) {
 }
 
 /***/ }),
-/* 200 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(201)
+var __vue_script__ = __webpack_require__(210)
 /* template */
-var __vue_template__ = __webpack_require__(202)
+var __vue_template__ = __webpack_require__(211)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -81369,7 +82647,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 201 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81569,7 +82847,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 202 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -81861,15 +83139,15 @@ if (false) {
 }
 
 /***/ }),
-/* 203 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(204)
+var __vue_script__ = __webpack_require__(213)
 /* template */
-var __vue_template__ = __webpack_require__(205)
+var __vue_template__ = __webpack_require__(214)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -81908,7 +83186,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 204 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -82027,7 +83305,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 205 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -82161,7 +83439,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Direccion")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Opt")])
+        _c("th", [_vm._v("Acciones")])
       ])
     ])
   }
@@ -82176,15 +83454,15 @@ if (false) {
 }
 
 /***/ }),
-/* 206 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(207)
+var __vue_script__ = __webpack_require__(216)
 /* template */
-var __vue_template__ = __webpack_require__(208)
+var __vue_template__ = __webpack_require__(217)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -82223,7 +83501,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 207 */
+/* 216 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -82267,7 +83545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.$emit('addUpdate', n);
                     break;
                 case 4:
-
+                    this.$emit('cancDetail', 0);
                     break;
                 case 5:
                     // console.log("entro case")
@@ -82288,94 +83566,98 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 208 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "form-group col-xs-12 text-center" }, [
-    _vm.buttonType === 0
-      ? _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.addForm(1)
+  return _c(
+    "div",
+    { staticClass: "form-group col-ms-12 col-md-12 col-lg-12 text-center" },
+    [
+      _vm.buttonType === 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(1)
+                }
               }
-            }
-          },
-          [_vm._v("Agregar")]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.buttonType === 1
-      ? _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: { type: "submit" },
-            on: {
-              click: function($event) {
-                return _vm.addForm(2)
+            },
+            [_vm._v("Agregar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 1
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(2)
+                }
               }
-            }
-          },
-          [_vm._v("Guardar")]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.buttonType === 2
-      ? _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { type: "submit" },
-            on: {
-              click: function($event) {
-                return _vm.addForm(3)
+            },
+            [_vm._v("Guardar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 2
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(3)
+                }
               }
-            }
-          },
-          [_vm._v("Actualizar")]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.buttonType === 0
-      ? _c(
-          "button",
-          {
-            staticClass: "btn btn-warning",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.addForm(4)
+            },
+            [_vm._v("Actualizar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-warning",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(4)
+                }
               }
-            }
-          },
-          [_vm._v("Regresar")]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.buttonType === 1 || _vm.buttonType === 2
-      ? _c(
-          "button",
-          {
-            staticClass: "btn btn-warning",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.addForm(5)
+            },
+            [_vm._v("Regresar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 1 || _vm.buttonType === 2
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-warning",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(5)
+                }
               }
-            }
-          },
-          [_vm._v("Regresar")]
-        )
-      : _vm._e()
-  ])
+            },
+            [_vm._v("Regresar")]
+          )
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -82388,10 +83670,1162 @@ if (false) {
 }
 
 /***/ }),
-/* 209 */
+/* 218 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(231)
+/* template */
+var __vue_template__ = __webpack_require__(232)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/mainProcessDetail.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-32662760", Component.options)
+  } else {
+    hotAPI.reload("data-v-32662760", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 231 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('process-detail/${}').then(function (response) {
+            _this.objProcess = response.data.process;
+            console.log(_this.objProcess);
+            // debugger
+        });
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            objProcess: [],
+            objEdit: [],
+            formStatus: 0,
+            namePanelList: "TIPOS DE PROCESOS",
+            namePanel: "AGREGAR TIPO DE PROCESO",
+            namePanel2: "EDITAR TIPO DE PROCESO",
+            nameField1: "CÓDIGO",
+            nameField2: "PAÍS",
+            nameField3: "EMPRESA",
+            nameField4: "NOMBRE DEL PROCESO",
+            nameField5: "",
+            nameField6: "",
+            nameField7: "",
+            nameField8: ""
+
+        };
+    },
+
+    methods: {
+        addFormStatus: function addFormStatus() {
+            this.formStatus = 1;
+        },
+        showlist: function showlist() {
+            var _this2 = this;
+
+            this.formStatus = 0;
+            axios.get('process/list').then(function (response) {
+                _this2.objProcess = response.data.process;
+            });
+        },
+        indexEdit: function indexEdit(index) {
+            this.formStatus = 2;
+            // console.log('recibido')
+            this.objEdit = this.objProcess[index];
+            // console.log( this.objEdit)
+        },
+        delrow: function delrow(indexId) {
+            // console.log(indexId)
+            this.objProcess.splice(indexId[0], 1);
+        }
+    }
+});
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.formStatus === 0
+      ? _c(
+          "div",
+          [
+            _c("button-form", {
+              attrs: { buttonType: 0 },
+              on: { addf: _vm.addFormStatus }
+            }),
+            _vm._v(" "),
+            _c("list-process", {
+              attrs: {
+                objProcess: _vm.objProcess,
+                namePanelList: _vm.namePanelList
+              },
+              on: { indexEdit: _vm.indexEdit, delrow: _vm.delrow }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 1
+      ? _c(
+          "div",
+          [
+            _c("addUp-process", {
+              attrs: {
+                namePanel: _vm.namePanel,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8
+              },
+              on: { showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 2
+      ? _c(
+          "div",
+          [
+            _c("addUp-process", {
+              attrs: {
+                namePanel2: _vm.namePanel2,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8,
+                objEdit: _vm.objEdit,
+                editId: 1
+              },
+              on: { showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-32662760", module.exports)
+  }
+}
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(234)
+/* template */
+var __vue_template__ = __webpack_require__(235)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/listProcessDetail.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-06ef031b", Component.options)
+  } else {
+    hotAPI.reload("data-v-06ef031b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 234 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('process-detail/' + this.objProcessDetail.hrprocessId).then(function (response) {
+            _this.objProcessDetailList = response.data.processDetail;
+            // console.log(this.objProcessDetailList)
+            // debugger
+        });
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            objProcessDetailList: {}
+        };
+    },
+
+    props: {
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objProcess: {},
+        objProcessDetail: {}
+    },
+    methods: {
+        editDetailRow: function editDetailRow(index, id) {
+            // console.log('objeto')
+            // console.log(this.objProcessDetailList[index])
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+
+            this.$emit("indexEditDetail", this.objProcessDetailList[index]);
+        },
+        deleteDetailrow: function deleteDetailrow(index, id) {
+            var _this2 = this;
+
+            // console.log('index ' + index)
+            // console.log('id ' + id)
+            // const indexIs = this.objProcessDetailList[index]
+
+
+            // return
+            if (confirm("Delete?")) {
+                axios.delete('process-detail/' + id).then(function () {
+                    _this2.objProcessDetailList.splice(index, 1);
+                    // this.$emit("delDetailrow",[index,id])
+                }).catch(function (error) {
+                    alert("Error");
+                    console.log(error);
+                });
+            }
+
+            // console.log('enviado')
+        }
+    }
+});
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+    _c("div", { staticClass: "row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-3" }, [
+        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
+          _vm._v(_vm._s(_vm.objProcessDetail.processName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-3" }, [
+        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
+          _vm._v(_vm._s(_vm.objProcessDetail.countryName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm._m(2),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-3" }, [
+        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
+          _vm._v(_vm._s(_vm.objProcessDetail.companyShortName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "table-responsive text-center" }, [
+      _c(
+        "table",
+        { staticClass: "table table-striped table-bordered text-center" },
+        [
+          _vm._m(3),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.objProcessDetailList, function(Process, index) {
+              return _c("tr", { key: Process.hrpdId }, [
+                _c("td", [_vm._v(_vm._s(index + 1))]),
+                _vm._v(" "),
+                _c("td", { staticClass: "form-inline" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(Process.transactionTypeName) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(Process.quantity) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(Process.amount) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.editDetailRow(index, Process.hrpdId)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-danger",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteDetailrow(index, Process.hrpdId)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+                  )
+                ])
+              ])
+            }),
+            0
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-2" }, [
+      _c("h4", [_vm._v("PROCESO: ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-2" }, [
+      _c("h4", [_vm._v("PAÍS: ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-2" }, [
+      _c("h4", [_vm._v("EMPRESA: ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("NOMBRE")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("CANTIDAD")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("MONTO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ACCIONES")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-06ef031b", module.exports)
+  }
+}
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(237)
+/* template */
+var __vue_template__ = __webpack_require__(238)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/addUpProcessDetail.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-730f40bb", Component.options)
+  } else {
+    hotAPI.reload("data-v-730f40bb", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 237 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('process-detail-ttype/').then(function (res) {
+
+            console.log(res.data.hrTType);
+            _this.selecTrTypes = res.data.hrTType;
+        });
+
+        // console.log(eeeee)
+        // debugger
+
+
+        if (this.editId > 0) {
+            this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.hrtransactionTypeId;
+            this.quantity = document.querySelector("#quantity").value = this.objEditDetail.quantity;
+            this.amount = document.querySelector("#amount").value = this.objEditDetail.amount;
+            // this.processName = document.querySelector("#processName").value = this.objEditDetail.processName
+        }
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            selecTrType: '',
+            quantity: '',
+            amount: '',
+            processName: '',
+            selecTrTypes: {},
+            selectCompanys: {},
+            selectPayrollType: {}
+        };
+    },
+
+    props: _defineProperty({
+        namePanel: {
+            type: String,
+            default: 'AGREGAR DETALLE DEL PROCESO'
+        },
+        namePanel2: {
+            type: String,
+            default: 'ACTUALIZAR DETALLE DEL PROCESO'
+        },
+        editId: {
+            type: Number,
+            default: 0
+        },
+        nameField1: {
+            type: String,
+            default: 'PROCESO: '
+        },
+        nameField2: {
+            type: String,
+            default: 'TIPO TRANSACCION'
+        },
+        nameField3: {
+            type: String,
+            default: 'CANTIDAD'
+        },
+        nameField4: {
+            type: String,
+            default: 'MONTO'
+        },
+        nameField5: {
+            type: String,
+            default: ''
+        },
+        nameField6: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField7: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField8: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        objEditDetail: {},
+        objProcessDetails: {}
+    }, "objEditDetail", {}),
+    methods: {
+        newUpForm: function newUpForm() {
+
+            if (this.editId === 0) {
+
+                var params = {
+                    hrprocessId: this.objProcessDetails.hrprocessId,
+                    hrtransactionTypeId: this.selecTrType,
+                    quantity: this.quantity,
+                    amount: this.amount
+
+                    // console.log(params)
+                    // debugger
+
+
+                };axios.post('process-detail/post', params).then(function (response) {
+                    console.log(response);
+                    if (response.statusText == "OK") {
+                        alert("Success");
+                        document.querySelector("#newUpForm").reset();
+                    } else {
+                        console.log(response);
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            } else {
+                var _params = {
+                    hrtransactionTypeId: this.selecTrType,
+                    quantity: this.quantity,
+                    amount: this.amount
+                };
+
+                var url = "process-detail/" + this.objEditDetail.hrpdId;
+                axios.put(url, _params).then(function (response) {
+                    console.log(response);
+                    if (response.statusText == "OK") {
+                        alert("Success");
+                        document.querySelector("#newUpForm").reset();
+                    } else {
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            }
+        },
+        cancDetailadd: function cancDetailadd() {
+            // console.log('cancDetailadd')
+            this.$emit('showlistDetail', 0);
+        }
+    },
+    computed: {
+        addSuccess: function addSuccess() {
+            return {
+                background: '#dff0d8'
+
+            };
+        },
+        ediPrimary: function ediPrimary() {
+            return {
+                background: '#d9edf7'
+
+            };
+        }
+
+    }
+});
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _vm.editId === 0
+            ? _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.addSuccess },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel))
+                  ])
+                ]
+              )
+            : _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.ediPrimary },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel2))
+                  ])
+                ]
+              ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "form",
+              {
+                staticClass: "form",
+                attrs: { role: "form", id: "newUpForm" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.newUpForm()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "amount" },
+                      domProps: { textContent: _vm._s(_vm.nameField1) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.objProcessDetails.processName,
+                          expression: "objProcessDetails.processName"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        disabled: "disabled",
+                        type: "text",
+                        id: "amount",
+                        placeholder: _vm.nameField1,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.objProcessDetails.processName },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.objProcessDetails,
+                            "processName",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-5 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "selecTrType" },
+                      domProps: { textContent: _vm._s(_vm.nameField2) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selecTrType,
+                            expression: "selecTrType"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "selecTrType", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.selecTrType = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selecTrTypes, function(item) {
+                        return _c(
+                          "option",
+                          {
+                            key: item.hrtransactionTypeId,
+                            domProps: { value: item.hrtransactionTypeId }
+                          },
+                          [_vm._v(_vm._s(item.transactionTypeName))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-4" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "quantity" },
+                      domProps: { textContent: _vm._s(_vm.nameField3) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.quantity,
+                          expression: "quantity"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "quantity",
+                        placeholder: _vm.nameField3,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.quantity },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.quantity = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-4" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "amount" },
+                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.amount,
+                          expression: "amount"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "amount",
+                        placeholder: _vm.nameField4,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.amount },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.amount = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.editId === 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 1 },
+                          on: { cancf: _vm.cancDetailadd }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.editId > 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 2 },
+                          on: { cancf: _vm.cancDetailadd }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-730f40bb", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

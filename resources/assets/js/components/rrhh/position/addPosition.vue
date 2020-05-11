@@ -20,10 +20,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-4">
                                     <label for="positionCode" class="form-group" v-text="nameField2"></label>
                                     <input type="text" v-model="positionCode" class="form-control" id="positionCode" v-bind:placeholder="nameField2" required="required">
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-7">
                                     <label for="positionName" class="form-group" v-text="nameField3"></label>
                                     <input type="text" v-model="positionName" class="form-control" id="positionName" v-bind:placeholder="nameField2" required="required">

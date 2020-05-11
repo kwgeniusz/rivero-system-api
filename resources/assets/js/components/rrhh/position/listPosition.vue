@@ -14,7 +14,7 @@
                             <th>Salario base y moneda <a href="#" data-toggle="tooltip" title="salario mensual en moneda base (puede ser dolar) y el codigo de la moneda"><i class="glyphicon glyphicon-exclamation-sign"></i></a></th>
                             <th>Salario mensual y moneda <a href="#" data-toggle="tooltip" title="salario mensual en moneda local y el 	codigo de la moneda local"><i class="glyphicon glyphicon-exclamation-sign"></i></a></th>
                             <th>Salario diario </th>
-                            <th>Opt</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>

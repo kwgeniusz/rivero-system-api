@@ -16,7 +16,7 @@
                             <th>Salario base</th>
                             <th>Trans. de ingreso</th>
                             <th>Trans. con saldo</th>
-                            <th>Opt</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>

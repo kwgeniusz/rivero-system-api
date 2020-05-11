@@ -85,12 +85,12 @@
                         
                     }
                 ],
-                nameField1: 'Nombre Compañia',
-                nameField2: 'Nombre Corto Compañia',
-                nameField3: 'Rif',
-                nameField4: 'Pais',
-                nameField5: 'Oficina',
-                nameField6: 'Dirección',
+                nameField1: 'NOMBRE COMPAÑIA',
+                nameField2: 'NOMBRE CORTO COMPAÑIA',
+                nameField3: 'RIF',
+                nameField4: 'PAÍS',
+                nameField5: 'OFICINA',
+                nameField6: 'DIRECCION',
             }
         },
         methods: {

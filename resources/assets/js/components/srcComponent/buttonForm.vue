@@ -8,7 +8,7 @@
 <!-- v-on:click="addForm" === 3 para actualizar registros  -->
 <!-- v-on:click="addForm" === 4 para regresar a vistas indicadas por el programador  -->
 <!-- v-on:click="addForm" === 5 para cancelar datos de guardado o actualizado, y regresar a listas detalles  -->
-        <div class="form-group col-xs-12 text-center">
+        <div class="form-group col-ms-12 col-md-12 col-lg-12 text-center">
             <button v-if="buttonType === 0" v-on:click="addForm(1)" type="button" class="btn btn-success">Agregar</button>
             <button v-if="buttonType === 1" v-on:click="addForm(2)" type="submit" class="btn btn-success">Guardar</button>
             <button v-if="buttonType === 2" v-on:click="addForm(3)" type="submit" class="btn btn-primary">Actualizar</button>
@@ -36,7 +36,7 @@
                         this.$emit('addUpdate',n)
                         break;
                     case 4:
-                        
+                        this.$emit('cancDetail', 0)
                         break;
                     case 5:
                         // console.log("entro case")

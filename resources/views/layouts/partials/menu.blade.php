@@ -99,7 +99,7 @@
               <li><a href="{{route('payroll_type.index')}}">{{__('Type of Payroll')}}</a></li>
               <li><a href="{{route('transactions_type.index')}}">{{__('Type of Transactions')}}</a></li>
               <li><a href="{{route('periods.index')}}">{{__('periods')}}</a></li>
-              <li><a href="#">Tipos de Procesos</a></li>
+              <li><a href="{{route('process.index')}}">Tipos de Procesos</a></li>
               <li><a href="#">{{__('personnel')}}</a></li>
               <li><a href="#">Cambios Generales de Salarios</a></li>
               <hr>

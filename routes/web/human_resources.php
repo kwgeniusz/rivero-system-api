@@ -51,3 +51,18 @@ Route::get('periods/list/', 'Web\PeriodsController@index');
 Route::post('periods/post', 'Web\PeriodsController@store');
 Route::put('periods/put/{id}', 'Web\PeriodsController@update');
 Route::delete('periods/delete/{id}', 'Web\PeriodsController@destroy');
+
+// Process
+Route::get('process/', function () {
+    return view('rrhh.process.index');
+})->name('process.index'); 
+Route::get('process/list/', 'Web\ProcessController@index');
+Route::post('process/post', 'Web\ProcessController@store');
+Route::put('process/put/{id}', 'Web\ProcessController@update');
+Route::delete('process/delete/{id}', 'Web\ProcessController@destroy');
+// process Detaill
+Route::get('process-detail/{id}', 'Web\ProcessController@processDetail');
+Route::get('process-detail-ttype/', 'Web\ProcessController@processTransactionType');
+Route::post('process-detail/post', 'Web\ProcessController@storeDetail');
+Route::put('process-detail/{id}', 'Web\ProcessController@updateDetail');
+Route::delete('process-detail/{id}', 'Web\ProcessController@destroyDetail');

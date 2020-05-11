@@ -65,6 +65,14 @@ Vue.component('addUp-transactions-type', require('./components/rrhh/transactions
 Vue.component('main-periods', require('./components/rrhh/periods/mainPeriods.vue'));
 Vue.component('list-periods', require('./components/rrhh/periods/listPeriods.vue'));
 Vue.component('addUp-periods', require('./components/rrhh/periods/addUpPeriods.vue'));
+//--> process
+Vue.component('main-process', require('./components/rrhh/process/mainProcess.vue'));
+Vue.component('list-process', require('./components/rrhh/process/listProcess.vue'));
+Vue.component('addUp-process', require('./components/rrhh/process/addUpProcess.vue'));
+    //--> process-Detail
+    Vue.component('main-process-detail', require('./components/rrhh/process/processDetail/mainProcessDetail.vue'));
+    Vue.component('list-process-detail', require('./components/rrhh/process/processDetail/listProcessDetail.vue'));
+    Vue.component('add-up-process-detail', require('./components/rrhh/process/processDetail/addUpProcessDetail.vue'));
 
 
 

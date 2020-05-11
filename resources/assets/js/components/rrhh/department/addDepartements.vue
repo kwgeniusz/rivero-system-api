@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div v-if="editId === 0" class="panel-heading" :style="addSuccess"><h4 class="text-uppercase">Add Departments</h4></div>
-                <div v-else class="panel-heading" :style="ediPrimary"><h4 class="text-uppercase">Update Departments</h4></div>
+                <div v-if="editId === 0" class="panel-heading" :style="addSuccess"><h4 class="text-uppercase">Agregar Departamento</h4></div>
+                <div v-else class="panel-heading" :style="ediPrimary"><h4 class="text-uppercase">Actualizar Departamento</h4></div>
 
                 <div class="panel-body " :class="[bgcolor]">
                     <!-- <div v-if="edit === 0">

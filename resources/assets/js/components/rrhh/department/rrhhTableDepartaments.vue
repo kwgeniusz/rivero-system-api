@@ -9,10 +9,10 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Company</th>
-                                    <th>Department Name</th>
+                                    <th>Empresa</th>
+                                    <th>Departamento</th>
                                     <th>Departamento Padre</th>
-                                    <th>Options</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>

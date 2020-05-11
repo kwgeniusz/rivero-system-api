@@ -9,18 +9,18 @@
                
                  ></button-form>
 
-                <list-transaction-type
-                    :objHrTansType = objHrTansType
+                <list-process
+                    :objProcess = objProcess
                     :namePanelList = namePanelList
                     @indexEdit = "indexEdit"
                     @delrow = "delrow"
                 >
-                </list-transaction-type>
+                </list-process>
             </div>
 
             <!-- agregar -->
         <div v-if="formStatus === 1">
-            <addUp-transactions-type
+            <addUp-process
                 :namePanel = namePanel
                 :nameField1 = nameField1
                 :nameField2 = nameField2
@@ -31,18 +31,16 @@
                 :nameField7 = nameField7
                 :nameField8 = nameField8
                 @showlist = "showlist"
-                @newObj = "newObj"
                
             >
-            </addUp-transactions-type>
+            </addUp-process>
         </div>
 
 
         <!-- Actualizar -->
         <div v-if="formStatus === 2">
-            <addUp-transactions-type
+            <addUp-process
                 @showlist = "showlist"
-                @newObj = "newObj"
                 :namePanel2 = namePanel2
                 :nameField1 = nameField1
                 :nameField2 = nameField2
@@ -55,7 +53,7 @@
                 :objEdit = objEdit
                 :editId = 1
             >
-            </addUp-transactions-type>
+            </addUp-process>
         </div>
 
     </div>
@@ -65,9 +63,9 @@
 <script>
     export default {
         mounted() {
-            axios.get('transactionstypes/').then( response => {
-                this.objHrTansType = response.data.hrtransaction_type
-                // console.log(this.objHrTansType)
+            axios.get('process-detail/${}').then( response => {
+                this.objProcess = response.data.process
+                console.log(this.objProcess)
                 // debugger
             })
 
@@ -76,19 +74,19 @@
         },
         data(){
             return{
-                objHrTansType:[],
+                objProcess:[],
                 objEdit:[],
                 formStatus: 0,
-                namePanelList: "TIPOS DE TRANSACCIONES",
-                namePanel: "AGREGAR TIPO DE TRANSACCIÓN",
-                namePanel2: "EDITAR TIPO DE TRANSACCIÓN",
-                nameField1: "PAÍS",
-                nameField2: "EMPRESA",
-                nameField3: "CODIGO",
-                nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
-                nameField5: "CALCULO EN SALARIO BASE?",
-                nameField6: "TRANSACCIÓN de ingreso?",
-                nameField7: "TRANSACCIÓN CON SALARIO?",
+                namePanelList: "TIPOS DE PROCESOS",
+                namePanel: "AGREGAR TIPO DE PROCESO",
+                namePanel2: "EDITAR TIPO DE PROCESO",
+                nameField1: "CÓDIGO",
+                nameField2: "PAÍS",
+                nameField3: "EMPRESA",
+                nameField4: "NOMBRE DEL PROCESO",
+                nameField5: "",
+                nameField6: "",
+                nameField7: "",
                 nameField8: "",
                 
             }
@@ -99,24 +97,20 @@
             },
             showlist(){
                 this.formStatus = 0
-               axios.get('transactionstypes/').then( response => {
-                this.objHrTansType = response.data.hrtransaction_type
-                    // console.log(this.objHrTansType)
-            })
-            },
-            newObj(payrollType){
-                console.log(payrollType)
-                this.objHrTansType.push(payrollType)
+                axios.get('process/list').then( response => {
+                this.objProcess = response.data.process
+                
+                })
             },
             indexEdit(index){
                 this.formStatus = 2
                 // console.log('recibido')
-                this.objEdit = this.objHrTansType[index]
+                this.objEdit = this.objProcess[index]
                 // console.log( this.objEdit)
             },
             delrow(indexId){
                 // console.log(indexId)
-                this.objHrTansType.splice(indexId[0],1)
+                this.objProcess.splice(indexId[0],1)
                 
             }
 

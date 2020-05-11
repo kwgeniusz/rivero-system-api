@@ -15,7 +15,7 @@
                                     <th>Pais</th>
                                     <th>Oficina</th>
                                     <th>Direccion</th>
-                                    <th>Opt</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>

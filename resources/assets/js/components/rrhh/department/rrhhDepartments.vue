@@ -59,9 +59,9 @@
                 parents: [],
                 formStatus: 0,
                 editId: '',
-                nameField1: 'Compañia',
-                nameField2: 'Nombre Departamento',
-                nameField3: 'Departamento Padre',
+                nameField1: 'COMPAÑIA',
+                nameField2: 'DEPARTAMENTO',
+                nameField3: 'DEPARTAMENTO PADRE',
             }
         },
         methods: {

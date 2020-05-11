@@ -12,7 +12,7 @@
                             <th>Nombre del tipo de nomina</th>
                             <th>Descripcion del tipo de nomina</th>
                             <th>Pais</th>
-                            <th>Opt</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
