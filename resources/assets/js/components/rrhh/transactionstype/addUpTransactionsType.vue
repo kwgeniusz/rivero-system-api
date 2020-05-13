@@ -11,7 +11,7 @@
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()"  id="newUpForm" >
                             
                             <div class="row">
-                                <div class="form-group col-md-4 ">
+                                <div class="form-group col-md-6 ">
                                     <label for="selectCountry" class="form-group" v-text="nameField1"></label>
                                     <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
@@ -19,7 +19,7 @@
                                     </select>
                                 </div>
                             
-                                <div class="form-group col-md-6 col-md-offset-1">
+                                <div class="form-group col-md-7 ">
                                     <label for="companyId" class="form-group" v-text="nameField2"></label>
                                     <select class="form-control" v-model="companyId" id="companyId" required="required">
                                         <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
@@ -31,10 +31,10 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="transactionTypeCode" class="form-group" v-text="nameField3"></label>
-                                    <input type="number" maxlength="4" v-model="transactionTypeCode" class="form-control" id="transactionTypeCode" v-bind:placeholder="nameField2" required="required">
+                                    <input type="number" maxlength="4" v-model="transactionTypeCode" class="form-control" id="transactionTypeCode" v-bind:placeholder="nameField3" required="required">
                                 </div>
 
-                                <div class="form-group col-md-7 col-md-offset-1">
+                                <div class="form-group col-md-9">
                                     
                                     <label for="transactionTypeName" class="form-group" v-text="nameField4"></label>
                                     <input type="text" v-model="transactionTypeName" class="form-control" id="transactionTypeName" v-bind:placeholder="nameField4" required="required">
@@ -42,29 +42,32 @@
                                 
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-4"> 
+                                <div class="form-group col-md-7 form-inline"> 
                                     <label for="salaryBased" class="form-group" v-text="nameField5"> </label> 
-                                    <select class="form-control" v-model="salaryBased" id="salaryBased" required="required">
+                                    <input type="checkbox" id="salaryBased" v-model="salaryBased" value="1">
+                                    <!-- <select class="form-control" v-model="salaryBased" id="salaryBased" required="required">
                                         <option value="0">No</option>
                                         <option value="1">Si</option>
-                                    </select>   
+                                    </select>    -->
 
                                     <!-- <input type="text" v-model="salaryBased" class="form-control" id="salaryBased" v-bind:placeholder="nameField5" required="required"> -->
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-7 form-inline">
                             
                                     <label for="isIncome" class="form-group" v-text="nameField6"></label>
-                                    <select class="form-control" v-model="isIncome" id="isIncome" required="required">
+                                    <input type="checkbox" id="isIncome" v-model="isIncome" value="1">
+                                    <!-- <select class="form-control" v-model="isIncome" id="isIncome" required="required">
                                         <option value="0">No</option>
                                         <option value="1">Si</option>
-                                    </select>
+                                    </select> -->
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-7 form-inline">
                                     <label for="hasBalance" class="form-group" v-text="nameField7"></label>
-                                    <select class="form-control" v-model="hasBalance" id="hasBalance" required="required">
+                                    <input type="checkbox" id="hasBalance" v-model="hasBalance" value="1">
+                                    <!-- <select class="form-control" v-model="hasBalance" id="hasBalance" required="required">
                                         <option value="0">No</option>
                                         <option value="1">Si</option>
-                                    </select>
+                                    </select> -->
                                     <!-- <input type="text" v-model="hasBalance" class="form-control" id="hasBalance" v-bind:placeholder="nameField7" required="required"> -->
                                 </div>
                             </div>
@@ -137,9 +140,9 @@
                 companyId: '',
                 transactionTypeCode: '',
                 transactionTypeName: '',
-                salaryBased: '',
-                isIncome: '',
-                hasBalance: '',
+                salaryBased: 0,
+                isIncome: 0,
+                hasBalance: 0,
                 selectCountrys:{},
                 selectCompanys:{},
             }

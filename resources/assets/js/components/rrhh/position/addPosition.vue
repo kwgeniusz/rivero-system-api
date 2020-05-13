@@ -21,8 +21,8 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label for="positionCode" class="form-group" v-text="nameField2"></label>
-                                    <input type="text" v-model="positionCode" class="form-control" id="positionCode" v-bind:placeholder="nameField2" required="required">
+                                    <label for="positioncode" class="form-group" v-text="nameField2"></label>
+                                    <input type="text" v-model="positioncode" class="form-control" id="positioncode" v-bind:placeholder="nameField2" required="required">
                                 </div>
                             </div>
                             <div class="row">
@@ -39,13 +39,13 @@
                                 </div>
                                 <div class="form-group col-md-4"> 
                                     
-                                    <label for="baseCurrency" class="form-group" v-text="nameField5"> </label> 
+                                    <label for="baseCurrencyId" class="form-group" v-text="nameField5"> </label> 
 
-                                    <select class="form-control" v-model="baseCurrency" id="baseCurrency" required="required">
+                                    <select class="form-control" v-model="baseCurrencyId" id="baseCurrencyId" required="required">
                                         <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
                                     </select>   
 
-                                    <!-- <input type="text" v-model="baseCurrency" class="form-control" id="baseCurrency" v-bind:placeholder="nameField5" required="required"> -->
+                                    <!-- <input type="text" v-model="baseCurrencyId" class="form-control" id="baseCurrencyId" v-bind:placeholder="nameField5" required="required"> -->
                                 </div>
                             </div>
                             <div class="row">
@@ -55,11 +55,11 @@
                                     <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField6" required="required">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="localCurrency" class="form-group" v-text="nameField7"></label>
-                                    <select class="form-control" v-model="localCurrency" id="localCurrency" required="required">
+                                    <label for="localCurrencyId" class="form-group" v-text="nameField7"></label>
+                                    <select class="form-control" v-model="localCurrencyId" id="localCurrencyId" required="required">
                                         <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
                                     </select>
-                                    <!-- <input type="text" v-model="localCurrency" class="form-control" id="localCurrency" v-bind:placeholder="nameField7" required="required"> -->
+                                    <!-- <input type="text" v-model="localCurrencyId" class="form-control" id="localCurrencyId" v-bind:placeholder="nameField7" required="required"> -->
                                 </div>
                             </div>
                             <div class="row">
@@ -112,12 +112,12 @@
 
             if (this.editId > 0) {
                 this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode
+                this.positioncode = document.querySelector("#positioncode").value = this.objEdit.positioncode
                 this.positionName = document.querySelector("#positionName").value = this.objEdit.positionName
                 this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary
-                this.baseCurrency = document.querySelector("#baseCurrency").value = this.objEdit.baseCurrency
+                this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId
                 this.localSalary = document.querySelector("#localSalary").value = this.objEdit.localSalary
-                this.localCurrency = document.querySelector("#localCurrency").value = this.objEdit.localCurrency
+                this.localCurrencyId = document.querySelector("#localCurrencyId").value = this.objEdit.localCurrencyId
                 this.localDailySalary = document.querySelector("#localDailySalary").value = this.objEdit.localDailySalary
             }
             
@@ -127,12 +127,12 @@
             return{
                 selectCurrency:'',
                 selectCountry:'',
-                positionCode: '',
+                positioncode: '',
                 positionName: '',
                 baseSalary: '',
-                baseCurrency: '',
+                baseCurrencyId: '',
                 localSalary: '',
-                localCurrency: '',
+                localCurrencyId: '',
                 localDailySalary: '',
                 selectCountrys:{},
             }
@@ -192,12 +192,12 @@
                     
                     const params = {
                         countryId: this.selectCountry,
-                        positionCode: this.positionCode,
+                        positioncode: this.positioncode,
                         positionName: this.positionName,
                         baseSalary: this.baseSalary,
-                        baseCurrency: this.baseCurrency,
+                        baseCurrencyId: this.baseCurrencyId,
                         localSalary: this.localSalary,
-                        localCurrency: this.localCurrency,
+                        localCurrencyId: this.localCurrencyId,
                         localDailySalary: this.localDailySalary,
                         
                     }
@@ -224,12 +224,12 @@
                 }else{
                     const params = {    
                         countryId: this.selectCountry,
-                        positionCode: this.positionCode,
+                        positioncode: this.positioncode,
                         positionName: this.positionName,
                         baseSalary: this.baseSalary,
-                        baseCurrency: this.baseCurrency,
+                        baseCurrencyId: this.baseCurrencyId,
                         localSalary: this.localSalary,
-                        localCurrency: this.localCurrency,
+                        localCurrencyId: this.localCurrencyId,
                         localDailySalary: this.localDailySalary,
                     }
                     document.querySelector("#form-hrposition-type").reset()

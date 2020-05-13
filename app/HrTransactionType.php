@@ -12,7 +12,7 @@ class HrTransactionType extends Model
     protected $primaryKey = 'hrtransactionTypeId';
 
     protected $fillable = ['countryId', 'companyId', 'transactionTypeCode', 'transactionTypeName', 'salaryBased', 'isIncome',
-        'hasBalance'];
+        'hasBalance','debitAccount','creditAccount'];
     
 
 

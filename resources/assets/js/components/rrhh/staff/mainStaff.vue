@@ -3,24 +3,25 @@
     <div>
             <!-- botones y listado -->
             <div v-if="formStatus === 0">
+                 <h3><b>STAFF</b></h3>
                 <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                
                  ></button-form>
 
-                <list-process
-                    :objProcess = objProcess
+                <list-staff
+                    :objPeriods = objPeriods
                     :namePanelList = namePanelList
                     @indexEdit = "indexEdit"
                     @delrow = "delrow"
                 >
-                </list-process>
+                </list-staff>
             </div>
 
             <!-- agregar -->
         <div v-if="formStatus === 1">
-            <addUp-process
+            <add-up-staff
                 :namePanel = namePanel
                 :nameField1 = nameField1
                 :nameField2 = nameField2
@@ -31,16 +32,18 @@
                 :nameField7 = nameField7
                 :nameField8 = nameField8
                 @showlist = "showlist"
+                @newObj = "newObj"
                
             >
-            </addUp-process>
+            </add-up-staff>
         </div>
 
 
         <!-- Actualizar -->
         <div v-if="formStatus === 2">
-            <addUp-process
+            <add-up-staff
                 @showlist = "showlist"
+                @newObj = "newObj"
                 :namePanel2 = namePanel2
                 :nameField1 = nameField1
                 :nameField2 = nameField2
@@ -53,7 +56,7 @@
                 :objEdit = objEdit
                 :editId = 1
             >
-            </addUp-process>
+            </add-up-staff>
         </div>
 
     </div>
@@ -63,9 +66,9 @@
 <script>
     export default {
         mounted() {
-            axios.get('process-detail/${}').then( response => {
-                this.objProcess = response.data.process
-                console.log(this.objProcess)
+            axios.get('periods/list').then( response => {
+                this.objPeriods = response.data.periods
+                // console.log(this.objPeriods)
                 // debugger
             })
 
@@ -74,19 +77,19 @@
         },
         data(){
             return{
-                objProcess:[],
+                objPeriods:[],
                 objEdit:[],
                 formStatus: 0,
-                namePanelList: "TIPOS DE PROCESOS",
-                namePanel: "AGREGAR TIPO DE PROCESO",
-                namePanel2: "EDITAR TIPO DE PROCESO",
-                nameField1: "CÓDIGO",
-                nameField2: "PAÍS",
-                nameField3: "EMPRESA",
-                nameField4: "NOMBRE DEL PROCESO",
-                nameField5: "",
-                nameField6: "",
-                nameField7: "",
+                namePanelList: "PERÍODOS",
+                namePanel: "AGREGAR PERÍODO",
+                namePanel2: "EDITAR PERÍODO",
+                nameField1: "PAÍS",
+                nameField2: "EMPRESA",
+                nameField3: "TIPO DE NÓMINA",
+                nameField4: "NOMBRE DEL PERÍODO",
+                nameField5: "AÑO",
+                nameField6: "DESDE",
+                nameField7: "HASTA",
                 nameField8: "",
                 
             }
@@ -97,20 +100,24 @@
             },
             showlist(){
                 this.formStatus = 0
-                axios.get('process/list').then( response => {
-                this.objProcess = response.data.process
+                axios.get('periods/list').then( response => {
+                    this.objPeriods = response.data.periods
                 
                 })
+            },
+            newObj(payrollType){
+                console.log(payrollType)
+                this.objPeriods.push(payrollType)
             },
             indexEdit(index){
                 this.formStatus = 2
                 // console.log('recibido')
-                this.objEdit = this.objProcess[index]
+                this.objEdit = this.objPeriods[index]
                 // console.log( this.objEdit)
             },
             delrow(indexId){
                 // console.log(indexId)
-                this.objProcess.splice(indexId[0],1)
+                this.objPeriods.splice(indexId[0],1)
                 
             }
 

@@ -39,6 +39,7 @@
 
     <!-- botones y listado -->
     <div v-if="formStatus === 0">
+        <h3><b>EMPRESAS</b></h3>
         <button-form
             @addf = "addFormStatus"
             :buttonType = 0
@@ -69,11 +70,11 @@
         data(){
             return{
 
-                namePanel: "Agregar Compañia",
-                namePane3: "Editar Compañia",
+                namePanel: "Agregar Empresa",
+                namePane3: "Editar Empresa",
                 bgColor: 'success',
                 bgColorEdit: "bg-primary",
-                namePanel2: "Compañia",
+                namePanel2: "EMPRESA",
                 objCompanys: [],
                 objEdiCOmpany:[],
                 parameters: [],
@@ -85,9 +86,9 @@
                         
                     }
                 ],
-                nameField1: 'NOMBRE COMPAÑIA',
-                nameField2: 'NOMBRE CORTO COMPAÑIA',
-                nameField3: 'RIF',
+                nameField1: 'NOMBRE EMPRESA',
+                nameField2: 'NOMBRE CORTO EMPRESA',
+                nameField3: 'DIN',
                 nameField4: 'PAÍS',
                 nameField5: 'OFICINA',
                 nameField6: 'DIRECCION',

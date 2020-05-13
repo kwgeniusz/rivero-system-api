@@ -3,6 +3,7 @@
     <div>
             <!-- botones y listado -->
             <div v-if="formStatus === 0">
+                 <h3><b>TIPOS DE PROCESOS</b></h3>
                 <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0

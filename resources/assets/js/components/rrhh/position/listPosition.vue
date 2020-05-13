@@ -2,7 +2,7 @@
 
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading"><h4>{{namePanel}}</h4></div>
+            <!-- <div class="panel-heading"><h4>{{namePanel}}</h4></div> -->
 
             <div class="table-responsive text-center">
                 <table class="table table-striped table-bordered text-center">
@@ -26,7 +26,7 @@
                                 {{hrPosition.countryName}} 
                             </td>
                             <td>
-                                {{hrPosition.positionCode}}
+                                {{hrPosition.positioncode}}
                             </td>
                             <td>
                                 {{hrPosition.positionName}}

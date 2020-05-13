@@ -2,7 +2,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h4>Departamentos</h4></div>
+                    <!-- <div class="panel-heading"><h4>Departamentos</h4></div> -->
 
                     <div class="table-responsive text-center">
                         <table class="table table-striped table-bordered text-center">

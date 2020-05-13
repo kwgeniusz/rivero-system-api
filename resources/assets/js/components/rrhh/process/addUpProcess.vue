@@ -12,7 +12,7 @@
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="processCode" class="form-group" v-text="nameField1"></label>
-                                    <input v-if="editId === 0 " type="text" v-model="processCode" class="form-control" id="processCode" v-bind:placeholder="nameField1" required="required">
+                                    <input v-if="editId === 0 " type="number" v-model="processCode" class="form-control" id="processCode" v-bind:placeholder="nameField1" required="required">
                                     <input v-else disabled="disabled" type="text" v-model="processCode" class="form-control" id="processCode" v-bind:placeholder="nameField1" required="required">
                                 </div>
                             </div>

@@ -25,14 +25,14 @@ class HrPositionController extends Controller
      */
     public function index()
     {
-        $hrposition = DB::select("SELECT hrposition.hrpositionId, hrposition.countryId, hrposition.positionCode, hrposition.positionName, hrposition.baseSalary, 
-                                hrposition.baseCurrency, hrposition.localSalary, hrposition.localCurrency, hrposition.localDailySalary, country.countryId,
+        $hrposition = DB::select("SELECT hrposition.hrpositionId, hrposition.countryId, hrposition.positioncode, hrposition.positionName, hrposition.baseSalary, 
+                                hrposition.baseCurrencyId, hrposition.localSalary, hrposition.localCurrencyId, hrposition.localDailySalary, country.countryId,
                                 country.countryName, currency.currencyName AS currencyName, currency.currencySymbol AS currencyNameSymbol,
                                 currency2.currencyName AS currencyNameLocal, currency2.currencySymbol AS currencySymbolLocal
                             FROM `hrposition`
                                 INNER JOIN country ON hrposition.`countryId`= country.countryId
-                                INNER JOIN currency ON hrposition.`baseCurrency`= currency.currencyId
-                                INNER JOIN currency AS currency2 ON hrposition.`localCurrency`= currency2.currencyId");
+                                INNER JOIN currency ON hrposition.`baseCurrencyId`= currency.currencyId
+                                INNER JOIN currency AS currency2 ON hrposition.`localCurrencyId`= currency2.currencyId");
 
         $currencies   = $this->oCurrency->getAll();
         return compact('currencies','hrposition');
@@ -50,12 +50,12 @@ class HrPositionController extends Controller
         // return $request;
         $hrposition = new HrPosition();
         $hrposition->countryId = $request->countryId;
-        $hrposition->positionCode = $request->positionCode;
+        $hrposition->positioncode = $request->positioncode;
         $hrposition->positionName = $request->positionName;
         $hrposition->baseSalary = $request->baseSalary;
-        $hrposition->baseCurrency = $request->baseCurrency;
+        $hrposition->baseCurrencyId = $request->baseCurrencyId;
         $hrposition->localSalary = $request->localSalary;
-        $hrposition->localCurrency = $request->localCurrency;
+        $hrposition->localCurrencyId = $request->localCurrencyId;
         $hrposition->localDailySalary = $request->localDailySalary;
         
         $hrposition->save();
@@ -74,12 +74,12 @@ class HrPositionController extends Controller
         
         $hrposition = HrPosition::find($id);
         $hrposition->countryId = $request->countryId;
-        $hrposition->positionCode = $request->positionCode;
+        $hrposition->positioncode = $request->positioncode;
         $hrposition->positionName = $request->positionName;
         $hrposition->baseSalary = $request->baseSalary;
-        $hrposition->baseCurrency = $request->baseCurrency;
+        $hrposition->baseCurrencyId = $request->baseCurrencyId;
         $hrposition->localSalary = $request->localSalary;
-        $hrposition->localCurrency = $request->localCurrency;
+        $hrposition->localCurrencyId = $request->localCurrencyId;
         $hrposition->localDailySalary = $request->localDailySalary;
         
         $hrposition->save();

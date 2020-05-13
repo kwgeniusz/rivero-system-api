@@ -3,6 +3,7 @@
     <div>
             <!-- botones y listado -->
             <div v-if="formStatus === 0">
+                <h3><b>TIPO DE TRANSACCIONES</b></h3>
                 <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
@@ -86,9 +87,9 @@
                 nameField2: "EMPRESA",
                 nameField3: "CODIGO",
                 nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
-                nameField5: "CALCULO EN SALARIO BASE?",
-                nameField6: "TRANSACCIÓN de ingreso?",
-                nameField7: "TRANSACCIÓN CON SALARIO?",
+                nameField5: "CALCULO EN SALARIO BASE:   ",
+                nameField6: "TRANSACCIÓN DE INGRESO:   ",
+                nameField7: "TRANSACCIÓN CON SALARIO:   ",
                 nameField8: "",
                 
             }

@@ -28,6 +28,7 @@
 
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
+            <h3><b>DEPARTAMENTOS</b></h3>
             <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
@@ -59,7 +60,7 @@
                 parents: [],
                 formStatus: 0,
                 editId: '',
-                nameField1: 'COMPAÑIA',
+                nameField1: 'EMPRESA',
                 nameField2: 'DEPARTAMENTO',
                 nameField3: 'DEPARTAMENTO PADRE',
             }

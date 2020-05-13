@@ -2,6 +2,7 @@
     <div>
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
+            <h3><b>TIPO DE NOMINA</b></h3>
             <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0

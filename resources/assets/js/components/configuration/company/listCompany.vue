@@ -1,15 +1,15 @@
 <template>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12 col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading"> <h4>{{namePanel}}</h4></div>
+                    <!-- <div class="panel-heading"> <h4>{{namePanel}}</h4></div> -->
 
                     <div class="table-responsive text-center">
                         <table class="table table-striped table-bordered text-center">
                             <thead>
                                 <tr>
                                     <th>N</th>
-                                    <th>Nombre Compañia</th>
+                                    <th>Nombre Empresa</th>
                                     <th>Nombre Corto</th>
                                     <th>RIF/NIT/ID</th>
                                     <th>Pais</th>

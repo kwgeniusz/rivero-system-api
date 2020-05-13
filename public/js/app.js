@@ -18815,7 +18815,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(20);
-module.exports = __webpack_require__(218);
+module.exports = __webpack_require__(224);
 
 
 /***/ }),
@@ -18895,19 +18895,23 @@ Vue.component('addUp-periods', __webpack_require__(191));
 Vue.component('main-process', __webpack_require__(194));
 Vue.component('list-process', __webpack_require__(197));
 Vue.component('addUp-process', __webpack_require__(200));
-//--> process-Detail
-Vue.component('main-process-detail', __webpack_require__(230));
-Vue.component('list-process-detail', __webpack_require__(233));
-Vue.component('add-up-process-detail', __webpack_require__(236));
+//--> --> process-Detail
+// Vue.component('main-process-detail', require('./components/rrhh/process/processDetail/mainProcessDetail.vue'));
+Vue.component('list-process-detail', __webpack_require__(203));
+Vue.component('add-up-process-detail', __webpack_require__(206));
+// --> Staff
+Vue.component('main-staff', __webpack_require__(236));
+Vue.component('list-staff', __webpack_require__(239));
+Vue.component('add-up-staff', __webpack_require__(240));
 
 //############ COMFIGURATION COMPANY COMPONENTS ##############
-Vue.component('main-company', __webpack_require__(203));
-Vue.component('panel-heading-add', __webpack_require__(206));
-Vue.component('panel-heading-update', __webpack_require__(209));
-Vue.component('list-company', __webpack_require__(212));
+Vue.component('main-company', __webpack_require__(209));
+Vue.component('panel-heading-add', __webpack_require__(212));
+Vue.component('panel-heading-update', __webpack_require__(215));
+Vue.component('list-company', __webpack_require__(218));
 
 // ########### srcComponent 
-Vue.component('button-form', __webpack_require__(215));
+Vue.component('button-form', __webpack_require__(221));
 
 var app = new Vue({
   el: '#app',
@@ -74747,6 +74751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -74763,7 +74768,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             parents: [],
             formStatus: 0,
             editId: '',
-            nameField1: 'COMPAÑIA',
+            nameField1: 'EMPRESA',
             nameField2: 'DEPARTAMENTO',
             nameField3: 'DEPARTAMENTO PADRE'
         };
@@ -74857,6 +74862,8 @@ var render = function() {
       ? _c(
           "div",
           [
+            _vm._m(0),
+            _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -74878,7 +74885,14 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("DEPARTAMENTOS")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -75063,14 +75077,12 @@ var render = function() {
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-10 col-md-offset-1" }, [
       _c("div", { staticClass: "panel panel-default" }, [
-        _vm._m(0),
-        _vm._v(" "),
         _c("div", { staticClass: "table-responsive text-center" }, [
           _c(
             "table",
             { staticClass: "table table-striped table-bordered text-center" },
             [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -75194,14 +75206,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-heading" }, [
-      _c("h4", [_vm._v("Departamentos")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -75726,6 +75730,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -75796,6 +75801,8 @@ var render = function() {
       ? _c(
           "div",
           [
+            _vm._m(0),
+            _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -75852,7 +75859,14 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("TIPO DE NOMINA")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -76014,10 +76028,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("h4", [_vm._v(_vm._s(_vm.namePanel))])
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "table-responsive text-center" }, [
         _c(
           "table",
@@ -76671,6 +76681,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -76745,6 +76756,8 @@ var render = function() {
       ? _c(
           "div",
           [
+            _vm._m(0),
+            _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -76808,7 +76821,14 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("CARGOS")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -76985,10 +77005,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-12" }, [
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("h4", [_vm._v(_vm._s(_vm.namePanel))])
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "table-responsive text-center" }, [
         _c(
           "table",
@@ -77011,7 +77027,7 @@ var render = function() {
                   _c("td", [
                     _vm._v(
                       "\n                            " +
-                        _vm._s(hrPosition.positionCode) +
+                        _vm._s(hrPosition.positioncode) +
                         "\n                        "
                     )
                   ]),
@@ -77323,12 +77339,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         if (this.editId > 0) {
             this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
-            this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode;
+            this.positioncode = document.querySelector("#positioncode").value = this.objEdit.positioncode;
             this.positionName = document.querySelector("#positionName").value = this.objEdit.positionName;
             this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary;
-            this.baseCurrency = document.querySelector("#baseCurrency").value = this.objEdit.baseCurrency;
+            this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId;
             this.localSalary = document.querySelector("#localSalary").value = this.objEdit.localSalary;
-            this.localCurrency = document.querySelector("#localCurrency").value = this.objEdit.localCurrency;
+            this.localCurrencyId = document.querySelector("#localCurrencyId").value = this.objEdit.localCurrencyId;
             this.localDailySalary = document.querySelector("#localDailySalary").value = this.objEdit.localDailySalary;
         }
 
@@ -77338,12 +77354,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             selectCurrency: '',
             selectCountry: '',
-            positionCode: '',
+            positioncode: '',
             positionName: '',
             baseSalary: '',
-            baseCurrency: '',
+            baseCurrencyId: '',
             localSalary: '',
-            localCurrency: '',
+            localCurrencyId: '',
             localDailySalary: '',
             selectCountrys: {}
         };
@@ -77404,12 +77420,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 var params = {
                     countryId: this.selectCountry,
-                    positionCode: this.positionCode,
+                    positioncode: this.positioncode,
                     positionName: this.positionName,
                     baseSalary: this.baseSalary,
-                    baseCurrency: this.baseCurrency,
+                    baseCurrencyId: this.baseCurrencyId,
                     localSalary: this.localSalary,
-                    localCurrency: this.localCurrency,
+                    localCurrencyId: this.localCurrencyId,
                     localDailySalary: this.localDailySalary
 
                     // console.log(params)
@@ -77431,12 +77447,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 var _params = {
                     countryId: this.selectCountry,
-                    positionCode: this.positionCode,
+                    positioncode: this.positioncode,
                     positionName: this.positionName,
                     baseSalary: this.baseSalary,
-                    baseCurrency: this.baseCurrency,
+                    baseCurrencyId: this.baseCurrencyId,
                     localSalary: this.localSalary,
-                    localCurrency: this.localCurrency,
+                    localCurrencyId: this.localCurrencyId,
                     localDailySalary: this.localDailySalary
                 };
                 document.querySelector("#form-hrposition-type").reset();
@@ -77579,7 +77595,7 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
-                      attrs: { for: "positionCode" },
+                      attrs: { for: "positioncode" },
                       domProps: { textContent: _vm._s(_vm.nameField2) }
                     }),
                     _vm._v(" "),
@@ -77588,24 +77604,24 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.positionCode,
-                          expression: "positionCode"
+                          value: _vm.positioncode,
+                          expression: "positioncode"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
-                        id: "positionCode",
+                        id: "positioncode",
                         placeholder: _vm.nameField2,
                         required: "required"
                       },
-                      domProps: { value: _vm.positionCode },
+                      domProps: { value: _vm.positioncode },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.positionCode = $event.target.value
+                          _vm.positioncode = $event.target.value
                         }
                       }
                     })
@@ -77690,7 +77706,7 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
-                      attrs: { for: "baseCurrency" },
+                      attrs: { for: "baseCurrencyId" },
                       domProps: { textContent: _vm._s(_vm.nameField5) }
                     }),
                     _vm._v(" "),
@@ -77701,12 +77717,12 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.baseCurrency,
-                            expression: "baseCurrency"
+                            value: _vm.baseCurrencyId,
+                            expression: "baseCurrencyId"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "baseCurrency", required: "required" },
+                        attrs: { id: "baseCurrencyId", required: "required" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -77717,7 +77733,7 @@ var render = function() {
                                 var val = "_value" in o ? o._value : o.value
                                 return val
                               })
-                            _vm.baseCurrency = $event.target.multiple
+                            _vm.baseCurrencyId = $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
                           }
@@ -77776,7 +77792,7 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
-                      attrs: { for: "localCurrency" },
+                      attrs: { for: "localCurrencyId" },
                       domProps: { textContent: _vm._s(_vm.nameField7) }
                     }),
                     _vm._v(" "),
@@ -77787,12 +77803,12 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.localCurrency,
-                            expression: "localCurrency"
+                            value: _vm.localCurrencyId,
+                            expression: "localCurrencyId"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "localCurrency", required: "required" },
+                        attrs: { id: "localCurrencyId", required: "required" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -77803,7 +77819,7 @@ var render = function() {
                                 var val = "_value" in o ? o._value : o.value
                                 return val
                               })
-                            _vm.localCurrency = $event.target.multiple
+                            _vm.localCurrencyId = $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
                           }
@@ -78051,6 +78067,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -78076,9 +78093,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             nameField2: "EMPRESA",
             nameField3: "CODIGO",
             nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
-            nameField5: "CALCULO EN SALARIO BASE?",
-            nameField6: "TRANSACCIÓN de ingreso?",
-            nameField7: "TRANSACCIÓN CON SALARIO?",
+            nameField5: "CALCULO EN SALARIO BASE:   ",
+            nameField6: "TRANSACCIÓN DE INGRESO:   ",
+            nameField7: "TRANSACCIÓN CON SALARIO:   ",
             nameField8: ""
 
         };
@@ -78127,6 +78144,8 @@ var render = function() {
       ? _c(
           "div",
           [
+            _vm._m(0),
+            _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -78193,7 +78212,14 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("TIPO DE TRANSACCIONES")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -78380,10 +78406,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-12" }, [
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("h4", [_vm._v(_vm._s(_vm.namePanelList))])
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "table-responsive text-center" }, [
         _c(
           "table",
@@ -78674,6 +78696,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -78717,9 +78742,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             companyId: '',
             transactionTypeCode: '',
             transactionTypeName: '',
-            salaryBased: '',
-            isIncome: '',
-            hasBalance: '',
+            salaryBased: 0,
+            isIncome: 0,
+            hasBalance: 0,
             selectCountrys: {},
             selectCompanys: {}
         };
@@ -78897,7 +78922,7 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-4 " }, [
+                  _c("div", { staticClass: "form-group col-md-6 " }, [
                     _c("label", {
                       staticClass: "form-group",
                       attrs: { for: "selectCountry" },
@@ -78944,56 +78969,52 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-group col-md-6 col-md-offset-1" },
-                    [
-                      _c("label", {
-                        staticClass: "form-group",
-                        attrs: { for: "companyId" },
-                        domProps: { textContent: _vm._s(_vm.nameField2) }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.companyId,
-                              expression: "companyId"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { id: "companyId", required: "required" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.companyId = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
+                  _c("div", { staticClass: "form-group col-md-7 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "companyId" },
+                      domProps: { textContent: _vm._s(_vm.nameField2) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.companyId,
+                            expression: "companyId"
                           }
-                        },
-                        _vm._l(_vm.selectCompanys, function(item) {
-                          return _c(
-                            "option",
-                            { key: item.id, domProps: { value: item.id } },
-                            [_vm._v(_vm._s(item.vText))]
-                          )
-                        }),
-                        0
-                      )
-                    ]
-                  )
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "companyId", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.companyId = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectCompanys, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
@@ -79018,7 +79039,7 @@ var render = function() {
                         type: "number",
                         maxlength: "4",
                         id: "transactionTypeCode",
-                        placeholder: _vm.nameField2,
+                        placeholder: _vm.nameField3,
                         required: "required"
                       },
                       domProps: { value: _vm.transactionTypeCode },
@@ -79033,57 +79054,54 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-group col-md-7 col-md-offset-1" },
-                    [
-                      _c("label", {
-                        staticClass: "form-group",
-                        attrs: { for: "transactionTypeName" },
-                        domProps: { textContent: _vm._s(_vm.nameField4) }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.transactionTypeName,
-                            expression: "transactionTypeName"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "transactionTypeName",
-                          placeholder: _vm.nameField4,
-                          required: "required"
-                        },
-                        domProps: { value: _vm.transactionTypeName },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.transactionTypeName = $event.target.value
-                          }
+                  _c("div", { staticClass: "form-group col-md-9" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "transactionTypeName" },
+                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.transactionTypeName,
+                          expression: "transactionTypeName"
                         }
-                      })
-                    ]
-                  )
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "transactionTypeName",
+                        placeholder: _vm.nameField4,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.transactionTypeName },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.transactionTypeName = $event.target.value
+                        }
+                      }
+                    })
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-4" }, [
-                    _c("label", {
-                      staticClass: "form-group",
-                      attrs: { for: "salaryBased" },
-                      domProps: { textContent: _vm._s(_vm.nameField5) }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-7 form-inline" },
+                    [
+                      _c("label", {
+                        staticClass: "form-group",
+                        attrs: { for: "salaryBased" },
+                        domProps: { textContent: _vm._s(_vm.nameField5) }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
                         directives: [
                           {
                             name: "model",
@@ -79092,42 +79110,52 @@ var render = function() {
                             expression: "salaryBased"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { id: "salaryBased", required: "required" },
+                        attrs: {
+                          type: "checkbox",
+                          id: "salaryBased",
+                          value: "1"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.salaryBased)
+                            ? _vm._i(_vm.salaryBased, "1") > -1
+                            : _vm.salaryBased
+                        },
                         on: {
                           change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.salaryBased = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                            var $$a = _vm.salaryBased,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.salaryBased = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.salaryBased = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.salaryBased = $$c
+                            }
                           }
                         }
-                      },
-                      [
-                        _c("option", { attrs: { value: "0" } }, [_vm._v("No")]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [_vm._v("Si")])
-                      ]
-                    )
-                  ]),
+                      })
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-4" }, [
-                    _c("label", {
-                      staticClass: "form-group",
-                      attrs: { for: "isIncome" },
-                      domProps: { textContent: _vm._s(_vm.nameField6) }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-7 form-inline" },
+                    [
+                      _c("label", {
+                        staticClass: "form-group",
+                        attrs: { for: "isIncome" },
+                        domProps: { textContent: _vm._s(_vm.nameField6) }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
                         directives: [
                           {
                             name: "model",
@@ -79136,42 +79164,48 @@ var render = function() {
                             expression: "isIncome"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { id: "isIncome", required: "required" },
+                        attrs: { type: "checkbox", id: "isIncome", value: "1" },
+                        domProps: {
+                          checked: Array.isArray(_vm.isIncome)
+                            ? _vm._i(_vm.isIncome, "1") > -1
+                            : _vm.isIncome
+                        },
                         on: {
                           change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.isIncome = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                            var $$a = _vm.isIncome,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.isIncome = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.isIncome = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.isIncome = $$c
+                            }
                           }
                         }
-                      },
-                      [
-                        _c("option", { attrs: { value: "0" } }, [_vm._v("No")]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [_vm._v("Si")])
-                      ]
-                    )
-                  ]),
+                      })
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-4" }, [
-                    _c("label", {
-                      staticClass: "form-group",
-                      attrs: { for: "hasBalance" },
-                      domProps: { textContent: _vm._s(_vm.nameField7) }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-7 form-inline" },
+                    [
+                      _c("label", {
+                        staticClass: "form-group",
+                        attrs: { for: "hasBalance" },
+                        domProps: { textContent: _vm._s(_vm.nameField7) }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
                         directives: [
                           {
                             name: "model",
@@ -79180,31 +79214,40 @@ var render = function() {
                             expression: "hasBalance"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { id: "hasBalance", required: "required" },
+                        attrs: {
+                          type: "checkbox",
+                          id: "hasBalance",
+                          value: "1"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.hasBalance)
+                            ? _vm._i(_vm.hasBalance, "1") > -1
+                            : _vm.hasBalance
+                        },
                         on: {
                           change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.hasBalance = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                            var $$a = _vm.hasBalance,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.hasBalance = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.hasBalance = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.hasBalance = $$c
+                            }
                           }
                         }
-                      },
-                      [
-                        _c("option", { attrs: { value: "0" } }, [_vm._v("No")]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [_vm._v("Si")])
-                      ]
-                    )
-                  ])
+                      })
+                    ]
+                  )
                 ]),
                 _vm._v(" "),
                 _vm.editId === 0
@@ -79367,6 +79410,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -79442,6 +79486,8 @@ var render = function() {
       ? _c(
           "div",
           [
+            _vm._m(0),
+            _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -79508,7 +79554,14 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("PERIODOS")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -79688,10 +79741,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-12" }, [
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("h4", [_vm._v(_vm._s(_vm.namePanelList))])
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "table-responsive text-center" }, [
         _c(
           "table",
@@ -79986,6 +80035,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -80017,7 +80070,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
 
         var year = new Date();
-        this.years = year.getFullYear() - 15;
+        this.years = year.getFullYear() - 3;
 
         // console.log(this.years)
         console.log('Component mounted.');
@@ -80210,7 +80263,7 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-4 " }, [
+                  _c("div", { staticClass: "form-group col-md-6 " }, [
                     _c("label", {
                       staticClass: "form-group",
                       attrs: { for: "selectCountry" },
@@ -80257,60 +80310,56 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-group col-md-6 col-md-offset-1" },
-                    [
-                      _c("label", {
-                        staticClass: "form-group",
-                        attrs: { for: "companyId" },
-                        domProps: { textContent: _vm._s(_vm.nameField2) }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.companyId,
-                              expression: "companyId"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { id: "companyId", required: "required" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.companyId = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
+                  _c("div", { staticClass: "form-group col-md-7 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "companyId" },
+                      domProps: { textContent: _vm._s(_vm.nameField2) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.companyId,
+                            expression: "companyId"
                           }
-                        },
-                        _vm._l(_vm.selectCompanys, function(item) {
-                          return _c(
-                            "option",
-                            { key: item.id, domProps: { value: item.id } },
-                            [_vm._v(_vm._s(item.vText))]
-                          )
-                        }),
-                        0
-                      )
-                    ]
-                  )
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "companyId", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.companyId = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectCompanys, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-4" }, [
+                  _c("div", { staticClass: "form-group col-md-6" }, [
                     _c("label", {
                       staticClass: "form-group",
                       attrs: { for: "payrollTypeId" },
@@ -80357,44 +80406,40 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-group col-md-7 col-md-offset-1" },
-                    [
-                      _c("label", {
-                        staticClass: "form-group",
-                        attrs: { for: "periodName" },
-                        domProps: { textContent: _vm._s(_vm.nameField4) }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.periodName,
-                            expression: "periodName"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "periodName",
-                          placeholder: _vm.nameField4,
-                          required: "required"
-                        },
-                        domProps: { value: _vm.periodName },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.periodName = $event.target.value
-                          }
+                  _c("div", { staticClass: "form-group col-md-8 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "periodName" },
+                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.periodName,
+                          expression: "periodName"
                         }
-                      })
-                    ]
-                  )
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "periodName",
+                        placeholder: _vm.nameField4,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.periodName },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.periodName = $event.target.value
+                        }
+                      }
+                    })
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
@@ -80434,7 +80479,7 @@ var render = function() {
                           }
                         }
                       },
-                      _vm._l(15, function(n) {
+                      _vm._l(5, function(n) {
                         return _c(
                           "option",
                           { key: n, domProps: { value: n + _vm.years } },
@@ -80443,8 +80488,10 @@ var render = function() {
                       }),
                       0
                     )
-                  ]),
-                  _vm._v(" "),
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
@@ -80478,8 +80525,10 @@ var render = function() {
                         }
                       }
                     })
-                  ]),
-                  _vm._v(" "),
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
@@ -80712,6 +80761,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -80818,6 +80868,8 @@ var render = function() {
       ? _c(
           "div",
           [
+            _vm._m(0),
+            _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -80891,7 +80943,7 @@ var render = function() {
       ? _c(
           "div",
           [
-            _vm._m(0),
+            _vm._m(1),
             _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
@@ -80939,6 +80991,12 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("TIPOS DE PROCESOS")])])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -81121,10 +81179,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("h4", [_vm._v(_vm._s(_vm.namePanelList))])
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "table-responsive text-center" }, [
         _c(
           "table",
@@ -81602,7 +81656,7 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "text",
+                            type: "number",
                             id: "processCode",
                             placeholder: _vm.nameField1,
                             required: "required"
@@ -81851,7 +81905,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/configuration/company/mainCompany.vue"
+Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/listProcessDetail.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -81860,9 +81914,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-271083d2", Component.options)
+    hotAPI.createRecord("data-v-06ef031b", Component.options)
   } else {
-    hotAPI.reload("data-v-271083d2", Component.options)
+    hotAPI.reload("data-v-06ef031b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -81935,6 +81989,886 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('process-detail/' + this.objProcessDetail.hrprocessId).then(function (response) {
+            _this.objProcessDetailList = response.data.processDetail;
+            // console.log(this.objProcessDetailList)
+            // debugger
+        });
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            objProcessDetailList: {}
+        };
+    },
+
+    props: {
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objProcess: {},
+        objProcessDetail: {}
+    },
+    methods: {
+        editDetailRow: function editDetailRow(index, id) {
+            // console.log('objeto')
+            // console.log(this.objProcessDetailList[index])
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+
+            this.$emit("indexEditDetail", this.objProcessDetailList[index]);
+        },
+        deleteDetailrow: function deleteDetailrow(index, id) {
+            var _this2 = this;
+
+            // console.log('index ' + index)
+            // console.log('id ' + id)
+            // const indexIs = this.objProcessDetailList[index]
+
+
+            // return
+            if (confirm("Delete?")) {
+                axios.delete('process-detail/' + id).then(function () {
+                    _this2.objProcessDetailList.splice(index, 1);
+                    // this.$emit("delDetailrow",[index,id])
+                }).catch(function (error) {
+                    alert("Error");
+                    console.log(error);
+                });
+            }
+
+            // console.log('enviado')
+        }
+    }
+});
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+    _c("div", { staticClass: "row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-3" }, [
+        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
+          _vm._v(_vm._s(_vm.objProcessDetail.processName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-3" }, [
+        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
+          _vm._v(_vm._s(_vm.objProcessDetail.countryName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm._m(2),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-3" }, [
+        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
+          _vm._v(_vm._s(_vm.objProcessDetail.companyShortName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "table-responsive text-center" }, [
+      _c(
+        "table",
+        { staticClass: "table table-striped table-bordered text-center" },
+        [
+          _vm._m(3),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.objProcessDetailList, function(Process, index) {
+              return _c("tr", { key: Process.hrpdId }, [
+                _c("td", [_vm._v(_vm._s(index + 1))]),
+                _vm._v(" "),
+                _c("td", { staticClass: "form-inline" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(Process.transactionTypeName) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(Process.quantity) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(Process.amount) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.editDetailRow(index, Process.hrpdId)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-danger",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteDetailrow(index, Process.hrpdId)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+                  )
+                ])
+              ])
+            }),
+            0
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-2" }, [
+      _c("h4", [_vm._v("PROCESO: ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-2" }, [
+      _c("h4", [_vm._v("PAÍS: ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-2" }, [
+      _c("h4", [_vm._v("EMPRESA: ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("NOMBRE")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("CANTIDAD")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("MONTO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ACCIONES")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-06ef031b", module.exports)
+  }
+}
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(207)
+/* template */
+var __vue_template__ = __webpack_require__(208)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/addUpProcessDetail.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-730f40bb", Component.options)
+  } else {
+    hotAPI.reload("data-v-730f40bb", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 207 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('process-detail-ttype/').then(function (res) {
+
+            console.log(res.data.hrTType);
+            _this.selecTrTypes = res.data.hrTType;
+        });
+
+        // console.log(eeeee)
+        // debugger
+
+
+        if (this.editId > 0) {
+            this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.hrtransactionTypeId;
+            this.quantity = document.querySelector("#quantity").value = this.objEditDetail.quantity;
+            this.amount = document.querySelector("#amount").value = this.objEditDetail.amount;
+            // this.processName = document.querySelector("#processName").value = this.objEditDetail.processName
+        }
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            selecTrType: '',
+            quantity: '',
+            amount: '',
+            processName: '',
+            selecTrTypes: {},
+            selectCompanys: {},
+            selectPayrollType: {}
+        };
+    },
+
+    props: _defineProperty({
+        namePanel: {
+            type: String,
+            default: 'AGREGAR DETALLE DEL PROCESO'
+        },
+        namePanel2: {
+            type: String,
+            default: 'ACTUALIZAR DETALLE DEL PROCESO'
+        },
+        editId: {
+            type: Number,
+            default: 0
+        },
+        nameField1: {
+            type: String,
+            default: 'PROCESO: '
+        },
+        nameField2: {
+            type: String,
+            default: 'TIPO TRANSACCION'
+        },
+        nameField3: {
+            type: String,
+            default: 'CANTIDAD'
+        },
+        nameField4: {
+            type: String,
+            default: 'MONTO'
+        },
+        nameField5: {
+            type: String,
+            default: ''
+        },
+        nameField6: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField7: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField8: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        objEditDetail: {},
+        objProcessDetails: {}
+    }, "objEditDetail", {}),
+    methods: {
+        newUpForm: function newUpForm() {
+
+            if (this.editId === 0) {
+
+                var params = {
+                    hrprocessId: this.objProcessDetails.hrprocessId,
+                    hrtransactionTypeId: this.selecTrType,
+                    quantity: this.quantity,
+                    amount: this.amount
+
+                    // console.log(params)
+                    // debugger
+
+
+                };axios.post('process-detail/post', params).then(function (response) {
+                    console.log(response);
+                    if (response.statusText == "OK") {
+                        alert("Success");
+                        document.querySelector("#newUpForm").reset();
+                    } else {
+                        console.log(response);
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            } else {
+                var _params = {
+                    hrtransactionTypeId: this.selecTrType,
+                    quantity: this.quantity,
+                    amount: this.amount
+                };
+
+                var url = "process-detail/" + this.objEditDetail.hrpdId;
+                axios.put(url, _params).then(function (response) {
+                    console.log(response);
+                    if (response.statusText == "OK") {
+                        alert("Success");
+                        document.querySelector("#newUpForm").reset();
+                    } else {
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            }
+        },
+        cancDetailadd: function cancDetailadd() {
+            // console.log('cancDetailadd')
+            this.$emit('showlistDetail', 0);
+        }
+    },
+    computed: {
+        addSuccess: function addSuccess() {
+            return {
+                background: '#dff0d8'
+
+            };
+        },
+        ediPrimary: function ediPrimary() {
+            return {
+                background: '#d9edf7'
+
+            };
+        }
+
+    }
+});
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _vm.editId === 0
+            ? _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.addSuccess },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel))
+                  ])
+                ]
+              )
+            : _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.ediPrimary },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel2))
+                  ])
+                ]
+              ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "form",
+              {
+                staticClass: "form",
+                attrs: { role: "form", id: "newUpForm" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.newUpForm()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "amount" },
+                      domProps: { textContent: _vm._s(_vm.nameField1) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.objProcessDetails.processName,
+                          expression: "objProcessDetails.processName"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        disabled: "disabled",
+                        type: "text",
+                        id: "amount",
+                        placeholder: _vm.nameField1,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.objProcessDetails.processName },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.objProcessDetails,
+                            "processName",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-5 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "selecTrType" },
+                      domProps: { textContent: _vm._s(_vm.nameField2) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selecTrType,
+                            expression: "selecTrType"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "selecTrType", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.selecTrType = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selecTrTypes, function(item) {
+                        return _c(
+                          "option",
+                          {
+                            key: item.hrtransactionTypeId,
+                            domProps: { value: item.hrtransactionTypeId }
+                          },
+                          [_vm._v(_vm._s(item.transactionTypeName))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-4" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "quantity" },
+                      domProps: { textContent: _vm._s(_vm.nameField3) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.quantity,
+                          expression: "quantity"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "quantity",
+                        placeholder: _vm.nameField3,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.quantity },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.quantity = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-4" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "amount" },
+                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.amount,
+                          expression: "amount"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "amount",
+                        placeholder: _vm.nameField4,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.amount },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.amount = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.editId === 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 1 },
+                          on: { cancf: _vm.cancDetailadd }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.editId > 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 2 },
+                          on: { cancf: _vm.cancDetailadd }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-730f40bb", module.exports)
+  }
+}
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(210)
+/* template */
+var __vue_template__ = __webpack_require__(211)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/configuration/company/mainCompany.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-271083d2", Component.options)
+  } else {
+    hotAPI.reload("data-v-271083d2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 210 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -81950,11 +82884,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
 
-            namePanel: "Agregar Compañia",
-            namePane3: "Editar Compañia",
+            namePanel: "Agregar Empresa",
+            namePane3: "Editar Empresa",
             bgColor: 'success',
             bgColorEdit: "bg-primary",
-            namePanel2: "Compañia",
+            namePanel2: "EMPRESA",
             objCompanys: [],
             objEdiCOmpany: [],
             parameters: [],
@@ -81964,9 +82898,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 field1: 1
 
             }],
-            nameField1: 'NOMBRE COMPAÑIA',
-            nameField2: 'NOMBRE CORTO COMPAÑIA',
-            nameField3: 'RIF',
+            nameField1: 'NOMBRE EMPRESA',
+            nameField2: 'NOMBRE CORTO EMPRESA',
+            nameField3: 'DIN',
             nameField4: 'PAÍS',
             nameField5: 'OFICINA',
             nameField6: 'DIRECCION'
@@ -81999,7 +82933,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 205 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -82060,6 +82994,8 @@ var render = function() {
       ? _c(
           "div",
           [
+            _vm._m(0),
+            _vm._v(" "),
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -82078,7 +83014,14 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("EMPRESAS")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -82089,15 +83032,15 @@ if (false) {
 }
 
 /***/ }),
-/* 206 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(207)
+var __vue_script__ = __webpack_require__(213)
 /* template */
-var __vue_template__ = __webpack_require__(208)
+var __vue_template__ = __webpack_require__(214)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -82136,7 +83079,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 207 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -82308,7 +83251,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 208 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -82600,15 +83543,15 @@ if (false) {
 }
 
 /***/ }),
-/* 209 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(210)
+var __vue_script__ = __webpack_require__(216)
 /* template */
-var __vue_template__ = __webpack_require__(211)
+var __vue_template__ = __webpack_require__(217)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -82647,7 +83590,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 210 */
+/* 216 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -82847,7 +83790,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 211 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -83139,15 +84082,15 @@ if (false) {
 }
 
 /***/ }),
-/* 212 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(213)
+var __vue_script__ = __webpack_require__(219)
 /* template */
-var __vue_template__ = __webpack_require__(214)
+var __vue_template__ = __webpack_require__(220)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -83186,7 +84129,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 213 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83305,7 +84248,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 214 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -83313,12 +84256,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-lg-12" }, [
+    _c("div", { staticClass: "col-md-12 col-lg-12" }, [
       _c("div", { staticClass: "panel panel-default" }, [
-        _c("div", { staticClass: "panel-heading" }, [
-          _c("h4", [_vm._v(_vm._s(_vm.namePanel))])
-        ]),
-        _vm._v(" "),
         _c("div", { staticClass: "table-responsive text-center" }, [
           _c(
             "table",
@@ -83427,7 +84366,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("N")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Nombre Compañia")]),
+        _c("th", [_vm._v("Nombre Empresa")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nombre Corto")]),
         _vm._v(" "),
@@ -83454,15 +84393,15 @@ if (false) {
 }
 
 /***/ }),
-/* 215 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(216)
+var __vue_script__ = __webpack_require__(222)
 /* template */
-var __vue_template__ = __webpack_require__(217)
+var __vue_template__ = __webpack_require__(223)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -83501,7 +84440,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 216 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83566,7 +84505,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 217 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -83670,632 +84609,23 @@ if (false) {
 }
 
 /***/ }),
-/* 218 */
+/* 224 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
 /* 225 */,
 /* 226 */,
 /* 227 */,
 /* 228 */,
 /* 229 */,
-/* 230 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(231)
-/* template */
-var __vue_template__ = __webpack_require__(232)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/mainProcessDetail.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-32662760", Component.options)
-  } else {
-    hotAPI.reload("data-v-32662760", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 231 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        var _this = this;
-
-        axios.get('process-detail/${}').then(function (response) {
-            _this.objProcess = response.data.process;
-            console.log(_this.objProcess);
-            // debugger
-        });
-
-        console.log('Component mounted.');
-    },
-    data: function data() {
-        return {
-            objProcess: [],
-            objEdit: [],
-            formStatus: 0,
-            namePanelList: "TIPOS DE PROCESOS",
-            namePanel: "AGREGAR TIPO DE PROCESO",
-            namePanel2: "EDITAR TIPO DE PROCESO",
-            nameField1: "CÓDIGO",
-            nameField2: "PAÍS",
-            nameField3: "EMPRESA",
-            nameField4: "NOMBRE DEL PROCESO",
-            nameField5: "",
-            nameField6: "",
-            nameField7: "",
-            nameField8: ""
-
-        };
-    },
-
-    methods: {
-        addFormStatus: function addFormStatus() {
-            this.formStatus = 1;
-        },
-        showlist: function showlist() {
-            var _this2 = this;
-
-            this.formStatus = 0;
-            axios.get('process/list').then(function (response) {
-                _this2.objProcess = response.data.process;
-            });
-        },
-        indexEdit: function indexEdit(index) {
-            this.formStatus = 2;
-            // console.log('recibido')
-            this.objEdit = this.objProcess[index];
-            // console.log( this.objEdit)
-        },
-        delrow: function delrow(indexId) {
-            // console.log(indexId)
-            this.objProcess.splice(indexId[0], 1);
-        }
-    }
-});
-
-/***/ }),
-/* 232 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.formStatus === 0
-      ? _c(
-          "div",
-          [
-            _c("button-form", {
-              attrs: { buttonType: 0 },
-              on: { addf: _vm.addFormStatus }
-            }),
-            _vm._v(" "),
-            _c("list-process", {
-              attrs: {
-                objProcess: _vm.objProcess,
-                namePanelList: _vm.namePanelList
-              },
-              on: { indexEdit: _vm.indexEdit, delrow: _vm.delrow }
-            })
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.formStatus === 1
-      ? _c(
-          "div",
-          [
-            _c("addUp-process", {
-              attrs: {
-                namePanel: _vm.namePanel,
-                nameField1: _vm.nameField1,
-                nameField2: _vm.nameField2,
-                nameField3: _vm.nameField3,
-                nameField4: _vm.nameField4,
-                nameField5: _vm.nameField5,
-                nameField6: _vm.nameField6,
-                nameField7: _vm.nameField7,
-                nameField8: _vm.nameField8
-              },
-              on: { showlist: _vm.showlist }
-            })
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.formStatus === 2
-      ? _c(
-          "div",
-          [
-            _c("addUp-process", {
-              attrs: {
-                namePanel2: _vm.namePanel2,
-                nameField1: _vm.nameField1,
-                nameField2: _vm.nameField2,
-                nameField3: _vm.nameField3,
-                nameField4: _vm.nameField4,
-                nameField5: _vm.nameField5,
-                nameField6: _vm.nameField6,
-                nameField7: _vm.nameField7,
-                nameField8: _vm.nameField8,
-                objEdit: _vm.objEdit,
-                editId: 1
-              },
-              on: { showlist: _vm.showlist }
-            })
-          ],
-          1
-        )
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-32662760", module.exports)
-  }
-}
-
-/***/ }),
-/* 233 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(234)
-/* template */
-var __vue_template__ = __webpack_require__(235)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/listProcessDetail.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-06ef031b", Component.options)
-  } else {
-    hotAPI.reload("data-v-06ef031b", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 234 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        var _this = this;
-
-        axios.get('process-detail/' + this.objProcessDetail.hrprocessId).then(function (response) {
-            _this.objProcessDetailList = response.data.processDetail;
-            // console.log(this.objProcessDetailList)
-            // debugger
-        });
-        console.log('Component mounted.');
-    },
-    data: function data() {
-        return {
-            objProcessDetailList: {}
-        };
-    },
-
-    props: {
-        namePanelList: {
-            type: String,
-            default: 'Name defauld'
-        },
-        objProcess: {},
-        objProcessDetail: {}
-    },
-    methods: {
-        editDetailRow: function editDetailRow(index, id) {
-            // console.log('objeto')
-            // console.log(this.objProcessDetailList[index])
-            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
-            // de esta manera no tengo que buscar los datos en la DB nuevamente
-
-            this.$emit("indexEditDetail", this.objProcessDetailList[index]);
-        },
-        deleteDetailrow: function deleteDetailrow(index, id) {
-            var _this2 = this;
-
-            // console.log('index ' + index)
-            // console.log('id ' + id)
-            // const indexIs = this.objProcessDetailList[index]
-
-
-            // return
-            if (confirm("Delete?")) {
-                axios.delete('process-detail/' + id).then(function () {
-                    _this2.objProcessDetailList.splice(index, 1);
-                    // this.$emit("delDetailrow",[index,id])
-                }).catch(function (error) {
-                    alert("Error");
-                    console.log(error);
-                });
-            }
-
-            // console.log('enviado')
-        }
-    }
-});
-
-/***/ }),
-/* 235 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
-    _c("div", { staticClass: "row" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-3" }, [
-        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
-          _vm._v(_vm._s(_vm.objProcessDetail.processName))
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _vm._m(1),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-3" }, [
-        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
-          _vm._v(_vm._s(_vm.objProcessDetail.countryName))
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-3" }, [
-        _c("h4", { staticClass: "form-group", attrs: { for: "companyId" } }, [
-          _vm._v(_vm._s(_vm.objProcessDetail.companyShortName))
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "table-responsive text-center" }, [
-      _c(
-        "table",
-        { staticClass: "table table-striped table-bordered text-center" },
-        [
-          _vm._m(3),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.objProcessDetailList, function(Process, index) {
-              return _c("tr", { key: Process.hrpdId }, [
-                _c("td", [_vm._v(_vm._s(index + 1))]),
-                _vm._v(" "),
-                _c("td", { staticClass: "form-inline" }, [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(Process.transactionTypeName) +
-                      "\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(Process.quantity) +
-                      "\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(Process.amount) +
-                      "\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-primary",
-                      on: {
-                        click: function($event) {
-                          return _vm.editDetailRow(index, Process.hrpdId)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-danger",
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteDetailrow(index, Process.hrpdId)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
-                  )
-                ])
-              ])
-            }),
-            0
-          )
-        ]
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-md-2" }, [
-      _c("h4", [_vm._v("PROCESO: ")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-md-2" }, [
-      _c("h4", [_vm._v("PAÍS: ")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-md-2" }, [
-      _c("h4", [_vm._v("EMPRESA: ")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("N.")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("NOMBRE")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("CANTIDAD")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("MONTO")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("ACCIONES")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-06ef031b", module.exports)
-  }
-}
-
-/***/ }),
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
 /* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -84321,7 +84651,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/rrhh/process/processDetail/addUpProcessDetail.vue"
+Component.options.__file = "resources/assets/js/components/rrhh/staff/mainStaff.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -84330,9 +84660,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-730f40bb", Component.options)
+    hotAPI.createRecord("data-v-4a963180", Component.options)
   } else {
-    hotAPI.reload("data-v-730f40bb", Component.options)
+    hotAPI.reload("data-v-4a963180", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -84348,8 +84678,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
 //
 //
 //
@@ -84419,45 +84748,423 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('process-detail-ttype/').then(function (res) {
-
-            console.log(res.data.hrTType);
-            _this.selecTrTypes = res.data.hrTType;
+        axios.get('periods/list').then(function (response) {
+            _this.objPeriods = response.data.periods;
+            // console.log(this.objPeriods)
+            // debugger
         });
-
-        // console.log(eeeee)
-        // debugger
-
-
-        if (this.editId > 0) {
-            this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.hrtransactionTypeId;
-            this.quantity = document.querySelector("#quantity").value = this.objEditDetail.quantity;
-            this.amount = document.querySelector("#amount").value = this.objEditDetail.amount;
-            // this.processName = document.querySelector("#processName").value = this.objEditDetail.processName
-        }
 
         console.log('Component mounted.');
     },
     data: function data() {
         return {
-            selecTrType: '',
-            quantity: '',
-            amount: '',
-            processName: '',
-            selecTrTypes: {},
+            objPeriods: [],
+            objEdit: [],
+            formStatus: 0,
+            namePanelList: "PERÍODOS",
+            namePanel: "AGREGAR PERÍODO",
+            namePanel2: "EDITAR PERÍODO",
+            nameField1: "PAÍS",
+            nameField2: "EMPRESA",
+            nameField3: "TIPO DE NÓMINA",
+            nameField4: "NOMBRE DEL PERÍODO",
+            nameField5: "AÑO",
+            nameField6: "DESDE",
+            nameField7: "HASTA",
+            nameField8: ""
+
+        };
+    },
+
+    methods: {
+        addFormStatus: function addFormStatus() {
+            this.formStatus = 1;
+        },
+        showlist: function showlist() {
+            var _this2 = this;
+
+            this.formStatus = 0;
+            axios.get('periods/list').then(function (response) {
+                _this2.objPeriods = response.data.periods;
+            });
+        },
+        newObj: function newObj(payrollType) {
+            console.log(payrollType);
+            this.objPeriods.push(payrollType);
+        },
+        indexEdit: function indexEdit(index) {
+            this.formStatus = 2;
+            // console.log('recibido')
+            this.objEdit = this.objPeriods[index];
+            // console.log( this.objEdit)
+        },
+        delrow: function delrow(indexId) {
+            // console.log(indexId)
+            this.objPeriods.splice(indexId[0], 1);
+        }
+    }
+});
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.formStatus === 0
+      ? _c(
+          "div",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("button-form", {
+              attrs: { buttonType: 0 },
+              on: { addf: _vm.addFormStatus }
+            }),
+            _vm._v(" "),
+            _c("list-staff", {
+              attrs: {
+                objPeriods: _vm.objPeriods,
+                namePanelList: _vm.namePanelList
+              },
+              on: { indexEdit: _vm.indexEdit, delrow: _vm.delrow }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 1
+      ? _c(
+          "div",
+          [
+            _c("add-up-staff", {
+              attrs: {
+                namePanel: _vm.namePanel,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8
+              },
+              on: { showlist: _vm.showlist, newObj: _vm.newObj }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 2
+      ? _c(
+          "div",
+          [
+            _c("add-up-staff", {
+              attrs: {
+                namePanel2: _vm.namePanel2,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8,
+                objEdit: _vm.objEdit,
+                editId: 1
+              },
+              on: { showlist: _vm.showlist, newObj: _vm.newObj }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("STAFF")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4a963180", module.exports)
+  }
+}
+
+/***/ }),
+/* 239 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(243)
+/* template */
+var __vue_template__ = __webpack_require__(244)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/staff/listStaff.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2447f83b", Component.options)
+  } else {
+    hotAPI.reload("data-v-2447f83b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(241)
+/* template */
+var __vue_template__ = __webpack_require__(242)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/staff/addUpStaff.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-679de7ca", Component.options)
+  } else {
+    hotAPI.reload("data-v-679de7ca", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 241 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('periods/list/').then(function (res) {
+            // const eeeee = res.data
+            _this.selectCountrys = res.data.countrys.map(function (item) {
+                return { id: item.countryId, vText: item.countryName };
+            });
+            _this.selectCompanys = res.data.companys.map(function (item) {
+                return { id: item.companyId, vText: item.companyName };
+            });
+            _this.selectPayrollType = res.data.payrollType.map(function (item) {
+                return { id: item.payrollTypeId, vText: item.payrollTypeName };
+            });
+            // console.log(eeeee)
+            // debugger
+        });
+
+        if (this.editId > 0) {
+            this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
+            this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId;
+            this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId;
+            this.periodName = document.querySelector("#periodName").value = this.objEdit.periodName;
+            this.year = document.querySelector("#year").value = this.objEdit.year;
+            this.periodFrom = document.querySelector("#periodFrom").value = this.objEdit.periodFrom;
+            this.periodTo = document.querySelector("#periodTo").value = this.objEdit.periodTo;
+        }
+
+        var year = new Date();
+        this.years = year.getFullYear() - 3;
+
+        // console.log(this.years)
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            selectCountry: '',
+            companyId: '',
+            payrollTypeId: '',
+            periodName: '',
+            year: '',
+            years: 0,
+            periodFrom: '',
+            periodTo: '',
+            selectCountrys: {},
             selectCompanys: {},
             selectPayrollType: {}
         };
     },
 
-    props: _defineProperty({
+    props: {
         namePanel: {
             type: String,
-            default: 'AGREGAR DETALLE DEL PROCESO'
+            default: 'Name Defauld'
         },
         namePanel2: {
             type: String,
-            default: 'ACTUALIZAR DETALLE DEL PROCESO'
+            default: 'Name Defauld'
         },
         editId: {
             type: Number,
@@ -84465,23 +85172,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         },
         nameField1: {
             type: String,
-            default: 'PROCESO: '
+            default: 'Name Defauld'
         },
         nameField2: {
             type: String,
-            default: 'TIPO TRANSACCION'
+            default: 'Name Defauld'
         },
         nameField3: {
             type: String,
-            default: 'CANTIDAD'
+            default: 'Name Defauld'
         },
         nameField4: {
             type: String,
-            default: 'MONTO'
+            default: 'Name Defauld'
         },
         nameField5: {
             type: String,
-            default: ''
+            default: 'Name Defauld'
         },
         nameField6: {
             type: String,
@@ -84495,29 +85202,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             type: String,
             default: 'Name Defauld'
         },
-        objEditDetail: {},
-        objProcessDetails: {}
-    }, "objEditDetail", {}),
+        objEdit: {}
+
+    },
     methods: {
         newUpForm: function newUpForm() {
 
             if (this.editId === 0) {
 
                 var params = {
-                    hrprocessId: this.objProcessDetails.hrprocessId,
-                    hrtransactionTypeId: this.selecTrType,
-                    quantity: this.quantity,
-                    amount: this.amount
+                    countryId: this.selectCountry,
+                    companyId: this.companyId,
+                    payrollTypeId: this.payrollTypeId,
+                    periodName: this.periodName,
+                    year: this.year,
+                    periodFrom: this.periodFrom,
+                    periodTo: this.periodTo
 
                     // console.log(params)
                     // debugger
+                };document.querySelector("#newUpForm").reset();
 
-
-                };axios.post('process-detail/post', params).then(function (response) {
-                    console.log(response);
+                axios.post('periods/post', params).then(function (response) {
+                    // console.log(response)
                     if (response.statusText == "OK") {
                         alert("Success");
-                        document.querySelector("#newUpForm").reset();
                     } else {
                         console.log(response);
                         alert("Error");
@@ -84528,17 +85237,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
             } else {
                 var _params = {
-                    hrtransactionTypeId: this.selecTrType,
-                    quantity: this.quantity,
-                    amount: this.amount
+                    countryId: this.selectCountry,
+                    companyId: this.companyId,
+                    payrollTypeId: this.payrollTypeId,
+                    periodName: this.periodName,
+                    year: this.year,
+                    periodFrom: this.periodFrom,
+                    periodTo: this.periodTo
                 };
+                document.querySelector("#newUpForm").reset();
 
-                var url = "process-detail/" + this.objEditDetail.hrpdId;
+                var url = "periods/put/" + this.objEdit.periodId;
                 axios.put(url, _params).then(function (response) {
                     console.log(response);
                     if (response.statusText == "OK") {
                         alert("Success");
-                        document.querySelector("#newUpForm").reset();
                     } else {
                         alert("Error");
                     }
@@ -84548,9 +85261,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
             }
         },
-        cancDetailadd: function cancDetailadd() {
-            // console.log('cancDetailadd')
-            this.$emit('showlistDetail', 0);
+        cancf: function cancf() {
+            this.$emit('showlist', 0);
         }
     },
     computed: {
@@ -84571,7 +85283,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 });
 
 /***/ }),
-/* 238 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -84617,53 +85329,11 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-6" }, [
+                  _c("div", { staticClass: "form-group col-md-6 " }, [
                     _c("label", {
                       staticClass: "form-group",
-                      attrs: { for: "amount" },
+                      attrs: { for: "selectCountry" },
                       domProps: { textContent: _vm._s(_vm.nameField1) }
-                    }),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.objProcessDetails.processName,
-                          expression: "objProcessDetails.processName"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        disabled: "disabled",
-                        type: "text",
-                        id: "amount",
-                        placeholder: _vm.nameField1,
-                        required: "required"
-                      },
-                      domProps: { value: _vm.objProcessDetails.processName },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.objProcessDetails,
-                            "processName",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-5 " }, [
-                    _c("label", {
-                      staticClass: "form-group",
-                      attrs: { for: "selecTrType" },
-                      domProps: { textContent: _vm._s(_vm.nameField2) }
                     }),
                     _vm._v(" "),
                     _c(
@@ -84673,12 +85343,12 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.selecTrType,
-                            expression: "selecTrType"
+                            value: _vm.selectCountry,
+                            expression: "selectCountry"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "selecTrType", required: "required" },
+                        attrs: { id: "selectCountry", required: "required" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -84689,20 +85359,197 @@ var render = function() {
                                 var val = "_value" in o ? o._value : o.value
                                 return val
                               })
-                            _vm.selecTrType = $event.target.multiple
+                            _vm.selectCountry = $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
                           }
                         }
                       },
-                      _vm._l(_vm.selecTrTypes, function(item) {
+                      _vm._l(_vm.selectCountrys, function(item) {
                         return _c(
                           "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-md-7 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "companyId" },
+                      domProps: { textContent: _vm._s(_vm.nameField2) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
                           {
-                            key: item.hrtransactionTypeId,
-                            domProps: { value: item.hrtransactionTypeId }
-                          },
-                          [_vm._v(_vm._s(item.transactionTypeName))]
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.companyId,
+                            expression: "companyId"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "companyId", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.companyId = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectCompanys, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "payrollTypeId" },
+                      domProps: { textContent: _vm._s(_vm.nameField3) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.payrollTypeId,
+                            expression: "payrollTypeId"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "payrollTypeId", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.payrollTypeId = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectPayrollType, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-md-8 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "periodName" },
+                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.periodName,
+                          expression: "periodName"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "periodName",
+                        placeholder: _vm.nameField4,
+                        required: "required"
+                      },
+                      domProps: { value: _vm.periodName },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.periodName = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-4" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "year" },
+                      domProps: { textContent: _vm._s(_vm.nameField5) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.year,
+                            expression: "year"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "year", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.year = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(5, function(n) {
+                        return _c(
+                          "option",
+                          { key: n, domProps: { value: n + _vm.years } },
+                          [_vm._v(_vm._s(n + _vm.years))]
                         )
                       }),
                       0
@@ -84714,8 +85561,8 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
-                      attrs: { for: "quantity" },
-                      domProps: { textContent: _vm._s(_vm.nameField3) }
+                      attrs: { for: "periodFrom" },
+                      domProps: { textContent: _vm._s(_vm.nameField6) }
                     }),
                     _vm._v(" "),
                     _c("input", {
@@ -84723,24 +85570,24 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.quantity,
-                          expression: "quantity"
+                          value: _vm.periodFrom,
+                          expression: "periodFrom"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: {
-                        type: "text",
-                        id: "quantity",
-                        placeholder: _vm.nameField3,
+                        type: "date",
+                        id: "periodFrom",
+                        placeholder: _vm.nameField6,
                         required: "required"
                       },
-                      domProps: { value: _vm.quantity },
+                      domProps: { value: _vm.periodFrom },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.quantity = $event.target.value
+                          _vm.periodFrom = $event.target.value
                         }
                       }
                     })
@@ -84751,8 +85598,8 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
-                      attrs: { for: "amount" },
-                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                      attrs: { for: "periodTo" },
+                      domProps: { textContent: _vm._s(_vm.nameField7) }
                     }),
                     _vm._v(" "),
                     _c("input", {
@@ -84760,24 +85607,24 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.amount,
-                          expression: "amount"
+                          value: _vm.periodTo,
+                          expression: "periodTo"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: {
-                        type: "text",
-                        id: "amount",
-                        placeholder: _vm.nameField4,
+                        type: "date",
+                        id: "periodTo",
+                        placeholder: _vm.nameField7,
                         required: "required"
                       },
-                      domProps: { value: _vm.amount },
+                      domProps: { value: _vm.periodTo },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.amount = $event.target.value
+                          _vm.periodTo = $event.target.value
                         }
                       }
                     })
@@ -84790,7 +85637,7 @@ var render = function() {
                       [
                         _c("button-form", {
                           attrs: { buttonType: 1 },
-                          on: { cancf: _vm.cancDetailadd }
+                          on: { cancf: _vm.cancf }
                         })
                       ],
                       1
@@ -84803,7 +85650,7 @@ var render = function() {
                       [
                         _c("button-form", {
                           attrs: { buttonType: 2 },
-                          on: { cancf: _vm.cancDetailadd }
+                          on: { cancf: _vm.cancf }
                         })
                       ],
                       1
@@ -84823,7 +85670,273 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-730f40bb", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-679de7ca", module.exports)
+  }
+}
+
+/***/ }),
+/* 243 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {};
+    },
+
+    props: {
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objPeriods: {}
+    },
+    methods: {
+        editRow: function editRow(index, id) {
+
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+
+            this.$emit("indexEdit", index);
+        },
+        deleterow: function deleterow(index, id) {
+            var _this = this;
+
+            // console.log('index ' + index)
+            // console.log('id ' + id)
+            // return
+            var indexIs = this.objPeriods[index];
+
+            if (confirm("Delete?")) {
+                axios.delete('periods/delete/' + id).then(function () {
+
+                    _this.$emit("delrow", [index, id]);
+                }).catch(function (error) {
+                    alert("Error");
+                    console.log(error);
+                });
+            }
+
+            // console.log('enviado')
+        }
+    }
+});
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "table-responsive text-center" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped table-bordered text-center" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.objPeriods, function(Periods, index) {
+                return _c("tr", { key: Periods.periodId }, [
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "form-inline" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Periods.periodName) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      " \n                            " +
+                        _vm._s(Periods.countryName) +
+                        " \n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Periods.companyShortName) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Periods.year) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Periods.payrollTypeName) +
+                        " \n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Periods.periodFrom) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(Periods.periodTo) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.editRow(index, Periods.periodId)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleterow(index, Periods.periodId)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre del periodo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pais")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Empresa")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Año")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tipo de Nomina")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Desde")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Hasta")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2447f83b", module.exports)
   }
 }
 
