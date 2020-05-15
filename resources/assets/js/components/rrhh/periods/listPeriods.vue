@@ -10,7 +10,7 @@
                         <tr>
                             <th>N.</th>
                             <th>Nombre del periodo</th>
-                            <th>Pais</th>
+                            <th >Pais</th>
                             <th>Empresa</th>
                             <th>Año</th>
                             <th>Tipo de Nomina</th>
@@ -27,7 +27,9 @@
                                 {{Periods.periodName}}
                             </td>
                             <td > 
-                                {{Periods.countryName}} 
+                                
+                                    {{Periods.countryName}} 
+                               
                             </td>
                             <td>
                                 {{Periods.companyShortName}}

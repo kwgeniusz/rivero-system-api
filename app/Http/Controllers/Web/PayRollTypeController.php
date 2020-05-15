@@ -20,10 +20,6 @@ class PayRollTypeController extends Controller
                     INNER JOIN country ON payroll_type.countryId = country.countryId");
     }
     
-    // public function comboContry()
-    // {
-    //     return Country::orderBy('countryName', 'ASC')->get();
-    // }
 
     public function combOffice($id)
     {

@@ -71,3 +71,5 @@ Route::delete('process-detail/{id}', 'Web\ProcessController@destroyDetail');
 Route::get('staff/', function () {
     return view('rrhh.staff.index');
 })->name('staff.index'); 
+Route::get('staff/list/', 'Web\HrStaffController@index');
+Route::get('staff/list/combox/', 'Web\HrStaffController@comboBoxMult');

@@ -9,45 +9,51 @@
                     <thead>
                         <tr>
                             <th>N.</th>
-                            <th>Nombre del periodo</th>
-                            <th>Pais</th>
-                            <th>Empresa</th>
-                            <th>Año</th>
-                            <th>Tipo de Nomina</th>
-                            <th>Desde</th>
-                            <th>Hasta</th>
+                            <th>Cod.</th>
+                            <th>Nombre </th>
+                            <th>Apellido</th>
+                            <th>Docuento de Identidad</th>
+                            <th>Cargo</th>
+                            <th>Departamento</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
     
-                        <tr v-for="(Periods, index) in objPeriods" :key="Periods.periodId">
+                        <tr v-for="(staff, index) in objStaff" :key="staff.periodId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
-                                {{Periods.periodName}}
+                                {{staff.staffCode}}
                             </td>
                             <td > 
-                                {{Periods.countryName}} 
+                                <p class="text-left">
+                                    {{staff.firstName}}
+                                </p> 
                             </td>
                             <td>
-                                {{Periods.companyShortName}}
+                                <p class="text-left">
+                                    {{staff.lastName}}
+                                </p> 
                             </td>
                             <td>
-                                {{Periods.year}}
+                                <!-- <p class="text-right">     -->
+                                    {{staff.idDocument}}
+                                <!-- </p>  -->
                             </td>
                             <td>
-                                {{Periods.payrollTypeName}} 
+                                <p class="text-left">
+                                    {{staff.positionName}} 
+                                </p> 
                             </td>
                             <td>
-                                {{Periods.periodFrom}}
-                            </td>
-                            <td>
-                                {{Periods.periodTo}}
+                                <p class="text-left">
+                                    {{staff.departmentName}}
+                                </p> 
                             </td>
                             
                             <td> 
-                                <button v-on:click="editRow(index, Periods.periodId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
-                                <button v-on:click="deleterow(index, Periods.periodId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                                <button v-on:click="editRow(index, staff.periodId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
+                                <button v-on:click="deleterow(index, staff.periodId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
                             </td>
                         </tr>
                     </tbody>
@@ -73,7 +79,7 @@
                 type: String,
                 default: 'Name defauld',
             },
-            objPeriods:{},
+            objStaff:{},
         },
         methods: {
             editRow(index, id){
@@ -87,7 +93,7 @@
                 // console.log('index ' + index)
                 // console.log('id ' + id)
                 // return
-                const indexIs = this.objPeriods[index]
+                const indexIs = this.objStaff[index]
             
                 if (confirm("Delete?") ){
                     axios.delete(`periods/delete/${id}`).then(()=>{

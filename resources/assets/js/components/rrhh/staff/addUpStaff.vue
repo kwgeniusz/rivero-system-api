@@ -12,68 +12,57 @@
                             
                             <div class="row">
                                 <div class="form-group col-md-6 ">
-                                    <label for="selectCountry" class="form-group" v-text="nameField1"></label>
-                                    <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
+                                    <label for="shortName" class="form-group" v-text="nameField1"></label>
+                                    <input type="text" v-model="shortName" class="form-control" id="shortName" v-bind:placeholder="nameField1" required="required">
+                                    <!-- <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
-                                    </select>
+                                    </select> -->
                                 </div>
                             
-                                <div class="form-group col-md-7 ">
-                                    <label for="companyId" class="form-group" v-text="nameField2"></label>
-                                    <select class="form-control" v-model="companyId" id="companyId" required="required">
-                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
+                                <div class="form-group col-md-9">
+                                    <label for="firstName" class="form-group" v-text="nameField2"></label>
+                                    <input type="text" v-model="firstName" class="form-control" id="firstName" v-bind:placeholder="nameField2" required="required">
                 
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="payrollTypeId" class="form-group" v-text="nameField3"></label>
-                                    <select class="form-control" v-model="payrollTypeId" id="payrollTypeId" required="required">
+                                <div class="form-group col-md-9">
+                                    <label for="lastName" class="form-group" v-text="nameField3"></label>
+                                    <input type="text" v-model="lastName" class="form-control" id="lastName" v-bind:placeholder="nameField3" required="required">
+                                    <!-- <select class="form-control" v-model="firstName" id="firstName" required="required">
                                         <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
-                                    </select>
+                                    </select> -->
                                 </div>
 
-                                <div class="form-group col-md-8 ">
-                                    
-                                    <label for="periodName" class="form-group" v-text="nameField4"></label>
-                                    <input type="text" v-model="periodName" class="form-control" id="periodName" v-bind:placeholder="nameField4" required="required">
+                                <div class="form-group col-md-5 ">
+                                    <label for="idDocument" class="form-group" v-text="nameField4"></label>
+                                    <input type="text" v-model="idDocument" class="form-control" id="idDocument" v-bind:placeholder="nameField4">
                                 </div>
                                 
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-4"> 
-                                    <label for="year" class="form-group" v-text="nameField5"> </label> 
+                                <div class="form-group col-md-5"> 
+                                    <label for="passportNumber" class="form-group" v-text="nameField5"> </label> 
+                                    <input type="text" v-model="passportNumber" class="form-control" id="passportNumber" v-bind:placeholder="nameField5">
                                        
-                                    <select class="form-control" v-model="year" id="year" required="required">
-                                        <option v-for=" n  in 5" :key="n" :value="n + years">{{n + years}}</option>
-                                        
-                                    </select>
+                                    
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-5">
                             
-                                    <label for="periodFrom" class="form-group" v-text="nameField6"></label>
-                                    <input type="date" v-model="periodFrom" class="form-control" id="periodFrom" v-bind:placeholder="nameField6" required="required">
-                                    <!-- <select class="form-control" v-model="periodFrom" id="periodFrom" required="required">
-                                        <option value="0">No</option>
-                                        <option value="1">Si</option>
-                                    </select> -->
+                                    <label for="legalNumber" class="form-group" v-text="nameField6"></label>
+                                    <input type="text" v-model="legalNumber" class="form-control" id="legalNumber" v-bind:placeholder="nameField6" >
+                                    
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label for="periodTo" class="form-group" v-text="nameField7"></label>
-                                    <input type="date" v-model="periodTo" class="form-control" id="periodTo" v-bind:placeholder="nameField7" required="required">
-                                    <!-- <select class="form-control" v-model="periodTo" id="periodTo" required="required">
-                                        <option value="0">No</option>
-                                        <option value="1">Si</option>
-                                    </select> -->
-                                    <!-- <input type="text" v-model="periodTo" class="form-control" id="periodTo" v-bind:placeholder="nameField7" required="required"> -->
+                                    <label for="staffCode" class="form-group" v-text="nameField7"></label>
+                                    <input type="text" v-model="staffCode" class="form-control" id="staffCode" v-bind:placeholder="nameField7" required="required">
+                                    
                                 </div>
                             </div>
                             
@@ -104,52 +93,52 @@
     export default {
         mounted() {
 
-            axios.get('periods/list/').then(res => {
-                // const eeeee = res.data
-                this.selectCountrys = res.data.countrys.map(item => {
-                    return {id: item.countryId, vText: item.countryName}
+            // axios.get('periods/list/').then(res => {
+            //     // const eeeee = res.data
+            //     this.selectCountrys = res.data.countrys.map(item => {
+            //         return {id: item.countryId, vText: item.countryName}
                     
-                })
-                this.selectCompanys = res.data.companys.map(item => {
-                    return {id: item.companyId, vText: item.companyName}
+            //     })
+            //     this.selectCompanys = res.data.companys.map(item => {
+            //         return {id: item.shortName, vText: item.companyName}
                     
-                })
-                this.selectPayrollType = res.data.payrollType.map( item => {
-                    return {id: item.payrollTypeId, vText: item.payrollTypeName}
-                })
-                // console.log(eeeee)
-                // debugger
-            })
+            //     })
+            //     this.selectPayrollType = res.data.payrollType.map( item => {
+            //         return {id: item.firstName, vText: item.payrollTypeName}
+            //     })
+            //     // console.log(eeeee)
+            //     // debugger
+            // })
             
            
 
             if (this.editId > 0) {
-                this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId
-                this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
-                this.periodName = document.querySelector("#periodName").value = this.objEdit.periodName
-                this.year = document.querySelector("#year").value = this.objEdit.year
-                this.periodFrom = document.querySelector("#periodFrom").value = this.objEdit.periodFrom
-                this.periodTo = document.querySelector("#periodTo").value = this.objEdit.periodTo
+                // this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
+                this.shortName = document.querySelector("#shortName").value = this.objEdit.shortName
+                this.firstName = document.querySelector("#firstName").value = this.objEdit.firstName
+                this.lastName = document.querySelector("#lastName").value = this.objEdit.lastName
+                this.idDocument = document.querySelector("#idDocument").value = this.objEdit.idDocument
+                this.passportNumber = document.querySelector("#passportNumber").value = this.objEdit.passportNumber
+                this.legalNumber = document.querySelector("#legalNumber").value = this.objEdit.legalNumber
+                this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode
                
             }
-            
-            const year = new Date()
-            this.years= year.getFullYear() - 3
+        
            
-                // console.log(this.years)
+                // console.log(this.lastNames)
             console.log('Component mounted.')
         },
         data(){
             return{
                 selectCountry:'',
-                companyId: '',
-                payrollTypeId: '',
-                periodName: '',
-                year: '',
-                years: 0,
-                periodFrom: '',
-                periodTo: '',
+                shortName: '',
+                firstName: '',
+                idDocument: '',
+                lastName: '',
+                lastNames: 0,
+                passportNumber: '',
+                legalNumber: '',
+                staffCode: '',
                 selectCountrys:{},
                 selectCompanys:{},
                 selectPayrollType:{},
@@ -210,12 +199,13 @@
                     
                     const params = {
                         countryId: this.selectCountry,
-                        companyId: this.companyId,
-                        payrollTypeId: this.payrollTypeId,
-                        periodName: this.periodName,
-                        year: this.year,
-                        periodFrom: this.periodFrom,
-                        periodTo: this.periodTo,
+                        shortName: this.shortName,
+                        firstName: this.firstName,
+                        idDocument: this.idDocument,
+                        lastName: this.lastName,
+                        passportNumber: this.passportNumber,
+                        legalNumber: this.legalNumber,
+                        staffCode: this.staffCode,
                         
                     }
 
@@ -241,12 +231,13 @@
                 }else{
                     const params = {    
                         countryId: this.selectCountry,
-                        companyId: this.companyId,
-                        payrollTypeId: this.payrollTypeId,
-                        periodName: this.periodName,
-                        year: this.year,
-                        periodFrom: this.periodFrom,
-                        periodTo: this.periodTo,
+                        shortName: this.shortName,
+                        firstName: this.firstName,
+                        idDocument: this.idDocument,
+                        lastName: this.lastName,
+                        passportNumber: this.passportNumber,
+                        legalNumber: this.legalNumber,
+                        staffCode: this.staffCode,
                     }
                     document.querySelector("#newUpForm").reset()
 
