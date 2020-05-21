@@ -66,7 +66,7 @@
         mounted() {
             axios.get('hrposition/').then( response => {
                 this.objHrPosition = response.data.hrposition
-                console.log(this.objHrPosition)
+                // console.log(this.objHrPosition)
             })
 
            

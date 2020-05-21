@@ -25,14 +25,14 @@ class HrPositionController extends Controller
      */
     public function index()
     {
-        $hrposition = DB::select("SELECT hrposition.hrpositionId, hrposition.countryId, hrposition.positioncode, hrposition.positionName, hrposition.baseSalary, 
-                                hrposition.baseCurrencyId, hrposition.localSalary, hrposition.localCurrencyId, hrposition.localDailySalary, country.countryId,
-                                country.countryName, currency.currencyName AS currencyName, currency.currencySymbol AS currencyNameSymbol,
-                                currency2.currencyName AS currencyNameLocal, currency2.currencySymbol AS currencySymbolLocal
-                            FROM `hrposition`
-                                INNER JOIN country ON hrposition.`countryId`= country.countryId
-                                INNER JOIN currency ON hrposition.`baseCurrencyId`= currency.currencyId
-                                INNER JOIN currency AS currency2 ON hrposition.`localCurrencyId`= currency2.currencyId");
+        $hrposition = DB::select("SELECT hrposition.hrpositionId, hrposition.countryId, hrposition.positionCode, hrposition.positionName, hrposition.baseSalary, 
+                        hrposition.baseCurrencyId, hrposition.localSalary, hrposition.localCurrencyId, hrposition.localDailySalary, country.countryId,
+                        country.countryName, currency.currencyName AS currencyName, currency.currencySymbol AS currencyNameSymbol,
+                        currency2.currencyName AS currencyNameLocal, currency2.currencySymbol AS currencySymbolLocal
+                    FROM `hrposition`
+                        INNER JOIN country ON hrposition.`countryId`= country.countryId
+                        LEFT JOIN currency ON hrposition.`baseCurrencyId`= currency.currencyId
+                        LEFT JOIN currency AS currency2 ON hrposition.`localCurrencyId`= currency2.currencyId");
 
         $currencies   = $this->oCurrency->getAll();
         return compact('currencies','hrposition');
@@ -50,7 +50,7 @@ class HrPositionController extends Controller
         // return $request;
         $hrposition = new HrPosition();
         $hrposition->countryId = $request->countryId;
-        $hrposition->positioncode = $request->positioncode;
+        $hrposition->positionCode = $request->positionCode;
         $hrposition->positionName = $request->positionName;
         $hrposition->baseSalary = $request->baseSalary;
         $hrposition->baseCurrencyId = $request->baseCurrencyId;
@@ -74,7 +74,7 @@ class HrPositionController extends Controller
         
         $hrposition = HrPosition::find($id);
         $hrposition->countryId = $request->countryId;
-        $hrposition->positioncode = $request->positioncode;
+        $hrposition->positionCode = $request->positionCode;
         $hrposition->positionName = $request->positionName;
         $hrposition->baseSalary = $request->baseSalary;
         $hrposition->baseCurrencyId = $request->baseCurrencyId;

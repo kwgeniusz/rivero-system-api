@@ -134,7 +134,7 @@
                         payrollTypeName: this.payrollTypeName,
                         payrollTypeDescription: this.payrollTypeDescription,
                     }
-                    document.querySelector("#form-payroll-type").reset()
+                    // document.querySelector("#form-payroll-type").reset()
 
                     let url = `payrolltypes/put/${this.objEdit.payrollTypeId}`
                     axios.put(url,params)

@@ -62,7 +62,7 @@ Route::put('process/put/{id}', 'Web\ProcessController@update');
 Route::delete('process/delete/{id}', 'Web\ProcessController@destroy');
 // --> process Detaill
 Route::get('process-detail/{id}', 'Web\ProcessController@processDetail');
-Route::get('process-detail-ttype/', 'Web\ProcessController@processTransactionType');
+Route::get('process-detail-ttype/{id}', 'Web\ProcessController@processTransactionType');
 Route::post('process-detail/post', 'Web\ProcessController@storeDetail');
 Route::put('process-detail/{id}', 'Web\ProcessController@updateDetail');
 Route::delete('process-detail/{id}', 'Web\ProcessController@destroyDetail');
@@ -73,3 +73,4 @@ Route::get('staff/', function () {
 })->name('staff.index'); 
 Route::get('staff/list/', 'Web\HrStaffController@index');
 Route::get('staff/list/combox/', 'Web\HrStaffController@comboBoxMult');
+Route::get('staff/list/comboxDepartment/{id}', 'Web\HrStaffController@comboBoxDeparmet');

@@ -8,6 +8,7 @@
                 <table class="table table-striped table-bordered text-center">
                     <thead>
                         <tr>
+                            <th>N.</th>
                             <th>Pais</th>
                             <th>Codigo del cargo</th>
                             <th>Nombre del cargo</th>
@@ -21,12 +22,16 @@
     
                         <tr v-for="(hrPosition, index) in objHrPosition" :key="hrPosition.hrpositionId">
                             
+                            <td>  
+                        
+                                {{index + 1}}
+                            </td>
                             <td class="form-inline">  
                         
                                 {{hrPosition.countryName}} 
                             </td>
                             <td>
-                                {{hrPosition.positioncode}}
+                                {{hrPosition.positionCode}}
                             </td>
                             <td>
                                 {{hrPosition.positionName}}

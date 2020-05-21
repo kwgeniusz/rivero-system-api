@@ -20,7 +20,8 @@ class DepartmentController extends Controller
         return DB::select("SELECT * FROM `department` 
         LEFT JOIN `company` ON department.companyId = company.companyId
         LEFT JOIN ( SELECT departmentName as dpParentName, departmentId as dpId FROM department) dpName 
-        	On department.parentDepartmentId = dpName.dpId");
+        	On department.parentDepartmentId = dpName.dpId      
+        ORDER BY department.departmentId ASC");
        
     }
     public function editDepartment($id)

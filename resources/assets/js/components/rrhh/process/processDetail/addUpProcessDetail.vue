@@ -20,7 +20,7 @@
                                 <div class="form-group col-md-5 ">
                                     <label for="selecTrType" class="form-group" v-text="nameField2"></label>
                                     <select class="form-control" v-model="selecTrType" id="selecTrType" required="required">
-                                        <option v-for="item in selecTrTypes" :key="item.hrtransactionTypeId" :value="item.hrtransactionTypeId">{{item.transactionTypeName}}</option>
+                                        <option v-for="item in selecTrTypes" :key="item.transactionTypeCode" :value="item.transactionTypeCode">{{item.transactionTypeName}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -65,10 +65,11 @@
 <script>
     export default {
         mounted() {
-
-            axios.get('process-detail-ttype/').then(res => {
+            // console.log('company:')
+            console.log(this.objProcessDetails)
+            axios.get(`process-detail-ttype/${this.objProcessDetails.companyId}`).then(res => {
                 
-                console.log(res.data.hrTType)
+                // console.log(res.data.hrTType)
                 this.selecTrTypes = res.data.hrTType
                     
                 })
@@ -80,7 +81,7 @@
            
 
             if (this.editId > 0) {
-                this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.hrtransactionTypeId
+                this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.transactionTypeCode
                 this.quantity = document.querySelector("#quantity").value = this.objEditDetail.quantity
                 this.amount = document.querySelector("#amount").value = this.objEditDetail.amount
                 // this.processName = document.querySelector("#processName").value = this.objEditDetail.processName
@@ -157,7 +158,7 @@
                     
                     const params = {
                         hrprocessId: this.objProcessDetails.hrprocessId,
-                        hrtransactionTypeId: this.selecTrType,
+                        transactionTypeCode: this.selecTrType,
                         quantity: this.quantity,
                         amount: this.amount,
                         
@@ -169,12 +170,12 @@
     
                     axios.post('process-detail/post',params)
                         .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
                                 document.querySelector("#newUpForm").reset()
                             } else {
-                                console.log(response)
+                                // console.log(response)
                                 alert("Error")
                             }
                             
@@ -185,7 +186,7 @@
                         });
                 }else{
                     const params = {    
-                        hrtransactionTypeId: this.selecTrType,
+                        transactionTypeCode: this.selecTrType,
                         quantity: this.quantity,
                         amount: this.amount,
                     }
@@ -194,10 +195,10 @@
                     let url = `process-detail/${this.objEditDetail.hrpdId}`
                     axios.put(url,params)
                         .then((response) => {
-                            console.log(response);
+                            // console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
-                                document.querySelector("#newUpForm").reset()
+                                // document.querySelector("#newUpForm").reset()
                             } else {
                                 alert("Error")
                             }

@@ -17,9 +17,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-3 ">
+                                <div class="form-group col-md-5 ">
                                     <label for="selectCountry" class="form-group" v-text="nameField2"></label>
-                                    <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
+                                    <select class="form-control" v-model="selectCountry" @change="changeCompany($event)" id="selectCountry" required="required">
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -78,10 +78,10 @@
                     return {id: item.countryId, vText: item.countryName}
                     
                 })
-                this.selectCompanys = res.data.companys.map(item => {
-                    return {id: item.companyId, vText: item.companyName}
+                // this.selectCompanys = res.data.companys.map(item => {
+                //     return {id: item.companyId, vText: item.companyName}
                     
-                })
+                // })
                 // console.log(eeeee)
                 // debugger
             })
@@ -90,6 +90,19 @@
 
             if (this.editId > 0) {
                 this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
+
+                axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+                    this.selectCompanys = res.data.map(item => {
+                        return {id: item.companyId, vText: item.companyName}
+                        
+                    })
+                // console.log(eeeee)
+                // debugger
+                })
+
                 this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId
                 this.processCode = document.querySelector("#processCode").value = this.objEdit.processCode
                 this.processName = document.querySelector("#processName").value = this.objEdit.processName
@@ -204,7 +217,7 @@
                             console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
-                                document.querySelector("#newUpForm").reset()
+                                // document.querySelector("#newUpForm").reset()
                             } else {
                                 alert("Error")
                             }
@@ -219,6 +232,20 @@
             cancf(){
                 this.$emit('showlist', 0)
                 
+            },
+            changeCompany(event){
+                let cb = event.target.value
+                axios.get(`companys/contrys/${cb}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+                this.selectCompanys = res.data.map(item => {
+                    return {id: item.companyId, vText: item.companyName}
+                    
+                })
+                // console.log(eeeee)
+                // debugger
+            })
             }
         },
         computed: {

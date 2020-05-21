@@ -31,6 +31,8 @@
                 :nameField6 = nameField6
                 :nameField7 = nameField7
                 :nameField8 = nameField8
+                :nameField9 = nameField9
+                :nameField10 = nameField10
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -53,6 +55,8 @@
                 :nameField6 = nameField6
                 :nameField7 = nameField7
                 :nameField8 = nameField8
+                :nameField9 = nameField9
+                :nameField10 = nameField10
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -89,8 +93,10 @@
                 nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
                 nameField5: "CALCULO EN SALARIO BASE:   ",
                 nameField6: "TRANSACCIÓN DE INGRESO:   ",
-                nameField7: "TRANSACCIÓN CON SALARIO:   ",
-                nameField8: "",
+                nameField7: "TRANSACCIÓN CON SALDO:   ",
+                nameField8: "accTax",
+                nameField9: "accChristmas",
+                nameField10: "accSeniority",
                 
             }
         },

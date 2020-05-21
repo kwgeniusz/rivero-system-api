@@ -11,7 +11,7 @@
                                     <th>N</th>
                                     <th>Nombre Empresa</th>
                                     <th>Nombre Corto</th>
-                                    <th>RIF/NIT/ID</th>
+                                    <th>RIF/TIN/NIT/RUC</th>
                                     <th>Pais</th>
                                     <th>Oficina</th>
                                     <th>Direccion</th>
@@ -30,7 +30,7 @@
                                         {{company.companyShortName}}
                                     </td>
                                     <td> 
-                                        {{company.companyNumbrer}}
+                                        {{company.companyNumber}}
                                     </td>
                                     <td> 
                                        {{company.countryName}}                                         

@@ -53,6 +53,9 @@ class HrTransactionTypeController extends Controller
         $hrtransType->salaryBased = $request->salaryBased;
         $hrtransType->isIncome = $request->isIncome;
         $hrtransType->hasBalance = $request->hasBalance;
+        $hrtransType->accTax = $request->accTax;
+        $hrtransType->accChristmas = $request->accChristmas;
+        $hrtransType->accSeniority = $request->accSeniority;
         
         $hrtransType->save();
         return $hrtransType;
@@ -76,6 +79,9 @@ class HrTransactionTypeController extends Controller
         $hrtransType->salaryBased = $request->salaryBased;
         $hrtransType->isIncome = $request->isIncome;
         $hrtransType->hasBalance = $request->hasBalance;
+        $hrtransType->accTax = $request->accTax;
+        $hrtransType->accChristmas = $request->accChristmas;
+        $hrtransType->accSeniority = $request->accSeniority;
         
         $hrtransType->save();
         return $hrtransType;

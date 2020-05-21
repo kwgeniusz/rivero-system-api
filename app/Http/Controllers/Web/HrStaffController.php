@@ -20,23 +20,24 @@ class HrStaffController extends Controller
     public function index()
     {
         $hrstaff = DB::select("SELECT country.countryId, country.countryName,company.companyId, company.companyName, company.companyShortName,
-                department.departmentId, department.departmentName, hrposition.hrpositionId, hrposition.positionName, 
-                hrposition.baseSalary AS pBaseSalari, hrposition.baseCurrencyId, currency.currencyName as pCurrencyName, 
-                currency.currencySymbol as pCurrencySybol, hrposition.localSalary AS pLocalSalary, hrposition.localCurrencyId, 
-                currency2.currencyName AS pLocalCurrencyName, currency2.currencySymbol AS pLocalCurrencySymbol, hrposition.localDailySalary AS pLocalDialySalary,
-                hrstaff.hrstaffId, hrstaff.countryId, hrstaff.companyId, hrstaff.staffCode, hrstaff.firstName, hrstaff.lastName, hrstaff.shortName,
-                hrstaff.idDocument, hrstaff.passportNumber, hrstaff.legalNumber, hrstaff.departmentId, hrstaff.hrpositionId, hrstaff.baseSalary, 
-                hrstaff.baseCurrencyId, currencyStaff1.currencyId, currencyStaff1.currencyName, currencyStaff1.currencySymbol, hrstaff.localSalary, 
-                hrstaff.localCurrencyId, currencyStaff2.currencyId, currencyStaff2.currencyName, currencyStaff2.currencySymbol, hrstaff.localDailySalary
-            FROM `hrstaff` 
-            INNER JOIN country ON hrstaff.countryId = country.countryId
-            INNER JOIN company ON hrstaff.companyId = company.companyId
-            INNER JOIN department ON hrstaff.departmentId = department.departmentId
-            INNER JOIN hrposition ON hrstaff.hrpositionId = hrposition.hrpositionId
-            INNER JOIN currency ON hrposition.baseCurrencyId = currency.currencyId
-            INNER JOIN currency AS currency2 ON hrposition.localCurrencyId = currency2.currencyId
-            LEFT JOIN currency AS currencyStaff1 ON hrstaff.baseCurrencyId = currencyStaff1.currencyId
-            LEFT JOIN currency AS currencyStaff2 ON hrstaff.localCurrencyId = currencyStaff2.currencyId");
+        department.departmentId, department.departmentName, 
+        hrstaff.hrstaffId, hrstaff.countryId, hrstaff.companyId, hrstaff.staffCode, hrstaff.firstName, hrstaff.lastName,
+        hrstaff.shortName,
+        hrstaff.idDocument, hrstaff.passportNumber, hrstaff.legalNumber, hrstaff.departmentId, 
+        hrstaff.baseSalary, hrstaff.baseCurrencyId, currencyStaff1.currencyName, currencyStaff1.currencySymbol, 
+        hrstaff.localSalary, hrstaff.localCurrencyId, currencyStaff2.currencyName, currencyStaff2.currencySymbol, 
+        hrstaff.localDailySalary, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3, hrstaff.status
+    FROM `hrstaff` 
+    INNER JOIN country ON hrstaff.countryId = country.countryId
+    INNER JOIN company ON hrstaff.companyId = company.companyId
+    INNER JOIN department ON hrstaff.departmentId = department.departmentId
+    
+  --  INNER JOIN hrposition ON hrstaff.hrpositionId = hrposition.hrpositionId
+  --  INNER JOIN currency ON hrposition.baseCurrencyId = currency.currencyId
+    
+  --  INNER JOIN currency AS currency2 ON hrposition.localCurrencyId = currency2.currencyId
+    LEFT JOIN currency AS currencyStaff1 ON hrstaff.baseCurrencyId = currencyStaff1.currencyId
+    LEFT JOIN currency AS currencyStaff2 ON hrstaff.localCurrencyId = currencyStaff2.currencyId");
 
         return compact('hrstaff');
     }
@@ -47,13 +48,19 @@ class HrStaffController extends Controller
     public function comboBoxMult(){
         $countrys = DB::table('country')->select('countryId', 'countryName')->get();
         $companys = DB::table('company')->select('companyId', 'companyName')->get();
-        $departments = DB::table('department')->select('departmentId', 'departmentName')->get();
         $hrpositions = DB::table('hrposition')
             ->join('currency', 'hrposition.baseCurrencyId', '=', 'currency.currencyId')
             ->select('hrposition.hrpositionId', 'hrposition.positionName', 'hrposition.baseSalary','currency.currencyName','currency.currencySymbol')->get();
         $currencys = DB::table('currency')->select('currencyId', 'currencyName', 'currencySymbol')->get();
 
-        return compact('countrys','companys','departments','hrpositions','currencys');
+        return compact('countrys','companys','hrpositions','currencys');
+    }
+    public function comboBoxDeparmet($id){
+        $departments = DB::select("SELECT department.departmentId, department.departmentName, department.companyId 
+            FROM `department`
+            WHERE department.companyId = $id");
+
+        return compact('departments');
     }
 
     /**

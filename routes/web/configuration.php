@@ -33,6 +33,7 @@ Route::get('company/', function () {
 
 Route::get('companys/', 'Web\CompanyController@index');
 Route::get('companys/contrys', 'Web\CompanyController@comboContry');
+Route::get('companys/contrys/{id}', 'Web\CompanyController@comboContryId');
 Route::get('companys/offices/{id}', 'Web\CompanyController@combOffice');
 Route::get('companys/show/{id}', 'Web\CompanyController@editCompany');
 Route::post('companys/', 'Web\CompanyController@store');

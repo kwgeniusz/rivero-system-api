@@ -16,7 +16,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="objProcess.length > 0">
     
                         <tr v-for="(Process, index) in objProcess" :key="Process.hrprocessId">
                             <td >{{index + 1}}</td>
@@ -36,6 +36,13 @@
                                 <button v-on:click="detailRow(index, Process.hrprocessId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  
                                 <button v-on:click="editRow(index, Process.hrprocessId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
                                 <button v-on:click="deleterow(index, Process.hrprocessId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="6">
+                                <loading></loading>
                             </td>
                         </tr>
                     </tbody>

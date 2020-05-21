@@ -18912,6 +18912,7 @@ Vue.component('list-company', __webpack_require__(227));
 
 // ########### srcComponent 
 Vue.component('button-form', __webpack_require__(230));
+Vue.component('loading', __webpack_require__(247));
 
 var app = new Vue({
   el: '#app',
@@ -74759,7 +74760,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.get('/departments').then(function (response) {
             _this.objCompanys = response.data;
-            console.log(_this.objCompanys);
+            // console.log(this.objCompanys)
         });
     },
     data: function data() {
@@ -75212,7 +75213,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("ID")]),
+        _c("th", [_vm._v("N.")]),
         _vm._v(" "),
         _c("th", [_vm._v("Empresa")]),
         _vm._v(" "),
@@ -75324,7 +75325,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this.nameCompany = document.querySelector("#department_name").value = _this.parentsData[0].departmentName;
                 _this.selectDepartmen = document.querySelector("#selectDepartmen").value = _this.parentsData[0].parentDepartmentId;
                 _this.deparmetIds = _this.parentsData[0].departmentId;
-                console.log('deparmetIds ' + _this.deparmetIds);
+                // console.log('deparmetIds ' +this.deparmetIds)
             });
         }
         console.log('Component mounted.');
@@ -75394,8 +75395,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     departmentName: this.nameCompany,
                     parentDepartmentId: this.selectDepartmen
                     // console.log(params)
-                };document.querySelector("#formDepartment").reset();
-                var url = 'departments/update/' + this.deparmetIds;
+                    // document.querySelector("#formDepartment").reset()
+                };var url = 'departments/update/' + this.deparmetIds;
                 // console.log( params)
                 // console.log('la url es: '+ url)
                 axios.put(url, _params).then(function (response) {
@@ -76323,10 +76324,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     countryId: this.selectCountry,
                     payrollTypeName: this.payrollTypeName,
                     payrollTypeDescription: this.payrollTypeDescription
-                };
-                document.querySelector("#form-payroll-type").reset();
+                    // document.querySelector("#form-payroll-type").reset()
 
-                var url = "payrolltypes/put/" + this.objEdit.payrollTypeId;
+                };var url = "payrolltypes/put/" + this.objEdit.payrollTypeId;
                 axios.put(url, _params).then(function (response) {
                     if (response.statusText == "OK") {
                         alert("Success");
@@ -76689,7 +76689,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.get('hrposition/').then(function (response) {
             _this.objHrPosition = response.data.hrposition;
-            console.log(_this.objHrPosition);
+            // console.log(this.objHrPosition)
         });
 
         console.log('Component mounted.');
@@ -76949,6 +76949,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -77016,6 +77021,14 @@ var render = function() {
               "tbody",
               _vm._l(_vm.objHrPosition, function(hrPosition, index) {
                 return _c("tr", { key: hrPosition.hrpositionId }, [
+                  _c("td", [
+                    _vm._v(
+                      "  \n                    \n                            " +
+                        _vm._s(index + 1) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c("td", { staticClass: "form-inline" }, [
                     _vm._v(
                       "  \n                    \n                            " +
@@ -77027,7 +77040,7 @@ var render = function() {
                   _c("td", [
                     _vm._v(
                       "\n                            " +
-                        _vm._s(hrPosition.positioncode) +
+                        _vm._s(hrPosition.positionCode) +
                         "\n                        "
                     )
                   ]),
@@ -77120,6 +77133,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Pais")]),
         _vm._v(" "),
         _c("th", [_vm._v("Codigo del cargo")]),
@@ -77339,7 +77354,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         if (this.editId > 0) {
             this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
-            this.positioncode = document.querySelector("#positioncode").value = this.objEdit.positioncode;
+            this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode;
             this.positionName = document.querySelector("#positionName").value = this.objEdit.positionName;
             this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary;
             this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId;
@@ -77354,7 +77369,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             selectCurrency: '',
             selectCountry: '',
-            positioncode: '',
+            positionCode: '',
             positionName: '',
             baseSalary: '',
             baseCurrencyId: '',
@@ -77420,7 +77435,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 var params = {
                     countryId: this.selectCountry,
-                    positioncode: this.positioncode,
+                    positionCode: this.positionCode,
                     positionName: this.positionName,
                     baseSalary: this.baseSalary,
                     baseCurrencyId: this.baseCurrencyId,
@@ -77447,17 +77462,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 var _params = {
                     countryId: this.selectCountry,
-                    positioncode: this.positioncode,
+                    positionCode: this.positionCode,
                     positionName: this.positionName,
                     baseSalary: this.baseSalary,
                     baseCurrencyId: this.baseCurrencyId,
                     localSalary: this.localSalary,
                     localCurrencyId: this.localCurrencyId,
                     localDailySalary: this.localDailySalary
-                };
-                document.querySelector("#form-hrposition-type").reset();
+                    // document.querySelector("#form-hrposition-type").reset()
 
-                var url = 'hrposition/put/' + this.objEdit.hrpositionId;
+                };var url = 'hrposition/put/' + this.objEdit.hrpositionId;
                 axios.put(url, _params).then(function (response) {
                     console.log(response);
                     if (response.statusText == "OK") {
@@ -77595,7 +77609,7 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-4" }, [
                     _c("label", {
                       staticClass: "form-group",
-                      attrs: { for: "positioncode" },
+                      attrs: { for: "positionCode" },
                       domProps: { textContent: _vm._s(_vm.nameField2) }
                     }),
                     _vm._v(" "),
@@ -77604,24 +77618,24 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.positioncode,
-                          expression: "positioncode"
+                          value: _vm.positionCode,
+                          expression: "positionCode"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
-                        id: "positioncode",
+                        id: "positionCode",
                         placeholder: _vm.nameField2,
                         required: "required"
                       },
-                      domProps: { value: _vm.positioncode },
+                      domProps: { value: _vm.positionCode },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.positioncode = $event.target.value
+                          _vm.positionCode = $event.target.value
                         }
                       }
                     })
@@ -77688,8 +77702,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         id: "baseSalary",
-                        placeholder: _vm.nameField4,
-                        required: "required"
+                        placeholder: _vm.nameField4
                       },
                       domProps: { value: _vm.baseSalary },
                       on: {
@@ -77722,7 +77735,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "baseCurrencyId", required: "required" },
+                        attrs: { id: "baseCurrencyId" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -77774,8 +77787,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         id: "localSalary",
-                        placeholder: _vm.nameField6,
-                        required: "required"
+                        placeholder: _vm.nameField
                       },
                       domProps: { value: _vm.localSalary },
                       on: {
@@ -77808,7 +77820,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "localCurrencyId", required: "required" },
+                        attrs: { id: "localCurrencyI" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -77858,8 +77870,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         id: "localDailySalary",
-                        placeholder: _vm.nameField6,
-                        required: "required"
+                        placeholder: _vm.nameField6
                       },
                       domProps: { value: _vm.localDailySalary },
                       on: {
@@ -78068,6 +78079,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -78095,8 +78110,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
             nameField5: "CALCULO EN SALARIO BASE:   ",
             nameField6: "TRANSACCIÓN DE INGRESO:   ",
-            nameField7: "TRANSACCIÓN CON SALARIO:   ",
-            nameField8: ""
+            nameField7: "TRANSACCIÓN CON SALDO:   ",
+            nameField8: "accTax",
+            nameField9: "accChristmas",
+            nameField10: "accSeniority"
 
         };
     },
@@ -78177,7 +78194,9 @@ var render = function() {
                 nameField5: _vm.nameField5,
                 nameField6: _vm.nameField6,
                 nameField7: _vm.nameField7,
-                nameField8: _vm.nameField8
+                nameField8: _vm.nameField8,
+                nameField9: _vm.nameField9,
+                nameField10: _vm.nameField10
               },
               on: { showlist: _vm.showlist, newObj: _vm.newObj }
             })
@@ -78201,6 +78220,8 @@ var render = function() {
                 nameField6: _vm.nameField6,
                 nameField7: _vm.nameField7,
                 nameField8: _vm.nameField8,
+                nameField9: _vm.nameField9,
+                nameField10: _vm.nameField10,
                 objEdit: _vm.objEdit,
                 editId: 1
               },
@@ -78699,38 +78720,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         var _this = this;
 
         axios.get('transactionstypes/').then(function (res) {
-            var eeeee = res.data;
+            // const eeeee = res.data
             _this.selectCountrys = res.data.countrys.map(function (item) {
                 return { id: item.countryId, vText: item.countryName };
             });
-            _this.selectCompanys = res.data.companys.map(function (item) {
-                return { id: item.companyId, vText: item.companyName };
-            });
-            // console.log(eeeee)
-            // debugger
         });
-        // axios.get('hrposition/').then(response => {
-        //     this.selectCurrency = response.data.currencies.map(item => {
-        //         return {id: item.currencyId, vText: item.currencyName}
-
-        //     })
-        // })
-
 
         if (this.editId > 0) {
             this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
+
+            axios.get("companys/contrys/" + this.objEdit.countryId).then(function (res) {
+                // const eeeee = res.data
+
+                // console.log(res)
+                _this.selectCompanys = res.data.map(function (item) {
+                    return { id: item.companyId, vText: item.companyName };
+                });
+                // console.log(eeeee)
+                // debugger
+            });
             this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId;
+
             this.transactionTypeCode = document.querySelector("#transactionTypeCode").value = this.objEdit.transactionTypeCode;
             this.transactionTypeName = document.querySelector("#transactionTypeName").value = this.objEdit.transactionTypeName;
             this.salaryBased = document.querySelector("#salaryBased").value = this.objEdit.salaryBased;
             this.isIncome = document.querySelector("#isIncome").value = this.objEdit.isIncome;
             this.hasBalance = document.querySelector("#hasBalance").value = this.objEdit.hasBalance;
+            this.accTax = document.querySelector("#accTax").value = this.objEdit.accTax;
+            this.accChristmas = document.querySelector("#accChristmas").value = this.objEdit.accChristmas;
+            this.accSeniority = document.querySelector("#accSeniority").value = this.objEdit.accSeniority;
         }
 
         console.log('Component mounted.');
@@ -78746,7 +78785,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             isIncome: 0,
             hasBalance: 0,
             selectCountrys: {},
-            selectCompanys: {}
+            selectCompanys: {},
+            accTax: 0,
+            accChristmas: 0,
+            accSeniority: 0
         };
     },
 
@@ -78795,6 +78837,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String,
             default: 'Name Defauld'
         },
+        nameField9: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField10: {
+            type: String,
+            default: 'Name Defauld'
+        },
         objEdit: {}
 
     },
@@ -78810,15 +78860,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     transactionTypeName: this.transactionTypeName,
                     salaryBased: this.salaryBased,
                     isIncome: this.isIncome,
-                    hasBalance: this.hasBalance
+                    hasBalance: this.hasBalance,
+                    accTax: this.accTax,
+                    accChristmas: this.accChristmas,
+                    accSeniority: this.accSeniority
 
                     // console.log(params)
                     // debugger
-                };document.querySelector("#newUpForm").reset();
 
-                axios.post('transactionstypes/post', params).then(function (response) {
+
+                };axios.post('transactionstypes/post', params).then(function (response) {
                     // console.log(response)
                     if (response.statusText == "OK") {
+                        document.querySelector("#newUpForm").reset();
                         alert("Success");
                     } else {
                         console.log(response);
@@ -78836,13 +78890,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     transactionTypeName: this.transactionTypeName,
                     salaryBased: this.salaryBased,
                     isIncome: this.isIncome,
-                    hasBalance: this.hasBalance
-                };
-                document.querySelector("#newUpForm").reset();
+                    hasBalance: this.hasBalance,
+                    accTax: this.accTax,
+                    accChristmas: this.accChristmas,
+                    accSeniority: this.accSeniority
+                    // document.querySelector("#newUpForm").reset()
 
-                var url = "transactionstypes/put/" + this.objEdit.hrtransactionTypeId;
+                };var url = "transactionstypes/put/" + this.objEdit.hrtransactionTypeId;
                 axios.put(url, _params).then(function (response) {
-                    console.log(response);
+                    // console.log(response);
                     if (response.statusText == "OK") {
                         alert("Success");
                     } else {
@@ -78856,6 +78912,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cancf: function cancf() {
             this.$emit('showlist', 0);
+        },
+        changeCompany: function changeCompany(event) {
+            var _this2 = this;
+
+            var cb = event.target.value;
+            axios.get("companys/contrys/" + cb).then(function (res) {
+                // const eeeee = res.data
+
+                // console.log(res)
+                _this2.selectCompanys = res.data.map(function (item) {
+                    return { id: item.companyId, vText: item.companyName };
+                });
+                // console.log(eeeee)
+                // debugger
+            });
         }
     },
     computed: {
@@ -78943,19 +79014,24 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: { id: "selectCountry", required: "required" },
                         on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectCountry = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selectCountry = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            function($event) {
+                              return _vm.changeCompany($event)
+                            }
+                          ]
                         }
                       },
                       _vm._l(_vm.selectCountrys, function(item) {
@@ -79242,6 +79318,166 @@ var render = function() {
                               }
                             } else {
                               _vm.hasBalance = $$c
+                            }
+                          }
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-7 form-inline" },
+                    [
+                      _c("label", {
+                        staticClass: "form-group",
+                        attrs: { for: "accTax" },
+                        domProps: { textContent: _vm._s(_vm.nameField8) }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.accTax,
+                            expression: "accTax"
+                          }
+                        ],
+                        attrs: { type: "checkbox", id: "accTax", value: "1" },
+                        domProps: {
+                          checked: Array.isArray(_vm.accTax)
+                            ? _vm._i(_vm.accTax, "1") > -1
+                            : _vm.accTax
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.accTax,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.accTax = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.accTax = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.accTax = $$c
+                            }
+                          }
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-7 form-inline" },
+                    [
+                      _c("label", {
+                        staticClass: "form-group",
+                        attrs: { for: "accChristmas" },
+                        domProps: { textContent: _vm._s(_vm.nameField9) }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.accChristmas,
+                            expression: "accChristmas"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "accChristmas",
+                          value: "1"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.accChristmas)
+                            ? _vm._i(_vm.accChristmas, "1") > -1
+                            : _vm.accChristmas
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.accChristmas,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.accChristmas = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.accChristmas = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.accChristmas = $$c
+                            }
+                          }
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-7 form-inline" },
+                    [
+                      _c("label", {
+                        staticClass: "form-group",
+                        attrs: { for: "accSeniority" },
+                        domProps: { textContent: _vm._s(_vm.nameField10) }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.accSeniority,
+                            expression: "accSeniority"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "accSeniority",
+                          value: "1"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.accSeniority)
+                            ? _vm._i(_vm.accSeniority, "1") > -1
+                            : _vm.accSeniority
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.accSeniority,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.accSeniority = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.accSeniority = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.accSeniority = $$c
                             }
                           }
                         }
@@ -81116,6 +81352,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -81188,92 +81431,102 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.objProcess, function(Process, index) {
-                return _c("tr", { key: Process.hrprocessId }, [
-                  _c("td", [_vm._v(_vm._s(index + 1))]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "form-inline" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(Process.processCode) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      " \n                            " +
-                        _vm._s(Process.processName) +
-                        " \n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(Process.countryName) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(Process.companyShortName) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-info",
-                        on: {
-                          click: function($event) {
-                            return _vm.detailRow(index, Process.hrprocessId)
-                          }
-                        }
-                      },
-                      [
-                        _c("i", {
-                          staticClass: " \tglyphicon glyphicon-th-list"
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        on: {
-                          click: function($event) {
-                            return _vm.editRow(index, Process.hrprocessId)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-danger",
-                        on: {
-                          click: function($event) {
-                            return _vm.deleterow(index, Process.hrprocessId)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
-                    )
+            _vm.objProcess.length > 0
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.objProcess, function(Process, index) {
+                    return _c("tr", { key: Process.hrprocessId }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "form-inline" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(Process.processCode) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          " \n                            " +
+                            _vm._s(Process.processName) +
+                            " \n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(Process.countryName) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(Process.companyShortName) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            on: {
+                              click: function($event) {
+                                return _vm.detailRow(index, Process.hrprocessId)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: " \tglyphicon glyphicon-th-list"
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.editRow(index, Process.hrprocessId)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleterow(index, Process.hrprocessId)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "glyphicon glyphicon-remove"
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              : _c("tbody", [
+                  _c("tr", [
+                    _c("td", { attrs: { colspan: "6" } }, [_c("loading")], 1)
                   ])
                 ])
-              }),
-              0
-            )
           ]
         )
       ])
@@ -81444,15 +81697,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.selectCountrys = res.data.countrys.map(function (item) {
                 return { id: item.countryId, vText: item.countryName };
             });
-            _this.selectCompanys = res.data.companys.map(function (item) {
-                return { id: item.companyId, vText: item.companyName };
-            });
+            // this.selectCompanys = res.data.companys.map(item => {
+            //     return {id: item.companyId, vText: item.companyName}
+
+            // })
             // console.log(eeeee)
             // debugger
         });
 
         if (this.editId > 0) {
             this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
+
+            axios.get("companys/contrys/" + this.objEdit.countryId).then(function (res) {
+                // const eeeee = res.data
+
+                // console.log(res)
+                _this.selectCompanys = res.data.map(function (item) {
+                    return { id: item.companyId, vText: item.companyName };
+                });
+                // console.log(eeeee)
+                // debugger
+            });
+
             this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId;
             this.processCode = document.querySelector("#processCode").value = this.objEdit.processCode;
             this.processName = document.querySelector("#processName").value = this.objEdit.processName;
@@ -81561,7 +81827,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     console.log(response);
                     if (response.statusText == "OK") {
                         alert("Success");
-                        document.querySelector("#newUpForm").reset();
+                        // document.querySelector("#newUpForm").reset()
                     } else {
                         alert("Error");
                     }
@@ -81573,6 +81839,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cancf: function cancf() {
             this.$emit('showlist', 0);
+        },
+        changeCompany: function changeCompany(event) {
+            var _this2 = this;
+
+            var cb = event.target.value;
+            axios.get("companys/contrys/" + cb).then(function (res) {
+                // const eeeee = res.data
+
+                // console.log(res)
+                _this2.selectCompanys = res.data.map(function (item) {
+                    return { id: item.companyId, vText: item.companyName };
+                });
+                // console.log(eeeee)
+                // debugger
+            });
         }
     },
     computed: {
@@ -81704,7 +81985,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-3 " }, [
+                  _c("div", { staticClass: "form-group col-md-5 " }, [
                     _c("label", {
                       staticClass: "form-group",
                       attrs: { for: "selectCountry" },
@@ -81725,19 +82006,24 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: { id: "selectCountry", required: "required" },
                         on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectCountry = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selectCountry = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            function($event) {
+                              return _vm.changeCompany($event)
+                            }
+                          ]
                         }
                       },
                       _vm._l(_vm.selectCountrys, function(item) {
@@ -82004,16 +82290,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         var _this = this;
 
+        // setTimeout(() => {
         axios.get('process-detail/' + this.objProcessDetail.hrprocessId).then(function (response) {
             _this.objProcessDetailList = response.data.processDetail;
             // console.log(this.objProcessDetailList)
             // debugger
+            // console.log('longitud: ' + this.objProcessDetailList.length)
         });
+        // },1000)
+
+
         console.log('Component mounted.');
     },
     data: function data() {
@@ -82109,67 +82407,73 @@ var render = function() {
         [
           _vm._m(3),
           _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.objProcessDetailList, function(Process, index) {
-              return _c("tr", { key: Process.hrpdId }, [
-                _c("td", [_vm._v(_vm._s(index + 1))]),
-                _vm._v(" "),
-                _c("td", { staticClass: "form-inline" }, [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(Process.transactionTypeName) +
-                      "\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(Process.quantity) +
-                      "\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(Process.amount) +
-                      "\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-primary",
-                      on: {
-                        click: function($event) {
-                          return _vm.editDetailRow(index, Process.hrpdId)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-danger",
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteDetailrow(index, Process.hrpdId)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
-                  )
+          this.objProcessDetailList.length > 0
+            ? _c(
+                "tbody",
+                _vm._l(_vm.objProcessDetailList, function(Process, index) {
+                  return _c("tr", { key: Process.hrpdId }, [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "form-inline" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(Process.transactionTypeName) +
+                          "\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(Process.quantity) +
+                          "\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(Process.amount) +
+                          "\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary",
+                          on: {
+                            click: function($event) {
+                              return _vm.editDetailRow(index, Process.hrpdId)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteDetailrow(index, Process.hrpdId)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            : _c("tbody", [
+                _c("tr", [
+                  _c("td", { attrs: { colspan: "5" } }, [_c("loading")], 1)
                 ])
               ])
-            }),
-            0
-          )
         ]
       )
     ])
@@ -82352,9 +82656,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('process-detail-ttype/').then(function (res) {
+        // console.log('company:')
+        console.log(this.objProcessDetails);
+        axios.get("process-detail-ttype/" + this.objProcessDetails.companyId).then(function (res) {
 
-            console.log(res.data.hrTType);
+            // console.log(res.data.hrTType)
             _this.selecTrTypes = res.data.hrTType;
         });
 
@@ -82363,7 +82669,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
         if (this.editId > 0) {
-            this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.hrtransactionTypeId;
+            this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.transactionTypeCode;
             this.quantity = document.querySelector("#quantity").value = this.objEditDetail.quantity;
             this.amount = document.querySelector("#amount").value = this.objEditDetail.amount;
             // this.processName = document.querySelector("#processName").value = this.objEditDetail.processName
@@ -82438,7 +82744,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 var params = {
                     hrprocessId: this.objProcessDetails.hrprocessId,
-                    hrtransactionTypeId: this.selecTrType,
+                    transactionTypeCode: this.selecTrType,
                     quantity: this.quantity,
                     amount: this.amount
 
@@ -82447,12 +82753,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
                 };axios.post('process-detail/post', params).then(function (response) {
-                    console.log(response);
+                    // console.log(response)
                     if (response.statusText == "OK") {
                         alert("Success");
                         document.querySelector("#newUpForm").reset();
                     } else {
-                        console.log(response);
+                        // console.log(response)
                         alert("Error");
                     }
                 }).catch(function (error) {
@@ -82461,17 +82767,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
             } else {
                 var _params = {
-                    hrtransactionTypeId: this.selecTrType,
+                    transactionTypeCode: this.selecTrType,
                     quantity: this.quantity,
                     amount: this.amount
                 };
 
                 var url = "process-detail/" + this.objEditDetail.hrpdId;
                 axios.put(url, _params).then(function (response) {
-                    console.log(response);
+                    // console.log(response);
                     if (response.statusText == "OK") {
                         alert("Success");
-                        document.querySelector("#newUpForm").reset();
+                        // document.querySelector("#newUpForm").reset()
                     } else {
                         alert("Error");
                     }
@@ -82632,8 +82938,8 @@ var render = function() {
                         return _c(
                           "option",
                           {
-                            key: item.hrtransactionTypeId,
-                            domProps: { value: item.hrtransactionTypeId }
+                            key: item.transactionTypeCode,
+                            domProps: { value: item.transactionTypeCode }
                           },
                           [_vm._v(_vm._s(item.transactionTypeName))]
                         )
@@ -82878,6 +83184,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -82897,8 +83219,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             objEdit: [],
             formStatus: 0,
             namePanelList: "PERSONAL",
-            namePanel: "AGREGAR PERÍODO",
-            namePanel2: "EDITAR PERÍODO",
+            namePanel: "AGREGAR PERSONAL",
+            namePanel2: "EDITAR PERSONAL",
             nameField1: "NOMBRE CORTO",
             nameField2: "NOMBRE COMPLETO",
             nameField3: "APELLIDO COMPLETO",
@@ -82995,7 +83317,15 @@ var render = function() {
                 nameField5: _vm.nameField5,
                 nameField6: _vm.nameField6,
                 nameField7: _vm.nameField7,
-                nameField8: _vm.nameField8
+                nameField8: _vm.nameField8,
+                nameField9: _vm.nameField9,
+                nameField10: _vm.nameField10,
+                nameField11: _vm.nameField11,
+                nameField12: _vm.nameField12,
+                nameField13: _vm.nameField13,
+                nameField14: _vm.nameField14,
+                nameField15: _vm.nameField15,
+                nameField16: _vm.nameField16
               },
               on: { showlist: _vm.showlist, newObj: _vm.newObj }
             })
@@ -83019,6 +83349,14 @@ var render = function() {
                 nameField6: _vm.nameField6,
                 nameField7: _vm.nameField7,
                 nameField8: _vm.nameField8,
+                nameField9: _vm.nameField9,
+                nameField10: _vm.nameField10,
+                nameField11: _vm.nameField11,
+                nameField12: _vm.nameField12,
+                nameField13: _vm.nameField13,
+                nameField14: _vm.nameField14,
+                nameField15: _vm.nameField15,
+                nameField16: _vm.nameField16,
                 objEdit: _vm.objEdit,
                 editId: 1
               },
@@ -83508,30 +83846,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
+        var _this = this;
 
-        // axios.get('periods/list/').then(res => {
-        //     // const eeeee = res.data
-        //     this.selectCountrys = res.data.countrys.map(item => {
-        //         return {id: item.countryId, vText: item.countryName}
-
-        //     })
-        //     this.selectCompanys = res.data.companys.map(item => {
-        //         return {id: item.shortName, vText: item.companyName}
-
-        //     })
-        //     this.selectPayrollType = res.data.payrollType.map( item => {
-        //         return {id: item.firstName, vText: item.payrollTypeName}
-        //     })
-        //     // console.log(eeeee)
-        //     // debugger
-        // })
-
+        axios.get('staff/list/combox/').then(function (res) {
+            // const eeeee = res.data
+            _this.selectCountrys = res.data.countrys.map(function (item) {
+                return { id: item.countryId, vText: item.countryName };
+            });
+            _this.selectCompanys = res.data.companys.map(function (item) {
+                return { id: item.companyId, vText: item.companyName };
+            });
+            // this.selectPayrollType = res.data.payrollType.map( item => {
+            //     return {id: item.firstName, vText: item.payrollTypeName}
+            // })
+            // console.log(eeeee)
+            // debugger
+        });
 
         if (this.editId > 0) {
-            // this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
+            this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
             this.shortName = document.querySelector("#shortName").value = this.objEdit.shortName;
             this.firstName = document.querySelector("#firstName").value = this.objEdit.firstName;
             this.lastName = document.querySelector("#lastName").value = this.objEdit.lastName;
@@ -83539,6 +83902,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.passportNumber = document.querySelector("#passportNumber").value = this.objEdit.passportNumber;
             this.legalNumber = document.querySelector("#legalNumber").value = this.objEdit.legalNumber;
             this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode;
+            this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId;
+            this.departmentId = document.querySelector("#departmentId").value = this.objEdit.departmentId;
         }
 
         // console.log(this.lastNames)
@@ -83547,6 +83912,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             selectCountry: '',
+            selectCompany: '',
+            departmentId: '',
             shortName: '',
             firstName: '',
             idDocument: '',
@@ -83557,6 +83924,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             staffCode: '',
             selectCountrys: {},
             selectCompanys: {},
+            selectDepartments: {},
             selectPayrollType: {}
         };
     },
@@ -83606,6 +83974,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String,
             default: 'Name Defauld'
         },
+        nameField9: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField10: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField11: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField12: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField13: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField14: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField15: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField16: {
+            type: String,
+            default: 'Name Defauld'
+        },
         objEdit: {}
 
     },
@@ -83616,13 +84016,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 var params = {
                     countryId: this.selectCountry,
+                    companyId: this.selectCompany,
                     shortName: this.shortName,
                     firstName: this.firstName,
                     idDocument: this.idDocument,
                     lastName: this.lastName,
                     passportNumber: this.passportNumber,
                     legalNumber: this.legalNumber,
-                    staffCode: this.staffCode
+                    staffCode: this.staffCode,
+                    departmentId: this.departmentId
 
                     // console.log(params)
                     // debugger
@@ -83643,13 +84045,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 var _params = {
                     countryId: this.selectCountry,
+                    companyId: this.selectCompany,
                     shortName: this.shortName,
                     firstName: this.firstName,
                     idDocument: this.idDocument,
                     lastName: this.lastName,
                     passportNumber: this.passportNumber,
                     legalNumber: this.legalNumber,
-                    staffCode: this.staffCode
+                    staffCode: this.staffCode,
+                    departmentId: this.departmentId
                 };
                 document.querySelector("#newUpForm").reset();
 
@@ -83666,6 +84070,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     console.log(error);
                 });
             }
+        },
+        change: function change(event) {
+            var _this2 = this;
+
+            // console.log(event)
+            var cb = event.target.value;
+            axios.get("/staff/list/comboxDepartment/" + cb).then(function (response) {
+                _this2.selectDepartments = response.data.departments;
+                console.log(_this2.selectDepartments);
+                // debugger
+            });
         },
         cancf: function cancf() {
             this.$emit('showlist', 0);
@@ -83950,7 +84365,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "form-group col-md-4" }, [
+                  _c("div", { staticClass: "form-group col-md-5" }, [
                     _c("label", {
                       staticClass: "form-group",
                       attrs: { for: "staffCode" },
@@ -83983,6 +84398,161 @@ var render = function() {
                         }
                       }
                     })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-5" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "selectCountry" },
+                      domProps: { textContent: _vm._s(_vm.nameField8) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selectCountry,
+                            expression: "selectCountry"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "selectCountry", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.selectCountry = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectCountrys, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-5" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "selectCompany" },
+                      domProps: { textContent: _vm._s(_vm.nameField9) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selectCompany,
+                            expression: "selectCompany"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "selectCompany", required: "required" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selectCompany = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            function($event) {
+                              return _vm.change($event)
+                            }
+                          ]
+                        }
+                      },
+                      _vm._l(_vm.selectCompanys, function(item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-7" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "departmentId" },
+                      domProps: { textContent: _vm._s(_vm.nameField10) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.departmentId,
+                            expression: "departmentId"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "departmentId", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.departmentId = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectDepartments, function(item) {
+                        return _c(
+                          "option",
+                          {
+                            key: item.departmentId,
+                            domProps: { value: item.departmentId }
+                          },
+                          [_vm._v(_vm._s(item.departmentName))]
+                        )
+                      }),
+                      0
+                    )
                   ])
                 ]),
                 _vm._v(" "),
@@ -84147,7 +84717,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.get('/companys').then(function (response) {
             _this.objCompanys = response.data;
-            console.log(_this.objCompanys);
+            // console.log(this.objCompanys)
         });
 
         console.log('Component mounted.');
@@ -84940,7 +85510,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.varFieldId = _this.parameters[0].companyId;
             _this.varFieldOne = document.getElementById("field1").value = _this.parameters[0].companyName;
             _this.varFieldTwo = document.getElementById("field2").value = _this.parameters[0].companyShortName;
-            _this.varFieldThree = document.getElementById("field3").value = _this.parameters[0].companyNumbrer;
+            _this.varFieldThree = document.getElementById("field3").value = _this.parameters[0].companyNumber;
             _this.varFieldFour = document.getElementById("field4").value = _this.parameters[0].countryId;
             // console.log('office: ' + this.parameters[0].officeId)
 
@@ -85030,8 +85600,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 varFieldFour: this.varFieldFour,
                 varFieldFive: this.varFieldFive,
                 varFieldSix: this.varFieldSix
-                // console.log(params)
-            };document.querySelector("#formSixField").reset();
+            };
+            console.log(params);
+            // document.querySelector("#formSixField").reset()
             var url = '/companys/' + this.varFieldId;
             // console.log('la url es: '+ url)
             axios.put(url, params).then(function (response) {
@@ -85561,7 +86132,7 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         " \n                                " +
-                          _vm._s(company.companyNumbrer) +
+                          _vm._s(company.companyNumber) +
                           "\n                            "
                       )
                     ]),
@@ -85641,7 +86212,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Nombre Corto")]),
         _vm._v(" "),
-        _c("th", [_vm._v("RIF/NIT/ID")]),
+        _c("th", [_vm._v("RIF/TIN/NIT/RUC")]),
         _vm._v(" "),
         _c("th", [_vm._v("Pais")]),
         _vm._v(" "),
@@ -85884,6 +86455,159 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(248)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(250)
+/* template */
+var __vue_template__ = __webpack_require__(251)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/srcComponent/loading.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d7e3df86", Component.options)
+  } else {
+    hotAPI.reload("data-v-d7e3df86", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 248 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(249);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("b1742414", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d7e3df86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./loading.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d7e3df86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./loading.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 249 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.spinner {\nmargin: 20px auto 0;\nwidth: 70px;\ntext-align: center;\ndisplay: inline-block;\n/* position: relative;\nwidth: 80px;\nheight: 80px; */\n}\n.spinner > div {\nwidth: 18px;\nheight: 18px;\nbackground-color: #3c8dbc;\n\nborder-radius: 100%;\ndisplay: inline-block;\n-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\nanimation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n.spinner .bounce1 {\n-webkit-animation-delay: -0.32s;\nanimation-delay: -0.32s;\n}\n.spinner .bounce2 {\n-webkit-animation-delay: -0.16s;\nanimation-delay: -0.16s;\n}\n@-webkit-keyframes sk-bouncedelay {\n0%, 80%, 100% { -webkit-transform: scale(0)\n}\n40% { -webkit-transform: scale(1.0)\n}\n}\n@keyframes sk-bouncedelay {\n0%, 80%, 100% { \n    -webkit-transform: scale(0);\n    transform: scale(0);\n}\n40% { \n    -webkit-transform: scale(1.0);\n    transform: scale(1.0);\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 250 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+   mounted: function mounted() {},
+
+   methods: {},
+   props: {}
+});
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "spinner" }, [
+      _c("div", { staticClass: "bounce1" }),
+      _c("div", { staticClass: "bounce2" }),
+      _c("div", { staticClass: "bounce3" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d7e3df86", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

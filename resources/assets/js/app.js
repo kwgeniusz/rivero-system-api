@@ -89,6 +89,7 @@ Vue.component('list-company', require('./components/configuration/company/listCo
 
 // ########### srcComponent 
 Vue.component('button-form', require('./components/srcComponent/buttonForm.vue'));
+Vue.component('loading', require('./components/srcComponent/loading.vue'));
 
 
 

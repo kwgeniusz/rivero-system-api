@@ -18,7 +18,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return DB::select("SELECT company.companyId, company.companyName, company.companyShortName, company.companyNumbrer, company.countryId,company.officeId,
+        return DB::select("SELECT company.companyId, company.companyName, company.companyShortName, company.companyNumber, company.countryId,company.officeId,
                             company.companyAddress, country.countryId, country.countryName, office.officeId, office.officeName 
                             FROM `company` 
                         INNER JOIN `country` ON company.countryId = country.countryId
@@ -29,6 +29,12 @@ class CompanyController extends Controller
     {
         return Country::orderBy('countryName', 'ASC')->get();
     }
+    public function comboContryId($id)
+    {
+        return Company::orderBy('companyName', 'ASC')
+        ->where('countryId', '=', $id)
+        ->get();
+    }
 
     public function combOffice($id)
     {
@@ -38,7 +44,7 @@ class CompanyController extends Controller
     public function editCompany($id)
     {
 
-        return DB::select("SELECT company.companyId, company.companyName, company.companyShortName, company.companyNumbrer,  company.countryId,company.officeId,
+        return DB::select("SELECT company.companyId, company.companyName, company.companyShortName, company.companyNumber,  company.countryId,company.officeId,
                                     company.companyAddress, country.countryId, country.countryName, office.officeId, office.officeName 
                             FROM `company` 
                             INNER JOIN `country` ON company.countryId = country.countryId
@@ -60,7 +66,7 @@ class CompanyController extends Controller
         $company = new Company();
         $company->companyName = $request->varFieldOne;
         $company->companyShortName = $request->varFieldTwo;
-        $company->companyNumbrer = $request->varFieldThree;
+        $company->companyNumber = $request->varFieldThree;
         $company->countryId = $request->varFieldFour;
         $company->officeId = $request->varFieldFive;
         $company->companyAddress = $request->varFieldSix;
@@ -81,7 +87,7 @@ class CompanyController extends Controller
         $company = Company::find($id);
         $company->companyName = $request->varFieldOne;
         $company->companyShortName = $request->varFieldTwo;
-        $company->companyNumbrer = $request->varFieldThree;
+        $company->companyNumber = $request->varFieldThree;
         $company->countryId = $request->varFieldFour;
         $company->officeId = $request->varFieldFive;
         $company->companyAddress = $request->varFieldSix;

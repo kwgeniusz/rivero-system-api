@@ -30,7 +30,7 @@ class ProcessController extends Controller
             INNER JOIN country ON hrprocess.countryId = country.countryId
             INNER JOIN company ON hrprocess.companyId = company.companyId");
             // LEFT JOIN hrprocess_detail ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId
-            // INNER JOIN hrtransaction_type ON hrprocess_detail.hrtransactionTypeId = hrtransaction_type.hrtransactionTypeId");
+            // INNER JOIN hrtransaction_type ON hrprocess_detail.transactionTypeCode = hrtransaction_type.transactionTypeCode");
 
         // $companys =  Company::orderBy('companyName', 'ASC')->get();
         // $companys = DB::table('company')->select('companyId', 'companyName', 'companyShortName')->get();
@@ -41,15 +41,18 @@ class ProcessController extends Controller
     }
     public function processDetail($id)
     {
-        $processDetail = DB::select("SELECT * FROM `hrprocess_detail`
-            INNER JOIN hrtransaction_type ON hrprocess_detail.hrtransactionTypeId = hrtransaction_type.hrtransactionTypeId
-            WHERE hrprocess_detail.hrprocessId =" . $id);
+        $processDetail = DB::select("SELECT * FROM hrprocess
+        LEFT JOIN hrprocess_detail ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId
+        INNER JOIN hrtransaction_type ON hrprocess_detail.transactionTypeCode = hrtransaction_type.transactionTypeCode
+             WHERE hrtransaction_type.companyId = hrprocess.companyId AND  hrprocess.hrprocessId =" . $id);
            
         return compact('processDetail');
     }
-    public function processTransactionType()
+    public function processTransactionType($idCompany)
     {
-        $hrTType = DB::table('hrtransaction_type')->select('hrtransactionTypeId', 'transactionTypeName')->get();
+        $hrTType = DB::table('hrtransaction_type')->select('transactionTypeCode', 'transactionTypeName')
+                        ->where('companyId', '=', $idCompany)
+                        ->get();
            
         return compact('hrTType');
     }
@@ -77,7 +80,7 @@ class ProcessController extends Controller
         // return $request;
         $processDetail = new ProcessDetail();
         $processDetail->hrprocessId = $request->hrprocessId;
-        $processDetail->hrtransactionTypeId = $request->hrtransactionTypeId;
+        $processDetail->transactionTypeCode = $request->transactionTypeCode;
         $processDetail->quantity = $request->quantity;
         $processDetail->amount = $request->amount;
         $processDetail->save();
@@ -107,7 +110,7 @@ class ProcessController extends Controller
     {
         
         $processDetail = ProcessDetail::find($id);
-        $processDetail->hrtransactionTypeId = $request->hrtransactionTypeId;
+        $processDetail->transactionTypeCode = $request->transactionTypeCode;
         $processDetail->quantity = $request->quantity;
         $processDetail->amount = $request->amount;
         

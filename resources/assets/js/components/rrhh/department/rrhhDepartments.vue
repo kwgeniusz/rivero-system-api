@@ -50,7 +50,7 @@
 
             axios.get('/departments').then((response) => {
                 this.objCompanys = response.data
-            console.log(this.objCompanys)
+            // console.log(this.objCompanys)
             })
         
         },

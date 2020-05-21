@@ -62,7 +62,7 @@
             
             axios.get('/companys').then((response) => {
                 this.objCompanys = response.data
-            console.log(this.objCompanys)
+            // console.log(this.objCompanys)
             })
 
             console.log('Component mounted.')

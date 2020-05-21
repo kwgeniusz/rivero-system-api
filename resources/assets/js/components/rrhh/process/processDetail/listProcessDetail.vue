@@ -41,9 +41,9 @@
                             <th>ACCIONES</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody  v-if="this.objProcessDetailList.length > 0" >
     
-                        <tr v-for="(Process, index) in objProcessDetailList" :key="Process.hrpdId">
+                        <tr  v-for="(Process, index) in objProcessDetailList" :key="Process.hrpdId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
                                 {{Process.transactionTypeName}}
@@ -61,6 +61,13 @@
                             </td>
                         </tr>
                     </tbody>
+                    <tbody  v-else >
+                        <tr>
+                            <td colspan="5">
+                                <loading></loading>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table> 
             </div><!-- table-responsive text-center -->
         <!-- </div> -->
@@ -70,12 +77,18 @@
 
 <script>
     export default {
+        
         mounted() {
-            axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
+            // setTimeout(() => {
+                axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
                 this.objProcessDetailList = response.data.processDetail
                 // console.log(this.objProcessDetailList)
                 // debugger
+                // console.log('longitud: ' + this.objProcessDetailList.length)
             })
+            // },1000)
+            
+            
             console.log('Component mounted.')
         },
         data(){

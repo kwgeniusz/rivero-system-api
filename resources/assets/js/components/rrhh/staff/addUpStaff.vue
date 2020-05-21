@@ -14,10 +14,7 @@
                                 <div class="form-group col-md-6 ">
                                     <label for="shortName" class="form-group" v-text="nameField1"></label>
                                     <input type="text" v-model="shortName" class="form-control" id="shortName" v-bind:placeholder="nameField1" required="required">
-                                    <!-- <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
-                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select> -->
+                                    
                                 </div>
                             
                                 <div class="form-group col-md-9">
@@ -59,9 +56,39 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-5">
                                     <label for="staffCode" class="form-group" v-text="nameField7"></label>
                                     <input type="text" v-model="staffCode" class="form-control" id="staffCode" v-bind:placeholder="nameField7" required="required">
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-5">
+                                    <label for="selectCountry" class="form-group" v-text="nameField8"></label>
+                                    <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
+                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                        
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-5">
+                                    <label for="selectCompany" class="form-group" v-text="nameField9"></label>
+                                    <select class="form-control" v-model="selectCompany" id="selectCompany"  @change="change($event)" required="required">
+                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                        
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-7">
+                                    <label for="departmentId" class="form-group" v-text="nameField10"></label>
+                                    <select class="form-control" v-model="departmentId" id="departmentId" required="required">
+                                        <option v-for="item in selectDepartments" :key="item.departmentId" :value="item.departmentId">{{item.departmentName}}</option>
+                                        
+                                    </select>
                                     
                                 </div>
                             </div>
@@ -93,27 +120,27 @@
     export default {
         mounted() {
 
-            // axios.get('periods/list/').then(res => {
-            //     // const eeeee = res.data
-            //     this.selectCountrys = res.data.countrys.map(item => {
-            //         return {id: item.countryId, vText: item.countryName}
+            axios.get('staff/list/combox/').then(res => {
+                // const eeeee = res.data
+                this.selectCountrys = res.data.countrys.map(item => {
+                    return {id: item.countryId, vText: item.countryName}
                     
-            //     })
-            //     this.selectCompanys = res.data.companys.map(item => {
-            //         return {id: item.shortName, vText: item.companyName}
+                })
+                this.selectCompanys = res.data.companys.map(item => {
+                    return {id: item.companyId, vText: item.companyName}
                     
-            //     })
-            //     this.selectPayrollType = res.data.payrollType.map( item => {
-            //         return {id: item.firstName, vText: item.payrollTypeName}
-            //     })
-            //     // console.log(eeeee)
-            //     // debugger
-            // })
+                })
+                // this.selectPayrollType = res.data.payrollType.map( item => {
+                //     return {id: item.firstName, vText: item.payrollTypeName}
+                // })
+                // console.log(eeeee)
+                // debugger
+            })
             
            
 
             if (this.editId > 0) {
-                // this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
+                this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
                 this.shortName = document.querySelector("#shortName").value = this.objEdit.shortName
                 this.firstName = document.querySelector("#firstName").value = this.objEdit.firstName
                 this.lastName = document.querySelector("#lastName").value = this.objEdit.lastName
@@ -121,6 +148,8 @@
                 this.passportNumber = document.querySelector("#passportNumber").value = this.objEdit.passportNumber
                 this.legalNumber = document.querySelector("#legalNumber").value = this.objEdit.legalNumber
                 this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode
+                this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId
+                this.departmentId = document.querySelector("#departmentId").value = this.objEdit.departmentId
                
             }
         
@@ -131,6 +160,8 @@
         data(){
             return{
                 selectCountry:'',
+                selectCompany:'',
+                departmentId:'',
                 shortName: '',
                 firstName: '',
                 idDocument: '',
@@ -141,6 +172,7 @@
                 staffCode: '',
                 selectCountrys:{},
                 selectCompanys:{},
+                selectDepartments:{},
                 selectPayrollType:{},
             }
         },
@@ -189,6 +221,38 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField9:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField10:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField11:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField12:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField13:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField14:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField15:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField16:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -199,6 +263,7 @@
                     
                     const params = {
                         countryId: this.selectCountry,
+                        companyId: this.selectCompany,
                         shortName: this.shortName,
                         firstName: this.firstName,
                         idDocument: this.idDocument,
@@ -206,6 +271,7 @@
                         passportNumber: this.passportNumber,
                         legalNumber: this.legalNumber,
                         staffCode: this.staffCode,
+                        departmentId: this.departmentId,
                         
                     }
 
@@ -231,6 +297,7 @@
                 }else{
                     const params = {    
                         countryId: this.selectCountry,
+                        companyId: this.selectCompany,
                         shortName: this.shortName,
                         firstName: this.firstName,
                         idDocument: this.idDocument,
@@ -238,6 +305,7 @@
                         passportNumber: this.passportNumber,
                         legalNumber: this.legalNumber,
                         staffCode: this.staffCode,
+                        departmentId: this.departmentId,
                     }
                     document.querySelector("#newUpForm").reset()
 
@@ -257,6 +325,16 @@
                             console.log(error);
                         });
                 }
+            },
+            change(event){
+                // console.log(event)
+                const cb=event.target.value
+                axios.get(`/staff/list/comboxDepartment/${cb}`).then( response => {
+                this.selectDepartments = response.data.departments
+                console.log(this.selectDepartments)
+                // debugger
+            })
+                
             },
             cancf(){
                 this.$emit('showlist', 0)

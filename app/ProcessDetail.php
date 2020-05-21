@@ -11,7 +11,7 @@ class ProcessDetail extends Model
     protected $table      = 'hrprocess_detail';
     protected $primaryKey = 'hrpdId';
 
-    protected $fillable = ['hrprocessId', 'hrtransactionTypeId', 'quantity', 'amount'];
+    protected $fillable = ['hrprocessId', 'transactionTypeCode', 'quantity', 'amount'];
     
 
 

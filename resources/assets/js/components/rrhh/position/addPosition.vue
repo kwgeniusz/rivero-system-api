@@ -21,8 +21,8 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label for="positioncode" class="form-group" v-text="nameField2"></label>
-                                    <input type="text" v-model="positioncode" class="form-control" id="positioncode" v-bind:placeholder="nameField2" required="required">
+                                    <label for="positionCode" class="form-group" v-text="nameField2"></label>
+                                    <input type="text" v-model="positionCode" class="form-control" id="positionCode" v-bind:placeholder="nameField2" required="required">
                                 </div>
                             </div>
                             <div class="row">
@@ -35,13 +35,13 @@
                                 <div class="form-group col-md-5">
                                     <a href="#" data-toggle="tooltip" title="salario mensual en moneda base (puede ser dolar)"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                                     <label for="baseSalary" class="form-group" v-text="nameField4"></label>
-                                    <input type="text" v-model="baseSalary" class="form-control" id="baseSalary" v-bind:placeholder="nameField4" required="required">
+                                    <input type="text" v-model="baseSalary" class="form-control" id="baseSalary" v-bind:placeholder="nameField4" >
                                 </div>
                                 <div class="form-group col-md-4"> 
                                     
                                     <label for="baseCurrencyId" class="form-group" v-text="nameField5"> </label> 
 
-                                    <select class="form-control" v-model="baseCurrencyId" id="baseCurrencyId" required="required">
+                                    <select class="form-control" v-model="baseCurrencyId" id="baseCurrencyId" >
                                         <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
                                     </select>   
 
@@ -52,11 +52,11 @@
                                 <div class="form-group col-md-5">
                                     <a href="#" data-toggle="tooltip" title="salario mensual en moneda local"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                                     <label for="localSalary" class="form-group" v-text="nameField6"></label>
-                                    <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField6" required="required">
+                                    <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="localCurrencyId" class="form-group" v-text="nameField7"></label>
-                                    <select class="form-control" v-model="localCurrencyId" id="localCurrencyId" required="required">
+                                    <select class="form-control" v-model="localCurrencyId" id="localCurrencyI">
                                         <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
                                     </select>
                                     <!-- <input type="text" v-model="localCurrencyId" class="form-control" id="localCurrencyId" v-bind:placeholder="nameField7" required="required"> -->
@@ -65,7 +65,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5">
                                     <label for="localDailySalary" class="form-group" v-text="nameField8"></label>
-                                    <input type="text" v-model="localDailySalary" class="form-control" id="localDailySalary" v-bind:placeholder="nameField6" required="required">
+                                    <input type="text" v-model="localDailySalary" class="form-control" id="localDailySalary" v-bind:placeholder="nameField6" >
                                 </div>
                             </div>
                             
@@ -112,7 +112,7 @@
 
             if (this.editId > 0) {
                 this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                this.positioncode = document.querySelector("#positioncode").value = this.objEdit.positioncode
+                this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode
                 this.positionName = document.querySelector("#positionName").value = this.objEdit.positionName
                 this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary
                 this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId
@@ -127,7 +127,7 @@
             return{
                 selectCurrency:'',
                 selectCountry:'',
-                positioncode: '',
+                positionCode: '',
                 positionName: '',
                 baseSalary: '',
                 baseCurrencyId: '',
@@ -192,7 +192,7 @@
                     
                     const params = {
                         countryId: this.selectCountry,
-                        positioncode: this.positioncode,
+                        positionCode: this.positionCode,
                         positionName: this.positionName,
                         baseSalary: this.baseSalary,
                         baseCurrencyId: this.baseCurrencyId,
@@ -224,7 +224,7 @@
                 }else{
                     const params = {    
                         countryId: this.selectCountry,
-                        positioncode: this.positioncode,
+                        positionCode: this.positionCode,
                         positionName: this.positionName,
                         baseSalary: this.baseSalary,
                         baseCurrencyId: this.baseCurrencyId,
@@ -232,7 +232,7 @@
                         localCurrencyId: this.localCurrencyId,
                         localDailySalary: this.localDailySalary,
                     }
-                    document.querySelector("#form-hrposition-type").reset()
+                    // document.querySelector("#form-hrposition-type").reset()
 
                     let url = `hrposition/put/${this.objEdit.hrpositionId}`
                     axios.put(url,params)

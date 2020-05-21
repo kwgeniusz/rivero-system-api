@@ -55,14 +55,14 @@
 <script>
     export default {
         mounted() {
-            // data for combobox
-            axios.get('/companys/contrys').then((response) => {
-                this.objContrys = response.data.map( item => {
-                    return { id: item.countryId, vText: item.countryName}
-                    })
-                // console.log(this.objCompanys)
+                // data for combobox
+                axios.get('/companys/contrys').then((response) => {
+                    this.objContrys = response.data.map( item => {
+                        return { id: item.countryId, vText: item.countryName}
+                        })
+                    // console.log(this.objCompanys)
 
-            })
+                })
 
                 axios.get(`/companys/show/${this.objEdi}`).then((response) => {
                 this.parameters = response.data
@@ -71,7 +71,7 @@
                     this.varFieldId = this.parameters[0].companyId
                     this.varFieldOne = document.getElementById("field1").value = this.parameters[0].companyName
                     this.varFieldTwo = document.getElementById("field2").value = this.parameters[0].companyShortName
-                    this.varFieldThree = document.getElementById("field3").value = this.parameters[0].companyNumbrer
+                    this.varFieldThree = document.getElementById("field3").value = this.parameters[0].companyNumber
                     this.varFieldFour = document.getElementById("field4").value = this.parameters[0].countryId
                     // console.log('office: ' + this.parameters[0].officeId)
                     
@@ -174,8 +174,8 @@
                     varFieldFive:  this.varFieldFive,
                     varFieldSix:  this.varFieldSix,
                 }
-                // console.log(params)
-                document.querySelector("#formSixField").reset()
+                console.log(params)
+                // document.querySelector("#formSixField").reset()
                 let url = '/companys/' + this.varFieldId
                 // console.log('la url es: '+ url)
                 axios.put(url, params)

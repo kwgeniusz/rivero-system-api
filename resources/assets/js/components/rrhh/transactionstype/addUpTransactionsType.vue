@@ -13,7 +13,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6 ">
                                     <label for="selectCountry" class="form-group" v-text="nameField1"></label>
-                                    <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
+                                    <select class="form-control" v-model="selectCountry" @change="changeCompany($event)" id="selectCountry" required="required">
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -70,6 +70,21 @@
                                     </select> -->
                                     <!-- <input type="text" v-model="hasBalance" class="form-control" id="hasBalance" v-bind:placeholder="nameField7" required="required"> -->
                                 </div>
+                                <div class="form-group col-md-7 form-inline">
+                                    <label for="accTax" class="form-group" v-text="nameField8"></label>
+                                    <input type="checkbox" id="accTax" v-model="accTax" value="1">
+                                    
+                                </div>
+                                <div class="form-group col-md-7 form-inline">
+                                    <label for="accChristmas" class="form-group" v-text="nameField9"></label>
+                                    <input type="checkbox" id="accChristmas" v-model="accChristmas" value="1">
+                                    
+                                </div>
+                                <div class="form-group col-md-7 form-inline">
+                                    <label for="accSeniority" class="form-group" v-text="nameField10"></label>
+                                    <input type="checkbox" id="accSeniority" v-model="accSeniority" value="1">
+                                   
+                                </div>
                             </div>
                             
                             <div v-if="editId === 0">
@@ -100,34 +115,42 @@
         mounted() {
 
             axios.get('transactionstypes/').then(res => {
-                const eeeee = res.data
+                // const eeeee = res.data
                 this.selectCountrys = res.data.countrys.map(item => {
                     return {id: item.countryId, vText: item.countryName}
                     
                 })
-                this.selectCompanys = res.data.companys.map(item => {
-                    return {id: item.companyId, vText: item.companyName}
-                    
-                })
-                // console.log(eeeee)
-                // debugger
+                
             })
-            // axios.get('hrposition/').then(response => {
-            //     this.selectCurrency = response.data.currencies.map(item => {
-            //         return {id: item.currencyId, vText: item.currencyName}
-                    
-            //     })
-            // })
+            
            
 
             if (this.editId > 0) {
                 this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
+
+                axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+                    this.selectCompanys = res.data.map(item => {
+                        return {id: item.companyId, vText: item.companyName}
+                        
+                    })
+                // console.log(eeeee)
+                // debugger
+                })
                 this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId
+
+
+                
                 this.transactionTypeCode = document.querySelector("#transactionTypeCode").value = this.objEdit.transactionTypeCode
                 this.transactionTypeName = document.querySelector("#transactionTypeName").value = this.objEdit.transactionTypeName
                 this.salaryBased = document.querySelector("#salaryBased").value = this.objEdit.salaryBased
                 this.isIncome = document.querySelector("#isIncome").value = this.objEdit.isIncome
                 this.hasBalance = document.querySelector("#hasBalance").value = this.objEdit.hasBalance
+                this.accTax = document.querySelector("#accTax").value = this.objEdit.accTax
+                this.accChristmas = document.querySelector("#accChristmas").value = this.objEdit.accChristmas
+                this.accSeniority = document.querySelector("#accSeniority").value = this.objEdit.accSeniority
                
             }
             
@@ -145,6 +168,9 @@
                 hasBalance: 0,
                 selectCountrys:{},
                 selectCompanys:{},
+                accTax: 0,
+                accChristmas: 0,
+                accSeniority: 0,
             }
         },
         props:{
@@ -192,6 +218,14 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField9:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField10:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -208,17 +242,21 @@
                         salaryBased: this.salaryBased,
                         isIncome: this.isIncome,
                         hasBalance: this.hasBalance,
+                        accTax: this.accTax,
+                        accChristmas: this.accChristmas,
+                        accSeniority: this.accSeniority,
                         
                     }
 
                     // console.log(params)
                     // debugger
-                    document.querySelector("#newUpForm").reset()
+                    
     
                     axios.post('transactionstypes/post',params)
                         .then((response) => {
                             // console.log(response)
                             if (response.statusText == "OK") {
+                                document.querySelector("#newUpForm").reset()
                                 alert("Success")
                             } else {
                                 console.log(response)
@@ -239,13 +277,16 @@
                         salaryBased: this.salaryBased,
                         isIncome: this.isIncome,
                         hasBalance: this.hasBalance,
+                        accTax: this.accTax,
+                        accChristmas: this.accChristmas,
+                        accSeniority: this.accSeniority,
                     }
-                    document.querySelector("#newUpForm").reset()
+                    // document.querySelector("#newUpForm").reset()
 
                     let url = `transactionstypes/put/${this.objEdit.hrtransactionTypeId}`
                     axios.put(url,params)
                         .then((response) => {
-                            console.log(response);
+                            // console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
                             } else {
@@ -262,6 +303,20 @@
             cancf(){
                 this.$emit('showlist', 0)
                 
+            },
+            changeCompany(event){
+                let cb = event.target.value
+                axios.get(`companys/contrys/${cb}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+                this.selectCompanys = res.data.map(item => {
+                    return {id: item.companyId, vText: item.companyName}
+                    
+                })
+                // console.log(eeeee)
+                // debugger
+            })
             }
         },
         computed: {

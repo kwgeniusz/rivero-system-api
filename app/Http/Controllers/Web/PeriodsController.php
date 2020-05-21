@@ -26,15 +26,16 @@ class PeriodsController extends Controller
      */
     public function index()
     {
-        $periods = DB::select("SELECT period.periodId, period.`countryId`, period.`companyId`,period.`year`,period.`payrollTypeId`,period.`periodName`,
-                period.`periodFrom`, period.`periodTo`, period.`updated`, 
-                country.countryId, country.countryName,
-                company.companyId, company.companyShortName,
-                payroll_type.payrollTypeId, payroll_type.payrollTypeName
-            FROM `period`
-            INNER JOIN country ON period.countryId = country.countryId
-            INNER JOIN company ON period.companyId = company.companyId
-            INNER JOIN payroll_type ON period.payrollTypeId = payroll_type.payrollTypeId");
+        $periods = DB::select("SELECT  hrperiod.periodId, hrperiod.`countryId`, hrperiod.`companyId`, hrperiod.`year`,
+                        hrperiod.`payrollTypeId`, hrperiod.`periodName`, hrperiod.`periodFrom`, hrperiod.`periodTo`, hrperiod.`updated`,
+                        country.countryId, country.countryName,
+                        company.companyId, company.companyShortName,
+                        payroll_type.payrollTypeId, payroll_type.payrollTypeName
+                    FROM
+                        `hrperiod`
+                    INNER JOIN country ON hrperiod.countryId = country.countryId
+                    INNER JOIN company ON hrperiod.companyId = company.companyId
+                    INNER JOIN payroll_type ON hrperiod.payrollTypeId = payroll_type.payrollTypeId");
 
         // $companys =  Company::orderBy('companyName', 'ASC')->get();
         $companys = DB::table('company')->select('companyId', 'companyName', 'companyShortName')->get();

@@ -11,7 +11,7 @@ class HrPosition extends Model
     protected $table      = 'hrposition';
     protected $primaryKey = 'hrpositionId';
 
-    protected $fillable = ['countryId', 'positioncode', 'positionName', 'baseSalary', 'baseCurrencyId', 'localSalary',
+    protected $fillable = ['countryId', 'positionCode', 'positionName', 'baseSalary', 'baseCurrencyId', 'localSalary',
         'localCurrencyId', 'localDailySalary'];
     
 

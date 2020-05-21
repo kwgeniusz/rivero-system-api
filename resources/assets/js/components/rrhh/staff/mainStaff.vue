@@ -31,6 +31,14 @@
                 :nameField6 = nameField6
                 :nameField7 = nameField7
                 :nameField8 = nameField8
+                :nameField9 = nameField9
+                :nameField10 = nameField10
+                :nameField11 = nameField11
+                :nameField12 = nameField12
+                :nameField13 = nameField13
+                :nameField14 = nameField14
+                :nameField15 = nameField15
+                :nameField16 = nameField16
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -53,6 +61,14 @@
                 :nameField6 = nameField6
                 :nameField7 = nameField7
                 :nameField8 = nameField8
+                :nameField9 = nameField9
+                :nameField10 = nameField10
+                :nameField11 = nameField11
+                :nameField12 = nameField12
+                :nameField13 = nameField13
+                :nameField14 = nameField14
+                :nameField15 = nameField15
+                :nameField16 = nameField16
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -81,8 +97,8 @@
                 objEdit:[],
                 formStatus: 0,
                 namePanelList: "PERSONAL",
-                namePanel: "AGREGAR PERÍODO",
-                namePanel2: "EDITAR PERÍODO",
+                namePanel: "AGREGAR PERSONAL",
+                namePanel2: "EDITAR PERSONAL",
                 nameField1: "NOMBRE CORTO",
                 nameField2: "NOMBRE COMPLETO",
                 nameField3: "APELLIDO COMPLETO",

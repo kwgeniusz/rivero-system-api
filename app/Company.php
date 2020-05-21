@@ -11,7 +11,7 @@ class Company extends Model
     protected $table      = 'company';
     protected $primaryKey = 'companyId';
 
-    protected $fillable = ['companyName', 'companyShortName', 'companyNumbrer', 'countryId', 'officeId', 'companyAddress'];
+    protected $fillable = ['companyName', 'companyShortName', 'companyNumber', 'countryId', 'officeId', 'companyAddress'];
     
 
 

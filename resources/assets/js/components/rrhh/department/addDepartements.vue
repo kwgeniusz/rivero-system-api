@@ -78,7 +78,7 @@
                     this.nameCompany = document.querySelector("#department_name").value = this.parentsData[0].departmentName
                     this.selectDepartmen =document.querySelector("#selectDepartmen").value = this.parentsData[0].parentDepartmentId
                     this.deparmetIds = this.parentsData[0].departmentId
-                    console.log('deparmetIds ' +this.deparmetIds)
+                    // console.log('deparmetIds ' +this.deparmetIds)
                 })
                 
             }
@@ -159,7 +159,7 @@
                         
                     }
                     // console.log(params)
-                    document.querySelector("#formDepartment").reset()
+                    // document.querySelector("#formDepartment").reset()
                     let url = 'departments/update/' + this.deparmetIds
                     // console.log( params)
                     // console.log('la url es: '+ url)
