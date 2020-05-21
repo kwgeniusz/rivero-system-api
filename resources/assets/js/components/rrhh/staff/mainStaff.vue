@@ -39,6 +39,7 @@
                 :nameField14 = nameField14
                 :nameField15 = nameField15
                 :nameField16 = nameField16
+                :nameField17 = nameField17
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -69,6 +70,7 @@
                 :nameField14 = nameField14
                 :nameField15 = nameField15
                 :nameField16 = nameField16
+                :nameField17 = nameField17
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -109,12 +111,13 @@
                 nameField8: "PAÍS",
                 nameField9: "EMPRESA",
                 nameField10: "DEPARTAMENTO",
-                nameField11: "CARGO",
-                nameField12: "SALARIO BASE",
-                nameField13: "MONEDA BASE",
-                nameField14: "SALARIO LOCAL",
-                nameField15: "MONEDA LOCAL",
-                nameField16: "SALARIO LOCAL DIARIO",
+                nameField11: "TIPO DE NOMINA",
+                nameField12: "CARGO",
+                nameField13: "SALARIO BASE",
+                nameField14: "MONEDA BASE",
+                nameField15: "SALARIO LOCAL",
+                nameField16: "MONEDA LOCAL",
+                nameField17: "SALARIO LOCAL DIARIO",
                 
             }
         },

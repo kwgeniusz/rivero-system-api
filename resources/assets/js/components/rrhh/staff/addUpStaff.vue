@@ -65,7 +65,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5">
                                     <label for="selectCountry" class="form-group" v-text="nameField8"></label>
-                                    <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
+                                    <select class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" required="required">
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -77,6 +77,16 @@
                                     <label for="selectCompany" class="form-group" v-text="nameField9"></label>
                                     <select class="form-control" v-model="selectCompany" id="selectCompany"  @change="change($event)" required="required">
                                         <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                        
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-7">
+                                    <label for="departmentId" class="form-group" v-text="nameField10"></label>
+                                    <select class="form-control" v-model="departmentId" id="departmentId" required="required">
+                                        <option v-for="item in selectDepartments" :key="item.departmentId" :value="item.departmentId">{{item.departmentName}}</option>
                                         
                                     </select>
                                     
@@ -126,10 +136,10 @@
                     return {id: item.countryId, vText: item.countryName}
                     
                 })
-                this.selectCompanys = res.data.companys.map(item => {
-                    return {id: item.companyId, vText: item.companyName}
+                // this.selectCompanys = res.data.companys.map(item => {
+                //     return {id: item.companyId, vText: item.companyName}
                     
-                })
+                // })
                 // this.selectPayrollType = res.data.payrollType.map( item => {
                 //     return {id: item.firstName, vText: item.payrollTypeName}
                 // })
@@ -253,6 +263,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField17:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -339,6 +353,20 @@
             cancf(){
                 this.$emit('showlist', 0)
                 
+            },
+            changeCompany(event){
+                let cb = event.target.value
+                axios.get(`companys/contrys/${cb}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+                this.selectCompanys = res.data.map(item => {
+                    return {id: item.companyId, vText: item.companyName}
+                    
+                })
+                // console.log(eeeee)
+                // debugger
+            })
             }
         },
         computed: {

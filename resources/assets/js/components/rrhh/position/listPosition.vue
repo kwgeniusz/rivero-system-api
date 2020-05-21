@@ -18,7 +18,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="objHrPosition.length > 0">
     
                         <tr v-for="(hrPosition, index) in objHrPosition" :key="hrPosition.hrpositionId">
                             
@@ -51,6 +51,13 @@
                             <td> 
                                 <button v-on:click="edithrPosition(index, hrPosition.hrpositionId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i></button>  
                                 <button v-on:click="deletehrPosition(index,hrPosition.hrpositionId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="8">
+                                <loading></loading>
                             </td>
                         </tr>
                     </tbody>

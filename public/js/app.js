@@ -18815,7 +18815,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(20);
-module.exports = __webpack_require__(233);
+module.exports = __webpack_require__(238);
 
 
 /***/ }),
@@ -18896,7 +18896,6 @@ Vue.component('main-process', __webpack_require__(194));
 Vue.component('list-process', __webpack_require__(197));
 Vue.component('addUp-process', __webpack_require__(200));
 //--> --> process-Detail
-// Vue.component('main-process-detail', require('./components/rrhh/process/processDetail/mainProcessDetail.vue'));
 Vue.component('list-process-detail', __webpack_require__(203));
 Vue.component('add-up-process-detail', __webpack_require__(206));
 // --> Staff
@@ -18912,7 +18911,7 @@ Vue.component('list-company', __webpack_require__(227));
 
 // ########### srcComponent 
 Vue.component('button-form', __webpack_require__(230));
-Vue.component('loading', __webpack_require__(247));
+Vue.component('loading', __webpack_require__(233));
 
 var app = new Vue({
   el: '#app',
@@ -76954,6 +76953,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -77017,109 +77023,119 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.objHrPosition, function(hrPosition, index) {
-                return _c("tr", { key: hrPosition.hrpositionId }, [
-                  _c("td", [
-                    _vm._v(
-                      "  \n                    \n                            " +
-                        _vm._s(index + 1) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "form-inline" }, [
-                    _vm._v(
-                      "  \n                    \n                            " +
-                        _vm._s(hrPosition.countryName) +
-                        " \n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(hrPosition.positionCode) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(hrPosition.positionName) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(hrPosition.baseSalary) +
-                        "   \n                            " +
-                        _vm._s(hrPosition.currencyNameSymbol) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(hrPosition.localSalary) +
-                        "  \n                            " +
-                        _vm._s(hrPosition.currencySymbolLocal) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(hrPosition.localDailySalary) +
-                        "  \n                            " +
-                        _vm._s(hrPosition.currencySymbolLocal) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        on: {
-                          click: function($event) {
-                            return _vm.edithrPosition(
-                              index,
-                              hrPosition.hrpositionId
-                            )
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-danger",
-                        on: {
-                          click: function($event) {
-                            return _vm.deletehrPosition(
-                              index,
-                              hrPosition.hrpositionId
-                            )
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
-                    )
+            _vm.objHrPosition.length > 0
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.objHrPosition, function(hrPosition, index) {
+                    return _c("tr", { key: hrPosition.hrpositionId }, [
+                      _c("td", [
+                        _vm._v(
+                          "  \n                    \n                            " +
+                            _vm._s(index + 1) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "form-inline" }, [
+                        _vm._v(
+                          "  \n                    \n                            " +
+                            _vm._s(hrPosition.countryName) +
+                            " \n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(hrPosition.positionCode) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(hrPosition.positionName) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(hrPosition.baseSalary) +
+                            "   \n                            " +
+                            _vm._s(hrPosition.currencyNameSymbol) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(hrPosition.localSalary) +
+                            "  \n                            " +
+                            _vm._s(hrPosition.currencySymbolLocal) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(hrPosition.localDailySalary) +
+                            "  \n                            " +
+                            _vm._s(hrPosition.currencySymbolLocal) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.edithrPosition(
+                                  index,
+                                  hrPosition.hrpositionId
+                                )
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deletehrPosition(
+                                  index,
+                                  hrPosition.hrpositionId
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "glyphicon glyphicon-remove"
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              : _c("tbody", [
+                  _c("tr", [
+                    _c("td", { attrs: { colspan: "8" } }, [_c("loading")], 1)
                   ])
                 ])
-              }),
-              0
-            )
           ]
         )
       ])
@@ -83200,6 +83216,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -83231,12 +83249,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             nameField8: "PAÍS",
             nameField9: "EMPRESA",
             nameField10: "DEPARTAMENTO",
-            nameField11: "CARGO",
-            nameField12: "SALARIO BASE",
-            nameField13: "MONEDA BASE",
-            nameField14: "SALARIO LOCAL",
-            nameField15: "MONEDA LOCAL",
-            nameField16: "SALARIO LOCAL DIARIO"
+            nameField11: "TIPO DE NOMINA",
+            nameField12: "CARGO",
+            nameField13: "SALARIO BASE",
+            nameField14: "MONEDA BASE",
+            nameField15: "SALARIO LOCAL",
+            nameField16: "MONEDA LOCAL",
+            nameField17: "SALARIO LOCAL DIARIO"
 
         };
     },
@@ -83325,7 +83344,8 @@ var render = function() {
                 nameField13: _vm.nameField13,
                 nameField14: _vm.nameField14,
                 nameField15: _vm.nameField15,
-                nameField16: _vm.nameField16
+                nameField16: _vm.nameField16,
+                nameField17: _vm.nameField17
               },
               on: { showlist: _vm.showlist, newObj: _vm.newObj }
             })
@@ -83357,6 +83377,7 @@ var render = function() {
                 nameField14: _vm.nameField14,
                 nameField15: _vm.nameField15,
                 nameField16: _vm.nameField16,
+                nameField17: _vm.nameField17,
                 objEdit: _vm.objEdit,
                 editId: 1
               },
@@ -83911,6 +83932,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -83921,9 +83952,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.selectCountrys = res.data.countrys.map(function (item) {
                 return { id: item.countryId, vText: item.countryName };
             });
-            _this.selectCompanys = res.data.companys.map(function (item) {
-                return { id: item.companyId, vText: item.companyName };
-            });
+            // this.selectCompanys = res.data.companys.map(item => {
+            //     return {id: item.companyId, vText: item.companyName}
+
+            // })
             // this.selectPayrollType = res.data.payrollType.map( item => {
             //     return {id: item.firstName, vText: item.payrollTypeName}
             // })
@@ -84044,6 +84076,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String,
             default: 'Name Defauld'
         },
+        nameField17: {
+            type: String,
+            default: 'Name Defauld'
+        },
         objEdit: {}
 
     },
@@ -84122,6 +84158,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cancf: function cancf() {
             this.$emit('showlist', 0);
+        },
+        changeCompany: function changeCompany(event) {
+            var _this3 = this;
+
+            var cb = event.target.value;
+            axios.get("companys/contrys/" + cb).then(function (res) {
+                // const eeeee = res.data
+
+                // console.log(res)
+                _this3.selectCompanys = res.data.map(function (item) {
+                    return { id: item.companyId, vText: item.companyName };
+                });
+                // console.log(eeeee)
+                // debugger
+            });
         }
     },
     computed: {
@@ -84461,19 +84512,24 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: { id: "selectCountry", required: "required" },
                         on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.selectCountry = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selectCountry = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            function($event) {
+                              return _vm.changeCompany($event)
+                            }
+                          ]
                         }
                       },
                       _vm._l(_vm.selectCountrys, function(item) {
@@ -84535,6 +84591,58 @@ var render = function() {
                           "option",
                           { key: item.id, domProps: { value: item.id } },
                           [_vm._v(_vm._s(item.vText))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-7" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "departmentId" },
+                      domProps: { textContent: _vm._s(_vm.nameField10) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.departmentId,
+                            expression: "departmentId"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "departmentId", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.departmentId = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.selectDepartments, function(item) {
+                        return _c(
+                          "option",
+                          {
+                            key: item.departmentId,
+                            domProps: { value: item.departmentId }
+                          },
+                          [_vm._v(_vm._s(item.departmentName))]
                         )
                       }),
                       0
@@ -85170,33 +85278,6 @@ var render = function() {
                   staticClass: "form-group",
                   attrs: { for: "field1" },
                   domProps: { textContent: _vm._s(_vm.nameField1) }
-                }),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.varFieldOne,
-                      expression: "varFieldOne"
-                    }
-                  ],
-                  staticClass: "form-control ",
-                  attrs: {
-                    type: "text",
-                    id: "field1",
-                    name: "field1",
-                    placeholder: _vm.nameField1
-                  },
-                  domProps: { value: _vm.varFieldOne },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.varFieldOne = $event.target.value
-                    }
-                  }
                 })
               ]),
               _vm._v(" "),
@@ -85221,7 +85302,8 @@ var render = function() {
                     type: "text",
                     id: "field2",
                     name: "field2",
-                    placeholder: _vm.nameField2
+                    placeholder: _vm.nameField2,
+                    required: "required"
                   },
                   domProps: { value: _vm.varFieldTwo },
                   on: {
@@ -85256,7 +85338,8 @@ var render = function() {
                     type: "text",
                     id: "field3",
                     name: "field3",
-                    placeholder: _vm.nameField3
+                    placeholder: _vm.nameField3,
+                    required: "required"
                   },
                   domProps: { value: _vm.varFieldThree },
                   on: {
@@ -85289,7 +85372,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control ",
-                    attrs: { id: "field4" },
+                    attrs: { id: "field4", required: "required" },
                     on: {
                       change: [
                         function($event) {
@@ -85341,7 +85424,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control ",
-                    attrs: { id: "field5" },
+                    attrs: { id: "field5", required: "required" },
                     on: {
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -85386,7 +85469,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { rows: "1", id: "field6" },
+                  attrs: { rows: "1", id: "field6", required: "required" },
                   domProps: { value: _vm.varFieldSix },
                   on: {
                     input: function($event) {
@@ -85726,7 +85809,8 @@ var render = function() {
                     type: "text",
                     id: "field1",
                     name: "field1",
-                    placeholder: _vm.nameField1
+                    placeholder: _vm.nameField1,
+                    required: "required"
                   },
                   domProps: { value: _vm.varFieldOne },
                   on: {
@@ -85761,7 +85845,8 @@ var render = function() {
                     type: "text",
                     id: "field2",
                     name: "field2",
-                    placeholder: _vm.nameField2
+                    placeholder: _vm.nameField2,
+                    required: "required"
                   },
                   domProps: { value: _vm.varFieldTwo },
                   on: {
@@ -85796,7 +85881,8 @@ var render = function() {
                     type: "text",
                     id: "field3",
                     name: "field3",
-                    placeholder: _vm.nameField3
+                    placeholder: _vm.nameField3,
+                    required: "required"
                   },
                   domProps: { value: _vm.varFieldThree },
                   on: {
@@ -85829,7 +85915,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control ",
-                    attrs: { id: "field4" },
+                    attrs: { id: "field4", required: "required" },
                     on: {
                       change: [
                         function($event) {
@@ -85881,7 +85967,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control ",
-                    attrs: { id: "field5" },
+                    attrs: { id: "field5", required: "required" },
                     on: {
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -85926,7 +86012,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { rows: "1", id: "field6" },
+                  attrs: { rows: "1", id: "field6", required: "required" },
                   domProps: { value: _vm.varFieldSix },
                   on: {
                     input: function($event) {
@@ -86490,37 +86576,18 @@ if (false) {
 
 /***/ }),
 /* 233 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(248)
+  __webpack_require__(234)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(250)
+var __vue_script__ = __webpack_require__(236)
 /* template */
-var __vue_template__ = __webpack_require__(251)
+var __vue_template__ = __webpack_require__(237)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -86559,13 +86626,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 248 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(249);
+var content = __webpack_require__(235);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -86585,7 +86652,7 @@ if(false) {
 }
 
 /***/ }),
-/* 249 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -86599,7 +86666,7 @@ exports.push([module.i, "\n.spinner {\nmargin: 20px auto 0;\nwidth: 70px;\ntext-
 
 
 /***/ }),
-/* 250 */
+/* 236 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -86617,7 +86684,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 251 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -86646,6 +86713,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-d7e3df86", module.exports)
   }
 }
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

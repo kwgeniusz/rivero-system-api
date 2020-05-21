@@ -9,35 +9,35 @@
                         <form role="form" v-on:submit.prevent="newValueOfSixField()" id="formSixField" >
                             <div class="form-group col-md-10">
                                 <label for="field1" class="form-group" v-text="nameField1"></label>
-                                <input type="text" v-model="varFieldOne" class="form-control " id="field1" name = "field1" v-bind:placeholder="nameField1">
+                                <input type="text" v-model="varFieldOne" class="form-control " id="field1" name = "field1" v-bind:placeholder="nameField1" required="required"
 
                             </div>
                             <div class="form-group col-md-8">
                                 <label for="field2" class="form-group" v-text="nameField2"></label>
-                                <input  type="text" v-model="varFieldTwo" class="form-control " id="field2" name = "field2" v-bind:placeholder="nameField2">
+                                <input  type="text" v-model="varFieldTwo" class="form-control " id="field2" name = "field2" v-bind:placeholder="nameField2" required="required">
                                 
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="field3" class="form-group" v-text="nameField3"></label>
-                                <input type="text" v-model="varFieldThree" class="form-control " id="field3" name = "field3" v-bind:placeholder="nameField3">
+                                <input type="text" v-model="varFieldThree" class="form-control " id="field3" name = "field3" v-bind:placeholder="nameField3" required="required">
                                 
                             </div>
                             <div class="form-group col-md-7">
                                 <label for="field4" class="form-group" v-text="nameField4"></label>
-                                <select class="form-control " v-model="varFieldFour" @change="change4($event)" id="field4">
+                                <select class="form-control " v-model="varFieldFour" @change="change4($event)" id="field4" required="required">
                                     <option v-for="cbox in objContrys" :key="cbox.id" :value="cbox.id" >{{cbox.vText}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-7">
                                 <label for="field5" class="form-group" v-text="nameField5"></label>
-                                <select class="form-control " v-model="varFieldFive" id="field5">
+                                <select class="form-control " v-model="varFieldFive" id="field5" required="required">
                                     <option v-for="cbox in objOffices" :key="cbox.id" :value="cbox.id">{{cbox.vText}}</option>
                                 </select>
                                 
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="field6" class="form-group " v-text="nameField6"></label>
-                                <textarea class="form-control" rows="1" v-model="varFieldSix" id="field6" ></textarea>
+                                <textarea class="form-control" rows="1" v-model="varFieldSix" id="field6" required="required"></textarea>
                                 
                             </div>
                             <button-form

@@ -70,7 +70,6 @@ Vue.component('main-process', require('./components/rrhh/process/mainProcess.vue
 Vue.component('list-process', require('./components/rrhh/process/listProcess.vue'));
 Vue.component('addUp-process', require('./components/rrhh/process/addUpProcess.vue'));
 //--> --> process-Detail
-// Vue.component('main-process-detail', require('./components/rrhh/process/processDetail/mainProcessDetail.vue'));
 Vue.component('list-process-detail', require('./components/rrhh/process/processDetail/listProcessDetail.vue'));
 Vue.component('add-up-process-detail', require('./components/rrhh/process/processDetail/addUpProcessDetail.vue'));
 // --> Staff
