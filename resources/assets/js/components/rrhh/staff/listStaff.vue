@@ -18,7 +18,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="objStaff.length > 0">
     
                         <tr v-for="(staff, index) in objStaff" :key="staff.periodId">
                             <td >{{index + 1}}</td>
@@ -52,8 +52,16 @@
                             </td>
                             
                             <td> 
+                                <button v-on:click="detailRow(index, Process.hrprocessId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  
                                 <button v-on:click="editRow(index, staff.periodId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
                                 <button v-on:click="deleterow(index, staff.periodId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="8">
+                                <loading></loading>
                             </td>
                         </tr>
                     </tbody>

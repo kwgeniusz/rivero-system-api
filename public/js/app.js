@@ -83504,6 +83504,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -83568,99 +83576,129 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.objStaff, function(staff, index) {
-                return _c("tr", { key: staff.periodId }, [
-                  _c("td", [_vm._v(_vm._s(index + 1))]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "form-inline" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(staff.staffCode) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("p", { staticClass: "text-left" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(staff.firstName) +
-                          "\n                            "
-                      )
+            _vm.objStaff.length > 0
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.objStaff, function(staff, index) {
+                    return _c("tr", { key: staff.periodId }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "form-inline" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(staff.staffCode) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(staff.firstName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(staff.lastName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(staff.idDocument) +
+                            "\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(staff.positionName) +
+                              " \n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(staff.departmentName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            on: {
+                              click: function($event) {
+                                return _vm.detailRow(
+                                  index,
+                                  _vm.Process.hrprocessId
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: " \tglyphicon glyphicon-th-list"
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.editRow(index, staff.periodId)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleterow(index, staff.periodId)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "glyphicon glyphicon-remove"
+                            })
+                          ]
+                        )
+                      ])
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("p", { staticClass: "text-left" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(staff.lastName) +
-                          "\n                            "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(staff.idDocument) +
-                        "\n                            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("p", { staticClass: "text-left" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(staff.positionName) +
-                          " \n                            "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("p", { staticClass: "text-left" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(staff.departmentName) +
-                          "\n                            "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        on: {
-                          click: function($event) {
-                            return _vm.editRow(index, staff.periodId)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-danger",
-                        on: {
-                          click: function($event) {
-                            return _vm.deleterow(index, staff.periodId)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
-                    )
+                  }),
+                  0
+                )
+              : _c("tbody", [
+                  _c("tr", [
+                    _c("td", { attrs: { colspan: "8" } }, [_c("loading")], 1)
                   ])
                 ])
-              }),
-              0
-            )
           ]
         )
       ])
