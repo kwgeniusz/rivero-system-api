@@ -19,18 +19,22 @@
                                 <tr v-for="(company, index) in companys" :key="company.departmentId">
                                 
                                     <td >{{index + 1}}</td>
-                                    <td class="form-inline">  
-                                        {{company.companyName}}  
+                                    <td class="form-inline"> 
+                                        <p class="text-left"> 
+                                            {{company.companyName}}
+                                        </p>  
                                     </td>
                                     <td class="form-inline">    
-                                        
+                                        <p class="text-left">
                                             <button v-if="editMode === index" v-on:click="updateDepartment(index, company)" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></button> &nbsp;
                                             <input v-if="editMode === index" type="text" class="form-control" v-model="company.departmentName" >
                                             <a v-else v-on:click="editDepartment(index)">{{company.departmentName}}</a> 
-                                        
+                                        </p>
                                     </td>
                                     <td> 
-                                        {{  company.dpParentName}}
+                                        <p class="text-left">
+                                            {{  company.dpParentName}}
+                                        </p>
                                     </td>
                                     <td> 
                                         <button v-on:click="editDataDepartment(index,company.departmentId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i></button>  

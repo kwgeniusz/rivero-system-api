@@ -10,7 +10,7 @@
                         <tr>
                             <th>N.</th>
                             <th>Nombre del periodo</th>
-                            <th >Pais</th>
+                            <th>Pais</th>
                             <th>Empresa</th>
                             <th>Año</th>
                             <th>Tipo de Nomina</th>
@@ -19,26 +19,32 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="objPeriods.length > 0">
     
                         <tr v-for="(Periods, index) in objPeriods" :key="Periods.periodId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
-                                {{Periods.periodName}}
+                                <p class="text-left">
+                                    {{Periods.periodName}}
+                                </p>
                             </td>
                             <td > 
-                                
+                                <p class="text-left">
                                     {{Periods.countryName}} 
-                               
+                                </p>
                             </td>
                             <td>
-                                {{Periods.companyShortName}}
+                                <p class="text-left">
+                                    {{Periods.companyShortName}}
+                                </p>
                             </td>
                             <td>
                                 {{Periods.year}}
                             </td>
                             <td>
-                                {{Periods.payrollTypeName}} 
+                                <p class="text-left">
+                                    {{Periods.payrollTypeName}} 
+                                </p>
                             </td>
                             <td>
                                 {{Periods.periodFrom}}
@@ -50,6 +56,13 @@
                             <td> 
                                 <button v-on:click="editRow(index, Periods.periodId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
                                 <button v-on:click="deleterow(index, Periods.periodId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="9">
+                                <loading></loading>
                             </td>
                         </tr>
                     </tbody>
@@ -107,3 +120,8 @@
         }
     }
 </script>
+<style>
+    td{
+        padding: 4px 0 0 2px !important;
+    }
+</style>

@@ -15,7 +15,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="objPayRollType.length > 0">
     
                         <tr v-for="(payrollType, index) in objPayRollType" :key="payrollType.payrollTypeId">
                             
@@ -33,6 +33,13 @@
                             <td> 
                                 <button v-on:click="editPayrollType(index, payrollType.payrollTypeId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i></button>  
                                 <button v-on:click="deletePayrollType(index,payrollType.payrollTypeId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="5">
+                                <loading></loading>
                             </td>
                         </tr>
                     </tbody>

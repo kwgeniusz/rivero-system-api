@@ -9,7 +9,16 @@
 
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()"  id="newUpForm" >
-                            
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="status" class="form-group" v-text="nameField18"></label>
+                                    <select class="form-control" v-model="status" id="status" required="required">
+                                        <option value="A" selected="selected">ACTIVO</option>
+                                        <option value="S">SUSPENDIDO</option>
+                                        <option value="I">INACTIVO</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-6 ">
                                     <label for="shortName" class="form-group" v-text="nameField1"></label>
@@ -63,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-7">
                                     <label for="selectCountry" class="form-group" v-text="nameField8"></label>
                                     <select class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" required="required">
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
@@ -73,7 +82,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-7">
                                     <label for="selectCompany" class="form-group" v-text="nameField9"></label>
                                     <select class="form-control" v-model="selectCompany" id="selectCompany"  @change="change($event)" required="required">
                                         <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
@@ -94,11 +103,56 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-7">
-                                    <label for="departmentId" class="form-group" v-text="nameField10"></label>
-                                    <select class="form-control" v-model="departmentId" id="departmentId" required="required">
-                                        <option v-for="item in selectDepartments" :key="item.departmentId" :value="item.departmentId">{{item.departmentName}}</option>
+                                    <label for="payrollTypeId" class="form-group" v-text="nameField11"></label>
+                                    <select class="form-control" v-model="payrollTypeId" id="payrollTypeId"  required="required">
+                                        <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-7">
+                                    <label for="positionCode" class="form-group" v-text="nameField12"></label>
+                                    <select class="form-control" v-model="positionCode" id="positionCode"  required="required">
+                                        <option v-for="item in selectPosition" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="baseSalary" class="form-group" v-text="nameField13"></label>
+                                    <input type="text" v-model="baseSalary" class="form-control" id="baseSalary" v-bind:placeholder="nameField13" >
+                                    
+                                </div>
+                            
+                                <div class="form-group col-md-4">
+                                    <label for="baseCurrencyId" class="form-group" v-text="nameField14"> </label> 
+
+                                    <select class="form-control" v-model="baseCurrencyId" id="baseCurrencyId" >
+                                        <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                    </select>  
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="localSalary" class="form-group" v-text="nameField15"></label>
+                                    <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField15" >
+                                    
+                                </div>
+                            
+                                <div class="form-group col-md-4">
+                                    <label for="localCurrencyId" class="form-group" v-text="nameField16"> </label> 
+                                    <select class="form-control" v-model="localCurrencyId" id="localCurrencyId" >
+                                        <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                    </select>  
+                                    
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="localDailySalary" class="form-group" v-text="nameField17"></label>
+                                    <input type="text" v-model="localDailySalary" class="form-control" id="localDailySalary" v-bind:placeholder="nameField17" >
                                     
                                 </div>
                             </div>
@@ -136,15 +190,14 @@
                     return {id: item.countryId, vText: item.countryName}
                     
                 })
-                // this.selectCompanys = res.data.companys.map(item => {
-                //     return {id: item.companyId, vText: item.companyName}
+                
+            })
+            // Obtener tipo de moneda
+            axios.get('hrposition/').then(response => {
+                this.selectCurrency = response.data.currencies.map(item => {
+                    return {id: item.currencyId, vText: item.currencyName}
                     
-                // })
-                // this.selectPayrollType = res.data.payrollType.map( item => {
-                //     return {id: item.firstName, vText: item.payrollTypeName}
-                // })
-                // console.log(eeeee)
-                // debugger
+                })
             })
             
            
@@ -160,6 +213,14 @@
                 this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode
                 this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId
                 this.departmentId = document.querySelector("#departmentId").value = this.objEdit.departmentId
+                this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
+                this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode
+                this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary
+                this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId
+                this.localSalary = document.querySelector("#localSalary").value = this.objEdit.localSalary
+                this.localCurrencyId = document.querySelector("#localCurrencyId").value = this.objEdit.localCurrencyId
+                this.localDailySalary = document.querySelector("#localDailySalary").value = this.objEdit.localDailySalary
+                this.status = document.querySelector("#status").value = this.objEdit.status
                
             }
         
@@ -174,16 +235,29 @@
                 departmentId:'',
                 shortName: '',
                 firstName: '',
-                idDocument: '',
+                idDocument: 0,
                 lastName: '',
-                lastNames: 0,
-                passportNumber: '',
-                legalNumber: '',
+                lastNames: '',
+                passportNumber: 0,
+                legalNumber: 0,
                 staffCode: '',
+                positionCode: '',
+                status: 'A',
+                baseSalary: 0,
+                localSalary: 0,
+                localDailySalary: 0,
+                excTranTypeCode1: 0,
+                excTranTypeCode2: 0,
+                excTranTypeCode3: 0,
+                payrollTypeId: '',
+                baseCurrencyId: '',
+                localCurrencyId: '',
                 selectCountrys:{},
                 selectCompanys:{},
                 selectDepartments:{},
                 selectPayrollType:{},
+                selectPosition:{},
+                selectCurrency:{},
             }
         },
         props:{
@@ -267,6 +341,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField18:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -286,18 +364,30 @@
                         legalNumber: this.legalNumber,
                         staffCode: this.staffCode,
                         departmentId: this.departmentId,
+                        payrollTypeId: this.payrollTypeId,
+                        positionCode: this.positionCode,
+                        baseSalary: this.baseSalary,
+                        baseCurrencyId: this.baseCurrencyId,
+                        localSalary: this.localSalary,
+                        localCurrencyId: this.localCurrencyId,
+                        localDailySalary: this.localDailySalary,
+                        excTranTypeCode1: this.excTranTypeCode1,
+                        excTranTypeCode2: this.excTranTypeCode2,
+                        excTranTypeCode3: this.excTranTypeCode3,
+                        status: this.status,
                         
                     }
 
                     // console.log(params)
                     // debugger
-                    document.querySelector("#newUpForm").reset()
+                    
     
-                    axios.post('periods/post',params)
+                    axios.post('staff/post',params)
                         .then((response) => {
-                            // console.log(response)
+                            console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
+                                document.querySelector("#newUpForm").reset()
                             } else {
                                 console.log(response)
                                 alert("Error")
@@ -320,10 +410,19 @@
                         legalNumber: this.legalNumber,
                         staffCode: this.staffCode,
                         departmentId: this.departmentId,
+                        payrollTypeId: this.payrollTypeId,
+                        positionCode: this.positionCode,
+                        baseSalary: this.baseSalary,
+                        baseCurrencyId: this.baseCurrencyId,
+                        localDailySalary: this.localDailySalary,
+                        excTranTypeCode1: this.excTranTypeCode1,
+                        excTranTypeCode2: this.excTranTypeCode2,
+                        excTranTypeCode3: this.excTranTypeCode3,
+                        status: this.status,
                     }
-                    document.querySelector("#newUpForm").reset()
+                    
 
-                    let url = `periods/put/${this.objEdit.periodId}`
+                    let url = `staff/post/put/${this.objEdit.hrstaffId}`
                     axios.put(url,params)
                         .then((response) => {
                             console.log(response);
@@ -360,13 +459,35 @@
                 // const eeeee = res.data
                 
                     // console.log(res)
-                this.selectCompanys = res.data.map(item => {
-                    return {id: item.companyId, vText: item.companyName}
-                    
-                })
+                    this.selectCompanys = res.data.map(item => {
+                        return {id: item.companyId, vText: item.companyName}
+                        
+                    })
                 // console.log(eeeee)
                 // debugger
-            })
+                })
+                axios.get(`/staff/list/typepayroll/${cb}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+                    this.selectPayrollType = res.data.map(item => {
+                        return {id: item.payrollTypeId, vText: item.payrollTypeName}
+                        
+                    })
+                // console.log(eeeee)
+                // debugger
+                })
+                axios.get(`/staff/list/positions/${cb}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+                    this.selectPosition = res.data.map(item => {
+                        return {id: item.positionCode, vText: item.positionName}
+                        
+                    })
+                // console.log(eeeee)
+                // debugger
+                })
             }
         },
         computed: {

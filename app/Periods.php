@@ -8,10 +8,10 @@ class Periods extends Model
 {
     public $timestamps = false;
 
-    protected $table      = 'period';
+    protected $table      = 'hrperiod';
     protected $primaryKey = 'periodId';
 
-    protected $fillable = ['countryId', 'companyId', 'year', 'payrollTypeId', 'periodName', 'periodFrom',
+    protected $fillable = ['countryId', 'companyId', 'year', 'payrollTypeId', 'payrollNumber','periodName', 'periodFrom',
     'periodTo', 'updated'];
     
 

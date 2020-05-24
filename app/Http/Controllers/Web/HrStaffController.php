@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\web;
 
 use App\hrStaff;
+use App\PayRollType;
+use App\HrPosition;
 use App\Country;
 use App\Company;
 use DB;
@@ -63,6 +65,19 @@ class HrStaffController extends Controller
         return compact('departments');
     }
 
+    public function comboTypePayroll($idCountry)
+    {
+        return PayRollType::orderBy('payrollTypeName', 'ASC')
+        ->where('countryId', '=', $idCountry)
+        ->get();
+    }
+    public function comboPositions($idCountry)
+    {
+        return HrPosition::select('positionCode', 'positionName')
+        ->where('countryId', '=', $idCountry)
+        ->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -75,20 +90,25 @@ class HrStaffController extends Controller
         $staff = new hrStaff();
         $staff->countryId = $request->countryId;
         $staff->companyId = $request->companyId;
-        $staff->staffCode = $request->staffCode;
-        $staff->firstName = $request->firstName;
-        $staff->lastName = $request->lastName;
         $staff->shortName = $request->shortName;
+        $staff->firstName = $request->firstName;
         $staff->idDocument = $request->idDocument;
+        $staff->lastName = $request->lastName;
         $staff->passportNumber = $request->passportNumber;
         $staff->legalNumber = $request->legalNumber;
+        $staff->staffCode = $request->staffCode;
         $staff->departmentId = $request->departmentId;
-        $staff->hrpositionId = $request->hrpositionId;
+        $staff->payrollTypeId = $request->payrollTypeId;
+        $staff->positionCode = $request->positionCode;
         $staff->baseSalary = $request->baseSalary;
         $staff->baseCurrencyId = $request->baseCurrencyId;
         $staff->localSalary = $request->localSalary;
         $staff->localCurrencyId = $request->localCurrencyId;
         $staff->localDailySalary = $request->localDailySalary;
+        $staff->excTranTypeCode1 = $request->excTranTypeCode1;
+        $staff->excTranTypeCode2 = $request->excTranTypeCode2;
+        $staff->excTranTypeCode3 = $request->excTranTypeCode3;
+        $staff->status = $request->status;
         
         $staff->save();
         return $staff;
@@ -107,20 +127,25 @@ class HrStaffController extends Controller
         $staff = hrStaff::find($id);
         $staff->countryId = $request->countryId;
         $staff->companyId = $request->companyId;
-        $staff->staffCode = $request->staffCode;
-        $staff->firstName = $request->firstName;
-        $staff->lastName = $request->lastName;
         $staff->shortName = $request->shortName;
+        $staff->firstName = $request->firstName;
         $staff->idDocument = $request->idDocument;
+        $staff->lastName = $request->lastName;
         $staff->passportNumber = $request->passportNumber;
         $staff->legalNumber = $request->legalNumber;
+        $staff->staffCode = $request->staffCode;
         $staff->departmentId = $request->departmentId;
-        $staff->hrpositionId = $request->hrpositionId;
+        $staff->payrollTypeId = $request->payrollTypeId;
+        $staff->positionCode = $request->positionCode;
         $staff->baseSalary = $request->baseSalary;
         $staff->baseCurrencyId = $request->baseCurrencyId;
         $staff->localSalary = $request->localSalary;
         $staff->localCurrencyId = $request->localCurrencyId;
         $staff->localDailySalary = $request->localDailySalary;
+        $staff->excTranTypeCode1 = $request->excTranTypeCode1;
+        $staff->excTranTypeCode2 = $request->excTranTypeCode2;
+        $staff->excTranTypeCode3 = $request->excTranTypeCode3;
+        $staff->status = $request->status;
         
         $staff->save();
         return $staff;

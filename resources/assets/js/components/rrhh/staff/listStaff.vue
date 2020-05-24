@@ -119,3 +119,8 @@
         }
     }
 </script>
+<style>
+    td{
+        padding: 4px 0 0 2px !important;
+    }
+</style>

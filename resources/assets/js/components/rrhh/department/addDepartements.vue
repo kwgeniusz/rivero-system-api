@@ -139,7 +139,7 @@
 
                     axios.post('/departments', params)
                     .then((response) => {
-                        console.log(response)
+                        // console.log(response)
                         // const department = response.data
                         alert("Success")
                         

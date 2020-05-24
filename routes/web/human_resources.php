@@ -48,6 +48,8 @@ Route::get('periods/', function () {
     return view('rrhh.periods.index');
 })->name('periods.index'); 
 Route::get('periods/list/', 'Web\PeriodsController@index');
+Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
+Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PeriodsController@getPayrollNumber');
 Route::post('periods/post', 'Web\PeriodsController@store');
 Route::put('periods/put/{id}', 'Web\PeriodsController@update');
 Route::delete('periods/delete/{id}', 'Web\PeriodsController@destroy');
@@ -74,3 +76,8 @@ Route::get('staff/', function () {
 Route::get('staff/list/', 'Web\HrStaffController@index');
 Route::get('staff/list/combox/', 'Web\HrStaffController@comboBoxMult');
 Route::get('staff/list/comboxDepartment/{id}', 'Web\HrStaffController@comboBoxDeparmet');
+Route::get('staff/list/typepayroll/{id}', 'Web\HrStaffController@comboTypePayroll');
+Route::get('staff/list/positions/{id}', 'Web\HrStaffController@comboPositions');
+Route::post('staff/post', 'Web\HrStaffController@store');
+Route::put('staff/put/{id}', 'Web\ProcessController@update');
+Route::delete('staff/delete/{id}', 'Web\ProcessController@destroy');

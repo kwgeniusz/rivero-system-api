@@ -11,9 +11,9 @@ class hrStaff extends Model
     protected $table      = 'hrstaff';
     protected $primaryKey = 'hrstaffId';
 
-    protected $fillable = ['countryId', 'companyId', 'staffCode', 'firstName', 'lastName', 'shortName',
-    'idDocument', 'passportNumber','legalNumber', 'departmentId', 'hrpositionId', 'baseSalary', 'baseCurrencyId', 'localSalary',
-    'localCurrencyId', 'localDailySalary'];
+    protected $fillable = ['countryId', 'companyId', 'shortName', 'firstName', 'idDocument', 'lastName',
+    'passportNumber', 'legalNumber','staffCode', 'departmentId', 'payrollTypeId', 'positionCode', 'baseSalary', 'baseCurrencyId',
+    'localSalary', 'localCurrencyId', 'localDailySalary', 'excTranTypeCode1', 'excTranTypeCode2', 'excTranTypeCode3', 'status'];
     
 
 

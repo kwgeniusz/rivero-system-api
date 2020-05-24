@@ -40,6 +40,7 @@
                 :nameField15 = nameField15
                 :nameField16 = nameField16
                 :nameField17 = nameField17
+                :nameField18 = nameField18
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -71,6 +72,7 @@
                 :nameField15 = nameField15
                 :nameField16 = nameField16
                 :nameField17 = nameField17
+                :nameField18 = nameField18
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -118,6 +120,7 @@
                 nameField15: "SALARIO LOCAL",
                 nameField16: "MONEDA LOCAL",
                 nameField17: "SALARIO LOCAL DIARIO",
+                nameField18: "Status",
                 
             }
         },

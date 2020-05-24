@@ -90,7 +90,7 @@
                 nameField5: "AÑO",
                 nameField6: "DESDE",
                 nameField7: "HASTA",
-                nameField8: "",
+                nameField8: "NUMERO DE PERÍODO",
                 
             }
         },
@@ -113,7 +113,7 @@
                 this.formStatus = 2
                 // console.log('recibido')
                 this.objEdit = this.objPeriods[index]
-                // console.log( this.objEdit)
+                console.log( this.objEdit)
             },
             delrow(indexId){
                 // console.log(indexId)
