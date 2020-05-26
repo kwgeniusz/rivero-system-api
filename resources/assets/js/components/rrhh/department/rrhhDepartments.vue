@@ -48,7 +48,7 @@
     export default {
         mounted() {
 
-            axios.get('/departments').then((response) => {
+            axios.get('departments').then((response) => {
                 this.objCompanys = response.data
             // console.log(this.objCompanys)
             })
@@ -95,7 +95,7 @@
             showlist(n){
                 
                 this.formStatus = 0
-                axios.get('/departments').then((response) => {
+                axios.get('departments').then((response) => {
                     this.objCompanys = response.data
                     // console.log(this.objCompanys)
                 })

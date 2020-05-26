@@ -2,11 +2,12 @@
 
 @section('content')
 
-<div class="col-xs-12 ">
-<div class="panel panel-default col-xs-12">
-    <div class="panel-body">
+<div class="panel panel-default col-lg-12">
+    <div class="panel-body text-center">
 
-<div class="text-center"><h4><b>{{__('details_contract')}}</b></h4></div>
+<div class="text-center">
+  <h4><b>{{__('details_contract')}}</b></h4>
+</div>
  <div class="table-responsive">
             <table class="table table-striped table-bordered text-center ">
             <thead>
@@ -34,16 +35,13 @@
   </div>
 
      <hr>
-<div class="row ">
-  <div class="col-xs-6 col-xs-offset-3">
-    <h4 class="text-center"><b>{{__('STATUS')}}</b></h4>
 
-
+    <h4><b>{{__('STATUS')}}</b></h4>
       <form class="form" action="{{Route('contracts.updateStatus')}}" method="POST">
        {{csrf_field()}}
         {{method_field('PUT')}}
 
-            <div class="form-group col-xs-6 col-xs-offset-3">
+            <div class="form-group col-lg-6 col-lg-offset-3">
               <label for="contractStatus">{{__('choose_a_status')}}</label>
               <select class="form-control" name="contractStatus" id="contractStatus">
                 @if ($contract[0]->contractStatus == __('vacancies'))
@@ -70,6 +68,7 @@
               </select>
             </div>
            <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">
+
        <div class="row"></div>
        <div class="text-center">
            <button type="submit" class="btn btn-success">
@@ -84,15 +83,7 @@
 
      </form>
 
-
-    </div>
-   </div>
-
-
-
        </div>
     </div>
-  </div>
-
 
 @endsection

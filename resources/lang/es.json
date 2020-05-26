@@ -43,7 +43,6 @@
    "accounts_receivable": "Cuentas por Cobrar",
    "debts_to_pay": "Cuentas por Pagar",
 
-    "departments": "Departamentos",
     "Human Resources": "Recursos Humanos",
     "Type of Payroll": "Tipo de Nomina",
     "Charges": "Cargos",
@@ -62,7 +61,6 @@
     "Registration by Status": "Registro por Status",
     
     "Configuration": "Configuracion",
-    "Company": "Empresa",
     "Countries": "Paises",
     "Offices": "Oficinas",
     "Users": "Usuarios",

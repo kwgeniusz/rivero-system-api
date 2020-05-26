@@ -3,6 +3,7 @@
 @section('content')
 <h3><b>PROPUESTAS</b></h3>
 <h4><b>Precontrato:</b> {{$precontract[0]->preId}}</h4>
+<h4><b>Direccion:</b> {{$precontract[0]->siteAddress}}</h4>
 <h4><b>Cliente:</b> {{$precontract[0]->client->clientName}}</h4>
 
     <div class="row">
@@ -10,7 +11,7 @@
           <div class="text-center">
 
 @if($precontract[0]->contractId == null)
-            <a href="{{route('proposals.create', ['id' => $precontract[0]->precontractId])}}" class="btn btn-success text-center" >
+            <a href="{{route('proposals.create', ['modelType' => 'pre_contract','id' => $precontract[0]->precontractId])}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}} Propuesta
             </a>
@@ -24,6 +25,7 @@
                  <th>N° PROPUESTA</th> 
                  <th>CONDICION DE PAGO</th>
                  <th>FECHA</th>
+                 <th>DESCRIPCION DEL PROYECTO</th>
                  <th>SUB-TOTAL</th>
                  <th>IMPUESTO</th>
                  <th>TOTAL</th>
@@ -41,6 +43,7 @@
                   </td> 
                    <td>{{$proposal->paymentCondition->pCondName}}</td>
                    <td>{{$proposal->proposalDate}}</td>
+                   <td>{{$proposal->projectDescription->projectDescriptionName}}</td>
                    <td>{{$proposal->grossTotal}}</td>
                    <td>{{$proposal->taxAmount}}</td> 
                    <td>{{$proposal->netTotal}}</td> 
@@ -54,12 +57,12 @@
              </a>         
            @endif  
            @if($proposal->netTotal > 0)         
-           <a href="{{route('proposals.payments', ['id' => $proposal->proposalId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+           <a href="{{route('proposals.payments', ['btnReturn' => 'mod_cont','id' => $proposal->proposalId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
             </a> 
            @endif  
 
-            <a href="{{route('proposalsDetails.index', ['id' => $proposal->proposalId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
+            <a href="{{route('proposalsDetails.index', ['btnReturn' => 'mod_cont','modelType' => 'pre_contract','id' => $proposal->proposalId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
               </a>
               <a href="{{route('reports.proposal', ['id' => $proposal->proposalId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">

@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-success col-xs-7">
-    <div class="panel-heading"> <h3><b>Editar Propuesta: N° {{$proposal[0]->propId}}</b></h3></div>
+<div class="col-xs-12 col-lg-8 col-lg-offset-2">
+<div class="panel panel-success">
+    <div class="panel-heading text-center"> <h3><b>Editar Propuesta: N° {{$proposal[0]->propId}}</b></h3></div>
     <div class="panel-body">
 
       <div class="row ">
@@ -21,8 +21,12 @@
   <form class="form" action="{{Route('proposals.update',['id' => $proposal[0]->proposalId])}}" method="POST">
         {{csrf_field()}}
         {{method_field('PUT')}}
-      <input type="hidden" name="precontractId" value="{{$proposal[0]->precontractId}}">
 
+@if($proposal[0]->contractId ==null)       
+      <input type="hidden" name="precontractId" value="{{$proposal[0]->precontractId}}">
+@else
+      <input type="hidden" name="contractId" value="{{$proposal[0]->contractId}}">
+@endif
 
               <div class="form-group">
                 <label for="clientName">CLIENTE:</label>
@@ -31,9 +35,25 @@
 
               <div class="form-group">
                 <label for="address">DIRECCIÓN:</label>
-                <input type="text" class="form-control" id="address" name="address" value="{{ $proposal[0]->precontract->siteAddress}}" disabled="on">
+                 @if($proposal[0]->contractId ==null)       
+                 <input type="text" class="form-control" id="address" name="address" value="{{ $proposal[0]->precontract->siteAddress}}" disabled="on">
+                 @else
+                 <input type="text" class="form-control" id="address" name="address" value="{{ $proposal[0]->contract->siteAddress}}" disabled="on">
+                @endif  
               </div>
 
+         <div class="form-group">
+            <label for="projectDescriptionId">DESCRIPCION DEL PROYECTO</label>
+            <select  class="form-control" name="projectDescriptionId" id="projectDescriptionId" required="on">
+             @foreach($projectDescriptions as $item)
+                   @if ($item->projectDescriptionId == $proposal[0]->projectDescriptionId) 
+                      <option value="{{$item->projectDescriptionId}}" selected>{{$item->projectDescriptionName}}</option>
+                   @else   
+                      <option value="{{$item->projectDescriptionId}}">{{$item->projectDescriptionName}}</option>
+                   @endif   
+                @endforeach</option>
+            </select>
+          </div> 
             <div class="form-group">
             <label for="paymentConditionId">CONDICION DE PAGO</label>
             <select class="form-control" name="paymentConditionId" id="paymentConditionId">
@@ -48,12 +68,12 @@
           </div>
 
         <div class="row">
-          <div class="form-group col-xs-5">
+          <div class="form-group col-xs-12 col-lg-6">
               <label for="preinvoiceDate">FECHA DE LA FACTURA:</label>
               <input class="form-control flatpickr" id="invoiceDate" name="invoiceDate" value="{{ $proposal[0]->proposalDate}}" required> 
             </div>
 
-        <div class="form-group col-xs-4">
+        <div class="form-group col-xs-12 col-lg-6">
             <label for="invoiceTaxPercent">IMPUESTO (%)</label>
             <input type="number" min="0.00" step="0.01" class="form-control" id="invoiceTaxPercent" name="invoiceTaxPercent" value="{{ $proposal[0]->taxPercent}}" required>
         </div>
@@ -63,9 +83,18 @@
               <button type="submit" class="btn btn-primary">
                 <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
               </button>
-              <a href="{{route('proposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
+              <a href="{{URL::previous()}}" class="btn btn-warning">
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+               </a> 
+         {{-- @if($proposal[0]->contractId ==null)   
+           <a href="{{route('proposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
+        @else
+            <a href="{{route('invoices.index', ['id' => $proposal[0]->contractId])}}" class="btn btn-warning">
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+              </a>
+        @endif --}}
             </div>
             </form>
 

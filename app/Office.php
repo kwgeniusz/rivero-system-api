@@ -34,4 +34,8 @@ class Office extends Model
     {
         return $this->hasMany('App\Contract', 'officeId', 'officeId');
     }
+    //  public function contract()
+    // {
+    //     return $this->hasMany('App\Contract', 'officeId', 'officeId');
+    // } 
 }

@@ -27,14 +27,10 @@
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}}
             </a>
-                <a href="{{route('roles.index')}}" class="btn btn-primary text-center" >
+{{--             <a href="{{route('roles.index')}}" class="btn btn-primary text-center" >
                 <span class="fa fa-user-circle" aria-hidden="true"></span>
                    Roles
-            </a>
-                <a href="{{route('permissions.index')}}" class="btn btn-warning text-center" >
-                <span class="fa fa-handshake" aria-hidden="true"></span>
-                   Permisos
-            </a>
+            </a> --}}
      <br> <br>
      
          <div class="table-responsive">
@@ -45,7 +41,7 @@
                  <th>{{__('name')}}</th> 
                  <th>USERNAME</th>
                  <th>{{__('email')}}</th>
-                 <th>ROL</th>
+                 {{-- <th>ROL</th> --}}
                  <th>{{__('actions')}}</th> 
                  </th>
                 </tr>
@@ -57,7 +53,7 @@
                    <td>{{$user->fullName}}</td> 
                    <td>{{$user->userName}}</td>
                    <td>{{$user->email}}</td>
-                   <td>{{$user->getRoleNames()}}</td>
+                   {{-- <td>{{$user->getRoleNames()}}</td> --}}
                    <td>
                     <a href="{{route('users.edit', ['id' => $user->userId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
@@ -65,9 +61,9 @@
                    <a href="{{route('users.show', ['id' => $user->userId])}}" class="btn btn-danger">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                     </a>
-                    <a href="{{route('users.show', ['id' => $user->userId])}}" class="btn btn-success">
-                            <span class="fa fa-handshake" aria-hidden="true"></span>  P.U
-                    </a> 
+                      <a href="{{route('users.permissions', ['id' => $user->userId])}}" class="btn btn-warning text-center" >
+                       <span class="fa fa-handshake" aria-hidden="true"></span> Permisos
+                    </a>
                    </td>
                 </tr>
                 @endforeach

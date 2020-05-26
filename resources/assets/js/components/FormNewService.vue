@@ -2,12 +2,13 @@
 <div>
 
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
- <a class="btn btn-success" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span></a>
+ <a class="btn btn-success" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear Servicio</a>
 
  <sweet-modal ref="modalNewService">
     <form class="form form-prevent-multiple-submits">
 
     <h3 class="bg-success"><b>NUEVO SERVICIO</b></h3>
+
      <br>
        <div class="alert alert-danger" v-if="errors.length">
          <h4>Errores:</h4>
@@ -16,8 +17,8 @@
          </ul>
        </div>
 
-  <div class="col-xs-offset-2 col-xs-8">
 
+  <div class="col-xs-8 col-xs-offset-2">
           <div class="form-group col-xs-8 col-xs-offset-2">
             <label for="hasCost">Tiene Precio?:</label>
             <select v-model="hasCost" class="form-control" name="hasCost" id="hasCost">
@@ -25,26 +26,29 @@
                   <option value="N">NO</option>
             </select>
           </div>
+
          <div class="form-group col-xs-8 col-xs-offset-2">
             <label for="serviceName">NOMBRE DEL SERVICIO</label>
             <input type="text" class="form-control" id="serviceName" name="serviceName" v-model="serviceName" >
           </div> 
-         <div class="form-group col-xs-6 col-xs-offset-3" v-if="hasCost === 'Y'">
+
+         <div class="form-group col-xs-8 col-xs-offset-2" v-if="hasCost === 'Y'">
             <label for="cost1">PRECIO POR SQFT:</label>
             <input type="number" class="form-control" id="cost1" name="cost1" v-model="cost1">
           </div>
-          <div class="form-group col-xs-6 col-xs-offset-3" v-if="hasCost === 'Y'">
+
+          <div class="form-group col-xs-8 col-xs-offset-2" v-if="hasCost === 'Y'">
                 <label for="cost2">PRECIO POR EA:</label>
                 <input type="number" class="form-control" id="cost2" name="cost2" v-model="cost2" >
           </div>
-            <div class="col-xs-12">
-              <a @click="createService()" v-if="btnSubmitForm"  class="btn btn-primary button-prevent-multiple-submits"> <span class="fa fa-check" aria-hidden="true"></span>  GUARDAR</a>
-            </div>
-  </div>
- </form>
-          <br><br><br> <br><br><br>
-</sweet-modal>
 
+  </div>
+          <div class="col-xs-12">
+              <a @click="createService()" v-if="btnSubmitForm"  class="btn btn-primary"> <span class="fa fa-check" aria-hidden="true"></span> GUARDAR</a>
+           </div>
+        
+</form>
+</sweet-modal>
 
 
 </div>   

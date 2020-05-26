@@ -39,15 +39,5 @@ Route::get('offices/{contract}', 'Web\OfficeController@getForCountry')->name('of
 //CONTRACTS
 Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
 Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');
-Route::get('contract-allFiles/{id}/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
 Route::get('precontract-allFiles/{id}/{type}', 'Web\PrecontractController@getFiles')->name('precontract.getFiles');
-
-Route::get('buildingCode', 'Web\BuildingCodeController@index')->name('buildingCode.index');
 //ADMINISTRATION - RECEIVABLE **********************
-Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId')->name('receivables.getForId');
-
-Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');
-Route::post('receivablesConfirmPayment', 'Web\ReceivableController@confirmPayment')->name('receivables.confirmPayment');
-//BANK
-Route::get('banks/country/{countryId}', 'Web\BankController@getForCountry')->name('banks.getForCountry');
-Route::get('banks/account/{bankId}', 'Web\BankController@getAccount')->name('banks.account');

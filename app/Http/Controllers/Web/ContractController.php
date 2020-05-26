@@ -37,7 +37,7 @@ class ContractController extends Controller
         $this->middleware("permission:BCD")->only("details");
         $this->middleware("permission:BCE")->only("changeStatus","updateStatus");
         $this->middleware("permission:BCF")->only("staff");
-        // $this->middleware("permission:BCG")->only("files", "filesAgg");
+        // $this->middleware("permission:BCG")->only("files", "filesAdd");
         $this->middleware("permission:BCH")->only("payment");
         $this->middleware("permission:BCI")->only("destroy");
 
@@ -76,6 +76,7 @@ class ContractController extends Controller
             session('countryId'),
             session('officeId'),
             $request->contractType,
+            $request->projectName,
             $request->contractDate,
             $request->clientId,
             $request->propertyNumber,
@@ -86,8 +87,9 @@ class ContractController extends Controller
             $request->state,
             $request->zipCode,     
             $request->buildingCodeId,
-            $request->projectDescriptionId,
+            $request->groupId,
             $request->projectUseId,
+            $request->constructionType,
             // $request->registryNumber,
             // $request->startDate,
             // $request->scheduledFinishDate,
@@ -104,10 +106,13 @@ class ContractController extends Controller
         return redirect()->route('invoices.create', ['id' => $newContract->contractId])->with($notification);
     }
 
-    public function details($id)
+    public function details(Request $request,$id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-
+          
+          if($request->ajax()){
+                return $contract;
+            }
         return view('module_contracts.contracts.details', compact('contract'));
     }
 
@@ -134,6 +139,7 @@ class ContractController extends Controller
             // $request->countryId,
             // $request->officeId,
             $request->contractType,
+            $request->projectName,
             $request->contractDate,
             $request->clientId,
             $request->propertyNumber,
@@ -144,8 +150,9 @@ class ContractController extends Controller
             $request->state,
             $request->zipCode,     
             $request->buildingCodeId,
-            $request->projectDescriptionId,
+            $request->groupId,
             $request->projectUseId,
+            $request->constructionType,
             // $request->registryNumber,
             // $request->startDate,
             // $request->scheduledFinishDate,
@@ -164,10 +171,15 @@ class ContractController extends Controller
         return redirect()->route('contracts.index')
             ->with($notification);
     }
-    public function show($id)
+    public function show(Request $request,$id)
     {
 
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+
+          if($request->ajax()){
+                return $contract;
+            }
+
         return view('module_contracts.contracts.show', compact('contract'));
 
     }
@@ -232,9 +244,11 @@ class ContractController extends Controller
 
 /** ----------------CONTRACS FINISHED  -------------*/
 
-    public function getContractsFinished()
+    public function getContractsFinished(Request $request)
     {
-        $contracts = $this->oContract->getAllForStatus(Contract::FINISHED,session('countryId'),session('officeId'));
+         $filteredOut = $request->filteredOut;
+
+        $contracts = $this->oContract->getAllForStatus(Contract::FINISHED,$filteredOut,session('countryId'),session('officeId'));
         return view('module_contracts.contractsfinished.index', compact('contracts'));
     }
     public function detailsContractsFinished($id)
@@ -256,9 +270,11 @@ class ContractController extends Controller
 
 /**-----------CONTRACTS CANCELLED-------------*/
 
-    public function getContractsCancelled()
+    public function getContractsCancelled(Request $request)
     {
-        $contracts = $this->oContract->getAllForStatus(Contract::CANCELLED,session('countryId'),session('officeId'));
+         $filteredOut = $request->filteredOut;
+
+        $contracts = $this->oContract->getAllForStatus(Contract::CANCELLED,$filteredOut,session('countryId'),session('officeId'));
         return view('module_contracts.contractscancelled.index', compact('contracts'));
     }
     public function detailsContractsCancelled($id)
@@ -340,14 +356,13 @@ class ContractController extends Controller
 //---------------FILES-----------------------//
     public function files($id)
     {
-
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
 
         return view('module_contracts.contracts.files', compact('contract'));
     }
-    public function fileAgg(Request $request)
+    public function fileAdd(Request $request)
     {
-         $rs = $this->oDocument->insert($request->file,$request->contractId,$request->typeDoc);
+         $rs = $this->oDocument->insertF($request->file,'contract',$request->contractId,$request->typeDoc);
 
        if ($rs->status() == 200) {
           return response('Hello World', 200)
@@ -367,7 +382,7 @@ class ContractController extends Controller
    public function fileDelete($docId) {
     
         $file =  $this->oDocument->findById($docId);
-        $this->oDocument->deleteFile($file[0]->docUrl,$docId);
+        $this->oDocument->deleteF($file[0]->docUrl,$docId);
 
        return redirect()->back();
    }

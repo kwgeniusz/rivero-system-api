@@ -38,13 +38,21 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\TransactionType', 'transactionTypeId', 'transactionTypeId');
     }
+    public function document()
+    {
+        return $this->hasOne('App\Document', 'transactionId', 'transactionId');
+    }
      public function paymentMethod()
     {
         return $this->belongsTo('App\PaymentMethod', 'payMethodId', 'payMethodId');
     }
-    public function bank()
+    public function account()
     {
-        return $this->belongsTo('App\Bank', 'bankId', 'bankId');
+        return $this->belongsTo('App\Account', 'accountId', 'accountId');
+    }
+    public function cashbox()
+    {
+        return $this->hasOne('App\Cashbox', 'cashboxId', 'cashboxId');
     }
      public function invoice()
     {
@@ -88,7 +96,7 @@ class Transaction extends Model
 //--------------------------------------------------------------------
     public function getAll()
     {
-        return $this->orderBy('transactionId', 'ASC')->get();
+        return $this->orderBy('transactionDate', 'ASC')->get();
     }
   //----------------------------------------------------------------------
        public function getAllByInvoice($invoiceId,$countryId,$officeId)
@@ -96,10 +104,10 @@ class Transaction extends Model
         //OJO DEBE LLEVARSE POR SIGNOS 
      $result = Transaction::select()
         ->join('transaction_type', 'transaction_type.transactionTypeId', '=', 'transaction.transactionTypeId')
+        ->where('transaction_type.transactionTypeCode', 'INCOME_INVOICE')
         ->where('transaction.countryId', $countryId) 
         ->where('transaction.officeId',$officeId)
         ->where('transaction.invoiceId',$invoiceId)
-        ->where('transaction_type.transactionTypeCode', 'COLLECTION')
         ->orderBy('transaction.transactionId', 'ASC')
         ->get();
 
@@ -112,7 +120,7 @@ class Transaction extends Model
         $result = $this->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
                       ->where('officeId', $officeId) 
-            ->orderBy('transactionId', 'ASC')
+            ->orderBy('transactionDate', 'DESC')
             ->get();
 
         return $result;
@@ -153,7 +161,7 @@ class Transaction extends Model
     }
 
     //------------------------------------------
-    public function insertT($countryId,$officeId, $transactionTypeId,$description, $payMethodId, $payMethodDetails, $reason, $transactionDate, $amount, $sign, $bankId,$invoiceId,$month,$userId)
+    public function insertT($countryId,$officeId, $transactionTypeId,$description, $payMethodId, $payMethodDetails, $reason, $transactionDate, $amount, $sign,$cashboxId = '' , $accountId = '' ,$invoiceId,$userId,$file = '')
     {
 
         $error = null;
@@ -172,14 +180,19 @@ class Transaction extends Model
             $transaction->transactionDate   = $transactionDate;
             $transaction->amount            = $amount;
             $transaction->sign              = $sign;
-            $transaction->bankId            = $bankId;
+            $transaction->cashboxId         = $cashboxId;
+            $transaction->accountId            = $accountId;
             $transaction->invoiceId         = $invoiceId;
             $transaction->userId            = $userId;
+            $transaction->save();
             
             //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
-            //
 
-            $transaction->save();
+            //AGREGAR DOCUMENTO SI ES DE EGRESO
+            if($sign == '-'){
+            $oDocument = new Document;
+              $rs2 = $oDocument->insertF($file,'transaction',$transaction->transactionId,'transactionsexpenses');
+            }
             
             //REALIZA ACTUALIZACION EN BANCO
             // $oBank = new Bank;
@@ -194,9 +207,9 @@ class Transaction extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'success', 'msj' => 'Transaccion Exitosa'];
+          return $rs  = ['alert' => 'success', 'msj' => 'Transaccion Exitosa','transactionId'=>$transaction->transactionId];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $rs = ['alert' => 'error', 'msj' => $error];
         }
 
     }
@@ -207,9 +220,15 @@ class Transaction extends Model
         DB::beginTransaction();
         try {
             //FALTA QUE CUANDO ELIMINE LA TRANSACION DESCUENTE O SUME DE BANK 
-                $transaction   = Transaction::find($id);
-              //  $oBank = new Bank;
-              //  $oBank->updateBalanceForBank($transaction->sign, $transaction->bankId, $month, $transaction->$amount);
+              $transaction   = Transaction::find($id);
+
+            if($transaction->sign == '-') {
+                $oDocument = new Document;
+                $rs2 = $oDocument->deleteF($transaction->document->docUrl,$transaction->document->docId);
+              }
+                //  $oBank = new Bank;
+                //  $oBank->updateBalanceForBank($transaction->sign, $transaction->bankId, $month, $transaction->$amount);
+
                 $transaction->delete();
 
             $success = true;

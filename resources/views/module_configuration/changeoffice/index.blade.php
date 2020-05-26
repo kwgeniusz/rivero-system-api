@@ -1,17 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="col-xs-12 col-xs-offset-2">
-<div class="panel panel-info col-xs-7">
-    <div class="panel-heading"> <h3><b>Cambiar de Oficina</b></h3></div>
+<div class="col-xs-12 col-lg-7 col-lg-offset-2">
+<div class="panel panel-info">
+    <div class="panel-heading text-center"> <h3><b>Cambiar de Oficina</b></h3></div>
     <div class="panel-body">
-      <div class="row ">
-          <div class="col-xs-12 ">
         <form class="form" action="{{Route('changeOffice.update')}}" method="POST">
         {{csrf_field()}}
  
   
-             <div class="form-group col-xs-8">
+             <div class="form-group col-xs-12 col-lg-7">
                 <label for="user">Usuario</label>
                 <input type="text" class="form-control" id="user" name="user" value="{{ Auth::user()->fullName }}" placeholder="Nombres y Apellidos" disabled="on">
              </div>
@@ -30,8 +28,7 @@
             </div>
 
           </form>
-          </div>
-        </div>
+
 
       </div>
     </div>

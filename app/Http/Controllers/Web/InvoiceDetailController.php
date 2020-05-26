@@ -32,17 +32,16 @@ class InvoiceDetailController extends Controller
         if ($invoice[0]->status == 'CERRADO' || $invoice[0]->status == 'CLOSED') {
              return back()->withInput();
         }
-        return view('module_contracts.invoices.details.index', compact('invoice','contract'));
+
+        $btnReturn = $request->btnReturn;
+        return view('module_contracts.invoices.details.index', compact('invoice','contract','btnReturn'));
     }
 
     public function create(Request $request)
     {
 
         $invoiceNumberFormat = $this->oOfficeConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
-
-        // $projects = $this->oProjectType->getAll();
-        // $services = $this->oServiceType->getAll();
-
+        
         return view('module_contracts.invoices.create', compact('invoiceNumberFormat'));
     }
 

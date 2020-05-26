@@ -57,7 +57,7 @@
             <hr>
             {{-- <li><a href="{{route('contracts.print')}}">{{__('print_contract')}}</a></li> --}}
   @can('BG')<li><a href="{{route('reports.summaryContractForOffice')}}">{{__('contract_summary')}}</a></li>@endcan
-   @can('BG')<li><a href="{{route('contracts.summaryForClient')}}">{{__('client_summary')}}</a></li>
+   @can('BG')<li><a href="{{route('contracts.summaryForClient')}}">Statement Por Cliente</a></li>
    @endcan   
    <br>    
           </ul>
@@ -72,8 +72,15 @@
           </a>
           <ul class="treeview-menu">
      {{-- @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan --}}
+     @can('CB') <li><a href="{{route('invoices.all')}}">Facturas</a></li> @endcan
+     @can('CB') <li><a href="{{route('proposals.all')}}">Propuestas</a></li> @endcan
+     @can('CB') <li><a href="{{route('cashbox.transactions')}}">Caja</a></li> @endcan
+     @can('CB') <li><a href="{{route('banks.transactions')}}">Bancos</a></li> @endcan
      @can('CB') <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li> @endcan
      @can('CC') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
+     @can('CB') <li><a href="#">Cuentas Por Pagar</a></li> @endcan
+     @can('CB') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
+
      {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
      {{-- @can('CE') <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li> @endcan --}}
      {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
@@ -94,7 +101,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="{{route('departments.index')}}">{{__('departments')}}</a></li>
+              <li><a href="{{route('departments.index')}}">Departamentos</a></li>
               <li><a href="{{route('charges.index')}}">{{__('Charges')}}</a></li>
               <li><a href="{{route('payroll_type.index')}}">{{__('Type of Payroll')}}</a></li>
               <li><a href="{{route('transactions_type.index')}}">{{__('Type of Transactions')}}</a></li>
@@ -144,22 +151,16 @@
               </span>
           </a>
           <ul class="treeview-menu">
-           @if(Auth::user()->changeOffice == 'Y')
+      @if(Auth::user()->changeOffice == 'Y')
           <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li>
-            @endif
-            <!-- 
-              @can('FA')  <li><a href="#">{{__('Countries')}}</a></li>@endcan
-              @can('FB')  <li><a href="#">{{__('Offices')}}</a></li>@endcan
-              @can('FC')  <li><a href="{{route('projectDescriptions.index')}}">{{__('types_of_projects')}}</a></li>@endcan
-              @can('FD')  <li><a href="{{route('projectUses.index')}}">{{__('types_of_services')}}</a></li>@endcan 
-            -->
-              <li><a href="{{route('company.index')}}">{{__('Company')}}</a></li>
-              @can('FE')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
-              <li><a href="{{route('services.index')}}">Servicios</a></li>
-              <li><a href="{{route('notes.index')}}">Notas</a></li>
-              <li><a href="{{route('contactTypes.index')}}">Tipo de Contacto(Clientes)</a></li>
+      @endif
+ <li><a href="{{route('company.index')}}">Empresas</a></li>     
+  @can('FA')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
+  @can('FB')  <li><a href="{{route('services.index')}}">Servicios</a></li>@endcan
+  @can('FC')  <li><a href="{{route('notes.index')}}">Notas</a></li>@endcan
+  @can('FD')  <li><a href="{{route('contactTypes.index')}}">Tipo de Contacto(Clientes)</a></li>@endcan
 
-              <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>
+            @can('FE')     <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan
           </ul>
         </li>
  @endcan

@@ -26,15 +26,11 @@ class PrecontractRequest extends FormRequest
         return [
             'precontractDate'        => 'required',
             'clientId'            => 'required',
-            'propertyNumber'      => 'required',
-            'streetName'      => 'required',
-            'streetType'      => 'required',
-            'city'      => 'required',
-            'state'      => 'required',
-            'zipCode'      => 'required',
             'buildingCodeId' => 'required',
+            'groupId'  => 'required',
             'projectUseId' => 'required',
-            'projectDescriptionId' => 'required'
+            'constructionType' => 'required',
+            // 'projectDescriptionId' => 'required'
         ];
     }
 }

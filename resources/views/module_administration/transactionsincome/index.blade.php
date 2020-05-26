@@ -2,9 +2,51 @@
 
 @section('content')
 <span class="logo-lg "><h3><b> TRANSACCIONES DE INGRESO</b></h3></span>
+<div class="text-center">
+ <form class="form" action="{{Route('transactions.filtered',['sign'=>'+'])}}" method="POST">
+        {{ csrf_field() }}
+          <label for="date1">BUSQUEDA GENERAL:</label>
+  <div class="col-xs-12">
+          <div class="form-group col-lg-offset-3 col-lg-3">
+              <select class="form-control" name="filterBy" id="filterBy">
+                   <option value="invId" >N° Factura</option>
+                   <option value="contractNumber" >Cod. de Contrato </option>
+                   <option value="clientCode" >Cod. de Cliente</option>
+                   <option value="clientName" >Nombre de Cliente</option>
+                   <option value="clientPhone" >Telefono de Cliente</option>
+                   <option value="amount" >Monto</option>
+                   <option value="transactionType" >Tipo de Transaccion</option>
+                   <option value="paymentMethod" >Metodo de Pago</option>
+                   <option value="description" >Descripcion</option>
+                   <option value="reason" >Motivo</option>
+                   <option value="responsable" >Responsable</option>
+              </select>
+            </div>
+          <div class="form-group col-lg-3">
+              <input type="text" class="form-control" name="textToFilter" id="textToFilter" autocomplete="off" placeholder="Escriba un valor a buscar">
+            </div>
+   </div>            
+  <div class="col-xs-12">
+          <div class="form-group col-lg-offset-4 col-lg-2">
+              <label for="date1">DESDE:</label> <input class="form-control flatpickr" id="date1" name="date1" value="{{ old('date1') }}" required> 
+            </div>
+            <div class="form-group col-lg-2">
+              <label for="date2">HASTA:</label>
+              <input class="form-control flatpickr" id="date2" name="date2" value="{{ old('date2') }}" required> 
+            </div>
+    </div>
+
+    <input type="hidden" name="sign" value="+">
+
+    <div class="col-xs-12">
+      <button type="submit" class="btn btn-primary">
+        <span class="fa fa-search" aria-hidden="true"></span> Buscar
+      </button>
+    </div>
+ </form>
+.
     <div class="row">
-        <div class="col-xs-12 ">
-            <div class="text-center">
+        <div class="col-xs-12">
             <a href="{{route('transactions.create',['sign'=>'+'])}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}} Ingreso
@@ -15,14 +57,14 @@
             <table class="table table-striped table-bordered text-center">
             <thead class="bg-success">
                 <tr>
-                 <th>ID</th>
+                 <th>#</th>
                  <th>FECHA</th>
                  <th>DESCRIPCION</th>
                  {{-- <th>DETALLES MP</th> --}}
-                 <th>N° FACTURA</th>
+                 <th>FACTURA</th>
                  <th>MOTIVO</th>
                  <th>METODO DE PAGO</th>
-                 <th>BANCO</th>
+                 <th>DESTINO</th>
                  <th>MONTO</th>
                  <th>RESPONSABLE</th>
                  <th>{{__('actions')}}</th>
@@ -43,7 +85,11 @@
                   </td>
                    <td>{{$transaction->reason}}</td>
                    <td>{{$transaction->paymentMethod->payMethodName}}</td>
-                   <td>{{$transaction->bank->bankName}}</td>
+                  @if($transaction->cashboxId == null) 
+                   <td>{{$transaction->account->bank->bankName}}<br> {{$transaction->account->accountCodeId}}</td>
+                  @else
+                   <td>CASHBOX</td>
+                  @endif 
                    <td>{{$transaction->amount}}</td>
                    <td>{{$transaction->user->fullName}}</td>
 
@@ -52,8 +98,8 @@
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a> -->
           @if($transaction->invoice == null)  
-              <a href="{{route('transactions.show', ['sign'=>'+', 'id' => $transaction->transactionId])}}" class="btn btn-danger">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+              <a href="{{route('transactions.show', ['sign'=>'+', 'id' => $transaction->transactionId])}}" class="btn btn-danger" title="{{__('delete')}}">
+                          <span class="fa fa-times-circle" aria-hidden="true"></span> 
                         </a> 
           @endif   
                    </td>
@@ -67,8 +113,9 @@
              <a href="{{route('home')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
-        </div>
+
         </div>
     </div>
+  </div>
 
 @endsection

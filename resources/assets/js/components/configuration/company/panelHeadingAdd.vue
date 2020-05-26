@@ -55,7 +55,7 @@
     export default {
         mounted() {
             // data for combobox
-            axios.get('/companys/contrys').then((response) => {
+            axios.get('companys/contrys').then((response) => {
                 this.objContrys = response.data.map( item => {
                     return { id: item.countryId, vText: item.countryName}
                     })
@@ -145,7 +145,7 @@
                 // console.log(params)
                 document.querySelector("#formSixField").reset()
 
-                axios.post('/companys', params)
+                axios.post('companys', params)
                 .then((response) => {
                     // console.log(response)
                     alert("Success")
@@ -163,7 +163,7 @@
             change4(event){
                 const cb4=event.target.value
                 // newcb4(cb4)
-                axios.get(`/companys/offices/${cb4}`).then((response) => {
+                axios.get(`companys/offices/${cb4}`).then((response) => {
                     this.objOffices = response.data.map( item => {
                     return { id: item.officeId, vText: item.officeName}
                     })

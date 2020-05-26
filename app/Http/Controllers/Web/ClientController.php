@@ -31,12 +31,8 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-
-       $filteredOut = $request->filteredOut;
- 
-
        $clients = Client::orderBy('cltId', 'ASC')
-                         ->filter($filteredOut)
+                         ->filter($request->filteredOut)
                          ->paginate(300);
 
         return view('module_contracts.clients.index', compact('clients'));
@@ -132,9 +128,13 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
         $client = $this->oClient->findById($id,session('countryId'));
+
+           if($request->ajax()){
+              return $client;
+            }
         return view('module_contracts.clients.show', compact('client'));
     }
 

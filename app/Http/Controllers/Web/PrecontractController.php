@@ -47,10 +47,11 @@ class PrecontractController extends Controller
         $this->oPaymentInvoice           = new PaymentInvoice;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $filteredOut = $request->filteredOut;
         //GET LIST PrecontractS for type
-        $precontracts = $this->oPrecontract->getAll(session('countryId'),session('officeId'));
+        $precontracts = $this->oPrecontract->getAll(session('countryId'),session('officeId'), $filteredOut);
 
         return view('module_contracts.precontracts.index', compact('precontracts'));
     }
@@ -71,6 +72,7 @@ class PrecontractController extends Controller
             session('countryId'),
             session('officeId'),
             $request->contractType,
+            $request->projectName,
             $request->precontractDate,
             $request->clientId,
             $request->propertyNumber,
@@ -81,8 +83,10 @@ class PrecontractController extends Controller
             $request->state,
             $request->zipCode,
             $request->buildingCodeId,
+            $request->groupId,
             $request->projectUseId,
-            $request->projectDescriptionId,
+            $request->constructionType,
+            // $request->projectDescriptionId,
             $request->comment,
             $request->currencyId);
 
@@ -121,6 +125,7 @@ class PrecontractController extends Controller
             $request->countryId,
             $request->officeId,
             $request->contractType,
+            $request->projectName,
             $request->precontractDate,
             $request->clientId,
             $request->propertyNumber,
@@ -131,8 +136,9 @@ class PrecontractController extends Controller
             $request->state,
             $request->zipCode,       
             $request->buildingCodeId,
+            $request->groupId,
             $request->projectUseId,
-            $request->projectDescriptionId,
+            $request->constructionType,
             $request->comment,
             $request->currencyId
         );
@@ -181,7 +187,7 @@ class PrecontractController extends Controller
         return view('module_contracts.precontracts.convert', compact('precontract','proposal'));
 
     }
-    public function convertAgg($id)
+    public function convertAdd($id)
     {
         $error = null;
 
@@ -196,6 +202,7 @@ class PrecontractController extends Controller
                 $precontract->countryId,
                 $precontract->officeId,
                 $precontract->contractType,
+                $precontract->projectName,
                 date('m/d/Y'),
                 $precontract->clientId,
                 $precontract->propertyNumber,
@@ -206,8 +213,9 @@ class PrecontractController extends Controller
                 $precontract->state,
                 $precontract->zipCode,     
                 $precontract->buildingCodeId,
-                $precontract->projectDescriptionId,
+                $precontract->groupId,
                 $precontract->projectUseId,
+                $precontract->constructionType,
                 $precontract->comment,
                 $precontract->currencyId
             );
@@ -219,6 +227,7 @@ class PrecontractController extends Controller
                   $contract->officeId,
                   $contract->contractId,
                   $contract->clientId,
+                  $proposal[0]->projectDescriptionId,
                   date('m/d/Y'),
                   '0.00',
                   $proposal[0]->taxPercent,

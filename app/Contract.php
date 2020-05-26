@@ -55,9 +55,9 @@ class Contract extends Model
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
     }
-    public function projectDescription()
+   public function buildingCodeGroup()
     {
-        return $this->belongsTo('App\ProjectDescription', 'projectDescriptionId');
+        return $this->belongsTo('App\BuildingCodeGroup', 'groupId');
     }
     public function projectUse()
     {
@@ -82,6 +82,10 @@ class Contract extends Model
     public function payment()
     {
         return $this->hasMany('App\PaymentInvoice', 'contractId', 'contractId');
+    }
+   public function invoice()
+    {
+        return $this->hasMany('App\Invoice', 'contractId', 'contractId');
     }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -139,42 +143,42 @@ class Contract extends Model
     //     return $newDate;
     // }
 
-    public function getContractStatusAttribute($contractStatus)
-    {
+    // public function getContractStatusAttribute($contractStatus)
+    // {
 
-        if (App::getLocale() == 'es') {
-            switch ($contractStatus) {
-                case 1:
-                    return "VACANTE";
-                    break;
-                case 2:
-                    return "INICIADO";
-                    break;
-                case 3:
-                    return "FINALIZADO";
-                    break;
-                case 4:
-                    return "SUSPENDIDO";
-                    break;
-            }
-        } else {
-            switch ($contractStatus) {
-                case 1:
-                    return "VACANT";
-                    break;
-                case 2:
-                    return "STARTED";
-                    break;
-                case 3:
-                    return "FINISHED";
-                    break;
-                case 4:
-                    return "CANCELLED";
-                    break;
-            }
-        }
+    //     if (App::getLocale() == 'es') {
+    //         switch ($contractStatus) {
+    //             case 1:
+    //                 return "VACANTE";
+    //                 break;
+    //             case 2:
+    //                 return "INICIADO";
+    //                 break;
+    //             case 3:
+    //                 return "FINALIZADO";
+    //                 break;
+    //             case 4:
+    //                 return "SUSPENDIDO";
+    //                 break;
+    //         }
+    //     } else {
+    //         switch ($contractStatus) {
+    //             case 1:
+    //                 return "VACANT";
+    //                 break;
+    //             case 2:
+    //                 return "STARTED";
+    //                 break;
+    //             case 3:
+    //                 return "FINISHED";
+    //                 break;
+    //             case 4:
+    //                 return "CANCELLED";
+    //                 break;
+    //         }
+    //     }
 
-    }
+    // }
   
 //--------------------------------------------------------------------
     /** Mutadores  */
@@ -306,12 +310,13 @@ class Contract extends Model
         return $this->orderBy('contractNumber', 'ASC')->paginate($number);
     }
 //------------------------------------
-    public function getAllForStatus($contractStatus,$countryId,$officeId)
+    public function getAllForStatus($contractStatus,$filteredOut,$countryId,$officeId)
     {
         $result = $this->where('contractStatus', $contractStatus)
             ->where('countryId', $countryId)
             ->where('officeId', $officeId) 
             ->orderBy('contractNumber', 'ASC')
+            ->filter($filteredOut)
             ->get();
 
         return $result;
@@ -333,7 +338,8 @@ class Contract extends Model
 //------------------------------------------
     public function findById($id,$countryId,$officeId)
     {
-        return $this->where('contractId', '=', $id)
+        return $this->with('client','buildingCode','buildingCodeGroup','projectUse')
+                    ->where('contractId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('officeId', $officeId) 
                     ->get();
@@ -359,8 +365,8 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function insertContract($countryId, $officeId, $contractType, $contractDate,
-        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $projectDescriptionId, $projectUseId, $initialComment, $currencyId) {
+    public function insertContract($countryId, $officeId, $contractType,$projectName, $contractDate,
+        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
 
           $oConfiguration = new OfficeConfiguration();
       
@@ -372,6 +378,7 @@ class Contract extends Model
         $contract                      = new Contract;
         $contract->conId               = $contractNumber;
         $contract->contractType        = $contractType;
+        $contract->projectName        = $projectName;
         $contract->contractNumber      = $contractNumberFormat;
         $contract->countryId           = $countryId;
         $contract->officeId            = $officeId;
@@ -385,8 +392,9 @@ class Contract extends Model
         $contract->state               = $state;
         $contract->zipCode             = $zipCode;
         $contract->buildingCodeId         = $buildingCodeId;
-        $contract->projectDescriptionId       = $projectDescriptionId;
-        $contract->projectUseId       = $projectUseId;
+        $contract->groupId                = $groupId;
+        $contract->projectUseId           = $projectUseId;
+        $contract->constructionType       = $constructionType;
         // $contract->registryNumber      = $registryNumber;
         // $contract->startDate           = $startDate;
         // $contract->scheduledFinishDate = $scheduledFinishDate;
@@ -405,14 +413,15 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function updateContract($contractId,$contractType, $contractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $projectDescriptionId, $projectUseId, $initialComment, $currencyId) {
+    public function updateContract($contractId,$contractType,$projectName, $contractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
 
-        $contract                       = contract::find($contractId);
-        $contract->contractType         = $contractType;
+        $contract                         = contract::find($contractId);
+        $contract->contractType           = $contractType;
+        $contract->projectName            = $projectName;
         // $contract->countryId           = $countryId;
         // $contract->officeId            = $officeId;
-        $contract->contractDate         = $contractDate;
-        $contract->clientId             = $clientId;
+        $contract->contractDate           = $contractDate;
+        $contract->clientId               = $clientId;
         $contract->propertyNumber         = $propertyNumber;
         $contract->streetName             = $streetName;
         $contract->streetType             = $streetType;
@@ -420,9 +429,10 @@ class Contract extends Model
         $contract->city                   = $city;
         $contract->state                  = $state;
         $contract->zipCode                = $zipCode;
-        $contract->buildingCodeId       = $buildingCodeId;
-        $contract->projectDescriptionId = $projectDescriptionId;
-        $contract->projectUseId         = $projectUseId;
+        $contract->buildingCodeId         = $buildingCodeId;
+        $contract->groupId                = $groupId;
+        $contract->projectUseId           = $projectUseId;
+        $contract->constructionType       = $constructionType;
         // $contract->registryNumber      = $registryNumber;
         // $contract->startDate           = $startDate;
         // $contract->scheduledFinishDate = $scheduledFinishDate;

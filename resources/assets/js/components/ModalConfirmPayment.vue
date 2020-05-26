@@ -47,11 +47,11 @@
 
           
            <div class="form-group col-xs-8 col-xs-offset-2">
-            <label for="formTargetBankId">BANCO DESTINO</label><br>{{this.bank}}
+            <label for="formTargetBankId">BANCO DESTINO</label><br>{{this.bank}}  
           </div>  
 
            <div class="form-group col-xs-8 col-xs-offset-2">
-            <label for="formTargetBankAccount">CUENTA DE DESTINO</label><br>{{this.receivable.targetBankAccount}}    
+            <label for="formTargetBankAccount">CUENTA DE DESTINO</label><br>{{this.account}}    
                      <!-- <input type="hidden" class="form-control"  v-model="formTargetBankAccount"> -->
           </div> 
 
@@ -62,11 +62,11 @@
           </div>
               <div class="row"></div>
 
-              <a @click="success()" class="btn btn-success">
+              <a @click="success()" v-if="btnSuccess" class="btn btn-success">
                 <span class="fa fa-check" aria-hidden="true"></span>  EXITOSO
               </a>
 
-              <a @click="declined()" class="btn btn-danger">
+              <a @click="declined()" v-if="btnDeclined" class="btn btn-danger">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  DECLINAR
               </a>
 
@@ -89,9 +89,12 @@
            receivable : {},
            paymentMethod: '',
            bank: '',
+           account: '',
+           btnSuccess: false,
+           btnDeclined: false,
               
 
-            formCollectMethod: 1,
+          formCollectMethod: 1,
 
           }
     },
@@ -104,19 +107,26 @@
     },
     props: {
            rId: { type: String},
-           countryId: { type: String}
           },
     methods: {
        openModal: function (){
+             this.btnSuccess = true;
+             this.btnDeclined = true;
+ 
            axios.get('../receivables/get/'+this.rId).then(response => {
-                 this.receivable = response.data
+                 this.receivable        = response.data[0]
+                 console.log(this.receivable)
+
                  this.formCollectMethod = this.receivable.collectMethod
-                 this.paymentMethod=this.receivable.payment_method.payMethodName;
-                 this.bank=this.receivable.bank.bankName;
+                 this.paymentMethod     = this.receivable.payment_method.payMethodName;
+                 this.account           = this.receivable.account.accountCodeId;
+                 this.bank              = this.receivable.bank.bankName;
                 });
             this.$refs.modal.open()
         },
        success: function() {
+             this.btnSuccess = false;
+             this.btnDeclined = false;
             axios.post('../receivablesConfirmPayment',{
                 invoiceId :  this.receivable.invoiceId,
                 receivableId :  this.receivable.receivableId,
@@ -124,6 +134,8 @@
             }).then(response => {
                    if (response.data.alert == "error") {
                        toastr.error(response.data.msj)
+                              this.btnSuccess = true;
+                              this.btnDeclined = true;
                    } else {
                        location.reload();
                        toastr.success(response.data.msj)
@@ -132,6 +144,8 @@
             })
            },
          declined: function() {
+             this.btnSuccess = false;
+             this.btnDeclined = false;
             axios.post('../receivablesConfirmPayment',{
                 invoiceId :  this.receivable.invoiceId,
                 receivableId :  this.receivable.receivableId,
@@ -139,6 +153,8 @@
             }).then(response => {
                    if (response.data.alert == "error") {
                        toastr.error(response.data.msj)
+                              this.btnSuccess = true;
+                              this.btnDeclined = true;
                    } else {
                        location.reload();
                        toastr.success(response.data.msj)

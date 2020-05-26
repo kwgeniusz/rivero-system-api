@@ -19,6 +19,10 @@ class BuildingCode extends Model
     {
         return $this->belongsToMany('App\ProjectUse');
     }
+        public function group()
+    {
+        return $this->hasMany('App\BuildingCodeGroup','buildingCodeId','buildingCodeId');
+    }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------

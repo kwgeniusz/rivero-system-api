@@ -2,13 +2,13 @@
 <template> 
     <div> 
 
-     <vue-upload-previous v-if="typeDoc == 1" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-previous>
+     <vue-upload-previous v-if="typeDoc == 'previous'" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-previous>
  
-     <vue-upload-processed v-if="typeDoc == 2" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-processed>
+     <vue-upload-processed v-if="typeDoc == 'processed'" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-processed>
      
-     <vue-upload-revised v-if="typeDoc == 3" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-revised>
+     <vue-upload-revised v-if="typeDoc == 'revised'" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-revised>
      
-     <vue-upload-ready v-if="typeDoc == 4" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-ready>
+     <vue-upload-ready v-if="typeDoc == 'ready'" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-ready>
 
      <br>
       <div class="table-responsive">
@@ -29,7 +29,7 @@
             <td>{{item.mimeType}}</td>
             <td>{{ item.dateUploaded| moment("MM/DD/YYYY,  h:mm:ss a") }}</td> 
             <td>  
-             <a :href="'../download/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
+             <a :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
                      <span class="fa fa-file" aria-hidden="true"></span> 
             </a>
           <!--    <a @click="editFile(item)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
@@ -104,7 +104,7 @@ export default {
   },
     methods: {
          allFiles: function (){
-            var url ='../contract-allFiles/'+this.contractId+'/'+this.typeDoc;
+            var url ='../contract/'+this.contractId+'/files/'+this.typeDoc;
             axios.get(url).then(response => {
              this.list = response.data
             });

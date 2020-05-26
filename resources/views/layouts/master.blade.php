@@ -27,7 +27,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
-
+<script type="text/javascript">
+//pasando los permisos laravel a Vuejs
+  @auth
+    window.userPermissions = {!! json_encode(Auth::user()->allPermissions, true) !!};
+  @else
+    window.userPermissions = [];
+  @endauth
+</script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -107,16 +114,13 @@ desired effect
 
 
 <!-- REQUIRED JS SCRIPTS -->
-
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/submit.js') }}"></script>
-<script src='https://vjs.zencdn.net/7.6.0/video.min.js'></script>
+<script src='https://vjs.zencdn.net/7.6.0/video.js'></script>
  <script>
 
   //Tooltip Boostrap 3.3
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+  $(function () { $('[data-toggle="tooltip"]').tooltip()})
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {
@@ -131,8 +135,8 @@ desired effect
       dateFormat: "d/m/Y",
     });
   @endif
- // muestra notificaciones de alerta
 
+ // muestra notificaciones de alerta
     @if(Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}";
         switch(type){
@@ -150,9 +154,6 @@ desired effect
                 break;
         }
     @endif
-
-    
    </script>
-
 </body>
 </html>

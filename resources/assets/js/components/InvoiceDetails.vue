@@ -23,9 +23,8 @@
                  </option>
                   }
             </select>
-            <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
-
           </div>
+
 <!-- 
          <div class="form-group col-xs-10">
             <label for="quantity">NOMBRE DEL SERVICIO</label>
@@ -55,11 +54,18 @@
          <div v-if="hasCost" class="form-group col-xs-4 col-xs-offset-4">
                 <label fo> COSTO TOTAL:   {{sumTotal}}</label>
           </div>
-       <div class="form-group col-xs-12 text-center">
-         <button class="btn btn-success" @click.prevent="addRow()"> 
+
+     <div class="row">
+       <div class="text-right col-xs-6">
+         <button class="btn btn-primary" @click.prevent="addRow()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar Renglon
         </button>
        </div>
+      <div class="col-xs-6"> 
+        <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
+       </div>
+    </div>
+
     </form>
 
       <br>
@@ -114,9 +120,9 @@
 
    </div>
        <div class="text-center"> 
-           <a :href="'invoices?id='+invoice[0].contractId" class="btn btn-warning btn-sm">
+        <!--    <a :href="'invoices?id='+invoice[0].contractId" class="btn btn-warning btn-sm">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  Regresar
-          </a>
+          </a> -->
           <a @click.prevent="saveInvoice()" class="btn btn-info btn-sm">
             <span class="fa fa-save" aria-hidden="true"></span>  Guardar Factura
           </a>

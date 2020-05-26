@@ -31,108 +31,117 @@ class UserController extends Controller
         $users = $this->oUser->getAll();
         return view('module_configuration.users.index', compact('users'));
     }
-   /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-    
-        // $clientNumberFormat = $this->oConfiguration->generateClientNumberFormat(Auth::user()->countryId);
-        // $countrys     = Country::all();
-        // $contactTypes = ContactType::all();
-         $roles = Role::all();
-         $permissions = Permission::orderBy('name')->get();
-        return view('module_configuration.users.create',compact('roles','permissions'));
+        return view('module_configuration.users.create');
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        // $this->oUser->insertST(
-        //     $request->serviceTypeName
-        // );
+         $this->validate($request, 
+            [
+            'changeOffice' => 'required',
+            'fullName'     => 'required|string',
+            'userName'     => 'required|string',
+            'email'        => 'string|email|max:255|unique:user',
+            'password'     => 'required|min:6|confirmed',
+            ]);
 
-        // return redirect()->route('services.index')
-        //     ->with('info', 'Tipo de Proyecto Creado');
+        $newUser = $this->oUser->insertU($request->all());
+
+        $notification = array(
+            'message'    => 'Usuario Agregado Exitosamente',
+            'alert-type' => 'success',
+        );
+
+       return redirect()->route('users.index')->with($notification);
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit($userId)
     {
-        // $service = $this->oUser->findById($id);
-        // return view('typesofservices.edit', compact('service'));
+        $user   = $this->oUser->findById($userId);
+        return view('module_configuration.users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        // $this->oUser->updateST($id,
-        //     $request->serviceTypeName
-        // );
+           $this->validate($request, 
+            [
+            'changeOffice' => 'required',
+            'fullName'     => 'required|string',
+            'userName'     => 'required|string',
+            'email'        => 'required|string|email|max:255',
+            ]);
 
-        // return redirect()->route('services.index')
-        //     ->with('info', 'Tipo de Proyecto Actualizado');
+        $this->oUser->updateU($request->all(),$id);
+
+        $notification = array(
+            'message'    => 'Usuario Modificado Exitosamente',
+            'alert-type' => 'success',
+        );
+        return redirect()->route('users.index')
+            ->with($notification);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        // $service = $this->oUser->findById($id);
-        // return view('typesofservices.show', compact('service'));
+
+        //colocar error no puede ser el usuario actual.
+        $user = $this->oUser->findById($id);
+
+           if($request->ajax()){
+              return $user;
+            }
+        return view('module_configuration.users.show', compact('user'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        // $this->oUser->deleteST($id);
-        // return redirect()->route('services.index')
-        //     ->with('info', 'Tipo de Proyecto Eliminado');
+        $this->oUser->deleteU($id);
+        return redirect()->route('users.index')->with('info', 'Usuario Eliminado');
     }
+
 
   public function permissionsOfUser(Request $request)
     {
-     
-         $roles = Role::all();
-         $permissions = Permission::orderBy('name')->get();
-         
-        return view('module_configuration.users.create',compact('roles','permissions'));
+        $user = User::Find($request->userId);
+        $permissions = Permission::orderBy('name')->get();
+        
+        return view('module_configuration.users.permissions',compact('user','permissions'));
 
     }
+  public function addPermissions(Request $request)
+    {
+       
+        $user = User::Find($request->userId);
+        $user->syncPermissions($request->permissions);//borra permisos y coloca los nuevos.
+        $user->countryId    = $request->countryId;
+        $user->officeId     = $request->officeId;
+        $user->changeOffice = $request->changeOffice;
+        $user->save();
 
+          $notification = array(
+            'message'    => 'Se han actualizado los permisos',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->back()->with($notification);
+      //return Redirect::back()->withInput($request->all());
+
+    }
     public function changeOffice(Request $request)
     {
         
     	$country = Country::find($request->countryId);
     	$office  = Office::find($request->officeId);
 
-        session(['countryId' => $country->countryId, 'countryName' => $country->countryName,'countryLanguage' => $country->countryConfiguration->language]);
-        session(['officeId' => $office->officeId, 'officeName' =>$office->officeName]);
+        session(['countryId' => $country->countryId,
+                 'countryName' => $country->countryName,
+                 'countryLanguage' => $country->countryConfiguration->language]);
+
+        session(['officeId' => $office->officeId, 
+                 'officeName' =>$office->officeName]);
 
         $notification = array(
             'message'    => 'Se ha cambiado de Oficina el Usuario',

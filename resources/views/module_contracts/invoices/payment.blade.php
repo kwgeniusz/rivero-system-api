@@ -41,8 +41,7 @@
 
      <hr>
      <h4 class="text-center"><b>CUOTAS</b></h4>
-<br>
-  <div class="col-xs-offset-3 col-xs-5 ">
+  <div class="col-lg-offset-3 col-lg-5 ">
         @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
@@ -55,37 +54,33 @@
       @endif
         </div>
 
-    <div class="row ">
-     <div class="col-xs-12">
-     <div class="text-center">
+    <div class="row text-center">
       <form class="form-inline" action="{{Route('invoices.paymentsAdd')}}" method="POST">
       {{csrf_field()}}
-         <div class="form-group">
+        <input type="hidden" name="invoiceId" value="{{$invoice[0]->invoiceId}}">
+
+         <div class="form-group col-lg-12  col-xs-12">
             <label for="amount" >MONTO</label>
-              <input style=" width:60%" type="number" min='0.01' step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
+              <input type="number" min='0.01' step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
          </div>
-    {{--       <div class="form-group ">
-                <label for="paymentDate">FECHA</label>
-                <input style="width:50%" class="form-control flatpickr" id="paymentDate" name="paymentDate" required autocomplete="off">
-              </div> --}}
-           <input type="hidden" name="invoiceId" value="{{$invoice[0]->invoiceId}}">
+       <br><br>
+        <div class="form-group  col-lg-12  col-xs-12"> 
            <button type="submit" class="btn btn-success">
                  <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Cuota
             </button>
+        </div>
+
         </form>
-   </div>
-    </div>
     </div>
 
 
         <br>
-         <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center ">
+         <div class="table">
+            <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr class="bg-info">
-                 <th>ESTADO</th>
-                 <th>N°</th>
+                 <th>#</th>
                  {{-- <th>FECHA DE CREACION</th> --}}
                  <!-- <th>MONTO INICIAL</th> -->
                  <th>CUOTA</th>
@@ -100,44 +95,54 @@
         ?>
             @foreach($payments as $payment)  
                 <tr>
-                 @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
-                   <td class="bg-info"></td>
-                 @elseif($payment->receivable->recStatusCode == App\Receivable::PROCESS)
-                   <td class="bg-warning"></td>
-                 @elseif($payment->receivable->recStatusCode == App\Receivable::DECLINED)
-                  <td class="bg-danger"></td>
-                 @elseif($payment->receivable->recStatusCode == App\Receivable::SUCCESS)
-                   <td class="bg-success"></td>
-                 @endif
-                 <td>{{ $acum = $acum +1 }}</td>
-                 {{-- <td>{{$payment->paymentDate}}</td> --}}
-                 <!-- <td>{{$payment->amount}}</td>/ -->
+                  <td 
+                   @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
+                     style="background-color: #3c8ddc;color:white" 
+                   @elseif($payment->receivable->recStatusCode == App\Receivable::PROCESS)
+                     style="background-color: #cbb956;color:white" 
+                   @elseif($payment->receivable->recStatusCode == App\Receivable::DECLINED) 
+                     style="background-color: #78341a;color:white" 
+                   @elseif($payment->receivable->recStatusCode == App\Receivable::SUCCESS)
+                     style="background-color: #2ab25b;color:white" 
+                   @endif >{{ $acum = $acum +1 }}
+                </td>
                  <td>{{$payment->receivable->amountDue}}</td>
                  <td>{{$payment->receivable->amountPaid}}</td>
                  <td>
               @if($payment->receivable->paymentInvoiceId == $currentShare)
-                 @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED)  
+
+                 @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED) 
+                     @if($invoice[0]->contract->contractStatus == App\Contract::VACANT || $invoice[0]->contract->contractStatus == App\Contract::STARTED)
                   <form-modal-charge r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></form-modal-charge>
+                    @endif
                  @endif 
-                 @if($payment->receivable->recStatusCode == App\Receivable::PROCESS)  
-                <confirm-payment r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></confirm-payment>
+
+                 @if($payment->receivable->recStatusCode == App\Receivable::PROCESS) 
+                   @if($invoice[0]->contract->contractStatus == App\Contract::VACANT || $invoice[0]->contract->contractStatus == App\Contract::STARTED) 
+                  <confirm-payment r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></confirm-payment>
+                    @endif
                  @endif  
+
               @endif
+
                  @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
+                   @if($invoice[0]->contract->contractStatus == App\Contract::VACANT || $invoice[0]->contract->contractStatus == App\Contract::STARTED)
                   <a href="{{route('invoices.paymentsRemove', [
                   'id' => $payment->paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
+                   @endif
                  @endif
+
                  @if($payment->receivable->recStatusCode != App\Receivable::STATELESS)  
                  <a href="{{route('receivables.printReceipt', [
                   'receivableId' => $payment->receivable->receivableId]) }}" class="btn btn-info btn-sm">
                             <span class="fa fa-file-invoice" aria-hidden="true"></span>  Recibo
                   </a>
-                 @endif  
-                 </td>
+                 @endif 
 
+                 </td>
                 </tr>
                @php  
                  $total = $total + $payment->receivable->amountDue; 
@@ -145,7 +150,6 @@
                 @endphp 
               @endforeach
                   <tr>
-                    <td></td>
                     <td></td>
                     <td><h4 class="text-info" align="center" >Suma de Cuotas: {{$total}} </h3></td>
                     <td><h4 class="text-danger" align="center" >Restante a Pagar: {{$invoiceBalance}}</h4></td>
@@ -156,21 +160,22 @@
      </div>
 
 
-           <div class="text-center">
-             <a href="{{route('invoices.index', ['id' => $invoice[0]->contractId])}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
-
+           <div class="text-center col-xs-12">
               <a href="{{route('reports.statement', ['id' => $invoice[0]->invoiceId])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top">  <span class="fa fa-file-pdf" aria-hidden="true"></span> Estado de cuenta
               </a>
-
-            
                  <a href="{{route('reports.invoice', ['id' => $invoice[0]->invoiceId])}}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                      Factura
                 </a>
-          
-
+               @if($btnReturn == 'mod_cont')
+                  <a href="{{route('invoices.index',['id' => $invoice[0]->contract->contractId])}}" class="btn btn-warning">
+                                 <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+                      </a>
+               @elseif($btnReturn == 'mod_adm')
+                  <a href="{{route('invoices.all')}}" class="btn btn-warning">
+                                 <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+                      </a>
+               @endif
             </div>
 
        </div>

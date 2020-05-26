@@ -1,6 +1,6 @@
 <template>
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-10 ">
                 <div class="panel panel-default">
                     <!-- <div class="panel-heading"><h4>Departamentos</h4></div> -->
 
@@ -72,7 +72,7 @@
             deleteDepartment(index, id){
                 // console.log('index 1: ' + index)
                 if (confirm("Delete?") ){
-                    axios.delete(`/departments/${id}`).then(()=>{
+                    axios.delete(`departments/${id}`).then(()=>{
                         this.$emit('delete',index)
                     })
                 }    

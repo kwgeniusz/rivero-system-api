@@ -9,7 +9,7 @@ Route::resource('precontracts', 'Web\PrecontractController');
 Route::get('precontracts/{precontract}/details', 'Web\PrecontractController@details')->name('precontracts.details');
 //PRECONTRACTS-OPTIONS
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
-Route::post('precontractsConvert/Agg/{id}', 'Web\PrecontractController@convertAgg')->name('precontracts.convertAgg');
+Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAdd')->name('precontracts.convertAgg');
 //PROPOSAL*********
 Route::resource('proposals', 'Web\ProposalController');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
@@ -19,21 +19,24 @@ Route::get('proposalsPayments/{id}', 'Web\ProposalController@payments')->name('p
 Route::post('proposalsPayments/add', 'Web\ProposalController@paymentsAdd')->name('proposals.paymentsAdd');
 Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@paymentsRemove')->name('proposals.paymentsRemove');
 
+Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
+Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
 //CONTRACT*********
 Route::resource('contracts', 'Web\ContractController', ['except' => ['create']]);
 Route::get('contracts/{contract}/details', 'Web\ContractController@details')->name('contracts.details');
 //CONTRACT-OPTIONS
-Route::get('contractsChangeStatus/{contract}/', 'Web\ContractController@changeStatus')->name('contracts.changeStatus');
+Route::get('contractsChangeStatus/{contract}', 'Web\ContractController@changeStatus')->name('contracts.changeStatus');
 Route::put('contractsupdateStatus', 'Web\ContractController@updateStatus')->name('contracts.updateStatus');
 
-Route::get('contractsStaff/{contract}/', 'Web\ContractController@staff')->name('contracts.staff');
+Route::get('contractsStaff/{contract}', 'Web\ContractController@staff')->name('contracts.staff');
 Route::post('contractsStaff/add', 'Web\ContractController@staffAdd')->name('contracts.staffAdd');
 Route::get('contractsStaff/{contractId}/remove/{staffId}', 'Web\ContractController@staffRemove')->name('contracts.staffRemove');
 
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
-Route::post('contractsFileAgg', 'Web\ContractController@fileAgg')->name('contracts.fileAgg');
-Route::get('download/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contracts.fileAdd');
+Route::get('fileDownload/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
 Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
+Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
 //INVOICES*********
 Route::resource('invoices', 'Web\InvoiceController');
 Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
@@ -43,7 +46,7 @@ Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoice
 Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');
 Route::post('invoicesPayments/add', 'Web\InvoiceController@paymentsAdd')->name('invoices.paymentsAdd');
 Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@paymentsRemove')->name('invoices.paymentsRemove');
-
+// Route::get('invoicesFormCharge/{receivableId}/{countryId}', function ($receivableId,$countryId) { return view('module_contracts.invoices.formCharge', compact('receivableId','countryId'));})->name('invoices.formCharge');
 //CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');

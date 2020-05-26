@@ -137,7 +137,7 @@
 
                     document.querySelector("#formDepartment").reset()
 
-                    axios.post('/departments', params)
+                    axios.post('departments', params)
                     .then((response) => {
                         // console.log(response)
                         // const department = response.data

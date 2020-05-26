@@ -1,12 +1,12 @@
 
 <template> 
 
- <div class="panel panel-success col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
+ <div class="panel panel-success col-xs-12 col-lg-8 col-lg-offset-2">
     <div class="panel-body">
 <h4><b>Propuesta N°:</b> {{proposal[0].propId}}</h4>
 <h4><b>Fecha:</b> {{proposal[0].proposalDate | moment("MM/DD/YYYY") }}</h4>
- <a :href="'reportsProposal?id='+proposal[0].proposalId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
-                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
+        <a :href="'reportsProposal?id='+proposal[0].proposalId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
+         <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
                     </a>
 <hr>
     <form class="form">
@@ -23,16 +23,9 @@
                  </option>
                   }
             </select>
-            <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
+          </div>
 
-          </div>
-<!-- 
-         <div class="form-group col-xs-10">
-            <label for="quantity">NOMBRE DEL SERVICIO</label>
-            <input v-model="modelServiceName" type="text" class="form-control" id="serviceName" name="serviceName"  autocomplete="off">
-          </div>
-  -->
-        <div v-if="hasCost" class="form-group col-xs-4">
+        <div v-if="hasCost" class="form-group  col-xs-12 col-lg-4">
             <label for="unit">UNIDAD</label>
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
                 <option value="sqft">sqft</option>
@@ -41,24 +34,32 @@
             </select>
           </div>
 
-           <div v-if="hasCost" class="form-group col-xs-4">
+           <div v-if="hasCost" class="form-group col-xs-12 col-lg-4">
                 <label for="unitCost">PRECIO</label>
                 <input v-model="modelUnitCost" type="number" class="form-control" id="unitCost" name="unitCost" autocomplete="off">
           </div>
 
-          <div v-if="hasCost" class="form-group col-xs-4">
+          <div v-if="hasCost" class="form-group col-xs-12 col-lg-4">
             <label for="quantity">CANTIDAD</label>
             <input v-model="modelQuantity" type="number" class="form-control" id="quantity" name="quantity"  autocomplete="off">
           </div>
 
-         <div v-if="hasCost" class="form-group col-xs-4 col-xs-offset-4">
-                <label fo> COSTO TOTAL:   {{sumTotal}}</label>
+         <div v-if="hasCost" class="form-group col-xs-12 text-center">
+                <label> COSTO TOTAL: {{sumTotal}}</label>
           </div>
-       <div class="form-group col-xs-12 text-center">
-         <button class="btn btn-success" @click.prevent="addRow()"> 
+  
+           
+      <div class="row">
+       <div class="text-right col-xs-6">
+         <button class="btn btn-primary" @click.prevent="addRow()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar Renglon
         </button>
        </div>
+      <div class="col-xs-6"> 
+        <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
+       </div>
+    </div>
+
     </form>
 
       <br>
@@ -114,9 +115,9 @@
 
    </div>
        <div class="text-center"> 
-           <a :href="'proposals?id='+proposal[0].precontractId" class="btn btn-warning btn-sm">
+          <!--  <a href="javascript:window.history.back()" class="btn btn-warning btn-sm">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  Regresar
-          </a>
+          </a> -->
            <a @click.prevent="saveProposal()" class="btn btn-info btn-sm">
                   <span class="fa fa-save" aria-hidden="true"></span>  Guardar Propuesta
           </a>

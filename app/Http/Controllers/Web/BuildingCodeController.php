@@ -20,4 +20,11 @@ class BuildingCodeController extends Controller
 
         return $buildingCodes;
     }
+
+  public function getGroups($buildingCodeId)
+   {
+       $buildingCodeGroups = BuildingCode::find($buildingCodeId)->group()->get();
+
+       return $buildingCodeGroups;
+   }
 }

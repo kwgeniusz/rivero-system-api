@@ -29,6 +29,14 @@ class Client extends Model
     {
         return $this->hasMany('App\Contract', 'clientId', 'clientId');
     }
+    public function invoice()
+    {
+        return $this->hasMany('App\Invoice', 'clientId', 'clientId');
+    }
+    public function proposal()
+    {
+        return $this->hasMany('App\Proposal', 'clientId', 'clientId');
+    }
     public function country()
     {
         return $this->belongsTo('App\Country', 'countryId', 'countryId');
@@ -70,7 +78,8 @@ class Client extends Model
 //------------------------------------------
     public function findById($id,$countryId)
     {
-        return $this->where('clientId', '=', $id)
+        return $this->with('contract','invoice','proposal')
+                    ->where('clientId', '=', $id)
                     ->where('countryId','=', $countryId)
                     ->get();
     }
