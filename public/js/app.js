@@ -86263,11 +86263,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 varFieldFour: this.varFieldFour,
                 varFieldFive: this.varFieldFive,
                 varFieldSix: this.varFieldSix
-                // console.log(params)
-            };document.querySelector("#formSixField").reset();
+            };
+            console.log(params);
 
             axios.post('/companys', params).then(function (response) {
-                // console.log(response)
+                console.log(response);
+                document.querySelector("#formSixField").reset();
                 alert("Success");
             }).catch(function (error) {
                 console.log(error);
@@ -86335,6 +86336,34 @@ var render = function() {
                   staticClass: "form-group",
                   attrs: { for: "field1" },
                   domProps: { textContent: _vm._s(_vm.nameField1) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldOne,
+                      expression: "varFieldOne"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: {
+                    type: "text",
+                    id: "field1",
+                    name: "field1",
+                    placeholder: _vm.nameField1,
+                    required: "required"
+                  },
+                  domProps: { value: _vm.varFieldOne },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldOne = $event.target.value
+                    }
+                  }
                 })
               ]),
               _vm._v(" "),

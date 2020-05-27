@@ -9,7 +9,7 @@
                         <form role="form" v-on:submit.prevent="newValueOfSixField()" id="formSixField" >
                             <div class="form-group col-md-10">
                                 <label for="field1" class="form-group" v-text="nameField1"></label>
-                                <input type="text" v-model="varFieldOne" class="form-control " id="field1" name = "field1" v-bind:placeholder="nameField1" required="required"
+                                <input type="text" v-model="varFieldOne" class="form-control " id="field1" name = "field1" v-bind:placeholder="nameField1" required="required">
 
                             </div>
                             <div class="form-group col-md-8">
@@ -142,12 +142,12 @@
                     varFieldFive:  this.varFieldFive,
                     varFieldSix:  this.varFieldSix,
                 }
-                // console.log(params)
-                document.querySelector("#formSixField").reset()
+                console.log(params)
 
                 axios.post('/companys', params)
                 .then((response) => {
-                    // console.log(response)
+                    console.log(response)
+                    document.querySelector("#formSixField").reset()
                     alert("Success")
                 
                     })
