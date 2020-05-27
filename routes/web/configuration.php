@@ -2,18 +2,18 @@
 
 //ROUTES DE MODULO CONFIGURACION----------------------------------------------------------------------------
 
-
 //CHANGE OFFICE
 Route::get('change-office', function () {return view('module_configuration.changeoffice.index');})->name('changeOffice.index');
 Route::post('change-office', 'Web\UserController@changeOffice')->name('changeOffice.update');
-//PROJECTS DESCRIPTIONS********
-Route::resource('projectDescriptions', 'Web\ProjectDescriptionController', ['except' => ['create']]);
+//BUILDING CODES*************
+Route::get('buildingCode', 'Web\BuildingCodeController@index')->name('buildingCode.index');
+Route::get('buildingCode/{id}/groups', 'Web\BuildingCodeController@getGroups');
 //PROJECT USES*************
 Route::resource('projectUses', 'Web\ProjectUseController', ['except' => ['create']]);
 Route::get('projectUses/{projectUseId}/descriptions', 'Web\ProjectUseController@getProjectDescription');
+//PROJECTS DESCRIPTIONS********
+Route::resource('projectDescriptions', 'Web\ProjectDescriptionController', ['except' => ['create']]);
 //SERVICES********
-// Route::resource('service', 'Web\ServiceController',['except' => ['create']]);
-
 Route::resource('services', 'Web\ServiceController');
 Route::resource('notes', 'Web\NoteController');
 Route::resource('contactTypes', 'Web\ContactTypeController');
@@ -21,7 +21,8 @@ Route::resource('contactTypes', 'Web\ContactTypeController');
 Route::resource('serviceTemplates', 'Web\ServiceTemplateController');
 //USERS
 Route::resource('users', 'Web\UserController');
-Route::resource('users/{userId}/Permissions', 'Web\UserController@permissionsOfUser');
+Route::get('users/{userId}/permissions', 'Web\UserController@permissionsOfUser')->name('users.permissions');
+Route::post('users/{userId}/add/Permissions', 'Web\UserController@addPermissions')->name('users.add.permissions');
 
 Route::resource('roles', 'Web\RolController');
 Route::resource('permissions', 'Web\PermissionController');

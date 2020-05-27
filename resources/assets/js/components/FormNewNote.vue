@@ -2,7 +2,7 @@
 <div>
 
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL NOTA-->
- <a class="btn btn-success" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span></a>
+ <a class="btn btn-success" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear Nota</a>
 
  <sweet-modal ref="modalNewNote">
     <form class="form form-prevent-multiple-submits">

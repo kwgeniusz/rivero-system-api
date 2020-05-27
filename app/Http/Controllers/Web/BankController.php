@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 use App\Bank;
-use App\Country;
+use App\Account;
+use App\Helpers\DateHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth; 
@@ -16,34 +17,13 @@ class BankController extends Controller
     {
         $this->middleware('auth');
         $this->oBank = new Bank;
+        $this->oAccount = new Account;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
-        $banks    = $this->oBank->getAllByOffice(session('officeId'));
-        // $countrys = Country::all();
-   
-        foreach ($banks as $key => $bank) {
-            $saldoActual = $bank['initialBalance']
-                 + $bank['balance01']
-                 + $bank['balance02']
-                 + $bank['balance03']
-                 + $bank['balance04']
-                 + $bank['balance05']
-                 + $bank['balance06']
-                 + $bank['balance07']
-                 + $bank['balance08']
-                 + $bank['balance09']
-                 + $bank['balance10']
-                 + $bank['balance11']
-                 + $bank['balance12'];
-            $banks[$key]['saldoActual'] = number_format($saldoActual, 2, ',', '.');
-        }
-
+        $banks    = $this->oBank->getAllByCountry(session('countryId'));
+        
             if($request->ajax()){
                  return $banks;
             }
@@ -51,104 +31,105 @@ class BankController extends Controller
         return view('module_administration.banks.index', compact('banks'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
 
-        $this->oBank->insertB($request->bankName, session('countryId'));
-        $notification = array(
-            'message'    => "Banco $request->bankName Creado",
-            'alert-type' => 'info',
-        );
-        return redirect()->route('banks.index')
-            ->with($notification);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
+ public function transactions(Request $request) 
+ {
 
-        $bank = $this->oBank->findById($id,session('officeId'));
-        return view('module_administration.banks.edit', compact('bank'));
-    }
+  //esta funcion debe traer las transacciones del año en curso.
+  if($request->method() == 'GET') {
+     $account      = $this->oAccount->getAllByOffice(session('officeId'));
+  }else{
+     $account        = $this->oAccount->findById($request->accountId);
+  }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
+     $transactions      = $account[0]->transaction;
+     $year              = $account[0]->accountBalance[0]->year;
+     $initialBalance    = $account[0]->accountBalance[0]->initialBalance;
+     $balance           = $account[0]->accountBalance[0]->initialBalance;
 
-        $this->oBank->updateB($id, $request->bankName, $request->initialBalance, $request->balance01, $request->balance02, $request->balance03, $request->balance04, $request->balance05,
-            $request->balance06, $request->balance07, $request->balance08, $request->balance09, $request->balance10, $request->balance11, $request->balance12);
+     foreach ($transactions as $transaction) {
+         if($transaction->sign == '+'){
+            $balance       = $balance + $transaction->amount;
+         }elseif($transaction->sign == '-'){
+            $balance       = $balance - $transaction->amount;
+         }
+         $transaction->balance =  number_format((float)$balance, 2, '.', '');
+     }
+  if($request->method() == 'POST') {
+    if($request->date1 || $request->date2 || $request->textToFilter) {
+  
+        //primer filtrado por el select y texto escrito en el formulario.
+      if($request->textToFilter){
+      $transactions = $transactions->filter(function ($transaction) use($request) {
 
-        $notification = array(
-            'message'    => "Banco $request->bankName Actualizado",
-            'alert-type' => 'info',
-        );
-        return redirect()->route('banks.index')
-            ->with($notification);
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
+                  if($transaction->invoiceId != null){     
+                  switch ($request->filterBy) {
+                        case 'contractNumber':
+                              $valorABuscar =  $transaction->invoice->contract->contractNumber;
+                          break;
+                        case 'clientCode':
+                              $valorABuscar =  $transaction->invoice->client->clientCode;
+                          break;
+                        case 'invId':
+                               $valorABuscar = $transaction->invoice->inv;
+                          break;
+                        case 'clientName':
+                              $valorABuscar =  $transaction->invoice->client->clientName;
+                          break;  
+                        case 'clientPhone':
+                              $valorABuscar =  $transaction->invoice->client->clientPhone;
+                          break;
+                         case 'amount':
+                               $valorABuscar = $transaction->amount;
+                              // echo $valorABuscar;
+                          break;
+                         case 'responsable':
+                               $valorABuscar = $transaction->user->fullName;
+                          break;   
+                      }
+                $coincidencia = stripos($valorABuscar, $request->textToFilter);
 
-        $bank = $this->oBank->findById($id,session('officeId'));
-        return view('module_administration.banks.show', compact('bank'));
-    }
+               if ($coincidencia !== false) { 
+                   return $transaction;
+              } 
+           }
+     });
+  } //fin del primer filtrado
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
+    //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
+  if($request->date1 && $request->date2) {
+    $transactions = $transactions->filter(function ($transaction) use($request) {
+   
+               $oDateHelper = new DateHelper;
+               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+               $date1                 = $oDateHelper->$functionRs($request->date1);
+               $date2                 = $oDateHelper->$functionRs($request->date2);
+               $transactionDate       = $oDateHelper->$functionRs($transaction->transactionDate);
 
-       $result = $this->oBank->deleteB($id);
+              $date_inicio = strtotime($date1);
+              $date_fin    = strtotime($date2);
+              $date_nueva  = strtotime($transactionDate);
 
-        $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
-        );
-        return redirect()->route('banks.index')
-            ->with($notification);
+               // esta dentro del rango
+              if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
+                 return $transaction;
+              }
+     });
+ }//fin del segundo filtrado
+}//fin de toda la cadena de filtrados
 
-    }
+}//fin de method post
+
+     return view('module_administration.banks.transactions', compact('transactions','initialBalance','year'));
+
+ }
+   
+
 //-------QUERYS ASINCRONIOUS-----------------//
-    public function getForCountry($officeId)
-    {
-        $banks = Bank::select('bankId', 'bankName', 'bankAccount')
-            ->where('officeId', $officeId)
-            ->orderBy('bankName', 'ASC')
-            ->get();
-        return json_encode($banks);
-    }
-    public function getAccount($bankId)
-    {
 
-        $account = Bank::select('bankAccount')
-            ->where('bankId', $bankId)
-            ->get();
-        return json_encode($account);
+   public function getAllByOffice()
+    {
+        $banks    = $this->oBank->getAllByOffice(session('officeId'));
+        return $banks;
     }
-
 }

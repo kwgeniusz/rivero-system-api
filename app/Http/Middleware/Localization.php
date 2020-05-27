@@ -18,9 +18,9 @@ class Localization
      */
     public function handle($request, Closure $next)
     {   
-        //si en la variable global session existe un indice llamado language
-        //ejecuta una asignacion de ese language a Locale en config laravel
-     //nota:session::has('language') viene de lo que el usuario escoge en el  menu el idioma eso pasa a la route y luego alli se asigna ese valor a session
+    //si en la variable global session existe un indice llamado language
+    //ejecuta una asignacion de ese language a Locale en config laravel
+    //nota:session::has('language') viene de lo que el usuario escoge en el  menu el idioma eso pasa a la route y luego alli se asigna ese valor a session
         if (Session::has('language')) {
              App::setLocale(Session::get('language'));
              setlocale(LC_TIME, Session::get('language'));//para idiomas
@@ -34,8 +34,7 @@ class Localization
                       'countryName' => Auth::user()->country->countryName,
                       'countryLanguage' => Auth::user()->country->countryConfiguration->language
                     ]); 
-
-              session(['officeId' => Auth::user()->countryId,
+              session(['officeId' => Auth::user()->officeId,
                        'officeName' => Auth::user()->office->officeName
                       ]);
           }

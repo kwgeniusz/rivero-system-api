@@ -24,13 +24,28 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         $services = $this->oService->getAllByOffice(session('officeId'));
-
+        
            if($request->ajax()){
                 return $services;
             }
-      // return view('typesofservices.index', compact('services'));
+
+        $servicesWithPrice  = $services->filter(function($service){
+            return $service->hasCost == 'Y';
+           });   
+       $servicesWithoutPrice  = $services->filter(function($service){
+            return $service->hasCost == 'N';
+           });  
+
+        return view('module_configuration.services.index', compact('servicesWithPrice','servicesWithoutPrice'));
+     
     }
 
+    public function create(Request $request)
+    {
+        $hasCost = $request->hasCost;
+
+        return view('module_configuration.services.create', compact('hasCost'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -41,8 +56,14 @@ class ServiceController extends Controller
     {
 
        if($request->hasCost == 'Y') {
+          $this->validate($request, 
+            ['serviceName' => 'required',
+             'cost1' => 'required',
+             'cost2' => 'required']);
             $unit1 = 'sqft'; $unit2 = 'ea';
         }else {
+           $this->validate($request, 
+            ['serviceName' => 'required']);  
             $unit1 = 'N'; $unit2 = 'N';
         }
 
@@ -57,7 +78,7 @@ class ServiceController extends Controller
             $request->cost2
         );
         return redirect()->route('services.index')
-            ->with('info', 'Tipo de Proyecto Creado');
+            ->with('info', 'Servicio Nuevo Creado');
     }
     /**
      * Show the form for editing the specified resource.
@@ -68,7 +89,7 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = $this->oService->findById($id);
-        return view('typesofservices.edit', compact('service'));
+        return view('module_configuration.services.edit', compact('service'));
     }
 
     /**
@@ -78,14 +99,28 @@ class ServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        $this->oService->updateS($id,
-            $request->serviceTypeName
+
+       if($request->hasCost == 'Y') {
+          $this->validate($request, 
+            ['serviceName' => 'required',
+             'cost1' => 'required',
+             'cost2' => 'required']);
+        }else {
+           $this->validate($request, 
+            ['serviceName' => 'required']);  
+        }
+
+        $this->oService->updateS(
+            $id,
+            $request->serviceName,
+            $request->cost1,
+            $request->cost2
         );
 
         return redirect()->route('services.index')
-            ->with('info', 'Tipo de Proyecto Actualizado');
+            ->with('info', 'Servicio Actualizado con exito');
     }
 
     /**
@@ -102,7 +137,7 @@ class ServiceController extends Controller
                 return $service;
             }
 
-        return view('typesofservices.show', compact('service'));
+        return view('module_configuration.services.show', compact('service'));
     }
 
     /**
@@ -115,6 +150,6 @@ class ServiceController extends Controller
     {
         $this->oService->deleteS($id);
         return redirect()->route('services.index')
-            ->with('info', 'Tipo de Proyecto Eliminado');
+            ->with('success', 'Servicio Eliminado');
     }
 }

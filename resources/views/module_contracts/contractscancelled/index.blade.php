@@ -2,12 +2,25 @@
 
 @section('content')
     <h3 class="text-danger"><b>CONTRATOS SUSPENDIDOS</b></h3>
+
+     <div class="row ">
+      <div class="col-xs-12 text-center">
+      <form class="form-inline" action="{{Route('contracts.cancelled')}}" method="GET">
+
+         <div class="form-group">
+           <label for="filteredOut"></label>
+           <input type="text" class="form-control" name="filteredOut" id="filteredOut" placeholder="Filtrado" autocomplete="off">
+         </div>
+          <button type="submit" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Buscar">
+                <span class="fa fa-search" aria-hidden="true"></span>
+           </button>
+        </form>
+      </div>
+    </div>
+
     <br>
     <div class="row">
         <div class="col-xs-12 ">
-
-
-
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
             <thead class="bg-danger">
@@ -18,7 +31,7 @@
                         <th>{{__('name')}}</th>   
                         <th>{{__('address')}}</th>
                         <th>BUILDING CODE</th>
-                        <th>DESCRIPTION</th>
+                        {{-- <th>DESCRIPTION</th> --}}
                         <th>USO</th>
                         <th>TIPO</th>
                         <th>{{__('status')}}</th>
@@ -41,7 +54,7 @@
                         {{$contract->state}}
                         {{$contract->zipCode}}   </td>
                     <td>{{$contract->buildingCode->buildingCodeName}}   </td>
-                    <td>{{$contract->projectDescription->projectDescriptionName}}   </td>
+                    {{-- <td>{{$contract->projectDescription->projectDescriptionName}}   </td> --}}
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
                     <td>{{$contract->contractStatus}}   </td>
@@ -54,6 +67,11 @@
                     <a href="{{route('contracts.cancelledDetails', ['id' => $contract->contractId])}}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
                         <span class="fa fa-search" aria-hidden="true"></span>  
                     </a>
+                     @can('BCH')
+                        <a href="{{url("invoices?id=$contract->contractId")}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
+                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
+                    </a>
+                    @endcan
                       @can('BCG') 
                     <a href="{{route('contracts.files', ['id' => $contract->contractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                      <span class="fa fa-file" aria-hidden="true"></span> 

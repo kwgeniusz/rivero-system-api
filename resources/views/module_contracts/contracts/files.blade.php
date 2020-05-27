@@ -53,25 +53,25 @@
     <div role="tabpanel" class="tab-pane active" id="previous">
         <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="1"></grid-files>
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="previous"></grid-files>
    </div> <!--tab 1 final-->
 
     <div role="tabpanel" class="tab-pane" id="processed">
       <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="2"></grid-files>
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="processed"></grid-files>
   </div>  <!--tab 2 final-->
 
     <div role="tabpanel" class="tab-pane" id="revised">
       <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="3"></grid-files>
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="revised"></grid-files>
   </div>  <!--tab 3 final-->
 
     <div role="tabpanel" class="tab-pane" id="ready">
       <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="4"></grid-files>
+        <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="ready"></grid-files>
   </div>  <!--tab 4 final-->
 
 </div><!--tab container final-->

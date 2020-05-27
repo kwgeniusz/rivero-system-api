@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-danger col-xs-7">
-    <div class="panel-heading"> <h3><b>¿Desea Eliminar Esta Transaccion de Ingreso?</b></h3></div>
+<div class="col-xs-12 col-lg-7 col-lg-offset-2">
+<div class="panel panel-danger ">
+    <div class="panel-heading text-center"> <h3><b>¿Desea Eliminar Esta Transaccion de Ingreso?</b></h3></div>
     <div class="panel-body">
       <div class="row ">
           <div class="col-xs-12 ">
@@ -34,19 +34,35 @@
                 <input type="text" class="form-control" id="amount" name="amount" value="{{$transaction[0]->amount}}"  disabled>
               </div>
 
-              <div class="col-xs-6">
-              <div class="form-group">
-                <label for="bankId">BANCO</label>
-                <input type="text" class="form-control" id="bankId" name="bankId" value="{{$transaction[0]->bank->bankName}}"  disabled>
-              </div>
-            </div>
+    @if($transaction[0]->cashboxId == null) 
+                  <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="bankId">BANCO </label>
+                    <input type="text" class="form-control" id="bankId" name="bankId" value="{{$transaction[0]->account->bank->bankName}}"  disabled>
+                  </div>
+                </div>
+            <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="accountId">CUENTA DESTINO</label>
+                    <input type="text" class="form-control" id="accountId" name="accountId" value="{{$transaction[0]->account->accountCodeId}}"  disabled>
+                  </div>
+                </div>
+     @else
+        <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="bankId">DESTINO</label>
+                    <input type="text" class="form-control" id="bankId" name="bankId" value="CAJA"  disabled>
+                  </div>
+                </div>
+     @endif 
+      
             <div class="col-xs-6">
               <div class="form-group">
-                <label for="reference">REFERENCIA</label>
-                <input type="email" class="form-control" id="reference" name="reference" value="{{$transaction[0]->reference}}"  disabled>
+                <label for="reference">MOTIVO</label>
+                <input type="email" class="form-control" id="reference" name="reference" value="{{$transaction[0]->reason}}"  disabled>
               </div>
             </div>
-
+<div class="row"></div>
             <div class="text-center">
               <button type="submit" class="btn btn-danger">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}

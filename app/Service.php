@@ -4,14 +4,19 @@ namespace App;
 
 use Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
 
     protected $table      = 'service';
     protected $primaryKey = 'serviceId';
     protected $fillable   = ['serviceId', 'serviceName', 'hasCost', 'unit1','unit2','cost1','cost2','variableName'];
+
+    protected $dates = ['deleted_at'];
 
     // protected $appends = ['cost1','cost2'];
 //--------------------------------------------------------------------
@@ -77,10 +82,12 @@ class Service extends Model
         $service->save();
     }
 //------------------------------------------
-    public function updateS($serviceId, $serviceName)
+    public function updateS($serviceId,$serviceName,$cost1 ='',$cost2 = '')
     {
         $this->where('serviceId', $serviceId)->update(array(
             'serviceName' => $serviceName,
+            'cost1' => $cost1,
+            'cost2' => $cost2,
         ));
     }
 //------------------------------------------

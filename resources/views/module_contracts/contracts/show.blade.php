@@ -2,9 +2,9 @@
 
 @section('content')
 
-<div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-danger col-xs-7">
-    <div class="panel-heading"> <h3><b>{{__('Are You Sure to Eliminate this Contract?')}}</b></h3></div>
+<div class="col-xs-12 col-lg-7 col-lg-offset-1">
+<div class="panel panel-danger ">
+    <div class="panel-heading text-center"> <h3><b>{{__('Are You Sure to Eliminate this Contract?')}}</b></h3></div>
     <div class="panel-body">
 
       <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('contracts.destroy',['id' => $contract[0]->contractId])}}" method="POST">
@@ -58,12 +58,12 @@
             <p class="form-control-static">{{ $contract[0]->siteAddress }}</p>
           </div>
         </div>
-          <div class="form-group">
+ {{--          <div class="form-group">
           <label class="col-sm-5 control-label">DESCRIPCION DE PROYECTO</label>
           <div class="col-sm-7">
             <p class="form-control-static">{{ $contract[0]->projectDescription->projectDescriptionName }}</p>
           </div>
-        </div>
+        </div> --}}
          <div class="form-group">
           <label class="col-sm-5 control-label">USO DE PROYECTO</label>
           <div class="col-sm-7">
@@ -138,7 +138,7 @@
 
 
 
-            <div class="text-center">
+            <div class="col-xs-12 text-center">
               <button type="submit" class="btn btn-danger  button-prevent-multiple-submits">
                 <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
               </button>

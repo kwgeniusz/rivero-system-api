@@ -60,7 +60,7 @@
     export default {
         mounted() {
             
-            axios.get('/companys').then((response) => {
+            axios.get('companys').then((response) => {
                 this.objCompanys = response.data
             // console.log(this.objCompanys)
             })
@@ -107,7 +107,7 @@
             showlist(n){
                 
                 this.formStatus = n
-                axios.get('/companys').then((response) => {
+                axios.get('companys').then((response) => {
                     this.objCompanys = response.data
                     console.log(this.objCompanys)
                 })

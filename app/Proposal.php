@@ -17,7 +17,7 @@ class Proposal extends Model
 
     protected $table      = 'proposal';
     protected $primaryKey = 'proposalId';
-    protected $fillable = ['proposalId','propId','countryId','officeId','contractId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
+    protected $fillable = ['proposalId','propId','countryId','officeId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
 
      protected $appends = ['grossTotal','taxAmount','netTotal'];
      protected $dates = ['deleted_at'];
@@ -31,7 +31,19 @@ class Proposal extends Model
     }
     public function precontract()
     {
-        return $this->belongsTo('App\Precontract', 'precontractId');
+        return $this->belongsTo('App\Precontract', 'precontractId','precontractId');
+    }
+     public function contract()
+    {
+        return $this->belongsTo('App\Contract', 'contractId','contractId');
+    }
+      public function projectDescription()
+    {
+        return $this->belongsTo('App\ProjectDescription', 'projectDescriptionId');
+    }
+   public function invoice()
+    {
+        return $this->belongsTo('App\Invoice', 'invoiceId','invoiceId');
     }
     public function currency()
     {
@@ -104,14 +116,39 @@ class Proposal extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+    
+  public function getAllByOffice($officeId)
+    {
+        return $this->where('officeId' , '=' , $officeId)
+            ->orderBy('proposalDate', 'DESC')
+            ->get();
+    }   
+
+    public function getAllByContract($contractId)
+    {
+        $result = $this->where('contractId', $contractId)
+            ->orderBy('proposalId', 'ASC')
+            ->get();
+
+        return $result;
+    }   
+
     public function getAllByPrecontract($precontractId)
     {
-        $result = $this->where('precontractId', $precontractId)
+        $result = $this->with("paymentCondition",'projectDescription')
+            ->where('precontractId', $precontractId)
             ->orderBy('proposalId', 'ASC')
             ->get();
 
         return $result;
     }
+    //------------------------------------------
+    // public function findByPrecontract($precontractId)
+    // {
+    //     return $this->where('precontractId', '=', $precontractId)
+    //                 ->where('deleted_at', null)
+    //                 ->get();
+    // }
 //------------------------------------------
     public function findById($id,$countryId,$officeId)
     {
@@ -120,27 +157,27 @@ class Proposal extends Model
                     ->where('officeId', $officeId) 
                     ->get();
     }
-    //------------------------------------------
-    public function findByPrecontract($precontractId)
-    {
-        return $this->where('precontractId', '=', $precontractId)
-                    ->where('deleted_at', null)
-                    ->get();
-    }
 //------------------------------------------
-    public function insertProp($countryId,$officeId,$precontractId,$clientId, $proposalDate,$taxPercent,$paymentConditionId,$status) {
+    public function insertProp($countryId,$officeId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status) {
 
           $oConfiguration = new OfficeConfiguration();
           $propId = $oConfiguration->retrieveProposalNumber($countryId, $officeId);
           $propId++;
                     $oConfiguration->increaseProposalNumber($countryId, $officeId);
 
+
+
         $proposal                   = new Proposal;
         $proposal->propId           =  $propId;
         $proposal->countryId        =  $countryId;
         $proposal->officeId         =  $officeId;
-        $proposal->precontractId    =  $precontractId;
+        if($modelType == 'pre_contract'){
+          $proposal->precontractId    =  $modelId;
+        }else{
+          $proposal->contractId       =  $modelId;
+        }
         $proposal->clientId         =  $clientId;
+        $proposal->projectDescriptionId     =  $projectDescriptionId;
         $proposal->proposalDate     =  $proposalDate;
         $proposal->grossTotal       =  '0.00';
         $proposal->taxPercent       =  $taxPercent;
@@ -154,16 +191,20 @@ class Proposal extends Model
 
     }
     //------------------------------------------
-    public function updateProposal($proposalId, $paymentConditionId, $proposalDate, $taxPercent) {
+    public function updateProposal($proposalId, $paymentConditionId,$projectDescriptionId, $proposalDate, $taxPercent) {
 
         $proposal                     = proposal::find($proposalId);
         $proposal->pCondId            = $paymentConditionId;
+        $proposal->projectDescriptionId     =  $projectDescriptionId;
         $proposal->proposalDate       = $proposalDate;
         $proposal->taxPercent         = $taxPercent;
         $proposal->save();
 
          //para ajustar los montos de la propuesta segundo el porcentaje indicado
          $this->updateProposalTotal('+', $proposalId, '0');
+
+
+         return $proposal;
 
     }
   //-------------------------------------------------

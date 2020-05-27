@@ -343,7 +343,7 @@ export default {
     return {
       files1: [],
       accept: '',
-      extensions: 'gif,jpg,jpeg,png,webp,pdf,doc,docx,ppt,pptx,xls,xlsx,mp4,mov,mp3,dwg,dxf,dwf,bin,bak,HEIC,zip,tif',                                                                                                                                                                                                                                                                                                                 
+     extensions: 'gif,jpg,jpeg,png,webp,pdf,doc,docx,ppt,pptx,xls,xlsx,mp4,mov,mp3,dwg,dxf,dwf,bin,bak,HEIC,heic, heif,zip,tif,skp',                                                                                                                                                                                                                                                                                                                                                                                                                                            
       // extensions: ['gif', 'jpg', 'jpeg','png', 'webp'],
       // extensions: /\.(gif|jpe?g|png|webp)$/i,
       minSize: 1024,
@@ -355,8 +355,8 @@ export default {
       addIndex: false,
       thread: 3,
       name: 'file1',
-      postAction: '../contractsFileAgg',
-      putAction: '../contractsFileAgg',
+      postAction: '../contractsFileAdd',
+      putAction: '../contractsFileAdd',
       headers: {
          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
       },

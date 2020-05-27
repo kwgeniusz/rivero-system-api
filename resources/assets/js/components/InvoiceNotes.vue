@@ -21,12 +21,16 @@
            -->
 
            
-       <div class="form-group text-center col-xs-12">
+       <div class="row">
+       <div class="text-right col-xs-6">
          <button class="btn btn-primary" @click.prevent="addRow()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar Nota
          </button>
-          <form-new-note pref-url='' @notecreated='getAllNotes()'></form-new-note>
        </div>
+       <div class="col-xs-6">
+         <form-new-note pref-url='' @notecreated='getAllNotes()'></form-new-note>
+       </div>   
+    </div>
 
     <div class="col-xs-12 text-left">
           <h4><b>Terminos y Condiciones</b></h4>

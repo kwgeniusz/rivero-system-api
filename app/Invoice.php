@@ -40,11 +40,15 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\Contract', 'contractId');
     }
+      public function projectDescription()
+    {
+        return $this->belongsTo('App\ProjectDescription', 'projectDescriptionId');
+    }
      public function note()
     {
       return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
     }
-       public function invoiceStatus()
+     public function invoiceStatus()
     {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
          $relation = $this->hasMany('App\InvoiceStatus', 'invStatusCode','invStatusCode');
          //hace el filtrado por el idioma
@@ -52,9 +56,13 @@ class Invoice extends Model
          //esto maneja los datos por el idioma que escpga el usuario
          return $relation->where('language',App::getLocale());
     }
-  public function paymentCondition()
+    public function paymentCondition()
     {
       return $this->belongsTo('App\PaymentCondition', 'pCondId', 'pCondCode');
+    }
+    public function receivable()
+    {
+      return $this->hasMany('App\Receivable', 'invoiceId', 'invoiceId');
     }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -109,6 +117,13 @@ class Invoice extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+     public function getAllByOffice($officeId)
+    {
+        return $this->where('officeId' , '=' , $officeId)
+            ->orderBy('invoiceDate', 'DESC')
+            ->get();
+    }   
+    
     public function getAllByContract($contractId)
     {
         $result = $this->where('contractId', $contractId)
@@ -141,7 +156,7 @@ class Invoice extends Model
     }
 
 //------------------------------------------
-    public function insertInv($countryId,$officeId,$contractId,$clientId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode) {
+    public function insertInv($countryId,$officeId,$contractId,$clientId,$projectDescriptionId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode) {
 
           $oConfiguration = new OfficeConfiguration();
           $invId = $oConfiguration->retrieveInvoiceNumber($countryId, $officeId);
@@ -154,6 +169,7 @@ class Invoice extends Model
         $invoice->officeId         =  $officeId;
         $invoice->contractId       =  $contractId;
         $invoice->clientId         =  $clientId;
+        $invoice->projectDescriptionId     =  $projectDescriptionId;
         $invoice->invoiceDate      =  $invoiceDate;
         $invoice->grossTotal       =  $grossTotal;
         $invoice->taxPercent       =  $taxPercent;
@@ -177,10 +193,11 @@ class Invoice extends Model
     }
 
    //------------------------------------------
-    public function updateInvoice($invoiceId, $paymentConditionId, $invoiceDate, $taxPercent) {
+    public function updateInvoice($invoiceId, $paymentConditionId,$projectDescriptionId, $invoiceDate, $taxPercent) {
 
         $invoice                     = invoice::find($invoiceId);
         $invoice->pCondId            = $paymentConditionId;
+        $invoice->projectDescriptionId     =  $projectDescriptionId;
         $invoice->invoiceDate        = $invoiceDate;
         $invoice->taxPercent         = $taxPercent;
         $invoice->save();

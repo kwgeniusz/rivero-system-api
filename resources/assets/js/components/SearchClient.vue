@@ -1,7 +1,7 @@
 <template>
 <div>
 <!-- INPUT BUSCADOR DE CLIENTES AJAX-->
-    <div class="form-group col-xs-7">
+    <div class="form-group col-xs-9 col-lg-7 ">
         <label for="clientName">CLIENTE</label>
       
         <div class="input-group">

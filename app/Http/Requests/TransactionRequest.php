@@ -23,6 +23,7 @@ class TransactionRequest extends FormRequest
      */
     public function rules()
     {
+        
         return [
             'description' => 'required|max:100',
             'payMethodDetails' => 'required|max:100',
@@ -30,7 +31,6 @@ class TransactionRequest extends FormRequest
             'transactionDate' => 'required|',
             'amount' => 'required|numeric',
             // 'file' => 'required|image',
-
         ];
     }
 }

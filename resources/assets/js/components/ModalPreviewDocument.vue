@@ -9,7 +9,9 @@
             <b> Previzualicion Del Documento.</b>
            <br /><br />
            <div class="embed-responsive embed-responsive-4by3 iframe" v-if="showModal">
-            <center><iframe class="iframe" :src="url" frameborder="0"></iframe></center>
+            <center>
+              <iframe class="iframe" :src="url" frameborder="0"></iframe>
+            </center>
          </div>
      </sweet-modal>
 
@@ -35,21 +37,11 @@
   computed: {
     url: function () {
 
-      if(this.typeContract == 'precontracts') { 
           if(this.ext == 'docx' || this.ext == 'pptx'|| this.ext == 'xls'){
              return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/'+this.url
           }else{ 
              return window.location.protocol+'//'+window.location.host+'/storage/'+this.docUrl
            }
-        }else{
-            if(this.ext == 'docx' || this.ext == 'pptx'|| this.ext == 'xls'){
-             return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/'+this.url
-          }else{ 
-             return window.location.protocol+'//'+window.location.host+'/storage/'+this.docUrl
-           }
-
-        }
-
     }
   }, methods: {
        openModal: function() {
@@ -65,8 +57,8 @@
 <style scoped>
 
  .iframe{
-  width:100%;
-   height:100%;
+   width:100%;
+    height: calc(100vh - 88px);  
  }
 
 </style>

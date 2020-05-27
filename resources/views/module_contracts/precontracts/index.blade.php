@@ -4,6 +4,23 @@
 
 
   <h3><b>PRE-CONTRATOS</b></h3>
+
+
+   <div class="row ">
+      <div class="col-xs-12 text-center">
+      <form class="form-inline" action="{{Route('precontracts.index')}}" method="GET">
+
+         <div class="form-group">
+           <label for="filteredOut"></label>
+           <input type="text" class="form-control" name="filteredOut" id="filteredOut" placeholder="Filtrado" autocomplete="off">
+         </div>
+          <button type="submit" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Buscar">
+                <span class="fa fa-search" aria-hidden="true"></span>
+           </button>
+        </form>
+      </div>
+    </div>
+
 <br>
    <div class="row">
         <div class="col-xs-12 ">
@@ -27,23 +44,28 @@
             <table class="table table-striped table-bordered text-center ">
              <thead>
                 <tr>
-                 <th>ID PRECONTRATO</th>
+                 <th>#</th>
+                 <th>N° PRECONTRATO</th>
                  <th>COD. {{__('client')}}</th>
                  <th>{{__('name')}}</th>   
+                 {{-- <th>NOMBRE PROYECTO</th>    --}}
                  <th>{{__('address')}}</th>
                  <th>BUILDING CODE</th>
-                 <th>DESCRIPTION</th>
+                 <th>DESCRIPCION</th>
                  <th>USO</th>
                  <th>TIPO</th>
                  <th>{{__('options')}}</th>
                 </tr>
             </thead>
                 <tbody>
+                 @php $acum=0; @endphp
                 @foreach($precontracts as $precontract)
                 <tr>
+                   <td>{{++$acum}}</td>
                     <td>{{$precontract->preId}} </td>
                     <td>{{$precontract->client->clientCode}}   </td>
                     <td>{{$precontract->client->clientName}}   </td>  
+                    {{-- <td>{{$precontract->projectName}}   </td>   --}}
                     <td >{{$precontract->propertyNumber}}
                         {{$precontract->streetName}}
                         {{$precontract->streetType}}
@@ -52,7 +74,12 @@
                         {{$precontract->state}}
                         {{$precontract->zipCode}}   </td>
                     <td >{{$precontract->buildingCode->buildingCodeName}}   </td>
-                    <td >{{$precontract->projectDescription->projectDescriptionName}}   </td>
+                    <td >
+                     {{-- {{ $precontract->proposal}} --}}
+                       @foreach($precontract->proposal as $pd)
+                       - {{$pd->projectDescription->projectDescriptionName}}<br>
+                        @endforeach
+                     </td>
                     <td >{{$precontract->projectUse->projectUseName}}   </td>
                     <td >{{$precontract->contractType}}   </td>
                     <td>
@@ -61,6 +88,8 @@
          <!--<a href="{{route('precontracts.convert', ['id' => $precontract->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
                      <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a> -->
+                  <modal-convert-precontract pref-url="./" precontract-id="{{$precontract->precontractId}}"></modal-convert-precontract>
+
               @endcan      
               @can('BBD')
                      <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">

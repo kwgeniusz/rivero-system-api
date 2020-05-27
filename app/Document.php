@@ -17,11 +17,6 @@ class Document extends Model
 
     // protected $dates = ['deleted_at'];
 
-       //Type Document
-    const PREVIOUS    = '1';
-    const PROCESSED   = '2';
-    const REVISED     = '3';
-    const READY       = '4';
 
 //--------------------------------------------------------------------
     /** Relations */
@@ -59,40 +54,48 @@ class Document extends Model
         return $this->where('docId', '=', $id)->get();
     }
 //------------------------------------------
-    public function insert($file,$contractId,$typeDoc)
+    public function insertF($file,$modelType,$modelId,$typeDoc)
     {
 
         $error = null;
         DB::beginTransaction();
         try {
-           $contract      = Contract::find($contractId);
-           $directoryName = "D" . $contract->countryId . $contract->officeId . $contract->contractNumber;
+    
+        $doc = new Document;
+          
+     if($modelType == 'contract') { 
+           $model               = Contract::find($modelId);
+           $doc->contractId     = $modelId;
+           $directoryName       = "D".$model->contractNumber;
 
-             $name    = $file->getClientOriginalName();
-             if($typeDoc == 1){ 
+             if($typeDoc == 'previous'){ 
                 $rs = Storage::putFile("docs/contracts/previous/$directoryName",  $file);
-                 // $file->move(storage_path("app/public/docs/contracts/previous/$directoryName"), $name);
-              }elseif ($typeDoc == 2) {
+              }elseif ($typeDoc == 'processed') {
                 $rs = Storage::putFile("docs/contracts/processed/$directoryName",  $file);
-                // $file->move(storage_path("app/public/docs/contracts/processed/$directoryName"), $name);
-              }elseif ($typeDoc == 3) {
+              }elseif ($typeDoc == 'revised') {
                  $rs = Storage::putFile("docs/contracts/revised/$directoryName",  $file);
-                // $file->move(storage_path("app/public/docs/contracts/processed/$directoryName"), $name);
-              }elseif ($typeDoc == 4) {
+              }elseif ($typeDoc == 'ready') {
                  $rs = Storage::putFile("docs/contracts/ready/$directoryName",  $file);
                 // $file->move(storage_path("app/public/docs/contracts/processed/$directoryName"), $name);
               }
-        $doc                        = new Document;
-        $doc->docName               = $name;
+      }elseif($modelType == 'transaction') {
+            $model                  = Transaction::find($modelId);
+            $doc->transactionId     = $modelId;
+
+          if($typeDoc == 'transactionsexpenses') {
+             $rs = Storage::putFile("docs/administration/transactions/expenses",  $file);
+          }
+
+      }
+
+        $doc->docName               = $file->getClientOriginalName();
         $doc->mimeType              = $file->extension();
         $doc->dateUploaded          = date('Y-m-d H:i:s');
         $doc->docUrl                = $rs;
         $doc->docNameOriginal       = $file->hashName();
         $doc->docType               = $typeDoc;
-        $doc->contractId            = $contractId;
-        $doc->clientId              = $contract->clientId;
         $doc->save();
-            
+
             $success = true;
             DB::commit();
         } catch (\Exception $e) {
@@ -102,16 +105,14 @@ class Document extends Model
         }
 
         if ($success) {
-          return response('Exitosa', 200)
-                  ->header('Content-Type', 'text/plain');
+          return response('Exitosa', 200)->header('Content-Type', 'text/plain');
         } else {
-           return response($error, 500)
-                  ->header('Content-Type', 'text/plain');
+           return response($error, 500)->header('Content-Type', 'text/plain');
         } 
     }
-    public function deleteFile($docUrl,$docId)
+    public function deleteF($docUrl,$docId)
     {
-        Storage::delete($docUrl);
+                 Storage::delete($docUrl);
         return $this->where('docId', '=', $docId)->delete();
 
     }

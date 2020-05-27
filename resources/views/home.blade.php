@@ -22,7 +22,7 @@
                 <div class="panel-body">
 
                         {{__('view_content')}}
-                        <img src="img/photo4.jpg" class="img-responsive img-circle" alt="Responsive image" >
+                        <img src="img/photo1.png" class="img-responsive img-circle" alt="Responsive image" >
                 </div>
             </div>
         </div>

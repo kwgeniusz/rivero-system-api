@@ -44,61 +44,59 @@ class ReportController extends Controller
         $this->oPaymentInvoice = new PaymentInvoice;
     }
 
-    public function printContract(Request $request)
-    {
-        $date     = Carbon::now();
-        $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
+//     public function printContract(Request $request)
+//     {
+//         $date     = Carbon::now();
+//         $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
 
-        $contractNumber = __('contract');
+//         $contractNumber = __('contract');//para traducciones
 
-        $tbl = <<<EOD
- <p>
-      <table cellspacing="0" cellpadding="0" border="0">
-        <tr>
-        <th> <img style="float:left;" src="img/RGC_LOGO.jpg" alt="test alt attribute" width="150" height="90"/></th>
-        <th> <br><br><br><br><h3 style="text-align:center"> Reporte de Contrato</h3></th>
-        <th>
-        <p style="text-align:right">
-         <b>Fecha:</b> {$date->format('d/m/y')}<br>
-         </p>
-        </th>
-       </tr>
-       </table>
-         <br><br>
+//         $tbl = <<<EOD
+//  <p>
+//       <table cellspacing="0" cellpadding="0" border="0">
+//         <tr>
+//         <th> <img style="float:left;" src="img/logo_jd.jpg" alt="test alt attribute" width="110" height="90"/></th>
+//         <th > <br><br><br><br><h3 style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"> Reporte de Contrato</h3></th>
+//         <th>
+//         <p style="text-align:right">
+//          <b>Fecha:</b> {$date->format('d/m/y')}<br>
+//          </p>
+//         </th>
+//        </tr>
+//        </table>
+//          <br><br>
 
-<div style="width:10%">
- <b>  N°{$contractNumber} :</b> {$contract[0]->contractNumber}<br>
- <b>  Pais :</b> {$contract[0]->country->countryName} -
- <b>  Oficina:</b> {$contract[0]->office->officeName}<br />
- <b>  Fecha de Contrato:</b> {$contract[0]->contractDate}<br />
- <b>  Cliente:</b> {$contract[0]->client->clientName}<br />
- <b>  Direccion:</b> {$contract[0]->siteAddress}<br />
- <b>  Descripcion de Proyecto:</b> {$contract[0]->ProjectDescription->projectDescriptionName}<br />
- <b>  Uso de Proyecto:</b> {$contract[0]->projectUse->projectUseName}<br />
- <b>  N° de Registro:</b> {$contract[0]->registryNumber}<br />
- <b>  Fecha de inicio:</b>  {$contract[0]->startDate}<br />
- <b>  Fecha estimada de Finalizacion:</b> {$contract[0]->scheduledFinishDate}<br />
- <b>  Fecha de Finalizacion:</b> {$contract[0]->actualFinishDate}<br />
- <b>  Fecha de Entrega:</b> {$contract[0]->deliveryDate}<br />
- <b>  Comentario Inicial:</b> {$contract[0]->initialComment}<br />
- <b>  Comentario Intermedio:</b> {$contract[0]->intermediateComment}<br />
- <b>  Comentario Final:</b> {$contract[0]->finalComment}<br />
- <b>  Estado del Contrato:</b> {$contract[0]->contractStatus}<br />
-</div
+// <div style="width:10%">
+//  <b>  Contract Number :</b> {$contract[0]->contractNumber}<br>
+//  <b>  Tipo de Contrato :</b> {$contract[0]->contractType}<br>
+//  <b>  Pais :</b> {$contract[0]->country->countryName} -
+//  <b>  Oficina:</b> {$contract[0]->office->officeName}<br />
+//  <b>  Nombre del Proyecto:</b> {$contract[0]->projectName}<br />
+//  <b>  Fecha de Contrato:</b> {$contract[0]->contractDate}<br />
+//  <b>  Cliente:</b> {$contract[0]->client->clientName}<br />
+//  <b>  Direccion:</b> {$contract[0]->siteAddress}<br />
+//  <b>  International Building Code:</b> {$contract[0]->buildingCode->buildingCodeName}<br />
 
-EOD;
+//  <b>  Uso de Proyecto:</b> {$contract[0]->projectUse->projectUseName}<br />
+//  <b>  Tipo de Construccion:</b> {$contract[0]->construtionType}<br />
+//  <b>  Fecha de inicio:</b>  {$contract[0]->startDate}<br />
+//  <b>  Comentario Inicial:</b> {$contract[0]->initialComment}<br />
+//  <b>  Estado del Contrato:</b> {$contract[0]->contractStatus}<br />
+// </div
 
-        $fileName = Auth::user()->userName;
-        PDF::SetTitle($fileName);
-        PDF::AddPage();
-        PDF::writeHTML($tbl, true, false, false, false, '');
-        // PDF::Write(0, 'Hello World');
-        $outputDestination = "F";
-        $outputPdfName     = "pdf/$fileName.pdf";
-        PDF::Output(public_path($outputPdfName), $outputDestination);
+// EOD;
 
-        return view('layouts.reports', compact('outputPdfName'));
-    }
+//         $fileName = Auth::user()->userName;
+//         PDF::SetTitle($fileName);
+//         PDF::AddPage();
+//         PDF::writeHTML($tbl, true, false, false, false, '');
+//         // PDF::Write(0, 'Hello World');
+//         $outputDestination = "F";
+//         $outputPdfName     = "pdf/$fileName.pdf";
+//         PDF::Output(public_path($outputPdfName), $outputDestination);
+
+//         return view('layouts.reports', compact('outputPdfName'));
+//     }
 
     public function summaryContractForOffice()
     {
@@ -111,7 +109,7 @@ EOD;
       <p>
         <table cellspacing="0" cellpadding="0" border="0">
         <tr>
-        <th> <img style="float:left;" src="img/RGC_LOGO.jpg" alt="test alt attribute" width="150" height="90"/></th>
+        <th>    <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="130px" height="110px"/></th>
         <th> <br><br><br><br><h3 style="text-align:center"> Resumen por Oficina</h3></th>
         <th>
         <p style="text-align:right">
@@ -165,7 +163,6 @@ EOD;
     }
 
     //REPORT DE TRANSACTION
-
     public function transactionsSummary(Request $request)
     {
         $acum         = 0;
@@ -429,10 +426,10 @@ EOD;
         $office       = DB::table('office')->where('officeId', session('officeId'))->get();
 
         $invoice    = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
-        $client     = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
+        $client     = $invoice[0]->client;
         $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
-        $receivables    = $this->oReceivable->getAllByInvoice($request->id);
-     // dd($receivables);
+        $receivables    = $invoice[0]->receivable;
+     // dd($receivables[1]->paymentMethod);
      // exit();
         $symbol = $invoice[0]->contract->currency->currencySymbol;
 
@@ -584,28 +581,25 @@ EOD;
        </tr>
        <tr> 
             <th colspan="1">
-               <b>ID:</b> {$client[0]->clientCode}
+               <b>ID:</b> {$client->clientCode}
             </th>
             <th colspan="2">
-              <b>Name:</b> {$client[0]->clientName}
+              <b>Name:</b> {$client->clientName}
             </th>
        </tr>
 
       <tr> 
             <th colspan="3">
-              <b>Billing Address:</b> {$client[0]->clientAddress}
+              <b>Billing Address:</b> {$client->clientAddress}
             </th>
        </tr>
 
      <tr> 
-            <th colspan="1">
-               <b>E-mail:</b> {$client[0]->clientEmail}
+            <th colspan="2" >
+               <b>E-mail:</b> {$client->clientEmail}
             </th>
             <th colspan="1">
-                   <b>Phone:</b> {$client[0]->clientPhone}
-            </th>
-            <th colspan="1">
-              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
+                   <b>Phone:</b> {$client->clientPhone}
             </th>
        </tr>
 </table>
@@ -615,10 +609,10 @@ EOD;
         <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
        </tr>
         <tr> 
-            <th>
+            <th width="35%" >
              <b>Control Number:</b> {$invoice[0]->contract->contractNumber}
             </th>
-            <th colspan="2">
+            <th width="65%" colspan="2">
              <b>Address:</b> {$invoice[0]->contract->siteAddress}
             </th>
             <th> </th>
@@ -627,10 +621,12 @@ EOD;
             <th >
               <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
             </th>
-            <th colspan="2">
-              <b>Description:</b> {$invoice[0]->contract->projectDescription->projectDescriptionName}
+            <th>
+              <b>Description:</b> {$invoice[0]->projectDescription->projectDescriptionName}
             </th>
-           <th> </th>
+           <th> 
+             <b>Project Name:</b> {$invoice[0]->contract->projectName}
+           </th>
        </tr>
 </table>   
 
@@ -731,18 +727,30 @@ EOD;
      $acumPaid += $receivable->amountPaid;
      $acumPaid =  number_format((float)$acumPaid, 2, '.', '');
 
+        if($receivable->paymentMethod == null){ 
+           $paymentMethod  = null;
+        }else{
+           $paymentMethod  =$receivable->paymentMethod->payMethodName;
+        }
+
+      if($receivable->recStatusCode != 4){ 
+           $recStatusName  = null;
+        }else{
+           $recStatusName  = $receivable->receivableStatus[0]->recStatusName;
+        }
       $html .= <<<EOD
       <table cellspacing="0" cellpadding="0" border="0"  >
                 <tr>
                  <td width="10%">$acum3)</td>
-                 <td width="20%">$moneySymbol $receivable->amountPaid</td>
-                 <td width="20%">{$receivable->paymentMethod->payMethodName}</td>
-                 <td width="20%">PAID</td>
+                 <td width="20%">$moneySymbol $receivable->amountDue</td>
+                 <td width="20%">$paymentMethod</td>
+                 <td width="20%">$recStatusName</td>
                  <td width="30%">$receivable->datePaid</td>
                  <td width="45%"></td>
                 </tr>
               </table>
 EOD;
+
   }
    $amountRs =  $invoice[0]->netTotal-$acumPaid;
    $amountRs =  number_format((float)$amountRs, 2, '.', '');
@@ -1049,7 +1057,18 @@ EOD;
         $proposalsDetails = $this->oProposalDetail->getAllByProposal($request->id);
         $client           = $this->oClient->findById($proposal[0]->clientId,session('countryId'));
         
-        $symbol = $proposal[0]->precontract->currency->currencySymbol;
+        if($proposal[0]->precontract){
+           $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;
+           $modelId = $proposal[0]->precontract->preId;
+           $modelType = 'precontract';
+           $modelTypeView = 'Precontract';
+        }else{
+           $moneySymbol = $proposal[0]->contract->currency->currencySymbol;
+           $modelId = $proposal[0]->contract->contractNumber;
+           $modelType = 'contract';
+           $modelTypeView = 'Contract';
+
+        }
 
       //dispara error si cuotas son mayores que el monto neto de la propuesta para que el usuario ajuste cuotas.
        $paymentSum = 0;
@@ -1092,7 +1111,6 @@ EOD;
            $acumPropDetail = 0;
            $subTotalPerPage= 0;
            $vienen = 0;
-           $moneySymbol = '';
 
  //// inicio del ciclo de impresion
 foreach ($proposalsDetails as $propDetail) {
@@ -1111,7 +1129,7 @@ $html .= <<<EOD
    Sub-Total:
  </th>
  <th style="border-top:2px solid black" colspan="1" align="right">
-   {$proposal[0]->precontract->currency->currencySymbol} $subTotalPerPage
+   {$moneySymbol} $subTotalPerPage
  </th>
 </tr>
 </table>
@@ -1218,39 +1236,39 @@ EOD;
        </tr>
 
      <tr> 
-            <th colspan="1">
+            <th colspan="2">
                <b>E-mail:</b> {$client[0]->clientEmail}
             </th>
             <th colspan="1">
                    <b>Phone:</b> {$client[0]->clientPhone}
-            </th>
-            <th colspan="1">
-              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
             </th>
        </tr>
 </table>
 
  <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
        <tr>
-        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
+        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b>
+        </th>
        </tr>
         <tr> 
             <th>
-             <b>Pre-Contract ID:</b> {$proposal[0]->precontract->preId}
+             <b>$modelTypeView ID:</b> $modelId
             </th>
             <th colspan="2">
-             <b>Address:</b> {$proposal[0]->precontract->siteAddress}
+             <b>Address:</b> {$proposal[0]->$modelType->siteAddress}
             </th>
             <th> </th>
        </tr>
       <tr> 
             <th >
-              <b>Type:</b> {$proposal[0]->precontract->projectUse->projectUseName} 
+              <b>Type:</b> {$proposal[0]->$modelType->projectUse->projectUseName} 
             </th>
-            <th colspan="2">
-              <b>Description:</b> {$proposal[0]->precontract->projectDescription->projectDescriptionName}
+            <th>
+              <b>Description:</b> {$proposal[0]->projectDescription->projectDescriptionName}
             </th>
-           <th> </th>
+           <th> 
+             <b>Project Name:</b> {$proposal[0]->$modelType->projectName}
+           </th>
        </tr>
 </table>   
 
@@ -1286,12 +1304,12 @@ EOD;
                if ($propDetail->unit == null) {
                     $acum2 = "";
                     $space = "   ";
-                    $moneySymbol = '';
+                    $symbol = '';
                 } else {
                     $acumPropDetail = $acumPropDetail + 1;
                     $acum2=$acumPropDetail;
                     $space = "";
-                    $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;
+                    $symbol = $moneySymbol;
                 }
      if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
                 $html .= <<<EOD
@@ -1301,7 +1319,7 @@ EOD;
         <td width="10%" align="center"></td>
         <td width="15%" align="center"></td>
         <td width="15%" align="center"></td>
-        <td width="15%" align="right"> {$proposal[0]->precontract->currency->currencySymbol} $vienen</td>
+        <td width="15%" align="right"> {$moneySymbol} $vienen</td>
         </tr>
 EOD;
         if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
@@ -1314,8 +1332,8 @@ EOD;
         <td width="40%" >$space$propDetail->serviceName</td>
         <td width="10%" align="center">{$propDetail->unit}</td>
         <td width="15%" align="center">$propDetail->quantity</td>
-        <td width="15%" align="center">$moneySymbol  $propDetail->unitCost</td>
-        <td width="15%" align="right">$moneySymbol  $propDetail->amount</td>
+        <td width="15%" align="center">$symbol  $propDetail->unitCost</td>
+        <td width="15%" align="right">$symbol  $propDetail->amount</td>
         </tr>
 EOD;
 
@@ -1360,16 +1378,16 @@ EOD;
         <th width="30%">
              <table cellspacing="0" cellpadding="0" border="0"  >
                <tr>
-                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {$symbol}{$proposal[0]->grossTotal}</th>
+                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {$moneySymbol}{$proposal[0]->grossTotal}</th>
                </tr>
                <tr>
                 <th><b>Tax Rate</b></th><th align="right">{$proposal[0]->taxPercent}%</th>
                </tr>
                <tr>
-                <th><b>Tax</b></th><th align="right"> {$symbol}{$proposal[0]->taxAmount}</th>
+                <th><b>Tax</b></th><th align="right"> {$moneySymbol}{$proposal[0]->taxAmount}</th>
                </tr>
                 <tr>
-                <th><b>Total</b></th><th align="right"> {$symbol}{$proposal[0]->netTotal}</th>
+                <th><b>Total</b></th><th align="right"> {$moneySymbol}{$proposal[0]->netTotal}</th>
                </tr>
              </table>
         </th>
@@ -1512,14 +1530,11 @@ EOD;
        </tr>
 
      <tr> 
-            <th colspan="1">
+          <th colspan="2">
                <b>E-mail:</b> {$client[0]->clientEmail}
             </th>
             <th colspan="1">
                    <b>Phone:</b> {$client[0]->clientPhone}
-            </th>
-            <th colspan="1">
-              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
             </th>
        </tr>
 </table>
@@ -1542,7 +1557,7 @@ EOD;
               <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
             </th>
             <th colspan="2">
-              <b>Description:</b> {$invoice[0]->contract->projectDescription->projectDescriptionName}
+              <b>Description:</b> {$invoice[0]->projectDescription->projectDescriptionName}
             </th>
            <th> </th>
        </tr>
@@ -1751,14 +1766,11 @@ EOD;
        </tr>
 
      <tr> 
-            <th colspan="1">
+           <th colspan="2">
                <b>E-mail:</b> {$client[0]->clientEmail}
             </th>
             <th colspan="1">
                    <b>Phone:</b> {$client[0]->clientPhone}
-            </th>
-            <th colspan="1">
-              <b>Reference:</b> {$client[0]->contactType->contactTypeName}
             </th>
        </tr>
 </table>
@@ -1777,6 +1789,8 @@ EOD;
 EOD;
 
        $acum = 0 ;
+       $totalOriginalAmount= 0;
+       $totalBalance= 0;
 
  //// inicio del ciclo de impresion
 foreach ($invoices as $invoice) {
@@ -1786,12 +1800,11 @@ foreach ($invoices as $invoice) {
                 } else {
                     $background = "#f2edd1";
                 }
-
         $balanceInvoice = $this->oInvoice->getBalance($invoice->invoiceId);
-        //este if es para saltar las que ya fueron pagadas
-        // if($balanceInvoice == '0.00'){
-        //     continue;
-        // }
+
+             $totalOriginalAmount += $invoice->netTotal;
+             $totalBalance += $balanceInvoice;
+
                 $html .= <<<EOD
         <tr style="background-color:$background; font-size:10px;">
           <td width="5%" align="center">$acum</td>
@@ -1803,8 +1816,18 @@ foreach ($invoices as $invoice) {
         </tr>
 EOD;
 }// FIN DE FOREACH DE RENGLONES
+                   $totalOriginalAmount = number_format((float)$totalOriginalAmount, 2, '.', '');
+                   $totalBalance = number_format((float)$totalBalance, 2, '.', '');
+
 $html .= <<<EOD
- 
+     <tr style="background-color:$background; font-size:10px;">
+          <td width="5%" align="center"></td>
+          <td width="25%" align="center"></td>
+          <td width="10%" align="center"></td>
+          <td width="15%" align="center"></td>
+          <td width="25%" align="center" style="border-top:2px solid black">$symbol $totalOriginalAmount</td>
+          <td width="20%" align="center" style="border-top:2px solid black">$symbol $totalBalance</td>
+        </tr>
  </table>
 EOD;
 

@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="col-xs-12 ">
 <div class="panel panel-default col-xs-12">
     <div class="panel-body">
@@ -12,9 +13,14 @@
             <thead>
                 <tr class="bg-success">
                  <th>N° PROPUESTA</th>
+
+@if($proposal[0]->contractId ==null)
                  <th>PRECONTRATO</th>
-                 <th>CLIENTE</th>
+@else
+                 <th>CONTRATO</th>
+@endif                 
                  <th>DIRECCIÓN</th>
+                 <th>CLIENTE</th>
                  <th>FECHA</th>
                  <th>SUB-TOTAL</th>
                  <th>IMPUESTO</th>
@@ -26,9 +32,14 @@
           <tbody>
                 <tr>
                     <td>{{$proposal[0]->propId}} </td>
+@if($proposal[0]->contractId ==null)
                     <td>{{$proposal[0]->precontract->preId}} </td>
-                    <td>{{$proposal[0]->client->clientName}} </td>
                     <td>{{$proposal[0]->precontract->siteAddress}} </td>
+@else                    
+                    <td>{{$proposal[0]->contract->contractNumber}} </td>
+                    <td>{{$proposal[0]->contract->siteAddress}} </td>
+@endif                    
+                    <td>{{$proposal[0]->client->clientName}} </td>
                     <td>{{$proposal[0]->proposalDate}} </td>
                     <td>{{$proposal[0]->grossTotal }} </td>
                     <td>{{$proposal[0]->taxAmount }} </td>
@@ -55,27 +66,24 @@
       @endif
         </div>
 
-    <div class="row ">
-     <div class="col-xs-12">
-     <div class="text-center">
+    <div class="row text-center">
       <form class="form-inline" action="{{Route('proposals.paymentsAdd')}}" method="POST">
       {{csrf_field()}}
-         <div class="form-group">
+          <input type="hidden" name="proposalId" value="{{$proposal[0]->proposalId}}">
+
+          <div class="form-group col-lg-12  col-xs-12">  
             <label for="amount" >MONTO</label>
-              <input style=" width:60%" type="number" min='0.01' step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
+              <input type="number" min='0.01' step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
          </div>
-  {{--         <div class="form-group ">
-                <label for="paymentDate">FECHA</label>
-                <input style="width:50%" class="form-control flatpickr" id="paymentDate" name="paymentDate" required autocomplete="off">
-              </div> --}}
-           <input type="hidden" name="proposalId" value="{{$proposal[0]->proposalId}}">
+   <br><br>
+          <div class="form-group col-lg-12  col-xs-12">  
            <button type="submit" class="btn btn-success">
                  <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Cuota
             </button>
+           </div> 
+
         </form>
-   </div>
-    </div>
     </div>
 
 
@@ -120,9 +128,24 @@
 
 
            <div class="text-center">
-             <a href="{{route('proposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
+
+
+             @if($btnReturn == 'mod_cont')
+                  @if($proposal[0]->contractId ==null)   
+                   <a href="{{route('proposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
+                     <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+                   </a>
+                  @else
+                  <a href="{{route('invoices.index', ['id' => $proposal[0]->contractId])}}" class="btn btn-warning">
+                     <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+                  </a>
+                  @endif
+             @elseif($btnReturn == 'mod_adm')
+                  <a href="{{route('proposals.all')}}" class="btn btn-warning">
+                                 <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+                      </a>
+             @endif
+
             </div>
 
        </div>

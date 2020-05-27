@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Helpers\DateHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TransactionRequest;
 use Illuminate\Http\Request;
@@ -33,10 +34,101 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($sign)
+    public function index(Request $request,$sign)
     {
 
         $transactions = $this->oTransaction->getAllForSign($sign,session('countryId'),session('officeId'));
+
+    if($request->method() == 'POST') {
+     if($request->date1 || $request->date2 || $request->textToFilter) {
+  
+        //primer filtrado por el select y texto escrito en el formulario.
+       if($request->textToFilter){
+       $transactions = $transactions->filter(function ($transaction) use($request) {
+                      switch ($request->filterBy) {
+                        case 'contractNumber':
+                            if($transaction->invoiceId != null)
+                              $valorABuscar =  $transaction->invoice->contract->contractNumber;
+                            else
+                              $valorABuscar = '';
+                          break;
+                        case 'invId':
+                            if($transaction->invoiceId != null)
+                               $valorABuscar = $transaction->invoice->inv;
+                           else
+                              $valorABuscar = ''; 
+                          break;
+                        case 'clientCode':
+                            if($transaction->invoiceId != null)
+                              $valorABuscar =  $transaction->invoice->client->clientCode;
+                             else
+                              $valorABuscar = ''; 
+                          break;
+                        case 'clientName':
+                            if($transaction->invoiceId != null)
+                              $valorABuscar =  $transaction->invoice->client->clientName;
+                                else
+                              $valorABuscar = ''; 
+                          break;  
+                        case 'clientPhone':
+                            if($transaction->invoiceId != null)
+                              $valorABuscar =  $transaction->invoice->client->clientPhone;
+                                else
+                              $valorABuscar = ''; 
+                          break;
+                        case 'amount':
+                               $valorABuscar = $transaction->amount;
+                          break;
+                        case 'transactionType':
+                               $valorABuscar = $transaction->transactionType->transactionTypeName;
+                          break; 
+                         case 'paymentMethod':
+                               $valorABuscar = $transaction->paymentMethod->payMethodName;
+                          break;   
+                        case 'description':
+                               $valorABuscar = $transaction->description;
+                          break; 
+                         case 'reason':
+                               $valorABuscar = $transaction->reason;
+                          break; 
+                        case 'responsable':
+                               $valorABuscar = $transaction->user->fullName;
+                          break;   
+                      }
+
+                $coincidencia = stripos($valorABuscar, $request->textToFilter);
+
+            if ($coincidencia !== false) { 
+                 return $transaction;
+            } 
+
+     });
+  } //fin del primer filtrado
+
+    //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
+  if($request->date1 && $request->date2) {
+    $transactions = $transactions->filter(function ($transaction) use($request) {
+   
+               $oDateHelper = new DateHelper;
+               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+               $date1                 = $oDateHelper->$functionRs($request->date1);
+               $date2                 = $oDateHelper->$functionRs($request->date2);
+               $transactionDate       = $oDateHelper->$functionRs($transaction->transactionDate);
+
+              $date_inicio = strtotime($date1);
+              $date_fin    = strtotime($date2);
+              $date_nueva  = strtotime($transactionDate);
+
+               // esta dentro del rango
+              if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
+                 return $transaction;
+              }
+     });
+    }//fin del segundo filtrado
+
+  } //cierre del filtrado general.
+} //cierre de verificacion post
+
         if ($sign == '+') {
             return view('module_administration.transactionsincome.index', compact('transactions'));
         } else {
@@ -49,11 +141,11 @@ class TransactionController extends Controller
     {
         $transactionType = $this->oTransactionType->getAllByOfficeAndSign(session('officeId'),$sign);
         $paymentsMethod   = $this->oPaymentMethod->getAll();
-        $banks           = $this->oBank->getAllByOffice(session('officeId'));
+  
         if ($sign == '+') {
-            return view('module_administration.transactionsincome.create', compact('paymentsMethod','transactionType', 'banks'));
+            return view('module_administration.transactionsincome.create', compact('paymentsMethod','transactionType'));
         } else {
-            return view('module_administration.transactionsexpenses.create', compact('paymentsMethod','transactionType', 'banks'));
+            return view('module_administration.transactionsexpenses.create', compact('paymentsMethod','transactionType'));
         }
 
     }
@@ -65,14 +157,13 @@ class TransactionController extends Controller
      */
     public function store(TransactionRequest $request)
     {
+               
+             if($request->sign == '-'){  
+               $this->validate($request, ['file' => 'required|image']);
+             }
 
-        $month = explode("/", $request->transactionDate);
-        //   $file=$request->file('file');
-        //   dd($file);
-
-        //   exit(); 
         //insert transaction and Update BANK...
-        $result = $this->oTransaction->insertT(
+        $rs1 = $this->oTransaction->insertT(
             session('countryId'),
             session('officeId'),
             $request->transactionTypeId,
@@ -83,16 +174,17 @@ class TransactionController extends Controller
             $request->transactionDate,
             $request->amount,
             $request->sign,
-            $request->bankId,
+            $request->cashboxId,
+            $request->accountId,
             $request->invoiceId,
-            $month[1],
-            Auth::user()->userId);
-
+            Auth::user()->userId,
+            $request->file);
 
         $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
+            'message'    => $rs1['msj'],
+            'alert-type' => $rs1['alert'],
         );
+    
 
         if ($request->sign == '+') {
             return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
@@ -100,6 +192,41 @@ class TransactionController extends Controller
             return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
         }
 
+    }
+
+       public function edit($sign,$id)
+    {
+       $transaction = $this->oTransaction->findById($id,session('countryId'),session('officeId'));
+        if ($sign == '+') {
+            return view('module_administration.transactionsincome.edit', compact('transaction'));
+        } else {
+            return view('module_administration.transactionsexpenses.edit', compact('transaction'));
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(ClientRequest $request, $id)
+    {
+        $this->oClient->updateClient($id,
+            session('countryId'),
+            $request->clientName,
+            $request->clientAddress,
+            $request->contactTypeId,  
+            $request->clientPhone,
+            $request->clientEmail
+        );
+        $notification = array(
+            'message'    => 'Cliente Modificado Exitosamente',
+            'alert-type' => 'success',
+        );
+        return redirect()->route('clients.index')
+            ->with($notification);
     }
     /**
      * Display the specified resource.
@@ -142,5 +269,17 @@ class TransactionController extends Controller
         }
 
     }
+   /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // public function allTransactions()
+    // {
+    //     $transactions = $this->oTransaction->getAll(session('countryId'),session('officeId'));
+
+    //     return view('module_administration.transactions.index', compact('transactions'));
+    // }
+ 
 
 }

@@ -43,7 +43,6 @@
    "accounts_receivable": "Accounts Receivable",
    "debts_to_pay": "Debts to pay",
 
-   "departments": "Departments",
    "Human Resources": "Human Resources",
    "Type of Payroll": "Type of Payroll",
    "Charges": "Charges",
@@ -62,7 +61,6 @@
    "Registration by Status": "Registration by Status",
    
    "Configuration": "Configuration",
-   "Company": "Company",
    "Countries": "Countries",
    "Offices": "Offices",
    "Users": "Users",

@@ -27,16 +27,17 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // $permissions = Permission::orderBy('name')->get();
         // $user = User::find(20);
-//              $role = Role::find(3);
+             // $role = Role::find(3);
 //         $user->assignRole('DIRECTOR');
 //        // echo $user; 
         // echo $user->getAllPermissions();
         // exit();
 //        // echo $user->getAllPermissions();
-
-
-
+ 
+         // $role->givePermissionTo('F');
+         // $role->revokePermissionTo('A');
 // $user->givePermissionTo('A');
 // $user->givePermissionTo('B');
 // $user->givePermissionTo('BA');

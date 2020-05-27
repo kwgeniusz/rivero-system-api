@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use Auth;
-use App\Country;
+use App\Bank;
 use App\Receivable;
 use App\PaymentMethod;
 use App\Http\Controllers\Controller;
@@ -21,18 +21,9 @@ class ReceivableController extends Controller
     }
     public function index(Request $request)
     {
-        $receivables = '';
-        // $countrys = Country::all();
-      
+            $receivables = '';
             $receivables = $this->oReceivable->clientsPending(session('countryId'));
         
-           
-            // $amounts = $this->oReceivable->getDueTotal(4);
-            // dd($amounts);
-            // exiT();
-//            //  $receivables->push(5)
-        // }
-
         return view('module_administration.receivables.index', compact('receivables'));
     }
     public function details($clientId)
@@ -49,6 +40,7 @@ class ReceivableController extends Controller
     }
     public function share(Request $request)
     {
+
         $result = $this->oReceivable->updateReceivable(
             $request->receivableId,
             $request->amountPaid,
@@ -56,8 +48,8 @@ class ReceivableController extends Controller
             $request->sourceBank,
             $request->sourceBankAccount,
             $request->checkNumber,
-            $request->targetBankId,
-            $request->targetBankAccount,
+            $request->cashboxId,
+            $request->accountId,
             $request->percent,
             $request->amountPercent,
             $request->datePaid,
@@ -81,10 +73,12 @@ class ReceivableController extends Controller
 //----------------QUERYS ASINCRONIOUS-----------------//
     public function getForId($receivableId)
     {
-        $receivable = Receivable::find($receivableId);      
-        $receivable->first()->paymentMethod = $receivable->paymentMethod;
-        $receivable->first()->bank = $receivable->bank;
- 
+        $receivable = Receivable::with('paymentMethod','account','invoice')
+                                ->where('receivableId', $receivableId)
+                                ->get();  
+        // $bank = Bank::find($receivable[0]->account->bankId);     
+        // $receivable->first()->bank = $bank;
+
        return $receivable->toJson();
 
     }

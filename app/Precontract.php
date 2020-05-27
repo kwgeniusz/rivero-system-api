@@ -60,6 +60,31 @@ class Precontract extends Model
 
         $this->attributes['precontractDate'] = $newDate;
     }
+
+  //--------------------------------------------------------------------
+    /** Query Scope  */
+//--------------------------------------------------------------------
+
+     public function scopeFilter($query, $filteredOut)
+    {
+        if ($filteredOut) {
+            return $query->where('precontractId', 'LIKE', "%$filteredOut%")
+                         ->orWhere('propertyNumber', 'LIKE', "%$filteredOut%")
+                         ->orWhere('streetName', 'LIKE', "%$filteredOut%")
+                         ->orWhere('streetType', 'LIKE', "%$filteredOut%")
+                         ->orWhere('suiteNumber', 'LIKE', "%$filteredOut%")
+                         ->orWhere('city', 'LIKE', "%$filteredOut%")
+                         ->orWhere('state', 'LIKE', "%$filteredOut%")
+                         ->orWhere('zipCode', 'LIKE', "%$filteredOut%")
+                         ->orWhereHas('client', function ($query) use ($filteredOut) {
+                              return $query->where('clientCode', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('client', function ($query) use ($filteredOut) {
+                              return $query->where('clientName', 'LIKE', "%$filteredOut%");
+                          });
+        }
+    }
+   
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -71,9 +96,9 @@ class Precontract extends Model
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
     }
-    public function projectDescription()
+       public function buildingCodeGroup()
     {
-        return $this->belongsTo('App\ProjectDescription', 'projectDescriptionId');
+        return $this->belongsTo('App\BuildingCodeGroup', 'groupId');
     }
     public function projectUse()
     {
@@ -93,18 +118,19 @@ class Precontract extends Model
     }
     public function proposal()
     {
-        return $this->hasOne('App\Proposal', 'precontractId', 'precontractId');
+        return $this->hasMany('App\Proposal', 'precontractId', 'precontractId');
     }
 
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     //------------------------------------------
-    public function getAll($countryId,$officeId)
+    public function getAll($countryId,$officeId,$filteredOut)
     {
         $result = $this->where('countryId', $countryId)
             ->where('officeId', $officeId) 
-            ->orderBy('precontractId', 'ASC')
+            ->orderBy('precontractId', 'DESC')
+            ->filter($filteredOut)
             ->get();
 
         return $result;
@@ -118,7 +144,7 @@ class Precontract extends Model
                      ->get();
     }
 //------------------------------------------
-    public function insertPrecontract($countryId, $officeId, $contractType,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode, $buildingCodeId, $projectUseId,$projectDescriptionId, $comment, $currencyId) {
+    public function insertPrecontract($countryId, $officeId, $contractType,$projectName,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode, $buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
         
         $oConfiguration = new OfficeConfiguration();
         $preId = $oConfiguration->retrievePrecontractNumber($countryId, $officeId);
@@ -130,6 +156,7 @@ class Precontract extends Model
         $precontract->countryId              = $countryId;
         $precontract->officeId               = $officeId;
         $precontract->contractType           = $contractType;
+        $precontract->projectName           = $projectName;
         $precontract->precontractDate        = $precontractDate;
         $precontract->clientId               = $clientId;
         $precontract->propertyNumber         = $propertyNumber;
@@ -140,8 +167,10 @@ class Precontract extends Model
         $precontract->state                  = $state;
         $precontract->zipCode                = $zipCode;
         $precontract->buildingCodeId         = $buildingCodeId;
+        $precontract->groupId                = $groupId;
         $precontract->projectUseId           = $projectUseId;
-        $precontract->projectDescriptionId   = $projectDescriptionId;
+        $precontract->constructionType       = $constructionType;
+        // $precontract->projectDescriptionId   = $projectDescriptionId;
         $precontract->comment                = $comment;
         $precontract->precontractCost        = '0.00';
         $precontract->currencyId             = $currencyId;
@@ -149,26 +178,29 @@ class Precontract extends Model
 
     }
 //------------------------------------------
-    public function updatePrecontract($precontractId, $countryId, $officeId, $contractType,$precontractDate,$clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId,$projectUseId, $projectDescriptionId, $comment, $currencyId) {
+    public function updatePrecontract($precontractId, $countryId, $officeId,$contractType,$projectName,$precontractDate,$clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
 
-        $precontract                = precontract::find($precontractId);
-        $precontract->countryId     = $countryId;
-        $precontract->officeId      = $officeId;
-        $precontract->contractType   = $contractType;
-        $precontract->precontractDate  = $precontractDate;
-        $precontract->clientId      = $clientId;
-         $precontract->propertyNumber         = $propertyNumber;
-        $precontract->streetName             = $streetName;
-        $precontract->streetType             = $streetType;
-        $precontract->suiteNumber            = $suiteNumber;
-        $precontract->city                   = $city;
-        $precontract->state                  = $state;
-        $precontract->zipCode                = $zipCode;
-        $precontract->buildingCodeId = $buildingCodeId;
-        $precontract->projectUseId = $projectUseId;
-        $precontract->projectDescriptionId = $projectDescriptionId;
-        $precontract->comment       = $comment;
-        $precontract->currencyId  = $currencyId;
+        $precontract                        = precontract::find($precontractId);
+        $precontract->countryId             = $countryId;
+        $precontract->officeId              = $officeId;
+        $precontract->contractType          = $contractType;
+        $precontract->projectName           = $projectName;
+        $precontract->precontractDate       = $precontractDate;
+        $precontract->clientId              = $clientId;
+        $precontract->propertyNumber        = $propertyNumber;
+        $precontract->streetName            = $streetName;
+        $precontract->streetType            = $streetType;
+        $precontract->suiteNumber           = $suiteNumber;
+        $precontract->city                  = $city;
+        $precontract->state                 = $state;
+        $precontract->zipCode               = $zipCode;
+        $precontract->buildingCodeId         = $buildingCodeId;
+        $precontract->groupId                = $groupId;
+        $precontract->projectUseId           = $projectUseId;
+        $precontract->constructionType       = $constructionType;
+        // $precontract->projectDescriptionId             = $projectDescriptionId;
+        $precontract->comment                   = $comment;
+        $precontract->currencyId              = $currencyId;
         $precontract->save();
 
     }

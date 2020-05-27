@@ -474,7 +474,7 @@
             change(event){
                 // console.log(event)
                 const cb=event.target.value
-                axios.get(`/staff/list/comboxDepartment/${cb}`).then( response => {
+                axios.get(`staff/list/comboxDepartment/${cb}`).then( response => {
                 this.selectDepartments = response.data.departments
                 // console.log(this.selectDepartments)
                 // debugger
@@ -498,15 +498,22 @@
                 // console.log(eeeee)
                 // debugger
                 })
+<<<<<<< HEAD
                 axios.get(`/staff/list/typepayroll/${cb}`).then(res => {
                
+=======
+                axios.get(`staff/list/typepayroll/${cb}`).then(res => {
+                // const eeeee = res.data
+                
+                    // console.log(res)
+>>>>>>> 44e91ca4bb88aca4891adcc20fd8d8d2b99026e0
                     this.selectPayrollType = res.data.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                         
                     })
                 
                 })
-                axios.get(`/staff/list/positions/${cb}`).then(res => {
+                axios.get(`staff/list/positions/${cb}`).then(res => {
                 // const eeeee = res.data
                 
                     // console.log(res)

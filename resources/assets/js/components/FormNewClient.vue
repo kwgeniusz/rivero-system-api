@@ -45,13 +45,13 @@
             </select>
           </div>
 <br>
-              <div class="col-xs-6">
+              <div class="col-xs-12 col-lg-6">
               <div class="form-group">
                 <label for="formClientPhone">TELEFONO</label>
                 <input type="text" class="form-control" name="formClientPhone" v-model="formClientPhone" placeholder="(000) 000 0000" pattern="^([0-9]{3,11})" title="formato: 04124231242">
               </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-12 col-lg-6">
               <div class="form-group">
                 <label for="formClientEmail">CORREO</label>
                 <input type="email" class="form-control" name="formClientEmail" v-model="formClientEmail" placeholder="Correo">
@@ -59,7 +59,7 @@
             </div>
 <br><br><br>
             <div class="col-xs-12">
-              <a @click="createClient()" v-if="btnSubmitForm"  class="btn btn-primary button-prevent-multiple-submits">
+              <a  @click="createClient()" v-if="btnSubmitForm"  class="btn btn-primary">
                 <span class="fa fa-check" aria-hidden="true"></span>  GUARDAR
               </a>
             </div>

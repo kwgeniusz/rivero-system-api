@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Precontract;
+use App\Contract;
 use App\Proposal;
 use App\ProposalDetail;
 use App\ProposalNote;
@@ -17,19 +18,29 @@ class ProposalDetailController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oPrecontract          = new Precontract;
-        $this->oProposal             = new Proposal;
-        $this->oProposalDetail       = new ProposalDetail;
-        $this->oProposalNote       = new ProposalNote;
-        
+        $this->oPrecontract           = new Precontract;
+        $this->oContract              = new Contract;
+        $this->oProposal              = new Proposal;
+        $this->oProposalDetail        = new ProposalDetail;
+        $this->oProposalNote          = new ProposalNote;
     }
-
     public function index(Request $request)
     {
+ 
         $proposal = $this->oProposal->findById($request->id,session('countryId'),session('officeId'));
-        $precontract = $this->oPrecontract->findById($proposal[0]->precontractId,session('countryId'),session('officeId'));
 
-        return view('module_contracts.proposals.details.index', compact('proposal','precontract'));
+       if($request->modelType == 'pre_contract'){
+          $oModelType = $this->oPrecontract;
+        }else{     
+          $oModelType = $this->oContract;
+        }
+        //sacar nombre del campo Id de esta tabla o modelo
+        $modelId = $oModelType->getKeyName();
+        $modelRs = $oModelType->findById($proposal[0]->$modelId,session('countryId'),session('officeId'));
+
+
+        $btnReturn = $request->btnReturn;
+          return view('module_contracts.proposals.details.index', compact('proposal','modelRs','btnReturn'));
     }
 
     public function store(Request $request)

@@ -18,6 +18,11 @@ window.toastr = require('toastr');
 
 import SweetModal from 'sweet-modal-vue/src/plugin.js';
 Vue.use(SweetModal);
+import VModal from 'vue-js-modal'
+Vue.use(VModal)
+import Permissions from './mixins/Permissions';
+Vue.mixin(Permissions);
+
 Vue.use(require('vue-moment'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -25,23 +30,28 @@ Vue.use(require('vue-moment'));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
 Vue.component('select-country-office', require('./components/SelectCountryOffice.vue'));
-Vue.component('select-country-office-edit', require('./components/SelectCountryOfficeEdit.vue'));
 Vue.component('select-country-office-contract', require('./components/SelectCountryOfficeContract.vue'));
-Vue.component('print-contract', require('./components/PrintContract.vue'));
-Vue.component('contract-summary', require('./components/contractsummary.vue'));
 Vue.component('search-client', require('./components/SearchClient.vue'));
 Vue.component('form-modal-charge', require('./components/FormModalCharge.vue'));
 Vue.component('confirm-payment', require('./components/ModalConfirmPayment.vue'));
 Vue.component('grid-files', require('./components/GridFiles.vue'));
+Vue.component('modal-preview-document', require('./components/ModalPreviewDocument.vue'));
+Vue.component('modal-convert-precontract', require('./components/ModalConvertPrecontract.vue'));
+Vue.component('modal-switch-contract', require('./components/ModalSwitchContract.vue'));
+Vue.component('modal-client-details', require('./components/ModalClientDetails.vue'));
 
+Vue.component('select-bank-cashbox', require('./components/SelectBankOrCashbox.vue'));
 Vue.component('select-building-code', require('./components/SelectBuildingCode.vue'));
+Vue.component('select-bank-with-account', require('./components/SelectBankWithAccount.vue'));
 Vue.component('invoice-details', require('./components/InvoiceDetails.vue'));
 Vue.component('proposal-details', require('./components/ProposalDetails.vue'));
+
 Vue.component('service-templates', require('./components/ServiceTemplates.vue'));
 Vue.component('form-new-service', require('./components/FormNewService.vue'));
 Vue.component('form-new-note', require('./components/FormNewNote.vue'));
+
+
 
 //########### human resource components #############
 // --> Department
@@ -91,13 +101,10 @@ Vue.component('button-form', require('./components/srcComponent/buttonForm.vue')
 Vue.component('loading', require('./components/srcComponent/loading.vue'));
 
 
-
-
-
 const app = new Vue({
     el: '#app',
     data: {
-        menu:-1,
+         menu:-1,
         },
     methods: {
        

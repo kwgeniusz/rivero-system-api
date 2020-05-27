@@ -37,8 +37,7 @@ class Receivable extends Model
         'sourceBank',
         'sourceBankAccount',
         'checkNumber',
-        'targetBankId',
-        'targetBankAccount',
+        'accountId',
         'datePaid',
         'recStatusCode',
     ];
@@ -114,9 +113,9 @@ class Receivable extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-    public function bank()
+    public function account()
     {
-        return $this->belongsTo('App\Bank', 'targetBankId');
+        return $this->belongsTo('App\Account', 'accountId');
     }
     public function paymentMethod()
     {
@@ -291,7 +290,7 @@ class Receivable extends Model
     }
 //------------------------------------------
     //usado para el cobro de cuotas
-    public function updateReceivable($receivableId, $amountPaid, $collectMethod, $sourceBank, $sourceBankAccount, $checkNumber, $targetBankId, $targetBankAccount,$percent,$amountPercent,$datePaid,$userId)
+    public function updateReceivable($receivableId, $amountPaid, $collectMethod, $sourceBank, $sourceBankAccount, $checkNumber,$cashboxId, $accountId,$percent,$amountPercent,$datePaid,$userId)
     {
         $error   = null;
         $amountR = 0;
@@ -329,8 +328,8 @@ class Receivable extends Model
             $receivable->sourceBank        = $sourceBank;
             $receivable->sourceBankAccount = $sourceBankAccount;
             $receivable->checkNumber       = $checkNumber;
-            $receivable->targetBankId      = $targetBankId;
-            $receivable->targetBankAccount = $targetBankAccount;
+            $receivable->cashboxId         = $cashboxId;
+            $receivable->accountId         = $accountId;
             $receivable->datePaid          = $datePaid;
             $receivable->userId            = $userId;
             
@@ -341,10 +340,10 @@ class Receivable extends Model
               }else{
                $receivable->recStatusCode           = Receivable::SUCCESS;
             //(insert transaction and Update BANK)... SOLO CUANDO ES EXITOSA INSERTA
-               $oDateHelper = new DateHelper;
-               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-               $newDate    = $oDateHelper->$functionRs($datePaid);
-               $month        = explode("-", $newDate);
+               // $oDateHelper = new DateHelper;
+               // $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+               // $newDate    = $oDateHelper->$functionRs($datePaid);
+               // $month        = explode("-", $newDate);
                        
                        //PARA SABER EL NUMERO DE LA CUOTA QUE CORRESPONDE
                      $sharesSucceed = $this->shareSucceed($receivable->invoiceId);
@@ -355,21 +354,21 @@ class Receivable extends Model
                $transactionRs1 = '';
                $transactionRs2 = '';
                $oTransactionType = new TransactionType;
-               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'COLLECTION');
+               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'INCOME_INVOICE');
                $fee        = $oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
 
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+', $targetBankId, $receivable->invoiceId, $month[1],$userId);
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+',$cashboxId, $accountId, $receivable->invoiceId,$userId);
                
               if($transactionRs1['alert'] == 'error') {
-                throw new \Exception($transactionRs['msj']);
+                throw new \Exception($transactionRs1['msj']);
                };
                //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE
             if ($collectMethod == Receivable::DEBIT_CARD || $collectMethod == Receivable::CREDIT_CARD) {
 
-                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $targetBankId, $receivable->invoiceId, $month[1],$userId);
+                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $receivable->invoiceId,$userId);
                
               if($transactionRs2['alert'] == 'error') {
-                throw new \Exception($transactionRs['msj']);
+                throw new \Exception($transactionRs2['msj']);
                };
              } //cierre de if transactionRs2
        }//CIERRE DEL ELSE METODO ES UN PAGO EXITOSO SIN VERIFICACION
@@ -453,10 +452,10 @@ class Receivable extends Model
 
     if($status == Receivable::SUCCESS) {    //solo dejar actualizar la siguiente cuota si este pago es exitoso
     //agregar la transaccion de la cuota exitosa
-               $oDateHelper = new DateHelper;
-               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-               $newDate    = $oDateHelper->$functionRs($receivable->datePaid);
-               $month        = explode("-", $newDate);
+               // $oDateHelper = new DateHelper;
+               // $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+               // $newDate    = $oDateHelper->$functionRs($receivable->datePaid);
+               // $month        = explode("-", $newDate);
 
                      $sharesSucceed = $this->shareSucceed($receivable->invoiceId);
                      $paymentNumber = count($sharesSucceed)+1;
@@ -467,18 +466,18 @@ class Receivable extends Model
                $transactionRs2 = '';
 
                $oTransactionType = new TransactionType;
-               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'COLLECTION');
+               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'INCOME_INVOICE');
                $fee        = $oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
 
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+', $receivable->targetBankId, $receivable->invoiceId, $month[1],Auth::user()->userId);
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
 
                     if($transactionRs1['alert'] == 'error') {
                         throw new \Exception($transactionRs['msj']);
                     };
 
-                //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE
-          if ($receivable->collectMethod == Receivable::DEBIT_CARD || $receivable->collectMethod == Receivable::CREDIT_CARD) {
-                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $targetBankId, $receivable->invoiceId, $month[1],Auth::user()->userId);
+                //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE (OJO REVISAR )
+     if ($receivable->collectMethod == Receivable::DEBIT_CARD || $receivable->collectMethod == Receivable::CREDIT_CARD) {
+             $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $receivable->amountPercent,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
 
                      if($transactionRs2['alert'] == 'error') {
                        throw new \Exception($transactionRs['msj']);

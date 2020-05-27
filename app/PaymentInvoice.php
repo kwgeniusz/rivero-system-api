@@ -120,10 +120,10 @@ class PaymentInvoice extends Model
             $receivable->paymentInvoiceId  = $payment->paymentInvoiceId;
             $receivable->amountDue         = $amount;
             $receivable->amountPaid        = '0.00'; //es necesario colocarlos en 0.00 para que que se inserten encriptados
-            $receivable->percent        = '0';
+            $receivable->percent           = '0';
             $receivable->amountPercentaje  = '0.00';
             $receivable->balance           = '0.00';      
-            $receivable->recStatusCode            = '1';     
+            $receivable->recStatusCode     = '1';     
             $receivable->userId            = Auth::user()->userId;     
             $receivable->save();
 

@@ -2,35 +2,36 @@
 <div>
 
    <div class="row"></div>
-   <div class="col-xs-8">
+   <div class="col-xs-12 col-lg-8">
          <div class="form-group">
-            <label for="buildingCodeId">BUILDING CODE</label>
-            <select v-model="firstOption" class="form-control" v-on:change="getProjectUseDescription()" name="buildingCodeId" id="buildingCodeId" required="on">
+            <label for="buildingCodeId">INTERNATIONAL BUILDING CODE (IBC)</label>
+            <select v-model="firstOption" class="form-control" name="buildingCodeId" id="buildingCodeId" required="on">
                 <option v-for="(item, index) in list" :value="item.buildingCodeId"  >{{item.buildingCodeName}}</option>
             </select>
           </div>  
         </div>  
 
-
-    <div class="row"></div>
+   <div class="row"></div>
       <div class="col-xs-6" v-if="firstOption">
          <div class="form-group">
+            <label for="groupId">GRUPO</label>
+            <select v-model="secondOption" class="form-control" name="groupId" id="groupId" required="on">
+             <option v-for="(item, index) in list2" :value="item.groupId">{{ item.groupName}}</option>
+            </select>
+          </div> 
+    </div>
+
+    <div class="row"></div>
+      <div class="col-xs-12 col-lg-6" v-if="firstOption">
+         <div class="form-group">
             <label for="projectUseId">USO DEL PROYECTO</label>:
-            <input v-model="secondOption" type="hidden" name="projectUseId">
-                                                         {{list2[0].projectUseName}}
+            <input v-model="thirdOption" type="hidden" name="projectUseId">
+                                                         {{list3[0].projectUseName}}
           </div>
            
     </div>
 
-   <div class="row"></div>
-      <div class="col-xs-6" v-if="firstOption">
-         <div class="form-group">
-            <label for="projectDescriptionId">DESCRIPCION DEL PROYECTO</label>
-            <select v-model="thirdOption" class="form-control" name="projectDescriptionId" id="projectDescriptionId" required="on">
-             <option v-for="(item, index) in list3" :value="item.projectDescriptionId">{{ item.projectDescriptionName}}</option>
-            </select>
-          </div> 
-    </div>
+
 
 </div>   
 </template>
@@ -46,8 +47,8 @@
      data: function () {
           return {
            firstOption: null,
-           secondOption: this.propProjectUse,
-           thirdOption: this.propProjectDescription,
+           secondOption: this.propBuildingCodeGroup,
+           thirdOption: this.propProjectUse,
            list: {},
            list2: {},
            list3: {},
@@ -56,14 +57,14 @@
       props: {
            prefUrl: { type: String},
            propBuildingCode: { type: String, default: null}, 
+           propBuildingCodeGroup: { type: String, default: null}, 
            propProjectUse: { type: String, default: null}, 
-           propProjectDescription: { type: String, default: null}, 
     },
     watch: {
       firstOption: function () {   
      //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
         let firstOption = this.firstOption;
-           console.log('la funcion')
+           // console.log('la funcion')
         function filtrarPorID(obj) {
           if ('buildingCodeId' in obj && obj.buildingCodeId == firstOption) {
             return true;
@@ -71,18 +72,20 @@
             return false;
           }
         }
-        var projectUseSelected = this.list.filter(filtrarPorID);
+        let projectUseSelected = this.list.filter(filtrarPorID);
 
-          var url2 =this.prefUrl+'projectUses/'+projectUseSelected[0].projectUseId;
+          let url2 =this.prefUrl+'buildingCode/'+this.firstOption+'/groups';
+          let url3 =this.prefUrl+'projectUses/'+projectUseSelected[0].projectUseId;
+
             axios.get(url2).then(response => {
              this.list2 = response.data
-             this.secondOption = this.list2[0].projectUseId;
 
-                   var url3 =this.prefUrl+'projectUses/'+this.secondOption+'/descriptions';
                      axios.get(url3).then(response => {
                       this.list3 = response.data
+                      this.thirdOption=this.list3[0].projectUseId;
+                      // alert(this.thirdOption)
                    });
-
+                
             });
         }, 
     },
