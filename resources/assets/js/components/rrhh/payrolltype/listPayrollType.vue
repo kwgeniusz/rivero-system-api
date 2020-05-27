@@ -21,13 +21,20 @@
                             
                             <td >{{index + 1}}</td>
                             <td class="form-inline">  
-                                {{payrollType.payrollTypeName}} 
+                                <p class="text-left">
+                                    {{payrollType.payrollTypeName}} 
+                                
+                                </p>
                             </td>
                             <td>
-                                {{payrollType.payrollTypeDescription}}
+                                <p class="text-left">
+                                    {{payrollType.payrollTypeDescription}}
+                                </p>
                             </td>
                             <td>
-                                {{payrollType.countryName}}
+                                <p class="text-left">
+                                    {{payrollType.countryName}}
+                                </p>
                             </td>
                             
                             <td> 

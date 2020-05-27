@@ -46,13 +46,19 @@
                         <tr  v-for="(Process, index) in objProcessDetailList" :key="Process.hrpdId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
-                                {{Process.transactionTypeName}}
+                                <p class="text-left">
+                                    {{Process.transactionTypeName}}
+                                </p>
                             </td>
                             <td>
-                                {{Process.quantity}}
+                                <p class="text-right">
+                                    {{Process.quantity}}
+                                </p>
                             </td>
                             <td>
-                                {{Process.amount}}
+                                <p class="text-right">
+                                    {{Process.amount}}
+                                </p>
                             </td>
                             <td> 
                                 <!-- <button v-on:click="detailRow(Process.hrpdId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>   -->
@@ -63,7 +69,10 @@
                     </tbody>
                     <tbody  v-else >
                         <tr>
-                            <td colspan="5">
+                            <td v-if="this.lengths === 0" colspan="5">
+                                No hay datos registrados
+                            </td>
+                            <td v-else colspan="5">
                                 <loading></loading>
                             </td>
                         </tr>
@@ -82,9 +91,8 @@
             // setTimeout(() => {
                 axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
                 this.objProcessDetailList = response.data.processDetail
-                // console.log(this.objProcessDetailList)
-                // debugger
-                // console.log('longitud: ' + this.objProcessDetailList.length)
+                this.lengths = this.objProcessDetailList.length
+                
             })
             // },1000)
             
@@ -93,8 +101,10 @@
         },
         data(){
             return{
-                objProcessDetailList: {}
+                objProcessDetailList: {},
+                lengths: '',
             }
+            // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
         },
         props: {
             namePanelList: {

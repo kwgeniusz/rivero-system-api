@@ -21,16 +21,24 @@
                         <tr v-for="(Process, index) in objProcess" :key="Process.hrprocessId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
-                                {{Process.processCode}}
+                                
+                                    {{Process.processCode}}
+                                
                             </td>
                             <td > 
-                                {{Process.processName}} 
+                                <p class="text-left">
+                                    {{Process.processName}}
+                                </p> 
                             </td>
                             <td>
-                                {{Process.countryName}}
+                                <p class="text-left">
+                                    {{Process.countryName}}
+                                </p>
                             </td>
                             <td>
-                                {{Process.companyShortName}}
+                                <p class="text-left">
+                                    {{Process.companyShortName}}
+                                </p>
                             </td>
                             <td> 
                                 <button v-on:click="detailRow(index, Process.hrprocessId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  

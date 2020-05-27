@@ -91,12 +91,12 @@
                 nameField2: "EMPRESA",
                 nameField3: "CODIGO",
                 nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
-                nameField5: "CALCULO EN SALARIO BASE:   ",
+                nameField5: "CALCULO EN SALARIO BASE:  ",
                 nameField6: "TRANSACCIÓN DE INGRESO:   ",
-                nameField7: "TRANSACCIÓN CON SALDO:   ",
-                nameField8: "accTax",
-                nameField9: "accChristmas",
-                nameField10: "accSeniority",
+                nameField7: "TRANSACCIÓN CON SALDO:    ",
+                nameField8: "ACUMULA PARA IMPUESTO:    ",
+                nameField9: "ACUMULA PARA UTILIDADES:  ",
+                nameField10: "ACUMULA PARA ANTIGUEDAD: ",
                 
             }
         },

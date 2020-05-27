@@ -20,7 +20,7 @@
                     </thead>
                     <tbody v-if="objStaff.length > 0">
     
-                        <tr v-for="(staff, index) in objStaff" :key="staff.periodId">
+                        <tr v-for="(staff, index) in objStaff" :key="staff.hrstaffId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
                                 {{staff.staffCode}}
@@ -52,9 +52,9 @@
                             </td>
                             
                             <td> 
-                                <button v-on:click="detailRow(index, Process.hrprocessId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  
-                                <button v-on:click="editRow(index, staff.periodId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
-                                <button v-on:click="deleterow(index, staff.periodId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                                <button v-on:click="detailRow(index, staff.hrstaffId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  
+                                <button v-on:click="editRow(index, staff.hrstaffId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
+                                <button v-on:click="deleterow(index, staff.hrstaffId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
                             </td>
                         </tr>
                     </tbody>
@@ -99,13 +99,13 @@
             },
             deleterow(index, id){
                 // console.log('index ' + index)
-                // console.log('id ' + id)
+                console.log('id: ' + id)
                 // return
                 const indexIs = this.objStaff[index]
             
                 if (confirm("Delete?") ){
-                    axios.delete(`periods/delete/${id}`).then(()=>{
-
+                    axios.delete(`staff/delete/${id}`).then(() => {
+                        // console.log(res)
                         this.$emit("delrow",[index,id])
                     })
                     .catch(function (error) {

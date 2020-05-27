@@ -22,24 +22,28 @@ class HrStaffController extends Controller
     public function index()
     {
         $hrstaff = DB::select("SELECT country.countryId, country.countryName,company.companyId, company.companyName, company.companyShortName,
-                                department.departmentId, department.departmentName, hrposition.positionCode,hrposition.positionName,
-                                hrstaff.hrstaffId, hrstaff.countryId, hrstaff.companyId, hrstaff.staffCode, hrstaff.firstName, hrstaff.lastName,
+                                department.departmentId, department.departmentName, hrstaff.payrollTypeId, payroll_type.payrollTypeName,
+                                hrposition.positionCode,hrposition.positionName,
+                                hrstaff.hrstaffId, hrstaff.countryId, hrstaff.companyId, hrstaff.staffCode, hrstaff.firstName, 
+                                hrstaff.lastName,
                                 hrstaff.shortName,
                                 hrstaff.idDocument, hrstaff.passportNumber, hrstaff.legalNumber, hrstaff.departmentId, 
                                 hrstaff.baseSalary, hrstaff.baseCurrencyId, currencyStaff1.currencyName, currencyStaff1.currencySymbol, 
                                 hrstaff.localSalary, hrstaff.localCurrencyId, currencyStaff2.currencyName, currencyStaff2.currencySymbol, 
-                                hrstaff.localDailySalary, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3, hrstaff.status
+                                hrstaff.localDailySalary, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3, hrstaff.status,
+                                hrstaff.deleted_at
                             FROM `hrstaff` 
                             INNER JOIN country ON hrstaff.countryId = country.countryId
                             INNER JOIN company ON hrstaff.companyId = company.companyId
+                            INNER JOIN payroll_type ON hrstaff.payrollTypeId = payroll_type.payrollTypeId
                             INNER JOIN department ON hrstaff.departmentId = department.departmentId
-                            
                             INNER JOIN hrposition ON hrstaff.positionCode = hrposition.positionCode
                         --  INNER JOIN currency ON hrposition.baseCurrencyId = currency.currencyId
                             
                         --  INNER JOIN currency AS currency2 ON hrposition.localCurrencyId = currency2.currencyId
                             LEFT JOIN currency AS currencyStaff1 ON hrstaff.baseCurrencyId = currencyStaff1.currencyId
-                            LEFT JOIN currency AS currencyStaff2 ON hrstaff.localCurrencyId = currencyStaff2.currencyId");
+                            LEFT JOIN currency AS currencyStaff2 ON hrstaff.localCurrencyId = currencyStaff2.currencyId
+                            WHERE hrstaff.deleted_at is NULL");
 
                             return compact('hrstaff');
                         }
@@ -84,9 +88,11 @@ class HrStaffController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         // return $request;
+
         $staff = new hrStaff();
         $staff->countryId = $request->countryId;
         $staff->companyId = $request->companyId;
@@ -109,7 +115,7 @@ class HrStaffController extends Controller
         $staff->excTranTypeCode2 = $request->excTranTypeCode2;
         $staff->excTranTypeCode3 = $request->excTranTypeCode3;
         $staff->status = $request->status;
-        
+       
         $staff->save();
         return $staff;
     }
@@ -124,7 +130,7 @@ class HrStaffController extends Controller
     public function update(Request $request, $id)
     {
         
-        $staff = hrStaff::find($id);
+        $staff = hrStaff::findOrFail($id);
         $staff->countryId = $request->countryId;
         $staff->companyId = $request->companyId;
         $staff->shortName = $request->shortName;
@@ -146,6 +152,7 @@ class HrStaffController extends Controller
         $staff->excTranTypeCode2 = $request->excTranTypeCode2;
         $staff->excTranTypeCode3 = $request->excTranTypeCode3;
         $staff->status = $request->status;
+   
         
         $staff->save();
         return $staff;
@@ -159,9 +166,10 @@ class HrStaffController extends Controller
      */
     public function destroy($id)
     {
-        // return 'entro';
-        $periods = Periods::find($id);
-        $periods->delete();
+        // return $id;
+        $staff = hrStaff::findOrFail($id);
+        $staff->delete();
+
     
     }
 }

@@ -86,9 +86,11 @@
 <script>
     export default {
         mounted() {
+            
             axios.get('staff/list/').then( response => {
+                // console.log(response)
                 this.objStaff = response.data.hrstaff
-                console.log(this.objStaff)
+                // console.log(this.objStaff)
                 // debugger
             })
 

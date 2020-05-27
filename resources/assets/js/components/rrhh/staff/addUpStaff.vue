@@ -10,68 +10,6 @@
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()"  id="newUpForm" >
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="status" class="form-group" v-text="nameField18"></label>
-                                    <select class="form-control" v-model="status" id="status" required="required">
-                                        <option value="A" selected="selected">ACTIVO</option>
-                                        <option value="S">SUSPENDIDO</option>
-                                        <option value="I">INACTIVO</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6 ">
-                                    <label for="shortName" class="form-group" v-text="nameField1"></label>
-                                    <input type="text" v-model="shortName" class="form-control" id="shortName" v-bind:placeholder="nameField1" required="required">
-                                    
-                                </div>
-                            
-                                <div class="form-group col-md-9">
-                                    <label for="firstName" class="form-group" v-text="nameField2"></label>
-                                    <input type="text" v-model="firstName" class="form-control" id="firstName" v-bind:placeholder="nameField2" required="required">
-                
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-9">
-                                    <label for="lastName" class="form-group" v-text="nameField3"></label>
-                                    <input type="text" v-model="lastName" class="form-control" id="lastName" v-bind:placeholder="nameField3" required="required">
-                                    <!-- <select class="form-control" v-model="firstName" id="firstName" required="required">
-                                        <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select> -->
-                                </div>
-
-                                <div class="form-group col-md-5 ">
-                                    <label for="idDocument" class="form-group" v-text="nameField4"></label>
-                                    <input type="text" v-model="idDocument" class="form-control" id="idDocument" v-bind:placeholder="nameField4">
-                                </div>
-                                
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-5"> 
-                                    <label for="passportNumber" class="form-group" v-text="nameField5"> </label> 
-                                    <input type="text" v-model="passportNumber" class="form-control" id="passportNumber" v-bind:placeholder="nameField5">
-                                       
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-5">
-                            
-                                    <label for="legalNumber" class="form-group" v-text="nameField6"></label>
-                                    <input type="text" v-model="legalNumber" class="form-control" id="legalNumber" v-bind:placeholder="nameField6" >
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-5">
-                                    <label for="staffCode" class="form-group" v-text="nameField7"></label>
-                                    <input type="text" v-model="staffCode" class="form-control" id="staffCode" v-bind:placeholder="nameField7" required="required">
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-7">
                                     <label for="selectCountry" class="form-group" v-text="nameField8"></label>
                                     <select class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" required="required">
@@ -120,6 +58,60 @@
                                     
                                 </div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="form-group col-md-6 ">
+                                    <label for="shortName" class="form-group" v-text="nameField1"></label>
+                                    <input type="text" v-model="shortName" class="form-control" id="shortName" v-bind:placeholder="nameField1" required="required">
+                                    
+                                </div>
+                            
+                                <div class="form-group col-md-9">
+                                    <label for="firstName" class="form-group" v-text="nameField2"></label>
+                                    <input type="text" v-model="firstName" class="form-control" id="firstName" v-bind:placeholder="nameField2" required="required">
+                
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-9">
+                                    <label for="lastName" class="form-group" v-text="nameField3"></label>
+                                    <input type="text" v-model="lastName" class="form-control" id="lastName" v-bind:placeholder="nameField3" required="required">
+                                    <!-- <select class="form-control" v-model="firstName" id="firstName" required="required">
+                                        <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                        
+                                    </select> -->
+                                </div>
+
+                                <div class="form-group col-md-5 ">
+                                    <label for="idDocument" class="form-group" v-text="nameField4"></label>
+                                    <input type="text" v-model="idDocument" class="form-control" id="idDocument" placeholder="V-99999999">
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-5"> 
+                                    <label for="passportNumber" class="form-group" v-text="nameField5"> </label> 
+                                    <input type="text" v-model="passportNumber" class="form-control" id="passportNumber" v-bind:placeholder="nameField5">
+                                       
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-5">
+                            
+                                    <label for="legalNumber" class="form-group" v-text="nameField6"></label>
+                                    <input type="text" v-model="legalNumber" class="form-control" id="legalNumber" v-bind:placeholder="nameField6" >
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-5">
+                                    <label for="staffCode" class="form-group" v-text="nameField7"></label>
+                                    <input type="text" v-model="staffCode" class="form-control" id="staffCode" v-bind:placeholder="nameField7" required="required">
+                                    
+                                </div>
+                            </div>
+                            
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="baseSalary" class="form-group" v-text="nameField13"></label>
@@ -154,6 +146,16 @@
                                     <label for="localDailySalary" class="form-group" v-text="nameField17"></label>
                                     <input type="text" v-model="localDailySalary" class="form-control" id="localDailySalary" v-bind:placeholder="nameField17" >
                                     
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="status" class="form-group" v-text="nameField18"></label>
+                                    <select class="form-control" v-model="status" id="status" required="required">
+                                        <option value="A" selected="selected">ACTIVO</option>
+                                        <option value="S">SUSPENDIDO</option>
+                                        <option value="I">INACTIVO</option>
+                                    </select>
                                 </div>
                             </div>
                             
@@ -204,6 +206,38 @@
 
             if (this.editId > 0) {
                 this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
+                axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
+                    this.selectCompanys = res.data.map(item => {
+                        return {id: item.companyId, vText: item.companyName}
+                    })
+                    this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId
+                })
+                
+                axios.get(`/staff/list/comboxDepartment/${this.objEdit.companyId}`).then( response => {
+                    this.selectDepartments = response.data.departments
+                    this.departmentId = document.querySelector("#departmentId").value = this.objEdit.departmentId
+                })
+
+                axios.get(`/staff/list/typepayroll/${this.objEdit.countryId}`).then(res => {
+                    this.selectPayrollType = res.data.map(item => {
+                        return {id: item.payrollTypeId, vText: item.payrollTypeName}
+                    })
+                    this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
+                    console.log(this.objEdit)
+                })
+                axios.get(`/staff/list/positions/${this.objEdit.countryId}`).then(res => {
+                    this.selectPosition = res.data.map(item => {
+                        return {id: item.positionCode, vText: item.positionName}
+                    })
+                    this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode
+                })
+                
+                
+
+
+                
+                
+
                 this.shortName = document.querySelector("#shortName").value = this.objEdit.shortName
                 this.firstName = document.querySelector("#firstName").value = this.objEdit.firstName
                 this.lastName = document.querySelector("#lastName").value = this.objEdit.lastName
@@ -211,10 +245,6 @@
                 this.passportNumber = document.querySelector("#passportNumber").value = this.objEdit.passportNumber
                 this.legalNumber = document.querySelector("#legalNumber").value = this.objEdit.legalNumber
                 this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode
-                this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId
-                this.departmentId = document.querySelector("#departmentId").value = this.objEdit.departmentId
-                this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
-                this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode
                 this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary
                 this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId
                 this.localSalary = document.querySelector("#localSalary").value = this.objEdit.localSalary
@@ -235,7 +265,7 @@
                 departmentId:'',
                 shortName: '',
                 firstName: '',
-                idDocument: 0,
+                idDocument: '',
                 lastName: '',
                 lastNames: '',
                 passportNumber: 0,
@@ -382,14 +412,14 @@
                     // debugger
                     
     
-                    axios.post('staff/post',params)
+                    axios.post(`staff/post/`,params)
                         .then((response) => {
                             console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
                                 document.querySelector("#newUpForm").reset()
                             } else {
-                                console.log(response)
+                                // console.log(response)
                                 alert("Error")
                             }
                             
@@ -414,6 +444,8 @@
                         positionCode: this.positionCode,
                         baseSalary: this.baseSalary,
                         baseCurrencyId: this.baseCurrencyId,
+                        localSalary: this.localSalary,
+                        localCurrencyId: this.localCurrencyId,
                         localDailySalary: this.localDailySalary,
                         excTranTypeCode1: this.excTranTypeCode1,
                         excTranTypeCode2: this.excTranTypeCode2,
@@ -422,10 +454,10 @@
                     }
                     
 
-                    let url = `staff/post/put/${this.objEdit.hrstaffId}`
+                    let url = `staff/put/${this.objEdit.hrstaffId}`
                     axios.put(url,params)
                         .then((response) => {
-                            console.log(response);
+                            // console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
                             } else {
@@ -444,9 +476,9 @@
                 const cb=event.target.value
                 axios.get(`/staff/list/comboxDepartment/${cb}`).then( response => {
                 this.selectDepartments = response.data.departments
-                console.log(this.selectDepartments)
+                // console.log(this.selectDepartments)
                 // debugger
-            })
+                })
                 
             },
             cancf(){
@@ -467,15 +499,12 @@
                 // debugger
                 })
                 axios.get(`/staff/list/typepayroll/${cb}`).then(res => {
-                // const eeeee = res.data
-                
-                    // console.log(res)
+               
                     this.selectPayrollType = res.data.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                         
                     })
-                // console.log(eeeee)
-                // debugger
+                
                 })
                 axios.get(`/staff/list/positions/${cb}`).then(res => {
                 // const eeeee = res.data

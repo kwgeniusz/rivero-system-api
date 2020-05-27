@@ -44,7 +44,7 @@
                             <div class="row">
                                 <div class="form-group col-md-7 form-inline"> 
                                     <label for="salaryBased" class="form-group" v-text="nameField5"> </label> 
-                                    <input type="checkbox" id="salaryBased" v-model="salaryBased" value="1">
+                                    <input type="checkbox"  id="salaryBased" v-model="salaryBased" value="1">
                                     <!-- <select class="form-control" v-model="salaryBased" id="salaryBased" required="required">
                                         <option value="0">No</option>
                                         <option value="1">Si</option>
@@ -248,15 +248,15 @@
                         
                     }
 
-                    // console.log(params)
+                    console.log(params)
                     // debugger
                     
     
                     axios.post('transactionstypes/post',params)
                         .then((response) => {
-                            // console.log(response)
+                            console.log(response)
                             if (response.statusText == "OK") {
-                                document.querySelector("#newUpForm").reset()
+                                // document.querySelector("#newUpForm").reset()
                                 alert("Success")
                             } else {
                                 console.log(response)
@@ -282,7 +282,7 @@
                         accSeniority: this.accSeniority,
                     }
                     // document.querySelector("#newUpForm").reset()
-
+    // console.log(params)
                     let url = `transactionstypes/put/${this.objEdit.hrtransactionTypeId}`
                     axios.put(url,params)
                         .then((response) => {

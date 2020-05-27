@@ -79,5 +79,5 @@ Route::get('staff/list/comboxDepartment/{id}', 'Web\HrStaffController@comboBoxDe
 Route::get('staff/list/typepayroll/{id}', 'Web\HrStaffController@comboTypePayroll');
 Route::get('staff/list/positions/{id}', 'Web\HrStaffController@comboPositions');
 Route::post('staff/post', 'Web\HrStaffController@store');
-Route::put('staff/put/{id}', 'Web\ProcessController@update');
-Route::delete('staff/delete/{id}', 'Web\ProcessController@destroy');
+Route::put('staff/put/{id}', 'Web\HrStaffController@update');
+Route::delete('staff/delete/{id}', 'Web\HrStaffController@destroy');

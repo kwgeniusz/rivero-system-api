@@ -164,10 +164,11 @@
                 const cb4=event.target.value
                 // newcb4(cb4)
                 axios.get(`/companys/offices/${cb4}`).then((response) => {
+                    console.log(response)
                     this.objOffices = response.data.map( item => {
                     return { id: item.officeId, vText: item.officeName}
                     })
-                // console.log(this.objOffices)
+                console.log(this.objOffices)
 
                 })
                 // this.$emit('new4', cb4)

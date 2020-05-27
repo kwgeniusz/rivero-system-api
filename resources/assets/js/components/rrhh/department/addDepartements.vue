@@ -25,7 +25,7 @@
                             <div class="form-group col-md-7">
                                 <label for="selectDepartmen" class="form-group" v-text="nameField3"></label>
                                 <select class="form-control" v-model="selectDepartmen" id="selectDepartmen">
-                                    <option value="0">No</option>
+                                    <option value="0" selected >No</option>
                                     <option v-for="item in parents" :key="item.departmentId" :value="item.departmentId" > {{item.departmentName}} </option>
                                     
                                 </select>
