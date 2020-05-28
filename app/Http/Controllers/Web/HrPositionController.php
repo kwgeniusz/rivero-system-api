@@ -25,6 +25,7 @@ class HrPositionController extends Controller
      */
     public function index()
     {
+        
         $hrposition = DB::select("SELECT hrposition.hrpositionId, hrposition.countryId, hrposition.positionCode, hrposition.positionName, hrposition.baseSalary, 
                         hrposition.baseCurrencyId, hrposition.localSalary, hrposition.localCurrencyId, hrposition.localDailySalary, country.countryId,
                         country.countryName, currency.currencyName AS currencyName, currency.currencySymbol AS currencyNameSymbol,

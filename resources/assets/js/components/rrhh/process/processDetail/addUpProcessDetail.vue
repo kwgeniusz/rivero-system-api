@@ -66,7 +66,7 @@
     export default {
         mounted() {
             // console.log('company:')
-            console.log(this.objProcessDetails)
+            // console.log(this.objProcessDetails)
             axios.get(`process-detail-ttype/${this.objProcessDetails.companyId}`).then(res => {
                 
                 // console.log(res.data.hrTType)

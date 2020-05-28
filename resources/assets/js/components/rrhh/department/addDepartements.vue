@@ -73,7 +73,7 @@
                 // departments
                 axios.get(`departments/edit/${this.editId}`).then((response) => {
                     this.parentsData = response.data
-                    console.log(this.parentsData)
+                    // console.log(this.parentsData)
                     this.selectCompany = document.querySelector("#selectCompani").value = this.parentsData[0].companyId
                     this.nameCompany = document.querySelector("#department_name").value = this.parentsData[0].departmentName
                     this.selectDepartmen =document.querySelector("#selectDepartmen").value = this.parentsData[0].parentDepartmentId

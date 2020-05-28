@@ -99,7 +99,7 @@
             },
             deleterow(index, id){
                 // console.log('index ' + index)
-                console.log('id: ' + id)
+                // console.log('id: ' + id)
                 // return
                 const indexIs = this.objStaff[index]
             

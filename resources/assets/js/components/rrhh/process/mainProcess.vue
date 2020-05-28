@@ -104,7 +104,7 @@
         mounted() {
             axios.get('process/list').then( response => {
                 this.objProcess = response.data.process
-                console.log(this.objProcess)
+                // console.log(this.objProcess)
                 // debugger
             })
 
@@ -147,7 +147,7 @@
                 })
             },
             showlistDetail(){
-                console.log(this.objProcessDetail)
+                // console.log(this.objProcessDetail)
                 this.formStatus = 3
                 
                 // axios.get('process/list').then( response => {

@@ -101,8 +101,8 @@
                 // const indexIs = this.objProcess[index]
             
                 if (confirm("Delete?") ){
-                    axios.delete(`periods/delete/${id}`).then(()=>{
-
+                    axios.delete(`process/delete/${id}`).then((res)=>{
+                        // console.log(res)
                         this.$emit("delrow",[index,id])
                     })
                     .catch(function (error) {

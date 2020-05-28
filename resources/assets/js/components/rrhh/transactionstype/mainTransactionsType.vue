@@ -112,7 +112,7 @@
             })
             },
             newObj(payrollType){
-                console.log(payrollType)
+                // console.log(payrollType)
                 this.objHrTansType.push(payrollType)
             },
             indexEdit(index){

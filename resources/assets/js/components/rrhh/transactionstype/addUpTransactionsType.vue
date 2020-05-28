@@ -248,18 +248,18 @@
                         
                     }
 
-                    console.log(params)
+                    // console.log(params)
                     // debugger
                     
     
                     axios.post('transactionstypes/post',params)
                         .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             if (response.statusText == "OK") {
                                 // document.querySelector("#newUpForm").reset()
                                 alert("Success")
                             } else {
-                                console.log(response)
+                                // console.log(response)
                                 alert("Error")
                             }
                             

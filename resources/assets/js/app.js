@@ -18,8 +18,8 @@ window.toastr = require('toastr');
 
 import SweetModal from 'sweet-modal-vue/src/plugin.js';
 Vue.use(SweetModal);
-import VModal from 'vue-js-modal'
-Vue.use(VModal)
+// import VModal from 'vue-js-modal'
+// Vue.use(VModal)
 import Permissions from './mixins/Permissions';
 Vue.mixin(Permissions);
 

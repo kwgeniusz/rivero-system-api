@@ -127,15 +127,26 @@ class ProcessController extends Controller
     public function destroy($id)
     {
         // return 'entro';
-        $periods = Periods::find($id);
-        $periods->delete();
+        // $process = DB::select("SELECT hrprocess_detail.hrpdId FROM `hrprocess`
+        // INNER JOIN hrprocess_detail ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId
+        // WHERE hrprocess.hrprocessId =" . $id);
+        // // print_r($process);
+        // // return $process;
+        // if (count($process) > 0) {
+        //      return true;
+        // } else {
+        //      return false;
+        // }
+        
+        // $process = Process::find($id);
+        // $process->delete();
     
     }
     public function destroyDetail($id)
     {
         // return 'entro';
-        $periods = ProcessDetail::find($id);
-        $periods->delete();
+        $process = ProcessDetail::find($id);
+        $process->delete();
     
     }
 }

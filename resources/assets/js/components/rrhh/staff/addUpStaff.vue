@@ -414,7 +414,7 @@
     
                     axios.post(`staff/post/`,params)
                         .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
                                 document.querySelector("#newUpForm").reset()
@@ -498,15 +498,9 @@
                 // console.log(eeeee)
                 // debugger
                 })
-<<<<<<< HEAD
                 axios.get(`/staff/list/typepayroll/${cb}`).then(res => {
                
-=======
-                axios.get(`staff/list/typepayroll/${cb}`).then(res => {
-                // const eeeee = res.data
-                
-                    // console.log(res)
->>>>>>> 44e91ca4bb88aca4891adcc20fd8d8d2b99026e0
+
                     this.selectPayrollType = res.data.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                         

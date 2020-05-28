@@ -134,12 +134,12 @@
                 this.formStatus = 0
                 axios.get('staff/list/').then( response => {
                 this.objStaff = response.data.hrstaff
-                console.log(this.objStaff)
+                // console.log(this.objStaff)
                 
                 })
             },
             newObj(payrollType){
-                console.log(payrollType)
+                // console.log(payrollType)
                 this.objStaff.push(payrollType)
             },
             indexEdit(index){

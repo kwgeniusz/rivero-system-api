@@ -88,7 +88,7 @@
                 };
             },
             editData(id){
-                console.log('el id es: ' + id)
+                // console.log('el id es: ' + id)
                 this.editId = id
                 this.formStatus = 2
             },

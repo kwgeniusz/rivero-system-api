@@ -85,7 +85,7 @@
             })
             },
             newObj(payrollType){
-                console.log(payrollType)
+                // console.log(payrollType)
                 this.objPayRollType.push(payrollType)
             },
             indexEdit(index){

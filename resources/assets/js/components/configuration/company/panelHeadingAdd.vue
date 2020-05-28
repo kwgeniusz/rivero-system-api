@@ -142,11 +142,11 @@
                     varFieldFive:  this.varFieldFive,
                     varFieldSix:  this.varFieldSix,
                 }
-                console.log(params)
+                // console.log(params)
 
                 axios.post('companys', params)
                 .then((response) => {
-                    console.log(response)
+                    // console.log(response)
                     document.querySelector("#formSixField").reset()
                     alert("Success")
                 
@@ -163,16 +163,13 @@
             change4(event){
                 const cb4=event.target.value
                 // newcb4(cb4)
-<<<<<<< HEAD
-                axios.get(`/companys/offices/${cb4}`).then((response) => {
-                    console.log(response)
-=======
                 axios.get(`companys/offices/${cb4}`).then((response) => {
->>>>>>> 44e91ca4bb88aca4891adcc20fd8d8d2b99026e0
+                    // console.log(response)
+
                     this.objOffices = response.data.map( item => {
                     return { id: item.officeId, vText: item.officeName}
                     })
-                console.log(this.objOffices)
+                // console.log(this.objOffices)
 
                 })
                 // this.$emit('new4', cb4)

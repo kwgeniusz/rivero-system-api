@@ -265,17 +265,17 @@
                         
                     }
 
-                    console.log(params)
+                    // console.log(params)
                     // debugger
     
                     axios.post('periods/post',params)
                         .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             if (response.statusText == "OK") {
                                 document.querySelector("#newUpForm").reset()
                                 alert("Success")
                             } else {
-                                console.log(response)
+                                // console.log(response)
                                 alert("Error")
                             }
                             
@@ -301,7 +301,7 @@
                     let url = `periods/put/${this.objEdit.periodId}`
                     axios.put(url,params)
                         .then((response) => {
-                            console.log(response);
+                            // console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
                             } else {

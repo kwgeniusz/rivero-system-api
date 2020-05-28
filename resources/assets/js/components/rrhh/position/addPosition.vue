@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="form-group col-md-7">
                                     <label for="positionName" class="form-group" v-text="nameField3"></label>
-                                    <input type="text" v-model="positionName" class="form-control" id="positionName" v-bind:placeholder="nameField2" required="required">
+                                    <input type="text" v-model="positionName" class="form-control" id="positionName" v-bind:placeholder="nameField3" required="required">
                                 </div>
                             </div>
                             <div class="row">
@@ -52,11 +52,11 @@
                                 <div class="form-group col-md-5">
                                     <a href="#" data-toggle="tooltip" title="salario mensual en moneda local"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                                     <label for="localSalary" class="form-group" v-text="nameField6"></label>
-                                    <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField">
+                                    <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField6">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="localCurrencyId" class="form-group" v-text="nameField7"></label>
-                                    <select class="form-control" v-model="localCurrencyId" id="localCurrencyI">
+                                    <select class="form-control" v-model="localCurrencyId" id="localCurrencyId">
                                         <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
                                     </select>
                                     <!-- <input type="text" v-model="localCurrencyId" class="form-control" id="localCurrencyId" v-bind:placeholder="nameField7" required="required"> -->
@@ -65,7 +65,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5">
                                     <label for="localDailySalary" class="form-group" v-text="nameField8"></label>
-                                    <input type="text" v-model="localDailySalary" class="form-control" id="localDailySalary" v-bind:placeholder="nameField6" >
+                                    <input type="text" v-model="localDailySalary" class="form-control" id="localDailySalary" v-bind:placeholder="nameField8" >
                                 </div>
                             </div>
                             
@@ -208,11 +208,11 @@
     
                     axios.post('hrposition/post',params)
                         .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
                             } else {
-                                console.log(response)
+                                // console.log(response)
                                 alert("Error")
                             }
                             
@@ -237,7 +237,7 @@
                     let url = `hrposition/put/${this.objEdit.hrpositionId}`
                     axios.put(url,params)
                         .then((response) => {
-                            console.log(response);
+                            // console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
                             } else {

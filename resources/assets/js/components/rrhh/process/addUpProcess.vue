@@ -188,12 +188,12 @@
     
                     axios.post('process/post',params)
                         .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
                                 document.querySelector("#newUpForm").reset()
                             } else {
-                                console.log(response)
+                                // console.log(response)
                                 alert("Error")
                             }
                             
@@ -214,7 +214,7 @@
                     let url = `process/put/${this.objEdit.hrprocessId}`
                     axios.put(url,params)
                         .then((response) => {
-                            console.log(response);
+                            // console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
                                 // document.querySelector("#newUpForm").reset()

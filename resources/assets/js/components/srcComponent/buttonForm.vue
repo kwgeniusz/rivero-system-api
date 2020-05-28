@@ -24,7 +24,7 @@
         },
         methods: {
             addForm(n){
-                console.log(n)
+                // console.log(n)
                 switch (n) {
                     case 1:
                         this.$emit('addf', n)
