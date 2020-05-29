@@ -81,3 +81,15 @@ Route::get('staff/list/positions/{id}', 'Web\HrStaffController@comboPositions');
 Route::post('staff/post', 'Web\HrStaffController@store');
 Route::put('staff/put/{id}', 'Web\HrStaffController@update');
 Route::delete('staff/delete/{id}', 'Web\HrStaffController@destroy');
+
+// payroll Controll
+Route::get('payrollcontrol/', function () {
+    return view('rrhh.payrollcontrol.index');
+})->name('payrollcontrol.index'); 
+Route::get('payrollcontrol/list/', 'Web\PayrollControlController@index');
+Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
+Route::get('payrollcontrol/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PayrollControlController@getPayrollNumber');
+Route::get('payrollcontrol/process/{country}/{company}', 'Web\PayrollControlController@getPorcess');
+Route::post('payrollcontrol', 'Web\PayrollControlController@store');
+Route::put('periods/put/{id}', 'Web\PeriodsController@update');
+Route::delete('payrollcontrol/{id}', 'Web\PayrollControlController@destroy');

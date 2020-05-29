@@ -18866,7 +18866,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(21);
-module.exports = __webpack_require__(250);
+module.exports = __webpack_require__(261);
 
 
 /***/ }),
@@ -18964,16 +18964,20 @@ Vue.component('add-up-process-detail', __webpack_require__(216));
 Vue.component('main-staff', __webpack_require__(219));
 Vue.component('list-staff', __webpack_require__(222));
 Vue.component('add-up-staff', __webpack_require__(227));
+// --> payrollControll
+Vue.component('main-payroll-control', __webpack_require__(230));
+Vue.component('list-payroll-control', __webpack_require__(233));
+Vue.component('add-up-payroll-control', __webpack_require__(238));
 
 //############ COMFIGURATION COMPANY COMPONENTS ##############
-Vue.component('main-company', __webpack_require__(230));
-Vue.component('panel-heading-add', __webpack_require__(233));
-Vue.component('panel-heading-update', __webpack_require__(236));
-Vue.component('list-company', __webpack_require__(239));
+Vue.component('main-company', __webpack_require__(241));
+Vue.component('panel-heading-add', __webpack_require__(244));
+Vue.component('panel-heading-update', __webpack_require__(247));
+Vue.component('list-company', __webpack_require__(250));
 
 // ########### srcComponent 
-Vue.component('button-form', __webpack_require__(242));
-Vue.component('loading', __webpack_require__(245));
+Vue.component('button-form', __webpack_require__(253));
+Vue.component('loading', __webpack_require__(256));
 
 var app = new Vue({
   el: '#app',
@@ -86919,6 +86923,1841 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/components/rrhh/payrollControl/mainPayrollControl.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-45969ed0", Component.options)
+  } else {
+    hotAPI.reload("data-v-45969ed0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 231 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('payrollcontrol/list/').then(function (response) {
+            _this.objPayrollCOntrol = response.data.payrollControl;
+            // console.log(this.objPayrollCOntrol)
+            // debugger
+        });
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            objPayrollCOntrol: [],
+            objEdit: [],
+            formStatus: 0,
+            namePanelList: "PRE-NOMINA",
+            namePanel: "AGREGAR PRE-NOMINA",
+            namePanel2: "EDITAR PRE-NOMINA",
+            nameField1: "PAÍS",
+            nameField2: "EMPRESA",
+            nameField3: "TIPO DE NÓMINA",
+            nameField4: "PERIODO",
+            nameField5: "AÑO",
+            nameField6: "PROCESO",
+            nameField7: "",
+            nameField8: ""
+
+        };
+    },
+
+    methods: {
+        addFormStatus: function addFormStatus() {
+            this.formStatus = 1;
+        },
+        showlist: function showlist() {
+            var _this2 = this;
+
+            this.formStatus = 0;
+            axios.get('payrollcontrol/list/').then(function (response) {
+                _this2.objPayrollCOntrol = response.data.payrollControl;
+                // console.log(this.objPayrollCOntrol)
+                // debugger
+            });
+        },
+        newObj: function newObj(payrollType) {
+            console.log(payrollType);
+            this.objPayrollCOntrol.push(payrollType);
+        },
+        indexEdit: function indexEdit(index) {
+            this.formStatus = 2;
+            // console.log('recibido')
+            this.objEdit = this.objPayrollCOntrol[index];
+            // console.log( this.objEdit)
+        },
+        delrow: function delrow(indexId) {
+            // console.log(indexId)
+            this.objPayrollCOntrol.splice(indexId[0], 1);
+        }
+    }
+});
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.formStatus === 0
+      ? _c(
+          "div",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("button-form", {
+              attrs: { buttonType: 0 },
+              on: { addf: _vm.addFormStatus }
+            }),
+            _vm._v(" "),
+            _c("list-payroll-control", {
+              attrs: {
+                objPayrollCOntrol: _vm.objPayrollCOntrol,
+                namePanelList: _vm.namePanelList
+              },
+              on: { indexEdit: _vm.indexEdit, delrow: _vm.delrow }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 1
+      ? _c(
+          "div",
+          [
+            _c("add-up-payroll-control", {
+              attrs: {
+                namePanel: _vm.namePanel,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8
+              },
+              on: { showlist: _vm.showlist, newObj: _vm.newObj }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 2
+      ? _c(
+          "div",
+          [
+            _c("add-up-payroll-control", {
+              attrs: {
+                namePanel2: _vm.namePanel2,
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                nameField7: _vm.nameField7,
+                nameField8: _vm.nameField8,
+                objEdit: _vm.objEdit,
+                editId: 1
+              },
+              on: { showlist: _vm.showlist, newObj: _vm.newObj }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("PROCESAR PRE-NOMINA")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-45969ed0", module.exports)
+  }
+}
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(234)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(236)
+/* template */
+var __vue_template__ = __webpack_require__(237)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/payrollControl/listPayrollControl.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-02293a75", Component.options)
+  } else {
+    hotAPI.reload("data-v-02293a75", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(235);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("f10d3f94", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02293a75\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPayrollControl.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02293a75\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPayrollControl.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* td{\n    padding: 4px 0 0 2px !important;\n} */\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 236 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {};
+    },
+
+    props: {
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objPayrollCOntrol: {}
+    },
+    methods: {
+        editRow: function editRow(index, id) {
+
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+
+            this.$emit("indexEdit", index);
+        },
+        deleterow: function deleterow(index, id) {
+            var _this = this;
+
+            // console.log('index ' + index)
+            // console.log('id ' + id)
+            // return
+            var indexIs = this.objPayrollCOntrol[index];
+
+            if (confirm("Delete?")) {
+                axios.delete('payrollcontrol/' + id).then(function (res) {
+                    // console.log(res)
+                    _this.$emit("delrow", [index, id]);
+                }).catch(function (error) {
+                    alert("Error");
+                    console.log(error);
+                });
+            }
+
+            // console.log('enviado')
+        }
+    }
+});
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "table-responsive text-center" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped table-bordered text-center" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm.objPayrollCOntrol.length > 0
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.objPayrollCOntrol, function(payrollcontro, index) {
+                    return _c("tr", { key: payrollcontro.hrpayrollControlId }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "form-inline" }, [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollcontro.countryName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollcontro.companyName) +
+                              " \n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollcontro.payrollTypeName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(payrollcontro.year) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollcontro.payrollName) +
+                              " \n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.editRow(
+                                  index,
+                                  payrollcontro.hrpayrollControlId
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "glyphicon glyphicon-edit"
+                            }),
+                            _vm._v(" Procesar")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleterow(
+                                  index,
+                                  payrollcontro.hrpayrollControlId
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-times-circle" }),
+                            _vm._v(" Eliminar")
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              : _c("tbody", [
+                  _c("tr", [
+                    _c("td", { attrs: { colspan: "9" } }, [_c("loading")], 1)
+                  ])
+                ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("PAIS")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("EMPRESA")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("TIPO DE NOMINA")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("AÑO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("PEROÍDO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-02293a75", module.exports)
+  }
+}
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(239)
+/* template */
+var __vue_template__ = __webpack_require__(240)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/payrollControl/addUpPayrollControl.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3438be05", Component.options)
+  } else {
+    hotAPI.reload("data-v-3438be05", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 239 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        // const numero = document.querySelector("#payrollNumber")
+        // numero.addEventListener("keyup", (event) => {
+        // // console.log(numero.value)
+        // // if (numero.value  === 0) {
+        // //     numero.value = 1
+        // // console.log('numero 1')
+        // // }
+        // numero.value = numero.value.replace(/\D/g, "")
+        //     .replace(/([0-9])$/, '$1')
+
+        // })
+        axios.get('periods/list/').then(function (res) {
+            // const eeeee = res.data
+            _this.selectCountrys = res.data.countrys.map(function (item) {
+                return { id: item.countryId, vText: item.countryName };
+            });
+
+            // this.selectPayrollType = res.data.payrollType.map( item => {
+            //     return {id: item.payrollTypeId, vText: item.payrollTypeName}
+            // })
+            // console.log(this.selectPayrollType)
+            // debugger
+        });
+
+        if (this.editId > 0) {
+            this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId;
+            axios.get('periods/list/').then(function (res) {
+                // const eeeee = res.data
+                _this.selectCompanys = res.data.companys.map(function (item) {
+                    return { id: item.companyId, vText: item.companyShortName };
+                });
+                _this.companyId = document.querySelector("#companyId").value = _this.objEdit.companyId;
+
+                _this.selectPayrollType = res.data.payrollType.map(function (item) {
+                    return { id: item.payrollTypeId, vText: item.payrollTypeName };
+                });
+                _this.payrollTypeId = document.querySelector("#payrollTypeId").value = _this.objEdit.payrollTypeId;
+            });
+
+            this.periodName = document.querySelector("#periodName").value = this.objEdit.periodName;
+            this.payrollNumber = document.querySelector("#payrollNumber").value = this.objEdit.payrollNumber;
+            this.year = document.querySelector("#year").value = this.objEdit.year;
+            this.periodFrom = document.querySelector("#periodFrom").value = this.objEdit.periodFrom;
+            this.periodTo = document.querySelector("#periodTo").value = this.objEdit.periodTo;
+        }
+
+        var year = new Date();
+        this.years = year.getFullYear() - 3;
+
+        // console.log(this.years)
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            selectCountry: '',
+            companyId: '',
+            payrollTypeId: '',
+            periodName: '',
+            year: '',
+            years: 0,
+            processCode: '',
+            selectProcessCode: {},
+            payrollNumber: '',
+            thereIs: false,
+            selectCountrys: {},
+            selectCompanys: {},
+            selectPayrollType: {},
+            selectPayrollNumber: {}
+        };
+    },
+
+    props: {
+        namePanel: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        namePanel2: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        editId: {
+            type: Number,
+            default: 0
+        },
+        nameField1: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField2: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField3: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField4: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField5: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField6: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField7: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        nameField8: {
+            type: String,
+            default: 'Name Defauld'
+        },
+        objEdit: {}
+
+    },
+    methods: {
+        newUpForm: function newUpForm() {
+
+            if (this.editId === 0) {
+
+                console.log(this.payrollNumber);
+                var data = this.payrollNumber.split('-');
+                console.log(data);
+                data[0] = parseInt(data[0]);
+                var params = {
+                    countryId: this.selectCountry,
+                    companyId: this.companyId,
+                    payrollTypeId: this.payrollTypeId,
+                    payrollNumber: data[0],
+                    year: this.year,
+                    payrollName: data[1],
+                    processCode: this.processCode
+
+                    // console.log(params)
+                    // return
+
+                };axios.post('payrollcontrol', params).then(function (response) {
+                    // console.log(response)
+                    if (response.statusText == "OK") {
+                        document.querySelector("#newUpForm").reset();
+                        alert("Success");
+                    } else {
+                        // console.log(response)
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            } else {
+                var _params = {
+                    countryId: this.selectCountry,
+                    companyId: this.companyId,
+                    payrollTypeId: this.payrollTypeId,
+                    periodName: this.periodName,
+                    payrollNumber: this.payrollNumber,
+                    year: this.year,
+                    updated: this.updated,
+                    periodFrom: this.periodFrom,
+                    periodTo: this.periodTo
+                };
+
+                var url = 'periods/put/' + this.objEdit.periodId;
+                axios.put(url, _params).then(function (response) {
+                    // console.log(response);
+                    if (response.statusText == "OK") {
+                        alert("Success");
+                    } else {
+                        alert("Error");
+                    }
+                }).catch(function (error) {
+                    // alert("Faile")
+                    console.log(error);
+                });
+            }
+        },
+        cancf: function cancf() {
+            this.$emit('showlist', 0);
+        },
+        changeCompany: function changeCompany(event) {
+            var _this2 = this;
+
+            var cb = event.target.value;
+            var payrollTypeId = document.querySelector("#payrollTypeId");
+            var companyId = document.querySelector("#companyId");
+            companyId.disabled = false;
+
+            axios.get('companys/contrys/' + cb).then(function (res) {
+                // const eeeee = res.data
+
+                // console.log(res)
+                _this2.selectCompanys = res.data.map(function (item) {
+                    return { id: item.companyId, vText: item.companyName };
+                });
+                _this2.payrollNumber = document.querySelector("#payrollNumber").value = '';
+            });
+
+            axios.get('periods/list/' + cb).then(function (res) {
+
+                _this2.selectPayrollType = res.data.map(function (item) {
+                    return { id: item.payrollTypeId, vText: item.payrollTypeName };
+                });
+                _this2.payrollNumber = document.querySelector("#payrollNumber").value = '';
+            });
+        },
+        payrollType: function payrollType() {
+            var _this3 = this;
+
+            var payrollTypeId = document.querySelector("#payrollTypeId");
+            var year = document.querySelector("#year");
+            var selectCountry = document.querySelector("#selectCountry").value;
+            var companyId = document.querySelector("#companyId").value;
+            payrollTypeId.disabled = false;
+
+            if (payrollTypeId.value !== "") {
+                year.disabled = false;
+            }
+            this.payrollNumber = document.querySelector("#payrollNumber").value = '';
+
+            //obtener proceso
+            axios.get('payrollcontrol/process/' + selectCountry + '/' + companyId).then(function (res) {
+                console.log(res.data);
+                // return
+                if (res.data.length > 0) {
+                    // console.log('entr0o')
+                    //             processCode: '',
+                    // selectProcessCode:
+                    processCode.disabled = false;
+                    _this3.selectProcessCode = res.data.map(function (item) {
+                        return { id: item.processCode, vText: item.processName };
+                    });
+                    _this3.thereIs = true;
+
+                    // let num = res.data[0].payrollNumber + 1
+
+                    // this.payrollNumber = parseInt(num)
+                } else {
+                    _this3.thereIs = false;
+                    processCode.disabled = true;
+                }
+            });
+        },
+        getPayrollNumber: function getPayrollNumber() {
+            var _this4 = this;
+
+            var selectCountry = document.querySelector("#selectCountry").value;
+            var companyId = document.querySelector("#companyId").value;
+            var payrollType = document.querySelector("#payrollTypeId").value;
+            var year = document.querySelector("#year").value;
+            var payrollNumber = document.querySelector("#payrollNumber");
+            // this.payrollNumber = document.querySelector("#payrollNumber").value
+
+
+            // console.log(payrollNumber)
+
+            if (selectCountry !== "" && companyId !== "" && payrollType !== "" && year !== "") {
+                // payrollNumber.disabled = false
+                axios.get('payrollcontrol/payrollNumber/' + selectCountry + '/' + companyId + '/' + payrollType + '/' + year).then(function (res) {
+                    // console.log(res.data)
+                    // return
+                    if (res.data.length > 0) {
+                        // console.log('entr0o')
+                        payrollNumber.disabled = false;
+                        _this4.selectPayrollNumber = res.data.map(function (item) {
+                            return { id: item.payrollNumber, vText: item.periodName };
+                        });
+                        // let num = res.data[0].payrollNumber + 1
+
+                        // this.payrollNumber = parseInt(num)
+                    } else {
+                        alert('No hay registros');
+                        payrollNumber.disabled = true;
+                    }
+                });
+            } else {
+                alert('Debe seleccionar pais, compañia, tipo de nomina y año');
+            }
+        }
+    },
+    computed: {
+        addSuccess: function addSuccess() {
+            return {
+                background: '#dff0d8'
+
+            };
+        },
+        ediPrimary: function ediPrimary() {
+            return {
+                background: '#d9edf7'
+
+            };
+        }
+
+    }
+});
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _vm.editId === 0
+            ? _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.addSuccess },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel))
+                  ])
+                ]
+              )
+            : _c(
+                "div",
+                { staticClass: "panel-heading", style: _vm.ediPrimary },
+                [
+                  _c("h4", { staticClass: "text-uppercase" }, [
+                    _vm._v(_vm._s(_vm.namePanel2))
+                  ])
+                ]
+              ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "form",
+              {
+                staticClass: "form",
+                attrs: { role: "form", autocomplete: "off", id: "newUpForm" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.newUpForm()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "selectCountry" },
+                      domProps: { textContent: _vm._s(_vm.nameField1) }
+                    }),
+                    _vm._v(" "),
+                    _vm.editId === 0
+                      ? _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectCountry,
+                                expression: "selectCountry"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "selectCountry",
+                              autocomplete: "off",
+                              required: "required"
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.selectCountry = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.changeCompany($event)
+                                }
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.selectCountrys, function(item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                      : _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectCountry,
+                                expression: "selectCountry"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "selectCountry",
+                              disabled: "disabled",
+                              autocomplete: "off",
+                              required: "required"
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.selectCountry = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.changeCompany($event)
+                                }
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.selectCountrys, function(item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-md-7 " }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "companyId" },
+                      domProps: { textContent: _vm._s(_vm.nameField2) }
+                    }),
+                    _vm._v(" "),
+                    _vm.editId === 0
+                      ? _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.companyId,
+                                expression: "companyId"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "companyId",
+                              disabled: "disabled",
+                              autocomplete: "off",
+                              required: "required"
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.companyId = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.payrollType()
+                                }
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.selectCompanys, function(item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                      : _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.companyId,
+                                expression: "companyId"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "companyId",
+                              disabled: "disabled",
+                              autocomplete: "off",
+                              required: "required"
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.companyId = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.payrollType()
+                                }
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.selectCompanys, function(item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "payrollTypeId" },
+                      domProps: { textContent: _vm._s(_vm.nameField3) }
+                    }),
+                    _vm._v(" "),
+                    _vm.editId === 0
+                      ? _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.payrollTypeId,
+                                expression: "payrollTypeId"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "payrollTypeId",
+                              autocomplete: "off",
+                              disabled: "disabled",
+                              required: "required"
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.payrollTypeId = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.payrollType()
+                                }
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.selectPayrollType, function(item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                      : _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.payrollTypeId,
+                                expression: "payrollTypeId"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "payrollTypeId",
+                              disabled: "disabled",
+                              autocomplete: "off",
+                              required: "required"
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.payrollTypeId = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.payrollType()
+                                }
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.selectPayrollType, function(item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-8 form-inline" },
+                    [
+                      _c("label", {
+                        staticClass: "form-group",
+                        attrs: { for: "year" },
+                        domProps: { textContent: _vm._s(_vm.nameField5) }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-inline" }, [
+                        _vm.editId === 0
+                          ? _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.year,
+                                    expression: "year"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "year",
+                                  disabled: "disabled",
+                                  autocomplete: "off",
+                                  required: "required"
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.year = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              _vm._l(5, function(n) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: n,
+                                    domProps: { value: n + _vm.years }
+                                  },
+                                  [_vm._v(_vm._s(n + _vm.years))]
+                                )
+                              }),
+                              0
+                            )
+                          : _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.year,
+                                    expression: "year"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "year",
+                                  autocomplete: "off",
+                                  disabled: "disabled",
+                                  required: "required"
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.year = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              _vm._l(5, function(n) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: n,
+                                    domProps: { value: n + _vm.years }
+                                  },
+                                  [_vm._v(_vm._s(n + _vm.years))]
+                                )
+                              }),
+                              0
+                            ),
+                        _vm._v(" "),
+                        _vm.editId === 0
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-success",
+                                attrs: {
+                                  type: "button",
+                                  title: "Obtener Numero de periodo",
+                                  "data-original-title":
+                                    "Obtener Numero de periodo"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.getPayrollNumber()
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "glyphicon glyphicon-search"
+                                })
+                              ]
+                            )
+                          : _vm._e()
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "payrollNumber" },
+                      domProps: { textContent: _vm._s(_vm.nameField4) }
+                    }),
+                    _vm._v(" "),
+                    _vm.editId === 0
+                      ? _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.payrollNumber,
+                                expression: "payrollNumber"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "payrollNumber",
+                              autocomplete: "off",
+                              disabled: "disabled",
+                              required: "required"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.payrollNumber = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          _vm._l(_vm.selectPayrollNumber, function(item) {
+                            return _c(
+                              "option",
+                              {
+                                key: item.id,
+                                domProps: { value: item.id + "-" + item.vText }
+                              },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("label", {
+                      staticClass: "form-group",
+                      attrs: { for: "processCode" },
+                      domProps: { textContent: _vm._s(_vm.nameField6) }
+                    }),
+                    _vm._v(" "),
+                    _vm.editId === 0
+                      ? _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.processCode,
+                                expression: "processCode"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "processCode",
+                              autocomplete: "off",
+                              disabled: "disabled",
+                              required: "required"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.processCode = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          _vm._l(_vm.selectProcessCode, function(item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.vText))]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.thereIs === false
+                      ? _c("span", [
+                          _vm._v(
+                            " No hay procesos para el pais y empresa seleccionado"
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.editId === 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 1 },
+                          on: { cancf: _vm.cancf }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.editId > 0
+                  ? _c(
+                      "div",
+                      [
+                        _c("button-form", {
+                          attrs: { buttonType: 2 },
+                          on: { cancf: _vm.cancf }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3438be05", module.exports)
+  }
+}
+
+/***/ }),
+/* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(242)
+/* template */
+var __vue_template__ = __webpack_require__(243)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/components/configuration/company/mainCompany.vue"
 
 /* hot reload */
@@ -86941,7 +88780,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 231 */
+/* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87068,7 +88907,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 232 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -87167,15 +89006,15 @@ if (false) {
 }
 
 /***/ }),
-/* 233 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(234)
+var __vue_script__ = __webpack_require__(245)
 /* template */
-var __vue_template__ = __webpack_require__(235)
+var __vue_template__ = __webpack_require__(246)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -87214,7 +89053,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 234 */
+/* 245 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87388,7 +89227,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 235 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -87683,15 +89522,15 @@ if (false) {
 }
 
 /***/ }),
-/* 236 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(237)
+var __vue_script__ = __webpack_require__(248)
 /* template */
-var __vue_template__ = __webpack_require__(238)
+var __vue_template__ = __webpack_require__(249)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -87730,7 +89569,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 237 */
+/* 248 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87931,7 +89770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 238 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -88226,15 +90065,15 @@ if (false) {
 }
 
 /***/ }),
-/* 239 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(240)
+var __vue_script__ = __webpack_require__(251)
 /* template */
-var __vue_template__ = __webpack_require__(241)
+var __vue_template__ = __webpack_require__(252)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -88273,7 +90112,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 240 */
+/* 251 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88392,7 +90231,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 241 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -88537,15 +90376,15 @@ if (false) {
 }
 
 /***/ }),
-/* 242 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(243)
+var __vue_script__ = __webpack_require__(254)
 /* template */
-var __vue_template__ = __webpack_require__(244)
+var __vue_template__ = __webpack_require__(255)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -88584,7 +90423,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 243 */
+/* 254 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88649,7 +90488,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 244 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -88753,19 +90592,19 @@ if (false) {
 }
 
 /***/ }),
-/* 245 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(246)
+  __webpack_require__(257)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(248)
+var __vue_script__ = __webpack_require__(259)
 /* template */
-var __vue_template__ = __webpack_require__(249)
+var __vue_template__ = __webpack_require__(260)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -88804,13 +90643,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 246 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(247);
+var content = __webpack_require__(258);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -88830,7 +90669,7 @@ if(false) {
 }
 
 /***/ }),
-/* 247 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -88844,7 +90683,7 @@ exports.push([module.i, "\n.spinner {\nmargin: 20px auto 0;\nwidth: 70px;\ntext-
 
 
 /***/ }),
-/* 248 */
+/* 259 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88862,7 +90701,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 249 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -88893,7 +90732,7 @@ if (false) {
 }
 
 /***/ }),
-/* 250 */
+/* 261 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
