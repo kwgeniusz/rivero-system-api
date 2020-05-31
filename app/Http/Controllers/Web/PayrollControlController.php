@@ -6,6 +6,7 @@ use App\Periods;
 use App\Country;
 use App\Company;
 use App\PayrollControl;
+use App\Payroll;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -135,4 +136,156 @@ class PayrollControlController extends Controller
         $hrpayrollControl->delete();
     
     }
+    ##########################
+    // process of pre-payroll
+    ##########################
+
+    public function processPrePayroll($id)
+    {
+        
+    
+    $transactionTypeCode = 0;
+    $processCode = 0;
+    $isIncome  = 1;
+    $quantity   = 1;
+    $amount   =  0; 
+        // PARTE 1. 
+    /*
+       1. leer tabla hrprepayroll_control.
+       2. leer tabla hrstaff
+       2. Por cada registro de hrstaff  
+          2.1 leer hrprocess_detail
+          2.2 calcular transacciones
+          2.3 guardar registro calculado en hrpayroll
+    */
+
+
+        $rs0 = DB::select("SELECT * FROM hrpayroll_control
+                            WHERE hrpayrollControlId = " . $id);
+        
+        foreach ($rs0 as $rs) {
+            $countryId        = $rs->countryId;   
+            $companyId        = $rs->companyId;  
+            $year             = $rs->year;  
+            $payrollNumber    = $rs->payrollNumber;
+            $payrollTypeId    = $rs->payrollTypeId;
+            $payrollName      = $rs->payrollName;
+            $processCode      = $rs->processCode;
+        }
+
+        // get data from table hrstaff
+        $rs1  = DB::select("SELECT * FROM hrstaff 
+        WHERE countryId = $countryId AND  
+              companyId  = $companyId AND 
+              payrollTypeId = $payrollTypeId");
+        // return $rs1;
+
+        foreach ($rs1 as $key => $rs) {
+     
+            $staffCode        = $rs->staffCode;
+            $firstName        = $rs->firstName;
+            $lastName         = $rs->lastName;
+            $staffName        = $rs->shortName;
+            $baseSalary       = $rs->baseSalary;
+
+            // get hrprocess data
+            $rs2  = DB::select("SELECT * 
+                            FROM hrprocess
+                            LEFT JOIN hrprocess_detail
+                            ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId       
+                            WHERE hrprocess.countryId = $countryId  and 
+                                    hrprocess.companyId = $companyId and 
+                                    hrprocess.processCode = $processCode");
+            // return $rs2;
+            foreach ($rs2 as $rs3) {
+                $transactionTypeCode  = $rs3->transactionTypeCode;     
+                $quantity             = $rs3->quantity;  
+                $amount               = $rs3->amount;  
+
+                $rs0 = DB::select("SELECT * FROM hrtransaction_type 
+                    WHERE countryId = $countryId AND  
+                        companyId  = $companyId AND 
+                        transactionTypeCode = $transactionTypeCode ");
+                $isSalaryBased        = 0;
+                $isIncome             = 0;
+
+               
+                
+                foreach($rs0 as $rs) {
+                    $isSalaryBased        = $rs->salaryBased;
+                    $isIncome             = $rs->isIncome;
+                } 
+                // print_r($rs0);
+                // return $rs0;
+                $addTrasacction = 0;         // add transaction control
+                if ($isSalaryBased == 1) {   // transaccion basada en salario
+                    // echo " entro ";
+                    $amount = $quantity * $baseSalary;
+                    if ($amount > 0) {
+                    $addTrasacction = 1;             
+                    }
+                    
+                } else {                     // trabsaccion no es basada en salario
+                    // get permanent transactions for this person and transaction code
+                    // echo " ->no entro";
+                    // return $countryId . '='.$companyId.'='. $staffCode . '=' . $transactionTypeCode;
+                    // $staffCode= strval($staffCode);
+                    $rs4 = DB::select("SELECT * FROM hrpermanent_transaction 
+                    WHERE countryId = $countryId AND  
+                          companyId  = $companyId AND 
+                          staffCode  = '$staffCode' AND 
+                          transactionTypeCode = $transactionTypeCode");
+
+                    // print_r($rs4);
+                    $addTrasacction = 0; 
+                    
+                    foreach ($rs4 as $rs5) {
+                        $stCode            = $rs5->staffCode;   
+                        $ttCode            = $rs5->transactionTypeCode; 
+                        $transactionQty    = $rs5->quantity;  
+                        $transactionAmount = $rs5->amount;  
+
+                        if ( $staffCode == $stCode and $transactionTypeCode == $ttCode ) {
+
+                            $amount   =   $transactionQty * $transactionAmount;
+                            if ($amount > 0) {
+                                $addTrasacction = 1;              	 	
+                            }
+                        
+                        }
+
+                    }
+                }
+                
+
+                // insert record in hrpayroll
+                if ($addTrasacction == 1) {
+                    // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
+                    // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
+                
+                    $hrpayroll = new Payroll();
+                    $hrpayroll->countryId = $countryId;
+                    $hrpayroll->companyId = $companyId;
+                    $hrpayroll->year = $year;
+                    $hrpayroll->payrollNumber = $payrollNumber;
+                    $hrpayroll->payrollName = $payrollName;
+                    $hrpayroll->staffCode = $staffCode;
+                    $hrpayroll->staffName = $staffName;
+                    $hrpayroll->transactionTypeCode = $transactionTypeCode;
+                    $hrpayroll->isIncome = $isIncome;
+                    $hrpayroll->quantity = $quantity;
+                    $hrpayroll->amount = $amount;
+                    $hrpayroll->save();
+                }
+            
+            }//foreach ($rs2 as $rs3)
+
+            
+        } /* end foreach ($rs1 as $key => $rs) */
+
+        return $hrpayroll;
+
+    }
+
+
 }

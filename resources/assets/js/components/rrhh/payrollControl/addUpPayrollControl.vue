@@ -193,7 +193,7 @@
                    this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
                 })  
 
-
+            
                 
                 
                 this.periodName = document.querySelector("#periodName").value = this.objEdit.periodName
@@ -203,6 +203,8 @@
                 this.periodTo = document.querySelector("#periodTo").value = this.objEdit.periodTo
                
             }
+
+
             
             const year = new Date()
             this.years= year.getFullYear() - 3

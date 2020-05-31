@@ -87263,7 +87263,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* td{\n    padding: 4px 0 0 2px !important;\n} */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* td{\n    padding: 4px 0 0 2px !important;\n} */\n", ""]);
 
 // exports
 
@@ -87357,12 +87357,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         objPayrollCOntrol: {}
     },
     methods: {
-        editRow: function editRow(index, id) {
+        process: function process(index, id) {
+            console.log('id: ' + id);
+            var URL = 'payrollcontrol/list/' + id;
 
-            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
-            // de esta manera no tengo que buscar los datos en la DB nuevamente
+            axios.get(URL).then(function (res) {
+                console.log(res);
+            });
 
-            this.$emit("indexEdit", index);
+            // this.$emit("indexEdit",index)
         },
         deleterow: function deleterow(index, id) {
             var _this = this;
@@ -87466,7 +87469,7 @@ var render = function() {
                             staticClass: "btn btn-sm btn-primary",
                             on: {
                               click: function($event) {
-                                return _vm.editRow(
+                                return _vm.process(
                                   index,
                                   payrollcontro.hrpayrollControlId
                                 )

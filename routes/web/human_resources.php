@@ -87,9 +87,9 @@ Route::get('payrollcontrol/', function () {
     return view('rrhh.payrollcontrol.index');
 })->name('payrollcontrol.index'); 
 Route::get('payrollcontrol/list/', 'Web\PayrollControlController@index');
-Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
 Route::get('payrollcontrol/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PayrollControlController@getPayrollNumber');
 Route::get('payrollcontrol/process/{country}/{company}', 'Web\PayrollControlController@getPorcess');
+Route::get('payrollcontrol/list/{id}', 'Web\PayrollControlController@processPrePayroll');
 Route::post('payrollcontrol', 'Web\PayrollControlController@store');
 Route::put('periods/put/{id}', 'Web\PeriodsController@update');
 Route::delete('payrollcontrol/{id}', 'Web\PayrollControlController@destroy');

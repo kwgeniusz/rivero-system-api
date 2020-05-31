@@ -45,7 +45,7 @@
                                 </p>
                             </td>
                             <td> 
-                                <button v-on:click="editRow(index, payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> Procesar</button>  
+                                <button v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> Procesar</button>  
                                 <button v-on:click="deleterow(index, payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> Eliminar</button>  
                             </td>
                         </tr>
@@ -82,12 +82,15 @@
             objPayrollCOntrol:{},
         },
         methods: {
-            editRow(index, id){
+            process(index, id){
+                console.log('id: ' + id)
+                const URL = `payrollcontrol/list/${id}`
                 
-                // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
-                // de esta manera no tengo que buscar los datos en la DB nuevamente
+                axios.get(URL).then((res) => {
+                        console.log(res)
+                })
               
-                this.$emit("indexEdit",index)
+                // this.$emit("indexEdit",index)
             },
             deleterow(index, id){
                 // console.log('index ' + index)
