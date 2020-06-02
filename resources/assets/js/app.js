@@ -88,6 +88,16 @@ Vue.component('add-up-process-detail', require('./components/rrhh/process/proces
 Vue.component('main-staff', require('./components/rrhh/staff/mainStaff.vue'));
 Vue.component('list-staff', require('./components/rrhh/staff/listStaff.vue'));
 Vue.component('add-up-staff', require('./components/rrhh/staff/addUpStaff.vue'));
+// --> payrollControll
+Vue.component('main-payroll-control', require('./components/rrhh/payrollControl/mainPayrollControl.vue'));
+Vue.component('list-payroll-control', require('./components/rrhh/payrollControl/listPayrollControl.vue'));
+Vue.component('add-up-payroll-control', require('./components/rrhh/payrollControl/addUpPayrollControl.vue'));
+// PRINT PRE-PAYROLL
+Vue.component('main-pre-payroll', require('./components/rrhh/printPrePayroll/mainPrintPrePayroll.vue'));
+Vue.component('list-pre-payroll', require('./components/rrhh/printPrePayroll/listPrintPrePayroll.vue'));
+Vue.component('list-pre-payroll-detail', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue'));
+Vue.component('list-pre-payroll-detail-staff', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue'));
+
 
 
 //############ COMFIGURATION COMPANY COMPONENTS ##############

@@ -43,7 +43,8 @@ class HrStaffController extends Controller
                         --  INNER JOIN currency AS currency2 ON hrposition.localCurrencyId = currency2.currencyId
                             LEFT JOIN currency AS currencyStaff1 ON hrstaff.baseCurrencyId = currencyStaff1.currencyId
                             LEFT JOIN currency AS currencyStaff2 ON hrstaff.localCurrencyId = currencyStaff2.currencyId
-                            WHERE hrstaff.deleted_at is NULL");
+                            WHERE hrstaff.deleted_at is NULL
+                            ORDER BY hrstaff.staffCode");
 
                             return compact('hrstaff');
                         }
