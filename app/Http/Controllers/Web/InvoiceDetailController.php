@@ -92,46 +92,12 @@ class InvoiceDetailController extends Controller
     }
 
 
-    public function update(ContractRequest $request, $id)
+   public function getWithPriceByInvoice($invoiceId)
     {
+        $result = $this->oInvoiceDetail->getWithPriceByInvoice($invoiceId);
 
-        $this->oContract->updateContract(
-            $id,
-            // $request->countryId,
-            // $request->officeId,
-            $request->contractDate,
-            $request->clientId,
-            $request->siteAddress,
-            $request->projectTypeId,
-            $request->serviceTypeId,
-            $request->registryNumber,
-            $request->startDate,
-            $request->scheduledFinishDate,
-            $request->actualFinishDate,
-            $request->deliveryDate,
-            $request->initialComment,
-            $request->intermediateComment,
-            $request->finalComment,
-            $request->currencyName
-        );
+    
+         return $result;
 
-        $notification = array(
-            'message'    => 'Contrato Modificado Exitosamente',
-            'alert-type' => 'info',
-        );
-        return redirect()->route('contracts.index')
-            ->with($notification);
     }
-
-    // public function destroy($id)
-    // {
-    //     $result = $this->oInvoiceDetail->deleteInv($id);
-
-    //        $notification = array(
-    //         'message'    => $result['message'],
-    //         'alertType' => $result['alertType'],
-    //     );
-    //      return $notification;
-
-    // }
 }

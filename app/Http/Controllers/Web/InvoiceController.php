@@ -280,5 +280,15 @@ class InvoiceController extends Controller
         return redirect()->route('invoices.payments', ['id' => $invoiceId])
             ->with($notification);
     }
+//---------------SUBCONTRACTOR-----------------------//
+
+  public function subcontractors($invoiceId)
+    {
+        $invoice         = $this->oInvoice->findById($invoiceId,session('countryId'),session('officeId'));
+        return view('module_contracts.invoices.subcontractors', compact('invoice'));
+       
+    }
+
+
 
 }

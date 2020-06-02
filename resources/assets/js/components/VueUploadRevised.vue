@@ -343,7 +343,7 @@ export default {
     return {
       files3: [],
    accept: '',
-      extensions: 'gif,jpg,jpeg,png,webp,pdf,doc,docx,ppt,pptx,xls,xlsx,mp4,mov,mp3,dwg,dxf,dwf,bin,bak,HEIC,heic, heif,zip,tif,skp',                                                                                                                                                                                                                                               
+   extensions: 'gif,jpg,jpeg,png,webp,pdf,doc,docx,ppt,pptx,xls,xlsx,mp4,mov,mp3,dwg,dxf,dwf,bin,bak,HEIC,heic, heif,zip,tif,skp,dgn,dsd,ctb,pln,bpn,gsm,lcf,rar,sdb,pro,mcdx,kmz,kml,gmw,csv,txt,fbx,ls8,ls9,ls10',                                                                                                                                                                                                                                         
       // extensions: ['gif', 'jpg', 'jpeg','png', 'webp'],
       // extensions: /\.(gif|jpe?g|png|webp)$/i,
       minSize: 1024,
