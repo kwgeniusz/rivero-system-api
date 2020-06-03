@@ -618,13 +618,13 @@ EOD;
             <th> </th>
        </tr>
       <tr> 
-            <th >
+            <th width="15%">
               <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
             </th>
-            <th>
+            <th width="35%">
               <b>Description:</b> {$invoice[0]->projectDescription->projectDescriptionName}
             </th>
-           <th> 
+           <th width="60%"> 
              <b>Project Name:</b> {$invoice[0]->contract->projectName}
            </th>
        </tr>
@@ -1260,13 +1260,13 @@ EOD;
             <th> </th>
        </tr>
       <tr> 
-            <th >
+            <th width="15%">
               <b>Type:</b> {$proposal[0]->$modelType->projectUse->projectUseName} 
             </th>
-            <th>
+            <th width="35%">
               <b>Description:</b> {$proposal[0]->projectDescription->projectDescriptionName}
             </th>
-           <th> 
+           <th width="50%"> 
              <b>Project Name:</b> {$proposal[0]->$modelType->projectName}
            </th>
        </tr>

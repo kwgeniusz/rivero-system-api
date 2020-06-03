@@ -33,6 +33,7 @@ Vue.use(require('vue-moment'));
 Vue.component('select-country-office', require('./components/SelectCountryOffice.vue'));
 Vue.component('select-country-office-contract', require('./components/SelectCountryOfficeContract.vue'));
 Vue.component('search-client', require('./components/SearchClient.vue'));
+Vue.component('search-subcontractor', require('./components/SearchSubcontractor.vue'));
 Vue.component('form-modal-charge', require('./components/FormModalCharge.vue'));
 Vue.component('confirm-payment', require('./components/ModalConfirmPayment.vue'));
 Vue.component('grid-files', require('./components/GridFiles.vue'));
@@ -45,6 +46,7 @@ Vue.component('select-bank-cashbox', require('./components/SelectBankOrCashbox.v
 Vue.component('select-building-code', require('./components/SelectBuildingCode.vue'));
 Vue.component('select-bank-with-account', require('./components/SelectBankWithAccount.vue'));
 Vue.component('invoice-details', require('./components/InvoiceDetails.vue'));
+Vue.component('invoice-subcontractors', require('./components/InvoiceSubcontractors.vue'));
 Vue.component('proposal-details', require('./components/ProposalDetails.vue'));
 
 Vue.component('service-templates', require('./components/ServiceTemplates.vue'));

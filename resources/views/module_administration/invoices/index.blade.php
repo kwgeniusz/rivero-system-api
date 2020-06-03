@@ -91,6 +91,9 @@
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a> 
                   @endif  
+                   <a href="{{route('invoices.subcontractors', ['id' => $invoice->invoiceId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Subcontratistas">
+                        <span class="fa fa-user" aria-hidden="true"></span> 
+                    </a>   
                  @if($invoice->invStatusCode == App\Invoice::OPEN )
        {{--             @if($invoice->contract->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED) --}}
 
@@ -102,6 +105,7 @@
                     </a>  
                   {{-- @endif   --}}
                 @endif  
+
                 <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>

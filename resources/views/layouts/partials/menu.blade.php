@@ -154,7 +154,7 @@
       @if(Auth::user()->changeOffice == 'Y')
           <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li>
       @endif
- <li><a href="{{route('company.index')}}">Empresas</a></li>     
+ @can('FA')  <li><a href="{{route('company.index')}}">Empresas</a></li>     @endcan
   @can('FA')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
   @can('FB')  <li><a href="{{route('services.index')}}">Servicios</a></li>@endcan
   @can('FC')  <li><a href="{{route('notes.index')}}">Notas</a></li>@endcan

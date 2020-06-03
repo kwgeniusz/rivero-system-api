@@ -41,7 +41,7 @@ class ReceivableController extends Controller
     public function share(Request $request)
     {
 
-        $result = $this->oReceivable->updateReceivable(
+        $rs = $this->oReceivable->updateReceivable(
             $request->receivableId,
             $request->amountPaid,
             $request->collectMethod,
@@ -56,7 +56,7 @@ class ReceivableController extends Controller
             Auth::user()->userId
         );
 
-        return $result;
+        return $rs;
     }
 
     public function reportCollections(Request $request)

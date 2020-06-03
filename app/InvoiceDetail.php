@@ -22,6 +22,12 @@ class InvoiceDetail extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+    public function subcontractorInvDetail()
+    {
+          $relation = $this->hasMany('App\SubcontractorInvDetail', 'invDetailId', 'invDetailId');
+      
+         return $relation->with('subcontractor');
+    }
 
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -56,12 +62,22 @@ class InvoiceDetail extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
 
-//------------------------------------
     public function getAllByInvoice($invoiceId)
     {
         $result = $this->where('invoiceId', $invoiceId)
             ->orderBy('itemNumber', 'ASC')
             ->get();
+
+        return $result;
+    }
+//------------------------------------
+        public function getWithPriceByInvoice($invoiceId)
+    {
+        $result = $this->with('SubcontractorInvDetail')
+                       ->where('invoiceId', $invoiceId)
+                       ->where('unit','!=', null)
+                       ->orderBy('itemNumber', 'ASC')
+                       ->get();
 
         return $result;
     }

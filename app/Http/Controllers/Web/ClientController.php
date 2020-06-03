@@ -93,7 +93,7 @@ class ClientController extends Controller
     {
         // $countrys = Country::all();
         $contactTypes = $this->oContactType->getAllByOffice(session('officeId'));
-        $client   = $this->oClient->findById($id, session('countryId'));
+        $client       = $this->oClient->findById($id, session('countryId'));
 
         return view('module_contracts.clients.edit', compact('client', 'countrys','contactTypes'));
     }
