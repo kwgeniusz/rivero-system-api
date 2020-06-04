@@ -1,7 +1,7 @@
 
 <template> 
 
- <div class="panel panel-success col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
+ <div class="panel panel-success col-xs-12 col-lg-12">
     <div class="panel-body">
 <h4><b>Factura N°:</b> {{invoice[0].invId}}</h4>
 <h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("MM/DD/YYYY") }}</h4>
@@ -116,7 +116,8 @@
 
   <hr>
 <invoice-notes :invoice-id="invoice[0].invoiceId" ref="invoiceNotes"></invoice-notes>
-
+<hr>
+<invoice-scopes :invoice-id="invoice[0].invoiceId" ref="invoiceScopes"></invoice-scopes>
 
    </div>
        <div class="text-center"> 
@@ -138,6 +139,7 @@
  <script>
 
 import InvoiceNotes from './InvoiceNotes.vue'
+import InvoiceScopes from './InvoiceScopes.vue'
 
 export default {
         
@@ -200,7 +202,8 @@ export default {
        }  
     },
    components: {
-         InvoiceNotes
+         InvoiceNotes,
+         InvoiceScopes
   },
     methods: {
         findInvoice: function (){
@@ -222,11 +225,18 @@ export default {
             });
         },
           selectService: function (id){
-            let url ='services/'+id;
-            axios.get(url).then(response => {
-              this.selectedService =response.data[0];
+          let serviceId = id;
 
-              if(response.data[0].hasCost == 'N'){
+          function filtrarPorID(obj) {
+           if ('serviceId' in obj && obj.serviceId == serviceId) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        this.selectedService = this.services.filter(filtrarPorID);
+              console.log(this.selectedService);
+              if(this.selectedService[0].hasCost == 'N'){
                  this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
                  this.modelUnit =''
@@ -234,17 +244,16 @@ export default {
               }else{
                  this.hasCost = true
                  this.modelQuantity= 1.00
-                 this.modelUnit = response.data[0].unit1;
-                 this.modelUnitCost = response.data[0].cost1;
+                 this.modelUnit = this.selectedService[0].unit1;
+                 this.modelUnitCost = this.selectedService[0].cost1;
               }
-             // this.modelServiceName = response.data[0].serviceName;
-            });
+
         },
        changeUnit: function(unit) {
              if(unit == 'sqft'){
-               this.modelUnitCost = this.selectedService.cost1;
+               this.modelUnitCost = this.selectedService[0].cost1;
              }else {
-               this.modelUnitCost = this.selectedService.cost2;
+               this.modelUnitCost = this.selectedService[0].cost2;
              }
             
           },
@@ -304,6 +313,7 @@ export default {
           if (!this.errors.length) { 
         //ejecuta la funciona que esta en el componente hijo Proposal Notes
           this.$refs.invoiceNotes.sendNotes();
+          this.$refs.invoiceScopes.sendScopes();
 
           axios.post('invoicesDetails',{
               invoiceId :  this.invoice[0].invoiceId,

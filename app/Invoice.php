@@ -48,6 +48,10 @@ class Invoice extends Model
     {
       return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
     }
+    public function scope()
+    {
+      return $this->hasMany('App\InvoiceScope', 'invoiceId', 'invoiceId');
+    }
      public function invoiceStatus()
     {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
          $relation = $this->hasMany('App\InvoiceStatus', 'invStatusCode','invStatusCode');

@@ -14,6 +14,7 @@ Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAd
 Route::resource('proposals', 'Web\ProposalController');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
 Route::resource('proposalsNotes', 'Web\ProposalNoteController');
+Route::resource('proposalsScopes', 'Web\ProposalScopeController');
 
 Route::get('proposalsPayments/{id}', 'Web\ProposalController@payments')->name('proposals.payments');
 Route::post('proposalsPayments/add', 'Web\ProposalController@paymentsAdd')->name('proposals.paymentsAdd');
@@ -42,6 +43,7 @@ Route::resource('invoices', 'Web\InvoiceController');
 Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
 Route::get('invoicesDetails/{invoiceId}/withPrice', 'Web\InvoiceDetailController@getWithPriceByInvoice')->name('invoicesDetails.withPrice');
 Route::resource('invoicesNotes', 'Web\InvoiceNoteController');
+Route::resource('invoicesScopes', 'Web\InvoiceScopeController');
 
 Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoices.close');
 Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');

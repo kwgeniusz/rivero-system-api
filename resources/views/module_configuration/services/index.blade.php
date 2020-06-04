@@ -54,8 +54,8 @@
                 <tr>
                    <td>{{++$acum}}</td>
                    <td>{{$service->serviceName}}</td>
-                   <td>${{$service->cost2}}</td>
                    <td>${{$service->cost1}}</td>
+                   <td>${{$service->cost2}}</td>
                    <td><a href="{{route('services.edit', ['id' => $service->serviceId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span> {{__('edit')}}
                       </a>

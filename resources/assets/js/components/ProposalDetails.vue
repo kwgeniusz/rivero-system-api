@@ -1,7 +1,7 @@
 
 <template> 
 
- <div class="panel panel-success col-xs-12 col-lg-8 col-lg-offset-2">
+ <div class="panel panel-success col-xs-12 col-lg-12">
     <div class="panel-body">
 <h4><b>Propuesta N°:</b> {{proposal[0].propId}}</h4>
 <h4><b>Fecha:</b> {{proposal[0].proposalDate | moment("MM/DD/YYYY") }}</h4>
@@ -107,11 +107,10 @@
 
 
        </div>
-<br><br>
-
-  <hr>
-
+<hr>
 <proposal-notes :proposal-id="proposal[0].proposalId" ref="proposalNotes"></proposal-notes>
+<hr>
+<proposal-scopes :proposal-id="proposal[0].proposalId" ref="proposalScopes"></proposal-scopes>
 
    </div>
        <div class="text-center"> 
@@ -133,6 +132,7 @@
  <script>
 
 import proposalNotes from './ProposalNotes.vue'
+import proposalScopes from './ProposalScopes.vue'
 
 export default {
         
@@ -196,7 +196,8 @@ export default {
     },
 
    components: {
-         proposalNotes
+         proposalNotes,
+         proposalScopes
   },
     methods: {
         findProposal: function (){
@@ -218,11 +219,20 @@ export default {
             });
         },
           selectService: function (id){
-            let url ='services/'+id;
-            axios.get(url).then(response => {
-              this.selectedService =response.data[0];
-              // console.log(this.selectedService);
-              if(response.data[0].hasCost == 'N'){
+            // let url ='services/'+id;
+            // axios.get(url).then(response => {
+        let serviceId = id;
+        function filtrarPorID(obj) {
+          if ('serviceId' in obj && obj.serviceId == serviceId) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        this.selectedService = this.services.filter(filtrarPorID);
+              // this.selectedService =response.data[0];
+              console.log(this.selectedService);
+              if(this.selectedService[0].hasCost == 'N'){
                  this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
                  this.modelUnit =''
@@ -230,17 +240,17 @@ export default {
               }else{
                  this.hasCost = true
                  this.modelQuantity= 1.00
-                 this.modelUnit = response.data[0].unit1;
-                 this.modelUnitCost = response.data[0].cost1;
+                 this.modelUnit = this.selectedService[0].unit1;
+                 this.modelUnitCost = this.selectedService[0].cost1;
               }
              // this.modelServiceName = response.data[0].serviceName;
-            });
+            // });
         },
        changeUnit: function(unit) {
              if(unit == 'sqft'){
-               this.modelUnitCost = this.selectedService.cost1;
+               this.modelUnitCost = this.selectedService[0].cost1;
              }else {
-               this.modelUnitCost = this.selectedService.cost2;
+               this.modelUnitCost = this.selectedService[0].cost2;
              }
             
           },
@@ -263,7 +273,6 @@ export default {
           }
         }
 
-        // alert(this.modelUnitCost);
         let service = this.services.filter(filtrarPorID);
             //AGREGAR A ITEMLIST
               //Nota al agregar el item debo meter un objeto con el nombre y el ID
@@ -300,6 +309,7 @@ export default {
           if (!this.errors.length) { 
         //ejecuta la funciona que esta en el componente hijo Proposal Notes
           this.$refs.proposalNotes.sendNotes();
+          this.$refs.proposalScopes.sendScopes();
 
           axios.post('proposalsDetails',{
               proposalId :  this.proposal[0].proposalId,
