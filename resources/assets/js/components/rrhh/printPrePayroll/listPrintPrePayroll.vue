@@ -14,7 +14,7 @@
                             <th>AÑO</th>
                             <th>PRE-NOMINA</th>
                             <th>MONTO</th>
-                            <th>Acciones</th>
+                            <th>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody v-if="objPrintPrePayroll.length > 0">
@@ -91,7 +91,8 @@
                 const URL  = `pre-payroll-all/list/${countryId}/${companyId}/${year}/${payrollNumber}`
                 // console.log(countryId, companyId, year, payrollNumber)
                 axios.get(URL).then((res)=>{
-                    console.log(res.data.print)
+                    // console.log(res.data.print)
+                    // return
                     const objPrePayrollDetail = res.data.print
                     this.$emit("prePayrollDetail", objPrePayrollDetail)
                 })

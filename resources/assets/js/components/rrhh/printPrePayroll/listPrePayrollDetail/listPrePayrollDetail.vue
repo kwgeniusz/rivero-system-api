@@ -1,11 +1,11 @@
 <template>
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
         <!-- <div class="panel panel-default"> -->
             <!-- <div class="panel-heading"> -->
                 <!-- <div v-if="condition">
                 </div> -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="form-group col-md-7">
                         <h4><b>PAÍS:</b> {{this.objprePayrollDetail[0].countryName}} </h4>
                     </div>
@@ -20,30 +20,106 @@
                     <div class="form-group col-md-5">
                         <h4><b>AÑO:</b> {{this.objprePayrollDetail[0].year}}</h4>
                     </div>
-                </div>
+                </div> -->
             <!-- </div> -->
 
             <div class="table-responsive text-center">
                 <table class="table table-striped table-bordered text-center">
                     <thead>
                         <tr>
-                            <th>N.</th>
                             <th>CODIGO</th>
-                            <th>NOMBRE</th>
+                            <th>DETALLE</th>
+                            <!-- <th>NOMBRE</th>
                             <th>MONTO</th>
-                            <th>ACCIONES</th>
+                            <th>ACCIONES</th> -->
                         </tr>
                     </thead>
-                    <tbody  v-if="this.objprePayrollDetail.length > 0" >
+                    <tbody >
     
-                        <tr  v-for="(detail, index) in objprePayrollDetail" :key="detail.index">
-                            <td >{{index + 1}}</td>
+                        <tr  v-for="(detail, index) in objprePayrollDetail" :key="detail.staffCode">
+                            <td >{{index}}</td>
                             <td class="form-inline">
-                                <p>
-                                    {{detail.staffCode}}
-                                </p>
+                                <table>
+                                    <tr>
+                                        <td width="180" class="alingTo">
+                                            <th>NOMBRE</th>
+                                            <p class="text-left">
+                                                {{detail[0].staffName}} &nbsp;&nbsp;&nbsp;
+                                            </p>
+                                        </td>
+                                        <td>
+                                           <table>
+                                               <thead>
+                                                    <tr>
+                                                        <th>CONCEPTO</th>
+                                                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CANTIDAD</th>
+                                                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASIGNACION</th>
+                                                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEDUCCION</th>
+                                                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NETO</th>
+                                                        <!-- <th>NOMBRE</th>
+                                                        <th>MONTO</th>
+                                                        <th>ACCIONES</th> -->
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr  v-for="(item, index) in detail" :key="index">
+                                                        <td >
+                                                            <p class="text-left" valign="top">
+                                                                    {{ item.transactionTypeName }}
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="text-right">
+                                                                    {{ item.quantity }}
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <p v-if="item.isIncome === 1" class="text-right">
+                                                                    {{ item.amount }}
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <p v-if="item.isIncome === 0" class="text-right">
+                                                                    {{ item.amount }}
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <!-- <p v-if="item.isIncome === 0" class="text-right">
+                                                                    {{ item.amount }}
+                                                            </p> -->
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <p class="text-right">
+                                                                <b>TOTALES</b>
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="text-right">
+                                                                <b>{{detail[0].asignacion}}</b>
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                           <p class="text-right">
+                                                                <b>{{detail[0].deduccion}}</b>
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="text-right">
+                                                                <b>{{detail[0].asignacion - detail[0].deduccion}}</b>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                           </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                    
+                                
                             </td>
-                            <td>
+                            <!-- <td>
                                 <p class="text-left">
                                     {{detail.staffName}}
                                 </p>
@@ -55,12 +131,12 @@
                             </td>
                             <td> 
                                 <button v-on:click="detailPayrollStaff(detail.countryId, detail.companyId, detail.year, detail.payrollNumber, detail.staffCode)" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-th-list"></i> </button> 
-                                <!-- <button v-on:click="editDetailRow(index, detail.hrpdId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
-                                <button v-on:click="deleteDetailrow(index, detail.hrpdId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>   -->
-                            </td>
+                                <button v-on:click="editDetailRow(index, detail.hrpdId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
+                                <button v-on:click="deleteDetailrow(index, detail.hrpdId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                            </td> -->
                         </tr>
                     </tbody>
-                    <tbody  v-else >
+                    <!-- <tbody  v-else >
                         <tr>
                             <td v-if="this.lengths === 0" colspan="5">
                                 No hay datos registrados
@@ -69,7 +145,7 @@
                                 <loading></loading>
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody> -->
                 </table> 
             </div><!-- table-responsive text-center -->
         <!-- </div> -->
@@ -81,6 +157,7 @@
     export default {
         
         mounted() {
+            console.log(this.objprePayrollDetail)
             // setTimeout(() => {
             //     axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
             //     this.objprePayrollDetail = response.data.processDetail
@@ -96,6 +173,7 @@
             return{
                 
                 lengths: '',
+                num : 0,
             }
             // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
         },
@@ -125,3 +203,10 @@
         }
     }
 </script>
+<style>
+.alingTo{
+
+    position: relative;
+    float: left;
+}
+</style>

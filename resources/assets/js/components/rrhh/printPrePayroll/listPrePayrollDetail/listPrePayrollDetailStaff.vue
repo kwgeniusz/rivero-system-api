@@ -38,7 +38,7 @@
                             <th>N.</th>
                             <th>TRANSACCIÓN</th>
                             <th>MONTO</th>
-                            <th>ACCIONES</th>
+                            <!-- <th>ACCIONES</th> -->
                         </tr>
                     </thead>
                     <tbody  v-if="this.objListDetailStaff.length > 0" >
@@ -55,11 +55,11 @@
                                     {{detail.amount}}
                                 </p>
                             </td>
-                            <td> 
+                            <!-- <td>  -->
                                 <!-- <button v-on:click="detailPayrollStaff(detail.countryId, detail.companyId, detail.year, detail.payrollNumber, detail.staffCode)" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-th-list"></i> </button> 
                                 <button v-on:click="editDetailRow(index, detail.hrpdId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
                                 <button v-on:click="deleteDetailrow(index, detail.hrpdId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>   -->
-                            </td>
+                            <!-- </td> -->
                         </tr>
                     </tbody>
                     <tbody  v-else >

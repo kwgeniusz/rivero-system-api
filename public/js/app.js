@@ -18916,8 +18916,17 @@ module.exports = Component.exports
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
+__webpack_require__(21);
+module.exports = __webpack_require__(273);
+=======
 __webpack_require__(22);
+<<<<<<< HEAD
 module.exports = __webpack_require__(292);
+=======
+module.exports = __webpack_require__(263);
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 
 /***/ }),
@@ -19022,10 +19031,33 @@ Vue.component('main-payroll-control', __webpack_require__(249));
 Vue.component('list-payroll-control', __webpack_require__(252));
 Vue.component('add-up-payroll-control', __webpack_require__(257));
 // PRINT PRE-PAYROLL
+<<<<<<< HEAD
 Vue.component('main-pre-payroll', __webpack_require__(260));
 Vue.component('list-pre-payroll', __webpack_require__(263));
 Vue.component('list-pre-payroll-detail', __webpack_require__(266));
 Vue.component('list-pre-payroll-detail-staff', __webpack_require__(269));
+=======
+<<<<<<< HEAD
+Vue.component('main-pre-payroll', __webpack_require__(241));
+Vue.component('list-pre-payroll', __webpack_require__(244));
+Vue.component('list-pre-payroll-detail', __webpack_require__(247));
+Vue.component('list-pre-payroll-detail-staff', __webpack_require__(250));
+
+//############ COMFIGURATION COMPANY COMPONENTS ##############
+Vue.component('main-company', __webpack_require__(253));
+Vue.component('panel-heading-add', __webpack_require__(256));
+Vue.component('panel-heading-update', __webpack_require__(259));
+Vue.component('list-company', __webpack_require__(262));
+
+// ########### srcComponent 
+Vue.component('button-form', __webpack_require__(265));
+Vue.component('loading', __webpack_require__(268));
+=======
+Vue.component('main-pre-payroll', __webpack_require__(286));
+Vue.component('list-pre-payroll', __webpack_require__(289));
+Vue.component('list-pre-payroll-detail', __webpack_require__(292));
+Vue.component('list-pre-payroll-detail-staff', __webpack_require__(295));
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 //############ COMFIGURATION COMPANY COMPONENTS ##############
 Vue.component('main-company', __webpack_require__(272));
@@ -19034,8 +19066,14 @@ Vue.component('panel-heading-update', __webpack_require__(278));
 Vue.component('list-company', __webpack_require__(281));
 
 // ########### srcComponent 
+<<<<<<< HEAD
 Vue.component('button-form', __webpack_require__(284));
 Vue.component('loading', __webpack_require__(287));
+=======
+Vue.component('button-form', __webpack_require__(255));
+Vue.component('loading', __webpack_require__(258));
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 var app = new Vue({
   el: '#app',
@@ -88596,7 +88634,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/rrhh/payrollControl/mainPayrollControl.vue"
+=======
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/mainPrintPrePayroll.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -88605,9 +88647,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-45969ed0", Component.options)
   } else {
     hotAPI.reload("data-v-45969ed0", Component.options)
+=======
+    hotAPI.createRecord("data-v-7374b85e", Component.options)
+  } else {
+    hotAPI.reload("data-v-7374b85e", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -88683,19 +88731,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+<<<<<<< HEAD
 //
 //
 //
 //
 //
+=======
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         var _this = this;
 
+<<<<<<< HEAD
         axios.get('payrollcontrol/list/').then(function (response) {
             _this.objPayrollCOntrol = response.data.payrollControl;
             // console.log(this.objPayrollCOntrol)
+=======
+        axios.get('pre-payroll-all/').then(function (response) {
+            _this.objPrintPrePayroll = response.data.print;
+            // console.log(this.objPrintPrePayroll)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
             // debugger
         });
 
@@ -88703,6 +88760,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+<<<<<<< HEAD
             objPayrollCOntrol: [],
             objEdit: [],
             formStatus: 0,
@@ -88715,6 +88773,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             nameField4: "PERIODO",
             nameField5: "AÑO",
             nameField6: "PROCESO",
+=======
+            objPrintPrePayroll: [],
+            objEdit: [],
+            objEditDetail: [],
+            objprePayrollDetail: {},
+            objListDetailStaff: {},
+            formStatus: 0,
+            namePanelList: "TIPOS DE PROCESOS",
+            namePanel: "AGREGAR TIPO DE PROCESO",
+            namePanel2: "EDITAR TIPO DE PROCESO",
+            nameField1: "CÓDIGO",
+            nameField2: "PAÍS",
+            nameField3: "EMPRESA",
+            nameField4: "NOMBRE DEL PROCESO",
+            nameField5: "",
+            nameField6: "",
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
             nameField7: "",
             nameField8: ""
 
@@ -88724,11 +88799,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         addFormStatus: function addFormStatus() {
             this.formStatus = 1;
+<<<<<<< HEAD
+=======
+        },
+        addProcessDetail: function addProcessDetail() {
+            this.formStatus = 4;
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         },
         showlist: function showlist() {
             var _this2 = this;
 
             this.formStatus = 0;
+<<<<<<< HEAD
             axios.get('payrollcontrol/list/').then(function (response) {
                 _this2.objPayrollCOntrol = response.data.payrollControl;
                 // console.log(this.objPayrollCOntrol)
@@ -88738,16 +88820,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         newObj: function newObj(payrollType) {
             console.log(payrollType);
             this.objPayrollCOntrol.push(payrollType);
+=======
+            axios.get('process/list').then(function (response) {
+                _this2.objPrintPrePayroll = response.data.process;
+            });
+        },
+        showlistDetail: function showlistDetail() {
+            // console.log(this.objprePayrollDetail)
+            this.formStatus = 3;
+
+            // axios.get('process/list').then( response => {
+            // this.objProcess = response.data.process
+
+            // })
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         },
         indexEdit: function indexEdit(index) {
             this.formStatus = 2;
             // console.log('recibido')
+<<<<<<< HEAD
             this.objEdit = this.objPayrollCOntrol[index];
+=======
+            this.objEdit = this.objPrintPrePayroll[index];
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
             // console.log( this.objEdit)
         },
         delrow: function delrow(indexId) {
             // console.log(indexId)
+<<<<<<< HEAD
             this.objPayrollCOntrol.splice(indexId[0], 1);
+=======
+            this.objPrintPrePayroll.splice(indexId[0], 1);
+        },
+        prePayrollDetail: function prePayrollDetail(obj) {
+            // console.log('entro objeto')
+            // console.log(obj)
+            this.formStatus = 3;
+            this.objprePayrollDetail = obj;
+        },
+        cancDetail: function cancDetail() {
+            var _this3 = this;
+
+            this.formStatus = 0;
+            axios.get('process/list').then(function (response) {
+                _this3.objPrintPrePayroll = response.data.process;
+            });
+        },
+        prePayrollListDetail: function prePayrollListDetail(objListDetail) {
+
+            // console.log('entro')
+            // console.log(objListDetail)
+            this.formStatus = 5;
+            this.objListDetailStaff = objListDetail;
+            // this.objEditDetail = params
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         }
     }
 });
@@ -88767,6 +88893,7 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
+<<<<<<< HEAD
             _c("button-form", {
               attrs: { buttonType: 0 },
               on: { addf: _vm.addFormStatus }
@@ -88778,12 +88905,25 @@ var render = function() {
                 namePanelList: _vm.namePanelList
               },
               on: { indexEdit: _vm.indexEdit, delrow: _vm.delrow }
+=======
+            _c("list-pre-payroll", {
+              attrs: {
+                objPrintPrePayroll: _vm.objPrintPrePayroll,
+                namePanelList: _vm.namePanelList
+              },
+              on: {
+                indexEdit: _vm.indexEdit,
+                delrow: _vm.delrow,
+                prePayrollDetail: _vm.prePayrollDetail
+              }
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
             })
           ],
           1
         )
       : _vm._e(),
     _vm._v(" "),
+<<<<<<< HEAD
     _vm.formStatus === 1
       ? _c(
           "div",
@@ -88801,12 +88941,24 @@ var render = function() {
                 nameField8: _vm.nameField8
               },
               on: { showlist: _vm.showlist, newObj: _vm.newObj }
+=======
+    _vm.formStatus === 3
+      ? _c(
+          "div",
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("list-pre-payroll-detail", {
+              attrs: { objprePayrollDetail: _vm.objprePayrollDetail },
+              on: { prePayrollListDetail: _vm.prePayrollListDetail }
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
             })
           ],
           1
         )
       : _vm._e(),
     _vm._v(" "),
+<<<<<<< HEAD
     _vm.formStatus === 2
       ? _c(
           "div",
@@ -88826,6 +88978,14 @@ var render = function() {
                 editId: 1
               },
               on: { showlist: _vm.showlist, newObj: _vm.newObj }
+=======
+    _vm.formStatus === 5
+      ? _c(
+          "div",
+          [
+            _c("list-pre-payroll-detail-staff", {
+              attrs: { objListDetailStaff: _vm.objListDetailStaff }
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
             })
           ],
           1
@@ -88838,7 +88998,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+<<<<<<< HEAD
     return _c("h3", [_c("b", [_vm._v("PROCESAR PRE-NOMINA")])])
+=======
+    return _c("h3", [_c("b", [_vm._v("LISTADO DE PRE-NOMINA")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("DETALLE DE LA PRE-NOMINA")])])
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 ]
 render._withStripped = true
@@ -88846,7 +89016,11 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-45969ed0", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-7374b85e", module.exports)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
 
@@ -88880,7 +89054,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/rrhh/payrollControl/listPayrollControl.vue"
+=======
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrintPrePayroll.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -88889,9 +89067,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-02293a75", Component.options)
   } else {
     hotAPI.reload("data-v-02293a75", Component.options)
+=======
+    hotAPI.createRecord("data-v-49359159", Component.options)
+  } else {
+    hotAPI.reload("data-v-49359159", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -89013,9 +89197,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+<<<<<<< HEAD
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
+=======
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         console.log('Component mounted.');
     },
     data: function data() {
@@ -89027,6 +89221,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String,
             default: 'Name defauld'
         },
+<<<<<<< HEAD
         objPayrollCOntrol: {}
     },
     methods: {
@@ -89042,16 +89237,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         deleterow: function deleterow(index, id) {
             var _this = this;
+=======
+        objPrintPrePayroll: {}
+    },
+    methods: {
+        detailRow: function detailRow(countryId, companyId, year, payrollNumber) {
+            var _this = this;
+
+            var URL = 'pre-payroll-all/list/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber;
+            // console.log(countryId, companyId, year, payrollNumber)
+            axios.get(URL).then(function (res) {
+                // console.log(res.data.print)
+                // return
+                var objPrePayrollDetail = res.data.print;
+                _this.$emit("prePayrollDetail", objPrePayrollDetail);
+            });
+            // return
+            // console.log(id)
+        },
+        editRow: function editRow(index, id) {
+
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+
+            this.$emit("indexEdit", index);
+        },
+        deleterow: function deleterow(index, id) {
+            var _this2 = this;
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
             // console.log('index ' + index)
             // console.log('id ' + id)
             // return
+<<<<<<< HEAD
             var indexIs = this.objPayrollCOntrol[index];
 
             if (confirm("Delete?")) {
                 axios.delete('payrollcontrol/' + id).then(function (res) {
                     // console.log(res)
                     _this.$emit("delrow", [index, id]);
+=======
+            // const indexIs = this.objPrintPrePayroll[index]
+
+            if (confirm("Delete?")) {
+                axios.delete('process/delete/' + id).then(function (res) {
+                    // console.log(res)
+                    _this2.$emit("delrow", [index, id]);
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                 }).catch(function (error) {
                     alert("Error");
                     console.log(error);
@@ -89071,7 +89303,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("div", { staticClass: "col-md-12" }, [
+=======
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
     _c("div", { staticClass: "panel panel-default" }, [
       _c("div", { staticClass: "table-responsive text-center" }, [
         _c(
@@ -89080,6 +89316,7 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
+<<<<<<< HEAD
             _vm.objPayrollCOntrol.length > 0
               ? _c(
                   "tbody",
@@ -89092,17 +89329,47 @@ var render = function() {
                           _vm._v(
                             "\n                                " +
                               _vm._s(payrollcontro.countryName) +
+=======
+            _vm.objPrintPrePayroll.length > 0
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.objPrintPrePayroll, function(PrePayroll, index) {
+                    return _c("tr", { key: PrePayroll.hrprocessId }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-left" }, [
+                        _vm._v(
+                          "\n                            \n                                " +
+                            _vm._s(PrePayroll.countryName) +
+                            "\n                            \n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(PrePayroll.companyName) +
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                               "\n                            "
                           )
                         ])
                       ]),
                       _vm._v(" "),
                       _c("td", [
+<<<<<<< HEAD
                         _c("p", { staticClass: "text-left" }, [
                           _vm._v(
                             "\n                                " +
                               _vm._s(payrollcontro.companyName) +
                               " \n                            "
+=======
+                        _c("p", [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(PrePayroll.year) +
+                              "\n                            "
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                           )
                         ])
                       ]),
@@ -89111,13 +89378,18 @@ var render = function() {
                         _c("p", { staticClass: "text-left" }, [
                           _vm._v(
                             "\n                                " +
+<<<<<<< HEAD
                               _vm._s(payrollcontro.payrollTypeName) +
+=======
+                              _vm._s(PrePayroll.payrollName) +
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                               "\n                            "
                           )
                         ])
                       ]),
                       _vm._v(" "),
                       _c("td", [
+<<<<<<< HEAD
                         _vm._v(
                           "\n                            " +
                             _vm._s(payrollcontro.year) +
@@ -89131,6 +89403,13 @@ var render = function() {
                             "\n                                " +
                               _vm._s(payrollcontro.payrollName) +
                               " \n                            "
+=======
+                        _c("p", { staticClass: "text-right" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(PrePayroll.total) +
+                              "\n                            "
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                           )
                         ])
                       ]),
@@ -89139,18 +89418,30 @@ var render = function() {
                         _c(
                           "button",
                           {
+<<<<<<< HEAD
                             staticClass: "btn btn-sm btn-primary",
                             on: {
                               click: function($event) {
                                 return _vm.process(
                                   index,
                                   payrollcontro.hrpayrollControlId
+=======
+                            staticClass: "btn btn-sm btn-info",
+                            on: {
+                              click: function($event) {
+                                return _vm.detailRow(
+                                  PrePayroll.countryId,
+                                  PrePayroll.companyId,
+                                  PrePayroll.year,
+                                  PrePayroll.payrollNumber
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                                 )
                               }
                             }
                           },
                           [
                             _c("i", {
+<<<<<<< HEAD
                               staticClass: "glyphicon glyphicon-edit"
                             }),
                             _vm._v(" Procesar")
@@ -89173,6 +89464,10 @@ var render = function() {
                           [
                             _c("i", { staticClass: "fa fa-times-circle" }),
                             _vm._v(" Eliminar")
+=======
+                              staticClass: "glyphicon glyphicon-th-list"
+                            })
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                           ]
                         )
                       ])
@@ -89182,7 +89477,11 @@ var render = function() {
                 )
               : _c("tbody", [
                   _c("tr", [
+<<<<<<< HEAD
                     _c("td", { attrs: { colspan: "9" } }, [_c("loading")], 1)
+=======
+                    _c("td", { attrs: { colspan: "7" } }, [_c("loading")], 1)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
                   ])
                 ])
           ]
@@ -89200,6 +89499,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("N.")]),
         _vm._v(" "),
+<<<<<<< HEAD
         _c("th", [_vm._v("PAIS")]),
         _vm._v(" "),
         _c("th", [_vm._v("EMPRESA")]),
@@ -89211,6 +89511,19 @@ var staticRenderFns = [
         _c("th", [_vm._v("PEROÍDO")]),
         _vm._v(" "),
         _c("th", [_vm._v("Acciones")])
+=======
+        _c("th", [_vm._v("PAÍS")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("EMPRESA")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("AÑO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("PRE-NOMINA")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("MONTO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ACCIONES")])
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
       ])
     ])
   }
@@ -89220,7 +89533,11 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-02293a75", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-49359159", module.exports)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
 
@@ -89229,6 +89546,10 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(285)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(258)
@@ -89237,7 +89558,7 @@ var __vue_template__ = __webpack_require__(259)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -89250,7 +89571,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/rrhh/payrollControl/addUpPayrollControl.vue"
+=======
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -89259,9 +89584,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-3438be05", Component.options)
   } else {
     hotAPI.reload("data-v-3438be05", Component.options)
+=======
+    hotAPI.createRecord("data-v-5e727297", Component.options)
+  } else {
+    hotAPI.reload("data-v-5e727297", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -89427,6 +89758,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+<<<<<<< HEAD
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -89480,12 +89812,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         var year = new Date();
         this.years = year.getFullYear() - 3;
+=======
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log(this.objprePayrollDetail);
+        // setTimeout(() => {
+        //     axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
+        //     this.objprePayrollDetail = response.data.processDetail
+        //     this.lengths = this.objprePayrollDetail.length
+
+        // })
+        // },1000)
+
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
         // console.log(this.years)
         console.log('Component mounted.');
     },
     data: function data() {
         return {
+<<<<<<< HEAD
             selectCountry: '',
             companyId: '',
             payrollTypeId: '',
@@ -89500,10 +89852,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             selectCompanys: {},
             selectPayrollType: {},
             selectPayrollNumber: {}
+=======
+
+            lengths: '',
+            num: 0
+            // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         };
     },
 
     props: {
+<<<<<<< HEAD
         namePanel: {
             type: String,
             default: 'Name Defauld'
@@ -89727,6 +90086,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 background: '#d9edf7'
 
             };
+=======
+        objprePayrollDetail: {},
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objProcess: {},
+        objProcessDetail: {}
+    },
+    methods: {
+        detailPayrollStaff: function detailPayrollStaff(countryId, companyId, year, payrollNumber, staffCode) {
+            var _this = this;
+
+            var URL = 'pre-payroll-all/detail/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber + '/' + staffCode;
+            axios.get(URL).then(function (res) {
+                console.log(res.data.print);
+                var objListDetail = res.data.print;
+                _this.$emit("prePayrollListDetail", objListDetail);
+            });
+            // console.log('objeto')
+            // console.log(this.objprePayrollDetail[index])
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         }
 
     }
@@ -89740,6 +90123,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
@@ -90395,16 +90779,204 @@ var render = function() {
           ])
         ])
       ])
+=======
+  return _c("div", { staticClass: "col-md-10 col-md-offset-1" }, [
+    _c("div", { staticClass: "table-responsive text-center" }, [
+      _c(
+        "table",
+        { staticClass: "table table-striped table-bordered text-center" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.objprePayrollDetail, function(detail, index) {
+              return _c("tr", { key: detail.staffCode }, [
+                _c("td", [_vm._v(_vm._s(index))]),
+                _vm._v(" "),
+                _c("td", { staticClass: "form-inline" }, [
+                  _c("table", [
+                    _c("tr", [
+                      _c(
+                        "td",
+                        { staticClass: "alingTo", attrs: { width: "180" } },
+                        [
+                          _c("th", [_vm._v("NOMBRE")]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "text-left" }, [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(detail[0].staffName) +
+                                "    \n                                        "
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("table", [
+                          _vm._m(1, true),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            [
+                              _vm._l(detail, function(item, index) {
+                                return _c("tr", { key: index }, [
+                                  _c("td", [
+                                    _c(
+                                      "p",
+                                      {
+                                        staticClass: "text-left",
+                                        attrs: { valign: "top" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                                                " +
+                                            _vm._s(item.transactionTypeName) +
+                                            "\n                                                        "
+                                        )
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("p", { staticClass: "text-right" }, [
+                                      _vm._v(
+                                        "\n                                                                " +
+                                          _vm._s(item.quantity) +
+                                          "\n                                                        "
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    item.isIncome === 1
+                                      ? _c("p", { staticClass: "text-right" }, [
+                                          _vm._v(
+                                            "\n                                                                " +
+                                              _vm._s(item.amount) +
+                                              "\n                                                        "
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    item.isIncome === 0
+                                      ? _c("p", { staticClass: "text-right" }, [
+                                          _vm._v(
+                                            "\n                                                                " +
+                                              _vm._s(item.amount) +
+                                              "\n                                                        "
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td")
+                                ])
+                              }),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _vm._m(2, true),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("p", { staticClass: "text-right" }, [
+                                    _c("b", [
+                                      _vm._v(_vm._s(detail[0].asignacion))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("p", { staticClass: "text-right" }, [
+                                    _c("b", [
+                                      _vm._v(_vm._s(detail[0].deduccion))
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("p", { staticClass: "text-right" }, [
+                                    _c("b", [
+                                      _vm._v(
+                                        _vm._s(
+                                          detail[0].asignacion -
+                                            detail[0].deduccion
+                                        )
+                                      )
+                                    ])
+                                  ])
+                                ])
+                              ])
+                            ],
+                            2
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            }),
+            0
+          )
+        ]
+      )
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("CODIGO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("DETALLE")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("CONCEPTO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     CANTIDAD")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     ASIGNACION")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     DEDUCCION")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     NETO")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "2" } }, [
+      _c("p", { staticClass: "text-right" }, [_c("b", [_vm._v("TOTALES")])])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-3438be05", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-5e727297", module.exports)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
 
@@ -90434,7 +91006,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/mainPrintPrePayroll.vue"
+=======
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -90443,9 +91019,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-7374b85e", Component.options)
   } else {
     hotAPI.reload("data-v-7374b85e", Component.options)
+=======
+    hotAPI.createRecord("data-v-3302e68e", Component.options)
+  } else {
+    hotAPI.reload("data-v-3302e68e", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -90521,6 +91103,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+<<<<<<< HEAD
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -90531,6 +91114,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // console.log(this.objPrintPrePayroll)
             // debugger
         });
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        // setTimeout(() => {
+        //     axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
+        //     this.objListDetailStaff = response.data.processDetail
+        //     this.lengths = this.objListDetailStaff.length
+
+        // })
+        // },1000)
+
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
         console.log('Component mounted.');
     },
@@ -90554,10 +91171,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             nameField7: "",
             nameField8: ""
 
+<<<<<<< HEAD
+=======
+            lengths: ''
+            // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         };
     },
 
+    props: {
+        objListDetailStaff: {},
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objProcess: {},
+        objProcessDetail: {}
+    },
     methods: {
+<<<<<<< HEAD
         addFormStatus: function addFormStatus() {
             this.formStatus = 1;
         },
@@ -90612,6 +91244,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.formStatus = 5;
             this.objListDetailStaff = objListDetail;
             // this.objEditDetail = params
+=======
+        detailPayrollStaff: function detailPayrollStaff(countryId, companyId, year, payrollNumber, staffCode) {
+            var _this = this;
+
+            var URL = 'pre-payroll-all/detail/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber + '/' + staffCode;
+            axios.get(URL).then(function (res) {
+                console.log(res.data.print);
+                var objListDetail = res.data.print;
+                _this.$emit("prePayrollListDetail", objListDetail);
+            });
+            // console.log('objeto')
+            // console.log(this.objListDetailStaff[index])
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         }
     }
 });
@@ -90624,6 +91271,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("div", [
     _vm.formStatus === 0
       ? _c(
@@ -90673,6 +91321,179 @@ var render = function() {
           1
         )
       : _vm._e()
+=======
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-group col-md-7" }, [
+        _c("h4", [
+          _c("b", [_vm._v("PAÍS:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].countryName) + " ")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("h4", [
+          _c("b", [_vm._v("EMPRESA:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].companyName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-group col-md-7" }, [
+        _c("h4", [
+          _c("b", [_vm._v("PRE-NOMINA:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].payrollName))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("h4", [
+          _c("b", [_vm._v("AÑO:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].year))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-group col-md-7" }, [
+        _c("h4", [
+          _c("b", [_vm._v("NOMBRE:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].staffName))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("h4", [
+          _c("b", [_vm._v("CÓDIGO:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].staffCode))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "table-responsive text-center" }, [
+      _c(
+        "table",
+        { staticClass: "table table-striped table-bordered text-center" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          this.objListDetailStaff.length > 0
+            ? _c(
+                "tbody",
+                _vm._l(_vm.objListDetailStaff, function(detail, index) {
+                  return _c("tr", { key: detail.index }, [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("p", { staticClass: "text-left" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(detail.transactionTypeName) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+<<<<<<< HEAD
+                      _c("p", { staticClass: "text-right" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(detail.amount) +
+                            "\n                            "
+                        )
+                      ])
+                    ])
+                  ])
+                }),
+                0
+              )
+            : _c("tbody", [
+                _c("tr", [
+                  this.lengths === 0
+                    ? _c("td", { attrs: { colspan: "5" } }, [
+                        _vm._v(
+                          "\n                            No hay datos registrados\n                        "
+                        )
+                      ])
+                    : _c("td", { attrs: { colspan: "5" } }, [_c("loading")], 1)
+                ])
+              ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("TRANSACCIÓN")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("MONTO")])
+      ])
+    ])
+  }
+]
+=======
+                      _vm._v(
+                        " \n                               " +
+                          _vm._s(company.officeName) +
+                          " \n                                \n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        " \n                               " +
+                          _vm._s(company.companyAddress) +
+                          " \n                                \n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary",
+                          on: {
+                            click: function($event) {
+                              return _vm.editCompany(company.companyId)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteCompany(index, company.companyId)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   ])
 }
 var staticRenderFns = [
@@ -92465,25 +93286,41 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-2d7c7131", module.exports)
+=======
+<<<<<<< HEAD
+    require("vue-hot-reload-api")      .rerender("data-v-3302e68e", module.exports)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
 
 /***/ }),
+<<<<<<< HEAD
 /* 278 */
+=======
+/* 253 */
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(279)
 /* template */
 var __vue_template__ = __webpack_require__(280)
+=======
+var __vue_script__ = __webpack_require__(254)
+/* template */
+var __vue_template__ = __webpack_require__(255)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -92500,7 +93337,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/configuration/company/panelHeadingUpdate.vue"
+=======
+Component.options.__file = "resources/assets/js/components/configuration/company/mainCompany.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -92509,9 +93350,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-5a34a52e", Component.options)
   } else {
     hotAPI.reload("data-v-5a34a52e", Component.options)
+=======
+    hotAPI.createRecord("data-v-271083d2", Component.options)
+  } else {
+    hotAPI.reload("data-v-271083d2", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -92522,7 +93369,11 @@ module.exports = Component.exports
 
 
 /***/ }),
+<<<<<<< HEAD
 /* 279 */
+=======
+/* 254 */
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92581,11 +93432,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+<<<<<<< HEAD
+=======
+//
+//
+//
+//
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         var _this = this;
 
+<<<<<<< HEAD
         // data for combobox
         axios.get('companys/contrys').then(function (response) {
             _this.objContrys = response.data.map(function (item) {
@@ -92617,12 +93476,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             _this.varFieldSix = document.getElementById("field6").value = _this.parameters[0].companyAddress;
+=======
+        axios.get('companys').then(function (response) {
+            _this.objCompanys = response.data;
+            // console.log(this.objCompanys)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         });
 
         console.log('Component mounted.');
     },
     data: function data() {
         return {
+<<<<<<< HEAD
 
             objContrys: [],
             parameters: [],
@@ -92718,18 +93583,70 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // console.log(this.objOffices)
             });
             // this.$emit('new4', cb4)
+=======
+
+            namePanel: "Agregar Empresa",
+            namePane3: "Editar Empresa",
+            bgColor: 'success',
+            bgColorEdit: "bg-primary",
+            namePanel2: "EMPRESA",
+            objCompanys: [],
+            objEdiCOmpany: [],
+            parameters: [],
+            objEdi: '',
+            formStatus: 0,
+            fields: [{
+                field1: 1
+
+            }],
+            nameField1: 'NOMBRE EMPRESA',
+            nameField2: 'NOMBRE CORTO EMPRESA',
+            nameField3: 'DIN',
+            nameField4: 'PAÍS',
+            nameField5: 'OFICINA',
+            nameField6: 'DIRECCION'
+        };
+    },
+
+    methods: {
+        addFormStatus: function addFormStatus(n) {
+            // console.log('el parametro es: ' + n)
+            this.formStatus = n;
+        },
+        editFormStatus: function editFormStatus(id) {
+            this.objEdiCOmpany = id;
+            this.formStatus = 2;
+        },
+        showlist: function showlist(n) {
+            var _this2 = this;
+
+            this.formStatus = n;
+            axios.get('companys').then(function (response) {
+                _this2.objCompanys = response.data;
+                console.log(_this2.objCompanys);
+            });
+        },
+        deleted: function deleted(index) {
+            // console.log(index)
+            this.objCompanys.splice(index, 1);
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         }
     }
 });
 
 /***/ }),
+<<<<<<< HEAD
 /* 280 */
+=======
+/* 255 */
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-lg-6 col-md-offset-3  col-md-6 col-sm-12" }, [
       _c("div", { staticClass: "panel panel-default" }, [
@@ -93008,25 +93925,136 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+=======
+  return _c("div", [
+    _vm.formStatus === 1
+      ? _c(
+          "div",
+          [
+            _c("panel-heading-add", {
+              attrs: {
+                namePanel: _vm.namePanel,
+                bgColor: _vm.bgColor,
+                fields: _vm.fields[0],
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                buttonType: 1
+              },
+              on: { showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 2
+      ? _c(
+          "div",
+          [
+            _c("panel-heading-update", {
+              attrs: {
+                namePanel: _vm.namePane3,
+                bgColor: _vm.bgColorEdit,
+                fields: _vm.fields[0],
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                nameField4: _vm.nameField4,
+                nameField5: _vm.nameField5,
+                nameField6: _vm.nameField6,
+                buttonType: 2,
+                objEdi: _vm.objEdiCOmpany
+              },
+              on: { showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 0
+      ? _c(
+          "div",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("button-form", {
+              attrs: { buttonType: 0 },
+              on: { addf: _vm.addFormStatus }
+            }),
+            _vm._v(" "),
+            _c("list-company", {
+              attrs: {
+                namePanel: _vm.namePanel2,
+                objCompanys: _vm.objCompanys
+              },
+              on: { edit: _vm.editFormStatus, deleted: _vm.deleted }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("EMPRESAS")])])
+  }
+]
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-5a34a52e", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-271083d2", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-3438be05", module.exports)
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
 
 /***/ }),
+<<<<<<< HEAD
 /* 281 */
+=======
+<<<<<<< HEAD
+/* 256 */
+=======
+/* 286 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(282)
 /* template */
 var __vue_template__ = __webpack_require__(283)
+=======
+<<<<<<< HEAD
+var __vue_script__ = __webpack_require__(257)
+/* template */
+var __vue_template__ = __webpack_require__(258)
+=======
+var __vue_script__ = __webpack_require__(287)
+/* template */
+var __vue_template__ = __webpack_require__(288)
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -93043,7 +94071,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/configuration/company/listCompany.vue"
+=======
+Component.options.__file = "resources/assets/js/components/configuration/company/panelHeadingAdd.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -93052,9 +94084,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-5b6b87cd", Component.options)
   } else {
     hotAPI.reload("data-v-5b6b87cd", Component.options)
+=======
+    hotAPI.createRecord("data-v-2d7c7131", Component.options)
+  } else {
+    hotAPI.reload("data-v-2d7c7131", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -93065,7 +94103,15 @@ module.exports = Component.exports
 
 
 /***/ }),
+<<<<<<< HEAD
 /* 282 */
+=======
+<<<<<<< HEAD
+/* 257 */
+=======
+/* 287 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93123,6 +94169,525 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        // data for combobox
+        axios.get('companys/contrys').then(function (response) {
+            _this.objContrys = response.data.map(function (item) {
+                return { id: item.countryId, vText: item.countryName };
+            });
+            // console.log(this.objCompanys)
+        });
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+
+            objContrys: [],
+            objOffices: [],
+            varFieldOne: '',
+            varFieldTwo: '',
+            varFieldThree: '',
+            varFieldFour: '',
+            varFieldFive: '',
+            varFieldSix: ''
+        };
+    },
+
+    computed: {
+        addSuccess: function addSuccess() {
+            return {
+                background: '#dff0d8'
+
+            };
+        },
+        ediPrimary: function ediPrimary() {
+            return {
+                background: '#d9edf7'
+
+            };
+        }
+    },
+    props: {
+
+        objEdi: {},
+        nameField1: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField2: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField3: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField4: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField5: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField6: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        namePanel: {},
+        bgColor: {},
+        buttonType: {}
+    },
+    methods: {
+        newValueOfSixField: function newValueOfSixField() {
+            var params = {
+                varFieldOne: this.varFieldOne,
+                varFieldTwo: this.varFieldTwo,
+                varFieldThree: this.varFieldThree,
+                varFieldFour: this.varFieldFour,
+                varFieldFive: this.varFieldFive,
+                varFieldSix: this.varFieldSix
+                // console.log(params)
+
+            };axios.post('companys', params).then(function (response) {
+                // console.log(response)
+                document.querySelector("#formSixField").reset();
+                alert("Success");
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        cancf: function cancf(n) {
+            // console.log('vista a mostrar: ' + n)
+            this.$emit('showlist', 0);
+        },
+        change4: function change4(event) {
+            var _this2 = this;
+
+            var cb4 = event.target.value;
+            // newcb4(cb4)
+            axios.get('companys/offices/' + cb4).then(function (response) {
+                // console.log(response)
+
+                _this2.objOffices = response.data.map(function (item) {
+                    return { id: item.officeId, vText: item.officeName };
+                });
+                // console.log(this.objOffices)
+            });
+            // this.$emit('new4', cb4)
+        }
+    }
+});
+
+/***/ }),
+<<<<<<< HEAD
+/* 258 */
+=======
+/* 288 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-lg-6 col-md-offset-3  col-md-6 col-sm-12" }, [
+      _c("div", { staticClass: "panel panel-default" }, [
+        _vm.bgColor === "success"
+          ? _c("div", { staticClass: "panel-heading", style: _vm.addSuccess }, [
+              _c("h4", { staticClass: "text-uppercase" }, [
+                _vm._v(_vm._s(_vm.namePanel))
+              ])
+            ])
+          : _c("div", { staticClass: "panel-heading", style: _vm.ediPrimary }, [
+              _c("h4", { staticClass: "text-uppercase" }, [
+                _vm._v(_vm._s(_vm.namePanel))
+              ])
+            ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel-body" }, [
+          _c(
+            "form",
+            {
+              attrs: { role: "form", id: "formSixField" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.newValueOfSixField()
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form-group col-md-10" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field1" },
+                  domProps: { textContent: _vm._s(_vm.nameField1) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldOne,
+                      expression: "varFieldOne"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: {
+                    type: "text",
+                    id: "field1",
+                    name: "field1",
+                    placeholder: _vm.nameField1,
+                    required: "required"
+                  },
+                  domProps: { value: _vm.varFieldOne },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldOne = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-8" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field2" },
+                  domProps: { textContent: _vm._s(_vm.nameField2) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldTwo,
+                      expression: "varFieldTwo"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: {
+                    type: "text",
+                    id: "field2",
+                    name: "field2",
+                    placeholder: _vm.nameField2,
+                    required: "required"
+                  },
+                  domProps: { value: _vm.varFieldTwo },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldTwo = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-6" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field3" },
+                  domProps: { textContent: _vm._s(_vm.nameField3) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldThree,
+                      expression: "varFieldThree"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: {
+                    type: "text",
+                    id: "field3",
+                    name: "field3",
+                    placeholder: _vm.nameField3,
+                    required: "required"
+                  },
+                  domProps: { value: _vm.varFieldThree },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldThree = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-7" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field4" },
+                  domProps: { textContent: _vm._s(_vm.nameField4) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.varFieldFour,
+                        expression: "varFieldFour"
+                      }
+                    ],
+                    staticClass: "form-control ",
+                    attrs: { id: "field4", required: "required" },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.varFieldFour = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        function($event) {
+                          return _vm.change4($event)
+                        }
+                      ]
+                    }
+                  },
+                  _vm._l(_vm.objContrys, function(cbox) {
+                    return _c(
+                      "option",
+                      { key: cbox.id, domProps: { value: cbox.id } },
+                      [_vm._v(_vm._s(cbox.vText))]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-7" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field5" },
+                  domProps: { textContent: _vm._s(_vm.nameField5) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.varFieldFive,
+                        expression: "varFieldFive"
+                      }
+                    ],
+                    staticClass: "form-control ",
+                    attrs: { id: "field5", required: "required" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.varFieldFive = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.objOffices, function(cbox) {
+                    return _c(
+                      "option",
+                      { key: cbox.id, domProps: { value: cbox.id } },
+                      [_vm._v(_vm._s(cbox.vText))]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-12" }, [
+                _c("label", {
+                  staticClass: "form-group ",
+                  attrs: { for: "field6" },
+                  domProps: { textContent: _vm._s(_vm.nameField6) }
+                }),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldSix,
+                      expression: "varFieldSix"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { rows: "1", id: "field6", required: "required" },
+                  domProps: { value: _vm.varFieldSix },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldSix = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("button-form", {
+                attrs: { buttonType: _vm.buttonType },
+                on: { cancf: _vm.cancf }
+              })
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2d7c7131", module.exports)
+  }
+}
+
+/***/ }),
+<<<<<<< HEAD
+/* 259 */
+=======
+/* 289 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+<<<<<<< HEAD
+var __vue_script__ = __webpack_require__(260)
+/* template */
+var __vue_template__ = __webpack_require__(261)
+=======
+var __vue_script__ = __webpack_require__(290)
+/* template */
+var __vue_template__ = __webpack_require__(291)
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/configuration/company/panelHeadingUpdate.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5a34a52e", Component.options)
+  } else {
+    hotAPI.reload("data-v-5a34a52e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+<<<<<<< HEAD
+/* 260 */
+=======
+/* 290 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -93132,18 +94697,118 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
+<<<<<<< HEAD
+=======
+        var _this = this;
+
+        // data for combobox
+        axios.get('companys/contrys').then(function (response) {
+            _this.objContrys = response.data.map(function (item) {
+                return { id: item.countryId, vText: item.countryName };
+            });
+            // console.log(this.objCompanys)
+        });
+
+        axios.get("companys/show/" + this.objEdi).then(function (response) {
+            _this.parameters = response.data;
+
+            // console.log(this.parameters)
+            _this.varFieldId = _this.parameters[0].companyId;
+            _this.varFieldOne = document.getElementById("field1").value = _this.parameters[0].companyName;
+            _this.varFieldTwo = document.getElementById("field2").value = _this.parameters[0].companyShortName;
+            _this.varFieldThree = document.getElementById("field3").value = _this.parameters[0].companyNumber;
+            _this.varFieldFour = document.getElementById("field4").value = _this.parameters[0].countryId;
+            // console.log('office: ' + this.parameters[0].officeId)
+
+            axios.get("/companys/offices/" + _this.parameters[0].countryId).then(function (response) {
+                _this.objOffices = response.data.map(function (item) {
+                    return { id: item.officeId, vText: item.officeName };
+                });
+
+                var found = _this.objOffices.find(function (item) {
+                    return item.id == _this.parameters[0].officeId;
+                });
+                _this.varFieldFive = document.getElementById("field5").value = found.id;
+            });
+
+            _this.varFieldSix = document.getElementById("field6").value = _this.parameters[0].companyAddress;
+        });
+
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         console.log('Component mounted.');
     },
 
     props: ['objCompanys', 'namePanel'],
     data: function data() {
         return {
+<<<<<<< HEAD
 
             num: 1
         };
+=======
+
+            objContrys: [],
+            parameters: [],
+            objOffices: [],
+            varFieldId: '',
+            varFieldOne: '',
+            varFieldTwo: '',
+            varFieldThree: '',
+            varFieldFour: '',
+            varFieldFive: '',
+            varFieldSix: ''
+        };
+    },
+
+    computed: {
+        addSuccess: function addSuccess() {
+            return {
+                background: '#dff0d8'
+
+            };
+        },
+        ediPrimary: function ediPrimary() {
+            return {
+                background: '#d9edf7'
+
+            };
+        }
+    },
+    props: {
+
+        objEdi: {},
+        nameField1: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField2: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField3: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField4: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField5: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        nameField6: {
+            type: String,
+            default: 'Name Defaul'
+        },
+        namePanel: {},
+        bgColor: {},
+        buttonType: {}
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
     },
 
     methods: {
+<<<<<<< HEAD
         deleteCompany: function deleteCompany(index, id) {
             var _this = this;
 
@@ -93179,12 +94844,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 console.log(error);
             });
+=======
+        newValueOfSixField: function newValueOfSixField() {
+            var params = {
+                varFieldOne: this.varFieldOne,
+                varFieldTwo: this.varFieldTwo,
+                varFieldThree: this.varFieldThree,
+                varFieldFour: this.varFieldFour,
+                varFieldFive: this.varFieldFive,
+                varFieldSix: this.varFieldSix
+            };
+            console.log(params);
+            // document.querySelector("#formSixField").reset()
+            var url = 'companys/' + this.varFieldId;
+            // console.log('la url es: '+ url)
+            axios.put(url, params).then(function (response) {
+                alert('Success');
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        cancf: function cancf(n) {
+            // console.log('vista a mostrar: ' + n)
+            this.$emit('showlist', 0);
+        },
+        change4: function change4(event) {
+            var _this2 = this;
+
+            var cb4 = event.target.value;
+            // console.log(cb4)
+            axios.get("companys/offices/" + cb4).then(function (response) {
+                _this2.objOffices = response.data.map(function (item) {
+                    return { id: item.officeId, vText: item.officeName };
+                });
+                // console.log(this.objOffices)
+            });
+            // this.$emit('new4', cb4)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         }
     }
 });
 
 /***/ }),
+<<<<<<< HEAD
 /* 283 */
+=======
+<<<<<<< HEAD
+/* 261 */
+=======
+/* 291 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -93192,6 +94902,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
+<<<<<<< HEAD
     _c("div", { staticClass: "col-md-12 col-lg-12" }, [
       _c("div", { staticClass: "panel panel-default" }, [
         _c("div", { staticClass: "table-responsive text-center" }, [
@@ -93287,12 +94998,285 @@ var render = function() {
                 0
               )
             ]
+=======
+    _c("div", { staticClass: "col-lg-6 col-md-offset-3  col-md-6 col-sm-12" }, [
+      _c("div", { staticClass: "panel panel-default" }, [
+        _vm.bgColor === "success"
+          ? _c("div", { staticClass: "panel-heading", style: _vm.addSuccess }, [
+              _c("h4", { staticClass: "text-uppercase" }, [
+                _vm._v(_vm._s(_vm.namePanel))
+              ])
+            ])
+          : _c("div", { staticClass: "panel-heading", style: _vm.ediPrimary }, [
+              _c("h4", { staticClass: "text-uppercase" }, [
+                _vm._v(_vm._s(_vm.namePanel))
+              ])
+            ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel-body" }, [
+          _c(
+            "form",
+            {
+              attrs: { role: "form", id: "formSixField" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.newValueOfSixField()
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form-group col-md-12" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field1" },
+                  domProps: { textContent: _vm._s(_vm.nameField1) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldOne,
+                      expression: "varFieldOne"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: {
+                    type: "text",
+                    id: "field1",
+                    name: "field1",
+                    placeholder: _vm.nameField1,
+                    required: "required"
+                  },
+                  domProps: { value: _vm.varFieldOne },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldOne = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-7" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field2" },
+                  domProps: { textContent: _vm._s(_vm.nameField2) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldTwo,
+                      expression: "varFieldTwo"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: {
+                    type: "text",
+                    id: "field2",
+                    name: "field2",
+                    placeholder: _vm.nameField2,
+                    required: "required"
+                  },
+                  domProps: { value: _vm.varFieldTwo },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldTwo = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-5" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field3" },
+                  domProps: { textContent: _vm._s(_vm.nameField3) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldThree,
+                      expression: "varFieldThree"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: {
+                    type: "text",
+                    id: "field3",
+                    name: "field3",
+                    placeholder: _vm.nameField3,
+                    required: "required"
+                  },
+                  domProps: { value: _vm.varFieldThree },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldThree = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-7" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field4" },
+                  domProps: { textContent: _vm._s(_vm.nameField4) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.varFieldFour,
+                        expression: "varFieldFour"
+                      }
+                    ],
+                    staticClass: "form-control ",
+                    attrs: { id: "field4", required: "required" },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.varFieldFour = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        function($event) {
+                          return _vm.change4($event)
+                        }
+                      ]
+                    }
+                  },
+                  _vm._l(_vm.objContrys, function(cbox) {
+                    return _c(
+                      "option",
+                      { key: cbox.id, domProps: { value: cbox.id } },
+                      [_vm._v(_vm._s(cbox.vText))]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-7" }, [
+                _c("label", {
+                  staticClass: "form-group",
+                  attrs: { for: "field5" },
+                  domProps: { textContent: _vm._s(_vm.nameField5) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.varFieldFive,
+                        expression: "varFieldFive"
+                      }
+                    ],
+                    staticClass: "form-control ",
+                    attrs: { id: "field5", required: "required" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.varFieldFive = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.objOffices, function(cbox) {
+                    return _c(
+                      "option",
+                      { key: cbox.id, domProps: { value: cbox.id } },
+                      [_vm._v(_vm._s(cbox.vText))]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-12" }, [
+                _c("label", {
+                  staticClass: "form-group ",
+                  attrs: { for: "field6" },
+                  domProps: { textContent: _vm._s(_vm.nameField6) }
+                }),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.varFieldSix,
+                      expression: "varFieldSix"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { rows: "1", id: "field6", required: "required" },
+                  domProps: { value: _vm.varFieldSix },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.varFieldSix = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("button-form", {
+                attrs: { buttonType: _vm.buttonType },
+                on: { cancf: _vm.cancf }
+              })
+            ],
+            1
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
           )
         ])
       ])
     ])
   ])
 }
+<<<<<<< HEAD
 var staticRenderFns = [
   function() {
     var _vm = this
@@ -93319,25 +95303,52 @@ var staticRenderFns = [
     ])
   }
 ]
+=======
+var staticRenderFns = []
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-5b6b87cd", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-5a34a52e", module.exports)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
 
 /***/ }),
+<<<<<<< HEAD
 /* 284 */
+=======
+<<<<<<< HEAD
+/* 262 */
+=======
+/* 292 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(285)
 /* template */
 var __vue_template__ = __webpack_require__(286)
+=======
+<<<<<<< HEAD
+var __vue_script__ = __webpack_require__(263)
+/* template */
+var __vue_template__ = __webpack_require__(264)
+=======
+var __vue_script__ = __webpack_require__(293)
+/* template */
+var __vue_template__ = __webpack_require__(294)
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -93354,7 +95365,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/srcComponent/buttonForm.vue"
+=======
+Component.options.__file = "resources/assets/js/components/configuration/company/listCompany.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -93363,9 +95378,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-9b7c10b6", Component.options)
   } else {
     hotAPI.reload("data-v-9b7c10b6", Component.options)
+=======
+    hotAPI.createRecord("data-v-5b6b87cd", Component.options)
+  } else {
+    hotAPI.reload("data-v-5b6b87cd", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -93376,7 +95397,15 @@ module.exports = Component.exports
 
 
 /***/ }),
+<<<<<<< HEAD
 /* 285 */
+=======
+<<<<<<< HEAD
+/* 263 */
+=======
+/* 293 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93400,11 +95429,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+<<<<<<< HEAD
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         console.log('Component mounted.');
     },
+<<<<<<< HEAD
 
     methods: {
         addForm: function addForm(n) {
@@ -93436,18 +95509,74 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         buttonType: {
             type: Number,
             default: 0
+=======
+
+    props: ['objCompanys', 'namePanel'],
+    data: function data() {
+        return {
+
+            num: 1
+        };
+    },
+
+    methods: {
+        deleteCompany: function deleteCompany(index, id) {
+            var _this = this;
+
+            console.log('index 1: ' + id);
+            if (confirm("Delete?")) {
+                axios.delete('/companys/' + id).then(function () {
+                    _this.$emit('deleted', index);
+                });
+            }
+        },
+        editCompany: function editCompany(id) {
+            // console.log('indes es: ',id)
+            // this.editMode = index
+            this.$emit('edit', id);
+        },
+        updateDepartment: function updateDepartment(index, company) {
+            var _this2 = this;
+
+            // console.log(company) companyId departmentId departmentName parentDepartmentId
+            var params = {
+                companyId: company.companyId,
+                departmentName: company.departmentName,
+                parentDepartmentId: company.parentDepartmentId
+            };
+            var url = '/departments/' + company.departmentId;
+
+            axios.put(url, params).then(function (response) {
+                // console.log(response)
+                _this2.editMode = -1;
+                // console.log(response)
+                var company = response.data;
+                _this2.$emit('update', [index, company]);
+            }).catch(function (error) {
+                console.log(error);
+            });
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         }
     }
 });
 
 /***/ }),
+<<<<<<< HEAD
 /* 286 */
+=======
+<<<<<<< HEAD
+/* 264 */
+=======
+/* 294 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c(
     "div",
     { staticClass: "form-group col-ms-12 col-md-12 col-lg-12 text-center" },
@@ -93662,16 +95791,140 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm._m(0)
+=======
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-12 col-lg-12" }, [
+      _c("div", { staticClass: "panel panel-default" }, [
+        _c("div", { staticClass: "table-responsive text-center" }, [
+          _c(
+            "table",
+            { staticClass: "table table-striped table-bordered text-center" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.objCompanys, function(company, index) {
+                  return _c("tr", { key: company.companyId }, [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "form-inline" }, [
+                      _vm._v(
+                        "  \n                                " +
+                          _vm._s(company.companyName) +
+                          " \n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(company.companyShortName) +
+                          "\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        " \n                                " +
+                          _vm._s(company.companyNumber) +
+                          "\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        " \n                               " +
+                          _vm._s(company.countryName) +
+                          "                                         \n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        " \n                               " +
+                          _vm._s(company.officeName) +
+                          " \n                                \n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        " \n                               " +
+                          _vm._s(company.companyAddress) +
+                          " \n                                \n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary",
+                          on: {
+                            click: function($event) {
+                              return _vm.editCompany(company.companyId)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteCompany(index, company.companyId)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+<<<<<<< HEAD
     return _c("div", { staticClass: "spinner" }, [
       _c("div", { staticClass: "bounce1" }),
       _c("div", { staticClass: "bounce2" }),
       _c("div", { staticClass: "bounce3" })
+=======
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre Empresa")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre Corto")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("RIF/TIN/NIT/RUC")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pais")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Oficina")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Direccion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
     ])
   }
 ]
@@ -93680,11 +95933,16 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-d7e3df86", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-5b6b87cd", module.exports)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
 
 /***/ }),
+<<<<<<< HEAD
 /* 292 */
 /***/ (function(module, exports) {
 
@@ -93703,14 +95961,33 @@ if (false) {
 /* 302 */,
 /* 303 */,
 /* 304 */
+=======
+<<<<<<< HEAD
+/* 265 */
+=======
+/* 295 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(305)
 /* template */
 var __vue_template__ = __webpack_require__(306)
+=======
+<<<<<<< HEAD
+var __vue_script__ = __webpack_require__(266)
+/* template */
+var __vue_template__ = __webpack_require__(267)
+=======
+var __vue_script__ = __webpack_require__(296)
+/* template */
+var __vue_template__ = __webpack_require__(297)
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -93727,7 +96004,11 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+<<<<<<< HEAD
 Component.options.__file = "resources/assets/js/components/ProposalScopes.vue"
+=======
+Component.options.__file = "resources/assets/js/components/srcComponent/buttonForm.vue"
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 /* hot reload */
 if (false) {(function () {
@@ -93736,9 +96017,15 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
+<<<<<<< HEAD
     hotAPI.createRecord("data-v-50d2a8b0", Component.options)
   } else {
     hotAPI.reload("data-v-50d2a8b0", Component.options)
+=======
+    hotAPI.createRecord("data-v-9b7c10b6", Component.options)
+  } else {
+    hotAPI.reload("data-v-9b7c10b6", Component.options)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -93749,7 +96036,15 @@ module.exports = Component.exports
 
 
 /***/ }),
+<<<<<<< HEAD
 /* 305 */
+=======
+<<<<<<< HEAD
+/* 266 */
+=======
+/* 296 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93773,6 +96068,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+<<<<<<< HEAD
 //
 //
 //
@@ -94104,10 +96400,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+=======
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 
 // import vueUpload from './vueUpload.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+<<<<<<< HEAD
   mounted: function mounted() {
     console.log('Component invoiceScope mounted.');
     this.getInvoiceScopes();
@@ -94167,6 +96466,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toastr.success(response.data.message);
         } else {
           toastr.error(response.data.message);
+=======
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    },
+
+    methods: {
+        addForm: function addForm(n) {
+            // console.log(n)
+            switch (n) {
+                case 1:
+                    this.$emit('addf', n);
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+                    this.$emit('addUpdate', n);
+                    break;
+                case 4:
+                    this.$emit('cancDetail', 0);
+                    break;
+                case 5:
+                    // console.log("entro case")
+                    this.$emit('cancf', 0);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    },
+    props: {
+        buttonType: {
+            type: Number,
+            default: 0
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
         }
       });
     }
@@ -94174,13 +96509,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   } });
 
 /***/ }),
+<<<<<<< HEAD
 /* 309 */
+=======
+<<<<<<< HEAD
+/* 267 */
+=======
+/* 297 */
+>>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("form", { staticClass: "formScope2" }, [
     _c("hr"),
     _vm._v(" "),
@@ -94296,13 +96640,237 @@ var render = function() {
       ]
     )
   ])
+=======
+  return _c(
+    "div",
+    { staticClass: "form-group col-ms-12 col-md-12 col-lg-12 text-center" },
+    [
+      _vm.buttonType === 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(1)
+                }
+              }
+            },
+            [_vm._v("Agregar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 1
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(2)
+                }
+              }
+            },
+            [_vm._v("Guardar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 2
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(3)
+                }
+              }
+            },
+            [_vm._v("Actualizar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-warning",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(4)
+                }
+              }
+            },
+            [_vm._v("Regresar")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.buttonType === 1 || _vm.buttonType === 2
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-warning",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.addForm(5)
+                }
+              }
+            },
+            [_vm._v("Regresar")]
+          )
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-9b7c10b6", module.exports)
+  }
+}
+
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(269)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(271)
+/* template */
+var __vue_template__ = __webpack_require__(272)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/srcComponent/loading.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d7e3df86", Component.options)
+  } else {
+    hotAPI.reload("data-v-d7e3df86", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(270);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("b1742414", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d7e3df86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./loading.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d7e3df86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./loading.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 270 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.spinner {\nmargin: 20px auto 0;\nwidth: 70px;\ntext-align: center;\ndisplay: inline-block;\n/* position: relative;\nwidth: 80px;\nheight: 80px; */\n}\n.spinner > div {\nwidth: 18px;\nheight: 18px;\nbackground-color: #3c8dbc;\n\nborder-radius: 100%;\ndisplay: inline-block;\n-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\nanimation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n.spinner .bounce1 {\n-webkit-animation-delay: -0.32s;\nanimation-delay: -0.32s;\n}\n.spinner .bounce2 {\n-webkit-animation-delay: -0.16s;\nanimation-delay: -0.16s;\n}\n@-webkit-keyframes sk-bouncedelay {\n0%, 80%, 100% { -webkit-transform: scale(0)\n}\n40% { -webkit-transform: scale(1.0)\n}\n}\n@keyframes sk-bouncedelay {\n0%, 80%, 100% { \n    -webkit-transform: scale(0);\n    transform: scale(0);\n}\n40% { \n    -webkit-transform: scale(1.0);\n    transform: scale(1.0);\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 271 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+   mounted: function mounted() {},
+
+   methods: {},
+   props: {}
+});
+
+/***/ }),
+/* 272 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+<<<<<<< HEAD
     return _c("h4", [_c("b", [_vm._v("Alcances de la Propuesta")])])
+=======
+    return _c("div", { staticClass: "spinner" }, [
+      _c("div", { staticClass: "bounce1" }),
+      _c("div", { staticClass: "bounce2" }),
+      _c("div", { staticClass: "bounce3" })
+    ])
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 ]
 render._withStripped = true
@@ -94310,9 +96878,70 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
     require("vue-hot-reload-api")      .rerender("data-v-0f222785", module.exports)
+=======
+    require("vue-hot-reload-api")      .rerender("data-v-d7e3df86", module.exports)
+>>>>>>> 0f6349dd83bd9adbbe012b7d7ef41828453ab9db
   }
 }
+
+/***/ }),
+/* 273 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(286);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("107506c6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e727297\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPrePayrollDetail.vue", function() {
+     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e727297\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPrePayrollDetail.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.alingTo{\r\n\r\n    position: relative;\r\n    float: left;\n}\r\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);
