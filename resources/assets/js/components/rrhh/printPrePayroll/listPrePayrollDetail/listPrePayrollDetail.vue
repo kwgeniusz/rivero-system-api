@@ -1,14 +1,15 @@
 <template>
 
     <div class="col-md-10 col-md-offset-1">
-        <!-- <div class="panel panel-default"> -->
-            <!-- <div class="panel-heading"> -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <!-- <div v-if="condition">
                 </div> -->
-                <!-- <div class="row">
+                <div class="row">
                     <div class="form-group col-md-7">
-                        <h4><b>PAÍS:</b> {{this.objprePayrollDetail[0].countryName}} </h4>
+                        <h4><b>PAÍS:</b> {{ this.objprePayrollDetail[1]}} </h4>
                     </div>
+                    <!-- 
                     <div class="form-group col-md-5">
                         <h4><b>EMPRESA:</b> {{this.objprePayrollDetail[0].companyName}}</h4>
                     </div>
@@ -19,26 +20,37 @@
                     </div>
                     <div class="form-group col-md-5">
                         <h4><b>AÑO:</b> {{this.objprePayrollDetail[0].year}}</h4>
-                    </div>
-                </div> -->
-            <!-- </div> -->
+                    </div> -->
+                </div> 
+            </div>
 
             <div class="table-responsive text-center">
-                <table class="table table-striped table-bordered text-center">
-                    <thead>
+                 <button v-on:click="printDetailRow()" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-print"></i> </button>  
+                <table class="table table-striped table-bordered text-center" >
+                    <!-- <thead>
                         <tr>
                             <th>CODIGO</th>
-                            <th>DETALLE</th>
+                            <th>DETALLE</th> -->
                             <!-- <th>NOMBRE</th>
                             <th>MONTO</th>
                             <th>ACCIONES</th> -->
-                        </tr>
-                    </thead>
-                    <tbody >
+                        <!-- </tr>
+                    </thead> -->
+                    <tbody id="print" >
     
-                        <tr  v-for="(detail, index) in objprePayrollDetail" :key="detail.staffCode">
-                            <td >{{index}}</td>
-                            <td class="form-inline">
+                        <tr  v-for="(detail, index) in objprePayrollDetail" :key="index" >
+                            
+
+                            <td v-if="index > 2">
+                                <th>CODIGO</th>
+                                    <p  class="text-left">
+                                        {{detail[0].staffCode }} 
+                                       
+                                    </p>
+                            
+                                
+                            </td>
+                            <td v-if="index > 2" class="form-inline">
                                 <table>
                                     <tr>
                                         <td width="180" class="alingTo">
@@ -48,7 +60,7 @@
                                             </p>
                                         </td>
                                         <td>
-                                           <table>
+                                           <table >
                                                <thead>
                                                     <tr>
                                                         <th>CONCEPTO</th>
@@ -61,7 +73,7 @@
                                                         <th>ACCIONES</th> -->
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody >
                                                     <tr  v-for="(item, index) in detail" :key="index">
                                                         <td >
                                                             <p class="text-left" valign="top">
@@ -119,6 +131,8 @@
                                     
                                 
                             </td>
+                          
+                            
                             <!-- <td>
                                 <p class="text-left">
                                     {{detail.staffName}}
@@ -148,7 +162,7 @@
                     </tbody> -->
                 </table> 
             </div><!-- table-responsive text-center -->
-        <!-- </div> -->
+        </div>
     </div>
     
 </template>
@@ -179,6 +193,7 @@
         },
         props: {
             objprePayrollDetail: {},
+            objprePayrollDescrition: {},
             namePanelList: {
                 type: String,
                 default: 'Name defauld',
@@ -199,6 +214,50 @@
                 // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
                 // de esta manera no tengo que buscar los datos en la DB nuevamente
               
+            },
+            printDetailRow(){
+                var pdf = new jsPDF('p', 'pt', 'letter')
+
+	// source can be HTML-formatted string, or a reference
+	// to an actual DOM element from which the text will be scraped.
+	// , source = $('#fromHTMLtestdiv')[0]
+	, source = document.querySelector("#print").innerHTML
+
+	// we support special element handlers. Register them with jQuery-style 
+	// ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+	// There is no support for any other type of selectors 
+	// (class, of compound) at this time.
+	, specialElementHandlers = {
+		// element with id of "bypass" - jQuery style selector
+		'#bypassme': function(element, renderer){
+			// true = "handled elsewhere, bypass text extraction"
+			return true
+		}
+	}
+
+	var margins = {
+      top: 80,
+      bottom: 60,
+      left: 40,
+      width: 522
+    };
+    // all coords and widths are in jsPDF instance's declared units
+    // 'inches' in this case
+    pdf.fromHTML(
+    	source // HTML string or DOM elem ref.
+    	, margins.left // x coord
+    	, margins.top // y coord
+    	, {
+    		'width': margins.width // max width of content on PDF
+    		// , 'elementHandlers': specialElementHandlers
+    	},
+    	function (dispose) {
+    	  // dispose: object with X, Y of the last line add to the PDF 
+    	  //          this allow the insertion of new lines after html
+          pdf.save('Test.pdf');
+        },
+    	margins
+    )
             }
         }
     }
