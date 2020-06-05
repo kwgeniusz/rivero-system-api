@@ -10,6 +10,7 @@ use App\Proposal;
 use App\Invoice;
 use App\InvoiceDetail;
 use App\InvoiceNote;
+use App\InvoiceScope;
 use App\PaymentInvoice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
@@ -29,6 +30,7 @@ class PrecontractController extends Controller
     private $oInvoice;
     private $oInvoiceDetail;
     private $oInvoiceNote;
+    private $oInvoiceScope;
     private $oPaymentInvoice;
 
 
@@ -44,6 +46,7 @@ class PrecontractController extends Controller
         $this->oInvoice           = new Invoice;
         $this->oInvoiceDetail           = new InvoiceDetail;
         $this->oInvoiceNote           = new InvoiceNote;
+        $this->oInvoiceScope           = new InvoiceScope;
         $this->oPaymentInvoice           = new PaymentInvoice;
     }
 
@@ -257,6 +260,11 @@ class PrecontractController extends Controller
                        $note->noteId,
                        $note->noteName);
                    }
+                foreach ($proposal[0]->scope as $scope) {
+                     $this->oInvoiceScope->insert(
+                       $invoice->invoiceId,
+                       $scope->description);
+                   }    
                foreach ($proposal[0]->paymentProposal as $payment) {
                     $this->oPaymentInvoice->addPayment(
                             $invoice->invoiceId,

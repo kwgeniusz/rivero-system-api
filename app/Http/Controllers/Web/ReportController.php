@@ -517,6 +517,29 @@ EOD;
        </tr>
 </table>
 EOD;
+
+ $html .= <<<EOD
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Work</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+                  <ul>
+
+EOD;
+foreach($invoice['0']->scope as $scope){ 
+ $html .= <<<EOD
+    <li>$scope->description</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
+        </th>
+       </tr>
+</table>
+EOD;
             PDF::AddPage();
              if($invoice[0]->invStatusCode == Invoice::PAID){
               PDF::image('img/paid2.png', 70, 90, 70, '', '', '', '', false, 300);
@@ -809,6 +832,30 @@ EOD;
 </table>
 EOD;
 
+
+
+ $html .= <<<EOD
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Work</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+                  <ul>
+
+EOD;
+foreach($invoice['0']->scope as $scope){ 
+ $html .= <<<EOD
+    <li>$scope->description</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
+        </th>
+       </tr>
+</table>
+EOD;
           PDF::setFooterCallback(function($pdf) {
             // Position at 15 mm from bottom
             $pdf->SetY(-15);
@@ -1160,6 +1207,29 @@ EOD;
        </tr>
 </table>
 EOD;
+
+$html .= <<<EOD
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Works</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+                  <ul>
+
+EOD;
+foreach($proposal['0']->scope as $scope){ 
+ $html .= <<<EOD
+      <li>$scope->description</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
+        </th>
+       </tr>
+</table>
+EOD;
             PDF::AddPage();
             PDF::writeHTML($html, true, false, false, false, '');
 
@@ -1419,6 +1489,30 @@ EOD;
        </tr>
 </table>
 EOD;
+
+$html .= <<<EOD
+ <table cellspacing="0" cellpadding="0" border="0"  >
+       <tr>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Works</b></th>
+       </tr>
+
+       <tr style="font-size:10px"> 
+        <th>
+                  <ul>
+
+EOD;
+foreach($proposal['0']->scope as $scope){ 
+ $html .= <<<EOD
+      <li>$scope->description</li>
+EOD;
+}
+ $html .= <<<EOD
+                  </ul>
+        </th>
+       </tr>
+</table>
+EOD;
+
           PDF::setFooterCallback(function($pdf) {
             // Position at 15 mm from bottom
             $pdf->SetY(-15);

@@ -57,6 +57,10 @@ class Proposal extends Model
     {
       return $this->belongsToMany('App\Note', 'proposal_note', 'proposalId', 'noteId')->withPivot('propNoteId');
     }
+     public function scope()
+    {
+      return $this->hasMany('App\ProposalScope', 'proposalId', 'proposalId');
+    }
     public function paymentCondition()
     {
       return $this->belongsTo('App\PaymentCondition', 'pCondId', 'pCondCode');

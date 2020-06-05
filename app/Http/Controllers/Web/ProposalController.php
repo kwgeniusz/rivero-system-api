@@ -18,6 +18,7 @@ use App\PaymentCondition;
 use App\Invoice;
 use App\InvoiceDetail;
 use App\InvoiceNote;
+use App\InvoiceScope;
 use App\PaymentInvoice;
 use App\ProjectDescription;
 use App\Http\Requests\PaymentRequest;
@@ -39,6 +40,7 @@ class ProposalController extends Controller
         $this->oInvoice = new Invoice;
         $this->oInvoiceDetail = new InvoiceDetail;
         $this->oInvoiceNote = new InvoiceNote;
+        $this->oInvoiceScope = new InvoiceScope;
         $this->oPaymentInvoice = new PaymentInvoice;
         $this->oProjectDescription = new Projectdescription;
 
@@ -229,6 +231,12 @@ class ProposalController extends Controller
                        $note->noteId,
                        $note->noteName);
                    }
+
+            foreach ($proposal[0]->scope as $scope) {
+                     $this->oInvoiceScope->insert(
+                       $invoice->invoiceId,
+                       $scope->description);
+                   }      
                foreach ($proposal[0]->paymentProposal as $payment) {
                     $this->oPaymentInvoice->addPayment(
                             $invoice->invoiceId,
