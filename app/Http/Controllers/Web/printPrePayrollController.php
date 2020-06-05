@@ -46,7 +46,11 @@ class printPrePayrollController extends Controller
     public function getListPrePayroll($countryId, $companyId, $year, $payrollNumber)
     {
 
-        $res0 = DB::select("SELECT hrpayroll.staffCode, hrpayroll.staffName FROM hrpayroll
+        $res0 = DB::select("SELECT hrpayroll.staffCode ,hrpayroll.payrollName, country.countryName, company.companyName, 
+                                hrpayroll.payrollName
+                            FROM hrpayroll 
+                            INNER JOIN country ON hrpayroll.countryId = country.countryId
+                            INNER JOIN company ON hrpayroll.companyId = company.companyId
                             WHERE hrpayroll.countryId = $countryId
                                 AND hrpayroll.companyId = $companyId
                                 AND hrpayroll.year = $year
@@ -55,15 +59,13 @@ class printPrePayrollController extends Controller
                           
                           // return $res0;
         $print = array();
+        $print[0] = $res0[0]->payrollName;
+        $print[1] = $res0[0]->countryName;
+        $print[2] = $res0[0]->companyName;
         foreach($res0 as $res1){
-            // for ($i=0; $i < ; $i++) { 
-            //     # code...
-            // }
-// dd($res0);
-// return;
-// exit();
-// $print[$res1->staffName]= $res1->staffName;
-            $print[$res1->staffCode] = DB::select("SELECT hrpayroll.countryId, country.countryName, 
+            
+           
+            $print[] = DB::select("SELECT hrpayroll.countryId, country.countryName, 
                                         hrpayroll.companyId, company.companyName, 
                                     hrpayroll.year, hrpayroll.payrollNumber, hrpayroll.payrollName, hrpayroll.staffCode,
                                     hrpayroll.staffName,  hrpayroll.transactionTypeCode,

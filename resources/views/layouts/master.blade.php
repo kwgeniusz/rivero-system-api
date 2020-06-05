@@ -117,6 +117,7 @@ desired effect
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/submit.js') }}"></script>
 <script src='https://vjs.zencdn.net/7.6.0/video.js'></script>
+<script src="{{ asset('js/jspdf.js') }}"></script>
  <script>
 
   //Tooltip Boostrap 3.3

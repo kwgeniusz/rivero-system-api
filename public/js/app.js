@@ -18916,13 +18916,8 @@ module.exports = Component.exports
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-__webpack_require__(21);
-module.exports = __webpack_require__(273);
-=======
 __webpack_require__(22);
-module.exports = __webpack_require__(263);
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+module.exports = __webpack_require__(288);
 
 
 /***/ }),
@@ -19023,41 +19018,24 @@ Vue.component('main-staff', __webpack_require__(232));
 Vue.component('list-staff', __webpack_require__(235));
 Vue.component('add-up-staff', __webpack_require__(240));
 // --> payrollControll
-Vue.component('main-payroll-control', __webpack_require__(275));
-Vue.component('list-payroll-control', __webpack_require__(278));
-Vue.component('add-up-payroll-control', __webpack_require__(283));
+Vue.component('main-payroll-control', __webpack_require__(243));
+Vue.component('list-payroll-control', __webpack_require__(246));
+Vue.component('add-up-payroll-control', __webpack_require__(251));
 // PRINT PRE-PAYROLL
-<<<<<<< HEAD
-Vue.component('main-pre-payroll', __webpack_require__(241));
-Vue.component('list-pre-payroll', __webpack_require__(244));
-Vue.component('list-pre-payroll-detail', __webpack_require__(247));
-Vue.component('list-pre-payroll-detail-staff', __webpack_require__(250));
+Vue.component('main-pre-payroll', __webpack_require__(254));
+Vue.component('list-pre-payroll', __webpack_require__(257));
+Vue.component('list-pre-payroll-detail', __webpack_require__(260));
+Vue.component('list-pre-payroll-detail-staff', __webpack_require__(265));
 
 //############ COMFIGURATION COMPANY COMPONENTS ##############
-Vue.component('main-company', __webpack_require__(253));
-Vue.component('panel-heading-add', __webpack_require__(256));
-Vue.component('panel-heading-update', __webpack_require__(259));
-Vue.component('list-company', __webpack_require__(262));
+Vue.component('main-company', __webpack_require__(268));
+Vue.component('panel-heading-add', __webpack_require__(271));
+Vue.component('panel-heading-update', __webpack_require__(274));
+Vue.component('list-company', __webpack_require__(277));
 
 // ########### srcComponent 
-Vue.component('button-form', __webpack_require__(265));
-Vue.component('loading', __webpack_require__(268));
-=======
-Vue.component('main-pre-payroll', __webpack_require__(286));
-Vue.component('list-pre-payroll', __webpack_require__(289));
-Vue.component('list-pre-payroll-detail', __webpack_require__(292));
-Vue.component('list-pre-payroll-detail-staff', __webpack_require__(295));
-
-//############ COMFIGURATION COMPANY COMPONENTS ##############
-Vue.component('main-company', __webpack_require__(243));
-Vue.component('panel-heading-add', __webpack_require__(246));
-Vue.component('panel-heading-update', __webpack_require__(249));
-Vue.component('list-company', __webpack_require__(252));
-
-// ########### srcComponent 
-Vue.component('button-form', __webpack_require__(255));
-Vue.component('loading', __webpack_require__(258));
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+Vue.component('button-form', __webpack_require__(280));
+Vue.component('loading', __webpack_require__(283));
 
 var app = new Vue({
   el: '#app',
@@ -88605,1861 +88583,6 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/mainPrintPrePayroll.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7374b85e", Component.options)
-  } else {
-    hotAPI.reload("data-v-7374b85e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 244 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        var _this = this;
-
-        axios.get('pre-payroll-all/').then(function (response) {
-            _this.objPrintPrePayroll = response.data.print;
-            // console.log(this.objPrintPrePayroll)
-            // debugger
-        });
-
-        console.log('Component mounted.');
-    },
-    data: function data() {
-        return {
-            objPrintPrePayroll: [],
-            objEdit: [],
-            objEditDetail: [],
-            objprePayrollDetail: {},
-            objListDetailStaff: {},
-            formStatus: 0,
-            namePanelList: "TIPOS DE PROCESOS",
-            namePanel: "AGREGAR TIPO DE PROCESO",
-            namePanel2: "EDITAR TIPO DE PROCESO",
-            nameField1: "CÓDIGO",
-            nameField2: "PAÍS",
-            nameField3: "EMPRESA",
-            nameField4: "NOMBRE DEL PROCESO",
-            nameField5: "",
-            nameField6: "",
-            nameField7: "",
-            nameField8: ""
-
-        };
-    },
-
-    methods: {
-        addFormStatus: function addFormStatus() {
-            this.formStatus = 1;
-        },
-        addProcessDetail: function addProcessDetail() {
-            this.formStatus = 4;
-        },
-        showlist: function showlist() {
-            var _this2 = this;
-
-            this.formStatus = 0;
-            axios.get('process/list').then(function (response) {
-                _this2.objPrintPrePayroll = response.data.process;
-            });
-        },
-        showlistDetail: function showlistDetail() {
-            // console.log(this.objprePayrollDetail)
-            this.formStatus = 3;
-
-            // axios.get('process/list').then( response => {
-            // this.objProcess = response.data.process
-
-            // })
-        },
-        indexEdit: function indexEdit(index) {
-            this.formStatus = 2;
-            // console.log('recibido')
-            this.objEdit = this.objPrintPrePayroll[index];
-            // console.log( this.objEdit)
-        },
-        delrow: function delrow(indexId) {
-            // console.log(indexId)
-            this.objPrintPrePayroll.splice(indexId[0], 1);
-        },
-        prePayrollDetail: function prePayrollDetail(obj) {
-            // console.log('entro objeto')
-            // console.log(obj)
-            this.formStatus = 3;
-            this.objprePayrollDetail = obj;
-        },
-        cancDetail: function cancDetail() {
-            var _this3 = this;
-
-            this.formStatus = 0;
-            axios.get('process/list').then(function (response) {
-                _this3.objPrintPrePayroll = response.data.process;
-            });
-        },
-        prePayrollListDetail: function prePayrollListDetail(objListDetail) {
-
-            // console.log('entro')
-            // console.log(objListDetail)
-            this.formStatus = 5;
-            this.objListDetailStaff = objListDetail;
-            // this.objEditDetail = params
-        }
-    }
-});
-
-/***/ }),
-/* 245 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.formStatus === 0
-      ? _c(
-          "div",
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("list-pre-payroll", {
-              attrs: {
-                objPrintPrePayroll: _vm.objPrintPrePayroll,
-                namePanelList: _vm.namePanelList
-              },
-              on: {
-                indexEdit: _vm.indexEdit,
-                delrow: _vm.delrow,
-                prePayrollDetail: _vm.prePayrollDetail
-              }
-            })
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.formStatus === 3
-      ? _c(
-          "div",
-          [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("list-pre-payroll-detail", {
-              attrs: { objprePayrollDetail: _vm.objprePayrollDetail },
-              on: { prePayrollListDetail: _vm.prePayrollListDetail }
-            })
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.formStatus === 5
-      ? _c(
-          "div",
-          [
-            _c("list-pre-payroll-detail-staff", {
-              attrs: { objListDetailStaff: _vm.objListDetailStaff }
-            })
-          ],
-          1
-        )
-      : _vm._e()
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", [_c("b", [_vm._v("LISTADO DE PRE-NOMINA")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", [_c("b", [_vm._v("DETALLE DE LA PRE-NOMINA")])])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7374b85e", module.exports)
-  }
-}
-
-/***/ }),
-/* 246 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(247)
-/* template */
-var __vue_template__ = __webpack_require__(248)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrintPrePayroll.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-49359159", Component.options)
-  } else {
-    hotAPI.reload("data-v-49359159", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 247 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-
-        console.log('Component mounted.');
-    },
-    data: function data() {
-        return {};
-    },
-
-    props: {
-        namePanelList: {
-            type: String,
-            default: 'Name defauld'
-        },
-        objPrintPrePayroll: {}
-    },
-    methods: {
-        detailRow: function detailRow(countryId, companyId, year, payrollNumber) {
-            var _this = this;
-
-            var URL = 'pre-payroll-all/list/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber;
-            // console.log(countryId, companyId, year, payrollNumber)
-            axios.get(URL).then(function (res) {
-                // console.log(res.data.print)
-                // return
-                var objPrePayrollDetail = res.data.print;
-                _this.$emit("prePayrollDetail", objPrePayrollDetail);
-            });
-            // return
-            // console.log(id)
-        },
-        editRow: function editRow(index, id) {
-
-            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
-            // de esta manera no tengo que buscar los datos en la DB nuevamente
-
-            this.$emit("indexEdit", index);
-        },
-        deleterow: function deleterow(index, id) {
-            var _this2 = this;
-
-            // console.log('index ' + index)
-            // console.log('id ' + id)
-            // return
-            // const indexIs = this.objPrintPrePayroll[index]
-
-            if (confirm("Delete?")) {
-                axios.delete('process/delete/' + id).then(function (res) {
-                    // console.log(res)
-                    _this2.$emit("delrow", [index, id]);
-                }).catch(function (error) {
-                    alert("Error");
-                    console.log(error);
-                });
-            }
-
-            // console.log('enviado')
-        }
-    }
-});
-
-/***/ }),
-/* 248 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
-    _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "table-responsive text-center" }, [
-        _c(
-          "table",
-          { staticClass: "table table-striped table-bordered text-center" },
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _vm.objPrintPrePayroll.length > 0
-              ? _c(
-                  "tbody",
-                  _vm._l(_vm.objPrintPrePayroll, function(PrePayroll, index) {
-                    return _c("tr", { key: PrePayroll.hrprocessId }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-left" }, [
-                        _vm._v(
-                          "\n                            \n                                " +
-                            _vm._s(PrePayroll.countryName) +
-                            "\n                            \n                        "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("p", { staticClass: "text-left" }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(PrePayroll.companyName) +
-                              "\n                            "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("p", [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(PrePayroll.year) +
-                              "\n                            "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("p", { staticClass: "text-left" }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(PrePayroll.payrollName) +
-                              "\n                            "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("p", { staticClass: "text-right" }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(PrePayroll.total) +
-                              "\n                            "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-sm btn-info",
-                            on: {
-                              click: function($event) {
-                                return _vm.detailRow(
-                                  PrePayroll.countryId,
-                                  PrePayroll.companyId,
-                                  PrePayroll.year,
-                                  PrePayroll.payrollNumber
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c("i", {
-                              staticClass: "glyphicon glyphicon-th-list"
-                            })
-                          ]
-                        )
-                      ])
-                    ])
-                  }),
-                  0
-                )
-              : _c("tbody", [
-                  _c("tr", [
-                    _c("td", { attrs: { colspan: "7" } }, [_c("loading")], 1)
-                  ])
-                ])
-          ]
-        )
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("N.")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("PAÍS")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("EMPRESA")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("AÑO")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("PRE-NOMINA")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("MONTO")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("ACCIONES")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-49359159", module.exports)
-  }
-}
-
-/***/ }),
-/* 249 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(285)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(250)
-/* template */
-var __vue_template__ = __webpack_require__(251)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5e727297", Component.options)
-  } else {
-    hotAPI.reload("data-v-5e727297", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 250 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log(this.objprePayrollDetail);
-        // setTimeout(() => {
-        //     axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
-        //     this.objprePayrollDetail = response.data.processDetail
-        //     this.lengths = this.objprePayrollDetail.length
-
-        // })
-        // },1000)
-
-
-        console.log('Component mounted.');
-    },
-    data: function data() {
-        return {
-
-            lengths: '',
-            num: 0
-            // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
-        };
-    },
-
-    props: {
-        objprePayrollDetail: {},
-        namePanelList: {
-            type: String,
-            default: 'Name defauld'
-        },
-        objProcess: {},
-        objProcessDetail: {}
-    },
-    methods: {
-        detailPayrollStaff: function detailPayrollStaff(countryId, companyId, year, payrollNumber, staffCode) {
-            var _this = this;
-
-            var URL = 'pre-payroll-all/detail/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber + '/' + staffCode;
-            axios.get(URL).then(function (res) {
-                console.log(res.data.print);
-                var objListDetail = res.data.print;
-                _this.$emit("prePayrollListDetail", objListDetail);
-            });
-            // console.log('objeto')
-            // console.log(this.objprePayrollDetail[index])
-            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
-            // de esta manera no tengo que buscar los datos en la DB nuevamente
-        }
-    }
-});
-
-/***/ }),
-/* 251 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-10 col-md-offset-1" }, [
-    _c("div", { staticClass: "table-responsive text-center" }, [
-      _c(
-        "table",
-        { staticClass: "table table-striped table-bordered text-center" },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.objprePayrollDetail, function(detail, index) {
-              return _c("tr", { key: detail.staffCode }, [
-                _c("td", [_vm._v(_vm._s(index))]),
-                _vm._v(" "),
-                _c("td", { staticClass: "form-inline" }, [
-                  _c("table", [
-                    _c("tr", [
-                      _c(
-                        "td",
-                        { staticClass: "alingTo", attrs: { width: "180" } },
-                        [
-                          _c("th", [_vm._v("NOMBRE")]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "text-left" }, [
-                            _vm._v(
-                              "\n                                            " +
-                                _vm._s(detail[0].staffName) +
-                                "    \n                                        "
-                            )
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("table", [
-                          _vm._m(1, true),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            [
-                              _vm._l(detail, function(item, index) {
-                                return _c("tr", { key: index }, [
-                                  _c("td", [
-                                    _c(
-                                      "p",
-                                      {
-                                        staticClass: "text-left",
-                                        attrs: { valign: "top" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                                                " +
-                                            _vm._s(item.transactionTypeName) +
-                                            "\n                                                        "
-                                        )
-                                      ]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _c("p", { staticClass: "text-right" }, [
-                                      _vm._v(
-                                        "\n                                                                " +
-                                          _vm._s(item.quantity) +
-                                          "\n                                                        "
-                                      )
-                                    ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    item.isIncome === 1
-                                      ? _c("p", { staticClass: "text-right" }, [
-                                          _vm._v(
-                                            "\n                                                                " +
-                                              _vm._s(item.amount) +
-                                              "\n                                                        "
-                                          )
-                                        ])
-                                      : _vm._e()
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    item.isIncome === 0
-                                      ? _c("p", { staticClass: "text-right" }, [
-                                          _vm._v(
-                                            "\n                                                                " +
-                                              _vm._s(item.amount) +
-                                              "\n                                                        "
-                                          )
-                                        ])
-                                      : _vm._e()
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td")
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("tr", [
-                                _vm._m(2, true),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("p", { staticClass: "text-right" }, [
-                                    _c("b", [
-                                      _vm._v(_vm._s(detail[0].asignacion))
-                                    ])
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("p", { staticClass: "text-right" }, [
-                                    _c("b", [
-                                      _vm._v(_vm._s(detail[0].deduccion))
-                                    ])
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("p", { staticClass: "text-right" }, [
-                                    _c("b", [
-                                      _vm._v(
-                                        _vm._s(
-                                          detail[0].asignacion -
-                                            detail[0].deduccion
-                                        )
-                                      )
-                                    ])
-                                  ])
-                                ])
-                              ])
-                            ],
-                            2
-                          )
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            }),
-            0
-          )
-        ]
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("CODIGO")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("DETALLE")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("CONCEPTO")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("     CANTIDAD")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("     ASIGNACION")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("     DEDUCCION")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("     NETO")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "2" } }, [
-      _c("p", { staticClass: "text-right" }, [_c("b", [_vm._v("TOTALES")])])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5e727297", module.exports)
-  }
-}
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(253)
-/* template */
-var __vue_template__ = __webpack_require__(254)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3302e68e", Component.options)
-  } else {
-    hotAPI.reload("data-v-3302e68e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 253 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        // setTimeout(() => {
-        //     axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
-        //     this.objListDetailStaff = response.data.processDetail
-        //     this.lengths = this.objListDetailStaff.length
-
-        // })
-        // },1000)
-
-
-        console.log('Component mounted.');
-    },
-    data: function data() {
-        return {
-
-            lengths: ''
-            // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
-        };
-    },
-
-    props: {
-        objListDetailStaff: {},
-        namePanelList: {
-            type: String,
-            default: 'Name defauld'
-        },
-        objProcess: {},
-        objProcessDetail: {}
-    },
-    methods: {
-        detailPayrollStaff: function detailPayrollStaff(countryId, companyId, year, payrollNumber, staffCode) {
-            var _this = this;
-
-            var URL = 'pre-payroll-all/detail/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber + '/' + staffCode;
-            axios.get(URL).then(function (res) {
-                console.log(res.data.print);
-                var objListDetail = res.data.print;
-                _this.$emit("prePayrollListDetail", objListDetail);
-            });
-            // console.log('objeto')
-            // console.log(this.objListDetailStaff[index])
-            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
-            // de esta manera no tengo que buscar los datos en la DB nuevamente
-        }
-    }
-});
-
-/***/ }),
-/* 254 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "form-group col-md-7" }, [
-        _c("h4", [
-          _c("b", [_vm._v("PAÍS:")]),
-          _vm._v(" " + _vm._s(this.objListDetailStaff[0].countryName) + " ")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-5" }, [
-        _c("h4", [
-          _c("b", [_vm._v("EMPRESA:")]),
-          _vm._v(" " + _vm._s(this.objListDetailStaff[0].companyName))
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "form-group col-md-7" }, [
-        _c("h4", [
-          _c("b", [_vm._v("PRE-NOMINA:")]),
-          _vm._v(" " + _vm._s(this.objListDetailStaff[0].payrollName))
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-5" }, [
-        _c("h4", [
-          _c("b", [_vm._v("AÑO:")]),
-          _vm._v(" " + _vm._s(this.objListDetailStaff[0].year))
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "form-group col-md-7" }, [
-        _c("h4", [
-          _c("b", [_vm._v("NOMBRE:")]),
-          _vm._v(" " + _vm._s(this.objListDetailStaff[0].staffName))
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-5" }, [
-        _c("h4", [
-          _c("b", [_vm._v("CÓDIGO:")]),
-          _vm._v(" " + _vm._s(this.objListDetailStaff[0].staffCode))
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "table-responsive text-center" }, [
-      _c(
-        "table",
-        { staticClass: "table table-striped table-bordered text-center" },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          this.objListDetailStaff.length > 0
-            ? _c(
-                "tbody",
-                _vm._l(_vm.objListDetailStaff, function(detail, index) {
-                  return _c("tr", { key: detail.index }, [
-                    _c("td", [_vm._v(_vm._s(index + 1))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("p", { staticClass: "text-left" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(detail.transactionTypeName) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-<<<<<<< HEAD
-                      _c("p", { staticClass: "text-right" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(detail.amount) +
-                            "\n                            "
-                        )
-                      ])
-                    ])
-                  ])
-                }),
-                0
-              )
-            : _c("tbody", [
-                _c("tr", [
-                  this.lengths === 0
-                    ? _c("td", { attrs: { colspan: "5" } }, [
-                        _vm._v(
-                          "\n                            No hay datos registrados\n                        "
-                        )
-                      ])
-                    : _c("td", { attrs: { colspan: "5" } }, [_c("loading")], 1)
-                ])
-              ])
-        ]
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("N.")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("TRANSACCIÓN")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("MONTO")])
-      ])
-    ])
-  }
-]
-=======
-                      _vm._v(
-                        " \n                               " +
-                          _vm._s(company.officeName) +
-                          " \n                                \n                            "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        " \n                               " +
-                          _vm._s(company.companyAddress) +
-                          " \n                                \n                            "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-sm btn-primary",
-                          on: {
-                            click: function($event) {
-                              return _vm.editCompany(company.companyId)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "glyphicon glyphicon-edit" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-sm btn-danger",
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteCompany(index, company.companyId)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
-                      )
-                    ])
-                  ])
-                }),
-                0
-              )
-            ]
-          )
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("N")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Nombre Empresa")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Nombre Corto")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("RIF/TIN/NIT/RUC")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Pais")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Oficina")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Direccion")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Acciones")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5b6b87cd", module.exports)
-  }
-}
-
-/***/ }),
-/* 255 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(256)
-/* template */
-var __vue_template__ = __webpack_require__(257)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/srcComponent/buttonForm.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9b7c10b6", Component.options)
-  } else {
-    hotAPI.reload("data-v-9b7c10b6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 256 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
-
-    methods: {
-        addForm: function addForm(n) {
-            // console.log(n)
-            switch (n) {
-                case 1:
-                    this.$emit('addf', n);
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-                    this.$emit('addUpdate', n);
-                    break;
-                case 4:
-                    this.$emit('cancDetail', 0);
-                    break;
-                case 5:
-                    // console.log("entro case")
-                    this.$emit('cancf', 0);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    },
-    props: {
-        buttonType: {
-            type: Number,
-            default: 0
-        }
-    }
-});
-
-/***/ }),
-/* 257 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "form-group col-ms-12 col-md-12 col-lg-12 text-center" },
-    [
-      _vm.buttonType === 0
-        ? _c(
-            "button",
-            {
-              staticClass: "btn btn-success",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.addForm(1)
-                }
-              }
-            },
-            [_vm._v("Agregar")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.buttonType === 1
-        ? _c(
-            "button",
-            {
-              staticClass: "btn btn-success",
-              attrs: { type: "submit" },
-              on: {
-                click: function($event) {
-                  return _vm.addForm(2)
-                }
-              }
-            },
-            [_vm._v("Guardar")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.buttonType === 2
-        ? _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              attrs: { type: "submit" },
-              on: {
-                click: function($event) {
-                  return _vm.addForm(3)
-                }
-              }
-            },
-            [_vm._v("Actualizar")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.buttonType === 0
-        ? _c(
-            "button",
-            {
-              staticClass: "btn btn-warning",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.addForm(4)
-                }
-              }
-            },
-            [_vm._v("Regresar")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.buttonType === 1 || _vm.buttonType === 2
-        ? _c(
-            "button",
-            {
-              staticClass: "btn btn-warning",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.addForm(5)
-                }
-              }
-            },
-            [_vm._v("Regresar")]
-          )
-        : _vm._e()
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-9b7c10b6", module.exports)
-  }
-}
-
-/***/ }),
-/* 258 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(259)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(261)
-/* template */
-var __vue_template__ = __webpack_require__(262)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/srcComponent/loading.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d7e3df86", Component.options)
-  } else {
-    hotAPI.reload("data-v-d7e3df86", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 259 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(260);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("b1742414", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d7e3df86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./loading.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d7e3df86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./loading.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 260 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.spinner {\nmargin: 20px auto 0;\nwidth: 70px;\ntext-align: center;\ndisplay: inline-block;\n/* position: relative;\nwidth: 80px;\nheight: 80px; */\n}\n.spinner > div {\nwidth: 18px;\nheight: 18px;\nbackground-color: #3c8dbc;\n\nborder-radius: 100%;\ndisplay: inline-block;\n-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\nanimation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n.spinner .bounce1 {\n-webkit-animation-delay: -0.32s;\nanimation-delay: -0.32s;\n}\n.spinner .bounce2 {\n-webkit-animation-delay: -0.16s;\nanimation-delay: -0.16s;\n}\n@-webkit-keyframes sk-bouncedelay {\n0%, 80%, 100% { -webkit-transform: scale(0)\n}\n40% { -webkit-transform: scale(1.0)\n}\n}\n@keyframes sk-bouncedelay {\n0%, 80%, 100% { \n    -webkit-transform: scale(0);\n    transform: scale(0);\n}\n40% { \n    -webkit-transform: scale(1.0);\n    transform: scale(1.0);\n}\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 261 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-   mounted: function mounted() {},
-
-   methods: {},
-   props: {}
-});
-
-/***/ }),
-/* 262 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "spinner" }, [
-      _c("div", { staticClass: "bounce1" }),
-      _c("div", { staticClass: "bounce2" }),
-      _c("div", { staticClass: "bounce3" })
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-d7e3df86", module.exports)
-  }
-}
-
-/***/ }),
-/* 263 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(276)
-/* template */
-var __vue_template__ = __webpack_require__(277)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
 Component.options.__file = "resources/assets/js/components/rrhh/payrollControl/mainPayrollControl.vue"
 
 /* hot reload */
@@ -90482,7 +88605,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 276 */
+/* 244 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90617,7 +88740,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 277 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -90715,19 +88838,19 @@ if (false) {
 }
 
 /***/ }),
-/* 278 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(279)
+  __webpack_require__(247)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(281)
+var __vue_script__ = __webpack_require__(249)
 /* template */
-var __vue_template__ = __webpack_require__(282)
+var __vue_template__ = __webpack_require__(250)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -90766,13 +88889,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 279 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(280);
+var content = __webpack_require__(248);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -90792,7 +88915,7 @@ if(false) {
 }
 
 /***/ }),
-/* 280 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -90806,7 +88929,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 281 */
+/* 249 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90928,7 +89051,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 282 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -91089,15 +89212,15 @@ if (false) {
 }
 
 /***/ }),
-/* 283 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(284)
+var __vue_script__ = __webpack_require__(252)
 /* template */
-var __vue_template__ = __webpack_require__(285)
+var __vue_template__ = __webpack_require__(253)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -91136,7 +89259,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 284 */
+/* 252 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91597,7 +89720,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 285 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -92263,27 +90386,1727 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-<<<<<<< HEAD
-    require("vue-hot-reload-api")      .rerender("data-v-3302e68e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3438be05", module.exports)
   }
 }
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(254)
+var __vue_script__ = __webpack_require__(255)
 /* template */
-var __vue_template__ = __webpack_require__(255)
+var __vue_template__ = __webpack_require__(256)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/mainPrintPrePayroll.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7374b85e", Component.options)
+  } else {
+    hotAPI.reload("data-v-7374b85e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 255 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('pre-payroll-all/').then(function (response) {
+            _this.objPrintPrePayroll = response.data.print;
+            // console.log(this.objPrintPrePayroll)
+            // debugger
+        });
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+            objPrintPrePayroll: [],
+            objEdit: [],
+            objEditDetail: [],
+            objprePayrollDetail: {},
+            objListDetailStaff: {},
+            formStatus: 0,
+            namePanelList: "TIPOS DE PROCESOS",
+            namePanel: "AGREGAR TIPO DE PROCESO",
+            namePanel2: "EDITAR TIPO DE PROCESO",
+            nameField1: "CÓDIGO",
+            nameField2: "PAÍS",
+            nameField3: "EMPRESA",
+            nameField4: "NOMBRE DEL PROCESO",
+            nameField5: "",
+            nameField6: "",
+            nameField7: "",
+            nameField8: ""
+
+        };
+    },
+
+    methods: {
+        addFormStatus: function addFormStatus() {
+            this.formStatus = 1;
+        },
+        addProcessDetail: function addProcessDetail() {
+            this.formStatus = 4;
+        },
+        showlist: function showlist() {
+            var _this2 = this;
+
+            this.formStatus = 0;
+            axios.get('process/list').then(function (response) {
+                _this2.objPrintPrePayroll = response.data.process;
+            });
+        },
+        showlistDetail: function showlistDetail() {
+            // console.log(this.objprePayrollDetail)
+            this.formStatus = 3;
+
+            // axios.get('process/list').then( response => {
+            // this.objProcess = response.data.process
+
+            // })
+        },
+        indexEdit: function indexEdit(index) {
+            this.formStatus = 2;
+            // console.log('recibido')
+            this.objEdit = this.objPrintPrePayroll[index];
+            // console.log( this.objEdit)
+        },
+        delrow: function delrow(indexId) {
+            // console.log(indexId)
+            this.objPrintPrePayroll.splice(indexId[0], 1);
+        },
+        prePayrollDetail: function prePayrollDetail(obj) {
+            // console.log('entro objeto')
+            // console.log(obj)
+            this.formStatus = 3;
+            this.objprePayrollDetail = obj;
+        },
+        cancDetail: function cancDetail() {
+            var _this3 = this;
+
+            this.formStatus = 0;
+            axios.get('process/list').then(function (response) {
+                _this3.objPrintPrePayroll = response.data.process;
+            });
+        },
+        prePayrollListDetail: function prePayrollListDetail(objListDetail) {
+
+            // console.log('entro')
+            // console.log(objListDetail)
+            this.formStatus = 5;
+            this.objListDetailStaff = objListDetail;
+            // this.objEditDetail = params
+        }
+    }
+});
+
+/***/ }),
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.formStatus === 0
+      ? _c(
+          "div",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("list-pre-payroll", {
+              attrs: {
+                objPrintPrePayroll: _vm.objPrintPrePayroll,
+                namePanelList: _vm.namePanelList
+              },
+              on: {
+                indexEdit: _vm.indexEdit,
+                delrow: _vm.delrow,
+                prePayrollDetail: _vm.prePayrollDetail
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 3
+      ? _c(
+          "div",
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("list-pre-payroll-detail", {
+              attrs: { objprePayrollDetail: _vm.objprePayrollDetail },
+              on: { prePayrollListDetail: _vm.prePayrollListDetail }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 5
+      ? _c(
+          "div",
+          [
+            _c("list-pre-payroll-detail-staff", {
+              attrs: { objListDetailStaff: _vm.objListDetailStaff }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("LISTADO DE PRE-NOMINA")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("DETALLE DE LA PRE-NOMINA")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7374b85e", module.exports)
+  }
+}
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(258)
+/* template */
+var __vue_template__ = __webpack_require__(259)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrintPrePayroll.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-49359159", Component.options)
+  } else {
+    hotAPI.reload("data-v-49359159", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 258 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {};
+    },
+
+    props: {
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objPrintPrePayroll: {}
+    },
+    methods: {
+        detailRow: function detailRow(countryId, companyId, year, payrollNumber) {
+            var _this = this;
+
+            var URL = 'pre-payroll-all/list/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber;
+            // console.log(countryId, companyId, year, payrollNumber)
+            axios.get(URL).then(function (res) {
+                // console.log(res.data.print)
+                // return
+                var objPrePayrollDetail = res.data.print;
+                _this.$emit("prePayrollDetail", objPrePayrollDetail);
+            });
+            // return
+            // console.log(id)
+        },
+        editRow: function editRow(index, id) {
+
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+
+            this.$emit("indexEdit", index);
+        },
+        deleterow: function deleterow(index, id) {
+            var _this2 = this;
+
+            // console.log('index ' + index)
+            // console.log('id ' + id)
+            // return
+            // const indexIs = this.objPrintPrePayroll[index]
+
+            if (confirm("Delete?")) {
+                axios.delete('process/delete/' + id).then(function (res) {
+                    // console.log(res)
+                    _this2.$emit("delrow", [index, id]);
+                }).catch(function (error) {
+                    alert("Error");
+                    console.log(error);
+                });
+            }
+
+            // console.log('enviado')
+        },
+        printDetailRow: function printDetailRow(countryId, companyId, year, payrollNumber) {
+            var URL = 'pre-payroll-all/list/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber;
+            // console.log(countryId, companyId, year, payrollNumber)
+
+            axios.get(URL).then(function (res) {
+                var objPrePayrollDetail = res.data.print;
+                console.log(objPrePayrollDetail);
+                // return
+                var country = objPrePayrollDetail[1];
+                var company = objPrePayrollDetail[2];
+                var period = objPrePayrollDetail[0];
+                // return
+                //                     0: "PRIMERA QUINCENA ENERO 2020"
+                // ​
+                // 1: "VENEZUELA"
+                // ​
+                // 2: "JD RIVERO C.A."
+                var doc = new jsPDF('p', 'pt', 'letter');
+                // doc.text( 'izquierda?.', eje X, eje Y );
+
+                //  Cabeceras
+                doc.setFontType("bold");
+                doc.setFontSize(12);
+                doc.text('PRE-NOMINA DE PAGO', 220, 40);
+                doc.setFontType("courier");
+                doc.setFontSize(7);
+                doc.text('Pagina 1', 574, 40);
+                doc.setFontSize(12);
+                // doc.text( 'This text is\raligned to the\rright.', 140, 400, 'right' );
+                // doc.text( 'This text is\raligned to theAAAAAAA.', 140, 460);
+                doc.text('PAIS:', 30, 70);
+                doc.text(country, 70, 70);
+                doc.text('EMPRESA:', 30, 85);
+                doc.text(company, 100, 85);
+                doc.text('PERIODO:', 195, 100);
+                doc.text(period, 255, 100);
+
+                // // titulos tablas
+                doc.line(30, 115, 580, 115);
+                doc.setFontSize(10);
+                doc.text('CODIGO', 30, 130);
+                doc.text('NOMBRE', 74, 130);
+                doc.text('CONCEPTO', 195, 130);
+                doc.text('CANTIDAD', 310, 130);
+                doc.text('ASIGNACION', 375, 130);
+                doc.text('DEDUCCION', 445, 130);
+                doc.text('NETO', 550, 130);
+                doc.line(30, 138, 580, 138);
+
+                doc.setFontSize(9);
+                var n = 155;
+                var cont = 155;
+                var page = 1;
+                for (var i = 0; i < objPrePayrollDetail.length; i++) {
+                    var element = objPrePayrollDetail;
+                    //  console.log( element[i]) 
+                    //  console.log('i: ' + i) 
+                    if (i > 2) {
+                        (function () {
+
+                            var name = true;
+                            element[i].forEach(function (element2) {
+                                // console.log(element2.staffCode) 
+                                if (name) {
+                                    doc.text(element2.staffCode, 30, n);
+                                    doc.text(element2.staffName, 74, n);
+                                    name = false;
+                                }
+                                doc.text(element2.transactionTypeName, 195, n);
+                                doc.text(element2.quantity, 361, n, 'right');
+                                if (element2.isIncome === 1) {
+                                    doc.text(element2.amount, 436, n, 'right');
+                                }
+                                if (element2.isIncome === 0) {
+                                    doc.text(element2.amount, 502, n, 'right');
+                                    // doc.text( '2.07', 502, 155, 'right' );
+                                }
+                                // doc.text(element2.staffCode);
+                                n += 15;
+                                if (n > 754) {
+                                    page += 1;
+                                    doc.addPage();
+                                    //  Cabeceras
+                                    doc.setFontType("bold");
+                                    doc.setFontSize(12);
+                                    doc.text('PRE-NOMINA DE PAGO', 220, 40);
+                                    doc.setFontType("courier");
+                                    doc.setFontSize(7);
+                                    doc.text('Pagina ' + page, 574, 40);
+                                    doc.setFontSize(12);
+                                    // doc.text( 'This text is\raligned to the\rright.', 140, 400, 'right' );
+                                    // doc.text( 'This text is\raligned to theAAAAAAA.', 140, 460);
+                                    doc.text('PAIS:', 30, 70);
+                                    doc.text(country, 70, 70);
+                                    doc.text('EMPRESA:', 30, 85);
+                                    doc.text(company, 100, 85);
+                                    doc.text('PERIODO:', 195, 100);
+                                    doc.text(period, 255, 100);
+
+                                    // // titulos tablas
+                                    doc.line(30, 115, 580, 115);
+                                    doc.setFontSize(10);
+                                    doc.text('CODIGO', 30, 130);
+                                    doc.text('NOMBRE', 74, 130);
+                                    doc.text('CONCEPTO', 195, 130);
+                                    doc.text('CANTIDAD', 310, 130);
+                                    doc.text('ASIGNACION', 375, 130);
+                                    doc.text('DEDUCCION', 445, 130);
+                                    doc.text('NETO', 550, 130);
+                                    doc.line(30, 138, 580, 138);
+                                    n = 155;
+                                }
+                            });
+                            doc.setFontType("bold");
+                            doc.text('TOTALES', 215, n);
+                            doc.text('' + n, 361, n);
+                            // console.log('entro')
+                            // console.log(element[i][0].asignacion)
+                            doc.text(element[i][0].asignacion, 436, n, 'right');
+                            doc.text(element[i][0].deduccion, 502, n, 'right');
+
+                            var total = element[i][0].asignacion - element[i][0].deduccion; // calculo para el total
+                            // console.log('total: ' + total);
+                            doc.text('' + total, 574, n, 'right');
+                            // doc.text(total, 574, n, 'right' );
+
+                            doc.setFontType("courier");
+                            n += 20;
+                        })();
+                    }
+                }
+                doc.save('Test.pdf');
+                // console.log(res.data.print)
+                // return
+                // this.$emit("prePayrollDetail", objPrePayrollDetail)
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 259 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "table-responsive text-center" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped table-bordered text-center" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm.objPrintPrePayroll.length > 0
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.objPrintPrePayroll, function(PrePayroll, index) {
+                    return _c("tr", { key: PrePayroll.hrprocessId }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-left" }, [
+                        _vm._v(
+                          "\n                            \n                                " +
+                            _vm._s(PrePayroll.countryName) +
+                            "\n                            \n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(PrePayroll.companyName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(PrePayroll.year) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(PrePayroll.payrollName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-right" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(PrePayroll.total) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            on: {
+                              click: function($event) {
+                                return _vm.detailRow(
+                                  PrePayroll.countryId,
+                                  PrePayroll.companyId,
+                                  PrePayroll.year,
+                                  PrePayroll.payrollNumber
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "glyphicon glyphicon-th-list"
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            on: {
+                              click: function($event) {
+                                return _vm.printDetailRow(
+                                  PrePayroll.countryId,
+                                  PrePayroll.companyId,
+                                  PrePayroll.year,
+                                  PrePayroll.payrollNumber
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "glyphicon glyphicon-print"
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              : _c("tbody", [
+                  _c("tr", [
+                    _c("td", { attrs: { colspan: "7" } }, [_c("loading")], 1)
+                  ])
+                ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("PAÍS")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("EMPRESA")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("AÑO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("PRE-NOMINA")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("MONTO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ACCIONES")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-49359159", module.exports)
+  }
+}
+
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(261)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(263)
+/* template */
+var __vue_template__ = __webpack_require__(264)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5e727297", Component.options)
+  } else {
+    hotAPI.reload("data-v-5e727297", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(262);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("107506c6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e727297\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPrePayrollDetail.vue", function() {
+     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e727297\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPrePayrollDetail.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.alingTo{\r\n\r\n    position: relative;\r\n    float: left;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 263 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log(this.objprePayrollDetail);
+        // setTimeout(() => {
+        //     axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
+        //     this.objprePayrollDetail = response.data.processDetail
+        //     this.lengths = this.objprePayrollDetail.length
+
+        // })
+        // },1000)
+
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+
+            lengths: '',
+            num: 0
+            // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
+        };
+    },
+
+    props: {
+        objprePayrollDetail: {},
+        objprePayrollDescrition: {},
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objProcess: {},
+        objProcessDetail: {}
+    },
+    methods: {
+        detailPayrollStaff: function detailPayrollStaff(countryId, companyId, year, payrollNumber, staffCode) {
+            var _this = this;
+
+            var URL = 'pre-payroll-all/detail/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber + '/' + staffCode;
+            axios.get(URL).then(function (res) {
+                console.log(res.data.print);
+                var objListDetail = res.data.print;
+                _this.$emit("prePayrollListDetail", objListDetail);
+            });
+            // console.log('objeto')
+            // console.log(this.objprePayrollDetail[index])
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+        },
+        printDetailRow: function printDetailRow() {
+            var pdf = new jsPDF('p', 'pt', 'letter')
+
+            // source can be HTML-formatted string, or a reference
+            // to an actual DOM element from which the text will be scraped.
+            // , source = $('#fromHTMLtestdiv')[0]
+            ,
+                source = document.querySelector("#print").innerHTML
+
+            // we support special element handlers. Register them with jQuery-style 
+            // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+            // There is no support for any other type of selectors 
+            // (class, of compound) at this time.
+            ,
+                specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function bypassme(element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true;
+                }
+            };
+
+            var margins = {
+                top: 80,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            // all coords and widths are in jsPDF instance's declared units
+            // 'inches' in this case
+            pdf.fromHTML(source // HTML string or DOM elem ref.
+            , margins.left // x coord
+            , margins.top // y coord
+            , {
+                'width': margins.width // max width of content on PDF
+                // , 'elementHandlers': specialElementHandlers
+            }, function (dispose) {
+                // dispose: object with X, Y of the last line add to the PDF 
+                //          this allow the insertion of new lines after html
+                pdf.save('Test.pdf');
+            }, margins);
+        }
+    }
+});
+
+/***/ }),
+/* 264 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-10 col-md-offset-1" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "panel-heading" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "form-group col-md-7" }, [
+            _c("h4", [
+              _c("b", [_vm._v("PAÍS:")]),
+              _vm._v(" " + _vm._s(this.objprePayrollDetail[1]) + " ")
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "table-responsive text-center" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-info",
+            on: {
+              click: function($event) {
+                return _vm.printDetailRow()
+              }
+            }
+          },
+          [_c("i", { staticClass: "glyphicon glyphicon-print" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "table",
+          { staticClass: "table table-striped table-bordered text-center" },
+          [
+            _c(
+              "tbody",
+              { attrs: { id: "print" } },
+              _vm._l(_vm.objprePayrollDetail, function(detail, index) {
+                return _c("tr", { key: index }, [
+                  index > 2
+                    ? _c("td", [
+                        _c("th", [_vm._v("CODIGO")]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                    " +
+                              _vm._s(detail[0].staffCode) +
+                              " \n                                   \n                                "
+                          )
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  index > 2
+                    ? _c("td", { staticClass: "form-inline" }, [
+                        _c("table", [
+                          _c("tr", [
+                            _c(
+                              "td",
+                              {
+                                staticClass: "alingTo",
+                                attrs: { width: "180" }
+                              },
+                              [
+                                _c("th", [_vm._v("NOMBRE")]),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "text-left" }, [
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(detail[0].staffName) +
+                                      "    \n                                        "
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("table", [
+                                _vm._m(0, true),
+                                _vm._v(" "),
+                                _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(detail, function(item, index) {
+                                      return _c("tr", { key: index }, [
+                                        _c("td", [
+                                          _c(
+                                            "p",
+                                            {
+                                              staticClass: "text-left",
+                                              attrs: { valign: "top" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                                " +
+                                                  _vm._s(
+                                                    item.transactionTypeName
+                                                  ) +
+                                                  "\n                                                        "
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c(
+                                            "p",
+                                            { staticClass: "text-right" },
+                                            [
+                                              _vm._v(
+                                                "\n                                                                " +
+                                                  _vm._s(item.quantity) +
+                                                  "\n                                                        "
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          item.isIncome === 1
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "text-right" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                                " +
+                                                      _vm._s(item.amount) +
+                                                      "\n                                                        "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          item.isIncome === 0
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "text-right" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                                " +
+                                                      _vm._s(item.amount) +
+                                                      "\n                                                        "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td")
+                                      ])
+                                    }),
+                                    _vm._v(" "),
+                                    _c("tr", [
+                                      _vm._m(1, true),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("p", { staticClass: "text-right" }, [
+                                          _c("b", [
+                                            _vm._v(_vm._s(detail[0].asignacion))
+                                          ])
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("p", { staticClass: "text-right" }, [
+                                          _c("b", [
+                                            _vm._v(_vm._s(detail[0].deduccion))
+                                          ])
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("p", { staticClass: "text-right" }, [
+                                          _c("b", [
+                                            _vm._v(
+                                              _vm._s(
+                                                detail[0].asignacion -
+                                                  detail[0].deduccion
+                                              )
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ])
+                                  ],
+                                  2
+                                )
+                              ])
+                            ])
+                          ])
+                        ])
+                      ])
+                    : _vm._e()
+                ])
+              }),
+              0
+            )
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("CONCEPTO")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     CANTIDAD")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     ASIGNACION")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     DEDUCCION")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("     NETO")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "2" } }, [
+      _c("p", { staticClass: "text-right" }, [_c("b", [_vm._v("TOTALES")])])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5e727297", module.exports)
+  }
+}
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(266)
+/* template */
+var __vue_template__ = __webpack_require__(267)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3302e68e", Component.options)
+  } else {
+    hotAPI.reload("data-v-3302e68e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 266 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        // setTimeout(() => {
+        //     axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
+        //     this.objListDetailStaff = response.data.processDetail
+        //     this.lengths = this.objListDetailStaff.length
+
+        // })
+        // },1000)
+
+
+        console.log('Component mounted.');
+    },
+    data: function data() {
+        return {
+
+            lengths: ''
+            // lengths se utiliza para identificar si el objeto viene vacio y asi mostrar msj, si no hay datos
+        };
+    },
+
+    props: {
+        objListDetailStaff: {},
+        namePanelList: {
+            type: String,
+            default: 'Name defauld'
+        },
+        objProcess: {},
+        objProcessDetail: {}
+    },
+    methods: {
+        detailPayrollStaff: function detailPayrollStaff(countryId, companyId, year, payrollNumber, staffCode) {
+            var _this = this;
+
+            var URL = 'pre-payroll-all/detail/' + countryId + '/' + companyId + '/' + year + '/' + payrollNumber + '/' + staffCode;
+            axios.get(URL).then(function (res) {
+                console.log(res.data.print);
+                var objListDetail = res.data.print;
+                _this.$emit("prePayrollListDetail", objListDetail);
+            });
+            // console.log('objeto')
+            // console.log(this.objListDetailStaff[index])
+            // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+        }
+    }
+});
+
+/***/ }),
+/* 267 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-group col-md-7" }, [
+        _c("h4", [
+          _c("b", [_vm._v("PAÍS:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].countryName) + " ")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("h4", [
+          _c("b", [_vm._v("EMPRESA:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].companyName))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-group col-md-7" }, [
+        _c("h4", [
+          _c("b", [_vm._v("PRE-NOMINA:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].payrollName))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("h4", [
+          _c("b", [_vm._v("AÑO:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].year))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-group col-md-7" }, [
+        _c("h4", [
+          _c("b", [_vm._v("NOMBRE:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].staffName))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-5" }, [
+        _c("h4", [
+          _c("b", [_vm._v("CÓDIGO:")]),
+          _vm._v(" " + _vm._s(this.objListDetailStaff[0].staffCode))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "table-responsive text-center" }, [
+      _c(
+        "table",
+        { staticClass: "table table-striped table-bordered text-center" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          this.objListDetailStaff.length > 0
+            ? _c(
+                "tbody",
+                _vm._l(_vm.objListDetailStaff, function(detail, index) {
+                  return _c("tr", { key: detail.index }, [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("p", { staticClass: "text-left" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(detail.transactionTypeName) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("p", { staticClass: "text-right" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(detail.amount) +
+                            "\n                            "
+                        )
+                      ])
+                    ])
+                  ])
+                }),
+                0
+              )
+            : _c("tbody", [
+                _c("tr", [
+                  this.lengths === 0
+                    ? _c("td", { attrs: { colspan: "5" } }, [
+                        _vm._v(
+                          "\n                            No hay datos registrados\n                        "
+                        )
+                      ])
+                    : _c("td", { attrs: { colspan: "5" } }, [_c("loading")], 1)
+                ])
+              ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("TRANSACCIÓN")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("MONTO")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3302e68e", module.exports)
+  }
+}
+
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(269)
+/* template */
+var __vue_template__ = __webpack_require__(270)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -92322,7 +92145,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 254 */
+/* 269 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92449,7 +92272,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 255 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -92544,32 +92367,19 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-271083d2", module.exports)
-=======
-    require("vue-hot-reload-api")      .rerender("data-v-3438be05", module.exports)
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
   }
 }
 
 /***/ }),
-<<<<<<< HEAD
-/* 256 */
-=======
-/* 286 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-<<<<<<< HEAD
-var __vue_script__ = __webpack_require__(257)
+var __vue_script__ = __webpack_require__(272)
 /* template */
-var __vue_template__ = __webpack_require__(258)
-=======
-var __vue_script__ = __webpack_require__(287)
-/* template */
-var __vue_template__ = __webpack_require__(288)
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+var __vue_template__ = __webpack_require__(273)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -92608,11 +92418,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-<<<<<<< HEAD
-/* 257 */
-=======
-/* 287 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 272 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -92786,11 +92592,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-<<<<<<< HEAD
-/* 258 */
-=======
-/* 288 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -93085,25 +92887,15 @@ if (false) {
 }
 
 /***/ }),
-<<<<<<< HEAD
-/* 259 */
-=======
-/* 289 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-<<<<<<< HEAD
-var __vue_script__ = __webpack_require__(260)
+var __vue_script__ = __webpack_require__(275)
 /* template */
-var __vue_template__ = __webpack_require__(261)
-=======
-var __vue_script__ = __webpack_require__(290)
-/* template */
-var __vue_template__ = __webpack_require__(291)
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+var __vue_template__ = __webpack_require__(276)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -93142,11 +92934,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-<<<<<<< HEAD
-/* 260 */
-=======
-/* 290 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 275 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93347,11 +93135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-<<<<<<< HEAD
-/* 261 */
-=======
-/* 291 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -93646,25 +93430,15 @@ if (false) {
 }
 
 /***/ }),
-<<<<<<< HEAD
-/* 262 */
-=======
-/* 292 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-<<<<<<< HEAD
-var __vue_script__ = __webpack_require__(263)
+var __vue_script__ = __webpack_require__(278)
 /* template */
-var __vue_template__ = __webpack_require__(264)
-=======
-var __vue_script__ = __webpack_require__(293)
-/* template */
-var __vue_template__ = __webpack_require__(294)
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+var __vue_template__ = __webpack_require__(279)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -93703,11 +93477,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-<<<<<<< HEAD
-/* 263 */
-=======
-/* 293 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 278 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93826,11 +93596,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-<<<<<<< HEAD
-/* 264 */
-=======
-/* 294 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -93975,25 +93741,15 @@ if (false) {
 }
 
 /***/ }),
-<<<<<<< HEAD
-/* 265 */
-=======
-/* 295 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-<<<<<<< HEAD
-var __vue_script__ = __webpack_require__(266)
+var __vue_script__ = __webpack_require__(281)
 /* template */
-var __vue_template__ = __webpack_require__(267)
-=======
-var __vue_script__ = __webpack_require__(296)
-/* template */
-var __vue_template__ = __webpack_require__(297)
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+var __vue_template__ = __webpack_require__(282)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -94032,11 +93788,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-<<<<<<< HEAD
-/* 266 */
-=======
-/* 296 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 281 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94101,11 +93853,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-<<<<<<< HEAD
-/* 267 */
-=======
-/* 297 */
->>>>>>> ae692fc8a19cd257fe975aa813e2e70eb75ffef3
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -94209,19 +93957,19 @@ if (false) {
 }
 
 /***/ }),
-/* 268 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(269)
+  __webpack_require__(284)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(271)
+var __vue_script__ = __webpack_require__(286)
 /* template */
-var __vue_template__ = __webpack_require__(272)
+var __vue_template__ = __webpack_require__(287)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -94260,13 +94008,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 269 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(270);
+var content = __webpack_require__(285);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -94286,7 +94034,7 @@ if(false) {
 }
 
 /***/ }),
-/* 270 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -94300,7 +94048,7 @@ exports.push([module.i, "\n.spinner {\nmargin: 20px auto 0;\nwidth: 70px;\ntext-
 
 
 /***/ }),
-/* 271 */
+/* 286 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94318,7 +94066,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 272 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -94349,61 +94097,10 @@ if (false) {
 }
 
 /***/ }),
-/* 273 */
+/* 288 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(286);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("107506c6", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e727297\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPrePayrollDetail.vue", function() {
-     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e727297\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./listPrePayrollDetail.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 286 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.alingTo{\r\n\r\n    position: relative;\r\n    float: left;\n}\r\n", ""]);
-
-// exports
-
 
 /***/ })
 /******/ ]);
