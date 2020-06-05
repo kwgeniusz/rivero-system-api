@@ -6,16 +6,17 @@
                 {{this.contractNumber}}
             </a>
        
-<!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
+<!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA DETALLES DEL CONTRATO-->
  <sweet-modal ref="mainModal">
 <!-- button -->
-<div class="bg-primary" role="button" data-toggle="collapse" :href="'#'+contractNumber" aria-expanded="false" >
-   Contrato {{this.contractNumber}}
+<div class="bg-primary hover" role="button" data-toggle="collapse" :href="'#'+contractNumber" aria-expanded="false" style="" >
+   Detalles Contrato {{this.contractNumber}}
 </div>
 <!-- collapse -->
 <div v-if="contract != null" class="collapse" :id="contractNumber">
   <div class="well">
     <h4>
+  <!--     {{contract[0]}} -->
        <b><u>Nombre del Proyecto:</u></b> <br>{{contract[0].projectName}}<br>
        <b><u>Fecha:</u></b> <br>{{contract[0].contractDate | moment("MM/DD/YYYY")}}<br>
        <!-- <b><u>Cliente:</u></b> <br>{{contract[0].client.clientName}}<br> -->
@@ -35,14 +36,55 @@
        <b><u>Tipo de Construccion:</u></b> <br>{{contract[0].constructionType}}<br><br>
        <b><u>Comentario:</u></b>
        <br>
-       <!-- {{contract[0].initialComment}}  -->
+  
        <textarea class="form-control" rows="3" v-model="contract[0].initialComment" disabled="on"></textarea>
     </h4>
   </div>
 
 </div>
 
-    <h4 class="bg-primary"><b>Escoga Una Opcion</b></h4>
+<!--COMIENZO A VER LOS DETALLES DE REQUERIMIENTOS DE FACTURAS-->
+<!-- button -->
+<div class="bg-primary hover" role="button" data-toggle="collapse" :href="'#'+contractNumber+'-scope'" aria-expanded="false" style="" >
+   Ver Alcances
+</div>
+<!-- collapse -->
+<div v-if="contract != null" class="collapse" :id="contractNumber+'-scope'">
+  <div class="well">
+     <div v-for="(invoice,index) in invoicesList" >
+
+             <div class="bg-info" role="button" data-toggle="collapse" :href="'#'+invoice.invId+'-request'" aria-expanded="false" style="" >
+                         <b>Solicitud #{{++index}}</b>
+              </div>
+                 <!-- collapse -->
+              <div  class="collapse" :id="invoice.invId+'-request'">
+                <div class="well" style="word-wrap: break-word;">
+                  <h4>
+
+                    <h5><b><u>Requerimientos</u></b></h5>
+                     <div class="text-left" v-for="(invoiceDetail,index1) in invoice.invoice_details">
+                           - {{invoiceDetail.serviceName}}<br>        
+                     </div>
+
+                    <h5><b><u>Terminos y Condiciones</u></b></h5>
+                     <div class="text-left" v-for="(note,index2) in invoice.note">
+                           - {{note.noteName}}<br>        
+                     </div>
+
+                    <h5><b><u>Alcance</u></b></h5>
+                    <div class="text-left" v-for="(scope,index3) in invoice.scope">
+                             - {{scope.description}}<br>
+                     </div>
+
+                       </h4>
+                     </div>    
+                </div>
+
+        </div>
+  </div>
+</div>
+
+    <h4 class="bg-primary"><b>Escoja Una Opcion</b></h4>
     <div class="bg-info">
     
                     <a v-if="$can('BCE')" :href="'contractsChangeStatus/'+contractId" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Estado">
@@ -94,31 +136,37 @@
      data: function () {
           return {
            contract: null,
+           invoicesList:{}
           }
     },
     methods: {
        openMainModal: function (){
+          //llamar los detalles del contrato
           axios.get('contracts/'+this.contractId+'/details').then(response => {
                  this.contract = response.data
             });
+
+          //llamar las facturas activas del contrato, con detalles, notas, alcances
+          axios.get('invoices?id='+this.contractId).then(response => {
+                  this.invoicesList = response.data
+                 console.log(this.invoicesList);
+            });
+
             this.$refs.mainModal.open()
         },
-      // findContract: function () {
-      //  this.btnSubmit = false;
-      //   var url =this.prefUrl+'precontractsConvert/add/'+this.proposalSelected.proposalId;
-      //   axios.post(url,{
-      //        id: this.proposalSelected.proposalId,
-      //       }).then(response => {
-      //            if (response.data.alert == "error") {
-      //                  toastr.error(response.data.message)
-      //                    this.btnSubmit = true;
-      //              } else {
-      //                  window.location.href = './contracts'
-      //                  toastr.success('Conversion exitosa, Sera redirigido a la lista de contratos.')
-      //              }
-      //       })
 
-      //   },
-      }
+      } //FIN DE METHODS
      }
 </script>
+
+</script>
+
+
+<style scoped>
+
+  .hover:hover{   
+ background: #cbb956;
+}
+
+
+</style>

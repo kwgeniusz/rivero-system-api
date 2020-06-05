@@ -1,7 +1,7 @@
 
 <template> 
 
- <div class="panel panel-success col-xs-12 col-lg-12">
+ <div class="panel panel-success col-xs-10 col-xs-offset-1">
     <div class="panel-body">
 <h4><b>Factura N°:</b> {{invoice[0].invId}}</h4>
 <h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("MM/DD/YYYY") }}</h4>

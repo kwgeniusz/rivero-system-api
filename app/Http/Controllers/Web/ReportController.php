@@ -498,7 +498,6 @@ $html .= <<<EOD
        <tr style="font-size:10px"> 
         <th>
              <div style="text-align:left">
-              <b>T&C:</b>
                   <ul>
 
 EOD;
@@ -606,23 +605,20 @@ EOD;
             <th colspan="1">
                <b>ID:</b> {$client->clientCode}
             </th>
-            <th colspan="2">
+            <th colspan="1">
               <b>Name:</b> {$client->clientName}
+            </th>
+            <th colspan="1">
+              <b>Phone:</b> {$client->clientPhone}
             </th>
        </tr>
 
       <tr> 
-            <th colspan="3">
+            <th colspan="2">
               <b>Billing Address:</b> {$client->clientAddress}
             </th>
-       </tr>
-
-     <tr> 
-            <th colspan="2" >
-               <b>E-mail:</b> {$client->clientEmail}
-            </th>
             <th colspan="1">
-                   <b>Phone:</b> {$client->clientPhone}
+               <b>E-mail:</b> {$client->clientEmail}
             </th>
        </tr>
 </table>
@@ -816,7 +812,6 @@ EOD;
 
        <tr style="font-size:10px"> 
         <th>
-              <b>T&C:</b>
                   <ul>
 
 EOD;
@@ -837,7 +832,7 @@ EOD;
  $html .= <<<EOD
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Work</b></th>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scope of Work</b></th>
        </tr>
 
        <tr style="font-size:10px"> 
@@ -1188,7 +1183,6 @@ $html .= <<<EOD
        <tr style="font-size:10px"> 
         <th>
              <div style="text-align:left">
-              <b>T&C:</b>
                   <ul>
 
 EOD;
@@ -1211,7 +1205,7 @@ EOD;
 $html .= <<<EOD
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Works</b></th>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scope of Work</b></th>
        </tr>
 
        <tr style="font-size:10px"> 
@@ -1294,25 +1288,23 @@ EOD;
             <th colspan="1">
                <b>ID:</b> {$client[0]->clientCode}
             </th>
-            <th colspan="2">
+            <th colspan="1">
               <b>Name:</b> {$client[0]->clientName}
+            </th>
+             <th colspan="1">
+                   <b>Phone:</b> {$client[0]->clientPhone}
             </th>
        </tr>
 
       <tr> 
-            <th colspan="3">
+            <th colspan="2">
               <b>Billing Address:</b> {$client[0]->clientAddress}
+            </th>
+             <th colspan="1">
+               <b>E-mail:</b> {$client[0]->clientEmail}
             </th>
        </tr>
 
-     <tr> 
-            <th colspan="2">
-               <b>E-mail:</b> {$client[0]->clientEmail}
-            </th>
-            <th colspan="1">
-                   <b>Phone:</b> {$client[0]->clientPhone}
-            </th>
-       </tr>
 </table>
 
  <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
@@ -1474,9 +1466,7 @@ EOD;
 
        <tr style="font-size:10px"> 
         <th>
-              <b>T&C:</b>
                   <ul>
-
 EOD;
 foreach($proposal['0']->note as $note){ 
  $html .= <<<EOD
@@ -1493,7 +1483,7 @@ EOD;
 $html .= <<<EOD
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Works</b></th>
+        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scope of Work</b></th>
        </tr>
 
        <tr style="font-size:10px"> 

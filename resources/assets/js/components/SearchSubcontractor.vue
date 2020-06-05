@@ -49,6 +49,10 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
          FormNewSubcontractor
   },
     methods: {
+       reRender: function() {
+        this.removeSubcontractor();
+        this.$forceUpdate();
+     },
        searchSubcontract: function() {
            if(this.subcontName == '') {
                  this.list = ''

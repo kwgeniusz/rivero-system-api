@@ -1,7 +1,7 @@
 
 <template> 
 
- <div class="panel panel-success col-xs-12 col-lg-12">
+ <div class="panel panel-success  col-xs-10 col-xs-offset-1">
     <div class="panel-body">
 <h4><b>Propuesta N°:</b> {{proposal[0].propId}}</h4>
 <h4><b>Fecha:</b> {{proposal[0].proposalDate | moment("MM/DD/YYYY") }}</h4>

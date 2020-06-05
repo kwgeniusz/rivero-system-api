@@ -44,6 +44,10 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\ProjectDescription', 'projectDescriptionId');
     }
+    public function invoiceDetails()
+    {
+      return $this->hasMany('App\InvoiceDetail', 'invoiceId', 'invoiceId');
+    }
      public function note()
     {
       return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
@@ -130,7 +134,8 @@ class Invoice extends Model
     
     public function getAllByContract($contractId)
     {
-        $result = $this->where('contractId', $contractId)
+        $result = $this->with('invoiceDetails','note','scope')
+            ->where('contractId', $contractId)
             ->orderBy('invoiceId', 'ASC')
             ->get();
 

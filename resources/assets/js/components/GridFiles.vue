@@ -11,6 +11,16 @@
      <vue-upload-ready v-if="typeDoc == 'ready'" :contract-id="contractId" :type-doc="typeDoc" @insert="allFiles()"></vue-upload-ready>
 
      <br>
+<!-- <div id='example-3'>
+  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+  <label for="jack">Jack</label>
+  <input type="checkbox" id="john" value="John" v-model="checkedNames">
+  <label for="john">John</label>
+  <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+  <label for="mike">Mike</label>
+  <br>
+  <span>Checked names: {{ checkedNames }}</span>
+</div> -->
       <div class="table-responsive">
           <table class="table table-striped table-bordered text-center">
             <thead> 
@@ -19,6 +29,7 @@
                 <th>NOMBRE</th>  
                 <th>TIPO</th>
                 <th>FECHA DE SUBIDA</th>
+                <th>SUBIDO POR:</th>
                 <th colspan="2" >ACCION</th>
             </tr>
             </thead>
@@ -27,14 +38,14 @@
             <td>{{++index}}</td>
             <td>{{item.docName}}</td>
             <td>{{item.mimeType}}</td>
-            <td>{{ item.dateUploaded| moment("MM/DD/YYYY,  h:mm:ss a") }}</td> 
+            <td>{{item.dateUploaded| moment("MM/DD/YYYY,  h:mm:ss a") }}</td> 
+            <td v-for="(user) in item.user">
+            {{user.fullName}}
+          </td> 
             <td>  
              <a :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
                      <span class="fa fa-file" aria-hidden="true"></span> 
             </a>
-          <!--    <a @click="editFile(item)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
-                        <span class="fa fa-edit" aria-hidden="true"></span> 
-            </a> -->
              <a @click="deleteFile(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -87,6 +98,8 @@ export default {
         return {
             list: {},
             doc: '',
+
+           checkedNames: []
         }
     },
   props: {
@@ -107,6 +120,7 @@ export default {
             var url ='../contract/'+this.contractId+'/files/'+this.typeDoc;
             axios.get(url).then(response => {
              this.list = response.data
+            console.log(this.list[2].user[0].fullName)
             });
         },
           editFile: function(item) {

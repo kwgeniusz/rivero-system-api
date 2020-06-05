@@ -46,7 +46,13 @@ class InvoiceController extends Controller
               $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
               $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
            });
+
         $proposals = $this->oProposal->getAllByContract($request->id);
+
+       //este fragmento de codigo lo usa (ModalSwitchContract component)
+        if($request->ajax()){
+                 return $invoices;
+            }
 
         return view('module_contracts.invoices.index', compact('contract','invoices','proposals'));
     }
@@ -94,7 +100,7 @@ class InvoiceController extends Controller
             'alert-type' => 'success',
         );
 
-        return redirect()->route('invoicesDetails.index',['id' => $invoiceId])
+        return redirect()->route('invoicesDetails.index',['btnReturn'=> 'mod_cont','id' => $invoiceId])
             ->with($notification);
     }
       public function edit($id)
@@ -161,7 +167,7 @@ class InvoiceController extends Controller
           $totalMontoFacturas += $invoice->netTotal;
           $totalPorCobrar += $invoice->balance;
           $totalCobrado   = $totalCobrado + ($invoice->netTotal - $invoice->balance);
-         }
+          }
 
 
    if($request->method() == 'POST') {
