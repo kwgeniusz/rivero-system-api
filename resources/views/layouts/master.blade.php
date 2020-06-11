@@ -17,7 +17,7 @@
 
    <link href="https://vjs.zencdn.net/7.6.0/video-js.css" rel="stylesheet">
   <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+   
 
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -116,7 +116,8 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/submit.js') }}"></script>
-<script src='https://vjs.zencdn.net/7.6.0/video.js'></script>
+<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+{{-- <script src='https://vjs.zencdn.net/7.6.0/video.js'></script> --}}
 <script src="{{ asset('js/jspdf.js') }}"></script>
  <script>
 

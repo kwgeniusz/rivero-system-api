@@ -53,8 +53,8 @@
                             </td>
                             
                             <td> 
-                                <button v-on:click="editRow(index, hrTansType.hrtransactionTypeId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
-                                <button v-on:click="deleterow(index, hrTansType.hrtransactionTypeId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                                <button v-on:click="editRow(index, hrTansType.hrtransactionTypeId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> </button>  
+                                <button v-on:click="deleterow(index, hrTansType.hrtransactionTypeId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i></button>  
                             </td>
                         </tr>
                     </tbody>

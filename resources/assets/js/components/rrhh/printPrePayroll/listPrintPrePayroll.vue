@@ -56,7 +56,10 @@
                     </tbody>
                     <tbody v-else>
                         <tr>
-                            <td colspan="7">
+                            <td v-if="this.lengths === 0" colspan="7">
+                                No hay datos registrados
+                            </td>
+                            <td v-else colspan="7">
                                 <loading></loading>
                             </td>
                         </tr>
@@ -76,7 +79,7 @@
         },
         data(){
             return{
-
+                imgBase64:[]
             }
         },
         props: {
@@ -84,6 +87,7 @@
                 type: String,
                 default: 'Name defauld',
             },
+            lengths: '',
             objPrintPrePayroll:{},
         },
         methods: {
@@ -127,142 +131,233 @@
                 
                 // console.log('enviado')
             },
+            formatDate(){
+                function formatZero(n){
+                    if (n < 10 ) {
+                        n = '0' + n
+                        return n
+                    }else{
+                        return n
+                    }
+                }
+
+                let dataTime = new Date()
+                let dd = dataTime.getDate()
+                let mm = dataTime.getMonth()+1
+                let yyyy = dataTime.getFullYear()
+                dd = formatZero(dd)
+                mm = formatZero(mm)
+                return dd+'/'+mm+'/'+yyyy;
+             },
             printDetailRow(countryId, companyId, year, payrollNumber){
+                console.log(countryId, companyId, year, payrollNumber)
+                // return
                 const URL  = `pre-payroll-all/list/${countryId}/${companyId}/${year}/${payrollNumber}`
-                // console.log(countryId, companyId, year, payrollNumber)
                 
                 axios.get(URL).then((res)=>{
                     const objPrePayrollDetail = res.data.print
-                    console.log(objPrePayrollDetail)
+                    // console.log(objPrePayrollDetail)
                     // return
+                    // let dataTime = new Date().toLocaleString("en-US", {timeZone: "America/Caracas"});
+                    // dataTime = new Date(dataTime);
+                    // dataTime = dataTime.toString().
+                    // console.log(this.formatDate())
+                    // console.log('time: '+dataTime.toLocaleString())
+
+                    // return
+                    let period = objPrePayrollDetail[0]
                     let country = objPrePayrollDetail[1]
                     let company = objPrePayrollDetail[2]
-                    let period = objPrePayrollDetail[0]
+                    let logo = objPrePayrollDetail[3]
+                    let payrollTypeName = objPrePayrollDetail[4]
+                    let dataTime = this.formatDate()
+                    // console.log(window.location)
                     // return
-    //                     0: "PRIMERA QUINCENA ENERO 2020"
-                        // ​
-                        // 1: "VENEZUELA"
-                        // ​
-                        // 2: "JD RIVERO C.A."
-                    let doc = new jsPDF('p', 'pt', 'letter');
-                     // doc.text( 'izquierda?.', eje X, eje Y );
-                     
-                    //  Cabeceras
-                    doc.setFontType("bold");
-                    doc.setFontSize(12);
-                    doc.text( 'PRE-NOMINA DE PAGO', 220, 40 );
-                    doc.setFontType("courier");
-                    doc.setFontSize(7);
-                    doc.text( 'Pagina 1', 574, 40 );
-                    doc.setFontSize(12);
-                    // doc.text( 'This text is\raligned to the\rright.', 140, 400, 'right' );
-                    // doc.text( 'This text is\raligned to theAAAAAAA.', 140, 460);
-                    doc.text( 'PAIS:', 30, 70 );
-                    doc.text( country, 70, 70 );
-                    doc.text( 'EMPRESA:', 30, 85 );
-                    doc.text( company, 100, 85 );
-                    doc.text( 'PERIODO:', 195, 100 );
-                    doc.text( period, 255, 100);
-
-                    // // titulos tablas
-                    doc.line(30, 115, 580, 115);
-                    doc.setFontSize(10);
-                    doc.text( 'CODIGO', 30, 130 );
-                    doc.text( 'NOMBRE', 74, 130 );
-                    doc.text( 'CONCEPTO', 195, 130 );
-                    doc.text( 'CANTIDAD', 310, 130 );
-                    doc.text( 'ASIGNACION', 375, 130 );
-                    doc.text( 'DEDUCCION', 445, 130 );
-                    doc.text( 'NETO', 550, 130 );
-                    doc.line(30, 138, 580, 138);
-
-
-                    doc.setFontSize(9);
-                    let n = 155
-                    let cont = 155
-                    let page = 1
-                    for (let i = 0; i < objPrePayrollDetail.length; i++) {
-                        const element = objPrePayrollDetail;
-                        //  console.log( element[i]) 
-                        //  console.log('i: ' + i) 
-                        if (i > 2) {
-                            
-                            let name = true
-                            element[i].forEach(element2 => {
-                                // console.log(element2.staffCode) 
-                                if (name) {
-                                    doc.text(element2.staffCode, 30, n );
-                                    doc.text( element2.staffName, 74, n );
-                                    name = false
-                                }
-                                doc.text(element2.transactionTypeName, 195, n);
-                                doc.text(element2.quantity, 361, n, 'right' );
-                                if (element2.isIncome === 1) {
-                                    doc.text(element2.amount, 436, n, 'right' );
-                                }
-                                if (element2.isIncome === 0) {
-                                    doc.text(element2.amount, 502, n, 'right' );
-                                // doc.text( '2.07', 502, 155, 'right' );
-                                }
-                                // doc.text(element2.staffCode);
-                                n += 15
-                                if (n > 754) {
-                                    page += 1
-                                    doc.addPage();
-                                    //  Cabeceras
-                                    doc.setFontType("bold");
-                                    doc.setFontSize(12);
-                                    doc.text( 'PRE-NOMINA DE PAGO', 220, 40 );
-                                    doc.setFontType("courier");
-                                    doc.setFontSize(7);
-                                    doc.text( `Pagina ${page}`, 574, 40 );
-                                    doc.setFontSize(12);
-                                    // doc.text( 'This text is\raligned to the\rright.', 140, 400, 'right' );
-                                    // doc.text( 'This text is\raligned to theAAAAAAA.', 140, 460);
-                                    doc.text( 'PAIS:', 30, 70 );
-                                    doc.text( country, 70, 70 );
-                                    doc.text( 'EMPRESA:', 30, 85 );
-                                    doc.text( company, 100, 85 );
-                                    doc.text( 'PERIODO:', 195, 100 );
-                                    doc.text( period, 255, 100);
-
-                                    // // titulos tablas
-                                    doc.line(30, 115, 580, 115);
-                                    doc.setFontSize(10);
-                                    doc.text( 'CODIGO', 30, 130 );
-                                    doc.text( 'NOMBRE', 74, 130 );
-                                    doc.text( 'CONCEPTO', 195, 130 );
-                                    doc.text( 'CANTIDAD', 310, 130 );
-                                    doc.text( 'ASIGNACION', 375, 130 );
-                                    doc.text( 'DEDUCCION', 445, 130 );
-                                    doc.text( 'NETO', 550, 130 );
-                                    doc.line(30, 138, 580, 138);
-                                    n = 155
-                                }
-                            });
-                            doc.setFontType("bold")
-                            doc.text( 'TOTALES', 215, n);
-                            doc.text( `${n}`, 361, n);
-                            // console.log('entro')
-                            // console.log(element[i][0].asignacion)
-                            doc.text(element[i][0].asignacion, 436, n, 'right' );
-                            doc.text(element[i][0].deduccion, 502, n, 'right' );
-
-                            let total = element[i][0].asignacion - element[i][0].deduccion // calculo para el total
-                            // console.log('total: ' + total);
-                            doc.text(`${total}`, 574, n, 'right' );
-                            // doc.text(total, 574, n, 'right' );
-                            
-                            doc.setFontType("courier");
-                            n += 20
-                        }
-                        
+                    let imgLogoURL = window.location.origin + '/' + logo
                     
-                     }
-                    doc.save('Test.pdf');
-                    // console.log(res.data.print)
-                    // return
-                    // this.$emit("prePayrollDetail", objPrePayrollDetail)
+                    console.log(imgLogoURL)
+
+                    function toDataUrl(src, callback) {
+                        let xhttp = new XMLHttpRequest()
+                        xhttp.onload = function(){
+                            let fileReader = new FileReader()
+                            fileReader.onloadend = function() {
+                                callback(fileReader.result)
+                            }
+                            fileReader.readAsDataURL(xhttp.response)
+
+                        }
+                        xhttp.responseType = 'blob'
+                        xhttp.open('GET',src,true)
+                        xhttp.send()
+                        // console.log(xhttp)
+                    }
+                    toDataUrl(imgLogoURL,function(dataURL){
+                          crearPDF(dataURL)
+                            // this.imgBase64 = dataURL
+                            // console.log(imgLogoURL)
+                     console.log(dataURL)
+                    })
+                    
+                    function crearPDF(imgData){
+                        
+                        let doc = new jsPDF('p', 'pt', 'letter');
+                        // doc.text( 'izquierda?.', eje X, eje Y );
+                        //  console.log(URLactual + '/' + logo)
+                        //  console.log(logo)
+                        //  return
+
+                        //  Encabezado
+                        doc.addImage(imgData, 'JPEG', 30, 30, 50, 30)
+                        doc.setFontType("bold");
+                        doc.setFontSize(12);
+                        doc.text( 'PRE-NOMINA DE PAGO', 220, 40 );
+                        doc.setFontType("courier");
+                        doc.setFontSize(7);
+                        doc.text( 'Pagina 1', 574, 40 );
+                        doc.setFontSize(12);
+                        doc.text( 'FECHA: ', 450, 74 );
+                        doc.text( dataTime, 500, 74 );
+                        doc.text( 'PAIS:', 30, 74 );
+                        doc.text( country, 63, 74 );
+                        doc.text( 'EMPRESA:', 30, 89 );
+                        doc.text( company, 93, 89 );
+                        doc.text( 'TIPO DE NOMINA:', 30, 104 );
+                        doc.text( payrollTypeName, 134, 104 );
+                        doc.text( 'PERIODO:', 238, 104 );
+                        doc.text( period, 298, 104);
+
+                        // // titulos tablas
+                        doc.line(30, 115, 580, 115);
+                        doc.setFontSize(10);
+                        doc.text( 'CODIGO', 30, 130 );
+                        doc.text( 'NOMBRE', 74, 130 );
+                        doc.text( 'CONCEPTO', 195, 130 );
+                        doc.text( 'CANTIDAD', 310, 130 );
+                        doc.text( 'ASIGNACION', 375, 130 );
+                        doc.text( 'DEDUCCION', 445, 130 );
+                        doc.text( 'NETO', 550, 130 );
+                        doc.line(30, 138, 580, 138);
+
+
+                        doc.setFontSize(9);
+                        let n = 155
+                        let cont = 155
+                        let page = 1
+                        for (let i = 0; i < objPrePayrollDetail.length; i++) {
+                            const element = objPrePayrollDetail;
+                            //  console.log( element[i]) 
+                            //  console.log('i: ' + i) 
+
+                            // condiciono que comienze a leer los datos a partir de la posicion 5 del array
+                            if (i > 4) {
+                                
+                                let name = true
+                                element[i].forEach(element2 => {
+                                    // console.log(element2.staffCode) 
+                                    if (name) {
+                                        doc.text(element2.staffCode, 30, n );
+                                        doc.text( element2.staffName, 74, n );
+                                        name = false
+                                    }
+                                    doc.text(element2.transactionTypeName, 195, n);
+                                    doc.text(element2.quantity, 361, n, 'right' );
+                                    if (element2.isIncome === 1) {
+                                        if (element2.amount === null) {
+                                            //  console.log('entro')
+                                            // doc.text('0', 436, n, 'right' );
+                                        }else {
+                                            doc.text(element2.amount, 436, n, 'right' );
+                                        }
+                                    }
+                                    if (element2.isIncome === 0) {
+                                        if (element2.amount === null) {
+                                            // console.log('entro')
+                                            // doc.text('0', 502, n, 'right' );
+                                        }else {
+                                            doc.text(element2.amount, 502, n, 'right' );
+                                        }
+                                        
+                                    // doc.text( '2.07', 502, 155, 'right' );
+                                    }
+                                    // doc.text(element2.staffCode);
+                                    n += 15
+                                    if (n > 754) {
+                                        page += 1
+                                        doc.addPage();
+
+                                        //  Encabezado
+                                        doc.setFontSize(7);
+                                        doc.text( `Pagina ${page}`, 574, 40 );
+                                        doc.addImage(imgData, 'JPEG', 30, 30, 50, 30)
+                                        doc.setFontType("bold");
+                                        doc.setFontSize(12);
+                                        doc.text( 'PRE-NOMINA DE PAGO', 220, 40 );
+                                        doc.setFontType("courier");
+                                        
+                                        doc.setFontSize(12);
+                                        doc.text( 'FECHA: ', 450, 74 );
+                                        doc.text( dataTime, 500, 74 );
+                                        doc.text( 'PAIS:', 30, 74 );
+                                        doc.text( country, 63, 74 );
+                                        doc.text( 'EMPRESA:', 30, 89 );
+                                        doc.text( company, 93, 89 );
+                                        doc.text( 'TIPO DE NOMINA:', 30, 104 );
+                                        doc.text( payrollTypeName, 134, 104 );
+                                        doc.text( 'PERIODO:', 238, 104 );
+                                        doc.text( period, 298, 104);
+
+                                        // // titulos tablas
+                                        doc.line(30, 115, 580, 115);
+                                        doc.setFontSize(10);
+                                        doc.text( 'CODIGO', 30, 130 );
+                                        doc.text( 'NOMBRE', 74, 130 );
+                                        doc.text( 'CONCEPTO', 195, 130 );
+                                        doc.text( 'CANTIDAD', 310, 130 );
+                                        doc.text( 'ASIGNACION', 375, 130 );
+                                        doc.text( 'DEDUCCION', 445, 130 );
+                                        doc.text( 'NETO', 550, 130 );
+                                        doc.line(30, 138, 580, 138);
+                                        n = 155
+                                    }
+                                });
+                                doc.setFontType("bold")
+                                doc.text( 'TOTALES', 215, n);
+                                // doc.text( `${n}`, 361, n);
+                                // console.log('entro')
+                                // console.log(element[i][0].asignacion)
+                                let asignacion = element[i][0].asignacion
+                                let deduccion = element[i][0].deduccion
+                                if (asignacion === null) {
+                                    asignacion = 0
+                                    // doc.text(`${asignacion}`, 436, n, 'right' );
+                                }else {
+                                    doc.text(`${asignacion}`, 436, n, 'right' );
+                                }
+                                if (deduccion === null) {
+                                    deduccion = 0
+                                    // doc.text(`${deduccion}`, 502, n, 'right' );
+                                }else{
+                                    doc.text(`${deduccion}`, 502, n, 'right' );
+                                }
+                                
+
+                                let total = asignacion - deduccion // calculo para el total
+                                // console.log('total: ' + total);
+                                doc.text(`${total}`, 574, n, 'right' );
+                                // doc.text(total, 574, n, 'right' );
+                                
+                                doc.setFontType("courier");
+                                n += 20
+                            }
+                            
+                        
+                        }
+                        doc.save(company + ' ' + period);
+                        // console.log(res.data.print)
+                        // return
+                        // this.$emit("prePayrollDetail", objPrePayrollDetail)
+                    }
                 })
                 
             }

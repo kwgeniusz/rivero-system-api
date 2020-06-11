@@ -62,8 +62,8 @@
                             </td>
                             <td> 
                                 <!-- <button v-on:click="detailRow(Process.hrpdId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>   -->
-                                <button v-on:click="editDetailRow(index, Process.hrpdId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
-                                <button v-on:click="deleteDetailrow(index, Process.hrpdId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>  
+                                <button v-on:click="editDetailRow(index, Process.hrpdId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> </button>  
+                                <button v-on:click="deleteDetailrow(index, Process.hrpdId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i></button>  
                             </td>
                         </tr>
                     </tbody>
@@ -89,7 +89,7 @@
         
         mounted() {
             // setTimeout(() => {
-                axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
+            axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
                 this.objProcessDetailList = response.data.processDetail
                 this.lengths = this.objProcessDetailList.length
                 
