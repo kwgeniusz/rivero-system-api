@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Auth;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,10 +22,10 @@ class Document extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-//     public function contract()
-//     {
-//         return $this->hasMany('App\Contract', 'clientId', 'clientId');
-//     }
+    public function user()
+    {
+        return $this->hasMany('App\User', 'userId', 'userId');
+    }
 //     public function country()
 //     {
 //         return $this->belongsTo('App\Country', 'countryId', 'countryId');
@@ -41,9 +42,10 @@ class Document extends Model
 //--------------------------------------------------------------------
  public function getAllForContractAndType($contractId,$docType)
     {
-        $result = $this->where('contractId', $contractId)
+        $result = $this->with('user')
+                       ->where('contractId', $contractId)
                        ->where('docType', $docType)
-                       ->orderBy('docId', 'ASC')
+                       ->orderBy('dateUploaded', 'DESC')
                        ->get();
 
         return $result;
@@ -94,6 +96,7 @@ class Document extends Model
         $doc->docUrl                = $rs;
         $doc->docNameOriginal       = $file->hashName();
         $doc->docType               = $typeDoc;
+        $doc->userId            = Auth::user()->userId;
         $doc->save();
 
             $success = true;

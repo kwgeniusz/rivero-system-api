@@ -27,49 +27,6 @@
 
 <br>
 
-<div class="bg-info" role="button" data-toggle="collapse" :href="acum" aria-expanded="false">
-   CONTRATOS
-</div>
-<!-- collapse -->
-<div v-if="client != null" class="collapse" :id="acum++">
-  <div class="well">
-    <h4>
-            {{client[0].contract}}
-    </h4>
-  </div>
-
-</div>
-
-<br>
-
-<div class="bg-info" role="button" data-toggle="collapse" :href="invoices" aria-expanded="false">
-   FACTURAS
-</div>
-<!-- collapse -->
-<div v-if="client != null" class="collapse" :id="invoices">
-  <div class="well">
-    <h4>
-          {{client[0].invoice}}
-    </h4>
-  </div>
-
-</div>
-
-<br>
-
-<div class="bg-info" role="button" data-toggle="collapse" :href="proposals" aria-expanded="false">
-   PROPUESTAS
-</div>
-<!-- collapse -->
-<div v-if="client != null" class="collapse" :id="proposals">
-  <div class="well">
-    <h4>
-            {{client[0].proposal}}
-    </h4>
-  </div>
-
-</div>
-
 </sweet-modal>
 
 </label>   

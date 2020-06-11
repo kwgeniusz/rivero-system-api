@@ -10,7 +10,9 @@
            <br /><br />
            <div class="embed-responsive embed-responsive-4by3 iframe" v-if="showModal">
             <center>
-              <iframe class="iframe" :src="url" frameborder="0"></iframe>
+              <iframe class="iframe" :src="url" frameborder="0">
+                
+              </iframe>
             </center>
          </div>
      </sweet-modal>

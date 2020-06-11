@@ -80,7 +80,7 @@
             </ul>
           </div>
 
-        <search-subcontractor pref-url='../../' @subcontractorSelected='formSubcontId = $event' @subcontractorRemoved="formSubcontId = '' "></search-subcontractor >
+        <search-subcontractor pref-url='../../' @subcontractorSelected='formSubcontId = $event' @subcontractorRemoved="formSubcontId = ''" ref="searchSubcontractor"></search-subcontractor >
 <!-- 
               <div class="form-group">
                 <label>MONTO DEL SERVICIO: {{service.amount}}</label> 
@@ -249,8 +249,10 @@ export default {
                          this.formPercent = '';
                          this.btnSubmitForm =  false;
 
+                        this.getAllInvoicesDetails();//actualiza los detalles
+                        this.$refs.searchSubcontractor.reRender();//resetea comnponente hijo search
+
                         this.$refs.modal.close() 
-                        this.getAllInvoicesDetails();
                    }
             })
            }
