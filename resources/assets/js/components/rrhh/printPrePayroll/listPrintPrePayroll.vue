@@ -321,6 +321,7 @@
                                         n = 155
                                     }
                                 });
+                                doc.setFontSize(9);
                                 doc.setFontType("bold")
                                 doc.text( 'TOTALES', 215, n);
                                 // doc.text( `${n}`, 361, n);
