@@ -58,28 +58,7 @@
               </div>
                  <!-- collapse -->
               <div  class="collapse" :id="invoice.invId+'-request'">
-<<<<<<< HEAD:resources/assets/js/components/contracts/ModalSwitchContract.vue
-                <div class="well" style="word-wrap: break-word;">
-                  <h4>
-                    <h5><b><u>Description: {{invoice.projectDescription}}</u></b></h5>
 
-                    <h5><b><u>Requerimientos</u></b></h5>
-                     <div class="text-left" v-for="(invoiceDetail,index1) in invoice.invoice_details">
-                           - {{invoiceDetail.serviceName}}<br>        
-                     </div>
-
-                    <h5><b><u>Terminos y Condiciones</u></b></h5>
-                     <div class="text-left" v-for="(note,index2) in invoice.note">
-                           - {{note.noteName}}<br>        
-                     </div>
-
-                    <h5><b><u>Alcance</u></b></h5>
-                    <div class="text-left" v-for="(scope,index3) in invoice.scope">
-                             - {{scope.description}}<br>
-                     </div>
-
-                       </h4>
-=======
                 <div class="well" >
 
                 <!-- Using properly a better class for "p" text -->
@@ -105,7 +84,6 @@
                      </p>
 
                        </div>
->>>>>>> a9e6b1cdd8fe7a7de8d29860b33ce87b692c5d06:resources/assets/js/components/ModalSwitchContract.vue
                      </div>    
                 </div>
 
@@ -189,5 +167,5 @@
 </script>
 
 <style lang="scss">
-@import '../../sass/app.scss'
+@import '../../../sass/app.scss'
 </style>
