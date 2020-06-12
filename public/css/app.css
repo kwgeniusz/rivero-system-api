@@ -15871,3 +15871,14 @@ button.toast-close-button {
   }
 }
 
+.hover:hover {
+  background: #cbb956;
+}
+
+.text-left {
+  font-weight: 400;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+

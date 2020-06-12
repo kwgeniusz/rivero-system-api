@@ -1,4 +1,3 @@
-
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic");
 
@@ -17,4 +16,25 @@
 
 @import "~toastr/toastr";
 
+///////////////////////////////////////////////////////////////
+// New SASS styles                                           //
+// by Manuel Hernandez <manuel.hernandez@riverovisualgroup>  //
+///////////////////////////////////////////////////////////////
+
+//////////////////// Modal Switch Contract ////////////////////
+
+$hover: #cbb956;
+
+.hover:hover{   
+    background: $hover;
+    }
+    
+.text-left {
+    font-weight: 400;
+    font-size: 12px;
+    overflow-wrap: break-word;
+    white-space: normal;
+     }
+
+/////////////////// Modal Document Preview ///////////////////
 
