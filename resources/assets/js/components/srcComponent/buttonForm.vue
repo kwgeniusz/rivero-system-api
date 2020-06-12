@@ -2,6 +2,7 @@
 <!-- buttonType == 0 para mostras en listas de detalles agregar y regresar -->
 <!-- buttonType ==1 para Guardar y cancelar-->
 <!-- buttonType ==2 para actualizar y cancelar -->
+<!-- btn1, 2, 3, 4 permite manipular cual de los 2 botones mostrar o para mostrar los 2 -->
 
 <!-- v-on:click="addForm" === 1 para cargar vistas agregar -->
 <!-- v-on:click="addForm" === 2 para Guardar registros de la vistas agregar -->
@@ -21,7 +22,7 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            // console.log('Component mounted.')
         },
         methods: {
             addForm(n){

@@ -88,6 +88,11 @@
                 
                 axios.get(URL).then((res) => {
                         console.log(res)
+                        if (res.statusText === 'OK') {
+                            alert('Excito..')
+                        }else{
+                            alert('Error al calcular')
+                        }
                 })
               
                 // this.$emit("indexEdit",index)
