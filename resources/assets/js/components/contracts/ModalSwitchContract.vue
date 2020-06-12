@@ -60,6 +60,7 @@
               <div  class="collapse" :id="invoice.invId+'-request'">
                 <div class="well" style="word-wrap: break-word;">
                   <h4>
+                    <h5><b><u>Description: {{invoice.projectDescription}}</u></b></h5>
 
                     <h5><b><u>Requerimientos</u></b></h5>
                      <div class="text-left" v-for="(invoiceDetail,index1) in invoice.invoice_details">
@@ -87,30 +88,30 @@
     <h4 class="bg-primary"><b>Escoja Una Opcion</b></h4>
     <div class="bg-info">
     
-                    <a v-if="$can('BCE')" :href="'contractsChangeStatus/'+contractId" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Estado">
+                    <a v-if="$can('BDE')" :href="'contractsChangeStatus/'+contractId" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Estado">
                            <span class="fa fa-sync" aria-hidden="true"></span>  
                          </a>
                    
-                       <a v-if="$can('BCF')" :href="'contractsStaff/'+contractId" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Personal">
+                       <a v-if="$can('BDF')" :href="'contractsStaff/'+contractId" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Personal">
                          <span class="fa fa-users" aria-hidden="true"></span> 
                           </a>
            
-                       <a v-if="$can('BCG')" :href="'contractsFile/'+contractId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                       <a v-if="$can('BDG')" :href="'contractsFile/'+contractId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                            <span class="fa fa-file" aria-hidden="true"></span> 
                        </a>
                
-                        <a v-if="$can('BCH')":href="'invoices?id='+contractId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
+                        <a v-if="$can('BE')":href="'invoices?id='+contractId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
                        <br>
-                         <a v-if="$can('BCI')" :href="'reportsContract?id='+contractId" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
+                    <!--      <a v-if="$can('BCI')" :href="'reportsContract?id='+contractId" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
-
-                       <a v-if="$can('BCC')" :href="'contracts/'+contractId+'/edit'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
+ -->
+                       <a v-if="$can('BDC')" :href="'contracts/'+contractId+'/edit'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
-                        <a v-if="$can('BCB')" :href="'contracts/'+contractId" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                        <a v-if="$can('BDB')" :href="'contracts/'+contractId" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                        </a>
 

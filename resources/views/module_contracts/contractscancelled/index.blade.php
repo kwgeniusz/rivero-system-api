@@ -67,12 +67,12 @@
                     <a href="{{route('contracts.cancelledDetails', ['id' => $contract->contractId])}}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{__('see')}}">
                         <span class="fa fa-search" aria-hidden="true"></span>  
                     </a>
-                     @can('BCH')
+                     @can('BE')
                         <a href="{{url("invoices?id=$contract->contractId")}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
                     @endcan
-                      @can('BCG') 
+                      @can('BDG') 
                     <a href="{{route('contracts.files', ['id' => $contract->contractId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                      <span class="fa fa-file" aria-hidden="true"></span> 
                     </a>

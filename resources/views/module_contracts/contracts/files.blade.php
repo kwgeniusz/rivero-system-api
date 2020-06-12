@@ -42,40 +42,53 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
+@can('BDGA')
     <li role="presentation" class="active "><a class="bg-info" href="#previous" aria-controls="previous" role="tab" data-toggle="tab">PREVIOS</a></li>
+@endcan
+@can('BDGB')    
     <li role="presentation"><a class="bg-info" href="#processed" aria-controls="processed" role="tab" data-toggle="tab">PROCESADOS</a></li>
+@endcan
+@can('BDGC')      
     <li role="presentation"><a class="bg-info" href="#revised" aria-controls="revised" role="tab" data-toggle="tab">REVISADOS</a></li>
+@endcan
+@can('BDGD')      
     <li role="presentation"><a class="bg-info" href="#ready" aria-controls="ready" role="tab" data-toggle="tab">LISTOS</a></li>
   </ul>
+@endcan
 
   <!-- Tab panes -->
   <div class="tab-content">
+@can('BDGA')
     <div role="tabpanel" class="tab-pane active" id="previous">
         <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="previous"></grid-files>
    </div> <!--tab 1 final-->
-
+@endcan    
+@can('BDGB')
     <div role="tabpanel" class="tab-pane" id="processed">
       <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="processed"></grid-files>
   </div>  <!--tab 2 final-->
-
+@endcan    
+@can('BDGC')
     <div role="tabpanel" class="tab-pane" id="revised">
       <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="revised"></grid-files>
   </div>  <!--tab 3 final-->
-
+@endcan    
+@can('BDGD')
     <div role="tabpanel" class="tab-pane" id="ready">
       <br>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <grid-files contract-id="{{$contract[0]->contractId}}" type-doc="ready"></grid-files>
   </div>  <!--tab 4 final-->
+@endcan    
 
 </div><!--tab container final-->
-
+<br>
     <div class="text-center">
         <a href="{{URL::previous()}}" class="btn btn-warning">
             <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}

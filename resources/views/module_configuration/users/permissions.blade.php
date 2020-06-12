@@ -72,7 +72,24 @@
    </div>      
 <!--{{$user->roles}}-->
 <!--{{$user->permissions}} -->
-
+{{-- <ol id="lista3">
+    <li>List item</li>
+    <li>List item</li>
+    <li>List item
+       <ol>
+          <li>List sub item
+             <ol>
+               <li>List item</li>
+               <li>List item</li>
+             </ol>   
+           </li>
+          <li>List sub item</li>
+          <li>List sub item</li>
+       </ol>
+    </li>
+    <li>List item</li>
+    <li>List item</li> 
+</ol> --}}
      <div class="row">
         <div class="form-group col-xs-7">
                     <label ><u> PERMISOS:</u></label>
@@ -81,13 +98,21 @@
                     @foreach($permissions as $permission)
                        <label for="permission_{{$permission->id}}" class="col-xs-12 btn " >
                            <div class="col-xs-6 text-left">
-                            {{$permission->description}}  {{--  ({{$permission->name}}) --}} 
+                             @php 
+                              if(strlen($permission->name) == 1)
+                                 echo "<b>$permission->description</b>"; 
+                              if(strlen($permission->name) == 2)
+                                 echo "<u>$permission->description</u>"; 
+                              if(strlen($permission->name) > 2)
+                                 echo "$permission->description</b>"; 
+                              @endphp
+                           
                            </div>
                           <div class="col-xs-6">
                             <input            
                         {{ $user->permissions->contains($permission->id) ? 'checked' : '' }} 
                         @if($user->roles->count() > 0)
-                    {{ $user->roles[0]->permissions->contains($permission->id) ? 'disabled' : '' }} 
+                        {{ $user->roles[0]->permissions->contains($permission->id) ? 'disabled' : '' }} 
                         @endif
                              type="checkbox" 
                              id="permission_{{$permission->id}}" 

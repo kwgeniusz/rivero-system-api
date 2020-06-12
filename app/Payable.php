@@ -16,12 +16,11 @@ class Payable extends Model
     protected $primaryKey = 'payableId';
     public $timestamps    = false;
 
-    // protected $appends = ['amountDue','amountPaid','amountPercentaje'];
+    protected $appends = ['amountDue','amountPaid'];
 
     /**
      * The attributes that are mass assignable.
      */
-
     protected $fillable = [
        'payableId',
        'countryId',
@@ -80,11 +79,30 @@ class Payable extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-
-//--------------------------------------------------------------------
+  public function subcontInvDetail()
+    {
+        return $this->hasOne('App\SubcontractorInvDetail', 'subcontInvDetailId', 'subcontInvDetailId');
+    }
+    public function invoiceDetail()
+    {
+        return $this->hasOne('App\InvoiceDetail', 'invDetailId', 'invDetailId');
+    }  
+//-------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-     public function insertP($subcontInvDetailId,$amountDue)
+    public function getAllBySubcontractor($subcontId)
+    {
+        //consulta que traer relaciones desde tabla payable hasta contratc, y tiene una comparacion dentro de la relacion
+        //subcontratos
+        $result = $this->with('subcontInvDetail.subcontractor','subcontInvDetail.invoiceDetail.invoice.contract')
+            ->whereHas('subcontInvDetail.subcontractor',function($q) use ($subcontId){
+                $q->where('subcontId',$subcontId);
+            })->orderBy('payableId', 'ASC')
+              ->get();
+       
+        return $result;
+    }
+      public function insertP($subcontInvDetailId,$amountDue)
     {
         $payable                    = new Payable;
         $payable->countryId         = session('countryId');

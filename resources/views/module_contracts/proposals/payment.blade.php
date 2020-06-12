@@ -53,6 +53,8 @@
      <hr>
      <h4 class="text-center"><b>CUOTAS</b></h4>
 <br>
+@can('BCEA')
+
   <div class="col-xs-offset-3 col-xs-5 ">
         @if ($errors->any())
           <div class="alert alert-danger">
@@ -86,6 +88,7 @@
         </form>
     </div>
 
+@endcan
 
         <br>
          <div class="table-responsive">
@@ -108,11 +111,13 @@
                  <td>{{ $acum = $acum +1 }}</td>
                  <td>{{$payment->amount}}</td>
                  <td>
+             @can('BCEB')   
                   <a href="{{route('proposals.paymentsRemove', [
                   'id' => $payment->paymentProposalId,
                   'proposalId' =>$proposal[0]->proposalId]) }}" class="btn btn-danger btn-sm">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
+              @endcan      
                  </td>
                 </tr>
                @php  
