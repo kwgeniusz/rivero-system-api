@@ -121,7 +121,7 @@
                                                         </td>
                                                         <td>
                                                             <p class="text-right">
-                                                                <b>{{detail[0].asignacion - detail[0].deduccion}}</b>
+                                                                <b>{{ formatNumber(detail[0].asignacion - detail[0].deduccion)}}</b>
                                                             </p>
                                                         </td>
                                                     </tr>
@@ -235,6 +235,10 @@
                 mm = formatZero(mm)
                 return dd+'/'+mm+'/'+yyyy;
              },
+            formatNumber(number){
+                let num = parseFloat(number).toFixed(2);
+                return num
+            },
             printDetailRow(countryId, companyId, year, payrollNumber){
                 console.log(countryId, companyId, year, payrollNumber)
                 const URL  = `pre-payroll-all/list/${countryId}/${companyId}/${year}/${payrollNumber}`
@@ -244,7 +248,7 @@
                     const objPrePayrollDetail = res.data.print
                     console.log(objPrePayrollDetail)
                     // return
-                     let period = objPrePayrollDetail[0]
+                    let period = objPrePayrollDetail[0]
                     let country = objPrePayrollDetail[1]
                     let company = objPrePayrollDetail[2]
                     let logo = objPrePayrollDetail[3]
@@ -324,6 +328,10 @@
                         let n = 155
                         let cont = 155
                         let page = 1
+                        function formatNumber(number){
+                                    let num = parseFloat(number).toFixed(2);
+                                    return num
+                                }
                         for (let i = 0; i < objPrePayrollDetail.length; i++) {
                             const element = objPrePayrollDetail;
                             //  console.log( element[i]) 
@@ -422,8 +430,8 @@
                                     doc.text(`${deduccion}`, 502, n, 'right' );
                                 }
                                 
-
-                                let total = asignacion - deduccion // calculo para el total
+                                
+                                let total = formatNumber(asignacion - deduccion) // calculo para el total
                                 // console.log('total: ' + total);
                                 doc.text(`${total}`, 574, n, 'right' );
                                 // doc.text(total, 574, n, 'right' );

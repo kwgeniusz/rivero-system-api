@@ -244,6 +244,10 @@
                         let n = 155
                         let cont = 155
                         let page = 1
+                        function formatNumber(number){
+                                    let num = parseFloat(number).toFixed(2);
+                                    return num
+                                }
                         for (let i = 0; i < objPrePayrollDetail.length; i++) {
                             const element = objPrePayrollDetail;
                             //  console.log( element[i]) 
@@ -343,7 +347,7 @@
                                 }
                                 
 
-                                let total = asignacion - deduccion // calculo para el total
+                                let total = formatNumber(asignacion - deduccion) // calculo para el total
                                 // console.log('total: ' + total);
                                 doc.text(`${total}`, 574, n, 'right' );
                                 // doc.text(total, 574, n, 'right' );
