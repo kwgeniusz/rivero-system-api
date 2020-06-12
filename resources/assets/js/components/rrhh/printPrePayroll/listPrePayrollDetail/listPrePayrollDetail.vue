@@ -21,7 +21,7 @@
                         <h4><b>PRE-NOMINA:</b> {{this.objprePayrollDetail[0]}}</h4>
                     </div>
                     <div class="form-group col-md-1 col-md-offset-2">
-                        <button v-on:click="printDetailRow(objprePayrollDetail[5][0].countryId, objprePayrollDetail[5][0].companyId, objprePayrollDetail[5][0].year, objprePayrollDetail[5][0].payrollNumber)" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-print"></i> </button>  
+                        <button v-on:click="printDetailRow(objprePayrollDetail[5][0].countryId, objprePayrollDetail[5][0].companyId, objprePayrollDetail[5][0].year, objprePayrollDetail[5][0].payrollNumber)" class="btn btn-sm btn-info"><i class="fa fa-print"></i> </button>  
                     </div>
                 </div> 
             </div>
