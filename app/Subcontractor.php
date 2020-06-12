@@ -54,17 +54,16 @@ class Subcontractor extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-//     public function getAll($countryId)
-//     {
-//         return $this->orderBy('clientId', 'ASC')
-//                     ->where('countryId','=', $countryId)
-//                     ->get();
-//     }
+    public function getAllByCountry($countryId)
+    {
+        return $this->orderBy('subcontId', 'ASC')
+                    ->where('countryId','=', $countryId)
+                    ->paginate(300);
+    }
 //------------------------------------------
     public function findById($id,$countryId)
     {
-        return $this->with('contract','invoice','proposal')
-                    ->where('clientId', '=', $id)
+        return $this->where('subcontId', '=', $id)
                     ->where('countryId','=', $countryId)
                     ->get();
     }

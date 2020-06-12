@@ -138,13 +138,12 @@ class SubcontractorInvDetail extends Model
 
         DB::beginTransaction();
         try {
-            //NO PERMITIR ELIMINAR SI EL ESTADO DEL PAYABLE ES PAGADO O EN PROCESO
-
-            $register = SubcontractorInvDetail::destroy($subcontInvDetailId);
-            
             //ELIMINAR DE CUENTAS POR PAGAR
             $oPayable = new Payable;
             $oPayable->deleteBySubcont($subcontInvDetailId);
+            //NO PERMITIR ELIMINAR SI EL ESTADO DEL PAYABLE ES PAGADO O EN PROCESO
+            $register = SubcontractorInvDetail::destroy($subcontInvDetailId);
+            
 
              $success = true;
             DB::commit();

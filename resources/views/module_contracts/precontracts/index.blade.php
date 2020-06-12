@@ -26,7 +26,7 @@
         <div class="col-xs-12 ">
             <br>
             <div class="text-center">
-        @can('BCA')
+        @can('BBA')
             <a href="{{ route('precontracts.create') }}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Pre-contrato
@@ -84,14 +84,14 @@
                     <td >{{$precontract->contractType}}   </td>
                     <td>
         @if($precontract->contractId == null)
-              @can('BBE')
+              @can('BCF')
          <!--<a href="{{route('precontracts.convert', ['id' => $precontract->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
                      <span class="fa fa-sync" aria-hidden="true"></span>  
                     </a> -->
                   <modal-convert-precontract pref-url="./" precontract-id="{{$precontract->precontractId}}"></modal-convert-precontract>
 
               @endcan      
-              @can('BBD')
+              @can('BC')
                      <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
@@ -110,10 +110,14 @@
 
                 </tr>
             @else
+        @can('BC')  
               <a class="btn btn-primary btn-sm" href="{{url("invoices?id=$precontract->contractId")}}">Ir a Contrato</a>
+
                 <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
+       @endcan      
+
              {{--   <a href="{{route('reports.proposal', ['id' => $precontract->proposal->proposalId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
               </a> --}}

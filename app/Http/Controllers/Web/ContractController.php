@@ -30,16 +30,15 @@ class ContractController extends Controller
     {
 
         $this->middleware('auth');
-        $this->middleware("permission:BC");
-        $this->middleware("permission:BCA")->only("create", "store");
-        $this->middleware("permission:BCB")->only("show","destroy");
-        $this->middleware("permission:BCC")->only("edit","update");
-        $this->middleware("permission:BCD")->only("details");
-        $this->middleware("permission:BCE")->only("changeStatus","updateStatus");
-        $this->middleware("permission:BCF")->only("staff");
-        // $this->middleware("permission:BCG")->only("files", "filesAdd");
-        $this->middleware("permission:BCH")->only("payment");
-        $this->middleware("permission:BCI")->only("destroy");
+        // $this->middleware("permission:BC");
+        // $this->middleware("permission:BCA")->only("create", "store");
+        // $this->middleware("permission:BCB")->only("show","destroy");
+        // $this->middleware("permission:BCC")->only("edit","update");
+        // $this->middleware("permission:BCD")->only("details");
+        // $this->middleware("permission:BCE")->only("changeStatus","updateStatus");
+        // $this->middleware("permission:BCF")->only("staff");
+        // $this->middleware("permission:BCH")->only("payment");
+        // $this->middleware("permission:BCI")->only("destroy");
 
         $this->oContract        = new Contract;
         $this->oDocument        = new Document;

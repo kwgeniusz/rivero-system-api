@@ -79,30 +79,43 @@
                    <td>
 
     @if($proposal->invoiceId == null)
-           @if($proposal->pQuantity > 0)         
+
+           @if($proposal->pQuantity > 0)
+           @can('BCF')         
              <a href="{{route('precontracts.convert', ['id' => $proposal->proposalId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Factura">
                      <span class="fa fa-sync" aria-hidden="true"></span>  
-             </a>         
+             </a>  
+            @endcan       
            @endif
-           @if($proposal->netTotal > 0)         
+
+           @if($proposal->netTotal > 0)
+            @can('BCE')           
            <a href="{{route('proposals.payments', ['btnReturn' => 'mod_adm','id' => $proposal->proposalId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
-            </a> 
+            </a>
+            @endcan 
            @endif  
 
+          @can('BCD') 
             <a href="{{route('proposalsDetails.index', ['btnReturn' => 'mod_adm','modelType' => 'pre_contract','id' => $proposal->proposalId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
               </a>
+           @endcan
+           @can('BCC') 
               <a href="{{route('reports.proposal', ['id' => $proposal->proposalId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
               </a>
+           @endcan
+           @can('BCC')    
               |
            <a href="{{route('proposals.edit', ['id' => $proposal->proposalId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
-          </a>   
+          </a>  
+          @endcan 
 <!--             <a href="{{route('proposals.show', ['id' => $proposal->proposalId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}"><span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a> -->
  @else
+        @can('BCC') 
            <a href="{{route('reports.proposal', ['id' => $proposal->proposalId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
               </a>
@@ -110,6 +123,7 @@
                     (CONVERTIDA)
                     @endif
                  @endif
+          @endcan
                    </td>
                 </tr>
                 @endforeach

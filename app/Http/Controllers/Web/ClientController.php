@@ -19,7 +19,6 @@ class ClientController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware("permission:BA");
         $this->oClient = new Client;
         $this->oContactType = new ContactType;
         $this->oCountryConfiguration = new CountryConfiguration();

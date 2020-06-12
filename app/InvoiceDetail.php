@@ -28,7 +28,10 @@ class InvoiceDetail extends Model
       
          return $relation->with('subcontractor');
     }
-
+    public function invoice()
+    {
+          return $this->hasOne('App\Invoice', 'invoiceId', 'invoiceId');
+    }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------

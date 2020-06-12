@@ -4,6 +4,10 @@
 //CONTRACT MODULE ROUTES------------------------------------------------------------------
 //CLIENTS************
 Route::resource('clients', 'Web\ClientController');
+//Subcontractors************
+Route::resource('subcontractors', 'Web\SubcontractorController');
+Route::get('subcontractors/{subcontId}/payables', 'Web\SubcontractorController@payables')->name('subcontractors.payables');
+Route::get('subcontractors/{subcontId}/getPayables', 'Web\SubcontractorController@getallPayables')->name('subcontractors.getallPayables');
 //PRECONTRACTS**********
 Route::resource('precontracts', 'Web\PrecontractController');
 Route::get('precontracts/{precontract}/details', 'Web\PrecontractController@details')->name('precontracts.details');

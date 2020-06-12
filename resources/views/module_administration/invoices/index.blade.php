@@ -87,29 +87,37 @@
                    >{{$invoice->invoiceStatus[0]->invStatusName}}</td> 
                    <td>
                 @if($invoice->netTotal > 0) 
+                  @can('BEE') 
                   <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a> 
+                    @endcan  
                   @endif  
+                   @can('BED') 
                    <a href="{{route('invoices.subcontractors', ['id' => $invoice->invoiceId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Subcontratistas">
                         <span class="fa fa-user" aria-hidden="true"></span> 
                     </a>   
+                    @endcan    
                  @if($invoice->invStatusCode == App\Invoice::OPEN )
        {{--             @if($invoice->contract->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED) --}}
-
+                   @can('BEC')
                   <a href="{{route('invoicesDetails.index', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
                     </a>
+                   @endif  
+                   @can('BEA') 
                   <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>  
+                   @endif  
                   {{-- @endif   --}}
                 @endif  
-
+                @can('BEB')
                 <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
-                 
+                 @endif  
+ 
             {{--       <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Anular">
                         <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a> --}}

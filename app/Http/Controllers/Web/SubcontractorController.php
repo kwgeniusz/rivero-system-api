@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Subcontractor;
 use App\SubcontractorInvDetail;
+use App\Payable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -15,11 +16,30 @@ class SubcontractorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware("permission:BA");
+        // $this->middleware("permission:BA");
         $this->oSubcontractor = new Subcontractor;
         $this->oSubcontractorInvDetail = new SubcontractorInvDetail;
+        $this->oPayable = new Payable;
     }
 
+    public function index()
+    {
+        $subcontractors = $this->oSubcontractor->getAllByCountry(session('countryId'));
+
+        return view('module_contracts.subcontractors.index', compact('subcontractors'));
+    }
+
+    public function payables($subcontId)
+    {
+        return view('module_contracts.subcontractors.payables', compact('subcontId'));
+    }
+
+   public function getallPayables($subcontId)
+    {
+        $payables = $this->oPayable->getAllBySubcontractor($subcontId);
+
+        return $payables;
+    }
     // /**
     //  * Show the form for creating a new resource.
     //  *
@@ -137,7 +157,7 @@ class SubcontractorController extends Controller
     //     return redirect()->route('clients.index')
     //         ->with($notification);
     // }
-
+//----------------FUNCTIONS TO INSERT ON INVOICES -------------->>>>
     public function listSubcontInvDetail(Request $request)
     { 
        $rs   = $this->oSubcontractorInvDetail->getAllByInvDetail($request->invDetailId);
