@@ -58,25 +58,31 @@
               </div>
                  <!-- collapse -->
               <div  class="collapse" :id="invoice.invId+'-request'">
-                <div class="well" style="word-wrap: break-word;">
-                  <h4>
+                <div class="well" >
 
-                    <h5><b><u>Requerimientos</u></b></h5>
-                     <div class="text-left" v-for="(invoiceDetail,index1) in invoice.invoice_details">
-                           - {{invoiceDetail.serviceName}}<br>        
-                     </div>
+                <!-- Using properly a better class for "p" text -->
+                  <div class="text-left">
 
-                    <h5><b><u>Terminos y Condiciones</u></b></h5>
-                     <div class="text-left" v-for="(note,index2) in invoice.note">
-                           - {{note.noteName}}<br>        
-                     </div>
+                  <!-- Centering the text with just a "center" tag-->
+                    <center><b><u>Requerimientos</u></b></center>
+                    <br>
+                     <p v-for="(invoiceDetail,index1) in invoice.invoice_details">
+                           - {{invoiceDetail.serviceName}}      
+                     </p>
 
-                    <h5><b><u>Alcance</u></b></h5>
-                    <div class="text-left" v-for="(scope,index3) in invoice.scope">
-                             - {{scope.description}}<br>
-                     </div>
+                    <center><b><u>Terminos y Condiciones</u></b></center>
+                    <br>
+                     <p v-for="(note,index2) in invoice.note">
+                           - {{note.noteName}}     
+                     </p>
 
-                       </h4>
+                    <center><b><u>Alcance</u></b></center>
+                    <br>
+                    <p v-for="(scope,index3) in invoice.scope">
+                             - {{scope.description}}
+                     </p>
+
+                       </div>
                      </div>    
                 </div>
 
@@ -159,14 +165,6 @@
      }
 </script>
 
-</script>
-
-
-<style scoped>
-
-  .hover:hover{   
- background: #cbb956;
-}
-
-
+<style lang="scss">
+@import '../../sass/app.scss'
 </style>
