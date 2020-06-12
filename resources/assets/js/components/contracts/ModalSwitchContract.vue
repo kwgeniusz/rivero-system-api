@@ -58,6 +58,7 @@
               </div>
                  <!-- collapse -->
               <div  class="collapse" :id="invoice.invId+'-request'">
+<<<<<<< HEAD:resources/assets/js/components/contracts/ModalSwitchContract.vue
                 <div class="well" style="word-wrap: break-word;">
                   <h4>
                     <h5><b><u>Description: {{invoice.projectDescription}}</u></b></h5>
@@ -78,6 +79,33 @@
                      </div>
 
                        </h4>
+=======
+                <div class="well" >
+
+                <!-- Using properly a better class for "p" text -->
+                  <div class="text-left">
+
+                  <!-- Centering the text with just a "center" tag-->
+                    <center><b><u>Requerimientos</u></b></center>
+                    <br>
+                     <p v-for="(invoiceDetail,index1) in invoice.invoice_details">
+                           - {{invoiceDetail.serviceName}}      
+                     </p>
+
+                    <center><b><u>Terminos y Condiciones</u></b></center>
+                    <br>
+                     <p v-for="(note,index2) in invoice.note">
+                           - {{note.noteName}}     
+                     </p>
+
+                    <center><b><u>Alcance</u></b></center>
+                    <br>
+                    <p v-for="(scope,index3) in invoice.scope">
+                             - {{scope.description}}
+                     </p>
+
+                       </div>
+>>>>>>> a9e6b1cdd8fe7a7de8d29860b33ce87b692c5d06:resources/assets/js/components/ModalSwitchContract.vue
                      </div>    
                 </div>
 
@@ -160,14 +188,6 @@
      }
 </script>
 
-</script>
-
-
-<style scoped>
-
-  .hover:hover{   
- background: #cbb956;
-}
-
-
+<style lang="scss">
+@import '../../sass/app.scss'
 </style>

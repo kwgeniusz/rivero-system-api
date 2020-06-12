@@ -7,7 +7,7 @@
                 <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
-               
+                :btn4 = 0
                  ></button-form>
 
                 <list-transaction-type

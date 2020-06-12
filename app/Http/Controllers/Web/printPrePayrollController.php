@@ -46,8 +46,16 @@ class printPrePayrollController extends Controller
     public function getListPrePayroll($countryId, $companyId, $year, $payrollNumber)
     {
 
-        $res0 = DB::select("SELECT hrpayroll.staffCode ,hrpayroll.payrollName, country.countryName, company.companyName, 
-                                hrpayroll.payrollName
+        $res0 = DB::select("SELECT hrpayroll.staffCode ,hrpayroll.payrollName, country.countryName, company.companyName, company.logo,
+                                hrpayroll.payrollName,(
+                                    SELECT payroll_type.payrollTypeName FROM `hrpayroll_control`
+                                        INNER JOIN payroll_type ON hrpayroll_control.payrollTypeId = payroll_type.payrollTypeId
+                                        WHERE hrpayroll_control.countryId = $countryId
+                                        AND hrpayroll_control.companyId = $companyId
+                                        AND hrpayroll_control.year = $year
+                                    AND hrpayroll_control.payrollNumber = $payrollNumber
+                                    
+                                ) AS payrollTypeName
                             FROM hrpayroll 
                             INNER JOIN country ON hrpayroll.countryId = country.countryId
                             INNER JOIN company ON hrpayroll.companyId = company.companyId
@@ -56,12 +64,14 @@ class printPrePayrollController extends Controller
                                 AND hrpayroll.year = $year
                                 AND hrpayroll.payrollNumber = $payrollNumber
                             GROUP BY hrpayroll.staffCode");
-                          
+                         
                           // return $res0;
         $print = array();
         $print[0] = $res0[0]->payrollName;
         $print[1] = $res0[0]->countryName;
         $print[2] = $res0[0]->companyName;
+        $print[3] = $res0[0]->logo;
+        $print[4] = $res0[0]->payrollTypeName;
         foreach($res0 as $res1){
             
            
@@ -106,6 +116,7 @@ class printPrePayrollController extends Controller
         //  dd($print);
         // return $print;
         // $countrys   = $this->oCountry->getAll();
+        //  dd($res0);
         return compact('print');
     }
     public function getListDetail($countryId, $companyId, $year, $payrollNumber,$staffCode)
@@ -154,65 +165,5 @@ class printPrePayrollController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // return $request;
-        $periods = new Periods();
-        $periods->countryId = $request->countryId;
-        $periods->companyId = $request->companyId;
-        $periods->year = $request->year;
-        $periods->payrollTypeId = $request->payrollTypeId;
-        $periods->payrollNumber = $request->payrollNumber;
-        $periods->periodName = $request->periodName;
-        $periods->periodFrom = $request->periodFrom;
-        $periods->periodTo = $request->periodTo;
-        $periods->updated = $request->updated;
-        $periods->save();
-        return $periods;
-    }
-    
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        
-        $periods = Periods::find($id);
-        $periods->countryId = $request->countryId;
-        $periods->companyId = $request->companyId;
-        $periods->year = $request->year;
-        $periods->payrollTypeId = $request->payrollTypeId;
-        $periods->payrollNumber = $request->payrollNumber;
-        $periods->periodName = $request->periodName;
-        $periods->periodFrom = $request->periodFrom;
-        $periods->periodTo = $request->periodTo;
-        $periods->updated = $request->updated;
-        
-        $periods->save();
-        return $periods;
-    }
-    
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        // return 'entro';
-        $periods = Periods::find($id);
-        $periods->delete();
-    
-    }
+   
 }

@@ -16,6 +16,7 @@
                 @indexEdit = "indexEdit"
                 @delrow = "delrow"
                 @prePayrollDetail = "prePayrollDetail"
+                :lengths = lengths
             >
             </list-pre-payroll>
         </div>
@@ -23,12 +24,13 @@
         <!-- prePayrollDetail -->
         <div v-if="formStatus === 3">
             <h3><b>DETALLE DE LA PRE-NOMINA</b></h3>
-            <!-- <button-form
+            <button-form
                 @addf = "addProcessDetail"
                 @cancDetail = "cancDetail"
                 :buttonType = 0
+                :btn1 = 0
                
-                 ></button-form> -->
+                 ></button-form>
             <list-pre-payroll-detail
                 :objprePayrollDetail = objprePayrollDetail
                 @prePayrollListDetail = "prePayrollListDetail"
@@ -50,6 +52,7 @@
         <div v-if="formStatus === 5">
             <list-pre-payroll-detail-staff
                 :objListDetailStaff = objListDetailStaff
+                
             >
             </list-pre-payroll-detail-staff>
         </div>
@@ -63,7 +66,8 @@
         mounted() {
             axios.get('pre-payroll-all/').then( response => {
                 this.objPrintPrePayroll = response.data.print
-                // console.log(this.objPrintPrePayroll)
+                console.log(this.objPrintPrePayroll)
+                this.lengths = this.objPrintPrePayroll.length
                 // debugger
             })
 
@@ -89,6 +93,7 @@
                 nameField6: "",
                 nameField7: "",
                 nameField8: "",
+                lengths: '',
                 
             }
         },
@@ -134,9 +139,10 @@
             },
             cancDetail(){
                 this.formStatus = 0
-                axios.get('process/list').then( response => {
-                    this.objPrintPrePayroll = response.data.process
-                
+                axios.get('pre-payroll-all/').then( response => {
+                    this.objPrintPrePayroll = response.data.print
+                    console.log(this.objPrintPrePayroll)
+                // debugger
                 })
             },
             prePayrollListDetail(objListDetail){
