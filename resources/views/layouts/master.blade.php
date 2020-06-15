@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link rel="shortcut icon" href="{{{ asset('img/favicon.jpg') }}}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
    {{-- <link href="https://vjs.zencdn.net/7.6.0/video-js.css" rel="stylesheet"> --}}
@@ -24,7 +25,6 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 <script type="text/javascript">
@@ -116,9 +116,9 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/submit.js') }}"></script>
-<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+<script src="{{ asset('js/jspdf.js') }}"></script>
+{{-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> --}}
 {{-- <script src='https://vjs.zencdn.net/7.6.0/video.js'></script> --}}
-{{-- <script src="{{ asset('js/jspdf.js') }}"></script> --}}
  <script>
 
   //Tooltip Boostrap 3.3

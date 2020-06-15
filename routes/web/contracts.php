@@ -42,6 +42,9 @@ Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contrac
 Route::get('fileDownload/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
 Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
+//COMMENTS*************
+Route::resource('comments', 'Web\CommentController');
+Route::get('contracts/{contractId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 //INVOICES*********
 Route::resource('invoices', 'Web\InvoiceController');
 Route::resource('invoicesDetails', 'Web\InvoiceDetailController');

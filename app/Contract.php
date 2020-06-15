@@ -87,6 +87,10 @@ class Contract extends Model
     {
         return $this->hasMany('App\Invoice', 'contractId', 'contractId');
     }
+   public function user()
+    {
+        return $this->hasOne('App\User', 'userId', 'lastUserId');
+    }    
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -338,7 +342,7 @@ class Contract extends Model
 //------------------------------------------
     public function findById($id,$countryId,$officeId)
     {
-        return $this->with('client','buildingCode','buildingCodeGroup','projectUse')
+        return $this->with('client','buildingCode','buildingCodeGroup','projectUse','user')
                     ->where('contractId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('officeId', $officeId) 
