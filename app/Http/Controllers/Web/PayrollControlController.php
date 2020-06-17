@@ -34,7 +34,8 @@ class PayrollControlController extends Controller
                         FROM `hrpayroll_control`
                     INNER JOIN country ON hrpayroll_control.countryId = country.countryId
                     INNER JOIN company ON hrpayroll_control.companyId = company.companyId
-                    INNER JOIN payroll_type ON hrpayroll_control.payrollTypeId = payroll_type.payrollTypeId");
+                    INNER JOIN payroll_type ON hrpayroll_control.payrollTypeId = payroll_type.payrollTypeId
+                    ORDER BY hrpayroll_control.companyId");
 
         // $companys =  Company::select('companyShortName', 'companyId')->get();
        
@@ -163,6 +164,9 @@ class PayrollControlController extends Controller
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
                             WHERE hrpayrollControlId = " . $id);
         
+
+
+
         foreach ($rs0 as $rs) {
             $countryId        = $rs->countryId;   
             $companyId        = $rs->companyId;  
@@ -173,11 +177,30 @@ class PayrollControlController extends Controller
             $processCode      = $rs->processCode;
         }
 
+        $rsDel0 = DB::select("SELECT COUNT(*) AS cant
+                            FROM hrpayroll 
+                                WHERE hrpayroll.countryId = $countryId 
+                                AND hrpayroll.companyId = $companyId 
+                                AND hrpayroll.year = $year
+                                AND hrpayroll.payrollNumber = $payrollNumber ");
+        
+        if ($rsDel0[0]->cant > 0) {
+            // dd($rsDel0[0]->cant);
+            DB::table('hrpayroll')
+            ->where('hrpayroll.countryId', '=', $countryId)
+            ->where('hrpayroll.companyId', '=', $companyId)
+            ->where('hrpayroll.year', '=', $year)
+            ->where('hrpayroll.payrollNumber', '=',  $payrollNumber)
+            ->delete();
+        } 
+        
+
         // get data from table hrstaff
         $rs1  = DB::select("SELECT * FROM hrstaff 
-        WHERE countryId = $countryId AND  
-              companyId  = $companyId AND 
-              payrollTypeId = $payrollTypeId");
+        WHERE countryId = $countryId 
+            AND hrstaff.companyId  = $companyId 
+              AND hrstaff.payrollTypeId = $payrollTypeId
+              AND hrstaff.status = 'A' ");
         // return $rs1;
 
         foreach ($rs1 as $key => $rs) {
@@ -225,35 +248,40 @@ class PayrollControlController extends Controller
                     $addTrasacction = 1;             
                     }
                     
-                } else {                     // trabsaccion no es basada en salario
-                    // get permanent transactions for this person and transaction code
-                    // echo " ->no entro";
-                    // return $countryId . '='.$companyId.'='. $staffCode . '=' . $transactionTypeCode;
-                    // $staffCode= strval($staffCode);
-                    $rs4 = DB::select("SELECT * FROM hrpermanent_transaction 
-                    WHERE countryId = $countryId AND  
-                          companyId  = $companyId AND 
-                          staffCode  = '$staffCode' AND 
-                          transactionTypeCode = $transactionTypeCode");
+                } else { 
+                    if ($quantity > 0 and $amount > 0) {
 
-                    // print_r($rs4);
-                    $addTrasacction = 0; 
-                    
-                    foreach ($rs4 as $rs5) {
-                        $stCode            = $rs5->staffCode;   
-                        $ttCode            = $rs5->transactionTypeCode; 
-                        $transactionQty    = $rs5->quantity;  
-                        $transactionAmount = $rs5->amount;  
+                        $addTrasacction = 1; 
+                     } else {                    // trabsaccion no es basada en salario
+                        // get permanent transactions for this person and transaction code
+                        // echo " ->no entro";
+                        // return $countryId . '='.$companyId.'='. $staffCode . '=' . $transactionTypeCode;
+                        // $staffCode= strval($staffCode);
+                        $rs4 = DB::select("SELECT * FROM hrpermanent_transaction 
+                        WHERE countryId = $countryId AND  
+                            companyId  = $companyId AND 
+                            staffCode  = '$staffCode' AND 
+                            transactionTypeCode = $transactionTypeCode");
 
-                        if ( $staffCode == $stCode and $transactionTypeCode == $ttCode ) {
-
-                            $amount   =   $transactionQty * $transactionAmount;
-                            if ($amount > 0) {
-                                $addTrasacction = 1;              	 	
-                            }
+                        // print_r($rs4);
+                        $addTrasacction = 0; 
                         
-                        }
+                        foreach ($rs4 as $rs5) {
+                            $stCode            = $rs5->staffCode;   
+                            $ttCode            = $rs5->transactionTypeCode; 
+                            $transactionQty    = $rs5->quantity;  
+                            $transactionAmount = $rs5->amount;  
 
+                            if ( $staffCode == $stCode and $transactionTypeCode == $ttCode ) {
+
+                                $amount   =   $transactionQty * $transactionAmount;
+                                if ($amount > 0) {
+                                    $addTrasacction = 1;              	 	
+                                }
+                            
+                            }
+
+                        }
                     }
                 }
                 

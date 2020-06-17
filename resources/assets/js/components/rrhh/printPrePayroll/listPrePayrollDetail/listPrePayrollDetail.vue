@@ -21,7 +21,7 @@
                         <h4><b>PRE-NOMINA:</b> {{this.objprePayrollDetail[0]}}</h4>
                     </div>
                     <div class="form-group col-md-1 col-md-offset-2">
-                        <button v-on:click="printDetailRow(objprePayrollDetail[5][0].countryId, objprePayrollDetail[5][0].companyId, objprePayrollDetail[5][0].year, objprePayrollDetail[5][0].payrollNumber)" class="btn btn-sm btn-info"><i class="fa fa-print"></i> </button>  
+                        <button v-on:click="printDetailRow(objprePayrollDetail[6][0].countryId, objprePayrollDetail[6][0].companyId, objprePayrollDetail[6][0].year, objprePayrollDetail[6][0].payrollNumber)" class="btn btn-sm btn-info"><i class="fa fa-print"></i> </button>  
                     </div>
                 </div> 
             </div>
@@ -43,7 +43,7 @@
                         <tr  v-for="(detail, index) in objprePayrollDetail" :key="index" >
                             
 
-                            <td v-if="index > 4">
+                            <td v-if="index > 5">
                                 <th>CODIGO</th>
                                     <p  class="text-left">
                                         {{detail[0].staffCode }} 
@@ -52,7 +52,7 @@
                             
                                 
                             </td>
-                            <td v-if="index > 4" class="form-inline">
+                            <td v-if="index > 5" class="form-inline">
                                 <table>
                                     <tr>
                                         <td width="180" class="alingTo">
@@ -246,26 +246,28 @@
                 // return
                 axios.get(URL).then((res)=>{
                     const objPrePayrollDetail = res.data.print
-                    console.log(objPrePayrollDetail)
+                    // console.log(objPrePayrollDetail)
                     // return
                     let period = objPrePayrollDetail[0]
                     let country = objPrePayrollDetail[1]
                     let company = objPrePayrollDetail[2]
                     let logo = objPrePayrollDetail[3]
                     let payrollTypeName = objPrePayrollDetail[4]
+                    let totalGeneral = objPrePayrollDetail[5]
                     let dataTime = this.formatDate()
                     // console.log(window.location)
+                    // console.log('totalGeneral')
+                    // console.log(totalGeneral)
                     // return
                     let imgLogoURL = window.location.origin + '/' + logo
                     
                     console.log(imgLogoURL)
-
+                    // return
                     function toDataUrl(src, callback) {
                         let xhttp = new XMLHttpRequest()
                         xhttp.onload = function(){
                             let fileReader = new FileReader()
                             fileReader.onloadend = function() {
-                                // console.log(fileReader)
                                 callback(fileReader.result)
                             }
                             fileReader.readAsDataURL(xhttp.response)
@@ -337,8 +339,8 @@
                             //  console.log( element[i]) 
                             //  console.log('i: ' + i) 
 
-                            // condiciono que comienze a leer los datos a partir de la posicion 5 del array
-                            if (i > 4) {
+                            // condiciono que comienze a leer los datos a partir de la posicion 6 del array
+                            if (i > 5) {
                                 
                                 let name = true
                                 element[i].forEach(element2 => {
@@ -430,7 +432,7 @@
                                     doc.text(`${deduccion}`, 502, n, 'right' );
                                 }
                                 
-                                
+
                                 let total = formatNumber(asignacion - deduccion) // calculo para el total
                                 // console.log('total: ' + total);
                                 doc.text(`${total}`, 574, n, 'right' );
@@ -442,7 +444,13 @@
                             
                         
                         }
-                        doc.save(company + ' ' + period);
+                        doc.setFontType("bold");
+                        doc.setFontSize(12);
+                        doc.line(30, n, 580, n);
+                        n = n + 20
+                        doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
+                        
+                        doc.save(company + '-' + period + '.pdf');
                     // console.log(res.data.print)
                     // return
                     // this.$emit("prePayrollDetail", objPrePayrollDetail)

@@ -31,13 +31,14 @@ class printPrePayrollController extends Controller
                             FROM `hrpayroll`
                             INNER JOIN country ON hrpayroll.countryId = country.countryId
                             INNER JOIN company ON hrpayroll.companyId = company.companyId
-                        -- INNER JOIN `hrtransaction_type` ON `hrpayroll`.`transactionTypeCode` = `hrtransaction_type`.`transactionTypeCode`
-                            WHERE hrpayroll.countryId = 2 
-                                AND hrpayroll.companyId = 5
+                            -- INNER JOIN `hrtransaction_type` ON `hrpayroll`.`transactionTypeCode` = `hrtransaction_type`.`transactionTypeCode`
+                           -- WHERE hrpayroll.countryId = 2 
+                               -- AND hrpayroll.companyId = 5
                             --   AND hrtransaction_type.countryId = 2
                             --   AND hrtransaction_type.companyId = 5
                             --    AND hrpayroll.year = 2020
-                                GROUP BY hrpayroll.payrollNumber");
+                                GROUP BY hrpayroll.payrollName
+                                ORDER BY hrpayroll.companyId");
 
         // $countrys   = $this->oCountry->getAll();
         return compact('print');
@@ -55,7 +56,14 @@ class printPrePayrollController extends Controller
                                         AND hrpayroll_control.year = $year
                                     AND hrpayroll_control.payrollNumber = $payrollNumber
                                     
-                                ) AS payrollTypeName
+                                ) AS payrollTypeName,
+                                (
+                                    SELECT SUM(amount)  FROM hrpayroll
+                                            WHERE hrpayroll.countryId = $countryId
+                                        AND hrpayroll.companyId = $companyId
+                                        AND hrpayroll.year = $year
+                                        AND hrpayroll.payrollNumber = $payrollNumber
+                                ) AS totalgeneral
                             FROM hrpayroll 
                             INNER JOIN country ON hrpayroll.countryId = country.countryId
                             INNER JOIN company ON hrpayroll.companyId = company.companyId
@@ -65,6 +73,7 @@ class printPrePayrollController extends Controller
                                 AND hrpayroll.payrollNumber = $payrollNumber
                             GROUP BY hrpayroll.staffCode");
                          
+                        //  dd( $res0);
                           // return $res0;
         $print = array();
         $print[0] = $res0[0]->payrollName;
@@ -72,9 +81,10 @@ class printPrePayrollController extends Controller
         $print[2] = $res0[0]->companyName;
         $print[3] = $res0[0]->logo;
         $print[4] = $res0[0]->payrollTypeName;
+        $print[5] = $res0[0]->totalgeneral;
         foreach($res0 as $res1){
             
-           
+            
             $print[] = DB::select("SELECT hrpayroll.countryId, country.countryName, 
                                         hrpayroll.companyId, company.companyName, 
                                     hrpayroll.year, hrpayroll.payrollNumber, hrpayroll.payrollName, hrpayroll.staffCode,
