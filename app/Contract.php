@@ -43,7 +43,15 @@ class Contract extends Model
     const STARTED   = '2';
     const FINISHED  = '3';
     const CANCELLED = '4';
+    const READY_BUT_PENDING_PAYABLE = '5';
+    const PROCESSING_PERMIT = '6';
 
+// -VACANTE (VERDE)
+// -INICIADO (AZUL)
+// -FINALIZADO (BAUL)
+// -CANCELADO (BAUL)
+// -LISTO PERO PENDIENTE POR PAGAR(AMARILLO)
+// -EN PROCESAMIENTO DE PERMISO (ANARANJADO)
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -91,6 +99,14 @@ class Contract extends Model
     {
         return $this->hasOne('App\User', 'userId', 'lastUserId');
     }    
+   public function contractStatusR()
+    {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
+         $relation = $this->hasMany('App\ContractStatus', 'contStatusCode','contractStatus');
+         //hace el filtrado por el idioma
+         //el locale cambia por el middleware que esta en localitazion,
+         //esto maneja los datos por el idioma que escpga el usuario
+         return $relation->where('language', App::getLocale());
+    }   
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -146,44 +162,6 @@ class Contract extends Model
     //      $newDate    = $oDateHelper->$functionRs($deliveryDate);
     //     return $newDate;
     // }
-
-    // public function getContractStatusAttribute($contractStatus)
-    // {
-
-    //     if (App::getLocale() == 'es') {
-    //         switch ($contractStatus) {
-    //             case 1:
-    //                 return "VACANTE";
-    //                 break;
-    //             case 2:
-    //                 return "INICIADO";
-    //                 break;
-    //             case 3:
-    //                 return "FINALIZADO";
-    //                 break;
-    //             case 4:
-    //                 return "SUSPENDIDO";
-    //                 break;
-    //         }
-    //     } else {
-    //         switch ($contractStatus) {
-    //             case 1:
-    //                 return "VACANT";
-    //                 break;
-    //             case 2:
-    //                 return "STARTED";
-    //                 break;
-    //             case 3:
-    //                 return "FINISHED";
-    //                 break;
-    //             case 4:
-    //                 return "CANCELLED";
-    //                 break;
-    //         }
-    //     }
-
-    // }
-  
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -326,7 +304,23 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$officeId)
+    public function getAllForFourStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$filteredOut,$countryId,$officeId)
+    {
+        $result = $this->where('countryId', $countryId)
+                       ->where('officeId', $officeId) 
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4){
+                          $q->where('contractStatus', $contractStatus1)
+                          ->orWhere('contractStatus', $contractStatus2)
+                          ->orWhere('contractStatus', $contractStatus3)
+                          ->orWhere('contractStatus', $contractStatus4);
+                        })           
+                      ->orderBy('contractNumber', 'DESC')
+                      ->filter($filteredOut)
+                      ->paginate(300);
+        return $result;
+    }
+//------------------------------------------ 
+      public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$officeId)
     {
         $result = $this->where('countryId', $countryId)
                        ->where('officeId', $officeId) 
@@ -338,7 +332,7 @@ class Contract extends Model
                       ->filter($filteredOut)
                       ->paginate(300);
         return $result;
-    }
+    }  
 //------------------------------------------
     public function findById($id,$countryId,$officeId)
     {

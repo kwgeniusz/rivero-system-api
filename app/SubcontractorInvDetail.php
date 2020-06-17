@@ -106,7 +106,6 @@ class SubcontractorInvDetail extends Model
            $subcontInvDetail->officeId               = session('officeId');
            $subcontInvDetail->subcontId              = $request['subcontId'];
            $subcontInvDetail->invDetailId            = $request['invDetailId'];
-           $subcontInvDetail->transactionTypeId      = null;
            $subcontInvDetail->transactionPercentage  = $request['transactionPercentage'];
            $subcontInvDetail->transactionAmount      = $request['transactionAmount'];
            $subcontInvDetail->save();

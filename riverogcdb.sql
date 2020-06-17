@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 12-06-2020 a las 17:11:24
+-- Tiempo de generación: 16-06-2020 a las 04:04:34
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 7.1.16
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `riverogcprod`
+-- Base de datos: `riverogcdb`
 --
 
 -- --------------------------------------------------------
@@ -542,6 +542,22 @@ INSERT INTO `client` (`clientId`, `cltId`, `countryId`, `userId`, `clientCode`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE IF NOT EXISTS `comment` (
+  `commentId` int(11) NOT NULL AUTO_INCREMENT,
+  `commentContent` text NOT NULL,
+  `commentDate` datetime NOT NULL,
+  `contractId` int(12) NOT NULL,
+  `userId` int(12) NOT NULL,
+  PRIMARY KEY (`commentId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `company`
 --
 
@@ -568,7 +584,7 @@ INSERT INTO `company` (`companyId`, `companyName`, `companyShortName`, `companyN
 (2, 'JD RIVERO DALLAS LLC', 'JD RIVERO DALLAS LLC', '', 1, 1, '9304 Forest Ln, Suite N274 Dallas TX, 75243, USA', 'America/Chicago', ''),
 (3, 'JD RIVERO HOUSTON LLC', 'JD RIVERO HOUSTON LLC', '', 1, 4, '3033 Chimney Rock Rd, Suite 580-F, Houston, TX 77056, USA', 'America/Chicago', ''),
 (4, 'RIVERO VISUAL GROUP C.A.', 'RIVERO VISUAL GROUP C.A.', '', 2, 5, '', 'America/Caracas', ''),
-(5, 'JD RIVERO C.A.', 'JD RIVERO C.A.', '', 2, 5, '', 'America/Caracas', '');
+(5, 'JD RIVERO C.A.', 'JD RIVERO C.A.', '', 2, 5, '', 'America/Caracas', 'software/rivero-system/public/img/logos/Logo-JD-C.png');
 
 -- --------------------------------------------------------
 
@@ -951,9 +967,9 @@ INSERT INTO `contract` (`contractId`, `conId`, `contractType`, `projectName`, `c
 (322, 86, 'P', NULL, 'USDAL2000000086', 1, 1, '2020-06-03', 91, '4203', 'GILBERT', 'AVE', NULL, 'DALLAS', 'TX', 75219, 10, 26, 2, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'Hacer únicamente el floor plan de 3 apartamentos y colocar en láminas separadas cada floor plan', NULL, NULL, 'eyJpdiI6InJJWXFlWnJKYW1hVFExSmtEWlJDZlE9PSIsInZhbHVlIjoiYXZVV1NBbVVFUW5YT1lRZ1BVRGlCZz09IiwibWFjIjoiYTg2Y2Y2Yjk3NGQ5OWRmZTIyYTE5MDI2NmI3MjhiZTMyNWRlM2ZmNTk0ODEzNWM4Nzk3YzMwMjYwODY1N2UxZCJ9', 1, 2, '2020-06-03 01:53:10', NULL, 2),
 (323, 87, 'P', NULL, 'USDAL2000000087', 1, 1, '2020-06-03', 133, '400', 'OAK VALLEY', 'DR', NULL, 'COLLEYVILLE', 'TX', 76034, 10, 25, 2, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'Se va a crear un 3D a la casa existente para modelar como se puede hacer un techo para la adicion que se planteo en el proyecto pasado de la manera que no se modifique la parte del frente y del lado izquierdo, lo que se busca es generrar un techo que no modifque casi el techo existente.', NULL, NULL, 'eyJpdiI6InZreDRrOUYrVzR2cDYwNGdpNWhUWmc9PSIsInZhbHVlIjoia2tWR0VXdENTYTNwZEtwdjZhK0hVUT09IiwibWFjIjoiNjZmOTM0NDI4Yzk2YzEwOTY4YWRjMzI5ODQ1MmNlYjYyNjJmMmFiMDI5OWM2NDY5NDU3OTBjNGUyNjQ4ZDY3YyJ9', 1, 2, '2020-06-03 19:00:48', NULL, 6),
 (324, 88, 'S', NULL, 'USDAL2000000088', 1, 1, '2020-06-05', 73, '617', 'CENTERVILLE', 'RD', NULL, 'GARLAND', 'TX', 75041, 11, 28, 3, 'TYPE II', NULL, NULL, NULL, NULL, NULL, 'SE REALIZARA UN TOPO SURVEY POR PARTE DE LA COMPANIA RHODES, DE HECHO SOLO HAREMOS LA DILIGENCIA DE PEDIRLO Y ENTREGARLO.', NULL, NULL, 'eyJpdiI6IkU3dE9LSTByRnpXY1l3WGNJY3AyTFE9PSIsInZhbHVlIjoiXC8xZWRaUWp3NTV3R285VDR2K1hzOXc9PSIsIm1hYyI6ImM4ZTg2ODAzM2Y4MTQzMWY2Yzc1MDU5YjM5YTdmNjNmNDI3M2U1YzEyNjU0ZmMxZjhhNTJhYTY5MWJiMDQxMTcifQ==', 1, 2, '2020-06-05 20:49:16', NULL, 6),
-(325, 89, 'P', NULL, 'USDAL2000000089', 1, 1, '2020-06-10', 123, '1121', 'EXCALIBUR', 'BLVD', NULL, 'LEWISVILLE', 'TX', 75056, 10, 25, 2, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'Se haran modificaciones a la arquitectura, site plan y con ellas las revisiones a la estructura que requiera de acuerdo a los cambos. Se cambiaran ventanas, puertas se moveran de posicion y en el site plan se debe mover la piscina de posicion y con ello se cambiara la parte civil del proyecto para adecuar a la nueva distribucion externa.', NULL, NULL, 'eyJpdiI6IjVmdDQ3WllsR1ZGeTFCZEJXalhSUFE9PSIsInZhbHVlIjoiMFRLQ2JjXC96T2pFMyswZXpNS3l2VGc9PSIsIm1hYyI6ImM5ZDFiOGUzMTkzZmZjZGViOWI1YmY1YjQwOGExMGQyM2QxN2I0YTVlZGI3YTgyNjZlYWM4YTY0YjQ0NjU5YjMifQ==', 1, 2, '2020-06-10 12:40:46', NULL, 6),
-(326, 90, 'P', NULL, 'USDAL2000000090', 1, 1, '2020-06-10', 47, '7550', 'S HAMPTON', 'Rd', NULL, 'DALLAS', 'TX', 75232, 1, 3, 1, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'Se va a realizar una remodelación interior para adecuar espacio actualmente vacio y sin división en salones y oficinas. Para esto haremos pequeños espacios tomando como referencia planos viejos provistos por el cliente además de los levantamientos que se van a tomar en el sitio. Haremos floor plan existente y propuesto, electricidad y AC para separar los duetos de cada espacio, el cliente ha solicitado el uso de retornos comunes para las ventilas de retorno a la unidad de AC. EL cliente también ha solicitado colocar los studs de metal a cada 24”, lo cual puede ser posible ya que las paredes no estan soportando sino solamente el grid del ceiling (se debe verificar con el código).\r\n\r\nLos planos eléctricos no son esquemáticos hay que hacer el calculo eléctrico para esto.\r\n\r\nHay que hacer un plano de distribución existente indicando la ubicación de los fire sprinkler.', NULL, NULL, 'eyJpdiI6IldWSkJmWGlLOWlnV1NxbVNjRk1IXC9BPT0iLCJ2YWx1ZSI6IlNzZlZcLytaS0tSbEI4eWJyaU9KT21nPT0iLCJtYWMiOiI2MDQwNmQzZjU1NWFjNjgzZGNmY2U4MjFlOTdhODA0NGUzZjRhODFiNTUwMmQyZTRiNzUyNDBkN2UwZjRjOTMwIn0=', 1, 1, '2020-06-10 15:31:25', NULL, 2),
-(327, 91, 'P', NULL, 'USDAL2000000091', 1, 1, '2020-06-10', 217, '3506', 'EL BENITO', 'DR', NULL, 'DALLAS', 'TX', 75212, 10, 25, 2, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'SE DEBE HACER FUNDACION POST TENSADA PARA LA EDIFICACION QUE SE PLANTEO EN EL CONTRATO USDAL2000000071 DEL DOCUMENTO R6 ENTREGADO EL 14 DE MAYO. SE ADJUNTO EL ESTUDIO DE SUELO DEL TERRENO PARA HACER EL CALCULO DE LA FUNDACION.ACA LES DEJO EL COMENTARIO INICIAL DEL INGENIERO \r\n\"Añadir las recomendaciones del ES para la preparacion del suelo debajo de la fundacion.\r\nCambiar a una Fundacion Post-tensada siguiendo lo que hacemos con Wendell. Me imagino que la Empresa que le hizo el ES le recomendo esto porque es mas economica porque se ahorra mucho acero y puede reducir la altura de los Grade Beams a 1\'-10\" como le hicimos a Wendell.\"\r\nESTE PROYECTO ESPERAMOS ENTREGARLO EN UNA SEMANA FECHA DE ENTREGA 6/17/20', NULL, NULL, 'eyJpdiI6IlVQa0FFUDZKbjZqMUtlYkt2c25Jd1E9PSIsInZhbHVlIjoiMzVlU1BqS3pmZlhqRmh5M3RCbURUUT09IiwibWFjIjoiNWQyZDllOGIyOGE3YzA2NGRkMTlkMGYzZGYzZGRkMjY2OTdjNjE5ZWQzN2M0NmZmN2JkMWI5ZTE0YmJlNGZkMiJ9', 1, 1, '2020-06-10 21:15:53', NULL, 6);
+(325, 89, 'P', NULL, 'USDAL2000000089', 1, 1, '2020-06-10', 123, '1121', 'EXCALIBUR', 'BLVD', NULL, 'LEWISVILLE', 'TX', 75056, 10, 25, 2, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'Se haran modificaciones a la arquitectura, site plan y con ellas las revisiones a la estructura que requiera de acuerdo a los cambos. Se cambiaran ventanas, puertas se moveran de posicion y en el site plan se debe mover la piscina de posicion y con ello se cambiara la parte civil del proyecto para adecuar a la nueva distribucion externa.', NULL, NULL, 'eyJpdiI6IjVmdDQ3WllsR1ZGeTFCZEJXalhSUFE9PSIsInZhbHVlIjoiMFRLQ2JjXC96T2pFMyswZXpNS3l2VGc9PSIsIm1hYyI6ImM5ZDFiOGUzMTkzZmZjZGViOWI1YmY1YjQwOGExMGQyM2QxN2I0YTVlZGI3YTgyNjZlYWM4YTY0YjQ0NjU5YjMifQ==', 1, 5, '2020-06-10 12:40:46', NULL, 6),
+(326, 90, 'P', NULL, 'USDAL2000000090', 1, 1, '2020-06-10', 47, '7550', 'S HAMPTON', 'Rd', NULL, 'DALLAS', 'TX', 75232, 1, 3, 1, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'Se va a realizar una remodelación interior para adecuar espacio actualmente vacio y sin división en salones y oficinas. Para esto haremos pequeños espacios tomando como referencia planos viejos provistos por el cliente además de los levantamientos que se van a tomar en el sitio. Haremos floor plan existente y propuesto, electricidad y AC para separar los duetos de cada espacio, el cliente ha solicitado el uso de retornos comunes para las ventilas de retorno a la unidad de AC. EL cliente también ha solicitado colocar los studs de metal a cada 24”, lo cual puede ser posible ya que las paredes no estan soportando sino solamente el grid del ceiling (se debe verificar con el código).\r\n\r\nLos planos eléctricos no son esquemáticos hay que hacer el calculo eléctrico para esto.\r\n\r\nHay que hacer un plano de distribución existente indicando la ubicación de los fire sprinkler.', NULL, NULL, 'eyJpdiI6IldWSkJmWGlLOWlnV1NxbVNjRk1IXC9BPT0iLCJ2YWx1ZSI6IlNzZlZcLytaS0tSbEI4eWJyaU9KT21nPT0iLCJtYWMiOiI2MDQwNmQzZjU1NWFjNjgzZGNmY2U4MjFlOTdhODA0NGUzZjRhODFiNTUwMmQyZTRiNzUyNDBkN2UwZjRjOTMwIn0=', 1, 5, '2020-06-10 15:31:25', NULL, 2),
+(327, 91, 'P', NULL, 'USDAL2000000091', 1, 1, '2020-06-10', 217, '3506', 'EL BENITO', 'DR', NULL, 'DALLAS', 'TX', 75212, 10, 25, 2, 'TYPE III', NULL, NULL, NULL, NULL, NULL, 'SE DEBE HACER FUNDACION POST TENSADA PARA LA EDIFICACION QUE SE PLANTEO EN EL CONTRATO USDAL2000000071 DEL DOCUMENTO R6 ENTREGADO EL 14 DE MAYO. SE ADJUNTO EL ESTUDIO DE SUELO DEL TERRENO PARA HACER EL CALCULO DE LA FUNDACION.ACA LES DEJO EL COMENTARIO INICIAL DEL INGENIERO \r\n\"Añadir las recomendaciones del ES para la preparacion del suelo debajo de la fundacion.\r\nCambiar a una Fundacion Post-tensada siguiendo lo que hacemos con Wendell. Me imagino que la Empresa que le hizo el ES le recomendo esto porque es mas economica porque se ahorra mucho acero y puede reducir la altura de los Grade Beams a 1\'-10\" como le hicimos a Wendell.\"\r\nESTE PROYECTO ESPERAMOS ENTREGARLO EN UNA SEMANA FECHA DE ENTREGA 6/17/20', NULL, NULL, 'eyJpdiI6IlVQa0FFUDZKbjZqMUtlYkt2c25Jd1E9PSIsInZhbHVlIjoiMzVlU1BqS3pmZlhqRmh5M3RCbURUUT09IiwibWFjIjoiNWQyZDllOGIyOGE3YzA2NGRkMTlkMGYzZGYzZGRkMjY2OTdjNjE5ZWQzN2M0NmZmN2JkMWI5ZTE0YmJlNGZkMiJ9', 1, 6, '2020-06-10 21:15:53', NULL, 6);
 
 -- --------------------------------------------------------
 
@@ -1012,6 +1028,39 @@ INSERT INTO `contract_staff` (`contractStaffId`, `contractId`, `staffId`, `dateC
 (35, 310, 7, '2020-06-09 16:18:21', 22),
 (36, 268, 6, '2020-06-09 16:20:10', 22),
 (37, 325, 6, '2020-06-10 19:53:05', 22);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contract_status`
+--
+
+DROP TABLE IF EXISTS `contract_status`;
+CREATE TABLE IF NOT EXISTS `contract_status` (
+  `contStatusId` int(3) NOT NULL AUTO_INCREMENT,
+  `contStatusCode` int(6) NOT NULL,
+  `language` varchar(3) NOT NULL,
+  `contStatusName` varchar(128) NOT NULL,
+  PRIMARY KEY (`contStatusId`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `contract_status`
+--
+
+INSERT INTO `contract_status` (`contStatusId`, `contStatusCode`, `language`, `contStatusName`) VALUES
+(1, 1, 'en', 'VACANT'),
+(2, 2, 'en', 'STARTED'),
+(3, 3, 'en', 'FINISHED'),
+(4, 4, 'en', 'CANCELLED'),
+(5, 5, 'en', 'READY BUT PENDING PAYABLE'),
+(6, 6, 'en', 'PROCESSING_PERMIT'),
+(7, 1, 'es', 'VACANTE'),
+(8, 2, 'es', 'INICIADO'),
+(9, 3, 'es', 'FINALIZADO'),
+(10, 4, 'es', 'CANCELADO'),
+(11, 5, 'es', 'LISTO PERO PENDIENTE DE PAGO'),
+(12, 6, 'es', 'PROCESAMIENTO DE PERMISO');
 
 -- --------------------------------------------------------
 
@@ -1098,7 +1147,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   `departmentName` varchar(128) NOT NULL,
   `parentDepartmentId` int(6) DEFAULT NULL,
   PRIMARY KEY (`departmentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `department`
@@ -1141,7 +1190,7 @@ CREATE TABLE IF NOT EXISTS `document` (
   `userId` int(11) DEFAULT NULL,
   PRIMARY KEY (`docId`),
   KEY `contractId` (`contractId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1985 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2003 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `document`
@@ -2997,23 +3046,25 @@ INSERT INTO `document` (`docId`, `docName`, `mimeType`, `dateUploaded`, `docUrl`
 (1981, 'B3B44FF1-37BD-43F3-8D91-9C500646DF4C.jpeg', 'jpeg', '2020-06-11 18:52:55', 'docs/contracts/previous/DUSDAL2000000090/ZwKq1yPkYdi6I0KDamBZCFOcpWHifFdgeONyBgBr.jpeg', 'ZwKq1yPkYdi6I0KDamBZCFOcpWHifFdgeONyBgBr.jpeg', 'previous', 326, NULL, NULL, 6),
 (1982, '033CFF12-2919-447D-95FD-E84B435A7187.jpeg', 'jpeg', '2020-06-11 18:52:56', 'docs/contracts/previous/DUSDAL2000000090/ntsmnaXtxlDLQLPdbnpaHYSryFmttj39sAwZPNWM.jpeg', 'ntsmnaXtxlDLQLPdbnpaHYSryFmttj39sAwZPNWM.jpeg', 'previous', 326, NULL, NULL, 6),
 (1983, '7FED7AE1-0C48-4281-947A-87E740BDC4CF.jpeg', 'jpeg', '2020-06-11 18:52:56', 'docs/contracts/previous/DUSDAL2000000090/ywHIA17Ig9yAGIS4dQ2gaq8uxCqSNp8vKXeN9Oxu.jpeg', 'ywHIA17Ig9yAGIS4dQ2gaq8uxCqSNp8vKXeN9Oxu.jpeg', 'previous', 326, NULL, NULL, 6),
-(1984, '9B03E60B-E482-40AE-B31B-31F196CFB53E.jpeg', 'jpeg', '2020-06-11 18:52:59', 'docs/contracts/previous/DUSDAL2000000090/SDgYyKQAAJcoezhNHPrvD75nZzWMOrESpA7AtKp1.jpeg', 'SDgYyKQAAJcoezhNHPrvD75nZzWMOrESpA7AtKp1.jpeg', 'previous', 326, NULL, NULL, 6);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `document_comment`
---
-
-DROP TABLE IF EXISTS `document_comment`;
-CREATE TABLE IF NOT EXISTS `document_comment` (
-  `docCommentId` int(11) NOT NULL,
-  `docCommentContent` int(11) NOT NULL,
-  `docCommentDate` datetime NOT NULL,
-  `docId` int(11) NOT NULL,
-  PRIMARY KEY (`docCommentId`),
-  KEY `docId` (`docId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+(1984, '9B03E60B-E482-40AE-B31B-31F196CFB53E.jpeg', 'jpeg', '2020-06-11 18:52:59', 'docs/contracts/previous/DUSDAL2000000090/SDgYyKQAAJcoezhNHPrvD75nZzWMOrESpA7AtKp1.jpeg', 'SDgYyKQAAJcoezhNHPrvD75nZzWMOrESpA7AtKp1.jpeg', 'previous', 326, NULL, NULL, 6),
+(1985, 'ELECTRICAL COMMENTS 06-01-2020.docx', 'docx', '2020-06-13 14:11:32', 'docs/contracts/processed/DUSHOU2000000002/psy8EXZgVpZgSPBzca9D5X6gLucg0TbnoTYu603w.docx', 'psy8EXZgVpZgSPBzca9D5X6gLucg0TbnoTYu603w.docx', 'processed', 279, NULL, NULL, 26),
+(1986, 'HVAC COMMENTS 06.01.2020 RESPUESTA.docx', 'docx', '2020-06-13 14:11:35', 'docs/contracts/processed/DUSHOU2000000002/JoO7b6G15TOJaZnz3Zt7i23ftQLG4cQqmfyewzQ9.docx', 'JoO7b6G15TOJaZnz3Zt7i23ftQLG4cQqmfyewzQ9.docx', 'processed', 279, NULL, NULL, 26),
+(1987, 'CRD-1WJ_submittal.pdf', 'pdf', '2020-06-13 14:11:43', 'docs/contracts/processed/DUSHOU2000000002/YZABYjvfZFNo5D9NGi3s5V6IfMz9u8C9I69PGrfi.pdf', 'YZABYjvfZFNo5D9NGi3s5V6IfMz9u8C9I69PGrfi.pdf', 'processed', 279, NULL, NULL, 26),
+(1988, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _A4.pdf', 'pdf', '2020-06-13 14:12:36', 'docs/contracts/processed/DUSHOU2000000002/ie9CYY49FfpDImsA6b1mzFRVjbfe1gKjZixCxDTi.pdf', 'ie9CYY49FfpDImsA6b1mzFRVjbfe1gKjZixCxDTi.pdf', 'processed', 279, NULL, NULL, 26),
+(1989, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _-A.pdf', 'pdf', '2020-06-13 14:12:58', 'docs/contracts/processed/DUSHOU2000000002/p76tvHWDiV5eOQ3KBEQPuzjRVveS3m1yQNXz8EMu.pdf', 'p76tvHWDiV5eOQ3KBEQPuzjRVveS3m1yQNXz8EMu.pdf', 'processed', 279, NULL, NULL, 26),
+(1990, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _A6.pdf', 'pdf', '2020-06-13 14:15:38', 'docs/contracts/processed/DUSHOU2000000002/sCReOIOqi8PutYCctlfRLvavyrbwg61QZFpzC410.pdf', 'sCReOIOqi8PutYCctlfRLvavyrbwg61QZFpzC410.pdf', 'processed', 279, NULL, NULL, 26),
+(1991, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _A5.pdf', 'pdf', '2020-06-13 14:15:52', 'docs/contracts/processed/DUSHOU2000000002/0UM6gW9OuRdpfzoNfzbiNtGWcmEvmYpj2WnbhNNN.pdf', '0UM6gW9OuRdpfzoNfzbiNtGWcmEvmYpj2WnbhNNN.pdf', 'processed', 279, NULL, NULL, 26),
+(1992, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _A7.pdf', 'pdf', '2020-06-13 14:17:19', 'docs/contracts/processed/DUSHOU2000000002/xH2Y9sDG0Jcr2NKA2IrQCF0YkLaxtk3ajG70qV7Q.pdf', 'xH2Y9sDG0Jcr2NKA2IrQCF0YkLaxtk3ajG70qV7Q.pdf', 'processed', 279, NULL, NULL, 26),
+(1993, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _A8.pdf', 'pdf', '2020-06-13 14:17:45', 'docs/contracts/processed/DUSHOU2000000002/yiZB6m8vJQWb7EENr3AgOsy9Mq1fp2o4fa8zVN7W.pdf', 'yiZB6m8vJQWb7EENr3AgOsy9Mq1fp2o4fa8zVN7W.pdf', 'processed', 279, NULL, NULL, 26),
+(1994, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _M.pdf', 'pdf', '2020-06-13 14:19:03', 'docs/contracts/processed/DUSHOU2000000002/PPKTZtMLUCkHTdRKVskD4ifzxVrg6gtAzcCqCPFK.pdf', 'PPKTZtMLUCkHTdRKVskD4ifzxVrg6gtAzcCqCPFK.pdf', 'processed', 279, NULL, NULL, 26),
+(1995, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _M1.pdf', 'pdf', '2020-06-13 14:19:42', 'docs/contracts/processed/DUSHOU2000000002/4F7FRPKNIgGUAvQ30sYNRETZgZYPQtq5OkZSZpHH.pdf', '4F7FRPKNIgGUAvQ30sYNRETZgZYPQtq5OkZSZpHH.pdf', 'processed', 279, NULL, NULL, 26),
+(1996, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _M2E.pdf', 'pdf', '2020-06-13 14:20:43', 'docs/contracts/processed/DUSHOU2000000002/CmIzxDiSrN4njs8eJRadlSUcKVnxmv7tdH6OSLcz.pdf', 'CmIzxDiSrN4njs8eJRadlSUcKVnxmv7tdH6OSLcz.pdf', 'processed', 279, NULL, NULL, 26),
+(1997, 'R15-2617 CROCKER ST, HOUSTON, TX 77006 _M3.pdf', 'pdf', '2020-06-13 14:20:51', 'docs/contracts/processed/DUSHOU2000000002/5yzvLbROjDgMOHKe269smFZXSbj6I1ixv59nhwZF.pdf', '5yzvLbROjDgMOHKe269smFZXSbj6I1ixv59nhwZF.pdf', 'processed', 279, NULL, NULL, 26),
+(1998, 'dryer_install-dryer WED5620HW .pdf', 'pdf', '2020-06-13 14:21:15', 'docs/contracts/processed/DUSHOU2000000002/lBtrKkifpRJ7nS3fbUnZxV1kCXRpyFqhkfBmnfT0.pdf', 'lBtrKkifpRJ7nS3fbUnZxV1kCXRpyFqhkfBmnfT0.pdf', 'processed', 279, NULL, NULL, 26),
+(1999, 'R6-10261 ROCKCREST RD HOUSTON TX 77041.pdf', 'pdf', '2020-06-13 18:55:29', 'docs/contracts/processed/DUSHOU2000000005/vn7rUVccU7YZlt7FEbfAOn0xUMSQXjfkteP5oPZ3.pdf', 'vn7rUVccU7YZlt7FEbfAOn0xUMSQXjfkteP5oPZ3.pdf', 'processed', 309, NULL, NULL, 26),
+(2000, 'R5-10261 ROCKCREST RD HOUSTON TX 77041.pdf', 'pdf', '2020-06-13 18:55:33', 'docs/contracts/processed/DUSHOU2000000005/vCtHYPegNKxYfhetHLtn3OyWN56oCqgyBFISNZWo.pdf', 'vCtHYPegNKxYfhetHLtn3OyWN56oCqgyBFISNZWo.pdf', 'processed', 309, NULL, NULL, 26),
+(2001, 'R4-10261 ROCKCREST RD HOUSTON TX 77041-REV 1.pdf', 'pdf', '2020-06-13 18:58:27', 'docs/contracts/processed/DUSHOU2000000005/dJRSJTzRZselXaza8Qge7hBklfqXpqZucNPtLkZO.pdf', 'dJRSJTzRZselXaza8Qge7hBklfqXpqZucNPtLkZO.pdf', 'processed', 309, NULL, NULL, 26),
+(2002, 'R5-10261 ROCKCREST RD HOUSTON TX 77041FULL_recover - copia.dwg', 'bin', '2020-06-13 19:20:50', 'docs/contracts/processed/DUSHOU2000000005/YFXZTQYXFm0vEP7y6CuE1suGaRWzKOeHMPt3CQgz.bin', 'YFXZTQYXFm0vEP7y6CuE1suGaRWzKOeHMPt3CQgz.bin', 'processed', 309, NULL, NULL, 26);
 
 -- --------------------------------------------------------
 
@@ -3228,7 +3279,7 @@ CREATE TABLE IF NOT EXISTS `hrperiod` (
   `periodTo` date NOT NULL,
   `updated` tinyint(1) NOT NULL,
   PRIMARY KEY (`periodId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `hrperiod`
@@ -3325,7 +3376,7 @@ CREATE TABLE IF NOT EXISTS `hrposition` (
   `localCurrencyId` tinyint(2) DEFAULT NULL,
   `localDailySalary` decimal(12,4) DEFAULT '0.0000',
   PRIMARY KEY (`hrpositionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `hrposition`
@@ -3376,7 +3427,7 @@ CREATE TABLE IF NOT EXISTS `hrprocess` (
   `processCode` int(4) NOT NULL,
   `processName` varchar(128) NOT NULL,
   PRIMARY KEY (`hrprocessId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `hrprocess`
@@ -3400,7 +3451,7 @@ CREATE TABLE IF NOT EXISTS `hrprocess_detail` (
   `quantity` decimal(10,2) NOT NULL,
   `amount` decimal(12,2) NOT NULL,
   PRIMARY KEY (`hrpdId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `hrprocess_detail`
@@ -3449,7 +3500,7 @@ CREATE TABLE IF NOT EXISTS `hrstaff` (
   `status` varchar(1) NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`hrstaffId`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `hrstaff`
@@ -3514,7 +3565,7 @@ CREATE TABLE IF NOT EXISTS `hrtransaction_type` (
   `accChristmas` tinyint(1) NOT NULL,
   `accSeniority` tinyint(1) NOT NULL,
   PRIMARY KEY (`hrtransactionTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `hrtransaction_type`
@@ -5383,6 +5434,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (28, 'App\\User', 28),
 (28, 'App\\User', 29),
 (28, 'App\\User', 30),
+(28, 'App\\User', 31),
+(28, 'App\\User', 32),
+(28, 'App\\User', 33),
+(28, 'App\\User', 34),
+(28, 'App\\User', 35),
+(28, 'App\\User', 36),
+(28, 'App\\User', 37),
+(28, 'App\\User', 38),
+(28, 'App\\User', 39),
+(28, 'App\\User', 40),
+(28, 'App\\User', 41),
 (29, 'App\\User', 1),
 (29, 'App\\User', 2),
 (29, 'App\\User', 6),
@@ -5402,6 +5464,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (29, 'App\\User', 28),
 (29, 'App\\User', 29),
 (29, 'App\\User', 30),
+(29, 'App\\User', 31),
+(29, 'App\\User', 32),
+(29, 'App\\User', 33),
+(29, 'App\\User', 34),
+(29, 'App\\User', 35),
+(29, 'App\\User', 36),
+(29, 'App\\User', 37),
+(29, 'App\\User', 38),
+(29, 'App\\User', 39),
+(29, 'App\\User', 40),
+(29, 'App\\User', 41),
 (30, 'App\\User', 1),
 (30, 'App\\User', 2),
 (30, 'App\\User', 6),
@@ -5421,6 +5494,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (30, 'App\\User', 28),
 (30, 'App\\User', 29),
 (30, 'App\\User', 30),
+(30, 'App\\User', 32),
 (31, 'App\\User', 1),
 (31, 'App\\User', 2),
 (31, 'App\\User', 6),
@@ -5434,6 +5508,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (31, 'App\\User', 28),
 (31, 'App\\User', 29),
 (31, 'App\\User', 30),
+(31, 'App\\User', 32),
 (32, 'App\\User', 1),
 (32, 'App\\User', 2),
 (32, 'App\\User', 6),
@@ -5444,12 +5519,14 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (32, 'App\\User', 24),
 (32, 'App\\User', 25),
 (32, 'App\\User', 27),
+(32, 'App\\User', 32),
 (33, 'App\\User', 1),
 (33, 'App\\User', 2),
 (33, 'App\\User', 6),
 (33, 'App\\User', 21),
 (33, 'App\\User', 24),
 (33, 'App\\User', 25),
+(33, 'App\\User', 32),
 (34, 'App\\User', 1),
 (34, 'App\\User', 2),
 (34, 'App\\User', 6),
@@ -5469,6 +5546,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (34, 'App\\User', 28),
 (34, 'App\\User', 29),
 (34, 'App\\User', 30),
+(34, 'App\\User', 32),
 (35, 'App\\User', 1),
 (35, 'App\\User', 2),
 (35, 'App\\User', 6),
@@ -5482,6 +5560,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (35, 'App\\User', 28),
 (35, 'App\\User', 29),
 (35, 'App\\User', 30),
+(35, 'App\\User', 32),
 (36, 'App\\User', 1),
 (36, 'App\\User', 2),
 (36, 'App\\User', 6),
@@ -5492,12 +5571,14 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (36, 'App\\User', 24),
 (36, 'App\\User', 25),
 (36, 'App\\User', 27),
+(36, 'App\\User', 32),
 (37, 'App\\User', 1),
 (37, 'App\\User', 2),
 (37, 'App\\User', 6),
 (37, 'App\\User', 21),
 (37, 'App\\User', 24),
 (37, 'App\\User', 25),
+(37, 'App\\User', 32),
 (38, 'App\\User', 1),
 (38, 'App\\User', 2),
 (38, 'App\\User', 6),
@@ -5505,12 +5586,14 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (38, 'App\\User', 19),
 (38, 'App\\User', 20),
 (38, 'App\\User', 21),
+(38, 'App\\User', 22),
 (38, 'App\\User', 24),
 (38, 'App\\User', 25),
 (38, 'App\\User', 27),
 (38, 'App\\User', 28),
 (38, 'App\\User', 29),
 (38, 'App\\User', 30),
+(38, 'App\\User', 32),
 (39, 'App\\User', 1),
 (39, 'App\\User', 2),
 (39, 'App\\User', 6),
@@ -5524,6 +5607,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (39, 'App\\User', 28),
 (39, 'App\\User', 29),
 (39, 'App\\User', 30),
+(39, 'App\\User', 32),
 (40, 'App\\User', 1),
 (40, 'App\\User', 2),
 (40, 'App\\User', 6),
@@ -5537,6 +5621,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (40, 'App\\User', 28),
 (40, 'App\\User', 29),
 (40, 'App\\User', 30),
+(40, 'App\\User', 32),
 (41, 'App\\User', 1),
 (41, 'App\\User', 2),
 (41, 'App\\User', 6),
@@ -5550,6 +5635,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (41, 'App\\User', 28),
 (41, 'App\\User', 29),
 (41, 'App\\User', 30),
+(41, 'App\\User', 32),
 (42, 'App\\User', 1),
 (42, 'App\\User', 2),
 (42, 'App\\User', 6),
@@ -5563,6 +5649,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (42, 'App\\User', 28),
 (42, 'App\\User', 29),
 (42, 'App\\User', 30),
+(42, 'App\\User', 32),
 (43, 'App\\User', 1),
 (43, 'App\\User', 2),
 (43, 'App\\User', 6),
@@ -5573,6 +5660,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (43, 'App\\User', 24),
 (43, 'App\\User', 25),
 (43, 'App\\User', 27),
+(43, 'App\\User', 32),
 (44, 'App\\User', 1),
 (44, 'App\\User', 2),
 (44, 'App\\User', 6),
@@ -5583,6 +5671,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (44, 'App\\User', 24),
 (44, 'App\\User', 25),
 (44, 'App\\User', 27),
+(44, 'App\\User', 32),
 (45, 'App\\User', 1),
 (45, 'App\\User', 2),
 (45, 'App\\User', 6),
@@ -5596,6 +5685,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (45, 'App\\User', 28),
 (45, 'App\\User', 29),
 (45, 'App\\User', 30),
+(45, 'App\\User', 32),
 (46, 'App\\User', 1),
 (46, 'App\\User', 2),
 (46, 'App\\User', 6),
@@ -5609,6 +5699,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (46, 'App\\User', 28),
 (46, 'App\\User', 29),
 (46, 'App\\User', 30),
+(46, 'App\\User', 32),
 (47, 'App\\User', 1),
 (47, 'App\\User', 2),
 (47, 'App\\User', 6),
@@ -5622,6 +5713,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (47, 'App\\User', 28),
 (47, 'App\\User', 29),
 (47, 'App\\User', 30),
+(47, 'App\\User', 32),
 (48, 'App\\User', 1),
 (48, 'App\\User', 2),
 (48, 'App\\User', 6),
@@ -5641,6 +5733,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (48, 'App\\User', 28),
 (48, 'App\\User', 29),
 (48, 'App\\User', 30),
+(48, 'App\\User', 31),
+(48, 'App\\User', 32),
+(48, 'App\\User', 33),
+(48, 'App\\User', 34),
+(48, 'App\\User', 35),
+(48, 'App\\User', 36),
+(48, 'App\\User', 37),
+(48, 'App\\User', 38),
+(48, 'App\\User', 39),
+(48, 'App\\User', 40),
+(48, 'App\\User', 41),
 (49, 'App\\User', 1),
 (49, 'App\\User', 2),
 (49, 'App\\User', 6),
@@ -5654,6 +5757,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (49, 'App\\User', 28),
 (49, 'App\\User', 29),
 (49, 'App\\User', 30),
+(49, 'App\\User', 32),
 (50, 'App\\User', 1),
 (50, 'App\\User', 2),
 (50, 'App\\User', 6),
@@ -5664,6 +5768,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (50, 'App\\User', 28),
 (50, 'App\\User', 29),
 (50, 'App\\User', 30),
+(50, 'App\\User', 32),
 (51, 'App\\User', 1),
 (51, 'App\\User', 2),
 (51, 'App\\User', 6),
@@ -5677,6 +5782,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (51, 'App\\User', 28),
 (51, 'App\\User', 29),
 (51, 'App\\User', 30),
+(51, 'App\\User', 32),
 (52, 'App\\User', 1),
 (52, 'App\\User', 2),
 (52, 'App\\User', 6),
@@ -5696,6 +5802,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (52, 'App\\User', 28),
 (52, 'App\\User', 29),
 (52, 'App\\User', 30),
+(52, 'App\\User', 31),
+(52, 'App\\User', 32),
+(52, 'App\\User', 33),
+(52, 'App\\User', 34),
+(52, 'App\\User', 35),
+(52, 'App\\User', 36),
+(52, 'App\\User', 37),
+(52, 'App\\User', 38),
+(52, 'App\\User', 39),
+(52, 'App\\User', 40),
+(52, 'App\\User', 41),
 (53, 'App\\User', 1),
 (53, 'App\\User', 2),
 (53, 'App\\User', 6),
@@ -5715,6 +5832,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (53, 'App\\User', 28),
 (53, 'App\\User', 29),
 (53, 'App\\User', 30),
+(53, 'App\\User', 32),
 (54, 'App\\User', 1),
 (54, 'App\\User', 2),
 (54, 'App\\User', 6),
@@ -5734,6 +5852,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (54, 'App\\User', 28),
 (54, 'App\\User', 29),
 (54, 'App\\User', 30),
+(54, 'App\\User', 32),
 (55, 'App\\User', 1),
 (55, 'App\\User', 2),
 (55, 'App\\User', 6),
@@ -5753,6 +5872,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (55, 'App\\User', 28),
 (55, 'App\\User', 29),
 (55, 'App\\User', 30),
+(55, 'App\\User', 31),
+(55, 'App\\User', 32),
+(55, 'App\\User', 33),
+(55, 'App\\User', 34),
+(55, 'App\\User', 35),
+(55, 'App\\User', 36),
+(55, 'App\\User', 37),
+(55, 'App\\User', 38),
+(55, 'App\\User', 39),
+(55, 'App\\User', 40),
+(55, 'App\\User', 41),
 (56, 'App\\User', 1),
 (56, 'App\\User', 2),
 (56, 'App\\User', 6),
@@ -5772,6 +5902,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (56, 'App\\User', 28),
 (56, 'App\\User', 29),
 (56, 'App\\User', 30),
+(56, 'App\\User', 31),
+(56, 'App\\User', 32),
+(56, 'App\\User', 33),
+(56, 'App\\User', 34),
+(56, 'App\\User', 35),
+(56, 'App\\User', 36),
+(56, 'App\\User', 37),
+(56, 'App\\User', 38),
+(56, 'App\\User', 39),
+(56, 'App\\User', 40),
+(56, 'App\\User', 41),
 (57, 'App\\User', 1),
 (57, 'App\\User', 2),
 (57, 'App\\User', 6),
@@ -5791,6 +5932,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (57, 'App\\User', 28),
 (57, 'App\\User', 29),
 (57, 'App\\User', 30),
+(57, 'App\\User', 32),
 (58, 'App\\User', 1),
 (58, 'App\\User', 2),
 (58, 'App\\User', 6),
@@ -5801,6 +5943,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (58, 'App\\User', 18),
 (58, 'App\\User', 19),
 (58, 'App\\User', 20),
+(58, 'App\\User', 21),
 (58, 'App\\User', 22),
 (58, 'App\\User', 24),
 (58, 'App\\User', 25),
@@ -5809,6 +5952,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (58, 'App\\User', 28),
 (58, 'App\\User', 29),
 (58, 'App\\User', 30),
+(58, 'App\\User', 32),
 (59, 'App\\User', 1),
 (59, 'App\\User', 2),
 (59, 'App\\User', 6),
@@ -5819,6 +5963,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (59, 'App\\User', 18),
 (59, 'App\\User', 19),
 (59, 'App\\User', 20),
+(59, 'App\\User', 21),
 (59, 'App\\User', 22),
 (59, 'App\\User', 24),
 (59, 'App\\User', 25),
@@ -5827,6 +5972,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (59, 'App\\User', 28),
 (59, 'App\\User', 29),
 (59, 'App\\User', 30),
+(59, 'App\\User', 31),
+(59, 'App\\User', 32),
+(59, 'App\\User', 33),
+(59, 'App\\User', 34),
+(59, 'App\\User', 35),
+(59, 'App\\User', 36),
+(59, 'App\\User', 37),
+(59, 'App\\User', 38),
+(59, 'App\\User', 39),
+(59, 'App\\User', 40),
+(59, 'App\\User', 41),
 (60, 'App\\User', 1),
 (60, 'App\\User', 2),
 (60, 'App\\User', 6),
@@ -5846,6 +6002,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (60, 'App\\User', 28),
 (60, 'App\\User', 29),
 (60, 'App\\User', 30),
+(60, 'App\\User', 31),
+(60, 'App\\User', 32),
+(60, 'App\\User', 33),
+(60, 'App\\User', 34),
+(60, 'App\\User', 35),
+(60, 'App\\User', 36),
+(60, 'App\\User', 37),
+(60, 'App\\User', 38),
+(60, 'App\\User', 39),
+(60, 'App\\User', 40),
+(60, 'App\\User', 41),
 (61, 'App\\User', 1),
 (61, 'App\\User', 2),
 (61, 'App\\User', 6),
@@ -5865,6 +6032,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (61, 'App\\User', 28),
 (61, 'App\\User', 29),
 (61, 'App\\User', 30),
+(61, 'App\\User', 31),
+(61, 'App\\User', 32),
+(61, 'App\\User', 33),
+(61, 'App\\User', 34),
+(61, 'App\\User', 35),
+(61, 'App\\User', 36),
+(61, 'App\\User', 37),
+(61, 'App\\User', 38),
+(61, 'App\\User', 39),
+(61, 'App\\User', 40),
+(61, 'App\\User', 41),
 (62, 'App\\User', 1),
 (62, 'App\\User', 2),
 (62, 'App\\User', 6),
@@ -5875,6 +6053,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (62, 'App\\User', 18),
 (62, 'App\\User', 19),
 (62, 'App\\User', 20),
+(62, 'App\\User', 21),
 (62, 'App\\User', 22),
 (62, 'App\\User', 24),
 (62, 'App\\User', 25),
@@ -5883,6 +6062,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (62, 'App\\User', 28),
 (62, 'App\\User', 29),
 (62, 'App\\User', 30),
+(62, 'App\\User', 32),
 (63, 'App\\User', 1),
 (63, 'App\\User', 2),
 (63, 'App\\User', 6),
@@ -5902,6 +6082,17 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (63, 'App\\User', 28),
 (63, 'App\\User', 29),
 (63, 'App\\User', 30),
+(63, 'App\\User', 31),
+(63, 'App\\User', 32),
+(63, 'App\\User', 33),
+(63, 'App\\User', 34),
+(63, 'App\\User', 35),
+(63, 'App\\User', 36),
+(63, 'App\\User', 37),
+(63, 'App\\User', 38),
+(63, 'App\\User', 39),
+(63, 'App\\User', 40),
+(63, 'App\\User', 41),
 (64, 'App\\User', 1),
 (64, 'App\\User', 2),
 (64, 'App\\User', 6),
@@ -5921,6 +6112,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (64, 'App\\User', 28),
 (64, 'App\\User', 29),
 (64, 'App\\User', 30),
+(64, 'App\\User', 32),
 (65, 'App\\User', 1),
 (65, 'App\\User', 2),
 (65, 'App\\User', 6),
@@ -5940,6 +6132,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (65, 'App\\User', 28),
 (65, 'App\\User', 29),
 (65, 'App\\User', 30),
+(65, 'App\\User', 32),
 (66, 'App\\User', 1),
 (66, 'App\\User', 2),
 (66, 'App\\User', 6),
@@ -5959,6 +6152,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (66, 'App\\User', 28),
 (66, 'App\\User', 29),
 (66, 'App\\User', 30),
+(66, 'App\\User', 32),
 (67, 'App\\User', 1),
 (67, 'App\\User', 2),
 (67, 'App\\User', 6),
@@ -5978,6 +6172,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (67, 'App\\User', 28),
 (67, 'App\\User', 29),
 (67, 'App\\User', 30),
+(67, 'App\\User', 32),
 (68, 'App\\User', 1),
 (68, 'App\\User', 2),
 (68, 'App\\User', 6),
@@ -5997,6 +6192,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (68, 'App\\User', 28),
 (68, 'App\\User', 29),
 (68, 'App\\User', 30),
+(68, 'App\\User', 32),
 (69, 'App\\User', 1),
 (69, 'App\\User', 2),
 (69, 'App\\User', 6),
@@ -6016,6 +6212,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (69, 'App\\User', 28),
 (69, 'App\\User', 29),
 (69, 'App\\User', 30),
+(69, 'App\\User', 32),
 (70, 'App\\User', 1),
 (70, 'App\\User', 2),
 (70, 'App\\User', 6),
@@ -6035,6 +6232,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (70, 'App\\User', 28),
 (70, 'App\\User', 29),
 (70, 'App\\User', 30),
+(70, 'App\\User', 32),
 (71, 'App\\User', 1),
 (71, 'App\\User', 2),
 (71, 'App\\User', 6),
@@ -6051,6 +6249,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (71, 'App\\User', 25),
 (71, 'App\\User', 26),
 (71, 'App\\User', 27),
+(71, 'App\\User', 32),
 (72, 'App\\User', 1),
 (72, 'App\\User', 2),
 (72, 'App\\User', 6),
@@ -6061,6 +6260,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (72, 'App\\User', 24),
 (72, 'App\\User', 25),
 (72, 'App\\User', 27),
+(72, 'App\\User', 32),
 (73, 'App\\User', 1),
 (73, 'App\\User', 2),
 (73, 'App\\User', 6),
@@ -6071,6 +6271,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (73, 'App\\User', 24),
 (73, 'App\\User', 25),
 (73, 'App\\User', 27),
+(73, 'App\\User', 32),
 (76, 'App\\User', 1),
 (76, 'App\\User', 2),
 (76, 'App\\User', 6),
@@ -6081,6 +6282,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (76, 'App\\User', 24),
 (76, 'App\\User', 25),
 (76, 'App\\User', 27),
+(76, 'App\\User', 32),
 (77, 'App\\User', 1),
 (77, 'App\\User', 2),
 (77, 'App\\User', 6),
@@ -6091,6 +6293,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (77, 'App\\User', 24),
 (77, 'App\\User', 25),
 (77, 'App\\User', 27),
+(77, 'App\\User', 32),
 (78, 'App\\User', 1),
 (78, 'App\\User', 2),
 (78, 'App\\User', 6),
@@ -6101,6 +6304,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (78, 'App\\User', 24),
 (78, 'App\\User', 25),
 (78, 'App\\User', 27),
+(78, 'App\\User', 32),
 (79, 'App\\User', 1),
 (79, 'App\\User', 2),
 (79, 'App\\User', 6),
@@ -6111,6 +6315,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (79, 'App\\User', 24),
 (79, 'App\\User', 25),
 (79, 'App\\User', 27),
+(79, 'App\\User', 32),
 (80, 'App\\User', 1),
 (80, 'App\\User', 2),
 (80, 'App\\User', 6),
@@ -6121,6 +6326,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (80, 'App\\User', 24),
 (80, 'App\\User', 25),
 (80, 'App\\User', 27),
+(80, 'App\\User', 32),
 (81, 'App\\User', 1),
 (81, 'App\\User', 2),
 (81, 'App\\User', 6),
@@ -6131,6 +6337,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (81, 'App\\User', 24),
 (81, 'App\\User', 25),
 (81, 'App\\User', 27),
+(81, 'App\\User', 32),
 (82, 'App\\User', 1),
 (82, 'App\\User', 2),
 (82, 'App\\User', 6),
@@ -6138,9 +6345,11 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (82, 'App\\User', 19),
 (82, 'App\\User', 20),
 (82, 'App\\User', 21),
+(82, 'App\\User', 22),
 (82, 'App\\User', 24),
 (82, 'App\\User', 25),
 (82, 'App\\User', 27),
+(82, 'App\\User', 32),
 (83, 'App\\User', 1),
 (83, 'App\\User', 2),
 (83, 'App\\User', 6),
@@ -6148,9 +6357,11 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (83, 'App\\User', 19),
 (83, 'App\\User', 20),
 (83, 'App\\User', 21),
+(83, 'App\\User', 22),
 (83, 'App\\User', 24),
 (83, 'App\\User', 25),
 (83, 'App\\User', 27),
+(83, 'App\\User', 32),
 (84, 'App\\User', 1),
 (84, 'App\\User', 2),
 (84, 'App\\User', 6),
@@ -6161,6 +6372,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (84, 'App\\User', 24),
 (84, 'App\\User', 25),
 (84, 'App\\User', 27),
+(84, 'App\\User', 32),
 (85, 'App\\User', 1),
 (85, 'App\\User', 2),
 (85, 'App\\User', 6),
@@ -6171,6 +6383,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (85, 'App\\User', 24),
 (85, 'App\\User', 25),
 (85, 'App\\User', 27),
+(85, 'App\\User', 32),
 (86, 'App\\User', 1),
 (86, 'App\\User', 2),
 (86, 'App\\User', 6),
@@ -6181,6 +6394,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (86, 'App\\User', 24),
 (86, 'App\\User', 25),
 (86, 'App\\User', 27),
+(86, 'App\\User', 32),
 (87, 'App\\User', 1),
 (87, 'App\\User', 2),
 (87, 'App\\User', 6),
@@ -6191,6 +6405,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (87, 'App\\User', 24),
 (87, 'App\\User', 25),
 (87, 'App\\User', 27),
+(87, 'App\\User', 32),
 (88, 'App\\User', 1),
 (88, 'App\\User', 2),
 (88, 'App\\User', 6),
@@ -6201,6 +6416,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (88, 'App\\User', 24),
 (88, 'App\\User', 25),
 (88, 'App\\User', 27),
+(88, 'App\\User', 32),
 (89, 'App\\User', 1),
 (89, 'App\\User', 2),
 (89, 'App\\User', 6),
@@ -6211,6 +6427,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (89, 'App\\User', 24),
 (89, 'App\\User', 25),
 (89, 'App\\User', 27),
+(89, 'App\\User', 32),
 (90, 'App\\User', 1),
 (90, 'App\\User', 2),
 (90, 'App\\User', 6),
@@ -6221,6 +6438,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (90, 'App\\User', 24),
 (90, 'App\\User', 25),
 (90, 'App\\User', 27),
+(90, 'App\\User', 32),
 (91, 'App\\User', 1),
 (91, 'App\\User', 2),
 (91, 'App\\User', 6),
@@ -6231,6 +6449,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (91, 'App\\User', 24),
 (91, 'App\\User', 25),
 (91, 'App\\User', 27),
+(91, 'App\\User', 32),
 (92, 'App\\User', 1),
 (92, 'App\\User', 2),
 (92, 'App\\User', 6),
@@ -6241,6 +6460,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (92, 'App\\User', 24),
 (92, 'App\\User', 25),
 (92, 'App\\User', 27),
+(92, 'App\\User', 32),
 (93, 'App\\User', 1),
 (93, 'App\\User', 2),
 (93, 'App\\User', 6),
@@ -6251,6 +6471,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (93, 'App\\User', 24),
 (93, 'App\\User', 25),
 (93, 'App\\User', 27),
+(93, 'App\\User', 32),
 (94, 'App\\User', 1),
 (94, 'App\\User', 2),
 (94, 'App\\User', 6),
@@ -6261,6 +6482,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (94, 'App\\User', 24),
 (94, 'App\\User', 25),
 (94, 'App\\User', 27),
+(94, 'App\\User', 32),
 (95, 'App\\User', 1),
 (95, 'App\\User', 2),
 (95, 'App\\User', 6),
@@ -6271,6 +6493,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (95, 'App\\User', 24),
 (95, 'App\\User', 25),
 (95, 'App\\User', 27),
+(95, 'App\\User', 32),
 (96, 'App\\User', 1),
 (96, 'App\\User', 2),
 (96, 'App\\User', 6),
@@ -6281,6 +6504,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (96, 'App\\User', 24),
 (96, 'App\\User', 25),
 (96, 'App\\User', 27),
+(96, 'App\\User', 32),
 (97, 'App\\User', 1),
 (97, 'App\\User', 2),
 (97, 'App\\User', 6),
@@ -6291,6 +6515,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (97, 'App\\User', 24),
 (97, 'App\\User', 25),
 (97, 'App\\User', 27),
+(97, 'App\\User', 32),
 (98, 'App\\User', 1),
 (98, 'App\\User', 2),
 (98, 'App\\User', 6),
@@ -6301,12 +6526,14 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (98, 'App\\User', 24),
 (98, 'App\\User', 25),
 (98, 'App\\User', 27),
+(98, 'App\\User', 32),
 (99, 'App\\User', 1),
 (99, 'App\\User', 2),
 (99, 'App\\User', 6),
 (99, 'App\\User', 21),
 (99, 'App\\User', 24),
 (99, 'App\\User', 25),
+(99, 'App\\User', 32),
 (100, 'App\\User', 1),
 (100, 'App\\User', 2),
 (100, 'App\\User', 6),
@@ -6317,6 +6544,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (100, 'App\\User', 24),
 (100, 'App\\User', 25),
 (100, 'App\\User', 27),
+(100, 'App\\User', 32),
 (101, 'App\\User', 1),
 (101, 'App\\User', 2),
 (101, 'App\\User', 6),
@@ -6333,30 +6561,45 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (101, 'App\\User', 25),
 (101, 'App\\User', 26),
 (101, 'App\\User', 27),
+(101, 'App\\User', 31),
+(101, 'App\\User', 32),
+(101, 'App\\User', 33),
+(101, 'App\\User', 34),
+(101, 'App\\User', 35),
+(101, 'App\\User', 36),
+(101, 'App\\User', 37),
+(101, 'App\\User', 38),
+(101, 'App\\User', 39),
+(101, 'App\\User', 40),
+(101, 'App\\User', 41),
 (102, 'App\\User', 1),
 (102, 'App\\User', 2),
 (102, 'App\\User', 6),
 (102, 'App\\User', 21),
 (102, 'App\\User', 24),
 (102, 'App\\User', 25),
+(102, 'App\\User', 32),
 (103, 'App\\User', 1),
 (103, 'App\\User', 2),
 (103, 'App\\User', 6),
 (103, 'App\\User', 21),
 (103, 'App\\User', 24),
 (103, 'App\\User', 25),
+(103, 'App\\User', 32),
 (104, 'App\\User', 1),
 (104, 'App\\User', 2),
 (104, 'App\\User', 6),
 (104, 'App\\User', 21),
 (104, 'App\\User', 24),
 (104, 'App\\User', 25),
+(104, 'App\\User', 32),
 (105, 'App\\User', 1),
 (105, 'App\\User', 2),
 (105, 'App\\User', 6),
 (105, 'App\\User', 21),
 (105, 'App\\User', 24),
 (105, 'App\\User', 25),
+(105, 'App\\User', 32),
 (106, 'App\\User', 1),
 (106, 'App\\User', 2),
 (106, 'App\\User', 6),
@@ -6367,12 +6610,13 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (106, 'App\\User', 24),
 (106, 'App\\User', 25),
 (106, 'App\\User', 27),
+(106, 'App\\User', 32),
 (107, 'App\\User', 1),
 (107, 'App\\User', 2),
-(107, 'App\\User', 6),
 (107, 'App\\User', 21),
 (107, 'App\\User', 24),
 (107, 'App\\User', 25),
+(107, 'App\\User', 32),
 (108, 'App\\User', 1),
 (108, 'App\\User', 2),
 (108, 'App\\User', 6),
@@ -6383,6 +6627,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (108, 'App\\User', 24),
 (108, 'App\\User', 25),
 (108, 'App\\User', 27),
+(108, 'App\\User', 32),
 (109, 'App\\User', 1),
 (109, 'App\\User', 2),
 (109, 'App\\User', 6),
@@ -6393,6 +6638,7 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (109, 'App\\User', 24),
 (109, 'App\\User', 25),
 (109, 'App\\User', 27),
+(109, 'App\\User', 32),
 (110, 'App\\User', 1),
 (110, 'App\\User', 2),
 (110, 'App\\User', 6),
@@ -6402,7 +6648,8 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (110, 'App\\User', 21),
 (110, 'App\\User', 24),
 (110, 'App\\User', 25),
-(110, 'App\\User', 27);
+(110, 'App\\User', 27),
+(110, 'App\\User', 32);
 
 -- --------------------------------------------------------
 
@@ -7447,7 +7694,7 @@ CREATE TABLE IF NOT EXISTS `payroll_type` (
   `payrollTypeName` varchar(64) NOT NULL,
   `payrollTypeDescription` varchar(254) NOT NULL,
   PRIMARY KEY (`payrollTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `payroll_type`
@@ -11900,39 +12147,50 @@ CREATE TABLE IF NOT EXISTS `user` (
   `fullName` varchar(120) NOT NULL,
   `userName` varchar(64) NOT NULL,
   `userPassword` varchar(64) NOT NULL,
-  `email` varchar(30) NOT NULL,
+  `email` varchar(60) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `dateCreated` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `lastUserId` int(11) NOT NULL,
   PRIMARY KEY (`userId`),
   UNIQUE KEY `userEmail` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
 INSERT INTO `user` (`userId`, `countryId`, `officeId`, `changeOffice`, `fullName`, `userName`, `userPassword`, `email`, `remember_token`, `dateCreated`, `deleted_at`, `lastUserId`) VALUES
-(1, 1, 1, 'Y', 'GABRIEL CARRILLO', 'gabrielcarrillo2018', 'ec037f0bdfc5339525bbd807a26a07a0', 'gabrielcarrillo2018@gmail.com', '', '2018-06-09 00:00:00', NULL, 1),
-(2, 1, 1, 'Y', 'JOSE RIVERO', 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'BpoLPivvixH7DkowrXil5GxLKDnrOXzappSokfZ6MuCbtEKVuoujgjkXiDRu', '2018-06-09 00:00:00', NULL, 1),
-(6, 1, 1, 'Y', 'SARO DI FRISCO', 'sarodifrisco', '$2b$10$Aa7bl90BLMhtxm8IC4g.zOeuMfR7mnmrGxY.VvDR4fdTbGof4z/AK', 'sarodifrisco@gmail.com', 'pXxBFNWnrPzFHoR8DsvFafshXKhGhp45kncFqrsWHLxEFnGdbpvDvTSrPZ2o', '2019-07-29 00:00:00', NULL, 1),
-(11, 1, 1, 'Y', 'MARIACELESTE CAMACHO', 'mariaceleste', '$2y$12$HuFCDpTrC8tINuG5vsoaOejzlOKKWdtVAI4Qb9GrTpLgU.TgEFlLu', 'mariaceleste@gmail.com', 'PYxuDolBmSHFrkkbSHLMKDmfaOilPaeAZ6aelqzwI5vNiMdBbp1IHVkUIBXK', '2019-09-10 00:00:00', NULL, 1),
-(12, 1, 1, 'Y', 'JOHANDER CEBALLOS', 'johanderceballos', '$2y$12$fCX3IgZGDRt1ZZLZ14Pdx.PFN6zPlFnxQtLMwVANTZdMx/1mcFqtS', '', 'LchaqrEkmRldnpdlnfsVc8skApv8tL2RpGkMMICRPhYuKUhk4IH738DPGmeT', '2019-04-24 00:00:00', NULL, 1),
-(14, 1, 1, 'Y', 'ELPIDIO FLORES', 'elpidioflores', '$2y$12$I9Hn2qEV1xancn1WH0h4nehU2fXKyAscWvbqf87qJxoAmq0sjrBWe', 'elpidioflores@gmail.com', 'PhcmwiYKBkbRW82u0GsuJwxlhKQlehfuEspeb1g02TaPKQzzlaEgS4EldRmk', '2019-04-24 00:00:00', NULL, 1),
-(15, 1, 1, 'Y', 'ALEXANDER CHIRINO', 'alexanderchirino', '$2y$12$7r94cVN.mXkfpU6ixgGtRuPDE362ETlJgTLCc..eu57W/KfQ0gS32', 'alexanderchirino@gmail.com', 'bsx84feuVNrR0fX8Lt3XPZ70K9DQN8dTIuvkZHFB7a4tSXsdhWRqvWU83tFe', '2019-04-24 00:00:00', NULL, 1),
-(18, 1, 1, 'Y', 'MARIA LORETO', 'marialoreto', '$2y$12$/WwCUwdcLgUk.xPD46ktXOg1WEkJpXzbm7R2MvUVOrfwNOGuqaFaa', 'marialoreto@gmail.com', 'vjqbwBfomOmuD2VzOebVMJqChkwVFNb9R7o8vRpgiK1UMr0WAjlh6Yrx6UAq', '2019-04-24 00:00:00', NULL, 1),
-(19, 1, 1, 'Y', 'YEXICA DELGADO', 'yexicadelgado', '$2y$12$bQHraTDJbDeLzGRFno6sTuTDW12n5yl4fX5CYYFyAFn5vpKEtVYCa', 'yexicadelgado@gmail.com', 'Yo3Ht3FMDVRbycmfYqz37GWWUvWeCDVuCp5FnmVhjX36RQ6k75FBAb2C9jUJ', '2019-04-24 00:00:00', NULL, 1),
-(20, 1, 1, 'Y', 'ORSOLINA DI FRISCO', 'orsolinadifrisco', '$2y$12$V.NfvkoBxCIxvRUIPh0qh.0qzrLrb6VLVu893wukGXGurO39eJ7Qq', 'orsolinadifrisco@gmail.com', 'LFeXqzFkmGVdZAXADtApOD2gw6Ua72WTEpKI2KjhDDtpeZSsFgWxboJxO5bv', '2019-04-24 00:00:00', NULL, 1),
-(21, 1, 1, 'Y', 'MANUEL CASTRO', 'manuelcastro', '$2y$12$u2HmaL0x4jXaI00ZS4A2EOr/a3YldioQ8c.NM2U//jIVXMRZVfBbe', 'alejocastro2@gmail.com', 'smrZ8gU7Va7bFvjNatmDCxkLFkOEKboSe4vc0uQkjKrooHnsEQnQwvzbJm9a', '2019-04-24 00:00:00', NULL, 1),
-(22, 1, 1, 'Y', 'ABRAHAN LOPEZ', 'abrahanlopez', '$2y$12$coIGljBK86W21iFPWAY3rOO5IwC87bj7L/jdrUMCkiL0mQJu6R4yG', 'abrahanlopez@gmail.com', 'qpyOscbuMH3zeKw1aJzBhgjMJd2JjXBagqQakjTN5NuLwbga5SWPeUUWowm9', '2019-04-24 00:00:00', NULL, 1),
-(24, 1, 1, 'Y', 'VIOSCAR RIVERO', 'vioscar', '$2y$12$fv3APnunaHpT0PLbYnWlDuNkFZqhajgMC68rzn0OR4UjHkKvlKD0e', 'szchmausser@gmail.com', NULL, '2020-03-31 00:00:00', NULL, 1),
-(25, 1, 1, 'Y', 'MANUEL HERNANDEZ', 'manuelh', '$2y$12$gQUhRlov98eTVUWFrZMJT.D82Zf/MCLqw6eAYJ5mPhzEKwv6XSnnS', 'manuel.hernandez@gmail.com', 'nT6GM5GjcqkyaTJtp8mC2jyo15w1BWAF9mTBQcaH6GfTp9B7WfLUslJArCJG', '2018-06-09 00:00:00', NULL, 1),
-(26, 1, 1, 'Y', 'EDWIN GARCIAS', 'edwingarcias', '$2y$12$Jr9IF3adtM/9QCgF75WN4OyBmDtnojzzAd/h.Lh1Q80f8r9kCzmy6', 'edwin.garcias@jdrivero.com', 'agYrOz04KSn7UOFdK6n9mxaEQmLoLBQfBEiK7fSEraxzwEnBMGvE3QMcKICj', '2020-04-16 00:00:00', NULL, 1),
+(1, 1, 1, 'Y', 'GABRIEL CARRILLO', 'gabrielcarrillo', '$2y$12$rOrlzP4MVLpqVkQgT4WxNO09GhDvejy9ubIh3hupCllGuhTEsTti6', 'gabrielcarrillo2018@gmail.com', 'oMXLgfDPGhjkKgSGD49maqU4sRxwo2oHERcGs6qHVb77qmDiLeybzIZUubHc', '2018-06-09 00:00:00', NULL, 1),
+(2, 1, 1, 'Y', 'JOSE RIVERO', 'joserivero', '$2a$12$biGGoisiXcQb5xjLS3yDxOMP5y0ErpFMJkv4Q4xaVU.YABdjbBQSi', 'directorgeneral@gmail.com', 'v6BgaeCpAexMC8uL86GY6MQRWF3QcLdnWavP7tbKgFKyWraMip9dBlYUCIdq', '2018-06-09 00:00:00', NULL, 1),
+(6, 1, 1, 'Y', 'SARO DI FRISCO', 'sarodifrisco', '$2b$10$Aa7bl90BLMhtxm8IC4g.zOeuMfR7mnmrGxY.VvDR4fdTbGof4z/AK', 'sarodifrisco@gmail.com', 't9UyRMg1qR1gMTnaOpkVrltyt2HoYV51OnkfaJrw6WvDuD3WAFMDkp2caWrn', '2019-07-29 00:00:00', NULL, 1),
+(11, 1, 1, 'Y', 'MARIACELESTE CAMACHO', 'mariaceleste', '$2y$12$HuFCDpTrC8tINuG5vsoaOejzlOKKWdtVAI4Qb9GrTpLgU.TgEFlLu', 'mariaceleste@gmail.com', 'JzxXYglzUqMXMbX8hIuGhzqdwZwnA0ws2gd3491wbhOC0EKwo9TUSViV0Fbz', '2019-09-10 00:00:00', NULL, 1),
+(12, 1, 1, 'Y', 'JOHANDER CEBALLOS', 'johanderceballos', '$2y$12$fCX3IgZGDRt1ZZLZ14Pdx.PFN6zPlFnxQtLMwVANTZdMx/1mcFqtS', 'johander.ceballos@jdrivero.com', 'VDkDlhoViVrQZUFrzhp6bZhY4yp1F09mPsWpBhCEwlB6HxopoBcmfnxXEaSr', '2019-04-24 00:00:00', NULL, 1),
+(14, 1, 1, 'Y', 'ELPIDIO FLORES', 'elpidioflores', '$2y$12$I9Hn2qEV1xancn1WH0h4nehU2fXKyAscWvbqf87qJxoAmq0sjrBWe', 'elpidioflores@gmail.com', 'Ru1qYAEB2nTHUcKqB0sdNfR2tCGcjr1zmZOtyo8r4LxNroJ6EwpmVQPim1XB', '2019-04-24 00:00:00', NULL, 1),
+(15, 1, 1, 'Y', 'ALEXANDER CHIRINO', 'alexanderchirino', '$2y$12$7r94cVN.mXkfpU6ixgGtRuPDE362ETlJgTLCc..eu57W/KfQ0gS32', 'alexanderchirino@gmail.com', 'eOjydsHZkxsDvbxmUWQBP9zfIGE2MDqFJN3jfH5EHd7gedp80cjETzHFZhyg', '2019-04-24 00:00:00', NULL, 1),
+(18, 1, 1, 'Y', 'MARIA LORETO', 'marialoreto', '$2y$12$/WwCUwdcLgUk.xPD46ktXOg1WEkJpXzbm7R2MvUVOrfwNOGuqaFaa', 'marialoreto@gmail.com', 'UEFYKXv5RC76D5dSKYZx6UiEC8QR6ML5ZtagQdRoU6QgHBs6NlNixTv8vSbu', '2019-04-24 00:00:00', NULL, 1),
+(19, 1, 1, 'Y', 'YEXICA DELGADO', 'yexicadelgado', '$2y$12$bQHraTDJbDeLzGRFno6sTuTDW12n5yl4fX5CYYFyAFn5vpKEtVYCa', 'yexicadelgado@gmail.com', 'UibePJ5Mu3n5ai6KbCIOxpHEt7hZkv6SYM7T74tmqAqS1ebi3I85Ne5Z0s8L', '2019-04-24 00:00:00', NULL, 1),
+(20, 1, 1, 'Y', 'ORSOLINA DI FRISCO', 'orsolinadifrisco', '$2y$12$V.NfvkoBxCIxvRUIPh0qh.0qzrLrb6VLVu893wukGXGurO39eJ7Qq', 'orsolinadifrisco@gmail.com', 'XpETbfYguFj9k6e8R0xvvASUTcoinSUoLrKQN3NPyNNdwyZS4oicmRQEkLGb', '2019-04-24 00:00:00', NULL, 1),
+(21, 1, 1, 'Y', 'MANUEL CASTRO', 'manuelcastro', '$2y$12$u2HmaL0x4jXaI00ZS4A2EOr/a3YldioQ8c.NM2U//jIVXMRZVfBbe', 'alejocastro2@gmail.com', 'EokIbVrS0R4AxWhhfAZLw64bzHDhT7Tlcp2TjjgALOrZOwYM2xxo6ANG4VGO', '2019-04-24 00:00:00', NULL, 1),
+(22, 1, 1, 'Y', 'ABRAHAN LOPEZ', 'abrahanlopez', '$2y$12$coIGljBK86W21iFPWAY3rOO5IwC87bj7L/jdrUMCkiL0mQJu6R4yG', 'abrahanlopez@gmail.com', '4nN7fPSiHSeK0YyCUJBCrEb0EDLLFKhkNcKAYGaS7sYYKZwVNaLcNDFk8AN4', '2019-04-24 00:00:00', NULL, 1),
+(24, 1, 1, 'Y', 'VIOSCAR RIVERO', 'vioscarrivero', '$2y$12$6FNwmuMk5QyIxpYdiYSnDO1.c3BW0Uh6elXoXlamVAp.T3HtadYJ2', 'szchmausser@gmail.com', 'eLAK26P3ZqopnycMEvLIzGSbvpI8WnaanJKhr3X8SXBSYeYoTirzMrqo4JR4', '2020-03-31 00:00:00', NULL, 1),
+(25, 1, 1, 'Y', 'MANUEL HERNANDEZ', 'manuelh', '$2y$12$gQUhRlov98eTVUWFrZMJT.D82Zf/MCLqw6eAYJ5mPhzEKwv6XSnnS', 'manuel.hernandez@gmail.com', '1OnFb63pYTEvTsWULzlcMtb3UIoUnf1NoElHRhlnOyMse3Exe50qgupa7cxL', '2018-06-09 00:00:00', NULL, 1),
+(26, 1, 1, 'Y', 'EDWIN GARCIAS', 'edwingarcias', '$2y$12$Jr9IF3adtM/9QCgF75WN4OyBmDtnojzzAd/h.Lh1Q80f8r9kCzmy6', 'edwin.garcias@jdrivero.com', 'MlmMg2YbnJipJhcpiD1MxmdhmP9gkwB3EslUnz2wV8BnbQbvUcAFwOtMnXS1', '2020-04-16 00:00:00', NULL, 1),
 (27, 1, 4, 'N', 'VIRGINIA TORRES', 'virginiatorres', '$2y$12$Miy/ZeUZfptxvBj99Rco4ea4jIYuyAR.ozocLFE.YxMcA2zwszMN.', 'virginiatorres@gmail.com', 'bBXLr4irtlMVXhy4pYPcfG3YOHevuluFnYPrbdDHZUIdaipp7JuvDqZg2VfQ', '2020-04-16 00:00:00', NULL, 1),
 (28, 1, 1, 'Y', 'MICHEL GOFFREDO', 'michelgoffredo', '$2y$10$ehVjPieSOaLVw0wwx0oEFewYhFoxP1TmkwM9jPrD1CL6xA7gbEP5e', 'michel@jdrivero.com', 'QUcKrNr15uR2O6H9WvnEsZNPrkwd4S4PJtZAat0FsgrW2loPPBXhkjvzUODS', '2020-05-05 13:20:27', NULL, 2),
 (29, 1, 1, 'Y', 'FLOR RIVERO', 'florrivero', '$2y$10$X/xDY51hFVLb.3f4krx5zO8ddHG4oGCSIRi3TogqECSfMBX9J3F.W', 'flor@jdrivero.com', 'T10bwOKV2p5FpdloYSP6ZZFFvhSmcJj37h2cLKU2nuPvqH6LTs8LW3rPyhlX', '2020-05-05 13:24:32', NULL, 2),
-(30, 1, 1, 'Y', 'SABRINA RIVERO', 'sabrinarivero', '$2y$10$7F8IaMezinj.dz3dIgWJgOljHc77.vwrKMHVfU793BsfXiikXcQBO', 'sabrina@jdrivero.com', NULL, '2020-05-05 13:28:17', NULL, 2);
+(30, 1, 1, 'Y', 'SABRINA RIVERO', 'sabrinarivero', '$2y$10$7F8IaMezinj.dz3dIgWJgOljHc77.vwrKMHVfU793BsfXiikXcQBO', 'sabrina@jdrivero.com', NULL, '2020-05-05 13:28:17', NULL, 2),
+(31, 1, 1, 'Y', 'CHRISTOFER SIERRA', 'christofersierra', '$2y$10$uE8WOQaRYC4Z4p4waCJ14up9sy9aeT9JZfdX7D9y1zYVymVY1wgzO', 'christopfer.sierraq@jdrivero.com', 'PiQQgn9TArTCzwE30KZGPBZU8PUxwqcwpYRc1hNQwWm6uyz9tccIBfzG8n0w', '2020-06-12 22:47:41', NULL, 21),
+(32, 1, 1, 'Y', 'ELISNAR MENDOZA', 'elisnarmendoza', '$2y$10$CawpEpsnAhDyRZC.fuEaP.yJWDop46DncSwtY/EGk8gd/4nKYEOES', 'elisnarmendoza@gmail.com', 'itKifNyAyZSgyqVXwikLitRr3OCrNRkKjBwuMcVP6aRhKceIrlGgxAhTXaE4', '2020-06-12 23:05:26', NULL, 21),
+(33, 1, 1, 'Y', 'Jose Sousa', 'josesousa', '$2y$10$OQV3ld6IQPBDILCSw520xuuGW8X/ihqnT5fX8VAztzWhtadJSukBy', 'jose.sousa@jdrivero.com', NULL, '2020-06-13 01:00:20', NULL, 2),
+(34, 1, 1, 'Y', 'Luisa Leal', 'luisaleal', '$2y$10$PEZ2YjPcccilOeyq0bnRbO6xWNh7TpgbDrb92USBF0xVAW0xZWxa.', 'luisa.leal@jdrivero.com', NULL, '2020-06-13 01:02:11', NULL, 2),
+(35, 1, 1, 'Y', 'Gloria Ampueda', 'gloriaampueda', '$2y$10$JludN1ULQO8qlD5mwvh4yeoFhL8vuZcjI/dra.Os5k0SA/bMrGZXS', 'gloria.ampueda@jdrivero.com', NULL, '2020-06-13 01:04:08', NULL, 2),
+(36, 1, 1, 'Y', 'Ana Ramirez', 'anaramirez', '$2y$10$nb/DN3cmUPd2YtSpZW97ke5rYAof82Vx9fYEYvocOaIwDZ1xx4JQS', 'ana.ramirez@jdrivero.com', 'cbbJ6WQedP10bDHjHsMtJ3vWO6vAR0uyN9ShUIsfWPhTeqOsyqRmNh4gQ8U8', '2020-06-13 01:09:49', NULL, 2),
+(37, 1, 1, 'Y', 'Jose Schwarzenberg', 'joseschwarzenberg', '$2y$10$ZmR7MDFMhY6lYZeS6w./8OgIbV/5jNRfNEKCi56acv4e60axHWOtO', 'jose.schwarzenberg@jdrivero.com', NULL, '2020-06-13 01:11:39', NULL, 2),
+(38, 1, 1, 'Y', 'Betsy Gallardo', 'betsygallardo', '$2y$10$U.6GhHGS18SBrSdUPjmAoOcEqZLwbE4jT4VSmxTXR4d2KTr9lMQ9.', 'betsy.gallardo@jdrivero.com', NULL, '2020-06-13 01:16:40', NULL, 2),
+(39, 1, 1, 'Y', 'Wilmer Quintana', 'wilmerquintana', '$2y$10$/DZabplzGXjN/LKAyIacluVo12bCfJOre.O2LUbUyH3DARjeUVor6', 'wilmer.quintana@jdrivero.com', NULL, '2020-06-13 01:17:48', NULL, 2),
+(40, 1, 1, 'Y', 'Jairo Coronel', 'jairocoronel', '$2y$10$0.sxd8tQxcB.NA8U4DIXL.S.kMkfV5ZzrMbfcbNkfdgplXiHiOQQ.', 'jairo.coronel@jdrivero.com', NULL, '2020-06-13 01:28:02', NULL, 2),
+(41, 1, 1, 'Y', 'Gilmar Vasquez', 'gilmarvasquez', '$2y$10$Wa5go4Ha600Rb3ZJXCXoSuHxuLhnuE1noyrJiQd0G7rGIxUU5Qfkq', 'gilmar.vasquez@jdrivero.com', '1Jccy9N6AHxe9MCTjOcOb9qVm1J3CyPTw4RhEteEG0xX3ylyJE5CWhEEOUr5', '2020-06-13 01:31:56', NULL, 2);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

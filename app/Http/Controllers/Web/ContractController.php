@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App;
 use App\Contract;
 use App\Document;
 use App\Currency;
@@ -9,6 +10,7 @@ use App\Client;
 use App\Staff;
 use App\Receivable;
 use App\OfficeConfiguration;
+use App\ContractStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
 use Illuminate\Http\Request;
@@ -25,6 +27,7 @@ class ContractController extends Controller
     private $oReceivable;
     private $oOfficeConfiguration;
     private $oBuildingCode;
+    private $oContractStatus;
 
     public function __construct()
     {
@@ -47,6 +50,7 @@ class ContractController extends Controller
         $this->oStaff           = new Staff;
         $this->oReceivable      = new Receivable;
         $this->oOfficeConfiguration   = new OfficeConfiguration;
+        $this->oContractStatus   = new ContractStatus;
     }
 
     public function index(Request $request)
@@ -54,7 +58,7 @@ class ContractController extends Controller
         
         $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $contracts = $this->oContract->getAllForTwoStatus(Contract::VACANT, Contract::STARTED,$filteredOut,session('countryId'),session('officeId'));
+        $contracts = $this->oContract->getAllForFourStatus(Contract::VACANT, Contract::STARTED,Contract::READY_BUT_PENDING_PAYABLE,Contract::PROCESSING_PERMIT,$filteredOut,session('countryId'),session('officeId'));
 
         return view('module_contracts.contracts.index', compact('contracts'));
     }
@@ -199,47 +203,47 @@ class ContractController extends Controller
 
 /** -----------SEARCH-------------  */
 
-    public function generalSearch(Request $request)
-    {
-        $contractNumber = $request->contractNumber;
-        $clientName     = $request->clientName;
-        $clientPhone    = $request->clientPhone;
-        $siteAddress    = $request->siteAddress;
-        $contractStatus = $request->contractStatus;
-        $contractDate   = $request->contractDate;
+    // public function generalSearch(Request $request)
+    // {
+    //     $contractNumber = $request->contractNumber;
+    //     $clientName     = $request->clientName;
+    //     $clientPhone    = $request->clientPhone;
+    //     $siteAddress    = $request->siteAddress;
+    //     $contractStatus = $request->contractStatus;
+    //     $contractDate   = $request->contractDate;
 
-        $contracts = Contract::orderBy('contractId', 'ASC')
-            ->contractNumber($contractNumber)
-            ->clientName($clientName)
-            ->clientPhone($clientPhone)
-            ->siteAddress($siteAddress)
-            ->contractStatus($contractStatus)
-            ->contractDate($contractDate)
-            ->where('countryId', session('countryId'))
-            ->where('officeId', session('officeId')) 
-            ->paginate(5);
+    //     $contracts = Contract::orderBy('contractId', 'ASC')
+    //         ->contractNumber($contractNumber)
+    //         ->clientName($clientName)
+    //         ->clientPhone($clientPhone)
+    //         ->siteAddress($siteAddress)
+    //         ->contractStatus($contractStatus)
+    //         ->contractDate($contractDate)
+    //         ->where('countryId', session('countryId'))
+    //         ->where('officeId', session('officeId')) 
+    //         ->paginate(5);
 
-        return view('module_contracts.generalsearch.index', compact('contracts'));
-    }
+    //     return view('module_contracts.generalsearch.index', compact('contracts'));
+    // }
 
-    public function generalSearchDetails($id)
-    {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('module_contracts.generalsearch.details', compact('contract'));
-    }
+    // public function generalSearchDetails($id)
+    // {
+    //     $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+    //     return view('module_contracts.generalsearch.details', compact('contract'));
+    // }
 
-    public function resultStatus(Request $request)
-    {
+    // public function resultStatus(Request $request)
+    // {
 
-        $contracts = $this->oContract->getAllForStatus($request->contractStatus,session('countryId'),session('officeId'));
-        return view('module_contracts.contractstatus.result', compact('contracts'));
-    }
+    //     $contracts = $this->oContract->getAllForStatus($request->contractStatus,session('countryId'),session('officeId'));
+    //     return view('module_contracts.contractstatus.result', compact('contracts'));
+    // }
 
-    public function resultStatusDetails($id)
-    {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('module_contracts.contractstatus.details', compact('contract'));
-    }
+    // public function resultStatusDetails($id)
+    // {
+    //     $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+    //     return view('module_contracts.contractstatus.details', compact('contract'));
+    // }
 
 /** ----------------CONTRACS FINISHED  -------------*/
 
@@ -298,7 +302,9 @@ class ContractController extends Controller
     public function changeStatus($id)
     {
         $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
-        return view('module_contracts.contracts.changeStatus', compact('contract'));
+        $contractStatus = $this->oContractStatus->getAllByLanguage(App::getLocale());
+
+        return view('module_contracts.contracts.changeStatus', compact('contract','contractStatus'));
     }
     public function updateStatus(Request $request)
     {
@@ -310,11 +316,11 @@ class ContractController extends Controller
         );
 
         if($request->contractStatus == 3)
-        return redirect()->route('contracts.finished')->with($notification);
+          return redirect()->route('contracts.finished')->with($notification);
         if($request->contractStatus == 4)
-        return redirect()->route('contracts.cancelled')->with($notification);
+          return redirect()->route('contracts.cancelled')->with($notification);
         else
-        return redirect()->route('contracts.index')->with($notification);
+          return redirect()->route('contracts.index')->with($notification);
     }
 
     public function staff($id)

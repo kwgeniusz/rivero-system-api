@@ -85,13 +85,17 @@
                         </td>
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
-                    <td
+                    <td data-toggle="tooltip" data-placement="top" title="{{$contract->contractStatusR[0]->contStatusName}}"
                    @if($contract->contractStatus == App\Contract::VACANT)
-                   style="background-color: #3c8ddc;" 
+                   style="background-color: #3c8ddc;color:white;" 
                    @elseif($contract->contractStatus == App\Contract::STARTED)
-                    style="background-color: #2ab25b;" 
-                   @endif 
-                    > </td>
+                    style="background-color: #2ab25b;color:white;" 
+                    @elseif($contract->contractStatus == App\Contract::READY_BUT_PENDING_PAYABLE)
+                    style="background-color: #cbb956;color:white;" 
+                   @elseif($contract->contractStatus == App\Contract::PROCESSING_PERMIT)
+                    style="background-color: #f39c12;color:white;" 
+                   @endif>
+                    </td>
 
                 </tr>
 

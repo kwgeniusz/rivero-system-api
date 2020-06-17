@@ -27,7 +27,7 @@
                     <td>{{$contract[0]->office->officeName}} </td>
                     <td>{{$contract[0]->contractDate}} </td>
                     <td>{{$contract[0]->client->clientName}} </td>
-                    <td>{{$contract[0]->contractStatus }} </td>
+                    <td>{{$contract[0]->contractStatusR[0]->contStatusName }} </td>
                 </tr>
         </tbody>
       </table>
