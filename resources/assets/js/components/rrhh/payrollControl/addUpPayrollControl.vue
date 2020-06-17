@@ -61,13 +61,13 @@
                                         <select v-else class="form-control" v-model="year" id="year" autocomplete="off" disabled="disabled" required="required">
                                             <option v-for=" n  in 5" :key="n" :value="n + years">{{n + years}}</option>
                                         </select>
-                                        <button v-if="editId === 0" v-on:click="getPayrollNumber()" type="button" title="Obtener Numero de periodo" data-original-title="Obtener Numero de periodo" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-search"></i></button>
+                                        
                                     </div> 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="payrollNumber" class="form-group" v-text="nameField4"></label>
+                                    <label for="payrollNumber" class="form-group" v-text="nameField4"></label> <button v-if="editId === 0" v-on:click="getPayrollNumber()" type="button" title="Obtener periodo" data-original-title="Obtener periodo" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-search"></i></button>
                                     <select v-if="editId === 0" class="form-control" v-model="payrollNumber" id="payrollNumber" autocomplete="off"  disabled="disabled" required="required">
                                         <option v-for="item in selectPayrollNumber" :key="item.id" :value="item.id+'-'+item.vText">{{item.vText}}</option>
                                         

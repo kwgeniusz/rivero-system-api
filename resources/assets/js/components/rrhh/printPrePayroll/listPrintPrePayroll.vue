@@ -47,7 +47,7 @@
                                 </p>
                             </td>
                             <td> 
-                                <button v-on:click="detailRow(PrePayroll.countryId, PrePayroll.companyId, PrePayroll.year, PrePayroll.payrollNumber)" class="btn btn-sm btn-info"><i class="fa fa-list"></i> </button>  
+                                <button v-on:click="detailRow(PrePayroll.countryId, PrePayroll.companyId, PrePayroll.year, PrePayroll.payrollNumber)" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Personal"><i class="fa fa-list"></i> </button>  
                                 <button v-on:click="printDetailRow(PrePayroll.countryId, PrePayroll.companyId, PrePayroll.year, PrePayroll.payrollNumber)" class="btn btn-sm btn-info"><i class="fa fa-print"></i> </button>  
                                 <!-- <button v-on:click="editRow(index, PrePayroll.hrprocessId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
                                 <button v-on:click="deleterow(index, PrePayroll.hrprocessId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>   -->
@@ -170,13 +170,16 @@
                     let company = objPrePayrollDetail[2]
                     let logo = objPrePayrollDetail[3]
                     let payrollTypeName = objPrePayrollDetail[4]
+                    let totalGeneral = objPrePayrollDetail[5]
                     let dataTime = this.formatDate()
                     // console.log(window.location)
+                    console.log('totalGeneral')
+                    console.log(totalGeneral)
                     // return
                     let imgLogoURL = window.location.origin + '/' + logo
                     
                     console.log(imgLogoURL)
-
+                    // return
                     function toDataUrl(src, callback) {
                         let xhttp = new XMLHttpRequest()
                         xhttp.onload = function(){
@@ -253,8 +256,8 @@
                             //  console.log( element[i]) 
                             //  console.log('i: ' + i) 
 
-                            // condiciono que comienze a leer los datos a partir de la posicion 5 del array
-                            if (i > 4) {
+                            // condiciono que comienze a leer los datos a partir de la posicion 6 del array
+                            if (i > 5) {
                                 
                                 let name = true
                                 element[i].forEach(element2 => {
@@ -358,7 +361,13 @@
                             
                         
                         }
-                        doc.save(company + ' ' + period);
+                        doc.setFontType("bold");
+                        doc.setFontSize(12);
+                        doc.line(30, n, 580, n);
+                        n = n + 20
+                        doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
+                        
+                        doc.save(company + '-' + period + '.pdf');
                         // console.log(res.data.print)
                         // return
                         // this.$emit("prePayrollDetail", objPrePayrollDetail)
