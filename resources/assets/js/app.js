@@ -35,6 +35,7 @@ Vue.component('search-client', require('./components/contracts/SearchClient.vue'
 Vue.component('search-subcontractor', require('./components/contracts/SearchSubcontractor.vue'));
 Vue.component('form-modal-charge', require('./components/contracts/FormModalCharge.vue'));
 Vue.component('confirm-payment', require('./components/contracts/ModalConfirmPayment.vue'));
+Vue.component('comments-contract', require('./components/contracts/CommentsOfContract.vue'));
 
 Vue.component('modal-preview-document', require('./components/contracts/ModalPreviewDocument.vue'));
 Vue.component('modal-convert-precontract', require('./components/contracts/ModalConvertPrecontract.vue'));

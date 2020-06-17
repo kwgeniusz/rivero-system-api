@@ -132,7 +132,7 @@
     export default {
         
      mounted() {
-            console.log('Component ModalContract mounted.')
+            // console.log('Component ModalContract mounted.')
 
            },
       props: {
