@@ -28,7 +28,7 @@
                     <td>{{$contract[0]->office->officeName}} </td>
                     <td>{{$contract[0]->contractDate}} </td>
                     <td>{{$contract[0]->client->clientName}} </td>
-                    <td>{{$contract[0]->contractStatus }} </td>
+                    <td>{{$contract[0]->contractStatusR[0]->contStatusName }} </td>
                 </tr>
         </tbody>
       </table>
@@ -43,28 +43,15 @@
 
             <div class="form-group col-lg-6 col-lg-offset-3">
               <label for="contractStatus">{{__('choose_a_status')}}</label>
-              <select class="form-control" name="contractStatus" id="contractStatus">
-                @if ($contract[0]->contractStatus == __('vacancies'))
-                   <option value="1" selected> {{__('vacancies')}} </option>
-                @else
-                  <option value="1" > {{__('vacancies')}} </option>
-               @endif
-                    @if ($contract[0]->contractStatus == __('initiates'))
-                  <option value="2" selected> {{__('initiates')}} </option>
-                @else
-                <option value="2" > {{__('initiates')}} </option>
-               @endif
-                    @if ($contract[0]->contractStatus == __('finished'))
-                  <option value="3" selected> {{__('finished')}} </option>
-                @else
-                <option value="3" > {{__('finished')}} </option>
-               @endif
-                    @if ($contract[0]->contractStatus == __('suspended'))
-                    <option value="4" selected> {{__('suspended')}} </option>
-                @else
-                   <option value="4" > {{__('suspended')}} </option>
-               @endif
 
+              <select class="form-control" name="contractStatus" id="contractStatus">
+                @foreach($contractStatus as $status)
+                 @if ($contract[0]->contractStatus == $status->contStatusCode)
+                      <option selected value="{{$status->contStatusCode}}" >{{$status->contStatusName}}</option>
+                 @else
+                      <option value="{{$status->contStatusCode}}" >{{$status->contStatusName}}</option>
+                 @endif
+                @endforeach
               </select>
             </div>
            <input type="hidden" name="contractId" value="{{$contract[0]->contractId}}">

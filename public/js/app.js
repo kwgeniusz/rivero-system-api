@@ -62085,6 +62085,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -62177,11 +62180,6 @@ var render = function() {
         "a",
         {
           staticClass: "btn btn-warning btn-sm",
-          attrs: {
-            "data-toggle": "tooltip",
-            "data-placement": "top",
-            title: "Ver"
-          },
           on: {
             click: function($event) {
               return _vm.modalMain()
@@ -62261,7 +62259,10 @@ var render = function() {
                       _vm._s(comment.user.fullName) +
                         " - (" +
                         _vm._s(
-                          _vm._f("moment")(comment.commentDate, "MM/DD/YYYY")
+                          _vm._f("moment")(
+                            comment.commentDate,
+                            "MM/DD/YYYY - hh:mm A"
+                          )
                         ) +
                         ")"
                     )
@@ -62289,7 +62290,7 @@ var render = function() {
                       _vm._s(
                         _vm._f("moment")(
                           _vm.contract.contractDate,
-                          "MM/DD/YYYY"
+                          "MM/DD/YYYY - hh:mm A"
                         )
                       ) +
                       ")"
