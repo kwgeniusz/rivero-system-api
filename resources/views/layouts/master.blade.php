@@ -116,8 +116,9 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/submit.js') }}"></script>
-<script src="{{ asset('js/jspdf.js') }}"></script>
-{{-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> --}}
+{{-- <script src="{{ asset('js/jspdf.js') }}"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 {{-- <script src='https://vjs.zencdn.net/7.6.0/video.js'></script> --}}
  <script>
 
