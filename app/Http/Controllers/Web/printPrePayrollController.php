@@ -63,7 +63,16 @@ class printPrePayrollController extends Controller
                                         AND hrpayroll.companyId = $companyId
                                         AND hrpayroll.year = $year
                                         AND hrpayroll.payrollNumber = $payrollNumber
-                                ) AS totalgeneral
+                                        AND hrpayroll.isIncome = 1
+                                ) AS totalasignacion,
+                                (
+                                    SELECT SUM(amount)  FROM hrpayroll
+                                            WHERE hrpayroll.countryId = $countryId
+                                        AND hrpayroll.companyId = $companyId
+                                        AND hrpayroll.year = $year
+                                        AND hrpayroll.payrollNumber = $payrollNumber
+                                        AND hrpayroll.isIncome = 0
+                                ) AS totaldeduccion
                             FROM hrpayroll 
                             INNER JOIN country ON hrpayroll.countryId = country.countryId
                             INNER JOIN company ON hrpayroll.companyId = company.companyId
@@ -81,7 +90,8 @@ class printPrePayrollController extends Controller
         $print[2] = $res0[0]->companyName;
         $print[3] = $res0[0]->logo;
         $print[4] = $res0[0]->payrollTypeName;
-        $print[5] = $res0[0]->totalgeneral;
+        $print[5] = $res0[0]->totalasignacion;
+        $print[6] = $res0[0]->totaldeduccion;
         foreach($res0 as $res1){
             
             

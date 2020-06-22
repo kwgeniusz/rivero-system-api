@@ -21,7 +21,7 @@
                         <h4><b>PRE-NOMINA:</b> {{this.objprePayrollDetail[0]}}</h4>
                     </div>
                     <div class="form-group col-md-1 col-md-offset-2">
-                        <button v-on:click="printDetailRow(objprePayrollDetail[6][0].countryId, objprePayrollDetail[6][0].companyId, objprePayrollDetail[6][0].year, objprePayrollDetail[6][0].payrollNumber)" class="btn btn-sm btn-info"><i class="fa fa-print"></i> </button>  
+                        <button v-on:click="printDetailRow(objprePayrollDetail[7][0].countryId, objprePayrollDetail[7][0].companyId, objprePayrollDetail[7][0].year, objprePayrollDetail[7][0].payrollNumber)" class="btn btn-sm btn-info"><i class="fa fa-print"></i> </button>  
                     </div>
                 </div> 
             </div>
@@ -52,7 +52,7 @@
                             
                                 
                             </td>
-                            <td v-if="index > 5" class="form-inline">
+                            <td v-if="index > 6" class="form-inline">
                                 <table>
                                     <tr>
                                         <td width="180" class="alingTo">
@@ -65,7 +65,7 @@
                                            <table >
                                                <thead>
                                                     <tr>
-                                                        <th>CONCEPTO</th>
+                                                        <th>CONCEPTOS</th>
                                                         <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CANTIDAD</th>
                                                         <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASIGNACION</th>
                                                         <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEDUCCION</th>
@@ -88,12 +88,12 @@
                                                             </p>
                                                         </td>
                                                         <td>
-                                                            <p v-if="item.isIncome === 1" class="text-right">
-                                                                    {{ item.amount }}
+                                                            <p v-if="item.isIncome == 1" class="text-right">
+                                                                    {{ item.amount }} 
                                                             </p>
                                                         </td>
                                                         <td>
-                                                            <p v-if="item.isIncome === 0" class="text-right">
+                                                            <p v-if="item.isIncome == 0" class="text-right">
                                                                     {{ item.amount }}
                                                             </p>
                                                         </td>
@@ -253,7 +253,8 @@
                     let company = objPrePayrollDetail[2]
                     let logo = objPrePayrollDetail[3]
                     let payrollTypeName = objPrePayrollDetail[4]
-                    let totalGeneral = objPrePayrollDetail[5]
+                    let totalAsignacion = objPrePayrollDetail[5]
+                    let totalDeduccion = objPrePayrollDetail[6]
                     let dataTime = this.formatDate()
                     // console.log(window.location)
                     // console.log('totalGeneral')
@@ -282,7 +283,7 @@
                           crearPDF(dataURL)
                             // this.imgBase64 = dataURL
                             // console.log(imgLogoURL)
-                     console.log(dataURL)
+                    //  console.log(dataURL)
                     })
                     
                     function crearPDF(imgData){
@@ -339,8 +340,8 @@
                             //  console.log( element[i]) 
                             //  console.log('i: ' + i) 
 
-                            // condiciono que comienze a leer los datos a partir de la posicion 6 del array
-                            if (i > 5) {
+                            // condiciono que comienze a leer los datos a partir de la posicion 7 del array
+                            if (i > 6) {
                                 
                                 let name = true
                                 element[i].forEach(element2 => {
@@ -352,16 +353,16 @@
                                     }
                                     doc.text(element2.transactionTypeName, 195, n);
                                     doc.text(element2.quantity, 361, n, 'right' );
-                                    if (element2.isIncome === 1) {
-                                        if (element2.amount === null) {
+                                    if (element2.isIncome == 1) {
+                                        if (element2.amount == null) {
                                             //  console.log('entro')
                                             // doc.text('0', 436, n, 'right' );
                                         }else {
                                             doc.text(element2.amount, 436, n, 'right' );
                                         }
                                     }
-                                    if (element2.isIncome === 0) {
-                                        if (element2.amount === null) {
+                                    if (element2.isIncome == 0) {
+                                        if (element2.amount == null) {
                                             // console.log('entro')
                                             // doc.text('0', 502, n, 'right' );
                                         }else {
@@ -445,10 +446,18 @@
                         
                         }
                         doc.setFontType("bold");
-                        doc.setFontSize(12);
+                        doc.setFontSize(10);
                         doc.line(30, n, 580, n);
+                        doc.line(30, n+3, 580, n+3);
+                        totalAsignacion
+                        totalDeduccion
+                        let totalNeto = formatNumber(totalAsignacion - totalDeduccion)
                         n = n + 20
-                        doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
+                        doc.text( `TOTAL GENERAL:`, 215, n );
+                        doc.text(`$ ${totalAsignacion}`, 436, n, 'right' );
+                        doc.text(`$ ${totalDeduccion}`, 502, n, 'right' );
+                        doc.text(`$ ${totalNeto}`, 574, n, 'right' );
+                        // doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
                         
                         doc.save(company + '-' + period + '.pdf');
                     // console.log(res.data.print)

@@ -96,7 +96,7 @@
                 const URL  = `pre-payroll-all/list/${countryId}/${companyId}/${year}/${payrollNumber}`
                 // console.log(countryId, companyId, year, payrollNumber)
                 axios.get(URL).then((res)=>{
-                    // console.log(res.data.print)
+                    console.log(res.data.print)
                     // return
                     const objPrePayrollDetail = res.data.print
                     this.$emit("prePayrollDetail", objPrePayrollDetail)
@@ -170,11 +170,12 @@
                     let company = objPrePayrollDetail[2]
                     let logo = objPrePayrollDetail[3]
                     let payrollTypeName = objPrePayrollDetail[4]
-                    let totalGeneral = objPrePayrollDetail[5]
+                    let totalAsignacion = objPrePayrollDetail[5]
+                    let totalDeduccion = objPrePayrollDetail[6]
                     let dataTime = this.formatDate()
                     // console.log(window.location)
-                    console.log('totalGeneral')
-                    console.log(totalGeneral)
+                    // console.log('totalGeneral')
+                    // console.log(totalGeneral)
                     // return
                     let imgLogoURL = window.location.origin + '/' + logo
                     
@@ -199,7 +200,7 @@
                           crearPDF(dataURL)
                             // this.imgBase64 = dataURL
                             // console.log(imgLogoURL)
-                     console.log(dataURL)
+                    //  console.log(dataURL)
                     })
                     
                     function crearPDF(imgData){
@@ -256,8 +257,8 @@
                             //  console.log( element[i]) 
                             //  console.log('i: ' + i) 
 
-                            // condiciono que comienze a leer los datos a partir de la posicion 6 del array
-                            if (i > 5) {
+                            // condiciono que comienze a leer los datos a partir de la posicion 7 del array
+                            if (i > 6) {
                                 
                                 let name = true
                                 element[i].forEach(element2 => {
@@ -269,16 +270,16 @@
                                     }
                                     doc.text(element2.transactionTypeName, 195, n);
                                     doc.text(element2.quantity, 361, n, 'right' );
-                                    if (element2.isIncome === 1) {
-                                        if (element2.amount === null) {
+                                    if (element2.isIncome == 1) {
+                                        if (element2.amount == null) {
                                             //  console.log('entro')
                                             // doc.text('0', 436, n, 'right' );
                                         }else {
                                             doc.text(element2.amount, 436, n, 'right' );
                                         }
                                     }
-                                    if (element2.isIncome === 0) {
-                                        if (element2.amount === null) {
+                                    if (element2.isIncome == 0) {
+                                        if (element2.amount == null) {
                                             // console.log('entro')
                                             // doc.text('0', 502, n, 'right' );
                                         }else {
@@ -362,10 +363,18 @@
                         
                         }
                         doc.setFontType("bold");
-                        doc.setFontSize(12);
+                        doc.setFontSize(10);
                         doc.line(30, n, 580, n);
+                        doc.line(30, n+3, 580, n+3);
+                        totalAsignacion
+                        totalDeduccion
+                        let totalNeto = formatNumber(totalAsignacion - totalDeduccion)
                         n = n + 20
-                        doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
+                        doc.text( `TOTAL GENERAL:`, 215, n );
+                        doc.text(`$ ${totalAsignacion}`, 436, n, 'right' );
+                        doc.text(`$ ${totalDeduccion}`, 502, n, 'right' );
+                        doc.text(`$ ${totalNeto}`, 574, n, 'right' );
+                        // doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
                         
                         doc.save(company + '-' + period + '.pdf');
                         // console.log(res.data.print)
