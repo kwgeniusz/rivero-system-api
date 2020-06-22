@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-xs-12 text-left" style="word-wrap: break-word;">
-          <h4><b>Alcances de la Propuesta</b></h4>
+          <h4><b>Alcances del Trabajo</b></h4>
            <ul>
             <li v-for="(propScope,index) in scopesList">
               {{ propScope.description }}

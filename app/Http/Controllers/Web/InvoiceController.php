@@ -251,6 +251,7 @@ class InvoiceController extends Controller
         $currentShare           = $this->oReceivable->currentShare($id);
 
         $btnReturn = $request->btnReturn;
+        
         return view('module_contracts.invoices.payment', compact('invoice','invoiceDetails', 'payments','invoiceBalance','currentShare','btnReturn'));
 
     }
@@ -268,9 +269,8 @@ class InvoiceController extends Controller
             'message'    => $result['msj'],
             'alert-type' => $result['alert'],
         );
-        
-        return redirect()->route('invoices.payments', ['id' => $request->invoiceId])
-            ->with($notification);
+
+      return redirect()->back()->with($notification);
 
     }
     public function paymentsRemove($id, $invoiceId)
@@ -283,8 +283,8 @@ class InvoiceController extends Controller
             'alert-type' => $result['alert'],
         );
 
-        return redirect()->route('invoices.payments', ['id' => $invoiceId])
-            ->with($notification);
+      return redirect()->back()->with($notification);
+    
     }
 //---------------SUBCONTRACTOR-----------------------//
 

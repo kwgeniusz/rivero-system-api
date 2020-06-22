@@ -67,7 +67,8 @@ class InvoiceDetail extends Model
 
     public function getAllByInvoice($invoiceId)
     {
-        $result = $this->where('invoiceId', $invoiceId)
+        $result = $this->with('subcontractorInvDetail')
+            ->where('invoiceId', $invoiceId)
             ->orderBy('itemNumber', 'ASC')
             ->get();
 
@@ -76,7 +77,7 @@ class InvoiceDetail extends Model
 //------------------------------------
         public function getWithPriceByInvoice($invoiceId)
     {
-        $result = $this->with('SubcontractorInvDetail')
+        $result = $this->with('subcontractorInvDetail')
                        ->where('invoiceId', $invoiceId)
                        ->where('unit','!=', null)
                        ->orderBy('itemNumber', 'ASC')
@@ -135,8 +136,15 @@ class InvoiceDetail extends Model
 
         DB::beginTransaction();
         try {
-            //BUSCAR EL RENGLON PARA SACAR SU INVOICEID y amount
-            // $oInvoiceDetail = InvoiceDetail::find($id);
+
+          // //Buscar algun compromiso con subcontrista para lanzar error
+          //   $invDetails=$this->getAllByInvoice($invoiceId);
+          //   foreach ($invDetails as $invDetail) {
+          //      $acum=count($invDetail->subcontractorInvDetail);
+          //    }
+            
+
+            //Buscar alguna cuota pagada en essta factura.
             $oReceivable = new Receivable;
             $successShares=$oReceivable->shareSucceed($invoiceId);
 
@@ -155,7 +163,6 @@ class InvoiceDetail extends Model
             $inv = Invoice::find($invoiceId);
             $oInvoice = new Invoice; 
             $oInvoice->updateInvoiceTotal('-',$inv->invoiceId, $inv->grossTotal); // RESTA TODO EL MONTO DE GROSSTOTAL PARA QUE HAGA EL DESCUENTO.
-
         }else{
            throw new \Exception('Error: No se puede modificar renglones se ha comenzado a pagar la factura');
         };

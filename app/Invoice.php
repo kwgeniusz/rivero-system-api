@@ -46,7 +46,7 @@ class Invoice extends Model
     }
     public function invoiceDetails()
     {
-      return $this->hasMany('App\InvoiceDetail', 'invoiceId', 'invoiceId');
+      return $this->hasMany('App\InvoiceDetail', 'invoiceId', 'invoiceId')->orderBy('itemNumber');
     }
      public function note()
     {
@@ -128,13 +128,13 @@ class Invoice extends Model
      public function getAllByOffice($officeId)
     {
         return $this->where('officeId' , '=' , $officeId)
-            ->orderBy('invoiceDate', 'DESC')
+            ->orderBy('invId', 'DESC')
             ->get();
     }   
     
     public function getAllByContract($contractId)
     {
-        $result = $this->with('invoiceDetails','note','scope')
+        $result = $this->with('invoiceDetails','note','scope','projectDescription')
             ->where('contractId', $contractId)
             ->orderBy('invoiceId', 'ASC')
             ->get();
