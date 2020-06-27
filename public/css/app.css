@@ -8712,7 +8712,7 @@ html {
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 12px;
   line-height: 1.6;
   color: #636b6f;
@@ -14789,7 +14789,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Raleway", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -14923,7 +14923,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Raleway", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -15871,12 +15871,33 @@ button.toast-close-button {
   }
 }
 
+a,
+label,
+span {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
 .hover:hover {
   background: #cbb956;
 }
 
 .text-left {
   font-weight: 400;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  white-space: break-word;
+}
+
+.iframe {
+  width: 100%;
+  height: calc(100vh - 88px);
+}
+
+.text-principal {
+  overflow-wrap: break-word;
+}
+
+.comment {
   font-size: 12px;
   overflow-wrap: break-word;
   white-space: normal;
