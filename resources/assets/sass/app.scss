@@ -21,6 +21,10 @@
 // by Manuel Hernandez <manuel.hernandez@riverovisualgroup>  //
 ///////////////////////////////////////////////////////////////
 
+a, label, span {
+    font-family: $font-family-sans-serif;
+}
+
 //////////////////// Modal Switch Contract ////////////////////
 
 $hover: #cbb956;
@@ -31,10 +35,29 @@ $hover: #cbb956;
     
 .text-left {
     font-weight: 400;
-    font-size: 12px;
-    overflow-wrap: break-word;
-    white-space: normal;
+    font-size: $font-size-base;
+    overflow-wrap: $overflow-wrap;
+    white-space: $overflow-wrap;
      }
+
+////////////////////////// Particles /////////////////////////
+
+
 
 /////////////////// Modal Document Preview ///////////////////
 
+.iframe{
+    width:100%;
+    height: calc(100vh - 88px);  
+  }
+
+//////////////////////// Comentarios /////////////////////////
+
+  .text-principal{
+    overflow-wrap: $overflow-wrap;
+  }
+  .comment {
+      font-size: $font-size-base;
+      overflow-wrap: $overflow-wrap;
+      white-space: $white-space;
+       }
