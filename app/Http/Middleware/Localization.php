@@ -22,8 +22,8 @@ class Localization
     //ejecuta una asignacion de ese language a Locale en config laravel
     //nota:session::has('language') viene de lo que el usuario escoge en el  menu el idioma eso pasa a la route y luego alli se asigna ese valor a session
         if (Session::has('language')) {
+           //para cambiar el lenguaje en config: laravel
              App::setLocale(Session::get('language'));
-                  setlocale(LC_TIME, Session::get('language'));//para idiomas
         }
     //si variable Auth de laravel esta llena ejecuta todo este codigo
         //esto es para que funcione en la ventana de login

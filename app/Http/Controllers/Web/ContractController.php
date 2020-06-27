@@ -58,7 +58,16 @@ class ContractController extends Controller
         
         $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $contracts = $this->oContract->getAllForFourStatus(Contract::VACANT, Contract::STARTED,Contract::READY_BUT_PENDING_PAYABLE,Contract::PROCESSING_PERMIT,$filteredOut,session('countryId'),session('officeId'));
+        $contracts = $this->oContract->getAllForFiveStatus(
+            Contract::VACANT, 
+            Contract::STARTED,
+            Contract::READY_BUT_PENDING_PAYABLE,
+            Contract::PROCESSING_PERMIT,
+            Contract::WAITING_CLIENT,
+            $filteredOut,
+            session('countryId'),
+            session('officeId')
+        );
 
         return view('module_contracts.contracts.index', compact('contracts'));
     }

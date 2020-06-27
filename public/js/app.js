@@ -19009,6 +19009,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweet_modal_vue_src_plugin_js__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_Permissions__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_Permissions___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_Permissions__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_moment__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_moment__);
+throw new Error("Cannot find module \"moment-timezone\"");
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -19032,7 +19035,14 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_sweet_modal_vue_src_plugin_js__["a" /* defau
 
 Vue.mixin(__WEBPACK_IMPORTED_MODULE_1__mixins_Permissions___default.a);
 
-Vue.use(__webpack_require__(74));
+
+
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_moment___default.a, {
+  moment: __WEBPACK_IMPORTED_MODULE_3_moment_timezone___default.a
+});
+
+// Vue.use(require('vue-moment'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -19119,6 +19129,7 @@ Vue.component('list-company', __webpack_require__(303));
 // ########### srcComponent 
 Vue.component('button-form', __webpack_require__(306));
 Vue.component('loading', __webpack_require__(309));
+Vue.component('time-live', __webpack_require__(323));
 
 var app = new Vue({
   el: '#app',
@@ -62168,7 +62179,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.$moment.tz.setDefault('UTC');
+  },
 
   data: function data() {
     return {
@@ -62338,6 +62351,8 @@ var render = function() {
                         _vm._s(
                           _vm._f("moment")(
                             comment.commentDate,
+                            "timezone",
+                            "America/Chicago",
                             "MM/DD/YYYY - hh:mm A"
                           )
                         ) +
@@ -62367,6 +62382,8 @@ var render = function() {
                       _vm._s(
                         _vm._f("moment")(
                           _vm.contract.contractDate,
+                          "timezone",
+                          "America/Chicago",
                           "MM/DD/YYYY - hh:mm A"
                         )
                       ) +
@@ -63250,6 +63267,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -63281,7 +63307,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       //llamar las facturas activas del contrato, con detalles, notas, alcances
       axios.get('invoices?id=' + this.contractId).then(function (response) {
         _this.invoicesList = response.data;
-        console.log(_this.invoicesList);
+        // console.log(this.invoicesList);
       });
 
       this.$refs.mainModal.open();
@@ -63331,9 +63357,30 @@ var render = function() {
             }
           },
           [
-            _vm._v(
-              "\n   Detalles Contrato " + _vm._s(this.contractNumber) + "\n"
-            )
+            _vm._v("\n   Contrato " + _vm._s(this.contractNumber)),
+            _c("br"),
+            _vm._v(" "),
+            _vm.contract != null
+              ? _c("span", [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.contract[0].propertyNumber) +
+                      "\n        " +
+                      _vm._s(_vm.contract[0].streetName) +
+                      "\n        " +
+                      _vm._s(_vm.contract[0].streetType) +
+                      "\n        " +
+                      _vm._s(_vm.contract[0].suiteNumber) +
+                      "\n        " +
+                      _vm._s(_vm.contract[0].city) +
+                      "\n        " +
+                      _vm._s(_vm.contract[0].state) +
+                      "\n        " +
+                      _vm._s(_vm.contract[0].zipCode) +
+                      " \n   "
+                  )
+                ])
+              : _vm._e()
           ]
         ),
         _vm._v(" "),
@@ -63469,7 +63516,7 @@ var render = function() {
               "aria-expanded": "false"
             }
           },
-          [_vm._v("\n   Ver Alcances\n")]
+          [_vm._v("\n   Ver Alcances \n")]
         ),
         _vm._v(" "),
         _vm.contract != null
@@ -63496,7 +63543,19 @@ var render = function() {
                             "aria-expanded": "false"
                           }
                         },
-                        [_c("b", [_vm._v("Solicitud #" + _vm._s(++index))])]
+                        [
+                          _c("b", [
+                            _vm._v(
+                              "Solicitud #" +
+                                _vm._s(++index) +
+                                " " +
+                                _vm._s(
+                                  invoice.project_description
+                                    .projectDescriptionName
+                                )
+                            )
+                          ])
+                        ]
                       ),
                       _vm._v(" "),
                       _c(
@@ -63885,9 +63944,7 @@ var render = function() {
           },
           [
             _c("u", [_vm._v("CLIENTE:")]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(_vm._s(this.clientName) + "\n")
+            _vm._v(" " + _vm._s(this.clientName) + "\n")
           ]
         ),
         _vm._v(" "),
@@ -65045,6 +65102,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -65134,6 +65197,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var url = 'invoicesDetails/' + this.invoiceId;
       axios.get(url).then(function (response) {
         _this3.itemList = response.data;
+        // console.log(this.itemList);
       });
     },
     selectService: function selectService(id) {
@@ -65920,7 +65984,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", [_c("b", [_vm._v("Alcances de la Propuesta")])])
+    return _c("h4", [_c("b", [_vm._v("Alcances del Trabajo")])])
   }
 ]
 render._withStripped = true
@@ -66419,7 +66483,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("MONTO")]),
         _vm._v(" "),
-        _c("th", { attrs: { colspan: "2" } }, [_vm._v("ACCION")])
+        _c("th", [_vm._v("ACCION")])
       ])
     ])
   }
@@ -96547,6 +96611,194 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(324)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(326)
+/* template */
+var __vue_template__ = __webpack_require__(327)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/srcComponent/timeLive.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-05187a28", Component.options)
+  } else {
+    hotAPI.reload("data-v-05187a28", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(325);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("2c91e8fc", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-05187a28\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./timeLive.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-05187a28\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./timeLive.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.inline {\n   display:block-inline;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 326 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('Component timeLive mounted.');
+  },
+  created: function created() {
+    var _this = this;
+
+    this.currentTime = new Date();
+    setInterval(function () {
+      return _this.updateCurrentTime();
+    }, 1 * 1000);
+  },
+
+  data: function data() {
+    return {
+      currentTime: null,
+      message: 'Current Time:'
+    };
+  },
+  methods: {
+    updateCurrentTime: function updateCurrentTime() {
+      this.currentTime = new Date();
+    }
+  }
+});
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-xs-12 text-right" }, [
+    _c("b", [
+      _vm._v(
+        " Venezuela: " +
+          _vm._s(
+            _vm._f("moment")(
+              _vm.currentTime,
+              "timezone",
+              "America/Caracas",
+              "hh:mm A"
+            )
+          ) +
+          " /\n "
+      ),
+      _vm._v(
+        "\n    Dallas: " +
+          _vm._s(
+            _vm._f("moment")(
+              _vm.currentTime,
+              "timezone",
+              "America/Chicago",
+              "hh:mm A"
+            )
+          ) +
+          " "
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-05187a28", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

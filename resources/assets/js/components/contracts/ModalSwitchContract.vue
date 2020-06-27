@@ -10,7 +10,16 @@
  <sweet-modal ref="mainModal">
 <!-- button -->
 <div class="bg-primary hover" role="button" data-toggle="collapse" :href="'#'+contractNumber" aria-expanded="false" style="" >
-   Detalles Contrato {{this.contractNumber}}
+   Contrato {{this.contractNumber}}<br>
+   <span v-if="contract != null">
+        {{contract[0].propertyNumber}}
+        {{contract[0].streetName}}
+        {{contract[0].streetType}}
+        {{contract[0].suiteNumber}}
+        {{contract[0].city}}
+        {{contract[0].state}}
+        {{contract[0].zipCode}} 
+   </span>
 </div>
 <!-- collapse -->
 <div v-if="contract != null" class="collapse" :id="contractNumber">
@@ -46,7 +55,7 @@
 <!--COMIENZO A VER LOS DETALLES DE REQUERIMIENTOS DE FACTURAS-->
 <!-- button -->
 <div class="bg-primary hover" role="button" data-toggle="collapse" :href="'#'+contractNumber+'-scope'" aria-expanded="false" style="" >
-   Ver Alcances
+   Ver Alcances 
 </div>
 <!-- collapse -->
 <div v-if="contract != null" class="collapse" :id="contractNumber+'-scope'">
@@ -54,7 +63,7 @@
      <div v-for="(invoice,index) in invoicesList" >
 
              <div class="bg-info" role="button" data-toggle="collapse" :href="'#'+invoice.invId+'-request'" aria-expanded="false" style="" >
-                         <b>Solicitud #{{++index}}</b>
+                         <b>Solicitud #{{++index}} {{invoice.project_description.projectDescriptionName}}</b>
               </div>
                  <!-- collapse -->
               <div  class="collapse" :id="invoice.invId+'-request'">
@@ -156,7 +165,7 @@
           //llamar las facturas activas del contrato, con detalles, notas, alcances
           axios.get('invoices?id='+this.contractId).then(response => {
                   this.invoicesList = response.data
-                 console.log(this.invoicesList);
+                 // console.log(this.invoicesList);
             });
 
             this.$refs.mainModal.open()

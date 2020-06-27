@@ -79,7 +79,8 @@
                 <th>COSTO</th>
                 <th>CANTIDAD</th>
                 <th>MONTO</th>
-                <th colspan="2" >ACCION</th>
+                <th>ACCION</th>
+                <!-- <th></th> -->
             </tr>
             </thead>
           <tbody>   
@@ -101,6 +102,11 @@
               <span class="fa fa-angle-double-down" aria-hidden="true"></span>
              </button>
            </td> 
+  <!--           <td> 
+              <span class="fa fa-search" aria-hidden="true">
+              {{item.subcontractor_inv_detail.length}} SC
+            </span>
+            </td> -->
          </tr>
          </tbody>
         </table>
@@ -222,6 +228,7 @@ export default {
             let url ='invoicesDetails/'+this.invoiceId;
             axios.get(url).then(response => {
              this.itemList = response.data
+             // console.log(this.itemList);
             });
         },
           selectService: function (id){

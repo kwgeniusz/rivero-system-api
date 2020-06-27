@@ -69,7 +69,7 @@
         </div>
 
     <div class="row text-center">
-      <form class="form-inline" action="{{Route('proposals.paymentsAdd')}}" method="POST">
+      <form class="form-inline form-prevent-multiple-submits" action="{{Route('proposals.paymentsAdd')}}" method="POST">
       {{csrf_field()}}
           <input type="hidden" name="proposalId" value="{{$proposal[0]->proposalId}}">
 
@@ -79,7 +79,7 @@
          </div>
    <br><br>
           <div class="form-group col-lg-12  col-xs-12">  
-           <button type="submit" class="btn btn-success">
+           <button type="submit" class="btn btn-success button-prevent-multiple-submits">
                  <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Cuota
             </button>
@@ -114,7 +114,7 @@
              @can('BCEB')   
                   <a href="{{route('proposals.paymentsRemove', [
                   'id' => $payment->paymentProposalId,
-                  'proposalId' =>$proposal[0]->proposalId]) }}" class="btn btn-danger btn-sm">
+                  'proposalId' =>$proposal[0]->proposalId]) }}" class="btn btn-danger btn-sm links-prevent-multiple-submits">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
               @endcan      

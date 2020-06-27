@@ -15,6 +15,7 @@
                  <th>N° {{__('contract')}}</th>
                  <th>{{__('country')}}</th>
                  <th>{{__('office')}}</th>
+                 <th>DIRECCION       </th>
                  <th>{{__('date_of_contract')}}</th>
                  <th>{{__('client')}}</th>
                  <th>{{__('status')}}</th>
@@ -26,6 +27,7 @@
                     <td>{{$contract[0]->contractNumber}} </td>
                     <td>{{$contract[0]->country->countryName}} </td>
                     <td>{{$contract[0]->office->officeName}} </td>
+                    <td>{{$contract[0]->siteAddress}} </td>
                     <td>{{$contract[0]->contractDate}} </td>
                     <td>{{$contract[0]->client->clientName}} </td>
                     <td>{{$contract[0]->contractStatusR[0]->contStatusName }} </td>

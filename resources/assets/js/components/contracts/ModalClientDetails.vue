@@ -9,7 +9,7 @@
  <sweet-modal ref="mainModal">
 <!-- button -->
 <div class="bg-info" role="button" data-toggle="collapse" :href="'#'+clientId" aria-expanded="false">
-  <u>CLIENTE:</u> <br>{{this.clientName}}
+  <u>CLIENTE:</u> {{this.clientName}}
 </div>
 <!-- collapse -->
 <div v-if="client != null" class="collapse" :id="clientId">
