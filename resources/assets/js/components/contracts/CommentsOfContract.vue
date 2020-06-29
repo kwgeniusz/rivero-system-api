@@ -5,7 +5,7 @@
 
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
            <a @click="modalMain()" class="btn btn-warning btn-sm">
-                <span class="fa fa-book" aria-hidden="true">COMENTARIOS</span>  
+                <i class="fa fa-comment" aria-hidden="true"></i> Comentarios 
            </a>
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
  <sweet-modal ref="modal" width="90%">
@@ -56,7 +56,7 @@
               </div>
               <input class="btn btn-primary" type="submit" value="Agregar" v-if="btnSubmitForm">
               <br>
-              .
+
         </div>
     </form>
 </sweet-modal>
@@ -148,16 +148,6 @@
 
 </script>
 
-<style scoped>
-
-.text-principal{
-  overflow-wrap: break-word;
-}
-.comment {
-    font-size: 12px;
-    overflow-wrap: break-word;
-    white-space: normal;
-     }
-
-
+<style lang="scss">
+@import '../../../sass/app.scss'
 </style>
