@@ -15888,6 +15888,238 @@ span {
   white-space: break-word;
 }
 
+.svg_logo {
+  position: center;
+  z-index: 3;
+  width: 70%;
+  height: 70%;
+}
+
+#circle1 {
+  stroke-dasharray: 1200;
+  fill: #3d7dca;
+  stroke: #3d7dca;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  -webkit-animation: circle1 7s alternate;
+          animation: circle1 7s alternate;
+  z-index: 3;
+  width: 70%;
+  height: 70%;
+}
+
+@-webkit-keyframes circle1 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+@keyframes circle1 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+#circle2 {
+  stroke-dasharray: 1200;
+  fill: #00b3e3;
+  stroke: #00b3e3;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  -webkit-animation: circle2 7s alternate;
+          animation: circle2 7s alternate;
+  z-index: 3;
+  width: 70%;
+  height: 70%;
+}
+
+@-webkit-keyframes circle2 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+@keyframes circle2 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+#circle3 {
+  stroke-dasharray: 1200;
+  fill: #001c71;
+  stroke: #001c71;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  -webkit-animation: circle3 7s alternate;
+          animation: circle3 7s alternate;
+  z-index: 3;
+  width: 70%;
+  height: 70%;
+}
+
+@-webkit-keyframes circle3 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+@keyframes circle3 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
 .iframe {
   width: 100%;
   height: calc(100vh - 88px);
