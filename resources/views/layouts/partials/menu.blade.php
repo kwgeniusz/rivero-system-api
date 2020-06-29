@@ -48,7 +48,7 @@
           </a>
           <ul class="treeview-menu">
   @can('BA') <li><a href="{{route('clients.index')}}"> {{__('clients')}}   </a></li> @endcan
-  {{-- @can('BA') <li><a href="{{route('subcontractors.index')}}">Subcontratistas   </a></li> @endcan --}}
+  @can('BA') <li><a href="{{route('subcontractors.index')}}">Subcontratistas   </a></li> @endcan
   @can('BB') <li><a href="{{route('precontracts.index')}}">Pre-Contratos</a></li> @endcan
   @can('BD') <li><a href="{{route('contracts.index')}}">{{__('Contracts')}}</a></li> @endcan
   {{-- @can('BD') <li><a href="{{route('contracts.generalSearch')}}">{{__('general_search')}}</a></li> @endcan

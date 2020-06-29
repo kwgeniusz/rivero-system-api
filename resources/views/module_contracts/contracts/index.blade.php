@@ -63,7 +63,9 @@
                    <td>{{++$acum}}</td>
                     <td>
                 <modal-switch-contract pref-url="/" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></modal-switch-contract>
+        @can('BDE')
                 <comments-contract pref-url="" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></comments-contract>
+         @endcan
                      </td>
 {{--                     <td>{{$contract->client->clientCode}}</p></td> --}}
                     <td>

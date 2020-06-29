@@ -299,7 +299,7 @@ class Contract extends Model
         $result = $this->where('contractStatus', $contractStatus)
             ->where('countryId', $countryId)
             ->where('officeId', $officeId) 
-            ->orderBy('contractNumber', 'ASC')
+            ->orderBy('contractNumber', 'DESC')
             ->filter($filteredOut)
             ->get();
 

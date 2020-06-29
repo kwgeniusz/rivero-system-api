@@ -109,9 +109,14 @@
                   <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>  
-                   @endif  
+                   @endif 
+
+                  <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                        <span class="fa fa-times-circle" aria-hidden="true"></span> 
+                    </a>
                   {{-- @endif   --}}
                 @endif  
+
                 @can('BEB')
                 <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 

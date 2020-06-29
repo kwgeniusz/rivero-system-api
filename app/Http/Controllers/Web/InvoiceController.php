@@ -137,21 +137,28 @@ class InvoiceController extends Controller
           if($request->ajax()){
                 return $invoice;
             }
-        return view('module_contracts.invoices.details', compact('invoice'));
+        return view('module_contracts.invoices.show', compact('invoice'));
     }
 
-    public function closeInvoice(Request $request)
+    public function changeStatus(Request $request)
     {
- 
-        $this->oInvoice->changeStatus($request->invoiceId, Invoice::CLOSED);
 
-        $notification = array(
-            'message'    => 'Factura Cerrada, Puede comenzar a crear cuotas',
-            'alertType' => 'success',
-        );
-        return $notification;
+         switch ($request->newStatus) {
+           case 'CANCELLED':
+            $this->oInvoice->changeStatus($request->invoiceId, Invoice::CANCELLED);
+            $notification = array('message'    => 'Factura Cancelada', 'alertType' => 'info');
+             break;
+           case 'COLLECTION':
+            $this->oInvoice->changeStatus($request->invoiceId, Invoice::COLLECTION);
+            $notification = array('message'    => 'Factura Enviada a Collection', 'alertType' => 'info');
+             # code...
+             break;
+         }
+      
+      return redirect()->back()->with($notification);
     }
 
+// ----------------FUNCTIONS TO MODULE ADMINISTRATIVE-------------------------------//.
      public function getAllInvoices(Request $request)
     {
        $totalMontoFacturas = 0;

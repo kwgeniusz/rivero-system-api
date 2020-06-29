@@ -34,8 +34,8 @@
           <table class="table table-striped table-bordered text-center">
             <thead> 
             <tr>  
-                <th><input v-if="showMultiples" type="checkbox" v-model="checkAll"> # </th>
-                <th>CONTRATO</th>
+                <th><!-- <input v-if="showMultiples" type="checkbox" v-model="checkAll"> --> # </th>
+                <th>DIRECCION</th>
                 <th>FACTURA</th>
                 <th>MONTO DEUDA</th>  
                 <th>MONTO PAGADO</th>
@@ -51,21 +51,29 @@
               {{++index}}
           </label>
             </td> -->
-            <!-- <td>{{payable.subcont_inv_detail.invoice_detail}}</td> -->
-            <td></td>
-            <td></td>
-            <td>{{payable.payableId}}</td>
+            <td>{{++index}}</td>
+            <td>
+                {{payable.subcont_inv_detail.invoice_detail.invoice.contract.propertyNumber}} 
+                {{payable.subcont_inv_detail.invoice_detail.invoice.contract.streetName}} 
+                {{payable.subcont_inv_detail.invoice_detail.invoice.contract.streetType}} 
+                {{payable.subcont_inv_detail.invoice_detail.invoice.contract.suiteNumber}} 
+                {{payable.subcont_inv_detail.invoice_detail.invoice.contract.city}} 
+                {{payable.subcont_inv_detail.invoice_detail.invoice.contract.state}} 
+                {{payable.subcont_inv_detail.invoice_detail.invoice.contract.zipCode}}
+            </td>
+            <td>{{payable.subcont_inv_detail.invoice_detail.invoice.invId}}</td>
             <td>{{payable.amountDue}}</td>
             <td>{{payable.amountPaid}}</td> 
+            <!-- <td>{{payable.payableId}}</td> -->
             <td v-for="(user) in payable.user"> {{user.fullName}}</td> 
             <td>  
-             <a v-if="$can('BDGAC') && typeDoc == 'previous'" :href="'../fileDownload/'+payable.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
+    <!--          <a v-if="$can('BDGAC') && typeDoc == 'previous'" :href="'../fileDownload/'+payable.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
                      <span class="fa fa-file" aria-hidden="true"></span> 
             </a>
  
              <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="deleteFile(payable)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
+            </a> -->
            </td> 
          </tr>
          </tbody>

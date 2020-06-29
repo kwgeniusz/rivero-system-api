@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Receivable extends Model
 {
-
     protected $table      = 'receivable';
     protected $primaryKey = 'receivableId';
     public $timestamps    = false;
@@ -43,18 +42,18 @@ class Receivable extends Model
     ];
     //RECEIVABLE STATUS
     const STATELESS     = '1';
-    const PROCESS     = '2';
-    const DECLINED    = '3';
-    const SUCCESS   = '4';
+    const PROCESS       = '2';
+    const DECLINED      = '3';
+    const SUCCESS       = '4';
 
     // //COLLECTIONS METHOD
     const DEBIT_CARD     = '1';
-    // const CASH     = '2';
-    // const CHECK    = '3';
-    // const DEPOSIT   = '4';
-    // const PAYPAL   = '5';
-    // const TRANSFER = '6';
-    const CREDIT_CARD     = '10';
+    // const CASH        = '2';
+    // const CHECK       = '3';
+    // const DEPOSIT     = '4';
+    // const PAYPAL      = '5';
+    // const TRANSFER    = '6';
+    const CREDIT_CARD    = '10';
 
 //------------ACCESORES-----------------//
     public function getAmountDueAttribute($amountDue)
