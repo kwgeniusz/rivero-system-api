@@ -40,13 +40,22 @@ $hover: #cbb956;
     white-space: $overflow-wrap;
      }
 
+.glow {
+  text-shadow: 0 0 3px rgb(140, 208, 253);
+}
+
+.round {
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
 ////////////////////// Login Animation ////////////////////////
 
 .svg_logo {
   position: center;
   z-index: 3;
-  width: 70%; 
-  height: 70%;
+  width: 55%; 
+  height: 55%;
 }
 
 #circle1 {
@@ -58,9 +67,6 @@ $hover: #cbb956;
   stroke-miterlimit: 10;
   fill-rule: nonzero;
   animation: circle1 7s alternate;
-  z-index: 3;
-  width: 70%; 
-  height: 70%;
 }
 
 @keyframes circle1 {
@@ -98,9 +104,6 @@ $hover: #cbb956;
   stroke-miterlimit: 10;
   fill-rule: nonzero;
   animation: circle2 7s alternate;
-  z-index: 3;
-  width: 70%; 
-  height: 70%;
 }
 
 @keyframes circle2 {
@@ -138,9 +141,6 @@ $hover: #cbb956;
   stroke-miterlimit: 10;
   fill-rule: nonzero;
   animation: circle3 7s alternate;
-  z-index: 3;
-  width: 70%; 
-  height: 70%;
 }
 
 @keyframes circle3 {
@@ -171,7 +171,7 @@ $hover: #cbb956;
 
 /////////////////// Modal Document Preview ///////////////////
 
-.iframe{
+  .iframe{
     width:100%;
     height: calc(100vh - 88px);  
   }
@@ -186,3 +186,5 @@ $hover: #cbb956;
       overflow-wrap: $overflow-wrap;
       white-space: $white-space;
        }
+
+//////////////////////////  //////////////////////////
