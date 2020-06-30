@@ -9,8 +9,8 @@
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA DETALLES DEL CONTRATO-->
  <sweet-modal ref="mainModal">
 <!-- button -->
-<div class="bg-primary hover" role="button" data-toggle="collapse" :href="'#'+contractNumber" aria-expanded="false" style="" >
-   Contrato {{this.contractNumber}}<br>
+<div class="bg-primary hover round glow" role="button" data-toggle="collapse" :href="'#'+contractNumber" aria-expanded="false" style="" >
+  <i class="fa fa-chevron-circle-down"></i> Contrato {{this.contractNumber}}<br>
    <span v-if="contract != null">
         {{contract[0].propertyNumber}}
         {{contract[0].streetName}}
@@ -18,18 +18,20 @@
         {{contract[0].suiteNumber}}
         {{contract[0].city}}
         {{contract[0].state}}
-        {{contract[0].zipCode}} 
+        {{contract[0].zipCode}}
    </span>
 </div>
 <!-- collapse -->
 <div v-if="contract != null" class="collapse" :id="contractNumber">
   <div class="well">
-    <h4>
+       <!-- Using properly a better class for "p" text -->
+       <div class="text-left">
+       <center>
   <!--     {{contract[0]}} -->
-       <b><u>Nombre del Proyecto:</u></b> <br>{{contract[0].projectName}}<br>
-       <b><u>Fecha:</u></b> <br>{{contract[0].contractDate | moment("MM/DD/YYYY")}}<br>
+       <b><u>Nombre del Proyecto</u></b> <br>{{contract[0].projectName}}<br>
+       <b><u>Fecha</u></b> <br>{{contract[0].contractDate | moment("MM/DD/YYYY")}}<br>
        <!-- <b><u>Cliente:</u></b> <br>{{contract[0].client.clientName}}<br> -->
-       <b><u>Tipo de Contrato:</u></b> <br>{{contract[0].contractType}}<br>
+       <b><u>Tipo de Contrato</u></b> <br>{{contract[0].contractType}}<br>
        <b><u>Direccion:</u></b> <br>
         {{contract[0].propertyNumber}}
         {{contract[0].streetName}}
@@ -37,25 +39,25 @@
         {{contract[0].suiteNumber}}
         {{contract[0].city}}
         {{contract[0].state}}
-        {{contract[0].zipCode}} 
-       <br>
-       <b><u>IBC:</u></b> <br>{{contract[0].building_code.buildingCodeName}}<br>
-       <b><u>Grupo:</u></b> <br>{{contract[0].building_code_group.groupName}}<br>
-       <b><u>Uso:</u></b> <br>{{contract[0].project_use.projectUseName}}<br>
-       <b><u>Tipo de Construccion:</u></b> <br>{{contract[0].constructionType}}<br><br>
-       <b><u>Comentario:</u></b>
-       <br>
+        {{contract[0].zipCode}}
+        <br>
+       <b><u>IBC</u></b> <br>{{contract[0].building_code.buildingCodeName}}<br>
+       <b><u>Grupo</u></b> <br>{{contract[0].building_code_group.groupName}}<br>
+       <b><u>Uso</u></b> <br>{{contract[0].project_use.projectUseName}}<br>
+       <b><u>Tipo de Construccion</u></b> <br>{{contract[0].constructionType}}<br><br>
+       <b><u>Comentario</u></b>
+       </center>
   
        <textarea class="form-control" rows="3" v-model="contract[0].initialComment" disabled="on"></textarea>
-    </h4>
+    </div>
   </div>
 
 </div>
 
 <!--COMIENZO A VER LOS DETALLES DE REQUERIMIENTOS DE FACTURAS-->
 <!-- button -->
-<div class="bg-primary hover" role="button" data-toggle="collapse" :href="'#'+contractNumber+'-scope'" aria-expanded="false" style="" >
-   Ver Alcances 
+<div class="bg-primary hover round glow" role="button" data-toggle="collapse" :href="'#'+contractNumber+'-scope'" aria-expanded="false" style="" >
+   <i class="fa fa-chevron-circle-down"></i> Ver Alcances
 </div>
 <!-- collapse -->
 <div v-if="contract != null" class="collapse" :id="contractNumber+'-scope'">
@@ -80,7 +82,7 @@
                            - {{invoiceDetail.serviceName}}      
                      </p>
 
-                    <center><b><u>Terminos y Condiciones</u></b></center>
+                    <center><b><u>Términos y Condiciones</u></b></center>
                     <br>
                      <p v-for="(note,index2) in invoice.note">
                            - {{note.noteName}}     
@@ -100,7 +102,7 @@
   </div>
 </div>
 
-    <h4 class="bg-primary"><b>Escoja Una Opcion</b></h4>
+    <h4 class="bg-primary round glow"><b>Escoja Una Opcion</b></h4>
     <div class="bg-info">
     
                     <a v-if="$can('BDE')" :href="'contractsChangeStatus/'+contractId" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Estado">
