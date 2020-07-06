@@ -95,9 +95,6 @@ class InvoiceDetailController extends Controller
    public function getWithPriceByInvoice($invoiceId)
     {
         $result = $this->oInvoiceDetail->getWithPriceByInvoice($invoiceId);
-
-    
          return $result;
-
     }
 }

@@ -56,11 +56,6 @@
 
 </script>
 
-<style scoped>
-
- .iframe{
-   width:100%;
-    height: calc(100vh - 88px);  
- }
-
+<style lang="scss">
+@import '../../../sass/app.scss'
 </style>

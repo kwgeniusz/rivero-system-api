@@ -8712,7 +8712,7 @@ html {
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 12px;
   line-height: 1.6;
   color: #636b6f;
@@ -14789,7 +14789,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Raleway", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -14923,7 +14923,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Raleway", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -15871,12 +15871,265 @@ button.toast-close-button {
   }
 }
 
+a,
+label,
+span {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
 .hover:hover {
   background: #cbb956;
 }
 
 .text-left {
   font-weight: 400;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  white-space: break-word;
+}
+
+.glow {
+  text-shadow: 0 0 3px #8cd0fd;
+}
+
+.round {
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
+.svg_logo {
+  position: center;
+  z-index: 3;
+  width: 55%;
+  height: 55%;
+}
+
+#circle1 {
+  stroke-dasharray: 1200;
+  fill: #3d7dca;
+  stroke: #3d7dca;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  -webkit-animation: circle1 7s alternate;
+          animation: circle1 7s alternate;
+}
+
+@-webkit-keyframes circle1 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+@keyframes circle1 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+#circle2 {
+  stroke-dasharray: 1200;
+  fill: #00b3e3;
+  stroke: #00b3e3;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  -webkit-animation: circle2 7s alternate;
+          animation: circle2 7s alternate;
+}
+
+@-webkit-keyframes circle2 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+@keyframes circle2 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+#circle3 {
+  stroke-dasharray: 1200;
+  fill: #001c71;
+  stroke: #001c71;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  -webkit-animation: circle3 7s alternate;
+          animation: circle3 7s alternate;
+}
+
+@-webkit-keyframes circle3 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+@keyframes circle3 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+
+  20% {
+    fill-opacity: 0;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  60% {
+    fill-opacity: 0.5;
+  }
+
+  80% {
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+  }
+}
+
+.iframe {
+  width: 100%;
+  height: calc(100vh - 88px);
+}
+
+.text-principal {
+  overflow-wrap: break-word;
+}
+
+.comment {
   font-size: 12px;
   overflow-wrap: break-word;
   white-space: normal;

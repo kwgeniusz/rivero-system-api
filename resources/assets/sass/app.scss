@@ -21,6 +21,10 @@
 // by Manuel Hernandez <manuel.hernandez@riverovisualgroup>  //
 ///////////////////////////////////////////////////////////////
 
+a, label, span {
+    font-family: $font-family-sans-serif;
+}
+
 //////////////////// Modal Switch Contract ////////////////////
 
 $hover: #cbb956;
@@ -31,10 +35,156 @@ $hover: #cbb956;
     
 .text-left {
     font-weight: 400;
-    font-size: 12px;
-    overflow-wrap: break-word;
-    white-space: normal;
+    font-size: $font-size-base;
+    overflow-wrap: $overflow-wrap;
+    white-space: $overflow-wrap;
      }
+
+.glow {
+  text-shadow: 0 0 3px rgb(140, 208, 253);
+}
+
+.round {
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
+////////////////////// Login Animation ////////////////////////
+
+.svg_logo {
+  position: center;
+  z-index: 3;
+  width: 55%; 
+  height: 55%;
+}
+
+#circle1 {
+  stroke-dasharray: 1200;
+  fill: #3d7dca;
+  stroke: #3d7dca;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  animation: circle1 7s alternate;
+}
+
+@keyframes circle1 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+  20% {
+    fill-opacity: 0;
+  }
+  40% {
+    fill-opacity: 0;
+  }
+  60% {
+    fill-opacity: 0.5;
+  }
+  80% {
+    fill-opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+
+  }
+}
+
+#circle2 {
+  stroke-dasharray: 1200;
+  fill: #00b3e3;
+  stroke: #00b3e3;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  animation: circle2 7s alternate;
+}
+
+@keyframes circle2 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+  20% {
+    fill-opacity: 0;
+  }
+  40% {
+    fill-opacity: 0;
+  }
+  60% {
+    fill-opacity: 0.5;
+  }
+  80% {
+    fill-opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+
+  }
+}
+
+#circle3 {
+  stroke-dasharray: 1200;
+  fill: #001c71;
+  stroke: #001c71;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+  fill-rule: nonzero;
+  animation: circle3 7s alternate;
+}
+
+@keyframes circle3 {
+  0% {
+    stroke-dashoffset: 2000;
+    fill-opacity: 0;
+    stroke-width: 1pt;
+  }
+  20% {
+    fill-opacity: 0;
+  }
+  40% {
+    fill-opacity: 0;
+  }
+  60% {
+    fill-opacity: 0.5;
+  }
+  80% {
+    fill-opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-width: 0.5pt;
+
+  }
+}
 
 /////////////////// Modal Document Preview ///////////////////
 
+  .iframe{
+    width:100%;
+    height: calc(100vh - 88px);  
+  }
+
+//////////////////////// Comentarios /////////////////////////
+
+  .text-principal{
+    overflow-wrap: $overflow-wrap;
+  }
+  .comment {
+      font-size: $font-size-base;
+      overflow-wrap: $overflow-wrap;
+      white-space: $white-space;
+       }
+
+//////////////////////////  //////////////////////////

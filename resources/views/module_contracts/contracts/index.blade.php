@@ -94,6 +94,8 @@
                     style="background-color: #cbb956;color:white;" 
                    @elseif($contract->contractStatus == App\Contract::PROCESSING_PERMIT)
                     style="background-color: #f39c12;color:white;" 
+                    @elseif($contract->contractStatus == App\Contract::WAITING_CLIENT)
+                    style="background-color: red;color:white;"  
                    @endif>
                     </td>
 

@@ -364,8 +364,7 @@ class ProposalController extends Controller
             'alert-type' => $result['alert'],
         );
         
-        return redirect()->route('proposals.payments', ['btnReturn' => 'mod_cont','id' => $request->proposalId])
-            ->with($notification);
+         return redirect()->back()->with($notification);
 
     }
     public function paymentsRemove($id, $proposalId)
@@ -377,8 +376,6 @@ class ProposalController extends Controller
             'message'    => $result['msj'],
             'alert-type' => $result['alert'],
         );
-
-        return redirect()->route('proposals.payments', ['btnReturn' => 'mod_cont','id' => $proposalId])
-            ->with($notification);
+      return redirect()->back()->with($notification);
     }
 }

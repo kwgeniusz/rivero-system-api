@@ -124,7 +124,7 @@ class Proposal extends Model
   public function getAllByOffice($officeId)
     {
         return $this->where('officeId' , '=' , $officeId)
-            ->orderBy('proposalDate', 'DESC')
+            ->orderBy('propId', 'DESC')
             ->get();
     }   
 

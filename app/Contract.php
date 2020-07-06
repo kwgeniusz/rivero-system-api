@@ -45,6 +45,7 @@ class Contract extends Model
     const CANCELLED = '4';
     const READY_BUT_PENDING_PAYABLE = '5';
     const PROCESSING_PERMIT = '6';
+    const WAITING_CLIENT = '7';
 
 // -VACANTE (VERDE)
 // -INICIADO (AZUL)
@@ -52,6 +53,7 @@ class Contract extends Model
 // -CANCELADO (BAUL)
 // -LISTO PERO PENDIENTE POR PAGAR(AMARILLO)
 // -EN PROCESAMIENTO DE PERMISO (ANARANJADO)
+// -ESPERANDO POR EL CLIENT (ROJO)
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -304,15 +306,16 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForFourStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$filteredOut,$countryId,$officeId)
+    public function getAllForFiveStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$filteredOut,$countryId,$officeId)
     {
         $result = $this->where('countryId', $countryId)
                        ->where('officeId', $officeId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
-                          ->orWhere('contractStatus', $contractStatus4);
+                          ->orWhere('contractStatus', $contractStatus4)
+                          ->orWhere('contractStatus', $contractStatus5);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)

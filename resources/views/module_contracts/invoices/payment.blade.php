@@ -55,7 +55,7 @@
         </div>
 
     <div class="row text-center">
-      <form class="form-inline" action="{{Route('invoices.paymentsAdd')}}" method="POST">
+      <form class="form-inline form-prevent-multiple-submits" action="{{Route('invoices.paymentsAdd')}}" method="POST">
       {{csrf_field()}}
         <input type="hidden" name="invoiceId" value="{{$invoice[0]->invoiceId}}">
 
@@ -65,7 +65,7 @@
          </div>
        <br><br>
         <div class="form-group  col-lg-12  col-xs-12"> 
-           <button type="submit" class="btn btn-success">
+           <button type="submit" class="btn btn-success button-prevent-multiple-submits">
                  <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Cuota
             </button>
@@ -129,7 +129,7 @@
                    @if($invoice[0]->contract->contractStatus == App\Contract::VACANT || $invoice[0]->contract->contractStatus == App\Contract::STARTED)
                   <a href="{{route('invoices.paymentsRemove', [
                   'id' => $payment->paymentInvoiceId,
-                  'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm">
+                  'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
                    @endif

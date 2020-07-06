@@ -11,7 +11,7 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
-    <link rel="shortcut icon" href="{{{ asset('img/favicon.jpg') }}}">
+    <link rel="shortcut icon" href="{{{ asset('img/favicon.icon') }}}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
@@ -57,10 +57,9 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini ">
-
 <div class="wrapper">
-
-
+  
+<div id="app">
  <!-- Main Header -->
    @include('layouts.partials.header')
 
@@ -78,20 +77,8 @@ desired effect
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
-        <div id="app">
         @yield('content')
-        
-{{--           <video id='my-video' class='video-js' controls preload='auto' width='640' height='264'
-   data-setup='{}'>
-    <source src='{{ asset('m.mov') }}' type="video/quicktime">
-    <source src='MY_VIDEO.webm' type='video/webm'>
-    <source src="D:/mov1.mov" type="video/mp4"> 
-    <p class='vjs-no-js'>
-      To view this video please enable JavaScript, and consider upgrading to a web browser that
-      <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
-    </p>
-  </video> --}}
-        </div>
+      
     </section>
     <!-- /.content -->
   </div>
@@ -113,6 +100,7 @@ desired effect
   </footer>
 
 
+   </div>
 <!-- REQUIRED JS SCRIPTS -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/submit.js') }}"></script>
@@ -158,5 +146,6 @@ desired effect
         }
     @endif
    </script>
+ </div>
 </body>
 </html>

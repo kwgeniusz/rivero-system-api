@@ -4,13 +4,13 @@
 
 
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
-           <a @click="modalMain()" class="btn btn-warning btn-sm">
-                <span class="fa fa-book" aria-hidden="true">COMENTARIOS</span>  
+           <a @click="modalMain()" class="btn btn-default btn-sm">
+                <i class="fa fa-comments" aria-hidden="true"></i> Comentarios 
            </a>
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
  <sweet-modal ref="modal" width="90%">
     <h4 class="bg-warning text-principal"> 
-       <b>Comentarios del Contrato {{contractNumber}}<br> 
+       <b><i class="fa fa-comments"></i> Comentarios del Contrato {{contractNumber}}<br> 
     {{contract.propertyNumber}} 
     {{contract.streetName}} 
     {{contract.streetType}} 
@@ -24,14 +24,14 @@
 
         <div class="row comment" v-for="(comment,index) in commentsList">
           <div class="col-xs-12">
-            <p class="text-left" style="font-weight: bold">{{comment.user.fullName}} - ({{comment.commentDate | moment("MM/DD/YYYY - hh:mm A")}})</p>
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}})</p>
             <p class="text-left">{{comment.commentContent}}</p>
           </div>
         </div>
 <!-- {{ new Date()  }} -->
         <div class="row comment">
           <div class="col-xs-12">
-            <p class="text-left" style="font-weight: bold">COMENTARIO INICIAL: ({{contract.contractDate | moment("MM/DD/YYYY - hh:mm A") }})</p>
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
             <p class="text-left">{{contract.initialComment}}</p>
           </div>
         </div>
@@ -56,7 +56,7 @@
               </div>
               <input class="btn btn-primary" type="submit" value="Agregar" v-if="btnSubmitForm">
               <br>
-              .
+
         </div>
     </form>
 </sweet-modal>
@@ -74,7 +74,7 @@
     export default {
         
      mounted() {
-           
+          this.$moment.tz.setDefault('UTC')
            },
      data: function () {
           return {
@@ -148,16 +148,6 @@
 
 </script>
 
-<style scoped>
-
-.text-principal{
-  overflow-wrap: break-word;
-}
-.comment {
-    font-size: 12px;
-    overflow-wrap: break-word;
-    white-space: normal;
-     }
-
-
+<style lang="scss">
+@import '../../../sass/app.scss'
 </style>

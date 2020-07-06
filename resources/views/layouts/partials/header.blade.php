@@ -15,9 +15,8 @@
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top " role="navigation">
-      <!-- Sidebar toggle button-->
+      <!-- Sidebar toggle button | duplicated fixed -->
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="fa fa-bars" aria-hidden="true"></span>
         <span class="sr-only">Toggle navigation</span>
       </a>
       <!-- Navbar Right Menu -->

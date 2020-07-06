@@ -21,7 +21,16 @@ Vue.use(SweetModal);
 import Permissions from './mixins/Permissions';
 Vue.mixin(Permissions);
 
-Vue.use(require('vue-moment'));
+
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
+ 
+Vue.use(VueMoment, {
+    moment,
+})
+
+
+// Vue.use(require('vue-moment'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -113,6 +122,7 @@ Vue.component('list-company', require('./components/configuration/company/listCo
 // ########### srcComponent 
 Vue.component('button-form', require('./components/srcComponent/buttonForm.vue'));
 Vue.component('loading', require('./components/srcComponent/loading.vue'));
+Vue.component('time-live', require('./components/srcComponent/timeLive.vue'));
 
 
 const app = new Vue({
