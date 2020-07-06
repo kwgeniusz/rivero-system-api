@@ -14,10 +14,12 @@
                                 <div class="form-group col-md-6 ">
                                     <label for="selectCountry" class="form-group" v-text="nameField1"></label>
                                     <select v-if="editId === 0" class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" autocomplete="off" required="required">
+                                        <option  value=""> </option>
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
                                     <select v-else class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" disabled="disabled" autocomplete="off" required="required">
+                                        <option  value=""> </option>
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -26,10 +28,12 @@
                                 <div class="form-group col-md-7 ">
                                     <label for="companyId" class="form-group" v-text="nameField2"></label>
                                     <select  v-if="editId === 0" class="form-control" v-model="companyId" id="companyId" @change="payrollType()" disabled="disabled" autocomplete="off" required="required">
+                                        <option  value=""> </option>
                                         <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
                                     <select v-else class="form-control" v-model="companyId" id="companyId" @change="payrollType()" disabled="disabled" autocomplete="off" required="required">
+                                        <option  value=""> </option>
                                         <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -41,6 +45,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="payrollTypeId" class="form-group" v-text="nameField3"></label>
                                     <select v-if="editId === 0" class="form-control" v-model="payrollTypeId" @change="payrollType()" id="payrollTypeId" autocomplete="off"  disabled="disabled" required="required">
+                                        <option  value=""> </option>
                                         <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -55,6 +60,7 @@
                                     <label for="year" class="form-group" v-text="nameField5"> </label> 
                                     <div class="form-inline">
                                         <select v-if="editId === 0" class="form-control" v-model="year" id="year"  disabled="disabled" autocomplete="off" required="required">
+                                            <option  value=""> </option>
                                             <option v-for=" n  in 5" :key="n" :value="n + years">{{n + years}}</option>
                                             
                                         </select>
@@ -69,13 +75,11 @@
                                 <div class="form-group col-md-6">
                                     <label for="payrollNumber" class="form-group" v-text="nameField4"></label> <button v-if="editId === 0" v-on:click="getPayrollNumber()" type="button" title="Obtener periodo" data-original-title="Obtener periodo" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-search"></i></button>
                                     <select v-if="editId === 0" class="form-control" v-model="payrollNumber" id="payrollNumber" autocomplete="off"  disabled="disabled" required="required">
+                                        <option  value=""> </option>
                                         <option v-for="item in selectPayrollNumber" :key="item.id" :value="item.id+'-'+item.vText">{{item.vText}}</option>
                                         
                                     </select>
-                                    <!-- <select v-else class="form-control" v-model="payrollTypeId" id="payrollTypeId" disabled="disabled" autocomplete="off" required="required">
-                                        <option v-for="item in selectPayrollNumber" :key="item.id" :value="item.id+'-'+item.vText">{{item.vText}}</option>
-                                        
-                                    </select> -->
+                                   
                                 </div>
                             </div>
                             <div class="row">
@@ -86,44 +90,10 @@
                                         
                                     </select>
                                     <span v-if="thereIs === false"> No hay procesos para el pais y empresa seleccionado</span>
-                                    <!-- <select v-else class="form-control" v-model="payrollTypeId" id="payrollTypeId" disabled="disabled" autocomplete="off" required="required">
-                                        <option v-for="item in selectPayrollNumber" :key="item.id" :value="item.id+'-'+item.vText">{{item.vText}}</option>
-                                        
-                                    </select> -->
-                                </div>
-                            </div>
-                            <!-- <div class="row">
-                                <div class="form-group col-md-5 ">
                                     
-                                    <label for="payrollNumber" class="form-group" v-text="nameField8"></label>
-                                    <button v-if="editId === 0" v-on:click="getPayrollNumber()" type="button" title="Obtener Numero de periodo" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-search"></i></button>
-                                    <input type="number" v-model="payrollNumber" class="form-control" id="payrollNumber" disabled="disabled" v-bind:placeholder="nameField8" autocomplete="off" required="required">
-                    
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-8 ">
-                                    
-                                    <label for="periodName" class="form-group" v-text="nameField4"></label>
-                                    <input type="text" v-model="periodName" class="form-control" id="periodName" v-bind:placeholder="nameField4" required="required">
-                                </div>
-                                
                             </div>
                             
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                            
-                                    <label for="periodFrom" class="form-group" v-text="nameField6"></label>
-                                    <input type="date" v-model="periodFrom" class="form-control" id="periodFrom" v-bind:placeholder="nameField6" autocomplete="off" required="required">
-                                   
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="periodTo" class="form-group" v-text="nameField7"></label>
-                                    <input type="date" v-model="periodTo" class="form-control" id="periodTo" v-bind:placeholder="nameField7" autocomplete="off" required="required">
-                                </div>
-                            </div> -->
                             
                             <div v-if="editId === 0">
                                 <button-form 

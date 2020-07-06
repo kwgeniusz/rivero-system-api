@@ -160,12 +160,9 @@ class PayrollControlController extends Controller
           2.3 guardar registro calculado en hrpayroll
     */
 
-
+        // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
                             WHERE hrpayrollControlId = " . $id);
-        
-
-
 
         foreach ($rs0 as $rs) {
             $countryId        = $rs->countryId;   
@@ -177,6 +174,7 @@ class PayrollControlController extends Controller
             $processCode      = $rs->processCode;
         }
 
+        // verifico si los datos recividos y existen en la tabla hrpayroll
         $rsDel0 = DB::select("SELECT COUNT(*) AS cant
                             FROM hrpayroll 
                                 WHERE hrpayroll.countryId = $countryId 
@@ -210,7 +208,11 @@ class PayrollControlController extends Controller
             $lastName         = $rs->lastName;
             $staffName        = $rs->shortName;
             $baseSalary       = $rs->baseSalary;
-
+            $excTTCode1       = $rs->excTranTypeCode1;
+            $excTTCode2       = $rs->excTranTypeCode2;
+            $excTTCode3       = $rs->excTranTypeCode3;
+                
+        // parte 1
             // get hrprocess data
             $rs2  = DB::select("SELECT * 
                             FROM hrprocess
@@ -240,54 +242,35 @@ class PayrollControlController extends Controller
                 } 
                 // print_r($rs0);
                 // return $rs0;
-                $addTrasacction = 0;         // add transaction control
+                $addTransaction = 0;         // add transaction control
                 if ($isSalaryBased == 1) {   // transaccion basada en salario
                     // echo " entro ";
                     $amount = $quantity * $baseSalary;
                     if ($amount > 0) {
-                    $addTrasacction = 1;             
+                    $addTransaction = 1;             
                     }
                     
                 } else { 
                     if ($quantity > 0 and $amount > 0) {
 
-                        $addTrasacction = 1; 
-                     } else {                    // trabsaccion no es basada en salario
-                        // get permanent transactions for this person and transaction code
-                        // echo " ->no entro";
-                        // return $countryId . '='.$companyId.'='. $staffCode . '=' . $transactionTypeCode;
-                        // $staffCode= strval($staffCode);
-                        $rs4 = DB::select("SELECT * FROM hrpermanent_transaction 
-                        WHERE countryId = $countryId AND  
-                            companyId  = $companyId AND 
-                            staffCode  = '$staffCode' AND 
-                            transactionTypeCode = $transactionTypeCode");
-
-                        // print_r($rs4);
-                        $addTrasacction = 0; 
-                        
-                        foreach ($rs4 as $rs5) {
-                            $stCode            = $rs5->staffCode;   
-                            $ttCode            = $rs5->transactionTypeCode; 
-                            $transactionQty    = $rs5->quantity;  
-                            $transactionAmount = $rs5->amount;  
-
-                            if ( $staffCode == $stCode and $transactionTypeCode == $ttCode ) {
-
-                                $amount   =   $transactionQty * $transactionAmount;
-                                if ($amount > 0) {
-                                    $addTrasacction = 1;              	 	
-                                }
-                            
-                            }
-
-                        }
-                    }
+                        $addTransaction = 1; 
+                     } 
+                     
                 }
                 
+                // check for valid transacction
+                if (($transactionTypeCode == $excTTCode1) or ($transactionTypeCode == $excTTCode2) or 
+                    ($transactionTypeCode == $excTTCode3) )  {
+                    $amount = 0;
+                    $addTransaction = 0;        
+                }
+
+                if ($quantity == 0 or $amount == 0) {
+                    $addTransaction = 0;
+                }
 
                 // insert record in hrpayroll
-                if ($addTrasacction == 1) {
+                if ($addTransaction == 1) {
                     // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
                     // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
                 
@@ -308,8 +291,118 @@ class PayrollControlController extends Controller
             
             }//foreach ($rs2 as $rs3)
 
+            // PARTE 2.
+            // procesar transacciones permanentes
+            //   $countryId,$companyId,$staffCode,$transactionTypeCode
+            $rs4  = DB::table('hrpermanent_transaction')
+            ->where('countryId', '=', $countryId)
+            ->where('companyId', '=', $companyId)
+            ->where('staffCode', '=', $staffCode)
+            ->where('transactionTypeCode', '=', $transactionTypeCode)
+            ->get();
+            $addTransaction = 0; 
+            // dd($rs4);
+            foreach ($rs4 as $rs5) {
+                    $stCode            = $rs5->staffCode;   
+                    $ttCode            = $rs5->transactionTypeCode; 
+                    $transactionQty    = $rs5->quantity;  
+                    $transactionAmount = $rs5->amount;  
+
+
+                    if ($isSalaryBased == 1) {   // transaccion basada en salario
+                
+                        $amount = $transactionQty * $baseSalary;
+
+                    } else {
+                            $amount   =   $transactionQty * $transactionAmount;               	
+                    }
+                    $hrpayroll = new Payroll();
+                    $hrpayroll->countryId = $countryId;
+                    $hrpayroll->companyId = $companyId;
+                    $hrpayroll->year = $year;
+                    $hrpayroll->payrollNumber = $payrollNumber;
+                    $hrpayroll->payrollName = $payrollName;
+                    $hrpayroll->staffCode = $staffCode;
+                    $hrpayroll->staffName = $staffName;
+                    $hrpayroll->transactionTypeCode = $transactionTypeCode;
+                    $hrpayroll->isIncome = $isIncome;
+                    $hrpayroll->quantity = $quantity;
+                    $hrpayroll->amount = $amount;
+                    $hrpayroll->save();
+                    // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
+                    //     $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );            	 	
+
+            }
+            // PARTE 3.
+            // procesar transacciones variables
+
+            // get permanent transactions for this person and transaction code
+            $rs6 = DB::select("SELECT hrpermanent_transaction.transactionTypeCode, hrpermanent_transaction.quantity, 
+                        hrpermanent_transaction.amount,
+                        hrtransaction_type.isIncome, hrtransaction_type.salaryBased
+                    FROM `hrpermanent_transaction`
+                    INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
+                    WHERE hrtransaction_type.countryId = $countryId
+                        AND hrtransaction_type.companyId = $companyId
+                        AND hrpermanent_transaction.staffCode = '$staffCode'");
+            // $rs6  = $oVariable->joinTransactionType($countryId,$companyId,$staffCode);
+            // dd($rs6);
+            
+            foreach ($rs6 as $rs7) { 
+                $transactionTypeCode = $rs7->transactionTypeCode; 
+                $quantity            = $rs7->quantity;  
+                $transAmount         = $rs7->amount;  
+                $isIncome            = $rs7->isIncome;
+                $salaryBased         = $rs7->salaryBased;    
+                $addTransaction = 0;
+
+                // dd($transactionTypeCode,$quantity,$transAmount,$isIncome,$salaryBased);
+                if ($salaryBased == 1) {
+                    $amount   =   $quantity * $baseSalary;        	
+                } else {
+                    $amount   =   $quantity * $transAmount;       	
+                }
+                    
+                if ($amount > 0) {
+                    $addTransaction = 1;              	 	
+                }
+                    
+
+                // check for valid transacction
+                if (($transactionTypeCode == $excTTCode1) or ($transactionTypeCode == $excTTCode2) or 
+                    ($transactionTypeCode == $excTTCode3) )  {
+                    $amount = 0;
+                    $addTransaction = 0;        
+                }
+
+                if ($quantity == 0 or $amount == 0) {
+                    $addTransaction = 0;
+                }
+
+
+                // insert record in hrpayroll
+                if ($addTransaction == 1) {
+                    $hrpayroll = new Payroll();
+                    $hrpayroll->countryId = $countryId;
+                    $hrpayroll->companyId = $companyId;
+                    $hrpayroll->year = $year;
+                    $hrpayroll->payrollNumber = $payrollNumber;
+                    $hrpayroll->payrollName = $payrollName;
+                    $hrpayroll->staffCode = $staffCode;
+                    $hrpayroll->staffName = $staffName;
+                    $hrpayroll->transactionTypeCode = $transactionTypeCode;
+                    $hrpayroll->isIncome = $isIncome;
+                    $hrpayroll->quantity = $quantity;
+                    $hrpayroll->amount = $amount;
+                    $hrpayroll->save();
+                    // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
+                    // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
+                }
+            } //foreach ($rs4 as $rs5)
             
         } /* end foreach ($rs1 as $key => $rs) */
+
+        
 
         return $hrpayroll;
 
