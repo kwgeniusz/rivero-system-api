@@ -11,7 +11,6 @@
 * Instalar paquetes de Laravel y de terceros: **"composer install"**
 * Instalar paquetes de NPM y de terceros: **"npm install"**
 * Solicitar llave de aplicacion al admin del sistema y colocarlo en el archivo **".env"**
-* Limpiar archivos de cache de Laravel: **"php artisan optimize:clear"**
 
 ## TODO
 
