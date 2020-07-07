@@ -104,10 +104,10 @@ class Client extends Model
 //------------------------------------------
     public function insertClient($countryId, $clientName, $clientAddress, $contactTypeId,$clientPhone, $clientEmail)
     {
-
-      $oConfiguration = new CountryConfiguration();
+// bloquear multiple 
+      $oConfiguration     = new CountryConfiguration();
       
-      $clientNumber = $oConfiguration->retrieveClientNumber($countryId);
+      $clientNumber       = $oConfiguration->retrieveClientNumber($countryId);
       $clientNumber++;
       $clientNumberFormat = $oConfiguration->generateClientNumberFormat($countryId);
                             $oConfiguration->increaseClientNumber($countryId);

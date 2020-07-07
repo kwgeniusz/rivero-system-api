@@ -39,8 +39,10 @@ Route::get('contractsStaff/{contractId}/remove/{staffId}', 'Web\ContractControll
 
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
 Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contracts.fileAdd');
-Route::get('fileDownload/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
-Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
+// Route::get('fileDownload/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::put('fileDownload', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::put('fileDelete', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
+// Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
 //COMMENTS*************
 Route::resource('comments', 'Web\CommentController');

@@ -5,6 +5,7 @@
     <div class="panel-body">
 <h4><b>Factura N°:</b> {{invoice[0].invId}}</h4>
 <h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("MM/DD/YYYY") }}</h4>
+<!-- <h4><b>Cuentas por Pagar: </b> {{subcontractorCounter}}</h4> -->
             <a :href="'reportsInvoice?id='+invoice[0].invoiceId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Factura
                     </a>
@@ -79,6 +80,7 @@
                 <th>COSTO</th>
                 <th>CANTIDAD</th>
                 <th>MONTO</th>
+                <th>COMPROMISOS</th>
                 <th>ACCION</th>
                 <!-- <th></th> -->
             </tr>
@@ -91,7 +93,8 @@
             <td>{{item.unitCost}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.amount}}</td>
-            <td>  
+            <td>{{item.subcontractor_inv_detail.length}} SB</td>
+            <td> 
              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -102,11 +105,6 @@
               <span class="fa fa-angle-double-down" aria-hidden="true"></span>
              </button>
            </td> 
-  <!--           <td> 
-              <span class="fa fa-search" aria-hidden="true">
-              {{item.subcontractor_inv_detail.length}} SC
-            </span>
-            </td> -->
          </tr>
          </tbody>
         </table>
@@ -138,9 +136,10 @@
           </a>   
               </div>
        <br>
+
+<!-- MODALES -->
+
   </div>
-
-
  </template>
  <script>
 
@@ -164,6 +163,7 @@ export default {
             selectedService: {},
 
             itemList: {},
+          
             
             hasCost: false,
             modelServiceId: '',
@@ -228,7 +228,6 @@ export default {
             let url ='invoicesDetails/'+this.invoiceId;
             axios.get(url).then(response => {
              this.itemList = response.data
-             // console.log(this.itemList);
             });
         },
           selectService: function (id){
@@ -313,9 +312,20 @@ export default {
          saveInvoice: function() {
            this.errors = [];
            //VALIDATIONS
+
+            //verificando si existe una relacion con subcontractista para lanzar alerta
+                // let acum = 0;
+                //   this.itemList.forEach(function (item) {
+                //       acum += Object.keys(item.subcontractor_inv_detail).length;
+                //    });
+
+                // if(acum > 0){
+                //   this.$refs.modalConfirm.open();
+                //   return;
+                // }
+
                if (!this.itemList) 
                 this.errors.push('Debe Escoger Ingresar servicio para Guardar la Factura.');
-          
 
           if (!this.errors.length) { 
         //ejecuta la funciona que esta en el componente hijo Proposal Notes

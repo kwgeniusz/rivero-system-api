@@ -16,7 +16,7 @@ class Payable extends Model
     protected $primaryKey = 'payableId';
     public $timestamps    = false;
 
-    protected $appends = ['amountDue','amountPaid'];
+    protected $appends = ['amountDue','balance'];
 
     /**
      * The attributes that are mass assignable.
@@ -26,10 +26,7 @@ class Payable extends Model
        'countryId',
        'officeId',
        'amountDue',
-       'amountPaid',
-       'cashboxId',
-       'accountId',
-       'datePaid',
+       'balance',
        'subcontInvDetailId',
        'userId',
        'payStatusCode'
@@ -45,9 +42,9 @@ class Payable extends Model
     {
        return decrypt($this->attributes['amountDue']);
     }
-    public function getAmountPaidAttribute($amountPaid)
+    public function getBalanceAttribute($balance)
     {
-        return decrypt($this->attributes['amountPaid']);
+        return decrypt($this->attributes['balance']);
     }
     public function getDatePaidAttribute($datePaid)
     {
@@ -63,10 +60,10 @@ class Payable extends Model
         $amountDue = number_format((float)$amountDue, 2, '.', '');
         return $this->attributes['amountDue'] = encrypt($amountDue);
     } 
-    public function setAmountPaidAttribute($amountPaid)
+    public function setBalanceAttribute($balance)
     {
-        $amountPaid = number_format((float)$amountPaid, 2, '.', '');
-        return $this->attributes['amountPaid'] = encrypt($amountPaid);
+        $balance = number_format((float)$balance, 2, '.', '');
+        return $this->attributes['balance'] = encrypt($balance);
     } 
     public function setDatePaidAttribute($datePaid)
     {
@@ -97,7 +94,7 @@ class Payable extends Model
         $result = $this->with('subcontInvDetail.subcontractor','subcontInvDetail.invoiceDetail.invoice.contract')
             ->whereHas('subcontInvDetail.subcontractor',function($q) use ($subcontId){
                 $q->where('subcontId',$subcontId);
-            })->orderBy('payableId', 'ASC')
+            })->orderBy('payableId', 'DESC')
               ->get();
        
         return $result;
@@ -108,7 +105,7 @@ class Payable extends Model
         $payable->countryId         = session('countryId');
         $payable->officeId          = session('officeId');
         $payable->amountDue         = $amountDue;
-        $payable->amountPaid        = '0.00';
+        $payable->balance           = $amountDue;
         $payable->subcontInvDetailId = $subcontInvDetailId;
         $payable->userId            = Auth::user()->userId;
         $payable->save();

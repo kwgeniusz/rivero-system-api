@@ -37,7 +37,31 @@ class TransactionController extends Controller
     public function index(Request $request,$sign)
     {
 
-        $transactions = $this->oTransaction->getAllForSign($sign,session('countryId'),session('officeId'));
+        $transactions   = $this->oTransaction->getAllForSign($sign,session('countryId'),session('officeId'));
+        $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('officeId'),'INCOME_INVOICE');
+        $fee            = $this->oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
+
+      $totalTransaction = 0;
+      $totalFee = 0;
+      $totalManual = 0;
+     
+         foreach ($transactions as $transaction) {
+        if($sign == '+') {
+
+            if($transaction->transactionTypeId == $income_invoice[0]->transactionTypeId){
+                if($transaction->invoice == null){
+                 $totalManual += $transaction->amount;
+                }
+                else{
+                   $totalTransaction += $transaction->amount;
+                }
+            }elseif ($transaction->transactionTypeId == $fee[0]->transactionTypeId) {
+              $totalFee += $transaction->amount;
+            }
+        }else{ //end first if
+             $totalTransaction += $transaction->amount;
+        }//end if
+     } //end foreach
 
     if($request->method() == 'POST') {
      if($request->date1 || $request->date2 || $request->textToFilter) {
@@ -130,9 +154,9 @@ class TransactionController extends Controller
 } //cierre de verificacion post
 
         if ($sign == '+') {
-            return view('module_administration.transactionsincome.index', compact('transactions'));
+            return view('module_administration.transactionsincome.index', compact('transactions','totalTransaction','totalFee','totalManual'));
         } else {
-            return view('module_administration.transactionsexpenses.index', compact('transactions'));
+            return view('module_administration.transactionsexpenses.index', compact('transactions','totalTransaction','totalFee','totalManual'));
         }
 
     }

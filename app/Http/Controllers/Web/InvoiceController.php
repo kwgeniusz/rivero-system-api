@@ -173,7 +173,7 @@ class InvoiceController extends Controller
 
           $totalMontoFacturas += $invoice->netTotal;
           $totalPorCobrar += $invoice->balance;
-          $totalCobrado   = $totalCobrado + ($invoice->netTotal - $invoice->balance);
+          $totalCobrado   += ($invoice->netTotal - $invoice->balance);
           }
 
 

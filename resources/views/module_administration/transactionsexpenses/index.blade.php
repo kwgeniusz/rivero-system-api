@@ -2,13 +2,18 @@
 
 @section('content')
 <span class="logo-lg "><h3><b> TRANSACCIONES DE EGRESO</b></h3></span>
-<div class="text-center">
+ 
+  <div class="col-xs-3 text-left">
+   <h4 class="text-danger text-left">Total En Egresos: ${{$totalTransaction}}</h4>
+  </div>
 
+<div class="col-xs-6 text-center">
 <form class="form" action="{{Route('transactions.filtered',['sign'=>'-'])}}" method="POST">
         {{ csrf_field() }}
-          <label for="date1">BUSQUEDA GENERAL:</label>
+
+  <h4 class="text-center">BUSQUEDA GENERAL:</h4>
   <div class="col-xs-12">
-          <div class="form-group col-lg-offset-3 col-lg-3">
+          <div class="form-group col-lg-6">
               <select class="form-control" name="filterBy" id="filterBy">
                    <option value="invId" >N° Factura</option>
                    <option value="contractNumber" >Cod. de Contrato </option>
@@ -23,15 +28,15 @@
                    <option value="responsable" >Responsable</option>
               </select>
             </div>
-          <div class="form-group col-lg-3">
+          <div class="form-group col-lg-6">
               <input type="text" class="form-control" name="textToFilter" id="textToFilter" autocomplete="off" placeholder="Escriba un valor a buscar">
             </div>
    </div>            
   <div class="col-xs-12">
-          <div class="form-group col-lg-offset-4 col-lg-2">
+          <div class="form-group col-lg-6">
               <label for="date1">DESDE:</label> <input class="form-control flatpickr" id="date1" name="date1" value="{{ old('date1') }}" required> 
             </div>
-            <div class="form-group col-lg-2">
+            <div class="form-group col-lg-6">
               <label for="date2">HASTA:</label>
               <input class="form-control flatpickr" id="date2" name="date2" value="{{ old('date2') }}" required> 
             </div>
@@ -45,13 +50,18 @@
       </button>
     </div>
  </form>
-.
-    <div class="row">
-        <div class="col-xs-12 ">
+</div>
+
+  <div class="col-xs-3 text-right">
+   <b> Opciones:</b>
             <a href="{{route('transactions.create',['sign'=>'-'])}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}} Egreso
             </a>
+  </div>
+
+    <div class="row">
+        <div class="col-xs-12 ">
 
            <br><br>
          <div class="table-responsive">
@@ -107,9 +117,9 @@
 
         </div>
 
-             <a href="{{route('home')}}" class="btn btn-warning">
+       {{--       <a href="{{route('home')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
+              </a> --}}
         </div>
         </div>
     </div>

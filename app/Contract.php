@@ -46,6 +46,7 @@ class Contract extends Model
     const READY_BUT_PENDING_PAYABLE = '5';
     const PROCESSING_PERMIT = '6';
     const WAITING_CLIENT = '7';
+    const DOWNLOADING_FILES = '8';
 
 // -VACANTE (VERDE)
 // -INICIADO (AZUL)
@@ -306,16 +307,17 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForFiveStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$filteredOut,$countryId,$officeId)
+    public function getAllForSixStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$filteredOut,$countryId,$officeId)
     {
         $result = $this->where('countryId', $countryId)
                        ->where('officeId', $officeId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
                           ->orWhere('contractStatus', $contractStatus4)
-                          ->orWhere('contractStatus', $contractStatus5);
+                          ->orWhere('contractStatus', $contractStatus5)
+                          ->orWhere('contractStatus', $contractStatus6);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)

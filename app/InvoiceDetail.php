@@ -137,29 +137,32 @@ class InvoiceDetail extends Model
         DB::beginTransaction();
         try {
 
-          // //Buscar algun compromiso con subcontrista para lanzar error
-          //   $invDetails=$this->getAllByInvoice($invoiceId);
-          //   foreach ($invDetails as $invDetail) {
-          //      $acum=count($invDetail->subcontractorInvDetail);
-          //    }
-            
 
             //Buscar alguna cuota pagada en essta factura.
             $oReceivable = new Receivable;
             $successShares=$oReceivable->shareSucceed($invoiceId);
 
    if($successShares->isEmpty()) { //si esta vacio(es decir no tiene pagos, permitelo eliminar),y limpia las cuotas creadas
+
+          //Eliminar las cuentas por pagar de los invoices details
+            $invDetails=$this->getAllByInvoice($invoiceId);
+            foreach ($invDetails as $invDetail) {
+                 $oSub = new SubcontractorInvDetail;
+                 $oSub->deleteS($invDetail->subcontractorInvDetail);
+             }
+            
+           //Eiminar las cuotas con payables
                 $oPaymentInvoice= new PaymentInvoice;     
                 $invoiceShares = $oPaymentInvoice->getAllByInvoice($invoiceId);
-           //remover las cuotas de la factura
+
               foreach ($invoiceShares as $value) {
                   $oPaymentInvoice->removePayment($value->paymentInvoiceId,$invoiceId);
               }
-       //ELIMINA TODOS LOS ITEMS DE LA PROPUESTA
+       //eliminar items de la factura
              InvoiceDetail::where('invoiceId',$invoiceId)->delete();
          
-            // //REALIZA ACTUALIZACION EN PROPUESTA
-              //BUSCO LA PROPUESTA
+      //REALIZA ACTUALIZACION EN PROPUESTA
+            //BUSCO LA PROPUESTA
             $inv = Invoice::find($invoiceId);
             $oInvoice = new Invoice; 
             $oInvoice->updateInvoiceTotal('-',$inv->invoiceId, $inv->grossTotal); // RESTA TODO EL MONTO DE GROSSTOTAL PARA QUE HAGA EL DESCUENTO.

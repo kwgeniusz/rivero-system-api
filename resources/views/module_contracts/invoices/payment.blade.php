@@ -41,6 +41,7 @@
 
      <hr>
      <h4 class="text-center"><b>CUOTAS</b></h4>
+ @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
   <div class="col-lg-offset-3 col-lg-5 ">
         @if ($errors->any())
           <div class="alert alert-danger">
@@ -73,7 +74,7 @@
 
         </form>
     </div>
-
+@endif
 
         <br>
          <div class="table">
@@ -113,21 +114,13 @@
               @if($payment->receivable->paymentInvoiceId == $currentShare)
 
                  @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED) 
-                     @if($invoice[0]->contract->contractStatus == App\Contract::VACANT ||
-                         $invoice[0]->contract->contractStatus == App\Contract::STARTED ||
-                         $invoice[0]->contract->contractStatus == App\Contract::READY_BUT_PENDING_PAYABLE ||
-                         $invoice[0]->contract->contractStatus == App\Contract::PROCESSING_PERMIT ||
-                         $invoice[0]->contract->contractStatus == App\Contract::WAITING_CLIENT)
+                     @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
                   <form-modal-charge r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></form-modal-charge>
                     @endif
                  @endif 
 
                  @if($payment->receivable->recStatusCode == App\Receivable::PROCESS) 
-                   @if($invoice[0]->contract->contractStatus == App\Contract::VACANT ||
-                       $invoice[0]->contract->contractStatus == App\Contract::STARTED ||
-                       $invoice[0]->contract->contractStatus == App\Contract::READY_BUT_PENDING_PAYABLE ||
-                       $invoice[0]->contract->contractStatus == App\Contract::PROCESSING_PERMIT ||
-                       $invoice[0]->contract->contractStatus == App\Contract::WAITING_CLIENT) 
+                   @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED) 
                   <confirm-payment r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></confirm-payment>
                     @endif
                  @endif  
@@ -135,11 +128,7 @@
               @endif
 
                  @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
-                   @if($invoice[0]->contract->contractStatus == App\Contract::VACANT ||
-                       $invoice[0]->contract->contractStatus == App\Contract::STARTED ||
-                       $invoice[0]->contract->contractStatus == App\Contract::READY_BUT_PENDING_PAYABLE ||
-                       $invoice[0]->contract->contractStatus == App\Contract::PROCESSING_PERMIT ||
-                       $invoice[0]->contract->contractStatus == App\Contract::WAITING_CLIENT)
+                   @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
                   <a href="{{route('invoices.paymentsRemove', [
                   'id' => $payment->paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">

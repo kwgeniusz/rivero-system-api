@@ -98,6 +98,8 @@
                     style="background-color: #f39c12;color:white;" 
                     @elseif($contract->contractStatus == App\Contract::WAITING_CLIENT)
                     style="background-color: red;color:white;"  
+                   @elseif($contract->contractStatus == App\Contract::DOWNLOADING_FILES)
+                    style="background-color: #666666; color:white;"    
                    @endif>
                     </td>
 

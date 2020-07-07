@@ -29,8 +29,7 @@ class CountryConfiguration extends Model
         //abra un conflicto y no sabra cual traer del mismo pais
 
         $clientNumber = 0;
-        $rs             = $this->where('countryId', '=', $countryId)
-                               ->get();
+        $rs           = $this->where('countryId', '=', $countryId)->get();
 
             foreach ($rs as $rs0) {
                     $clientNumber = $rs0->clientNumber;

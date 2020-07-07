@@ -2,16 +2,19 @@
 
 @section('content')
 <h3><b>FACTURAS POR OFICINA</b></h3>
-<h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
-<h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
-<h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
-<div class="text-center">
 
+  <div class="col-xs-3 text-left">
+    <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
+    <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
+    <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
+  </div>
+
+<div class="col-xs-6 text-center">
  <form class="form" action="{{Route('invoices.filtered')}}" method="POST">
         {{ csrf_field() }}
           <label for="date1">BUSQUEDA GENERAL:</label>
   <div class="col-xs-12">
-          <div class="form-group col-lg-offset-3 col-lg-3">
+          <div class="form-group col-lg-6">
               <select class="form-control" name="filterBy" id="filterBy">
                    <option value="invId" >N° Factura</option>
                    <option value="contractNumber" >Cod. de contrato </option>
@@ -21,15 +24,15 @@
                    <option value="clientPhone" >Telefono de cliente</option>
               </select>
             </div>
-          <div class="form-group col-lg-3">
+          <div class="form-group col-lg-6">
               <input type="text" class="form-control" name="textToFilter" id="textToFilter" autocomplete="off" placeholder="Escriba un valor a buscar">
             </div>
    </div>            
   <div class="col-xs-12">
-          <div class="form-group col-lg-offset-4 col-lg-2">
+          <div class="form-group col-lg-6">
               <label for="date1">DESDE:</label> <input class="form-control flatpickr" id="date1" name="date1" value="{{ old('date1') }}" required> 
             </div>
-            <div class="form-group col-lg-2">
+            <div class="form-group col-lg-6">
               <label for="date2">HASTA:</label>
               <input class="form-control flatpickr" id="date2" name="date2" value="{{ old('date2') }}" required> 
             </div>
@@ -40,7 +43,18 @@
       </button>
     </div>
  </form>
- .
+</div>
+
+  <div class="col-xs-3 text-right">
+   <b> Opciones: </b> 
+          <a href="{{}}" class="btn btn-danger text-center" >
+                   Canceladas
+         </a><br><br>
+         <a href="{{}}" class="btn btn-warning text-center" >
+                   Collections
+         </a>
+  </div>
+  .
     <div class="row">
         <div class="col-xs-12 ">
 
@@ -137,7 +151,7 @@
 
         </div>
         </div>
-    </div>
+
 
 
 
