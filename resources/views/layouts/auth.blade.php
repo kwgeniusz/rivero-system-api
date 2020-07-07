@@ -32,7 +32,7 @@
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
                         <!-- {{ config('app.name', 'Laravel') }} -->
-                        Rivero Global Company System
+                        Rivero's Global Company System
                     </a>
                 </div>
 

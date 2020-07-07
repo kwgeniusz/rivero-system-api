@@ -16,10 +16,10 @@
 
 @import "~toastr/toastr";
 
-///////////////////////////////////////////////////////////////
-// New SASS styles                                           //
-// by Manuel Hernandez <manuel.hernandez@riverovisualgroup>  //
-///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+// New SASS styles                                    //
+// by Serverket <manuel.hernandez@riverovisualgroup>  //
+////////////////////////////////////////////////////////
 
 a, label, span {
     font-family: $font-family-sans-serif;
@@ -187,4 +187,16 @@ $hover: #cbb956;
       white-space: $white-space;
        }
 
-//////////////////////////  //////////////////////////
+/////////////////////////// Home ////////////////////////////
+
+  .panel {
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+       }
+
+  .navbar-static-top {
+      border-radius: 50px;
+      border: none;
+      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+       }

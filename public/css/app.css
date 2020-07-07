@@ -16135,3 +16135,17 @@ span {
   white-space: normal;
 }
 
+.panel {
+  border-radius: 15px;
+  border: none;
+  -webkit-box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-static-top {
+  border-radius: 50px;
+  border: none;
+  -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+}
+
