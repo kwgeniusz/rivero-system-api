@@ -16,10 +16,10 @@
 
 @import "~toastr/toastr";
 
-///////////////////////////////////////////////////////////////
-// New SASS styles                                           //
-// by Manuel Hernandez <manuel.hernandez@riverovisualgroup>  //
-///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+//      New SASS styles                                       //
+//      by Serverket <manuel.hernandez@riverovisualgroup>     //
+////////////////////////////////////////////////////////////////
 
 a, label, span {
     font-family: $font-family-sans-serif;
@@ -40,13 +40,22 @@ $hover: #cbb956;
     white-space: $overflow-wrap;
      }
 
+.glow {
+  text-shadow: 0 0 3px rgb(140, 208, 253);
+}
+
+.round {
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
 ////////////////////// Login Animation ////////////////////////
 
 .svg_logo {
   position: center;
   z-index: 3;
-  width: 70%; 
-  height: 70%;
+  width: 55%; 
+  height: 55%;
 }
 
 #circle1 {
@@ -58,9 +67,6 @@ $hover: #cbb956;
   stroke-miterlimit: 10;
   fill-rule: nonzero;
   animation: circle1 7s alternate;
-  z-index: 3;
-  width: 70%; 
-  height: 70%;
 }
 
 @keyframes circle1 {
@@ -98,9 +104,6 @@ $hover: #cbb956;
   stroke-miterlimit: 10;
   fill-rule: nonzero;
   animation: circle2 7s alternate;
-  z-index: 3;
-  width: 70%; 
-  height: 70%;
 }
 
 @keyframes circle2 {
@@ -138,9 +141,6 @@ $hover: #cbb956;
   stroke-miterlimit: 10;
   fill-rule: nonzero;
   animation: circle3 7s alternate;
-  z-index: 3;
-  width: 70%; 
-  height: 70%;
 }
 
 @keyframes circle3 {
@@ -171,10 +171,26 @@ $hover: #cbb956;
 
 /////////////////// Modal Document Preview ///////////////////
 
-.iframe{
-    width:100%;
-    height: calc(100vh - 88px);  
+  .iframe{
+    width: 100%;
+    height: 80vh;  
   }
+
+ /*  .iframe-container {
+  overflow: hidden;
+  // Calculated from the aspect ration of the content (in case of 16:9 it is 9/16= 0.5625)
+  padding-top: 56.25%;
+  position: relative;
+}
+ 
+.iframe-container iframe {
+   border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
+} */
 
 //////////////////////// Comentarios /////////////////////////
 
@@ -185,4 +201,18 @@ $hover: #cbb956;
       font-size: $font-size-base;
       overflow-wrap: $overflow-wrap;
       white-space: $white-space;
+       }
+
+/////////////////////////// Home ////////////////////////////
+
+  .panel {
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+       }
+
+  .navbar-static-top {
+      border-radius: 50px;
+      border: none;
+      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
        }

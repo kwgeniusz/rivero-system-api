@@ -8,19 +8,23 @@
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
  <sweet-modal ref="mainModal">
 <!-- button -->
-<div class="bg-info" role="button" data-toggle="collapse" :href="'#'+clientId" aria-expanded="false">
-  <u>CLIENTE:</u> {{this.clientName}}
+<div class="bg-info glow" role="button" data-toggle="collapse" :href="'#'+clientId" aria-expanded="false">
+  <i class="fa fa-user"></i> CLIENTE: {{this.clientName}}
 </div>
-<!-- collapse -->
-<div v-if="client != null" class="collapse" :id="clientId">
+<!-- Changed this since having it uncollapsed allows a more fluid navigation -->
+<div v-if="client != null" :id="clientId">
   <div class="well">
-    <h4>
-       <b><u>Codigo de Cliente:</u></b> <br>{{client[0].clientCode}}<br>
-       <b><u>Registrado desde:</u></b> <br>{{client[0].dateCreated | moment("MM/DD/YYYY")}}<br>
-       <b><u>Direccion:</u></b> <br>{{client[0].clientAddress}} <br>
-       <b><u>Telefonos:</u></b> <br>{{client[0].clientPhone}}<br>
-       <b><u>Email:</u></b> <br>{{client[0].clientEmail}}<br>
-    </h4>
+
+       <!-- Using properly a better class for "p" text -->
+       <div class="text-left">
+       <center>
+       <b><u>Codigo de Cliente</u></b> <br>{{client[0].clientCode}}<br>
+       <b><u>Registrado desde</u></b> <br>{{client[0].dateCreated | moment("MM/DD/YYYY")}}<br>
+       <b><u>Direccion</u></b> <br>{{client[0].clientAddress}} <br>
+       <b><u>Telefonos</u></b> <br>{{client[0].clientPhone}}<br>
+       <b><u>Email</u></b> <br>{{client[0].clientEmail}}<br>
+       </center>
+       </div>  
   </div>
 
 </div>
@@ -63,3 +67,7 @@
       }
      }
 </script>
+
+<style lang="scss">
+@import '../../../sass/app.scss'
+</style>

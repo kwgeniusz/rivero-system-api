@@ -54,8 +54,8 @@
                             </td>
                             
                             <td> 
-                                <button v-on:click="editRow(index, Periods.periodId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> </button>  
-                                <button v-on:click="deleterow(index, Periods.periodId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i></button>  
+                                <button v-on:click="editRow(index, Periods.periodId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i> </button>  
+                                <button v-on:click="deleterow(index, Periods.periodId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  
                             </td>
                         </tr>
                     </tbody>

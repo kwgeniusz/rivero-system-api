@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default">
             <!-- <div class="panel-heading"><h4>{{namePanelList}}</h4></div> -->
 
@@ -41,9 +41,9 @@
                                 </p>
                             </td>
                             <td> 
-                                <button v-on:click="detailRow(index, Process.hrprocessId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  
-                                <button v-on:click="editRow(index, Process.hrprocessId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> </button>  
-                                <button v-on:click="deleterow(index, Process.hrprocessId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i></button>  
+                                <button v-on:click="detailRow(index, Process.hrprocessId)" class="btn btn-sm btn-info" title="Ver Detalle"><i class="glyphicon glyphicon-th-list"></i> </button>  
+                                <button v-on:click="editRow(index, Process.hrprocessId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i> </button>  
+                                <button v-on:click="deleterow(index, Process.hrprocessId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  
                             </td>
                         </tr>
                     </tbody>

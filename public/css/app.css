@@ -15888,11 +15888,20 @@ span {
   white-space: break-word;
 }
 
+.glow {
+  text-shadow: 0 0 3px #8cd0fd;
+}
+
+.round {
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
 .svg_logo {
   position: center;
   z-index: 3;
-  width: 70%;
-  height: 70%;
+  width: 55%;
+  height: 55%;
 }
 
 #circle1 {
@@ -15905,9 +15914,6 @@ span {
   fill-rule: nonzero;
   -webkit-animation: circle1 7s alternate;
           animation: circle1 7s alternate;
-  z-index: 3;
-  width: 70%;
-  height: 70%;
 }
 
 @-webkit-keyframes circle1 {
@@ -15980,9 +15986,6 @@ span {
   fill-rule: nonzero;
   -webkit-animation: circle2 7s alternate;
           animation: circle2 7s alternate;
-  z-index: 3;
-  width: 70%;
-  height: 70%;
 }
 
 @-webkit-keyframes circle2 {
@@ -16055,9 +16058,6 @@ span {
   fill-rule: nonzero;
   -webkit-animation: circle3 7s alternate;
           animation: circle3 7s alternate;
-  z-index: 3;
-  width: 70%;
-  height: 70%;
 }
 
 @-webkit-keyframes circle3 {
@@ -16122,8 +16122,24 @@ span {
 
 .iframe {
   width: 100%;
-  height: calc(100vh - 88px);
+  height: 80vh;
 }
+
+/*  .iframe-container {
+  overflow: hidden;
+  // Calculated from the aspect ration of the content (in case of 16:9 it is 9/16= 0.5625)
+  padding-top: 56.25%;
+  position: relative;
+}
+ 
+.iframe-container iframe {
+   border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
+} */
 
 .text-principal {
   overflow-wrap: break-word;
@@ -16133,5 +16149,19 @@ span {
   font-size: 12px;
   overflow-wrap: break-word;
   white-space: normal;
+}
+
+.panel {
+  border-radius: 15px;
+  border: none;
+  -webkit-box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-static-top {
+  border-radius: 50px;
+  border: none;
+  -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
 }
 

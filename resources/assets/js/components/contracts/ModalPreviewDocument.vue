@@ -5,10 +5,11 @@
                 <span class="fa fa-search" aria-hidden="true"></span>  
            </a>
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
-      <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal" width="100%">
-            <b> Previzualicion Del Documento.</b>
+<!-- Sweet modal is something awful, needs a lot of testing -->
+      <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal" width="80%">
+            <b>Previzualicion Del Documento</b>
            <br /><br />
-           <div class="embed-responsive embed-responsive-4by3 iframe" v-if="showModal">
+           <div class="iframe" v-if="showModal">
             <center>
               <iframe class="iframe" :src="url" frameborder="0">
                 

@@ -37,8 +37,8 @@ class printPrePayrollController extends Controller
                             --   AND hrtransaction_type.countryId = 2
                             --   AND hrtransaction_type.companyId = 5
                             --    AND hrpayroll.year = 2020
-                                GROUP BY hrpayroll.payrollName
-                                ORDER BY hrpayroll.companyId");
+                            GROUP BY hrpayroll.payrollName
+                            ORDER BY hrpayroll.companyId");
 
         // $countrys   = $this->oCountry->getAll();
         return compact('print');
@@ -47,7 +47,8 @@ class printPrePayrollController extends Controller
     public function getListPrePayroll($countryId, $companyId, $year, $payrollNumber)
     {
 
-        $res0 = DB::select("SELECT hrpayroll.staffCode ,hrpayroll.payrollName, country.countryName, company.companyName, company.logo,
+        $res0 = DB::select("SELECT hrpayroll.staffCode ,hrpayroll.companyId ,hrpayroll.payrollName, country.countryName, company.companyShortName, 
+                                company.companyAddress, company.logo, company.companyNumber,company.color,
                                 hrpayroll.payrollName,(
                                     SELECT payroll_type.payrollTypeName FROM `hrpayroll_control`
                                         INNER JOIN payroll_type ON hrpayroll_control.payrollTypeId = payroll_type.payrollTypeId
@@ -87,11 +88,15 @@ class printPrePayrollController extends Controller
         $print = array();
         $print[0] = $res0[0]->payrollName;
         $print[1] = $res0[0]->countryName;
-        $print[2] = $res0[0]->companyName;
+        $print[2] = $res0[0]->companyShortName;
         $print[3] = $res0[0]->logo;
         $print[4] = $res0[0]->payrollTypeName;
         $print[5] = $res0[0]->totalasignacion;
         $print[6] = $res0[0]->totaldeduccion;
+        $print[7] = $res0[0]->companyAddress;
+        $print[8] = $res0[0]->companyNumber;
+        $print[9] = $res0[0]->companyId;
+        $print[10] = $res0[0]->color;
         foreach($res0 as $res1){
             
             
