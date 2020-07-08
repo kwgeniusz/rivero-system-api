@@ -21,15 +21,33 @@
      <br>
   <h3>Lista de Archivos</h3>
 <div class="text-center">
-<!--        <a  @click="showMultiples = !showMultiples" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-times-circle" aria-hidden="true"> Activar Multiple Seleccion</span> 
-       </a> -->
-       <a  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+  <!-- downloads buttons -->  
+       <a v-if="$can('BDGAC') && typeDoc == 'previous'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
            <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
        </a>
-       <a  @click="deleteFiles" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+      <a v-if="$can('BDGBC') && typeDoc == 'processed'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
+       </a>
+      <a v-if="$can('BDGCC') && typeDoc == 'revised'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
+       </a>
+      <a v-if="$can('BDGDC') && typeDoc == 'ready'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
+       </a>
+
+  <!-- deletes buttons -->  
+       <a  v-if="$can('BDGAB') && typeDoc == 'previous'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
            <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
        </a>
+      <a v-if="$can('BDGBB') && typeDoc == 'processed'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
+       </a>
+      <a  v-if="$can('BDGCB') && typeDoc == 'revised'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
+       </a>
+      <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
+       </a> 
 
 </div>
 <br>
@@ -58,33 +76,6 @@
             <td>{{item.dateUploaded | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}} (Dallas)</td> 
             <td v-for="(user) in item.user"> {{user.fullName}}</td> 
             <td>  
-          <!-- downloads buttons -->
-             <a v-if="$can('BDGAC') && typeDoc == 'previous'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGBC') && typeDoc == 'processed'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGCC') && typeDoc == 'revised'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGDC') && typeDoc == 'ready'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-          <!-- deletes buttons -->
-
-             <a v-if="$can('BDGAB') && typeDoc == 'previous'" @click="modalDelete(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGBB') && typeDoc == 'processed'" @click="modalDelete(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-             <a v-if="$can('BDGCB') && typeDoc == 'revised'" @click="modalDelete(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-             <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="modalDelete(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
             <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType">
             </modal-preview-document>
            </td> 
@@ -100,13 +91,15 @@
                 <input type="text" class="form-control" v-model="docSelected.docName"><br>
               </div>
         <button class="btn btn-primary" >Actualizar</button>
-      </sweet-modal>
+   </sweet-modal>
 
-     <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalDelete">
-        <h2>¿Esta seguro de eliminar este archivo?</h2> <br>
-        <p>{{docSelected.docName}}</p>
-        <button class="btn btn-danger" @click="sendDelete(docSelected.docId)">Eliminar</button>
-      </sweet-modal>
+   <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalDelete">
+        <h2>¿Esta seguro de eliminar estos archivos?</h2> <br>
+        <div class="text-center">
+          <p v-for="(file,index) in checked"> {{++index}}) {{file.docName}}</p> 
+        </div>
+        <button class="btn btn-danger" @click="deleteFiles">Eliminar</button>
+  </sweet-modal>
 
 
     </div>
@@ -174,9 +167,9 @@ export default {
             // console.log(this.documents[2].user[0].fullName)
             });
          },
-          modalDelete: function(item) {
+          modalDelete: function() {
              this.$refs.modalDelete.open()
-             this.docSelected= item
+             // this.docSelected= item
           },
           deleteFiles: function() {
             // si this.checked no esta vacio ejecuta la funcion de borra multiple

@@ -47,10 +47,10 @@
 
   <div class="col-xs-3 text-right">
    <b> Opciones: </b> 
-          <a href="{{}}" class="btn btn-danger text-center" >
+          <a href="" class="btn btn-danger text-center" >
                    Canceladas
          </a><br><br>
-         <a href="{{}}" class="btn btn-warning text-center" >
+         <a href="" class="btn btn-warning text-center" >
                    Collections
          </a>
   </div>

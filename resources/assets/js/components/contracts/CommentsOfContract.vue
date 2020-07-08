@@ -24,11 +24,9 @@
 
         <div class="row comment" v-for="(comment,index) in commentsList">
           <div class="col-xs-12">
-<<<<<<< HEAD
-            <p class="text-left" style="font-weight: bold">{{comment.user.fullName}} - {{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}} (Dallas)</p>
-=======
+
             <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}})</p>
->>>>>>> d17e39cc5c0cc3b733ccd18eaf5ac3f9d0232bdd
+
             <p class="text-left">{{comment.commentContent}}</p>
           </div>
         </div>
