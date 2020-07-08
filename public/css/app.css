@@ -16122,8 +16122,24 @@ span {
 
 .iframe {
   width: 100%;
-  height: calc(100vh - 88px);
+  height: 80vh;
 }
+
+/*  .iframe-container {
+  overflow: hidden;
+  // Calculated from the aspect ration of the content (in case of 16:9 it is 9/16= 0.5625)
+  padding-top: 56.25%;
+  position: relative;
+}
+ 
+.iframe-container iframe {
+   border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
+} */
 
 .text-principal {
   overflow-wrap: break-word;
@@ -16133,5 +16149,19 @@ span {
   font-size: 12px;
   overflow-wrap: break-word;
   white-space: normal;
+}
+
+.panel {
+  border-radius: 15px;
+  border: none;
+  -webkit-box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-static-top {
+  border-radius: 50px;
+  border: none;
+  -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
 }
 

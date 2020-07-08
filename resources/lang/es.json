@@ -2,7 +2,7 @@
 {
     "__comment1":"-----------------TRADUCCIONES DE LOGIN",
     "Login": "Inicio de Sesión",
-    "User": "Usuarios",
+    "User": "Usuario",
     "Password": "Contraseña",
     "Forgot Your Password": "'¿Olvidaste tu Contraseña?",
 
@@ -63,7 +63,6 @@
     "Configuration": "Configuracion",
     "Countries": "Paises",
     "Offices": "Oficinas",
-    "Users": "Usuarios",
     
     "Sign Off": "Cerrar Sesión",
 
