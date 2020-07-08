@@ -275,18 +275,26 @@
                             if (i > 10) {
                                 let name = true
                                 element[i].forEach(element2 => { 
-                                    cont += 18 //18 es el tamaño aproximado de separacion entre lineas de palabras
+                                    // doc.text( 'text test11', 220, cont ); //######### only test
+                                    cont += 15 //18 es el tamaño aproximado de separacion entre lineas de palabras
                                     if (cont > 720) { //720 es el tamaño establecido de contenido dento de la hoja letter
                                         numPage = numPage + 1
+                                        // doc.addPage(); //######### only test
                                         cont = 155 // 155 es el espacion definido para la cabecera
                                     }
+                                    // doc.text( 'text test2', 220, cont ); //######### only test
+                                   
                                 });
+                                cont += 20
                             }
                         }
+                        // cont = cont + 5 //only test
+                        // doc.text( 'text test3', 220, cont ); //######### only test
+                        // doc.save(company + '-' + period + '.pdf'); //######### only test
+                        // return //##### only test
 
                         // doc.text( 'izquierda?.', eje X, eje Y );
                         //  console.log(colorPri1,colorPri2,colorPri3)
-                        //  return
                         //  Encabezado
                         doc.setDrawColor(0);
                         doc.setFillColor(colorPri1,colorPri2,colorPri3); // color de los rectangulos
@@ -409,7 +417,7 @@
                         for (let i = 0; i < objPrePayrollDetail.length; i++) {
                             const element = objPrePayrollDetail;
                             //  console.log( element[i]) 
-                             console.log('numero de pagina3: ' + numPage) 
+                            //  console.log('numero de pagina3: ' + numPage) 
 
                             // condiciono que comienze a leer los datos a partir de la posicion 11 del array
                             if (i > 10) {
