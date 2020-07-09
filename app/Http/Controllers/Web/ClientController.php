@@ -33,7 +33,9 @@ class ClientController extends Controller
        $clients = Client::orderBy('cltId', 'ASC')
                          ->filter($request->filteredOut)
                          ->paginate(300);
-
+                         if($request->ajax()){
+                            return $clients;
+                        }
         return view('module_contracts.clients.index', compact('clients'));
     }
 

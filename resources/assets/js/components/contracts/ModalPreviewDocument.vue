@@ -6,15 +6,12 @@
            </a>
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
 <!-- Sweet modal is something awful, needs a lot of testing -->
-      <sweet-modal modal-theme="dark" overlay-theme="dark" ref="modal" width="80%">
+      <sweet-modal ref="modal" width="100%">
             <b>Previzualicion Del Documento</b>
            <br /><br />
            <div class="iframe" v-if="showModal">
-            <center>
-              <iframe class="iframe" :src="url" frameborder="0">
-                
+              <iframe class="resp-container" :src="url" frameborder="0">
               </iframe>
-            </center>
          </div>
      </sweet-modal>
 

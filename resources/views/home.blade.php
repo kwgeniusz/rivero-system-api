@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container">
+
+    <div class="row">
+        <dashboard-counters pref-url="../" router="clients"></dashboard-counters>
+    </div>
+
     <div class="row">
         <div class="col-md-3">
             <div class="panel panel-default">

@@ -16125,6 +16125,11 @@ span {
   height: 80vh;
 }
 
+.resp-container {
+  height: 70vh;
+  width: 70vw;
+}
+
 /*  .iframe-container {
   overflow: hidden;
   // Calculated from the aspect ration of the content (in case of 16:9 it is 9/16= 0.5625)
