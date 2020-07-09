@@ -111,24 +111,6 @@ import FormNewClient from './FormNewClient.vue'
 }
 </script>
 
-
-<style scoped>
-
-  .sugerencias{ 
- margin:0px;
- width:100%;
- background:white;  
- border-radius: 3px;   
- border: 1px solid #A5ACB2;
-}
-.sugerencias > .result {
- padding-left:5%;
-
-}
-.sugerencias > .result:hover{
- color:white;
- background-color: #3c8dbd;
- cursor:pointer; 
-}
-
+<style lang="scss">
+@import '../../../sass/app.scss'
 </style>
