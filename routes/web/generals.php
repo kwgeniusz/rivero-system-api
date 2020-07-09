@@ -40,4 +40,10 @@ Route::get('offices/{contract}', 'Web\OfficeController@getForCountry')->name('of
 Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
 Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');
 Route::get('precontract-allFiles/{id}/{type}', 'Web\PrecontractController@getFiles')->name('precontract.getFiles');
-//ADMINISTRATION - RECEIVABLE **********************
+
+//ROUTES TO STATISTIC **********************
+Route::get('statistic/clients', 'Web\StatisticController@numberOfClients')->name('statistic.clients');
+Route::get('statistic/contracts', 'Web\StatisticController@numberOfContracts')->name('statistic.contracts');
+Route::get('statistic/contractsFinished', 'Web\StatisticController@numberOfContractsFinished')->name('statistic.contractsFinished');
+Route::get('statistic/contractsCancelled', 'Web\StatisticController@numberOfContractsCancelled')->name('statistic.contractsCancelled');
+
