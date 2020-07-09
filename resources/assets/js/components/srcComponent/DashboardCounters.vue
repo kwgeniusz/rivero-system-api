@@ -6,7 +6,7 @@
               <div class="inner">
                 <h3>{{ amount }}</h3>
 
-                <p>Users</p>
+                <p>Users/Clients</p>
               </div>
               <div class="icon">
                 <i class="fas fa-user-plus"></i>

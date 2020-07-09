@@ -15877,26 +15877,6 @@ span {
   font-family: "Source Sans Pro", sans-serif;
 }
 
-.hover:hover {
-  background: #cbb956;
-}
-
-.text-left {
-  font-weight: 400;
-  font-size: 12px;
-  overflow-wrap: break-word;
-  white-space: break-word;
-}
-
-.glow {
-  text-shadow: 0 0 3px #8cd0fd;
-}
-
-.round {
-  border-radius: 10px;
-  margin-bottom: 2px;
-}
-
 .svg_logo {
   position: center;
   z-index: 3;
@@ -16120,6 +16100,40 @@ span {
   }
 }
 
+.panel {
+  border-radius: 15px;
+  border: none;
+  -webkit-box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-static-top {
+  border-radius: 50px;
+  border: none;
+  -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+.hover:hover {
+  background: #cbb956;
+}
+
+.text-left {
+  font-weight: 400;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  white-space: break-word;
+}
+
+.glow {
+  text-shadow: 0 0 3px #8cd0fd;
+}
+
+.round {
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
 .iframe {
   width: 100%;
   height: 80vh;
@@ -16156,17 +16170,21 @@ span {
   white-space: normal;
 }
 
-.panel {
-  border-radius: 15px;
-  border: none;
-  -webkit-box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
+.sugerencias {
+  margin: 0px;
+  width: 100%;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid #A5ACB2;
 }
 
-.navbar-static-top {
-  border-radius: 50px;
-  border: none;
-  -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+.sugerencias > .result {
+  padding-left: 5%;
+}
+
+.sugerencias > .result:hover {
+  color: white;
+  background-color: #3c8dbd;
+  cursor: pointer;
 }
 
