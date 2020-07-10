@@ -12,7 +12,7 @@ use Auth;
 class StatisticController extends Controller
 {
     private $oContract;
-    private $oClient;;
+    private $oClient;
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ class StatisticController extends Controller
 
     public function numberOfClients()
     {
-        $rs = $this->oClient->index();
+        $rs = $this->oClient->getAll(session('countryId'));
            return count($rs);
     }
     public function numberOfContracts(Request $request)
@@ -43,12 +43,12 @@ class StatisticController extends Controller
     }
     public function numberOfContractsFinished(Request $request)
     {
-        $rs = $this->oContract->getAllForStatus(Contract::FINISHED,$filteredOut,session('countryId'),session('officeId'));
+        $rs = $this->oContract->getAllForStatus(Contract::FINISHED,'',session('countryId'),session('officeId'));
            return count($rs);
     }
-    public function numberOfContractsSuspended(Request $request)
+    public function numberOfContractsCancelled(Request $request)
     {
-       $rs = $this->oContract->getAllForStatus(Contract::CANCELLED,$filteredOut,session('countryId'),session('officeId'));
+       $rs = $this->oContract->getAllForStatus(Contract::CANCELLED,'',session('countryId'),session('officeId'));
            return count($rs);
     }
 

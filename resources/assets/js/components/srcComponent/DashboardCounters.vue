@@ -6,7 +6,7 @@
               <div class="inner">
                 <h3>{{ amount }}</h3>
 
-                <p>Users</p>
+                <p>{{title}}</p>
               </div>
               <div class="icon">
                 <i class="fas fa-user-plus"></i>
@@ -35,12 +35,13 @@
     props: {
            prefUrl: { type: String,default:null},
            router: "",
+           title: "",
           },
     methods: {
         getData: function (){
          var url = this.prefUrl+this.router;
             axios.get(url).then(response => {
-              this.amount=response.data.total;
+              this.amount=response.data;
             });
         },
      }
