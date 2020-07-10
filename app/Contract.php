@@ -289,6 +289,11 @@ class Contract extends Model
     {
         return $this->orderBy('contractNumber', 'ASC')->get();
     }
+//--------------------------------------------------------------------
+    public function getAllByProjectUse($projectUseId)
+    {
+        return $this->where('projectUseId', $projectUseId)->get();
+    }
 //------------------------------------
     public function getAllPaginate($number)
     {

@@ -132,7 +132,7 @@ class Invoice extends Model
             ->orderBy('invId', 'DESC')
             ->get();
     }   
-    
+   
     public function getAllByContract($contractId)
     {
         $result = $this->with('invoiceDetails','note','scope','projectDescription')
@@ -141,7 +141,13 @@ class Invoice extends Model
             ->get();
 
         return $result;
-    }   
+    }  
+
+    public function getAllByStatus($invStatusCode)
+    {
+        $result = $this->where('invStatusCode', $invStatusCode)->get();
+        return $result;
+    }
 
      public function getAllByClientAndOffice($clientId,$officeId)
     {
