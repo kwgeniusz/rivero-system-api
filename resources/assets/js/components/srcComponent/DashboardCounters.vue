@@ -5,7 +5,6 @@
             <div class="small-box bg-info panel-heading">
               <div class="inner">
                 <h3>{{ amount }}</h3>
-
                 <p>{{title}}</p>
               </div>
               <div class="icon">
