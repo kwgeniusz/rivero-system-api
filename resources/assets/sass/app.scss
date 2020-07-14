@@ -177,15 +177,28 @@ a, label, span {
 
 /////////////////// Modal Document Preview ///////////////////
 
-  .iframe{
+  .iframe {
     width: 100%;
     height: 80vh;
+    display: flex;
+    justify-content: center;
   }
 
+/* @media screen and (max-width:1980px) {
   .resp-container {
-    height: 70vh;
-    width: 70vw;  
+    width: auto;
+    height: 60vh;
 }
+} */
+
+@media screen and (max-width:1200px) {
+.resp-container {
+  width: 80vw;
+  height: 60vh;
+}
+}
+
+
 
  /*  .iframe-container {
   overflow: hidden;

@@ -10,14 +10,11 @@
             <b>Previzualicion Del Documento</b>
            <br /><br />
            <div class="iframe" v-if="showModal">
-              <iframe class="resp-container" :src="url" frameborder="0">
-              </iframe>
+              <img class="resp-container" :src="url">
          </div>
      </sweet-modal>
-
 </div>   
 </template>
-
 <script>
 
     export default {
