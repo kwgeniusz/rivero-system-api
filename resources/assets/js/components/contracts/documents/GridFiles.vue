@@ -23,30 +23,30 @@
 <div class="text-center">
   <!-- downloads buttons -->  
        <a v-if="$can('BDGAC') && typeDoc == 'previous'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
        </a>
       <a v-if="$can('BDGBC') && typeDoc == 'processed'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
        </a>
       <a v-if="$can('BDGCC') && typeDoc == 'revised'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
        </a>
       <a v-if="$can('BDGDC') && typeDoc == 'ready'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados
        </a>
 
   <!-- deletes buttons -->  
        <a  v-if="$can('BDGAB') && typeDoc == 'previous'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
        </a>
       <a v-if="$can('BDGBB') && typeDoc == 'processed'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
        </a>
       <a  v-if="$can('BDGCB') && typeDoc == 'revised'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
        </a>
       <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
        </a> 
 
 </div>
