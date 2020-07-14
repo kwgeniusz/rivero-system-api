@@ -126,13 +126,34 @@ class Invoice extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-     public function getAllByOffice($officeId)
+    //  public function getAllByOffice($officeId)
+    // {
+    //     return $this->where('officeId' , '=' , $officeId)
+    //         ->orderBy('invId', 'DESC')
+    //         ->get();
+    // }   
+    public function getAllByStatus($invStatusCode,$officeId)
     {
-        return $this->where('officeId' , '=' , $officeId)
-            ->orderBy('invId', 'DESC')
-            ->get();
-    }   
-   
+        $result = $this->where('invStatusCode', $invStatusCode)
+                        ->where('officeId' , '=' , $officeId)
+                        ->get();
+        return $result;
+    }
+
+    public function getAllByFourStatus($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4,$officeId)
+    {
+        $result = $this->where('officeId' , '=' , $officeId)
+                       ->where(function($q) use ($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4){
+                          $q->where('invStatusCode', $invStatusCode1)
+                          ->orWhere('invStatusCode', $invStatusCode2)
+                          ->orWhere('invStatusCode', $invStatusCode3)
+                          ->orWhere('invStatusCode', $invStatusCode4);
+                        })
+                        ->orderBy('invId', 'DESC')
+                        ->get();
+        return $result;
+    }
+
     public function getAllByContract($contractId)
     {
         $result = $this->with('invoiceDetails','note','scope','projectDescription')
@@ -143,11 +164,6 @@ class Invoice extends Model
         return $result;
     }  
 
-    public function getAllByStatus($invStatusCode)
-    {
-        $result = $this->where('invStatusCode', $invStatusCode)->get();
-        return $result;
-    }
 
      public function getAllByClientAndOffice($clientId,$officeId)
     {

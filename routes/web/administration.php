@@ -11,6 +11,22 @@ Route::get('transactions/{sign}/{id}/show', 'Web\TransactionController@show')->n
 Route::delete('transactions/{sign}/{id}/delete', 'Web\TransactionController@delete')->name('transactions.delete');
 
 //INVOICES
+ // general options
+Route::resource('invoices', 'Web\InvoiceController');
+Route::resource('invoicesNotes', 'Web\InvoiceNoteController');
+Route::resource('invoicesScopes', 'Web\InvoiceScopeController');
+Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
+Route::get('invoicesDetails/{invoiceId}/withPrice', 'Web\InvoiceDetailController@getWithPriceByInvoice')->name('invoicesDetails.withPrice');
+Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');
+Route::post('invoicesPayments/add', 'Web\InvoiceController@paymentsAdd')->name('invoices.paymentsAdd');
+Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@paymentsRemove')->name('invoices.paymentsRemove');
+Route::get('invoices/{id}/subcontractors', 'Web\InvoiceController@subcontractors')->name('invoices.subcontractors');
+Route::put('invoices/{invoiceId}/changeStatus','Web\InvoiceController@changeStatus')->name('invoices.changeStatus');
+
+ // sub categories 
+Route::get('invoicesCancelled', 'Web\InvoiceController@InvoicesCancelled')->name('invoices.cancelled');
+// Route::put('invoicesCollections', 'Web\InvoiceController@invoicesCollections')->name('invoices.close');
+
 Route::get('invoicesAll', 'Web\InvoiceController@getAllInvoices')->name('invoices.all');
 Route::post('filteredInvoices', 'Web\InvoiceController@getAllInvoices')->name('invoices.filtered');
 //PROPOSALS

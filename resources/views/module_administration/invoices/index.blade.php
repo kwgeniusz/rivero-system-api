@@ -7,6 +7,7 @@
     <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
     <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
     <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
+    <h4 class="text-warning text-left">Collections: ${{$totalCollections}}</h4>
   </div>
 
 <div class="col-xs-6 text-center">
@@ -47,14 +48,11 @@
 
   <div class="col-xs-3 text-right">
    <b> Opciones: </b> 
-          <a href="" class="btn btn-danger text-center" >
-                   Canceladas
-         </a><br><br>
-         <a href="" class="btn btn-warning text-center" >
-                   Collections
+          <a href="{{route('invoices.cancelled')}}" class="btn btn-danger text-center" >
+                   Anuladas
          </a>
   </div>
-  .
+  
     <div class="row">
         <div class="col-xs-12 ">
 
@@ -78,7 +76,7 @@
             </thead>
                 <tbody>
         {{-- IMPRESION DE INVOICES --}}
-                   @php $acum = 0; @endphp
+                @php $acum = 0; @endphp
                 @foreach($invoices as $invoice)
                 <tr>
                    <td>{{ $acum = $acum +1 }}</td>
@@ -97,22 +95,26 @@
                        style="background-color: #3c8ddc;color:white" 
                   @elseif($invoice->invStatusCode == App\Invoice::PAID )
                         style="background-color: #78341a;color:white" 
+                   @elseif($invoice->invStatusCode == App\Invoice::COLLECTION )
+                        style="background-color: #cbb956;color:white" 
                   @endif
                    >{{$invoice->invoiceStatus[0]->invStatusName}}</td> 
                    <td>
+
                 @if($invoice->netTotal > 0) 
-                  @can('BEE') 
+                   @can('BEE') 
                   <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a> 
                     @endcan  
-                  @endif  
-                   @can('BED') 
+                @endif  
+
+                 @can('BED') 
                    <a href="{{route('invoices.subcontractors', ['id' => $invoice->invoiceId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Subcontratistas">
                         <span class="fa fa-user" aria-hidden="true"></span> 
                     </a>   
-                    @endcan    
-                 @if($invoice->invStatusCode == App\Invoice::OPEN )
+                 @endcan    
+             @if($invoice->invStatusCode == App\Invoice::OPEN )
        {{--             @if($invoice->contract->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED) --}}
                    @can('BEC')
                   <a href="{{route('invoicesDetails.index', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
@@ -125,21 +127,18 @@
                     </a>  
                    @endif 
 
-                  <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar">
-                        <span class="fa fa-times-circle" aria-hidden="true"></span> 
-                    </a>
-                  {{-- @endif   --}}
-                @endif  
+                <btn-invoice-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
+             @endif 
 
-                @can('BEB')
+             @can('BEB')
                 <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
-                 @endif  
- 
-            {{--       <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Anular">
-                        <span class="fa fa-times-circle" aria-hidden="true"></span> 
-                    </a> --}}
+             @endif  
+             @if($invoice->invStatusCode == App\Invoice::CLOSED )
+                   <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
+              @endif
+   
                    
                    </td>
                 </tr>

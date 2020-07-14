@@ -48,20 +48,7 @@ Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->nam
 Route::resource('comments', 'Web\CommentController');
 Route::get('contracts/{contractId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 //INVOICES*********
-Route::resource('invoices', 'Web\InvoiceController');
-// Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoices.close');
-Route::delete('invoices/{invoiceId}/changeStatus', 'Web\InvoiceController@changeStatus')->name('invoices.changeStatus');
-Route::resource('invoicesNotes', 'Web\InvoiceNoteController');
-Route::resource('invoicesScopes', 'Web\InvoiceScopeController');
 
-Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');
-Route::post('invoicesPayments/add', 'Web\InvoiceController@paymentsAdd')->name('invoices.paymentsAdd');
-Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@paymentsRemove')->name('invoices.paymentsRemove');
-
-Route::get('invoices/{id}/subcontractors', 'Web\InvoiceController@subcontractors')->name('invoices.subcontractors');
-
-Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
-Route::get('invoicesDetails/{invoiceId}/withPrice', 'Web\InvoiceDetailController@getWithPriceByInvoice')->name('invoicesDetails.withPrice');
 
 //SUBCONTRACTORS*********
 Route::resource('subcontractors', 'Web\SubcontractorController');
@@ -69,9 +56,6 @@ Route::get('subcontractors/list/{invDetailId}/invDetail', 'Web\SubcontractorCont
 Route::post('subcontractors/add/invDetail', 'Web\SubcontractorController@addSubcontInvDetail');
 Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorController@removeSubcontInvDetail');
 Route::get('searchSubcontractor/{subcontName}', 'Web\SubcontractorController@getFiltered')->name('searchSubcontractor.getFiltered');
-
-
-
 //CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');
