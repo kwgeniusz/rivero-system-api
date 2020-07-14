@@ -112,7 +112,9 @@ Vue.component('list-pre-payroll-detail-staff', require('./components/rrhh/printP
 
 //########### Dashboard Counters #############
 // --> Front Page
-Vue.component('dashboard-counters', require('./components/srcComponent/DashboardCounters.vue'));
+Vue.component('client-counter', require('./components/srcComponent/ClientCounter.vue'));
+Vue.component('contract-counter', require('./components/srcComponent/ContractCounter.vue'));
+Vue.component('invoice-counter', require('./components/srcComponent/InvoiceCounter.vue'));
 
 //############ COMFIGURATION COMPANY COMPONENTS ##############
 Vue.component('main-company', require('./components/configuration/company/mainCompany.vue'));

@@ -24,8 +24,8 @@
    "clients": "Clients",
    "contract_registration": "Contract Registration",
    "general_search": "General Search",
-   "contracts_finished": "Contracts Finished",
-   "contracts_cancelled": "Contracts Cancelled",
+   "contracts_finished": "Finished Contracts",
+   "contracts_cancelled": "Cancelled Contracts",
    "contract_status": "Contract Status",
    "print_contract": "Print Contract",
    "contract_summary": "Office for Summary",
@@ -89,6 +89,7 @@
    "save": "Save",
 
    "__comment6":"------------------TRADUCCIONES GENERAL",
+   "Users": "Users",
 
    "__comment7":"------------------TRADUCCIONES DE FOOTER",
    "All Right Reserved": "All Right Reserved",
@@ -112,7 +113,6 @@
      "are_you_sure_to_eliminate_this_client?": "Are you sure to delete this client?",
      "names_and_surnames":"NAMES AND SURNAMES",
      "name": "NAME", 
-     "description": "DESCRIPTION",
      "address": "ADDRESS",
      "email": "EMAIL",
      "phone": "PHONE",
@@ -155,7 +155,10 @@
      "details_contract": "DETAILS CONTRACT",
      "choose_a_status":"Choose a Status",
 
-    "__comment12":"------------------TRADUCCIONES DE BUSQUEDA CONTRACT" ,
+     "__comment12":"------------------TRADUCCIONES DE INVOICE" ,
+     "paid_invoices":"Paid Invoices",
+
+    "__comment13":"------------------TRADUCCIONES DE BUSQUEDA CONTRACT" ,
 
     "contract_search_by_status":"Contract Search by Status",
      "vacancies": "VACANT", 
@@ -168,7 +171,7 @@
      "cancelled_contract_history":"History of cancelled contracts",
 
 
-     "__comment13":"------------------TRADUCCIONES DE TYPES OF TRANSACTIONS",
+     "__comment14":"------------------TRADUCCIONES DE TYPES OF TRANSACTIONS",
      "TYPES_OF_TRANSACTIONS": "TIPOS DE TRANSACCIONES"
   
 

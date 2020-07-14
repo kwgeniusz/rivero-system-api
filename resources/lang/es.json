@@ -63,6 +63,7 @@
     "Configuration": "Configuracion",
     "Countries": "Paises",
     "Offices": "Oficinas",
+    "Users": "Ususario",
     
     "Sign Off": "Cerrar Sesión",
 
@@ -87,6 +88,7 @@
     "save": "Guardar",
    
    "__comment6":"------------------TRADUCCIONES GENERAL",
+   "Users": "Usuarios",
   
 
     "__comment7":"----------------TRADUCCIONES DE FOOTER",
@@ -112,7 +114,6 @@
     "are_you_sure_to_eliminate_this_client?": "¿Esta seguro de eliminar este Cliente?",
     "names_and_surnames":"NOMBRES Y APELLIDOS",
     "name": "NOMBRE", 
-    "description": "DESCRIPCION",
     "address": "DIRECCIÓN",
     "email": "EMAIL",
     "phone": "TELÉFONO",
@@ -131,6 +132,7 @@
     "status": "Estado",
     "change_status": "Cambiar Estado",
     "directoris": "Change Status",
+
 
     "contract_details":"Detalles del Contrato",
     "date_of_contract" :"FECHA DEL CONTRATO",
@@ -156,7 +158,10 @@
      "details_contract": "DETALLES DEL CONTRATO",
      "choose_a_status":"Seleccione un Estado",
      
-     "__comment12":"------------------TRADUCCIONES DE BUSQUEDA CONTRACT" ,
+     "__comment12":"------------------TRADUCCIONES DE INVOICE" ,
+     "paid_invoices":"Facturas Pagadas",
+
+     "__comment13":"------------------TRADUCCIONES DE BUSQUEDA CONTRACT" ,
      "contract_search_by_status":"Busqueda de Contrato por Estados",
      "vacancies": "VACANTE", 
      "initiates": "INICIADO", 
@@ -168,9 +173,7 @@
      "cancelled_contract_history":"Historial de Contractos Suspendidos",
 
 
-
-
-    "__comment13":"------------------TRADUCCIONES DE TYPES OF TRANSACTIONS",
+    "__comment14":"------------------TRADUCCIONES DE TYPES OF TRANSACTIONS",
     "TYPES_OF_TRANSACTIONS": "TIPOS DE TRANSACCIONES"
    
 
