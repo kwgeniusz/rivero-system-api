@@ -4,10 +4,10 @@
 <div class="container">
 
     <div class="row">
-        <dashboard-counters pref-url="./" router="statistic/clients" title="CLIENTES"></dashboard-counters>
-        <dashboard-counters pref-url="./" router="statistic/contractsFinished" title="CONTRATOS FINALIZADOS"></dashboard-counters>
-        <dashboard-counters pref-url="./" router="statistic/contractsCancelled" title="CONTRATOS CANCELADOS"></dashboard-counters><br><br>
-{{--         <dashboard-counters pref-url="/" router="clients"></dashboard-counters>
+        <dashboard-counters pref-url="./" router="statistic/clients" title="{{__('Users')}}"></dashboard-counters>
+        <dashboard-counters pref-url="./" router="statistic/contractsFinished" title="{{__('contracts_finished')}}"></dashboard-counters>
+        <dashboard-counters pref-url="./" router="statistic/contractsCancelled" title="{{__('contracts_cancelled')}}"></dashboard-counters><br><br>
+   {{-- <dashboard-counters pref-url="/" router="statistics/contractsResidencial"></dashboard-counters>
         <dashboard-counters pref-url="/" router="clients"></dashboard-counters>
         <dashboard-counters pref-url="/" router="clients"></dashboard-counters> --}}
     </div>
