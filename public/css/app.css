@@ -16114,6 +16114,13 @@ span {
           box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
 }
 
+.cardy {
+  border-radius: 15px;
+  margin-bottom: 25px;
+  -webkit-box-shadow: 0px 5px 5px rgba(100, 100, 100, 0.425);
+          box-shadow: 0px 5px 5px rgba(100, 100, 100, 0.425);
+}
+
 .hover:hover {
   background: #cbb956;
 }
