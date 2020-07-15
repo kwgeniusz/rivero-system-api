@@ -16121,6 +16121,11 @@ span {
           box-shadow: 0px 5px 5px rgba(100, 100, 100, 0.425);
 }
 
+.chart {
+  width: 300px;
+  margin-bottom: 25px;
+}
+
 .hover:hover {
   background: #cbb956;
 }
