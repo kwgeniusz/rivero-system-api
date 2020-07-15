@@ -3,22 +3,13 @@
     <div> 
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
              <a class="btn btn-danger btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Anular">
-              <span class="fa fa-times-circle" aria-hidden="true"></span> 
+              <i class="fa fa-times-circle" aria-hidden="true"></i> 
             </a>
 <!-- MODALS -->
    <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalCanceling">
         <h2>¿Esta seguro de que desea Anular Esta Factura</h2> <br>
         <div class="text-center">
              N° Factura: {{invId}}
-              <!-- {{invoice}} -->
-           <!--    {{invoice.contract.contractNumber}} 
-              {{invoice.contract.siteAddress}}
-              {{invoice.invoiceDate}}
-              {{invoice.projescription.projescriptionName}}
-              {{invoice.netTotal}}
-              {{invoice.balance}}
-              {{invoice.shareSucceed}}
-              {{invoice->pQuantity}}   -->
         </div>
         <br>
         <button class="btn btn-danger" @click="cancelInvoice">Confirmar</button>

@@ -66,22 +66,22 @@ class StatisticController extends Controller
 
     public function numberOfInvoiceOpen()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::OPEN);
+       $rs = $this->oInvoice->getAllByStatus(Invoice::OPEN,session('officeId'));
        return count($rs);
     }
     public function numberOfInvoiceClosed()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::CLOSED);
+       $rs = $this->oInvoice->getAllByStatus(Invoice::CLOSED,session('officeId'));
        return count($rs);
     }
         public function numberOfInvoicePaid()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::PAID);
+       $rs = $this->oInvoice->getAllByStatus(Invoice::PAID,session('officeId'));
        return count($rs);
     }
         public function numberOfInvoiceCancelled()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::CANCELLED);
+       $rs = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('officeId'));
        return count($rs);
     }
 

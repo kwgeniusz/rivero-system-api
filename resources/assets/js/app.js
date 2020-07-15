@@ -65,6 +65,7 @@ Vue.component('search-subcontractor', require('./components/administration/Searc
 
 Vue.component('btn-invoice-cancel', require('./components/administration/BtnInvoiceCancel.vue'));
 Vue.component('btn-invoice-collection', require('./components/administration/BtnInvoiceCollection.vue'));
+Vue.component('credit-note', require('./components/administration/saleNotes/CreditNote.vue'));
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
 
 //########### human resource components #############

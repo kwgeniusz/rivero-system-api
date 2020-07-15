@@ -3,27 +3,18 @@
     <div> 
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
              <a class="btn btn-warning btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Enviar a Collection">
-              <span class="fa fa-sync" aria-hidden="true"></span>  
+              <i class="fa fa-sync" aria-hidden="true"></i>  
             </a>
 <!-- MODALS -->
    <sweet-modal icon="warning" ref="modalCollection">
         <h2>¿Esta seguro de que desea pasar esta factura a collections?</h2> <br>
         <div class="text-center">
              N° Factura: {{invId}}
-              <!-- {{invoice}} -->
-           <!--    {{invoice.contract.contractNumber}} 
-              {{invoice.contract.siteAddress}}
-              {{invoice.invoiceDate}}
-              {{invoice.projescription.projescriptionName}}
-              {{invoice.netTotal}}
-              {{invoice.balance}}
-              {{invoice.shareSucceed}}
-              {{invoice->pQuantity}}   -->
+
         </div>
         <br>
         <button class="btn btn-success" @click="sendInvoiceToCollection">Confirmar</button>
   </sweet-modal>
-
 
     </div>
  </template>
