@@ -101,6 +101,7 @@
                    >{{$invoice->invoiceStatus[0]->invStatusName}}</td> 
                    <td>
 
+<<<<<<< HEAD
                 @if($invoice->netTotal > 0) 
                    @can('BEE') 
                   <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
@@ -108,6 +109,15 @@
                     </a> 
                     @endcan  
                 @endif  
+=======
+                @can('BEE') 
+                   @if($invoice->netTotal > 0) 
+                  <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
+                    </a> 
+                     @endif  
+                 @endcan  
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
 
                  @can('BED') 
                    <a href="{{route('invoices.subcontractors', ['id' => $invoice->invoiceId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Subcontratistas">
@@ -116,6 +126,7 @@
                  @endcan    
              @if($invoice->invStatusCode == App\Invoice::OPEN )
        {{--             @if($invoice->contract->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED) --}}
+                <btn-invoice-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
                    @can('BEC')
                   <a href="{{route('invoicesDetails.index', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
@@ -126,8 +137,11 @@
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>  
                    @endif 
+<<<<<<< HEAD
 
                 <btn-invoice-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
+=======
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
              @endif 
 
              @can('BEB')
@@ -135,8 +149,18 @@
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
              @endif  
+<<<<<<< HEAD
              @if($invoice->invStatusCode == App\Invoice::CLOSED )
                    <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
+=======
+
+             @if($invoice->invStatusCode == App\Invoice::CLOSED )
+             <a href="{{route('saleNotes.getByInvoice', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+                     <span class="fa fa-briefcase" aria-hidden="true"></span> 
+                    </a>
+                   <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
+
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
               @endif
    
                    
