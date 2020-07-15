@@ -21,10 +21,12 @@
     "dependencies": {
         "@xkeshi/image-compressor": "^0.5.3",
         "admin-lte": "^2.4.8",
+        "chart.js": "^2.9.3",
         "cropperjs": "^1.5.7",
         "moment-timezone": "^0.5.31",
         "sweet-modal-vue": "^2.0.0",
         "toastr": "^2.1.4",
+        "vue-chartjs": "^3.5.0",
         "vue-moment": "^4.1.0",
         "vue-tables-2": "^1.6.25",
         "vue-upload-component": "^2.8.20"

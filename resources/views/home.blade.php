@@ -10,6 +10,10 @@
     </div>
 
     <div class="row">
+    <contract-chart class="chart"></contract-chart>
+    </div>
+
+    <div class="row">
 
 <!-- The next code is for tabbing all text about Corporate Identity
     <div class="col-12 col-sm-6 col-lg-4">
@@ -41,7 +45,7 @@
                 </div>
               </div> -->
     
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">{{__('about_us')}}</div>
 
@@ -53,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">   {{__('view')}}</div>
 
@@ -64,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">   {{__('mission')}}</div>
 
