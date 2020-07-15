@@ -137,38 +137,47 @@ class InvoiceController extends Controller
           if($request->ajax()){
                 return $invoice;
             }
-        return view('module_contracts.invoices.details', compact('invoice'));
+        return view('module_contracts.invoices.show', compact('invoice'));
     }
 
-    public function closeInvoice(Request $request)
+    public function changeStatus(Request $request)
     {
- 
-        $this->oInvoice->changeStatus($request->invoiceId, Invoice::CLOSED);
-
-        $notification = array(
-            'message'    => 'Factura Cerrada, Puede comenzar a crear cuotas',
-            'alertType' => 'success',
-        );
-        return $notification;
+         switch ($request->newStatus) {
+           case 'CANCELLED':
+            $this->oInvoice->changeStatus($request->invoiceId, Invoice::CANCELLED);
+              $notification = array('message'    => 'Factura Cancelada', 'alertType' => 'info');
+             break;
+           case 'COLLECTION':
+            $this->oInvoice->changeStatus($request->invoiceId, Invoice::COLLECTION);
+              $notification = array('message'    => 'Factura Enviada a Collection', 'alertType' => 'info');
+             # code...
+             break;
+         }
+      return $notification;
     }
 
+// ----------------FUNCTIONS TO MODULE ADMINISTRATIVE-------------------------------//.
      public function getAllInvoices(Request $request)
     {
        $totalMontoFacturas = 0;
        $totalCobrado = 0;
        $totalPorCobrar = 0;
+       $totalCollections = 0;
 
-         $invoices = $this->oInvoice->getAllByOffice(session('officeId'));
+     $invoices = $this->oInvoice->getAllByFourStatus(Invoice::OPEN,Invoice::CLOSED,Invoice::PAID,Invoice::COLLECTION,session('officeId'));
 
          foreach ($invoices as $invoice) {
            $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
            $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
 
-          $totalMontoFacturas += $invoice->netTotal;
-          $totalPorCobrar += $invoice->balance;
-          $totalCobrado   = $totalCobrado + ($invoice->netTotal - $invoice->balance);
-          }
-
+            $totalMontoFacturas += $invoice->netTotal;
+            $totalCobrado   += ($invoice->netTotal - $invoice->balance);
+          if ($invoice->invStatusCode == Invoice::COLLECTION) {
+            $totalCollections   += $invoice->balance;    
+          }else{
+            $totalPorCobrar    += $invoice->balance;
+           }
+        }
 
    if($request->method() == 'POST') {
        if($request->date1 || $request->date2 || $request->textToFilter) {
@@ -227,15 +236,38 @@ class InvoiceController extends Controller
      });
     }//fin del segundo filtrado
 
-
-
   } //cierre del filtrado general.
  }//cierre de request->post
 
-
-        return view('module_administration.invoices.index', compact('invoices','totalMontoFacturas','totalCobrado','totalPorCobrar'));
+        return view('module_administration.invoices.index', compact('invoices','totalMontoFacturas','totalCobrado','totalCollections','totalPorCobrar'));
     }
 
+
+    public function InvoicesCancelled(Request $request)
+    {
+       // $totalMontoFacturas = 0;
+       // $totalCobrado = 0;
+       // $totalPorCobrar = 0;
+       // $totalCollections = 0;
+
+     $invoices = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('officeId'));
+
+         foreach ($invoices as $invoice) {
+           $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
+           $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
+
+          //   $totalMontoFacturas += $invoice->netTotal;
+          //   $totalCobrado   += ($invoice->netTotal - $invoice->balance);
+          // if ($invoice->invStatusCode == Invoice::COLLECTION) {
+          //   $totalCollections   += $invoice->balance;    
+          // }else{
+          //   $totalPorCobrar    += $invoice->balance;
+          //  }
+        }
+
+
+        return view('module_administration.invoices.cancelled', compact('invoices'));
+    }
 //---------------PAYMENTS-----------------------//
 
     public function payments(Request $request,$id)

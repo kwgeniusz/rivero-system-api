@@ -19,12 +19,43 @@
     </div>
 
      <br>
+  <h3>Lista de Archivos</h3>
+<div class="text-center">
+  <!-- downloads buttons -->  
+       <a v-if="$can('BDGAC') && typeDoc == 'previous'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
+       </a>
+      <a v-if="$can('BDGBC') && typeDoc == 'processed'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
+       </a>
+      <a v-if="$can('BDGCC') && typeDoc == 'revised'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
+       </a>
+      <a v-if="$can('BDGDC') && typeDoc == 'ready'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados
+       </a>
 
+  <!-- deletes buttons -->  
+       <a  v-if="$can('BDGAB') && typeDoc == 'previous'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
+       </a>
+      <a v-if="$can('BDGBB') && typeDoc == 'processed'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
+       </a>
+      <a  v-if="$can('BDGCB') && typeDoc == 'revised'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
+       </a>
+      <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
+           <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
+       </a> 
+
+</div>
+<br>
       <div class="table-responsive">
           <table class="table table-striped table-bordered text-center">
             <thead> 
             <tr>  
-                <th><input v-if="showMultiples" type="checkbox" v-model="checkAll"> # </th>
+                <th><input type="checkbox" v-model="checkAll"> # </th>
                 <th>NOMBRE</th>  
                 <th>TIPO</th>
                 <th>FECHA DE SUBIDA</th>
@@ -34,8 +65,7 @@
             </thead>
           <tbody>   
          <tr v-for="(item,index) in documents">
-            <td v-if="!showMultiples">{{++index}}</td>
-            <td v-if="showMultiples">
+            <td >
            <label :for="item.docId">
               <input type="checkbox" :id="item.docId" :value="item" v-model="checked" number>
               {{++index}}
@@ -43,36 +73,9 @@
             </td>
             <td>{{item.docName}}</td>
             <td>{{item.mimeType}}</td>
-            <td>{{item.dateUploaded| moment("MM/DD/YYYY,  h:mm:ss a") }}</td> 
+            <td>{{item.dateUploaded | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}} (Dallas)</td> 
             <td v-for="(user) in item.user"> {{user.fullName}}</td> 
             <td>  
-          <!-- downloads buttons -->
-             <a v-if="$can('BDGAC') && typeDoc == 'previous'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGBC') && typeDoc == 'processed'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGCC') && typeDoc == 'revised'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGDC') && typeDoc == 'ready'" :href="'../fileDownload/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descargar">
-                     <span class="fa fa-file" aria-hidden="true"></span> 
-            </a>
-          <!-- deletes buttons -->
-
-             <a v-if="$can('BDGAB') && typeDoc == 'previous'" @click="deleteFile(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-            <a v-if="$can('BDGBB') && typeDoc == 'processed'" @click="deleteFile(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-             <a v-if="$can('BDGCB') && typeDoc == 'revised'" @click="deleteFile(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-             <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="deleteFile(item)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
             <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType">
             </modal-preview-document>
            </td> 
@@ -80,18 +83,6 @@
          </tbody>
         </table>
        </div>
-<!-- <div class="text-center">
-       <a  @click="showMultiples = !showMultiples" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-times-circle" aria-hidden="true"> Activar Multiple Seleccion</span> 
-       </a>
-       <a  @click="" v-if="showMultiples" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-file" aria-hidden="true"> Descargar Seleccionados</span> 
-       </a>
-       <a  @click="deleteVariousFiles" v-if="showMultiples" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
-           <span class="fa fa-times-circle" aria-hidden="true"> Eliminar Seleccionados</span> 
-       </a>
-
-</div> -->
 
    <sweet-modal ref="modalEdit">
         <h2>Editar:</h2> <br>
@@ -100,13 +91,15 @@
                 <input type="text" class="form-control" v-model="docSelected.docName"><br>
               </div>
         <button class="btn btn-primary" >Actualizar</button>
-      </sweet-modal>
+   </sweet-modal>
 
-     <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalDelete">
-        <h2>¿Esta seguro de eliminar este archivo?</h2> <br>
-        <p>{{docSelected.docName}}</p>
-        <button class="btn btn-danger" @click="sendDelete(docSelected.docId)">Eliminar</button>
-      </sweet-modal>
+   <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalDelete">
+        <h2>¿Esta seguro de eliminar estos archivos?</h2> <br>
+        <div class="text-center">
+          <p v-for="(file,index) in checked"> {{++index}}) {{file.docName}}</p> 
+        </div>
+        <button class="btn btn-danger" @click="deleteFiles">Eliminar</button>
+  </sweet-modal>
 
 
     </div>
@@ -124,8 +117,9 @@ import vueUploadReady from './VueUploadReady.vue'
 export default {
         
      mounted() {
-            console.log('Component mounted.')
-            this.allFiles();
+            // console.log('Component mounted.')
+          this.$moment.tz.setDefault('UTC')
+          this.allFiles();
         },
     data: function() {
         return {
@@ -133,7 +127,7 @@ export default {
             checked: [],
 
             docSelected: '',
-            showMultiples: false,
+            // showMultiples: false,
         }
     },
   props: {
@@ -152,12 +146,9 @@ export default {
    computed: {
     checkAll: {
       get: function () {
-        console.log('get');
         return this.documents ? this.checked.length == this.documents.length : false;
       },
       set: function (value) {
-        console.log('set');
-
         var checked = [];
         if (value) {
           this.documents.forEach(function (doc) {
@@ -175,22 +166,35 @@ export default {
              this.documents = response.data
             // console.log(this.documents[2].user[0].fullName)
             });
-        },
-          deleteVariousFiles: function() {
-            // si this.checked no esta vacio ejecuta la funcion de borra multiple
-            alert(this.checked);
-          },
-          deleteFile: function(item) {
+         },
+          modalDelete: function() {
              this.$refs.modalDelete.open()
-             this.docSelected= item
+             // this.docSelected= item
           },
-          sendDelete: function(docId) {
-             var url ='../fileDelete/'+docId;
-             axios.get(url).then(response => {
-               this.$refs.modalDelete.close()
-               this.allFiles();
-               toastr.success('Archivo Eliminado') 
-            });
+          deleteFiles: function() {
+            // si this.checked no esta vacio ejecuta la funcion de borra multiple
+            if(Object.keys(this.checked).length != 0) {
+               var url ='../fileDelete';
+               axios.put(url,{
+                 checkedFiles :  this.checked,
+                  }).then(response => {
+                    this.$refs.modalDelete.close()
+                    this.allFiles();
+                    toastr.success('Archivos Eliminados') 
+                  });
+             }
+          },
+          downloadFiles: function() {
+            // si this.checked no esta vacio ejecuta la funcion de borra multiple
+            if(Object.keys(this.checked).length != 0) {
+               var url ='../fileDownload';
+               axios.put(url,{
+                 checkedFiles :  this.checked,
+                  }).then(response => {
+                    this.allFiles();
+                    toastr.success('Archivos Descargados') 
+                  });
+             }
           },
     }
        // this.$forceUpdate()

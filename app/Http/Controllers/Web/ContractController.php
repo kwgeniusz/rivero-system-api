@@ -58,12 +58,13 @@ class ContractController extends Controller
         
         $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $contracts = $this->oContract->getAllForFiveStatus(
+        $contracts = $this->oContract->getAllForSixStatus(
             Contract::VACANT, 
             Contract::STARTED,
             Contract::READY_BUT_PENDING_PAYABLE,
             Contract::PROCESSING_PERMIT,
             Contract::WAITING_CLIENT,
+            Contract::DOWNLOADING_FILES,
             $filteredOut,
             session('countryId'),
             session('officeId')
@@ -387,18 +388,23 @@ class ContractController extends Controller
         } 
     }
 
-   public function fileDownload($docId)
+   public function fileDownload(Request $request)
     {
-       $file =  $this->oDocument->findById($docId);
-       return Storage::download($file[0]->docUrl,$file[0]->docName);
+         foreach ($request->checkedFiles as $key => $file) {
+              Storage::download($file['docUrl'],$file['docName']);
+          }
+           
+     // return response('Archivos Descargados', 200)->header('Content-Type', 'text/plain');
     }
 
-   public function fileDelete($docId) {
-    
-        $file =  $this->oDocument->findById($docId);
-        $this->oDocument->deleteF($file[0]->docUrl,$docId);
+   public function fileDelete(Request $request)
+  {
+         foreach ($request->checkedFiles as $key => $file) {
+            Storage::delete($file['docUrl']);
+            $this->oDocument->deleteF($file['docUrl'],$file['docId']);
+          }
 
-       return redirect()->back();
+       return response('Archivos Eliminados', 200)->header('Content-Type', 'text/plain');
    }
    
 //-------QUERYS ASINCRONIOUS-----------------//

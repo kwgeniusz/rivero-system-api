@@ -47,6 +47,7 @@ class printPrePayrollController extends Controller
     public function getListPrePayroll($countryId, $companyId, $year, $payrollNumber)
     {
 
+        // obtiener informacion para los encabezados 
         $res0 = DB::select("SELECT hrpayroll.staffCode ,hrpayroll.companyId ,hrpayroll.payrollName, country.countryName, company.companyShortName, 
                                 company.companyAddress, company.logo, company.companyNumber,company.color,
                                 hrpayroll.payrollName,(
@@ -97,8 +98,8 @@ class printPrePayrollController extends Controller
         $print[8] = $res0[0]->companyNumber;
         $print[9] = $res0[0]->companyId;
         $print[10] = $res0[0]->color;
+
         foreach($res0 as $res1){
-            
             
             $print[] = DB::select("SELECT hrpayroll.countryId, country.countryName, 
                                         hrpayroll.companyId, company.companyName, 
@@ -140,8 +141,7 @@ class printPrePayrollController extends Controller
         }                    
         //  dd($print);
         // return $print;
-        // $countrys   = $this->oCountry->getAll();
-        //  dd($res0);
+    
         return compact('print');
     }
     public function getListDetail($countryId, $companyId, $year, $payrollNumber,$staffCode)

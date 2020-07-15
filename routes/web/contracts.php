@@ -39,25 +39,16 @@ Route::get('contractsStaff/{contractId}/remove/{staffId}', 'Web\ContractControll
 
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
 Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contracts.fileAdd');
-Route::get('fileDownload/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
-Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
+// Route::get('fileDownload/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::put('fileDownload', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::put('fileDelete', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
+// Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
 //COMMENTS*************
 Route::resource('comments', 'Web\CommentController');
 Route::get('contracts/{contractId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 //INVOICES*********
-Route::resource('invoices', 'Web\InvoiceController');
-Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
-Route::get('invoicesDetails/{invoiceId}/withPrice', 'Web\InvoiceDetailController@getWithPriceByInvoice')->name('invoicesDetails.withPrice');
-Route::resource('invoicesNotes', 'Web\InvoiceNoteController');
-Route::resource('invoicesScopes', 'Web\InvoiceScopeController');
 
-Route::put('invoicesClose', 'Web\InvoiceController@closeInvoice')->name('invoices.close');
-Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');
-Route::post('invoicesPayments/add', 'Web\InvoiceController@paymentsAdd')->name('invoices.paymentsAdd');
-Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@paymentsRemove')->name('invoices.paymentsRemove');
-
-Route::get('invoices/{id}/subcontractors', 'Web\InvoiceController@subcontractors')->name('invoices.subcontractors');
 
 //SUBCONTRACTORS*********
 Route::resource('subcontractors', 'Web\SubcontractorController');
@@ -65,9 +56,6 @@ Route::get('subcontractors/list/{invDetailId}/invDetail', 'Web\SubcontractorCont
 Route::post('subcontractors/add/invDetail', 'Web\SubcontractorController@addSubcontInvDetail');
 Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorController@removeSubcontInvDetail');
 Route::get('searchSubcontractor/{subcontName}', 'Web\SubcontractorController@getFiltered')->name('searchSubcontractor.getFiltered');
-
-
-
 //CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');

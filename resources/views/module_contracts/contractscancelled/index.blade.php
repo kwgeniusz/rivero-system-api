@@ -57,7 +57,7 @@
                     {{-- <td>{{$contract->projectDescription->projectDescriptionName}}   </td> --}}
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
-                    <td>{{$contract->contractStatus}}   </td>
+                    <td>{{$contract->contractStatusR[0]->contStatusName}}   </td>
 
 
                    <td>

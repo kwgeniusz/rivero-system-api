@@ -63,7 +63,9 @@
                    <td>{{++$acum}}</td>
                     <td>
                 <modal-switch-contract pref-url="/" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></modal-switch-contract>
+        @can('BDE')
                 <comments-contract pref-url="" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></comments-contract>
+         @endcan
                      </td>
 {{--                     <td>{{$contract->client->clientCode}}</p></td> --}}
                     <td>
@@ -96,6 +98,8 @@
                     style="background-color: #f39c12;color:white;" 
                     @elseif($contract->contractStatus == App\Contract::WAITING_CLIENT)
                     style="background-color: red;color:white;"  
+                   @elseif($contract->contractStatus == App\Contract::DOWNLOADING_FILES)
+                    style="background-color: #666666; color:white;"    
                    @endif>
                     </td>
 

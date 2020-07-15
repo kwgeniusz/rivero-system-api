@@ -9,7 +9,8 @@
     <div class="row">
         <div class="col-xs-12 ">
           <div class="text-center">
-     @if($contract[0]->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED)
+     @if($contract[0]->contractStatus <> App\Contract::FINISHED && $contract[0]->contractStatus <> App\Contract::CANCELLED)
+
         @can('BEF')
             <a href="{{route('invoices.create', ['id' => $contract[0]->contractId])}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
@@ -78,7 +79,7 @@
                     @endcan    
                   @endif  
                  @if($invoice->invStatusCode == App\Invoice::OPEN )
-                   @if($contract[0]->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED)
+                   @if($contract[0]->contractStatus <> App\Contract::FINISHED && $contract[0]->contractStatus <> App\Contract::CANCELLED)
                  @can('BEC')    
                   <a href="{{route('invoicesDetails.index', ['btnReturn'=> 'mod_cont','id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
@@ -139,7 +140,7 @@
                     </a> 
                     @endcan
                   @endif  
-                @if($contract[0]->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED)     
+                @if($contract[0]->contractStatus <> App\Contract::FINISHED && $contract[0]->contractStatus <> App\Contract::CANCELLED)     
                 @can('BCF')        
                   <a href="{{route('proposalsDetails.index', ['id' => $proposal->proposalId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
@@ -169,7 +170,7 @@
                 {{-- {{$invoices->render()}} --}}
         </div>
 
-@if($contract[0]->contractStatus == App\Contract::VACANT || $contract[0]->contractStatus == App\Contract::STARTED )
+@if($contract[0]->contractStatus <> App\Contract::FINISHED && $contract[0]->contractStatus <> App\Contract::CANCELLED)
              <a href="{{Route('contracts.index')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>

@@ -181,7 +181,7 @@ class PayrollControlController extends Controller
                                 AND hrpayroll.companyId = $companyId 
                                 AND hrpayroll.year = $year
                                 AND hrpayroll.payrollNumber = $payrollNumber ");
-        // si los datos ya existen, los elimino y ingreso los nuevos datos
+        // si los datos ya existen, los elimino para psoteriormente agregar los nuevos datos
         if ($rsDel0[0]->cant > 0) {
             // dd($rsDel0[0]->cant);
             DB::table('hrpayroll')
