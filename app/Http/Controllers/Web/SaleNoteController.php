@@ -35,10 +35,10 @@ class SaleNoteController extends Controller
     {
        switch ($request->noteType) {
          case SaleNote::CREDIT:
-            return view('module_administration.sale_notes.credit_note.create');
+            return view('module_administration.sale_notes.credit_note.create',compact(''));
          break;
          case SaleNote::CREDIT:
-            return view('module_administration.sale_notes.debit_note.create');
+            return view('module_administration.sale_notes.debit_note.create',compact(''));
          break;
        }
     }

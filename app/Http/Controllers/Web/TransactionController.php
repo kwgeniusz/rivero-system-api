@@ -78,7 +78,7 @@ class TransactionController extends Controller
                           break;
                         case 'invId':
                             if($transaction->invoiceId != null)
-                               $valorABuscar = $transaction->invoice->inv;
+                               $valorABuscar = $transaction->invoice->invId;
                            else
                               $valorABuscar = ''; 
                           break;

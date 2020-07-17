@@ -56,9 +56,9 @@
     </div><!-- end table-responsive -->
   </div><!-- end col-6 -->
 <hr>
-        <div class="row">
-          <div class="col-xs-7 ">
-  <!-- <form class="form  form-prevent-multiple-submits">
+
+<div class="row">
+  <div class="col-xs-7 ">
 
        <div class="alert alert-danger" v-if="errors.length">
          <h4>Errores:</h4>
@@ -67,79 +67,49 @@
          </ul>
        </div>
 
-  <div class="col-xs-offset-2 col-xs-8">
-         <div class="form-group ">
-            <label for="clientNumberFormat">CODIGO</label>
-            <input type="text" class="form-control" id="clientNumberFormat" name="clientNumberFormat" v-model="formClientNumberFormat" disabled="on">
-          </div>
-
-              <div class="form-group">
-                <label for="formClientName">NOMBRE Y APELLIDO / EMPRESA</label>
-                <input type="text" class="form-control" name="formClientName" v-model="formClientName" placeholder="">
-              </div>     
-
-              <div class="form-group">
-                <label for="formClientAddress">DIRECCION</label>
-                <input type="text" class="form-control" name="formClientAddress" v-model="formClientAddress" placeholder="5924 Azalea Ln Dallas, TX 75230">
-              </div>
-
-          <div class="form-group ">
-            <label for="formContactType">TIPO DE CONTACTO</label>
-            <select v-model="formContactType" class="form-control" name="formContactType" id="formContactType">
-                  <option  :value="contactType.contactTypeId"  v-for="(contactType) in contactTypes"> {{contactType.contactTypeName}}</option>
-            </select>
-          </div>
-
-              <div class="col-xs-12 col-lg-6">
-              <div class="form-group">
-                <label for="formClientPhone">TELEFONO</label>
-                <input type="text" class="form-control" name="formClientPhone" v-model="formClientPhone" placeholder="(000) 000 0000" pattern="^([0-9]{3,11})" title="formato: 04124231242">
-              </div>
-            </div>
-
-            <div class="col-xs-12 col-lg-6">
-              <div class="form-group">
-                <label for="formClientEmail">CORREO</label>
-                <input type="email" class="form-control" name="formClientEmail" v-model="formClientEmail" placeholder="Correo">
-              </div>
-            </div>
-
-          <div class="col-xs-12">
-              <a  @click="createClient()" v-if="btnSubmitForm"  class="btn btn-primary">
-                <span class="fa fa-check" aria-hidden="true"></span>  GUARDAR
-              </a>
-         </div>
-   
-  </div>
-</form> -->
-
 <form class="form-horizontal">
+ 
+
+<!-- dateNote  
+netTotal -->
+
+  <input type="hidden" class="form-control" name="invoiceId" v-model="invoiceId">
+  <input type="hidden" class="form-control" name="clientId" v-model="clientId">
+  <input type="hidden" class="form-control" name="noteType" v-model="noteType">
+
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+     <label for="formContactType" class="col-sm-2 control-label">CONCEPTO</label>
+       <div class="col-sm-10">
+            <select v-model="formContactType" class="form-control" name="formContactType" id="formContactType">
+                  <option value="">Anulación (Devolución total) </option>
+                  <option value="">Descuento</option>
+                  <option value="">Devolución parcial</option>
+                  <!-- <option  :value="contactType.contactTypeId"  v-for="(contactType) in contactTypes"> {{contactType.contactTypeName}}</option> -->
+            </select>
+        </div>
+    </div>
+
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">REFERENCIA</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="" name="clientNumberFormat" v-model="formClientNumberFormat">
     </div>
   </div>
+<!-- 
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">FECHA</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+      <input type="text" class="form-control" id="inputPassword3" placeholder="Password" name="clientNumberFormat" v-model="formClientNumberFormat">
     </div>
-  </div>
+  </div> -->
+
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> Remember me
-        </label>
-      </div>
+      <button type="submit" class="btn btn-primary">Crear</button>
+      <a  class="btn btn-primary">Crear</a>
     </div>
   </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Sign in</button>
-    </div>
-  </div>
+
 </form>
           </div>
        </div>
