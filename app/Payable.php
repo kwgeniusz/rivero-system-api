@@ -24,7 +24,7 @@ class Payable extends Model
     protected $fillable = [
        'payableId',
        'countryId',
-       'officeId',
+       'companyId',
        'amountDue',
        'balance',
        'subcontInvDetailId',
@@ -103,7 +103,7 @@ class Payable extends Model
     {
         $payable                    = new Payable;
         $payable->countryId         = session('countryId');
-        $payable->officeId          = session('officeId');
+        $payable->companyId          = session('companyId');
         $payable->amountDue         = $amountDue;
         $payable->amountPaid           = $amountDue;
         $payable->subcontInvDetailId = $subcontInvDetailId;

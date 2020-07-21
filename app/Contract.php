@@ -6,10 +6,10 @@ use App;
 use Auth;
 use DB;
 use App\Client;
-use App\OfficeConfiguration;
+use App\CompanyConfiguration;
 use App\ContractStaff;
 use App\Country;
-use App\Office;
+use App\Company;
 use App\ProjectDescription;
 use App\ProjectUse;
 use App\Staff;
@@ -27,7 +27,7 @@ class Contract extends Model
     protected $table      = 'contract';
     protected $primaryKey = 'contractId';
     //protected $dateFormat = 'Y-m-d';
-    protected $fillable = ['contractId', 'contractType', 'contractNumber', 'countryId', 'officeId',
+    protected $fillable = ['contractId', 'contractType', 'contractNumber', 'countryId', 'companyId',
         'contractDate', 'clientId', 'siteAddress', 'projectDescriptionId', 'projectUseId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',
         'initialComment', 'intermediateComment', 'finalComment', 'contractCost',
@@ -74,9 +74,9 @@ class Contract extends Model
     {
         return $this->belongsTo('App\ProjectUse', 'projectUseId');
     }
-    public function office()
+    public function company()
     {
-        return $this->belongsTo('App\Office', 'officeId');
+        return $this->belongsTo('App\Company', 'companyId');
     }
     public function country()
     {
@@ -300,11 +300,11 @@ class Contract extends Model
         return $this->orderBy('contractNumber', 'ASC')->paginate($number);
     }
 //------------------------------------
-    public function getAllForStatus($contractStatus,$filteredOut,$countryId,$officeId)
+    public function getAllForStatus($contractStatus,$filteredOut,$countryId,$companyId)
     {
         $result = $this->where('contractStatus', $contractStatus)
             ->where('countryId', $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->orderBy('contractNumber', 'DESC')
             ->filter($filteredOut)
             ->get();
@@ -312,10 +312,10 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForSixStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$filteredOut,$countryId,$officeId)
+    public function getAllForSixStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$filteredOut,$countryId,$companyId)
     {
         $result = $this->where('countryId', $countryId)
-                       ->where('officeId', $officeId) 
+                       ->where('companyId', $companyId) 
                        ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
@@ -330,10 +330,10 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------ 
-      public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$officeId)
+      public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$companyId)
     {
         $result = $this->where('countryId', $countryId)
-                       ->where('officeId', $officeId) 
+                       ->where('companyId', $companyId) 
                        ->where(function($q) use ($contractStatus1,$contractStatus2){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2);
@@ -344,18 +344,18 @@ class Contract extends Model
         return $result;
     }  
 //------------------------------------------
-    public function findById($id,$countryId,$officeId)
+    public function findById($id,$countryId,$companyId)
     {
         return $this->with('client','buildingCode','buildingCodeGroup','projectUse','user')
                     ->where('contractId', '=', $id)
                     ->where('countryId', $countryId)
-                    ->where('officeId', $officeId) 
+                    ->where('companyId', $companyId) 
                     ->get();
     }
 //------------------------------------------
-    public function findByOffice($officeId)
+    public function findByCompany($companyId)
     {
-        return $this->where('officeId', '=', $officeId)->get();
+        return $this->where('companyId', '=', $companyId)->get();
     }
 //------------------------------------------
     // public function findByClient($clientId)
@@ -364,24 +364,24 @@ class Contract extends Model
     // }
 
 //------------------------------------------
-    public function findSiteAddressByOffice($officeId)
+    public function findSiteAddressByCompany($companyId)
     {
         $result = DB::select("SELECT DISTINCT contract.siteAddress FROM contract
                               INNER JOIN client ON contract.clientId = client.clientId
-                              WHERE officeId = $officeId ");
+                              WHERE companyId = $companyId ");
 
         return $result;
     }
 //------------------------------------------
-    public function insertContract($countryId, $officeId, $contractType,$projectName, $contractDate,
+    public function insertContract($countryId, $companyId, $contractType,$projectName, $contractDate,
         $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
 
-          $oConfiguration = new OfficeConfiguration();
+          $oConfiguration = new CompanyConfiguration();
       
-          $contractNumber = $oConfiguration->retrieveContractNumber($countryId, $officeId, $contractType);
+          $contractNumber = $oConfiguration->retrieveContractNumber($countryId, $companyId, $contractType);
           $contractNumber++;
-          $contractNumberFormat = $oConfiguration->generateContractNumberFormat($countryId, $officeId, $contractType);
-                                  $oConfiguration->increaseContractNumber($countryId, $officeId, $contractType);
+          $contractNumberFormat = $oConfiguration->generateContractNumberFormat($countryId, $companyId, $contractType);
+                                  $oConfiguration->increaseContractNumber($countryId, $companyId, $contractType);
 
         $contract                      = new Contract;
         $contract->conId               = $contractNumber;
@@ -389,7 +389,7 @@ class Contract extends Model
         $contract->projectName        = $projectName;
         $contract->contractNumber      = $contractNumberFormat;
         $contract->countryId           = $countryId;
-        $contract->officeId            = $officeId;
+        $contract->companyId            = $companyId;
         $contract->contractDate        = $contractDate;
         $contract->clientId            = $clientId;
         $contract->propertyNumber      = $propertyNumber;
@@ -427,7 +427,7 @@ class Contract extends Model
         $contract->contractType           = $contractType;
         $contract->projectName            = $projectName;
         // $contract->countryId           = $countryId;
-        // $contract->officeId            = $officeId;
+        // $contract->companyId            = $companyId;
         $contract->contractDate           = $contractDate;
         $contract->clientId               = $clientId;
         $contract->propertyNumber         = $propertyNumber;
@@ -459,7 +459,7 @@ class Contract extends Model
     {
         return Contract::find($contractId)
                        // ->where('countryId', $countryId)
-                       // ->where('officeId', $officeId) 
+                       // ->where('companyId', $companyId) 
                        ->delete();
         
     }

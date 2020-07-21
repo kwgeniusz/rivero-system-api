@@ -23,15 +23,13 @@ class User extends Authenticatable
     protected $fillable = [
         'userId',
         'countryId',
-        'officeId',
+        'companyId',
         'defaultCountryId',
-        'defaultOfficeId',
+        'defaultcompanyId',
         'changeOffice',
         'fullName',
         'userName',
         'userLevel',
-        'countryId',
-        'officeId',
         'userName',
         'userEmail',
         
@@ -63,9 +61,9 @@ public function country()
 {
     return $this->belongsTo('App\Country', 'countryId');
 }
-public function office()
+public function company()
 {
-    return $this->belongsTo('App\Office', 'officeId');
+    return $this->belongsTo('App\Company', 'companyId');
 }
 //--------------------------------------------------------------------
    /** General Functions*/
@@ -85,18 +83,18 @@ public function office()
                     ->get();
     }
  
-    public function changeOffice($id,$countryId,$officeId)
+    public function changeOffice($id,$countryId,$companyId)
     {
           return $this->where('userId', $id)
                       ->update(array('countryId' => $countryId,
-                                     'officeId'  => $officeId));
+                                     'companyId'  => $companyId));
     }
 
     public function insertU($values)
     {
         $user                = new User;
         $user->countryId     = $values['countryId'];
-        $user->officeId      = $values['officeId'];
+        $user->companyId      = $values['companyId'];
         $user->changeOffice  = $values['changeOffice'];
         $user->fullName      = $values['fullName'];
         $user->userName      = $values['userName'];
@@ -111,7 +109,7 @@ public function office()
     {
         $this->where('userId', $id)->update(array(
             'countryId'      => $values['countryId'],
-            'officeId'       => $values['officeId'],
+            'companyId'       => $values['companyId'],
             'changeOffice'   => $values['changeOffice'],
             'fullName'       => $values['fullName'],
             'userName'       => $values['userName'],

@@ -12,3 +12,14 @@
 	})
 
 })();
+
+$(function() {
+    // Set idle time
+    $( document ).idleTimer( 7200000 );
+});
+
+$(function() {
+    $( document ).on( "idle.idleTimer", function(event, elem, obj){
+        window.location.href = "example.com/login"
+    });  
+});

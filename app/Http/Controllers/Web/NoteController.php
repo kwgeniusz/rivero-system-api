@@ -25,7 +25,7 @@ class NoteController extends Controller
     public function index(Request $request)
     {
      
-     $notes = $this->oNote->getAllByOffice(session('officeId'));
+     $notes = $this->oNote->getAllByOffice(session('companyId'));
 
            if($request->ajax()){
                 return $notes;
@@ -39,7 +39,7 @@ class NoteController extends Controller
 
          $this->oNote->insertN(
             session('countryId'),
-            session('officeId'),
+            session('companyId'),
             $request->noteName
         );
 

@@ -23,7 +23,7 @@ class SaleNoteController extends Controller
 
     public function getByInvoice(Request $request)
     {
-        $invoices    = $this->oInvoice->findById($request->invoiceId,session('countryId'),session('officeId'));
+        $invoices    = $this->oInvoice->findById($request->invoiceId,session('countryId'),session('companyId'));
 
         $creditNotes =  $this->oSaleNote->getAllByType($request->invoiceId,SaleNote::CREDIT);
         $debitNotes  =  $this->oSaleNote->getAllByType($request->invoiceId,SaleNote::DEBIT);
@@ -50,11 +50,11 @@ class SaleNoteController extends Controller
                 'invoiceTaxPercent' => 'required',
            ]);
  
-          $contract = $this->oContract->findById($request->contractId,session('countryId'),session('officeId'));
+          $contract = $this->oContract->findById($request->contractId,session('countryId'),session('companyId'));
 
           $invoiceId  =   $this->oInvoice->insertInv(
                       $contract[0]->countryId,
-                      $contract[0]->officeId,
+                      $contract[0]->companyId,
                       $contract[0]->contractId,
                       $contract[0]->clientId,
                       $request->projectDescriptionId,
@@ -76,7 +76,7 @@ class SaleNoteController extends Controller
     }
       public function edit($id)
     {    
-        $invoice           = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
+        $invoice           = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
         $paymentConditions = $this->oPaymentCondition->getAllByLanguage();
         $projectDescriptions = $this->oProjectDescription->getAll();
 
@@ -103,7 +103,7 @@ class SaleNoteController extends Controller
     }
     public function show(Request $request,$id)
     {
-        $invoice = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
+        $invoice = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
 
           if($request->ajax()){
                 return $invoice;
@@ -135,7 +135,7 @@ class SaleNoteController extends Controller
        $totalPorCobrar = 0;
        $totalCollections = 0;
 
-     $invoices = $this->oInvoice->getAllByFourStatus(Invoice::OPEN,Invoice::CLOSED,Invoice::PAID,Invoice::COLLECTION,session('officeId'));
+     $invoices = $this->oInvoice->getAllByFourStatus(Invoice::OPEN,Invoice::CLOSED,Invoice::PAID,Invoice::COLLECTION,session('companyId'));
 
          foreach ($invoices as $invoice) {
            $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
@@ -221,7 +221,7 @@ class SaleNoteController extends Controller
        // $totalPorCobrar = 0;
        // $totalCollections = 0;
 
-     $invoices = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('officeId'));
+     $invoices = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('companyId'));
 
          foreach ($invoices as $invoice) {
            $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
@@ -244,7 +244,7 @@ class SaleNoteController extends Controller
     public function payments(Request $request,$id)
     {
 
-        $invoice         = $this->oInvoice->findById($id,session('countryId'),session('officeId'));
+        $invoice         = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
         $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($id);
         $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
 
@@ -293,7 +293,7 @@ class SaleNoteController extends Controller
 
   public function subcontractors($invoiceId)
     {
-        $invoice         = $this->oInvoice->findById($invoiceId,session('countryId'),session('officeId'));
+        $invoice         = $this->oInvoice->findById($invoiceId,session('countryId'),session('companyId'));
         return view('module_contracts.invoices.subcontractors', compact('invoice'));
        
     }

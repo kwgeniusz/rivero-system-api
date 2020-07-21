@@ -18,7 +18,7 @@ class Transaction extends Model
     protected $fillable = [ 
                'transactionId',
                'countryId',
-               'officeId',
+               'companyId',
                'transactionTypeId',
                'description',
                'payMethodId',
@@ -99,14 +99,14 @@ class Transaction extends Model
         return $this->orderBy('transactionDate', 'ASC')->get();
     }
   //----------------------------------------------------------------------
-       public function getAllByInvoice($invoiceId,$countryId,$officeId)
+       public function getAllByInvoice($invoiceId,$countryId,$companyId)
     { 
         //OJO DEBE LLEVARSE POR SIGNOS 
      $result = Transaction::select()
         ->join('transaction_type', 'transaction_type.transactionTypeId', '=', 'transaction.transactionTypeId')
         ->where('transaction_type.transactionTypeCode', 'INCOME_INVOICE')
         ->where('transaction.countryId', $countryId) 
-        ->where('transaction.officeId',$officeId)
+        ->where('transaction.companyId',$companyId)
         ->where('transaction.invoiceId',$invoiceId)
         ->orderBy('transaction.transactionId', 'ASC')
         ->get();
@@ -114,12 +114,12 @@ class Transaction extends Model
         return $result;
     }
     //------------------------------------
-    public function getAllForSign($transactionSign,$countryId,$officeId)
+    public function getAllForSign($transactionSign,$countryId,$companyId)
     {
 
         $result = $this->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
-                      ->where('officeId', $officeId) 
+                      ->where('companyId', $companyId) 
             ->orderBy('transactionDate', 'DESC')
             ->get();
 
@@ -127,41 +127,41 @@ class Transaction extends Model
     }
 
     //------------------------------------------
-    public function getAllForTwoDate($date1, $date2,$countryId,$officeId)
+    public function getAllForTwoDate($date1, $date2,$countryId,$companyId)
     {
         $result = $this->where("transactionDate", ">=", $date1)
             ->where("transactionDate", "<=", $date2)
             ->where('countryId', $countryId)
-             ->where('officeId', $officeId) 
+             ->where('companyId', $companyId) 
             ->orderBy('transactionId', 'ASC')
             ->get();
 
         return $result;
     }
     //------------------------------------------
-    public function getAllForTwoDateAndSign($date1, $date2, $sign,$countryId,$officeId)
+    public function getAllForTwoDateAndSign($date1, $date2, $sign,$countryId,$companyId)
     {
         $result = $this->where("transactionDate", ">=", $date1)
             ->where("transactionDate", "<=", $date2)
             ->where("sign", "=", $sign)
             ->where('countryId', $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->orderBy('transactionId', 'ASC')
             ->get();
 
         return $result;
     }
     //------------------------------------------
-    public function findById($id,$countryId,$officeId)
+    public function findById($id,$countryId,$companyId)
     {
         return $this->where('transactionId', '=', $id)
                       ->where('countryId', $countryId)
-                      ->where('officeId', $officeId) 
+                      ->where('companyId', $companyId) 
                       ->get();
     }
 
     //------------------------------------------
-    public function insertT($countryId,$officeId, $transactionTypeId,$description, $payMethodId, $payMethodDetails, $reason, $transactionDate, $amount, $sign,$cashboxId = '' , $accountId = '' ,$invoiceId,$userId,$file = '')
+    public function insertT($countryId,$companyId, $transactionTypeId,$description, $payMethodId, $payMethodDetails, $reason, $transactionDate, $amount, $sign,$cashboxId = '' , $accountId = '' ,$invoiceId,$userId,$file = '')
     {
 
         $error = null;
@@ -171,7 +171,7 @@ class Transaction extends Model
             //INSERTA UNA NUEVA TRANSACTION
             $transaction                    = new Transaction;
             $transaction->countryId         = $countryId;
-            $transaction->officeId          = $officeId;
+            $transaction->companyId          = $companyId;
             $transaction->transactionTypeId = $transactionTypeId;
             $transaction->description       = $description;
             $transaction->payMethodId      = $payMethodId;

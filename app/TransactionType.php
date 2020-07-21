@@ -64,15 +64,15 @@ public function transaction()
     }
 //------------------------------------------
     //esto me sirve para saber si la transaccion tiene el codigo COLLECTION O FEE
-   public function findByOfficeAndCode($officeId,$transactionTypeCode) {
-        return $this->where('officeId', '=', $officeId)
+   public function findByOfficeAndCode($companyId,$transactionTypeCode) {
+        return $this->where('companyId', '=', $companyId)
                     ->where('transactionTypeCode', '=', $transactionTypeCode)
                     ->get(); 
     }  
 //------------------------------------------
        //esto es un getAllBySign
-   public function getAllByOfficeAndSign($officeId,$sign) {
-        return $this->where('officeId', '=', $officeId)
+   public function getAllByOfficeAndSign($companyId,$sign) {
+        return $this->where('companyId', '=', $companyId)
                     ->where('sign', '=', $sign)
                     ->get(); 
     }

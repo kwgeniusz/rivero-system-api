@@ -39,18 +39,18 @@ class StatisticController extends Controller
             Contract::DOWNLOADING_FILES,
             $filteredOut,
             session('countryId'),
-            session('officeId')
+            session('companyId')
         );
            return count($rs);
     }
     public function numberOfContractsFinished()
     {
-        $rs = $this->oContract->getAllForStatus(Contract::FINISHED,'',session('countryId'),session('officeId'));
+        $rs = $this->oContract->getAllForStatus(Contract::FINISHED,'',session('countryId'),session('companyId'));
            return count($rs);
     }
     public function numberOfContractsCancelled()
     {
-       $rs = $this->oContract->getAllForStatus(Contract::CANCELLED,'',session('countryId'),session('officeId'));
+       $rs = $this->oContract->getAllForStatus(Contract::CANCELLED,'',session('countryId'),session('companyId'));
            return count($rs);
     }
     public function numberOfContractsCommercial()
@@ -66,22 +66,22 @@ class StatisticController extends Controller
 
     public function numberOfInvoiceOpen()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::OPEN,session('officeId'));
+       $rs = $this->oInvoice->getAllByStatus(Invoice::OPEN,session('companyId'));
        return count($rs);
     }
     public function numberOfInvoiceClosed()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::CLOSED,session('officeId'));
+       $rs = $this->oInvoice->getAllByStatus(Invoice::CLOSED,session('companyId'));
        return count($rs);
     }
         public function numberOfInvoicePaid()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::PAID,session('officeId'));
+       $rs = $this->oInvoice->getAllByStatus(Invoice::PAID,session('companyId'));
        return count($rs);
     }
         public function numberOfInvoiceCancelled()
     {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('officeId'));
+       $rs = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('companyId'));
        return count($rs);
     }
 

@@ -22,7 +22,7 @@ class CashboxController extends Controller
 
     public function index(Request $request)
     {
-        $cashbox    = $this->oCashbox->getAllByOffice(session('officeId'));
+        $cashbox    = $this->oCashbox->getAllByOffice(session('companyId'));
 
          if($request->ajax()){
              return $cashbox;
@@ -35,7 +35,7 @@ class CashboxController extends Controller
  {
 
   //esta funcion debe traer las transacciones del año en curso.
-     $cashbox           = $this->oCashbox->getAllByOffice(session('officeId'));
+     $cashbox           = $this->oCashbox->getAllByOffice(session('companyId'));
      $transactions      = $cashbox[0]->transaction;
 
      $year              = $cashbox[0]->cashboxBalance[0]->year;

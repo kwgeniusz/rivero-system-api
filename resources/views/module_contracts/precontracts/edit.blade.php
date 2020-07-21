@@ -24,10 +24,10 @@
         {{csrf_field()}}
         {{method_field('PUT')}}
 
-         {{-- <select-country-office-edit country="{{$precontract[0]->countryId}}" office="{{$precontract[0]->officeId}}"></select-country-office-edit> --}}
+         {{-- <select-country-office-edit country="{{$precontract[0]->countryId}}" office="{{$precontract[0]->companyId}}"></select-country-office-edit> --}}
 
            <input type="hidden" name="countryId" value="{{$precontract[0]->countryId}}">
-           <input type="hidden" name="officeId" value="{{$precontract[0]->officeId}}">
+           <input type="hidden" name="companyId" value="{{$precontract[0]->companyId}}">
 
         <div class="form-group col-lg-7">
            <label for="precontractNumber">N° PRECONTRATO</label>

@@ -353,10 +353,10 @@ class Receivable extends Model
                $transactionRs1 = '';
                $transactionRs2 = '';
                $oTransactionType = new TransactionType;
-               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'INCOME_INVOICE');
-               $fee        = $oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
+               $collection = $oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
+               $fee        = $oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+',$cashboxId, $accountId, $receivable->invoiceId,$userId);
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+',$cashboxId, $accountId, $receivable->invoiceId,$userId);
                
               if($transactionRs1['alert'] == 'error') {
                 throw new \Exception($transactionRs1['msj']);
@@ -364,7 +364,7 @@ class Receivable extends Model
                //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE
             if ($collectMethod == Receivable::DEBIT_CARD || $collectMethod == Receivable::CREDIT_CARD) {
 
-                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $receivable->invoiceId,$userId);
+                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $receivable->invoiceId,$userId);
                
               if($transactionRs2['alert'] == 'error') {
                 throw new \Exception($transactionRs2['msj']);
@@ -465,10 +465,10 @@ class Receivable extends Model
                $transactionRs2 = '';
 
                $oTransactionType = new TransactionType;
-               $collection = $oTransactionType->findByOfficeAndCode(session('officeId'),'INCOME_INVOICE');
-               $fee        = $oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
+               $collection = $oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
+               $fee        = $oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('officeId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
 
                     if($transactionRs1['alert'] == 'error') {
                         throw new \Exception($transactionRs['msj']);
@@ -476,7 +476,7 @@ class Receivable extends Model
 
                 //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE (OJO REVISAR )
      if ($receivable->collectMethod == Receivable::DEBIT_CARD || $receivable->collectMethod == Receivable::CREDIT_CARD) {
-             $transactionRs2 = $oTransaction->insertT(session('countryId'),session('officeId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $receivable->amountPercent,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
+             $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $receivable->amountPercent,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
 
                      if($transactionRs2['alert'] == 'error') {
                        throw new \Exception($transactionRs['msj']);
@@ -536,11 +536,11 @@ class Receivable extends Model
 
     }   
 //------------------------------------------
-    public function collections($countryId,$officeId, $date1, $date2)
+    public function collections($countryId,$companyId, $date1, $date2)
     {
 
         $result[] = $this->where('countryId', $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->where("collectMethod", "=", '1')
             ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
@@ -548,7 +548,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->where("collectMethod", "=", '2')
             ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
@@ -556,7 +556,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->where("collectMethod", "=", '3')
             ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
@@ -564,7 +564,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->where("collectMethod", "=", '4')
             ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
@@ -572,7 +572,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
        $result[] = $this->where("countryId", "=", $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->where("collectMethod", "=", '5')
             ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)
@@ -580,7 +580,7 @@ class Receivable extends Model
             ->orderBy('collectMethod', 'ASC')
             ->get();
         $result[] = $this->where("countryId", "=", $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->where("collectMethod", "=", '6')
             ->where("status", "=", Receivable::SUCCESS)
             ->where("datePaid", ">=", $date1)

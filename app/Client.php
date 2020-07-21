@@ -84,20 +84,20 @@ class Client extends Model
                     ->get();
     }
 //------------------------------------------
-    public function findNameByOffice($officeId)
+    public function findNameByOffice($companyId)
     {
         $result = DB::select("SELECT DISTINCT client.clientName FROM contract
                               INNER JOIN client ON contract.clientId = client.clientId
-                              WHERE officeId = $officeId ");
+                              WHERE companyId = $companyId ");
 
         return $result;
     }
 //------------------------------------------
-    public function findPhoneByOffice($officeId)
+    public function findPhoneByOffice($companyId)
     {
         $result = DB::select("SELECT DISTINCT client.clientPhone FROM contract
                               INNER JOIN client ON contract.clientId = client.clientId
-                              WHERE officeId = $officeId ");
+                              WHERE companyId = $companyId ");
 
         return $result;
     }

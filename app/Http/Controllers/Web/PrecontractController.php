@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Contract;
 use App\Currency;
-use App\OfficeConfiguration;
+use App\CompanyConfiguration;
 use App\Precontract;
 use App\Proposal;
 use App\Invoice;
@@ -23,7 +23,7 @@ class PrecontractController extends Controller
 {
     private $oPrecontract;
     // private $oClient;
-    private $oOfficeConfiguration;
+    private $oCompanyConfiguration;
     private $oProposal;
     private $oContract;
     private $oCurrency;
@@ -39,7 +39,7 @@ class PrecontractController extends Controller
         $this->middleware('auth');
         $this->oPrecontract        = new Precontract;
         // $this->oClient             = new Client;
-        $this->oOfficeConfiguration         = new OfficeConfiguration;
+        $this->oCompanyConfiguration         = new CompanyConfiguration;
         $this->oContract           = new Contract;
         $this->oProposal           = new Proposal;
         $this->oCurrency           = new Currency;
@@ -54,7 +54,7 @@ class PrecontractController extends Controller
     {
         $filteredOut = $request->filteredOut;
         //GET LIST PrecontractS for type
-        $precontracts = $this->oPrecontract->getAll(session('countryId'),session('officeId'), $filteredOut);
+        $precontracts = $this->oPrecontract->getAll(session('countryId'),session('companyId'), $filteredOut);
 
         return view('module_contracts.precontracts.index', compact('precontracts'));
     }
@@ -62,7 +62,7 @@ class PrecontractController extends Controller
     public function create()
     {
 
-     $preId = $this->oOfficeConfiguration->retrievePrecontractNumber(session('countryId'),session('officeId'));
+     $preId = $this->oCompanyConfiguration->retrievePrecontractNumber(session('countryId'),session('companyId'));
      $preId++;
      $currencies = $this->oCurrency->getAll();
 
@@ -73,7 +73,7 @@ class PrecontractController extends Controller
     {
         $this->oPrecontract->insertPrecontract(
             session('countryId'),
-            session('officeId'),
+            session('companyId'),
             $request->contractType,
             $request->projectName,
             $request->precontractDate,
@@ -104,7 +104,7 @@ class PrecontractController extends Controller
 
     public function details($id)
     {
-        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('companyId'));
 
         return view('module_contracts.precontracts.details', compact('precontract'));
     }
@@ -113,7 +113,7 @@ class PrecontractController extends Controller
     {
 
         // $clients     = $this->oClient->getAll();
-        $precontract  = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
+        $precontract  = $this->oPrecontract->FindById($id,session('countryId'),session('companyId'));
         $currencies = $this->oCurrency->getAll();
 
 
@@ -126,7 +126,7 @@ class PrecontractController extends Controller
         $this->oPrecontract->updatePrecontract(
             $id,
             $request->countryId,
-            $request->officeId,
+            $request->companyId,
             $request->contractType,
             $request->projectName,
             $request->precontractDate,
@@ -156,14 +156,14 @@ class PrecontractController extends Controller
     public function show($id)
     {
 
-        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('officeId'));
+        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('companyId'));
         return view('module_contracts.precontracts.show', compact('precontract'));
 
     }
     public function destroy($id)
     {
 
-        $this->oPrecontract->deletePrecontract($id,session('countryId'),session('officeId'));
+        $this->oPrecontract->deletePrecontract($id,session('countryId'),session('companyId'));
 
         $notification = array(
             'message'    => 'Pre-Contrato Eliminado Exitosamente',
@@ -177,7 +177,7 @@ class PrecontractController extends Controller
 /* -----------OPTIONS------------- */
     public function convert($id)
     {
-      $proposal = $this->oProposal->FindById($id,session('countryId'),session('officeId')); 
+      $proposal = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
       $precontract = $proposal[0]->precontract;
 
             if (count($proposal) == 0) {
@@ -197,13 +197,13 @@ class PrecontractController extends Controller
         DB::beginTransaction();
         try {
       //traer todos los datos del proposal
-    $proposal     = $this->oProposal->FindById($id,session('countryId'),session('officeId')); 
+    $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
     $precontract  = $proposal[0]->precontract;
            
             //insertar el nuevo contrato
             $contract = $this->oContract->insertContract(
                 $precontract->countryId,
-                $precontract->officeId,
+                $precontract->companyId,
                 $precontract->contractType,
                 $precontract->projectName,
                 date('m/d/Y'),
@@ -227,7 +227,7 @@ class PrecontractController extends Controller
         //insertar el nuevo Invoice
             $invoice  = $this->oInvoice->insertInv(
                   $contract->countryId,
-                  $contract->officeId,
+                  $contract->companyId,
                   $contract->contractId,
                   $contract->clientId,
                   $proposal[0]->projectDescriptionId,
@@ -276,7 +276,7 @@ class PrecontractController extends Controller
                //eliminar precontrato
             $this->oPrecontract->assignContractId($precontract->precontractId,$contract->contractId);       
             $this->oProposal->assignInvoiceId($proposal[0]->proposalId,$invoice->invoiceId);       
-            //$this->oPrecontract->deletePrecontract($id,session('countryId'),session('officeId'));
+            //$this->oPrecontract->deletePrecontract($id,session('countryId'),session('companyId'));
 
             $success = true;
             DB::commit();

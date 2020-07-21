@@ -53,10 +53,10 @@ class Service extends Model
         return $this->orderBy('serviceName', 'ASC')->get();
     }
 //-----------------------------------------
-     public function getAllByOffice($officeId)
+     public function getAllByOffice($companyId)
     {
 
-        return $this->where('officeId' , '=' , $officeId)
+        return $this->where('companyId' , '=' , $companyId)
           ->orderBy('serviceName', 'ASC')
           ->get();
     }
@@ -66,11 +66,11 @@ class Service extends Model
         return $this->where('serviceId', '=', $id)->get();
     }
 //------------------------------------------
-    public function insertS($countryId,$officeId,$serviceName,$hasCost,$unit1,$unit2,$cost1,$cost2)
+    public function insertS($countryId,$companyId,$serviceName,$hasCost,$unit1,$unit2,$cost1,$cost2)
     {
         $service                  = new Service;
         $service->countryId       = $countryId;
-        $service->officeId        = $officeId;
+        $service->companyId        = $companyId;
         $service->serviceName     = $serviceName;
         $service->hasCost         = $hasCost;
         $service->unit1           = $unit1;

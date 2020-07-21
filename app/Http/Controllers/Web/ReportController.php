@@ -47,7 +47,7 @@ class ReportController extends Controller
 //     public function printContract(Request $request)
 //     {
 //         $date     = Carbon::now();
-//         $contract = $this->oContract->findById($request->id,session('countryId'),session('officeId'));
+//         $contract = $this->oContract->findById($request->id,session('countryId'),session('companyId'));
 
 //         $contractNumber = __('contract');//para traducciones
 
@@ -70,7 +70,7 @@ class ReportController extends Controller
 //  <b>  Contract Number :</b> {$contract[0]->contractNumber}<br>
 //  <b>  Tipo de Contrato :</b> {$contract[0]->contractType}<br>
 //  <b>  Pais :</b> {$contract[0]->country->countryName} -
-//  <b>  Oficina:</b> {$contract[0]->office->officeName}<br />
+//  <b>  Oficina:</b> {$contract[0]->company->companyName}<br />
 //  <b>  Nombre del Proyecto:</b> {$contract[0]->projectName}<br />
 //  <b>  Fecha de Contrato:</b> {$contract[0]->contractDate}<br />
 //  <b>  Cliente:</b> {$contract[0]->client->clientName}<br />
@@ -98,12 +98,12 @@ class ReportController extends Controller
 //         return view('layouts.reports', compact('outputPdfName'));
 //     }
 
-    public function summaryContractForOffice()
+    public function summaryContractForcompany()
     {
         $acum       = 0;
         $background = "";
         $date       = Carbon::now();
-        $contracts  = $this->oContract->findByOffice(session('officeId'));
+        $contracts  = $this->oContract->findBycompany(session('companyId'));
 
         $html = <<<EOD
       <p>
@@ -114,7 +114,7 @@ class ReportController extends Controller
         <th>
         <p style="text-align:right">
          <b>Fecha:</b> {$date->format('d/m/y')}<br>
-         <b>Oficina:</b> {$contracts[0]->office->officeName}
+         <b>Oficina:</b> {$contracts[0]->company->companyName}
          </p>
         </th>
        </tr>
@@ -168,7 +168,7 @@ EOD;
         $acum         = 0;
         $background   = "";
         $date         = Carbon::now();
-        $transactions = $this->oTransaction->getAllForTwoDate($request->date1, $request->date2,session('countryId'),session('officeId'));
+        $transactions = $this->oTransaction->getAllForTwoDate($request->date1, $request->date2,session('countryId'),session('companyId'));
 
         if ($transactions->isEmpty()) {
             return view('module_administration.reportincomeexpenses.error');
@@ -244,7 +244,7 @@ EOD;
         }
 
         $date         = Carbon::now();
-        $transactions = $this->oTransaction->getAllForTwoDateAndSign($request->date1, $request->date2, $request->sign,session('countryId'),session('officeId'));
+        $transactions = $this->oTransaction->getAllForTwoDateAndSign($request->date1, $request->date2, $request->sign,session('countryId'),session('companyId'));
 
         if ($transactions->isEmpty()) {
             if ($request->sign == '+') {
@@ -318,7 +318,7 @@ EOD;
 
         $background = "";
 
-        $collections = $this->oReceivable->collections(session('countryId'),session('officeId'), $request->date1, $request->date2);
+        $collections = $this->oReceivable->collections(session('countryId'),session('companyId'), $request->date1, $request->date2);
         $country     = DB::table('country')->where('countryId', session('countryId'))->get(['countryName']);
 
         $date        = Carbon::now();
@@ -423,9 +423,9 @@ EOD;
     {
 
         $date         = Carbon::now();
-        $office       = DB::table('office')->where('officeId', session('officeId'))->get();
+        $company       = DB::table('company')->where('companyId', session('companyId'))->get();
 
-        $invoice    = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
+        $invoice    = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
         $client     = $invoice[0]->client;
         $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
         $receivables    = $invoice[0]->receivable;
@@ -560,11 +560,11 @@ EOD;
          </th>
         <th width="48%">
              <div style="text-align:center">
-               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
-               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
-               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+               <strong style="font-size:17px" sty>{$company[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$company[0]->companyAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$company[0]->companyPhone},{$company[0]->companyPhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$company[0]->companyEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$company[0]->companyWebsite}
              </div>
         </th>
     <th width="32%">
@@ -891,8 +891,8 @@ EOD;
     {
 
        $receivables = $this->oReceivable->findById($request->receivableId);
-       $office       = DB::table('office')->where('officeId', session('officeId'))->get();
-       $invoice    = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('officeId'));
+       $company       = DB::table('company')->where('companyId', session('companyId'))->get();
+       $invoice    = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('companyId'));
        $symbol = $invoice[0]->contract->currency->currencySymbol;
             $html = <<<EOD
 <table cellspacing="0" cellpadding="1px" border="0">
@@ -906,11 +906,11 @@ EOD;
          </th>
         <th width="57%">
              <div style="text-align:center">
-               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
-               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
-               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+               <strong style="font-size:17px" sty>{$company[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$company[0]->companyAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$company[0]->companyPhone},{$company[0]->companyPhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$company[0]->companyEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$company[0]->companyWebsite}
              </div>
         </th>
       <th width="23%" align="center">
@@ -1094,8 +1094,8 @@ EOD;
     {
 
         $date             = Carbon::now();
-        $office           = DB::table('office')->where('officeId', session('officeId'))->get();
-        $proposal         = $this->oProposal->findById($request->id,session('countryId'),session('officeId'));
+        $company           = DB::table('company')->where('companyId', session('companyId'))->get();
+        $proposal         = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
         $proposalsDetails = $this->oProposalDetail->getAllByProposal($request->id);
         $client           = $this->oClient->findById($proposal[0]->clientId,session('countryId'));
         
@@ -1242,11 +1242,11 @@ EOD;
          </th>
         <th width="46%">
              <div style="text-align:center">
-               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
-               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
-               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+               <strong style="font-size:17px" sty>{$company[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$company[0]->companyAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$company[0]->companyPhone},{$company[0]->companyPhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$company[0]->companyEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$company[0]->companyWebsite}
              </div>
         </th>
     <th width="34%">
@@ -1537,12 +1537,12 @@ EOD;
     {
  //reporte traigo de transaction
         $date         = Carbon::now();
-        $office       = DB::table('office')->where('officeId', session('officeId'))->get();
+        $company       = DB::table('company')->where('companyId', session('companyId'))->get();
 
-        $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
+        $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
         $share          = $this->oReceivable->sharePending($request->id);
         $client         = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
-        $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('officeId'));
+        $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('companyId'));
 
          if($share->isEmpty()){
             $nextShare = '0.00';
@@ -1569,11 +1569,11 @@ EOD;
          </th>
         <th width="54%">
              <div style="text-align:center">
-               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
-               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
-               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+               <strong style="font-size:17px" sty>{$company[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$company[0]->companyAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$company[0]->companyPhone},{$company[0]->companyPhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$company[0]->companyEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$company[0]->companyWebsite}
              </div>
         </th>
     <th width="30%">
@@ -1781,9 +1781,9 @@ EOD;
   {
  //reporte traigo de transaction
         $date         = Carbon::now();
-        $office       = DB::table('office')->where('officeId', session('officeId'))->get();
+        $company       = DB::table('company')->where('companyId', session('companyId'))->get();
     
-        $invoices        = $this->oInvoice->getAllByClientAndOffice($request->clientId,session('officeId'));
+        $invoices        = $this->oInvoice->getAllByClientAndcompany($request->clientId,session('companyId'));
 
         if ($invoices->isEmpty()) {
             return view('module_contracts.summaryforclient.error');
@@ -1805,11 +1805,11 @@ EOD;
          </th>
         <th width="54%">
              <div style="text-align:center">
-               <strong style="font-size:17px" sty>{$office[0]->companyName}</strong><br>
-               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$office[0]->officeAddress}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$office[0]->officePhone},{$office[0]->officePhoneOptional}<br>
-               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$office[0]->officeEmail}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$office[0]->officeWebsite}
+               <strong style="font-size:17px" sty>{$company[0]->companyName}</strong><br>
+               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$company[0]->companyAddress}<br>
+               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$company[0]->companyPhone},{$company[0]->companyPhoneOptional}<br>
+               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$company[0]->companyEmail}
+               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$company[0]->companyWebsite}
              </div>
         </th>
     <th width="30%">

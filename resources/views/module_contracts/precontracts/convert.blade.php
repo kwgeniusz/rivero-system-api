@@ -27,9 +27,9 @@
 
        <div class="col-xs-6">
         <div class="form-group">
-          <label class="col-lg-5 control-label">{{__('office')}}</label>
+          <label class="col-lg-5 control-label">COMPAÑIA</label>
           <div class="col-lg-7">
-            <p class="form-control-static">{{ $precontract->office->officeName }}</p>
+            <p class="form-control-static">{{ $precontract->company->companyName }}</p>
           </div>
         </div>
        </div>

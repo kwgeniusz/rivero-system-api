@@ -17,7 +17,7 @@ class Invoice extends Model
 
     protected $table      = 'invoice';
     protected $primaryKey = 'invoiceId';
-    protected $fillable = ['invoiceId','invId','countryId','officeId','contractId','clientId','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','invStatusCode'];
+    protected $fillable = ['invoiceId','invId','countryId','companyId','contractId','clientId','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','invStatusCode'];
 
      protected $appends = ['grossTotal','taxAmount','netTotal'];
      protected $dates = ['deleted_at'];
@@ -126,23 +126,23 @@ class Invoice extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    //  public function getAllByOffice($officeId)
+    //  public function getAllByCompany($companyId)
     // {
-    //     return $this->where('officeId' , '=' , $officeId)
+    //     return $this->where('companyId' , '=' , $companyId)
     //         ->orderBy('invId', 'DESC')
     //         ->get();
     // }   
-    public function getAllByStatus($invStatusCode,$officeId)
+    public function getAllByStatus($invStatusCode,$companyId)
     {
         $result = $this->where('invStatusCode', $invStatusCode)
-                        ->where('officeId' , '=' , $officeId)
+                        ->where('companyId' , '=' , $companyId)
                         ->get();
         return $result;
     }
 
-    public function getAllByFourStatus($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4,$officeId)
+    public function getAllByFourStatus($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4,$companyId)
     {
-        $result = $this->where('officeId' , '=' , $officeId)
+        $result = $this->where('companyId' , '=' , $companyId)
                        ->where(function($q) use ($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4){
                           $q->where('invStatusCode', $invStatusCode1)
                           ->orWhere('invStatusCode', $invStatusCode2)
@@ -165,13 +165,13 @@ class Invoice extends Model
     }  
 
 
-     public function getAllByClientAndOffice($clientId,$officeId)
+     public function getAllByClientAndCompany($clientId,$companyId)
     {
         $result = $this->where('clientId', $clientId)
-            ->where('officeId', $officeId)
+            ->where('companyId', $companyId)
             ->where('invStatusCode', Invoice::OPEN)
             ->orWhere('clientId', $clientId)
-            ->where('officeId', $officeId)
+            ->where('companyId', $companyId)
             ->where('invStatusCode', Invoice::CLOSED)
             ->orderBy('invoiceId', 'ASC')
             ->get();
@@ -179,26 +179,26 @@ class Invoice extends Model
         return $result;
     }
 //------------------------------------------
-    public function findById($id,$countryId,$officeId)
+    public function findById($id,$countryId,$companyId)
     {
         return $this->where('invoiceId', '=', $id)
                     ->where('countryId', $countryId)
-                    ->where('officeId', $officeId) 
+                    ->where('companyId', $companyId) 
                     ->get();
     }
 
 //------------------------------------------
-    public function insertInv($countryId,$officeId,$contractId,$clientId,$projectDescriptionId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode) {
+    public function insertInv($countryId,$companyId,$contractId,$clientId,$projectDescriptionId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode) {
 
-          $oConfiguration = new OfficeConfiguration();
-          $invId = $oConfiguration->retrieveInvoiceNumber($countryId, $officeId);
+          $oConfiguration = new CompanyConfiguration();
+          $invId = $oConfiguration->retrieveInvoiceNumber($countryId, $companyId);
           $invId++;
-          $oConfiguration->increaseInvoiceNumber($countryId, $officeId);
+          $oConfiguration->increaseInvoiceNumber($countryId, $companyId);
 
         $invoice                   =  new Invoice;
         $invoice->invId            =  $invId;
         $invoice->countryId        =  $countryId;
-        $invoice->officeId         =  $officeId;
+        $invoice->companyId         =  $companyId;
         $invoice->contractId       =  $contractId;
         $invoice->clientId         =  $clientId;
         $invoice->projectDescriptionId     =  $projectDescriptionId;
