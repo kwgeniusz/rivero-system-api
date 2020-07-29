@@ -44,7 +44,7 @@
             <thead>
                 <tr class="bg-info">
                  <th>#</th>
-                 <th>CONTRACT NUMBER</th>
+                 <th>{{__('contract_number')}}</th>
                  {{-- <th>COD. {{__('client')}}</th> --}}
                  <th>{{__('name')}}</th>   
                  <th>{{__('address')}}</th>
