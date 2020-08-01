@@ -26,7 +26,7 @@ class User extends Authenticatable
         'companyId',
         'defaultCountryId',
         'defaultcompanyId',
-        'changeOffice',
+        'changeCompany',
         'fullName',
         'userName',
         'userLevel',
@@ -83,7 +83,7 @@ public function company()
                     ->get();
     }
  
-    public function changeOffice($id,$countryId,$companyId)
+    public function changeCompany($id,$countryId,$companyId)
     {
           return $this->where('userId', $id)
                       ->update(array('countryId' => $countryId,
@@ -95,7 +95,7 @@ public function company()
         $user                = new User;
         $user->countryId     = $values['countryId'];
         $user->companyId      = $values['companyId'];
-        $user->changeOffice  = $values['changeOffice'];
+        $user->changeCompany  = $values['changeCompany'];
         $user->fullName      = $values['fullName'];
         $user->userName      = $values['userName'];
         $user->userPassword  = bcrypt($values['password']);
@@ -110,7 +110,7 @@ public function company()
         $this->where('userId', $id)->update(array(
             'countryId'      => $values['countryId'],
             'companyId'       => $values['companyId'],
-            'changeOffice'   => $values['changeOffice'],
+            'changeCompany'   => $values['changeCompany'],
             'fullName'       => $values['fullName'],
             'userName'       => $values['userName'],
             'email'          => $values['email'],

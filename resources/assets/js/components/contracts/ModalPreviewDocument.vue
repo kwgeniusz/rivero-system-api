@@ -7,11 +7,13 @@
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
 <!-- Sweet modal is something awful, needs a lot of testing -->
       <sweet-modal ref="modal" width="100%">
-            <b>Previzualicion Del Documento</b>
-           <br /><br />
-           <div class="iframe" v-if="showModal">
-              <img class="resp-container" :src="url">
-         </div>
+       <b>Previzualicion Del Documento</b>
+        <br /><br />
+        <div class="iframe" v-if="showModal">
+           <!-- {{docUrl}} -->
+          <iframe v-if="ext == 'docx' || ext == 'pptx'|| ext == 'xls' || ext == 'pdf'" :src="url" width='100%' frameborder='0'/>
+          <img v-else class="resp-container" :src="url">
+        </div>
      </sweet-modal>
 </div>   
 </template>
@@ -35,7 +37,7 @@
     url: function () {
 
           if(this.ext == 'docx' || this.ext == 'pptx'|| this.ext == 'xls'){
-             return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/'+this.url
+             return 'https://view.officeapps.live.com/op/embed.aspx?src='+window.location.protocol+'//'+window.location.host+'/storage/'+this.docUrl
           }else{ 
              return window.location.protocol+'//'+window.location.host+'/storage/'+this.docUrl
            }

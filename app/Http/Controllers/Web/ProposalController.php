@@ -177,8 +177,7 @@ class ProposalController extends Controller
 
     }
 
-
-
+// ESTO ES SOLO PARA LAS PROPUESTAS DE CONTRATOS.
   public function convert(Request $request)
     {
       $proposal = $this->oProposal->FindById($request->id,session('countryId'),session('companyId')); 
@@ -186,6 +185,7 @@ class ProposalController extends Controller
         return view('module_contracts.proposals.convert', compact('proposal'));
 
     }
+// ESTO ES SOLO PARA LAS PROPUESTAS DE CONTRATOS    
     public function convertAdd($id)
     {
         $error = null;

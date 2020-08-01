@@ -1,10 +1,10 @@
-
-<template> 
-    <div> 
+<template > 
+<div>
+  
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
-             <a class="btn btn-danger btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Anular">
-              <i class="fa fa-times-circle" aria-hidden="true"></i> 
-            </a>
+    <a class="btn btn-danger btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Anular">
+        <i class="fa fa-times-circle" aria-hidden="true"></i> 
+    </a>
 <!-- MODALS -->
    <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalCanceling">
         <h2>¿Esta seguro de que desea Anular Esta Factura</h2> <br>
@@ -15,17 +15,14 @@
         <button class="btn btn-danger" @click="cancelInvoice">Confirmar</button>
   </sweet-modal>
 
-
-    </div>
+</div>
  </template>
 
  <script>
-
 export default {
         
-     mounted() {
+    mounted() {
             console.log('Component invoicecancelled mounted.')
-         
         },
     data: function() {
         return {
@@ -43,7 +40,7 @@ export default {
           },
           cancelInvoice: function() {
             // si this.checked no esta vacio ejecuta la funcion de borra multiple
-            alert('anulando');
+            // alert('anulando');
             // if(Object.keys(this.checked).length != 0) {
                var url ='invoices/'+this.invoiceId+'/changeStatus';
                axios.put(url,{

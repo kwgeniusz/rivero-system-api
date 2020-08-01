@@ -20,7 +20,7 @@ import SweetModal from 'sweet-modal-vue/src/plugin.js';
 Vue.use(SweetModal);
 import Permissions from './mixins/Permissions';
 Vue.mixin(Permissions);
-
+// import ProgressBar from 'vue-simple-progress';
 
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
@@ -137,6 +137,6 @@ const app = new Vue({
         },
     methods: {
        
-    }
- 
+    },
+
 });

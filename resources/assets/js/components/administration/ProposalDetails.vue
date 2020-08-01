@@ -150,7 +150,7 @@ export default {
             services: {},
             selectedService: {},
    
-            itemList: {},
+            itemList: [],
        
             
             hasCost: false,

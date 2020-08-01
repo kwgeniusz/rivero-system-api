@@ -4,6 +4,7 @@ namespace App;
 
 use Auth;
 use DB;
+use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -59,12 +60,15 @@ class Document extends Model
     public function insertF($file,$modelType,$modelId,$typeDoc)
     {
 
+     $heicRs = preg_match('/.HEIC/', $file->getClientOriginalName());
+
         $error = null;
         DB::beginTransaction();
         try {
-    
         $doc = new Document;
-          
+          // $request->file('file')->getSize();
+
+
      if($modelType == 'contract') { 
            $model               = Contract::find($modelId);
            $doc->contractId     = $modelId;
@@ -83,20 +87,22 @@ class Document extends Model
       }elseif($modelType == 'transaction') {
             $model                  = Transaction::find($modelId);
             $doc->transactionId     = $modelId;
-
           if($typeDoc == 'transactionsexpenses') {
              $rs = Storage::putFile("docs/administration/transactions/expenses",  $file);
           }
 
       }
-
         $doc->docName               = $file->getClientOriginalName();
         $doc->mimeType              = $file->extension();
         $doc->dateUploaded          = date('Y-m-d H:i:s');
         $doc->docUrl                = $rs;
-        $doc->docNameOriginal       = $file->hashName();
+        if($heicRs == 1){
+         $doc->docNameOriginal       = '.HEIC';
+        }else{
+         $doc->docNameOriginal       = $file->hashName();
+       }
         $doc->docType               = $typeDoc;
-        $doc->userId            = Auth::user()->userId;
+        $doc->userId                = Auth::user()->userId;
         $doc->save();
 
             $success = true;

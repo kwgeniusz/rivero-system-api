@@ -16,7 +16,7 @@ class Payable extends Model
     protected $primaryKey = 'payableId';
     public $timestamps    = false;
 
-    protected $appends = ['amountDue','balance'];
+    protected $appends = ['amountDue'];
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +26,7 @@ class Payable extends Model
        'countryId',
        'companyId',
        'amountDue',
-       'balance',
+       // 'balance',
        'subcontInvDetailId',
        'userId',
        'payStatusCode'
@@ -42,10 +42,10 @@ class Payable extends Model
     {
        return decrypt($this->attributes['amountDue']);
     }
-    public function getBalanceAttribute($balance)
-    {
-        return decrypt($this->attributes['balance']);
-    }
+    // public function getBalanceAttribute($balance)
+    // {
+    //     return decrypt($this->attributes['balance']);
+    // }
     public function getDatePaidAttribute($datePaid)
     {
          $oDateHelper = new DateHelper;
@@ -60,11 +60,11 @@ class Payable extends Model
         $amountDue = number_format((float)$amountDue, 2, '.', '');
         return $this->attributes['amountDue'] = encrypt($amountDue);
     } 
-    public function setBalanceAttribute($balance)
-    {
-        $balance = number_format((float)$balance, 2, '.', '');
-        return $this->attributes['balance'] = encrypt($balance);
-    } 
+    // public function setBalanceAttribute($balance)
+    // {
+    //     $balance = number_format((float)$balance, 2, '.', '');
+    //     return $this->attributes['balance'] = encrypt($balance);
+    // } 
     public function setDatePaidAttribute($datePaid)
     {
         $oDateHelper = new DateHelper;

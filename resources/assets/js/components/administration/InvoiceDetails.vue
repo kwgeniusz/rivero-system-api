@@ -1,10 +1,11 @@
-
 <template> 
 
- <div class="panel panel-success col-xs-10 col-xs-offset-1">
-    <div class="panel-body">
-<h4><b>Factura N°:</b> {{invoice[0].invId}}</h4>
-<h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("MM/DD/YYYY") }}</h4>
+<div class="panel panel-success col-xs-10 col-xs-offset-1">
+  <div class="panel-body">
+  <h4><b>Factura N°:</b> {{invoice[0].invId}}</h4>
+  <h4><b>Fecha:</b> {{invoice[0].invoiceDate | moment("MM/DD/YYYY") }}</h4>
+  <h4><b>Compromisos:</b> {{commitments()}}</h4>
+
 <!-- <h4><b>Cuentas por Pagar: </b> {{subcontractorCounter}}</h4> -->
             <a :href="'reportsInvoice?id='+invoice[0].invoiceId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Factura
@@ -80,7 +81,7 @@
                 <th>COSTO</th>
                 <th>CANTIDAD</th>
                 <th>MONTO</th>
-                <th>COMPROMISOS</th>
+                <!-- <th>COMPROMISOS</th> -->
                 <th>ACCION</th>
                 <!-- <th></th> -->
             </tr>
@@ -93,7 +94,7 @@
             <td>{{item.unitCost}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.amount}}</td>
-            <td>{{item.subcontractor_inv_detail.length}} SB</td>
+            <!-- <td>{{item.subcontractor_inv_detail.length}} SB</td> -->
             <td> 
              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
@@ -161,8 +162,8 @@ export default {
             invoice: '',
             services: {},
             selectedService: {},
-
-            itemList: {},
+            // commitments: 0,
+            itemList: [],
           
             
             hasCost: false,
@@ -186,7 +187,7 @@ export default {
       invoiceNetTotal: function () {
           let suma = 0;
 
-         this.itemList.forEach (function(item){
+         this.itemList.forEach(function(item){
              if(item.amount == null){item.amount=0.00}
             suma += parseFloat(item.amount);
             suma.toFixed(2);
@@ -228,9 +229,9 @@ export default {
             let url ='invoicesDetails/'+this.invoiceId;
             axios.get(url).then(response => {
              this.itemList = response.data
-            });
+          });//end axios
         },
-          selectService: function (id){
+        selectService: function (id){
           let serviceId = id;
 
           function filtrarPorID(obj) {
@@ -262,7 +263,15 @@ export default {
                this.modelUnitCost = this.selectedService[0].cost2;
              }
             
-          },
+          }, 
+      commitments: function () {
+         let acum=0;
+           this.itemList.forEach(function (item) {
+            // console.log(item)
+                acum += Object.keys(item.subcontractor_inv_detail).length;
+            });
+           return acum;
+       }, 
   /*----CRUD----- */
         addRow: function() {
            this.errors = [];
@@ -293,6 +302,7 @@ export default {
                                      unit:this.modelUnit,
                                      unitCost:this.modelUnitCost,
                                      amount:this.sumTotal,
+                                     subcontractor_inv_detail:0,
                                    });
            }
          },
@@ -313,11 +323,6 @@ export default {
            this.errors = [];
            //VALIDATIONS
 
-            //verificando si existe una relacion con subcontractista para lanzar alerta
-                // let acum = 0;
-                //   this.itemList.forEach(function (item) {
-                //       acum += Object.keys(item.subcontractor_inv_detail).length;
-                //    });
 
                 // if(acum > 0){
                 //   this.$refs.modalConfirm.open();

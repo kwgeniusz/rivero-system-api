@@ -98,7 +98,7 @@ class ReportController extends Controller
 //         return view('layouts.reports', compact('outputPdfName'));
 //     }
 
-    public function summaryContractForcompany()
+    public function summaryContractForCompany()
     {
         $acum       = 0;
         $background = "";

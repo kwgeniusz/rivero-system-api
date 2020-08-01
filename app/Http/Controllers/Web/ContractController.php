@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App;
+use ZipArchive;
 use App\Contract;
 use App\Document;
 use App\Currency;
@@ -377,24 +378,53 @@ class ContractController extends Controller
     }
     public function fileAdd(Request $request)
     {
+
          $rs = $this->oDocument->insertF($request->file,'contract',$request->contractId,$request->typeDoc);
 
        if ($rs->status() == 200) {
-          return response('Hello World', 200)
-                  ->header('Content-Type', 'text/plain');
+          return response('Insercion Exitosa', 200)->header('Content-Type', 'text/plain');
         } else {
-           return response($rs->content(), 500)
-                  ->header('Content-Type', 'text/plain');
+           return response($rs->content(), 500)->header('Content-Type', 'text/plain');
         } 
+    }
+ public function fileDownloadByUnit(Request $request)
+   {
+        $doc = $this->oDocument->findById($request->docId);
+           return response()->download('storage/'.$doc[0]->docUrl, $doc[0]->docName);
     }
 
    public function fileDownload(Request $request)
-    {
-         foreach ($request->checkedFiles as $key => $file) {
-              Storage::download($file['docUrl'],$file['docName']);
-          }
-           
-     // return response('Archivos Descargados', 200)->header('Content-Type', 'text/plain');
+   {
+     $data = json_decode($request->checkedFiles,true);
+      // dd($data);
+
+        $zipName = Auth::user()->userName.'.zip';
+        $zip = new \ZipArchive;
+
+        if ($zip->open($zipName, ZipArchive::CREATE) === TRUE) {  
+
+         foreach ($data as $file) {
+            // dd($data);
+               $zip->addFile('storage/'.$file['docUrl'],$file['docName']);        
+          }        
+               $zip->close();       
+        }
+    
+     $headers = array(
+        'content-description: File Transfer',
+        'content-type: application/octet-stream',
+        'content-disposition: attachment; filename="' . $zipName . '"',
+        'content-length: ' . filesize($zipName),
+        'content-encoding: none'
+      );
+
+        $filetopath=$zipName;
+
+        if(file_exists($filetopath)){
+           return response()->download($filetopath, $zipName, $headers)->deleteFileAfterSend(true);
+        }
+
+        return ['status'=>'Esto Da un Error'];
     }
 
    public function fileDelete(Request $request)

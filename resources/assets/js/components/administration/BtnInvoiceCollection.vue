@@ -1,5 +1,4 @@
-
-<template> 
+<template > 
     <div> 
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
              <a class="btn btn-warning btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Enviar a Collection">
