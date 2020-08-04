@@ -139,28 +139,28 @@ a, label, span {
 
 /////////////////////////// Home ////////////////////////////
 
-.panel {
+  .panel {
   border-radius: 15px;
   border: none;
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.05);
-   }
+    }
 
-.navbar-static-top {
+  .navbar-static-top {
   border-radius: 50px;
   border: none;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
-   }
+    }
 
-.cardy {
+  .cardy {
   border-radius: 15px;
   margin-bottom: 25px;
   box-shadow: 0px 5px 5px rgba(100, 100, 100, 0.425);
-}
+    }
 
-.chart {
+  .chart {
   width: 300px;
   margin-bottom: 25px;
-}
+    }
 
 //////////////////// Modal Switch Contract ////////////////////
 
@@ -170,11 +170,18 @@ a, label, span {
     background: $hover;
     }
 
+  .sweet-content {
+    overflow-wrap: $overflow-wrap;
+    white-space: $white-space;
+  }
+
+  .sweet-modal {
+    height: 100%;
+  }
+
   .text-left {
     font-weight: 400;
     font-size: $font-size-base;
-    overflow-wrap: $overflow-wrap;
-    white-space: $overflow-wrap;
      }
 
   .glow {
@@ -184,6 +191,62 @@ a, label, span {
   .round {
     border-radius: 10px;
     margin-bottom: 2px;
+}
+
+.btn-default, .btn-primary, .btn-success, .btn-warning, .btn-danger, .btn-info {
+  transition:all .08s linear;
+  position:relative;
+  outline:medium none;
+  border:none;
+  margin-bottom:5px;
+}
+
+.btn-default, .btn-primary, .btn-success, .btn-warning, .btn-danger, .btn-info:focus {
+  outline:medium none;
+}
+
+.btn-default {
+  box-shadow:0 0 0 1px #ebebeb inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #adadad, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#fff;
+}
+
+.btn-primary {
+  box-shadow:0 0 0 1px #428bca inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #357ebd, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#428bca;
+}
+
+.btn-success {
+  box-shadow:0 0 0 1px #5cb85c inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #4cae4c, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#5cb85c;
+}
+
+.btn-warning {
+  box-shadow:0 0 0 1px #f0ad4e inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #eea236, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#f0ad4e;
+}
+
+.btn-danger {
+  box-shadow:0 0 0 1px #c63702 inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #C24032, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#c63702;
+}
+
+.btn-danger {
+  box-shadow:0 0 0 1px #c63702 inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #C24032, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#c63702;
+}
+
+.btn-info {
+  box-shadow:0 0 0 1px #5bc0de inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #46b8da, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+  background-color:#5bc0de;
+}
+
+///////////////////////// Grid Files /////////////////////////
+
+.gridy {
+  display: grid;
+  align-content: center;
+  width: 10vw;
+  grid-row-gap: 10px;
 }
 
 /////////////////// Modal Document Preview ///////////////////

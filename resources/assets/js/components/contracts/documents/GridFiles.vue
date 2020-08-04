@@ -20,7 +20,8 @@
 
      <br>
   <h3>Lista de Archivos</h3>
-<div class="text-center" v-if="process == 0">
+<div class="gridy">
+<div>
   <!-- downloads buttons -->  
      <!--   <a v-if="$can('BDGAC') && typeDoc == 'previous'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
@@ -34,7 +35,8 @@
       <a v-if="$can('BDGDC') && typeDoc == 'ready'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados
        </a> -->
-
+</div>
+<div>
   <!-- deletes buttons -->  
        <a  v-if="$can('BDGAB') && typeDoc == 'previous'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
@@ -48,7 +50,7 @@
       <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
        </a> 
-
+</div>
 </div>
 <br>
 <!-- {{process}} -->
@@ -63,7 +65,7 @@
                 <th>NOMBRE</th>  
                 <th>TIPO</th>
                 <th>FECHA DE SUBIDA</th>
-                <th>SUBIDO POR:</th>
+                <th>SUBIDO POR</th>
                 <th colspan="2" >ACCION</th>
             </tr>
             </thead>
@@ -251,3 +253,6 @@ export default {
 }
  </script>
   
+<style lang="scss">
+@import '../../../../sass/app.scss'
+</style>
