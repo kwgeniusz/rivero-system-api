@@ -39,8 +39,8 @@ Route::get('contractsStaff/{contractId}/remove/{staffId}', 'Web\ContractControll
 
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
 Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contracts.fileAdd');
-// Route::get('fileDownload/{docId}', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
-Route::put('fileDownload', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
+Route::get('fileDownloadByUnit/{docId}', 'Web\ContractController@fileDownloadByUnit')->name('contracts.fileDownloadByUnit');
+Route::post('fileDownload', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
 Route::put('fileDelete', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 // Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
@@ -77,7 +77,7 @@ Route::delete('contractsCancelled/{id}/delete', 'Web\ContractController@deleteCo
 // Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
 Route::get('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
 // Route::get('contracts-summary', function () {return view('contractsummary.index');})->name('contracts.summary');
-Route::get('contracts-summary', 'Web\ReportController@summaryContractForOffice')->name('reports.summaryContractForOffice');
+Route::get('contracts-summary', 'Web\ReportController@summaryContractForCompany')->name('reports.summaryContractForCompany');
 Route::get('contracts-summary-for-clients', 'Web\ReportController@summaryClientForm')->name('contracts.summaryForClient');
 Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForClient')->name('reports.summaryForClient');
 Route::get('reportsInvoice', 'Web\ReportController@printInvoice')->name('reports.invoice');

@@ -113,7 +113,7 @@ class PaymentInvoice extends Model
 
             //INSERTAR A CUENTA POR COBRAR
             $receivable                    = new Receivable;
-            $receivable->officeId          = $payment->invoice->officeId;
+            $receivable->companyId          = $payment->invoice->companyId;
             $receivable->countryId         = $payment->invoice->countryId;
             $receivable->clientId          = $payment->invoice->clientId;
             $receivable->invoiceId         = $payment->invoiceId;

@@ -58,7 +58,7 @@
                 </tr>
             </thead>
                 <tbody>
-            @php $acum = 0; @endphp
+         @php $acum = 0; @endphp
                 @foreach($proposals as $proposal)
                 <tr>
                    <td>{{ $acum = $acum +1 }}</td>
@@ -77,9 +77,17 @@
                    <td>{{$proposal->netTotal}}</td> 
                    <td>{{$proposal->pQuantity}}</td> 
                    <td>
-
-    @if($proposal->invoiceId == null)
-
+      <pre> 
+         @php
+              print_r(is_null($proposal->contract)); 
+              print_r(is_null($proposal->precontract)); 
+         @endphp
+      </pre>
+{{-- @if($proposal->precontract == null) --}}
+      @if($proposal->contract)
+{{-- @else
+      @if($proposal->precontract)
+@endif --}}
            @if($proposal->pQuantity > 0)
            @can('BCF')         
              <a href="{{route('precontracts.convert', ['id' => $proposal->proposalId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Factura">
@@ -121,9 +129,9 @@
               </a>
                   @if($proposal->invoiceId != null)
                     (CONVERTIDA)
-                    @endif
-                 @endif
+                  @endif
           @endcan
+@endif
                    </td>
                 </tr>
                 @endforeach

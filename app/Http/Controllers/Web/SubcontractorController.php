@@ -50,7 +50,7 @@ class SubcontractorController extends Controller
     
     //     $clientNumberFormat = $this->oCountryConfiguration->generateClientNumberFormat(session('countryId'));
     //     // $countrys     = Country::all();
-    //     $contactTypes = $this->oContactType->getAllByOffice(session('officeId'));
+    //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
 
     //     return view('module_contracts.clients.create', compact('countrys','contactTypes','clientNumberFormat'));
     // }
@@ -94,7 +94,7 @@ class SubcontractorController extends Controller
     // public function edit($id)
     // {
     //     // $countrys = Country::all();
-    //     $contactTypes = $this->oContactType->getAllByOffice(session('officeId'));
+    //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
     //     $client   = $this->oSubcontractor->findById($id, session('countryId'));
 
     //     return view('module_contracts.clients.edit', compact('client', 'countrys','contactTypes'));

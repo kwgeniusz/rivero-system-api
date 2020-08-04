@@ -12,9 +12,9 @@
 
       <div class="col-xs-12 col-lg-6" v-if="firstOption">
          <div class="form-group">
-            <label for="officeId">OFICINA</label>
-            <select v-model="secondOption"  class="form-control" name="officeId" id="officeId" required="on">
-             <option v-for="(item, index) in list2" :value="item.officeId">{{ item.officeName}}</option>
+            <label for="companyId">COMPAÑIA</label>
+            <select v-model="secondOption"  class="form-control" name="companyId" id="companyId" required="on">
+             <option v-for="(item, index) in list2" :value="item.companyId">{{ item.companyName}}</option>
             </select>
           </div> 
     </div>
@@ -30,7 +30,7 @@
             console.log('Component mounted.')
             this.allCountrys();
             this.firstOption = this.countryId;
-            this.secondOption = this.officeId;
+            this.secondOption = this.companyId;
         },
      data: function () {
           return {
@@ -43,11 +43,11 @@
       props: {
            prefUrl: { type: String},
            countryId: { type: String,default: null},
-           officeId: { type: String,default: null}
+           companyId: { type: String,default: null}
     },
      watch: {
       firstOption: function () {   
-      var url2 =this.prefUrl+'offices/'+this.firstOption;
+      var url2 =this.prefUrl+'companies/'+this.firstOption;
             axios.get(url2).then(response => {
                this.list2 = response.data
             });
@@ -61,7 +61,7 @@
             });
         },
        // getOffices: function (){
-       //      var url =this.prefUrl+'offices/'+this.firstOption;
+       //      var url =this.prefUrl+'companies/'+this.firstOption;
        //      axios.get(url).then(response => {
        //         console.log(response.data)
        //         this.list2 = response.data

@@ -56,7 +56,7 @@
   @can('BF') <li><a href="{{route('contracts.finished')}}">{{__('contracts_finished')}}</a></li> @endcan
   @can('BG') <li><a href="{{route('contracts.cancelled')}}">{{__('contracts_cancelled')}}</a></li> @endcan
             <hr>
-  @can('BH')<li><a href="{{route('reports.summaryContractForOffice')}}">{{__('contract_summary')}}</a></li>@endcan
+  @can('BH')<li><a href="{{route('reports.summaryContractForCompany')}}">{{__('contract_summary')}}</a></li>@endcan
    @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li>
    @endcan   
    <br>    
@@ -73,7 +73,7 @@
           <ul class="treeview-menu">
      {{-- @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan --}}
      @can('CA') <li><a href="{{route('invoices.all')}}">Facturas</a></li> @endcan
-     @can('CB') <li><a href="{{route('proposals.all')}}">Propuestas</a></li> @endcan
+     {{-- @can('CB') <li><a href="{{route('proposals.all')}}">Propuestas</a></li> @endcan --}}
      @can('CC') <li><a href="{{route('cashbox.transactions')}}">Caja</a></li> @endcan
      @can('CD') <li><a href="{{route('banks.transactions')}}">Bancos</a></li> @endcan
      @can('CE') <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li> @endcan
@@ -152,8 +152,8 @@
               </span>
           </a>
           <ul class="treeview-menu">
-      @if(Auth::user()->changeOffice == 'Y')
-          <li><a href="{{route('changeOffice.index')}}">{{'Escoger Pais/Oficina'}}</a></li>
+      @if(Auth::user()->changeCompany == 'Y')
+          <li><a href="{{route('changeCompany.index')}}">{{'Escoger Pais/Oficina'}}</a></li>
       @endif
  @can('FA')  <li><a href="{{route('company.index')}}">Empresas</a></li>     @endcan
   @can('FB')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan

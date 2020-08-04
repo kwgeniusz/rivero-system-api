@@ -17,7 +17,7 @@ class SubcontractorInvDetail extends Model
 
     protected $table      = 'subcontractor_invdetail';
     protected $primaryKey = 'subcontInvDetailId';
-    protected $fillable = ['subcontInvDetailId','countryId','officeId','subcontId','invDetailId','transactionTypeId','transactionPercentage','transactionAmount'];
+    protected $fillable = ['subcontInvDetailId','countryId','companyId','subcontId','invDetailId','transactionTypeId','transactionPercentage','transactionAmount'];
   
     protected $appends = ['transactionAmount'];
 //--------------------------------------------------------------------
@@ -103,7 +103,7 @@ class SubcontractorInvDetail extends Model
             //INSERTA UN RENGLON
            $subcontInvDetail                         = new SubcontractorInvDetail;
            $subcontInvDetail->countryId              = session('countryId');
-           $subcontInvDetail->officeId               = session('officeId');
+           $subcontInvDetail->companyId               = session('companyId');
            $subcontInvDetail->subcontId              = $request['subcontId'];
            $subcontInvDetail->invDetailId            = $request['invDetailId'];
            $subcontInvDetail->transactionPercentage  = $request['transactionPercentage'];

@@ -41,17 +41,17 @@ class Account extends Model
                     ->get();
     }
 //------------------------------------------
-       public function getAllByBankAndOffice($bankId,$officeId)
+       public function getAllByBankAndOffice($bankId,$companyId)
     {
         return $this->where('bankId' , '=' , $bankId)
-          ->where('officeId' , '=' , $officeId)
+          ->where('companyId' , '=' , $companyId)
           ->orderBy('bankId', 'ASC')
           ->get();
     }
 
-    public function getAllByOffice($officeId)
+    public function getAllByOffice($companyId)
     {
-        return $this->where('officeId','=',$officeId)
+        return $this->where('companyId','=',$companyId)
                     ->get();
     }
 // //------------------------------------------

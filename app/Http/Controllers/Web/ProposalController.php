@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Web;
 use Auth;
 use App;
 use DB;
-use App\OfficeConfiguration;
+use App\CompanyConfiguration;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Precontract;
@@ -30,7 +30,7 @@ class ProposalController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oOfficeConfiguration     = new OfficeConfiguration;
+        $this->oCompanyConfiguration     = new CompanyConfiguration;
         $this->oContract       = new Contract;
         $this->oPrecontract       = new Precontract;
         $this->oProposal          = new Proposal;
@@ -49,7 +49,7 @@ class ProposalController extends Controller
     public function index(Request $request)
     {
 
-        $precontract = $this->oPrecontract->findById($request->id,session('countryId'),session('officeId'));
+        $precontract = $this->oPrecontract->findById($request->id,session('countryId'),session('companyId'));
         $proposals = $this->oProposal->getAllByPrecontract($request->id);
 
          if($request->ajax()){
@@ -69,12 +69,12 @@ class ProposalController extends Controller
 
         $projectDescriptions = $this->oProjectDescription->getAll();
         $paymentConditions = $this->oPaymentCondition->getAllByLanguage();
-        $invoiceTaxPercent   = $this->oOfficeConfiguration->findInvoiceTaxPercent(session('countryId'),session('officeId'));
+        $invoiceTaxPercent   = $this->oCompanyConfiguration->findInvoiceTaxPercent(session('countryId'),session('companyId'));
 
-        $propId = $this->oOfficeConfiguration->retrieveProposalNumber(session('countryId'),session('officeId'));
+        $propId = $this->oCompanyConfiguration->retrieveProposalNumber(session('countryId'),session('companyId'));
         $propId++;
 
-     $modelRs = $oModelType->findById($request->id,session('countryId'),session('officeId'));
+     $modelRs = $oModelType->findById($request->id,session('countryId'),session('companyId'));
 
      return view('module_contracts.proposals.create', compact('propId','modelRs','paymentConditions','invoiceTaxPercent','projectDescriptions'));
     }
@@ -92,11 +92,11 @@ class ProposalController extends Controller
           $oModelType = $this->oContract;
         }
 
-          $modelRs = $oModelType->findById($request->modelId,session('countryId'),session('officeId'));
+          $modelRs = $oModelType->findById($request->modelId,session('countryId'),session('companyId'));
 
           $proposalId  =   $this->oProposal->insertProp(
                       $modelRs[0]->countryId,
-                      $modelRs[0]->officeId,
+                      $modelRs[0]->companyId,
                       $modelRs[0]->getTable(),//esta funcion trae el nombre de la tabla para saber a que campo de la tabla(proposal) insertare el id , en este caso tengo dos opciones precontract y contract
                       $request->modelId,//se trae el id de la tabla que halla escogido el usuasio en formulario create .
                       $modelRs[0]->clientId,
@@ -118,7 +118,7 @@ class ProposalController extends Controller
 
      public function edit($id)
     {    
-        $proposal = $this->oProposal->findById($id,session('countryId'),session('officeId'));
+        $proposal = $this->oProposal->findById($id,session('countryId'),session('companyId'));
         $paymentConditions = $this->oPaymentCondition->getAllByLanguage();
         $projectDescriptions = $this->oProjectDescription->getAll();
 
@@ -154,7 +154,7 @@ class ProposalController extends Controller
 
     public function show(Request $request,$id)
     {
-        $proposal = $this->oProposal->findById($id,session('countryId'),session('officeId'));
+        $proposal = $this->oProposal->findById($id,session('countryId'),session('companyId'));
 
           if($request->ajax()){
                 return $proposal;
@@ -163,7 +163,7 @@ class ProposalController extends Controller
     }
       public function destroy($id)
     {
-        $proposal = $this->oProposal->findById($id,session('countryId'),session('officeId'));
+        $proposal = $this->oProposal->findById($id,session('countryId'),session('companyId'));
         
         $this->oProposal->deleteProposal($id);
 
@@ -177,15 +177,15 @@ class ProposalController extends Controller
 
     }
 
-
-
+// ESTO ES SOLO PARA LAS PROPUESTAS DE CONTRATOS.
   public function convert(Request $request)
     {
-      $proposal = $this->oProposal->FindById($request->id,session('countryId'),session('officeId')); 
+      $proposal = $this->oProposal->FindById($request->id,session('countryId'),session('companyId')); 
 
         return view('module_contracts.proposals.convert', compact('proposal'));
 
     }
+// ESTO ES SOLO PARA LAS PROPUESTAS DE CONTRATOS    
     public function convertAdd($id)
     {
         $error = null;
@@ -193,12 +193,12 @@ class ProposalController extends Controller
         DB::beginTransaction();
         try {
       //traer todos los datos del proposal
-    $proposal     = $this->oProposal->FindById($id,session('countryId'),session('officeId')); 
+    $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
   
         //insertar el nuevo Invoice
             $invoice  = $this->oInvoice->insertInv(
                   $proposal[0]->countryId,
-                  $proposal[0]->officeId,
+                  $proposal[0]->companyId,
                   $proposal[0]->contractId,
                   $proposal[0]->clientId,
                   $proposal[0]->projectDescriptionId,
@@ -271,7 +271,7 @@ class ProposalController extends Controller
 
   public function getAllProposals(Request $request)
     {
-      $proposals = $this->oProposal->getAllByOffice(session('officeId'));
+      $proposals = $this->oProposal->getAllByCompany(session('companyId'));
 
       if($request->method() == 'POST') {
        if($request->date1 || $request->date2 || $request->textToFilter) {
@@ -341,7 +341,7 @@ class ProposalController extends Controller
     public function payments(Request $request,$id)
     {
 
-        $proposal         = $this->oProposal->findById($id,session('countryId'),session('officeId'));
+        $proposal         = $this->oProposal->findById($id,session('countryId'),session('companyId'));
         $proposalDetails  = $this->oProposalDetail->getAllByProposal($id);
         $payments        = $this->oPaymentProposal->getAllByProposal($id);
 

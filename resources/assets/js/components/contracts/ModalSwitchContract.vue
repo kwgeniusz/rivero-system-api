@@ -103,7 +103,7 @@
 </div>
 
     <h4 class="bg-primary round glow"><b>Escoja Una Opcion</b></h4>
-    <div class="bg-info">
+    <div>
     
                     <a v-if="$can('BDE')" :href="'contractsChangeStatus/'+contractId" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Estado">
                            <span class="fa fa-sync" aria-hidden="true"></span>  
@@ -113,11 +113,11 @@
                          <span class="fa fa-users" aria-hidden="true"></span> 
                           </a>
            
-                       <a v-if="$can('BDG')" :href="'contractsFile/'+contractId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                       <a v-if="$can('BDG')" :href="'contractsFile/'+contractId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                            <span class="fa fa-file" aria-hidden="true"></span> 
                        </a>
                
-                        <a v-if="$can('BE')":href="'invoices?id='+contractId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
+                        <a v-if="$can('BE')":href="'invoices?id='+contractId" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Facturas">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
                        <br>

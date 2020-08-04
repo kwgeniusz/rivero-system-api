@@ -23,15 +23,13 @@ class User extends Authenticatable
     protected $fillable = [
         'userId',
         'countryId',
-        'officeId',
+        'companyId',
         'defaultCountryId',
-        'defaultOfficeId',
-        'changeOffice',
+        'defaultcompanyId',
+        'changeCompany',
         'fullName',
         'userName',
         'userLevel',
-        'countryId',
-        'officeId',
         'userName',
         'userEmail',
         
@@ -63,9 +61,9 @@ public function country()
 {
     return $this->belongsTo('App\Country', 'countryId');
 }
-public function office()
+public function company()
 {
-    return $this->belongsTo('App\Office', 'officeId');
+    return $this->belongsTo('App\Company', 'companyId');
 }
 //--------------------------------------------------------------------
    /** General Functions*/
@@ -85,19 +83,19 @@ public function office()
                     ->get();
     }
  
-    public function changeOffice($id,$countryId,$officeId)
+    public function changeCompany($id,$countryId,$companyId)
     {
           return $this->where('userId', $id)
                       ->update(array('countryId' => $countryId,
-                                     'officeId'  => $officeId));
+                                     'companyId'  => $companyId));
     }
 
     public function insertU($values)
     {
         $user                = new User;
         $user->countryId     = $values['countryId'];
-        $user->officeId      = $values['officeId'];
-        $user->changeOffice  = $values['changeOffice'];
+        $user->companyId      = $values['companyId'];
+        $user->changeCompany  = $values['changeCompany'];
         $user->fullName      = $values['fullName'];
         $user->userName      = $values['userName'];
         $user->userPassword  = bcrypt($values['password']);
@@ -111,8 +109,8 @@ public function office()
     {
         $this->where('userId', $id)->update(array(
             'countryId'      => $values['countryId'],
-            'officeId'       => $values['officeId'],
-            'changeOffice'   => $values['changeOffice'],
+            'companyId'       => $values['companyId'],
+            'changeCompany'   => $values['changeCompany'],
             'fullName'       => $values['fullName'],
             'userName'       => $values['userName'],
             'email'          => $values['email'],

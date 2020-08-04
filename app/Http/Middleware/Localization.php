@@ -28,14 +28,13 @@ class Localization
     //si variable Auth de laravel esta llena ejecuta todo este codigo
         //esto es para que funcione en la ventana de login
       if(Auth::user() != null) { 
-         if(!session()->has('countryId') || !session()->has('officeId')) { 
-             
+         if(!session()->has('countryId') || !session()->has('companyId')) { 
              session(['countryId' => Auth::user()->countryId, 
                       'countryName' => Auth::user()->country->countryName,
                       'countryLanguage' => Auth::user()->country->countryConfiguration->language
                     ]); 
-              session(['officeId' => Auth::user()->officeId,
-                       'officeName' => Auth::user()->office->officeName
+              session(['companyId' => Auth::user()->companyId,
+                       'companyName' => Auth::user()->company->companyName
                       ]);
           }
          } 

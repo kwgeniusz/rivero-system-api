@@ -13,7 +13,7 @@
                 <tr class="bg-success">
                  <th>N° {{__('contract')}}</th>
                  <th>{{__('country')}}</th>
-                 <th>{{__('office')}}</th>
+                 <th>{{__('company')}}</th>
                  <th>DIRECCION       </th>
                  <th>{{__('date_of_contract')}}</th>
                  <th>{{__('client')}}</th>
@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{$contract[0]->contractNumber}} </td>
                     <td>{{$contract[0]->country->countryName}} </td>
-                    <td>{{$contract[0]->office->officeName}} </td>
+                    <td>{{$contract[0]->company->companyName}} </td>
                     <td>{{$contract[0]->siteAddress}} </td>
                     <td>{{$contract[0]->contractDate}} </td>
                     <td>{{$contract[0]->client->clientName}} </td>

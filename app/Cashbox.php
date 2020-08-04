@@ -14,7 +14,7 @@ class Cashbox extends Model
     protected $primaryKey = 'cashboxId';
     protected $fillable   = [
         'countryId',
-        'officeId'
+        'companyId'
     ];
 //--------------------------------------------------------------------
  /** Relations */
@@ -31,16 +31,16 @@ class Cashbox extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
 
-    public function findById($id,$officeId)
+    public function findById($id,$companyId)
     {
         return $this->where('cashboxId', '=', $id)
-                    ->where('officeId', $officeId)
+                    ->where('companyId', $companyId)
                     ->get();
     }
 //------------------------------------
-       public function getAllByOffice($officeId)
+       public function getAllByOffice($companyId)
     {
-        return $this->where('officeId' , '=' , $officeId)
+        return $this->where('companyId' , '=' , $companyId)
           ->orderBy('cashboxId', 'ASC')
           ->get();
     }

@@ -17,7 +17,7 @@ class Proposal extends Model
 
     protected $table      = 'proposal';
     protected $primaryKey = 'proposalId';
-    protected $fillable = ['proposalId','propId','countryId','officeId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
+    protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
 
      protected $appends = ['grossTotal','taxAmount','netTotal'];
      protected $dates = ['deleted_at'];
@@ -121,9 +121,9 @@ class Proposal extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
     
-  public function getAllByOffice($officeId)
+  public function getAllByCompany($companyId)
     {
-        return $this->where('officeId' , '=' , $officeId)
+        return $this->where('companyId' , '=' , $companyId)
             ->orderBy('propId', 'DESC')
             ->get();
     }   
@@ -154,27 +154,27 @@ class Proposal extends Model
     //                 ->get();
     // }
 //------------------------------------------
-    public function findById($id,$countryId,$officeId)
+    public function findById($id,$countryId,$companyId)
     {
         return $this->where('proposalId', '=', $id)
                     ->where('countryId', $countryId)
-                    ->where('officeId', $officeId) 
+                    ->where('companyId', $companyId) 
                     ->get();
     }
 //------------------------------------------
-    public function insertProp($countryId,$officeId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status) {
+    public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status) {
 
-          $oConfiguration = new OfficeConfiguration();
-          $propId = $oConfiguration->retrieveProposalNumber($countryId, $officeId);
+          $oConfiguration = new CompanyConfiguration();
+          $propId = $oConfiguration->retrieveProposalNumber($countryId, $companyId);
           $propId++;
-                    $oConfiguration->increaseProposalNumber($countryId, $officeId);
+                    $oConfiguration->increaseProposalNumber($countryId, $companyId);
 
 
 
         $proposal                   = new Proposal;
         $proposal->propId           =  $propId;
         $proposal->countryId        =  $countryId;
-        $proposal->officeId         =  $officeId;
+        $proposal->companyId         =  $companyId;
         if($modelType == 'pre_contract'){
           $proposal->precontractId    =  $modelId;
         }else{

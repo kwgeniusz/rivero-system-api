@@ -42,11 +42,11 @@ class Bank extends Model
  //          ->get();
  //    }
 
- public function getAllByOffice($officeId)
+ public function getAllByOffice($companyId)
     {
         return $this->select('bank.bankId','bankName')
                      ->join('account', 'account.bankId', '=', 'bank.bankId')
-                    ->where('officeId','=',$officeId)
+                    ->where('companyId','=',$companyId)
                     ->distinct('bankName')
                     ->get();
     }

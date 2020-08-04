@@ -93,7 +93,7 @@ desired effect
     <div class="pull-right hidden-xs">
         <strong>USUARIO: </strong>{{Auth::user()->fullName}} |
         <strong>PAIS: </strong>{{session('countryName')}} |
-        <strong>OFICINA: </strong>{{session('officeName')}}
+        <strong>COMPAÑIA: </strong>{{session('companyName')}}
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2020 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.

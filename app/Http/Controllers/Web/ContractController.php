@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Web;
 
 use App;
+use ZipArchive;
 use App\Contract;
 use App\Document;
 use App\Currency;
 use App\Client;
 use App\Staff;
 use App\Receivable;
-use App\OfficeConfiguration;
+use App\CompanyConfiguration;
 use App\ContractStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
@@ -25,7 +26,7 @@ class ContractController extends Controller
     private $oClient;
     private $oStaff;
     private $oReceivable;
-    private $oOfficeConfiguration;
+    private $oCompanyConfiguration;
     private $oBuildingCode;
     private $oContractStatus;
 
@@ -49,7 +50,7 @@ class ContractController extends Controller
         $this->oClient          = new Client;
         $this->oStaff           = new Staff;
         $this->oReceivable      = new Receivable;
-        $this->oOfficeConfiguration   = new OfficeConfiguration;
+        $this->oCompanyConfiguration   = new CompanyConfiguration;
         $this->oContractStatus   = new ContractStatus;
     }
 
@@ -67,7 +68,7 @@ class ContractController extends Controller
             Contract::DOWNLOADING_FILES,
             $filteredOut,
             session('countryId'),
-            session('officeId')
+            session('companyId')
         );
 
         return view('module_contracts.contracts.index', compact('contracts'));
@@ -76,7 +77,7 @@ class ContractController extends Controller
     public function create()
     {
 
-       $contractNumberFormat = $this->oOfficeConfiguration->generateContractNumberFormat(session('countryId'),session('officeId'));
+       $contractNumberFormat = $this->oCompanyConfiguration->generateContractNumberFormat(session('countryId'),session('companyId'));
        $currencies   = $this->oCurrency->getAll();
 
         return view('module_contracts.contracts.create', compact('currencies','contractNumberFormat'));
@@ -87,7 +88,7 @@ class ContractController extends Controller
 
        $newContract = $this->oContract->insertContract(
             session('countryId'),
-            session('officeId'),
+            session('companyId'),
             $request->contractType,
             $request->projectName,
             $request->contractDate,
@@ -121,7 +122,7 @@ class ContractController extends Controller
 
     public function details(Request $request,$id)
     {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
           
           if($request->ajax()){
                 return $contract;
@@ -138,7 +139,7 @@ class ContractController extends Controller
          //     $blockEdit = true;
          // }
           
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
         $currencies = $this->oCurrency->getAll();
 
         return view('module_contracts.contracts.edit', compact('contract','currencies','blockEdit'));
@@ -150,7 +151,7 @@ class ContractController extends Controller
         $this->oContract->updateContract(
             $id,
             // $request->countryId,
-            // $request->officeId,
+            // $request->companyId,
             $request->contractType,
             $request->projectName,
             $request->contractDate,
@@ -187,7 +188,7 @@ class ContractController extends Controller
     public function show(Request $request,$id)
     {
 
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
 
           if($request->ajax()){
                 return $contract;
@@ -230,7 +231,7 @@ class ContractController extends Controller
     //         ->contractStatus($contractStatus)
     //         ->contractDate($contractDate)
     //         ->where('countryId', session('countryId'))
-    //         ->where('officeId', session('officeId')) 
+    //         ->where('companyId', session('companyId')) 
     //         ->paginate(5);
 
     //     return view('module_contracts.generalsearch.index', compact('contracts'));
@@ -238,20 +239,20 @@ class ContractController extends Controller
 
     // public function generalSearchDetails($id)
     // {
-    //     $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+    //     $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
     //     return view('module_contracts.generalsearch.details', compact('contract'));
     // }
 
     // public function resultStatus(Request $request)
     // {
 
-    //     $contracts = $this->oContract->getAllForStatus($request->contractStatus,session('countryId'),session('officeId'));
+    //     $contracts = $this->oContract->getAllForStatus($request->contractStatus,session('countryId'),session('companyId'));
     //     return view('module_contracts.contractstatus.result', compact('contracts'));
     // }
 
     // public function resultStatusDetails($id)
     // {
-    //     $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+    //     $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
     //     return view('module_contracts.contractstatus.details', compact('contract'));
     // }
 
@@ -261,22 +262,22 @@ class ContractController extends Controller
     {
          $filteredOut = $request->filteredOut;
 
-        $contracts = $this->oContract->getAllForStatus(Contract::FINISHED,$filteredOut,session('countryId'),session('officeId'));
+        $contracts = $this->oContract->getAllForStatus(Contract::FINISHED,$filteredOut,session('countryId'),session('companyId'));
         return view('module_contracts.contractsfinished.index', compact('contracts'));
     }
     public function detailsContractsFinished($id)
     {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
         return view('module_contracts.contractsfinished.details', compact('contract'));
     }
     public function showContractsFinished($id)
     {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
         return view('module_contracts.contractsFinished.show', compact('contract'));
     }
     public function deleteContractsFinished($id)
     {
-        $this->oContract->deleteContract($id,session('countryId'),session('officeId'));
+        $this->oContract->deleteContract($id,session('countryId'),session('companyId'));
         return redirect()->route('contracts.finished')
             ->with('info', 'Tipo de Proyecto Eliminado');
     }
@@ -287,22 +288,22 @@ class ContractController extends Controller
     {
          $filteredOut = $request->filteredOut;
 
-        $contracts = $this->oContract->getAllForStatus(Contract::CANCELLED,$filteredOut,session('countryId'),session('officeId'));
+        $contracts = $this->oContract->getAllForStatus(Contract::CANCELLED,$filteredOut,session('countryId'),session('companyId'));
         return view('module_contracts.contractscancelled.index', compact('contracts'));
     }
     public function detailsContractsCancelled($id)
     {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
         return view('module_contracts.contractscancelled.details', compact('contract'));
     }
         public function showContractsCancelled($id)
     {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
         return view('module_contracts.contractscancelled.show', compact('contract'));
     }
     public function deleteContractsCancelled($id)
     {
-        $this->oContract->deleteContract($id,session('countryId'),session('officeId'));
+        $this->oContract->deleteContract($id,session('countryId'),session('companyId'));
         return redirect()->route('contracts.cancelled')
             ->with('info', 'Tipo de Proyecto Eliminado');
     }
@@ -311,7 +312,7 @@ class ContractController extends Controller
 
     public function changeStatus($id)
     {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
         $contractStatus = $this->oContractStatus->getAllByLanguage(App::getLocale());
 
         return view('module_contracts.contracts.changeStatus', compact('contract','contractStatus'));
@@ -336,7 +337,7 @@ class ContractController extends Controller
     public function staff($id)
     {
 
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
         $staffs   = $this->oStaff->getAvailableStaff($id);
 
         return view('module_contracts.contracts.staff', compact('contract', 'staffs'));
@@ -371,30 +372,59 @@ class ContractController extends Controller
 //---------------FILES-----------------------//
     public function files($id)
     {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('officeId'));
+        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
 
         return view('module_contracts.contracts.files', compact('contract'));
     }
     public function fileAdd(Request $request)
     {
+
          $rs = $this->oDocument->insertF($request->file,'contract',$request->contractId,$request->typeDoc);
 
        if ($rs->status() == 200) {
-          return response('Hello World', 200)
-                  ->header('Content-Type', 'text/plain');
+          return response('Insercion Exitosa', 200)->header('Content-Type', 'text/plain');
         } else {
-           return response($rs->content(), 500)
-                  ->header('Content-Type', 'text/plain');
+           return response($rs->content(), 500)->header('Content-Type', 'text/plain');
         } 
+    }
+ public function fileDownloadByUnit(Request $request)
+   {
+        $doc = $this->oDocument->findById($request->docId);
+           return response()->download('storage/'.$doc[0]->docUrl, $doc[0]->docName);
     }
 
    public function fileDownload(Request $request)
-    {
-         foreach ($request->checkedFiles as $key => $file) {
-              Storage::download($file['docUrl'],$file['docName']);
-          }
-           
-     // return response('Archivos Descargados', 200)->header('Content-Type', 'text/plain');
+   {
+     $data = json_decode($request->checkedFiles,true);
+      // dd($data);
+
+        $zipName = Auth::user()->userName.'.zip';
+        $zip = new \ZipArchive;
+
+        if ($zip->open($zipName, ZipArchive::CREATE) === TRUE) {  
+
+         foreach ($data as $file) {
+            // dd($data);
+               $zip->addFile('storage/'.$file['docUrl'],$file['docName']);        
+          }        
+               $zip->close();       
+        }
+    
+     $headers = array(
+        'content-description: File Transfer',
+        'content-type: application/octet-stream',
+        'content-disposition: attachment; filename="' . $zipName . '"',
+        'content-length: ' . filesize($zipName),
+        'content-encoding: none'
+      );
+
+        $filetopath=$zipName;
+
+        if(file_exists($filetopath)){
+           return response()->download($filetopath, $zipName, $headers)->deleteFileAfterSend(true);
+        }
+
+        return ['status'=>'Esto Da un Error'];
     }
 
    public function fileDelete(Request $request)
@@ -413,13 +443,13 @@ class ContractController extends Controller
         $rs  = $this->oDocument->getAllForContractAndType($id,$type);
         return json_encode($rs);
     }
-    public function getForOffice($officeId)
+    public function getForCompany($companyId)
     {
 
-        $listContracts            = $this->oContract->FindByOffice($officeId);
-        $listContractsSiteAddress = $this->oContract->findSiteAddressByOffice($officeId);
-        $listClientName           = $this->oClient->FindNameByOffice($officeId);
-        $listClientPhone          = $this->oClient->FindPhoneByOffice($officeId);
+        $listContracts            = $this->oContract->FindByCompany($companyId);
+        $listContractsSiteAddress = $this->oContract->findSiteAddressByCompany($companyId);
+        $listClientName           = $this->oClient->FindNameByCompany($companyId);
+        $listClientPhone          = $this->oClient->FindPhoneByCompany($companyId);
 
         json_encode($listContracts);
         json_encode($listContractsSiteAddress);

@@ -3,9 +3,9 @@
 @section('content')
 <div class="col-xs-12 col-lg-7 col-lg-offset-2">
 <div class="panel panel-info">
-    <div class="panel-heading text-center"> <h3><b>Cambiar de Oficina</b></h3></div>
+    <div class="panel-heading text-center"> <h3><b>Cambiar de Compañia</b></h3></div>
     <div class="panel-body">
-        <form class="form" action="{{Route('changeOffice.update')}}" method="POST">
+        <form class="form" action="{{Route('changeCompany.update')}}" method="POST">
         {{csrf_field()}}
  
   

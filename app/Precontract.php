@@ -4,7 +4,7 @@ namespace App;
 
 use App\Client;
 use App\Country;
-use App\Office;
+use App\Company;
 use App\ProjectDescription;
 use App\Projectuse;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +22,7 @@ class Precontract extends Model
     protected $table      = 'pre_contract';
     protected $primaryKey = 'precontractId';
     //protected $dateFormat = 'Y-m-d';
-    protected $fillable = ['precontractId', 'contractType', 'countryId', 'officeId',
+    protected $fillable = ['precontractId', 'contractType', 'countryId', 'companyId',
         'clientId', 'siteAddress','buildingCodeId', 'projectDescriptionId', 'projectUseId', 'comment',
         'currencyId',
     ];
@@ -104,9 +104,9 @@ class Precontract extends Model
     {
         return $this->belongsTo('App\ProjectUse', 'projectUseId');
     }
-    public function office()
+    public function company()
     {
-        return $this->belongsTo('App\Office', 'officeId');
+        return $this->belongsTo('App\Company', 'companyId');
     }
     public function country()
     {
@@ -125,10 +125,10 @@ class Precontract extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
     //------------------------------------------
-    public function getAll($countryId,$officeId,$filteredOut)
+    public function getAll($countryId,$companyId,$filteredOut)
     {
         $result = $this->where('countryId', $countryId)
-            ->where('officeId', $officeId) 
+            ->where('companyId', $companyId) 
             ->orderBy('precontractId', 'DESC')
             ->filter($filteredOut)
             ->get();
@@ -136,25 +136,25 @@ class Precontract extends Model
         return $result;
     }
 //------------------------------------------
-    public function findById($id,$countryId,$officeId)
+    public function findById($id,$countryId,$companyId)
     {
         return $this->where('precontractId', '=', $id)
                      ->where('countryId', $countryId)
-                     ->where('officeId', $officeId) 
+                     ->where('companyId', $companyId) 
                      ->get();
     }
 //------------------------------------------
-    public function insertPrecontract($countryId, $officeId, $contractType,$projectName,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode, $buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
+    public function insertPrecontract($countryId, $companyId, $contractType,$projectName,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode, $buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
         
-        $oConfiguration = new OfficeConfiguration();
-        $preId = $oConfiguration->retrievePrecontractNumber($countryId, $officeId);
+        $oConfiguration = new CompanyConfiguration();
+        $preId = $oConfiguration->retrievePrecontractNumber($countryId, $companyId);
         $preId++;
-                 $oConfiguration->increasePrecontractNumber($countryId, $officeId);
+                 $oConfiguration->increasePrecontractNumber($countryId, $companyId);
 
         $precontract                         = new Precontract;
         $precontract->preId                  = $preId;
         $precontract->countryId              = $countryId;
-        $precontract->officeId               = $officeId;
+        $precontract->companyId               = $companyId;
         $precontract->contractType           = $contractType;
         $precontract->projectName           = $projectName;
         $precontract->precontractDate        = $precontractDate;
@@ -178,11 +178,11 @@ class Precontract extends Model
 
     }
 //------------------------------------------
-    public function updatePrecontract($precontractId, $countryId, $officeId,$contractType,$projectName,$precontractDate,$clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
+    public function updatePrecontract($precontractId, $countryId, $companyId,$contractType,$projectName,$precontractDate,$clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
 
         $precontract                        = precontract::find($precontractId);
         $precontract->countryId             = $countryId;
-        $precontract->officeId              = $officeId;
+        $precontract->companyId              = $companyId;
         $precontract->contractType          = $contractType;
         $precontract->projectName           = $projectName;
         $precontract->precontractDate       = $precontractDate;
@@ -205,11 +205,11 @@ class Precontract extends Model
 
     }
 //------------------------------------------
-    public function deletePrecontract($precontractId,$countryId,$officeId)
+    public function deletePrecontract($precontractId,$countryId,$companyId)
     {
         return $this->where('precontractId', '=', $precontractId)
                     ->where('countryId', $countryId)
-                    ->where('officeId', $officeId) 
+                    ->where('companyId', $companyId) 
                     ->delete();
     }
 //------------------------------------------

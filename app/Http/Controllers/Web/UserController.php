@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Country;
-use App\Office;
+use App\Company;
 use Auth;
 
 class UserController extends Controller
@@ -41,7 +41,7 @@ class UserController extends Controller
     {
          $this->validate($request, 
             [
-            'changeOffice' => 'required',
+            'changeCompany' => 'required',
             'fullName'     => 'required|string',
             'userName'     => 'required|string',
             'email'        => 'string|email|max:255|unique:user',
@@ -68,7 +68,7 @@ class UserController extends Controller
     {
            $this->validate($request, 
             [
-            'changeOffice' => 'required',
+            'changeCompany' => 'required',
             'fullName'     => 'required|string',
             'userName'     => 'required|string',
             'email'        => 'required|string|email|max:255',
@@ -117,8 +117,8 @@ class UserController extends Controller
         $user = User::Find($request->userId);
         $user->syncPermissions($request->permissions);//borra permisos y coloca los nuevos.
         $user->countryId    = $request->countryId;
-        $user->officeId     = $request->officeId;
-        $user->changeOffice = $request->changeOffice;
+        $user->companyId     = $request->companyId;
+        $user->changeCompany = $request->changeCompany;
         $user->save();
 
           $notification = array(
@@ -130,18 +130,18 @@ class UserController extends Controller
       //return Redirect::back()->withInput($request->all());
 
     }
-    public function changeOffice(Request $request)
+    public function changeCompany(Request $request)
     {
         
-    	$country = Country::find($request->countryId);
-    	$office  = Office::find($request->officeId);
+    	$country = Country::Find($request->countryId);
+    	$company  = Company::Find($request->companyId);
 
         session(['countryId' => $country->countryId,
                  'countryName' => $country->countryName,
                  'countryLanguage' => $country->countryConfiguration->language]);
 
-        session(['officeId' => $office->officeId, 
-                 'officeName' =>$office->officeName]);
+        session(['companyId' => $company->companyId, 
+                 'companyName' =>$company->companyName]);
 
         $notification = array(
             'message'    => 'Se ha cambiado de Oficina el Usuario',

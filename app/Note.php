@@ -33,18 +33,18 @@ class Note extends Model
     {
         return $this->where('noteId', '=', $id)->get();
     }
-    public function getAllByOffice($officeId)
+    public function getAllByOffice($companyId)
     {
-        return $this->where('officeId' , '=' , $officeId)
+        return $this->where('companyId' , '=' , $companyId)
           ->orderBy('noteId', 'ASC')
           ->get();
     }
 //------------------------------------------
-    public function insertN($countryId,$officeId,$noteName)
+    public function insertN($countryId,$companyId,$noteName)
     {
         $note                  = new Note;
         $note->countryId     = $countryId;
-        $note->officeId     = $officeId;
+        $note->companyId     = $companyId;
         $note->noteName     = $noteName;
         $note->save();
     }

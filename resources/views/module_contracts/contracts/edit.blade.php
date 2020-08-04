@@ -43,8 +43,8 @@
  
       <div class="col-lg-6">
          <div class="form-group">
-            <label for="officeId">Oficina</label>
-             <input disabled type="text" class="form-control" id="officeId" name="officeId" value="{{ $contract[0]->office->officeName }}">
+            <label for="companyId">Oficina</label>
+             <input disabled type="text" class="form-control" id="companyId" name="companyId" value="{{ $contract[0]->company->companyName }}">
           </div> 
     </div>
 

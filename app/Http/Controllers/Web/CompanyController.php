@@ -109,4 +109,13 @@ class CompanyController extends Controller
         // $company = Company::find($id);
         // $company->delete();
     }
+
+
+     public function getForCountry($countryId){
+
+     $companies = Company::where('countryId', $countryId)
+                              ->orderBy('companyName','ASC')
+                              ->get();
+        return json_encode($companies);
+    }
 }

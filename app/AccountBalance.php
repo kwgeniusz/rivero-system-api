@@ -146,10 +146,10 @@ class AccountBalance extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
 
-    public function findById($id,$officeId)
+    public function findById($id,$companyId)
     {
         return $this->where('bankId', '=', $id)
-                    ->where('officeId', $officeId)
+                    ->where('companyId', $companyId)
                     ->get();
     }
 //------------------------------------------
@@ -160,9 +160,9 @@ class AccountBalance extends Model
     //                 ->get();
     // }
 //------------------------------------------
-       public function getAllByOffice($officeId)
+       public function getAllByOffice($companyId)
     {
-        return $this->where('officeId' , '=' , $officeId)
+        return $this->where('companyId' , '=' , $companyId)
           ->orderBy('bankId', 'ASC')
           ->get();
     }

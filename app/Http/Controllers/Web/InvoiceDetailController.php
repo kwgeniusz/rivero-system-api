@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Invoice;
 use App\InvoiceDetail;
 use App\Contract;
-use App\OfficeConfiguration;
+use App\CompanyConfiguration;
 use Auth;
 
 class InvoiceDetailController extends Controller
@@ -20,13 +20,13 @@ class InvoiceDetailController extends Controller
         $this->oInvoice        = new Invoice;
         $this->oInvoiceDetail        = new InvoiceDetail;
         $this->oContract             = new Contract;
-        $this->oOfficeConfiguration        = new OfficeConfiguration;
+        $this->oCompanyConfiguration        = new CompanyConfiguration;
     }
 
     public function index(Request $request)
     {
-        $invoice = $this->oInvoice->findById($request->id,session('countryId'),session('officeId'));
-        $contract = $this->oContract->findById($invoice[0]->contractId,session('countryId'),session('officeId'));
+        $invoice = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
+        $contract = $this->oContract->findById($invoice[0]->contractId,session('countryId'),session('companyId'));
 
         //EVITA QUE ENTREN POR URL SI ESTA CERRADA LA FACTURA
         if ($invoice[0]->status == 'CERRADO' || $invoice[0]->status == 'CLOSED') {
@@ -40,7 +40,7 @@ class InvoiceDetailController extends Controller
     public function create(Request $request)
     {
 
-        $invoiceNumberFormat = $this->oOfficeConfiguration->generateInvoiceNumberFormat(session('countryId'),session('officeId'));
+        $invoiceNumberFormat = $this->oCompanyConfiguration->generateInvoiceNumberFormat(session('countryId'),session('companyId'));
         
         return view('module_contracts.invoices.create', compact('invoiceNumberFormat'));
     }

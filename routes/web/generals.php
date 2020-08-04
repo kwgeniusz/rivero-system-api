@@ -34,8 +34,8 @@ Route::get('countrys/all', 'Web\CountryController@all')->name('countrys.all');
 Route::get('clientNumberFormat/get', 'Web\ClientController@getNumberFormat')->name('clients.getNumberFormat');
 //CONTACT TYPE
 // Route::get('contactTypes/all', 'Web\ContactTypeController@all')->name('contactTypes.all');
-//OFFICES
-Route::get('offices/{contract}', 'Web\OfficeController@getForCountry')->name('offices.get');
+//COMPANY
+Route::get('companies/{countryId}', 'Web\CompanyController@getForCountry')->name('companies.get');
 //CONTRACTS
 Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
 Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');

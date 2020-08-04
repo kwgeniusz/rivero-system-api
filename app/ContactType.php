@@ -32,18 +32,18 @@ class ContactType extends Model
     {
         return $this->where('contactTypeId', '=', $id)->get();
     }
-    public function getAllByOffice($officeId)
+    public function getAllByOffice($companyId)
     {
-        return $this->where('officeId' , '=' , $officeId)
+        return $this->where('companyId' , '=' , $companyId)
           ->orderBy('contactTypeName', 'ASC')
           ->get();
     }
 //------------------------------------------
-    public function insertCT($countryId,$officeId,$contactTypeName)
+    public function insertCT($countryId,$companyId,$contactTypeName)
     {
         $contactType                  = new ContactType;
         $contactType->countryId       = $countryId;
-        $contactType->officeId        = $officeId;
+        $contactType->companyId        = $companyId;
         $contactType->contactTypeName = $contactTypeName;
         $contactType->save();
     }

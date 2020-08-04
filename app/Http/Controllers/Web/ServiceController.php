@@ -23,7 +23,7 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        $services = $this->oService->getAllByOffice(session('officeId'));
+        $services = $this->oService->getAllByOffice(session('companyId'));
         
            if($request->ajax()){
                 return $services;
@@ -69,7 +69,7 @@ class ServiceController extends Controller
 
         $this->oService->insertS(
             session('countryId'),
-            session('officeId'),
+            session('companyId'),
             $request->serviceName,
             $request->hasCost,
             $unit1,

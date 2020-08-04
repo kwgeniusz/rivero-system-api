@@ -18,7 +18,7 @@ class ContactTypeController extends Controller
 
    public function index(Request $request)
     {
-       $contactTypes = $this->oContactType->getAllByOffice(session('officeId'));
+       $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
 
            if($request->ajax()){
                 return $contactTypes;
@@ -32,7 +32,7 @@ class ContactTypeController extends Controller
 
          $this->oContactType->insertCT(
             session('countryId'),
-            session('officeId'),
+            session('companyId'),
             $request->contactTypeName
         );
 

@@ -37,7 +37,7 @@ class BankController extends Controller
 
   //esta funcion debe traer las transacciones del año en curso.
   if($request->method() == 'GET') {
-     $account      = $this->oAccount->getAllByOffice(session('officeId'));
+     $account      = $this->oAccount->getAllByOffice(session('companyId'));
   }else{
      $account        = $this->oAccount->findById($request->accountId);
   }
@@ -129,7 +129,7 @@ class BankController extends Controller
 
    public function getAllByOffice()
     {
-        $banks    = $this->oBank->getAllByOffice(session('officeId'));
+        $banks    = $this->oBank->getAllByOffice(session('companyId'));
         return $banks;
     }
 }

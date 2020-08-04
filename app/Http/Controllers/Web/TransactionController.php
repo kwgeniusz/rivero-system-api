@@ -37,9 +37,9 @@ class TransactionController extends Controller
     public function index(Request $request,$sign)
     {
 
-        $transactions   = $this->oTransaction->getAllForSign($sign,session('countryId'),session('officeId'));
-        $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('officeId'),'INCOME_INVOICE');
-        $fee            = $this->oTransactionType->findByOfficeAndCode(session('officeId'),'FEE');
+        $transactions   = $this->oTransaction->getAllForSign($sign,session('countryId'),session('companyId'));
+        $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
+        $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
       $totalTransaction = 0;
       $totalFee = 0;
@@ -78,7 +78,7 @@ class TransactionController extends Controller
                           break;
                         case 'invId':
                             if($transaction->invoiceId != null)
-                               $valorABuscar = $transaction->invoice->inv;
+                               $valorABuscar = $transaction->invoice->invId;
                            else
                               $valorABuscar = ''; 
                           break;
@@ -163,7 +163,7 @@ class TransactionController extends Controller
 
     public function create($sign)
     {
-        $transactionType = $this->oTransactionType->getAllByOfficeAndSign(session('officeId'),$sign);
+        $transactionType = $this->oTransactionType->getAllByOfficeAndSign(session('companyId'),$sign);
         $paymentsMethod   = $this->oPaymentMethod->getAll();
   
         if ($sign == '+') {
@@ -189,7 +189,7 @@ class TransactionController extends Controller
         //insert transaction and Update BANK...
         $rs1 = $this->oTransaction->insertT(
             session('countryId'),
-            session('officeId'),
+            session('companyId'),
             $request->transactionTypeId,
             $request->description,
             $request->payMethodId,
@@ -220,7 +220,7 @@ class TransactionController extends Controller
 
        public function edit($sign,$id)
     {
-       $transaction = $this->oTransaction->findById($id,session('countryId'),session('officeId'));
+       $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
         if ($sign == '+') {
             return view('module_administration.transactionsincome.edit', compact('transaction'));
         } else {
@@ -261,7 +261,7 @@ class TransactionController extends Controller
     public function show($sign, $id)
     {
 
-        $transaction = $this->oTransaction->findById($id,session('countryId'),session('officeId'));
+        $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
         if ($sign == '+') {
             return view('module_administration.transactionsincome.show', compact('transaction'));
         } else {
@@ -300,7 +300,7 @@ class TransactionController extends Controller
      */
     // public function allTransactions()
     // {
-    //     $transactions = $this->oTransaction->getAll(session('countryId'),session('officeId'));
+    //     $transactions = $this->oTransaction->getAll(session('countryId'),session('companyId'));
 
     //     return view('module_administration.transactions.index', compact('transactions'));
     // }

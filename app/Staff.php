@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Contract;
-use App\Office;
+use App\Company;
 use App\Position;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +19,7 @@ class Staff extends Model
         'staffId',
         'staffCategoryId',
         'countryId',
-        'officeId',
+        'companyId',
         'userId',
         'fullName',
         'positionId',
@@ -35,9 +35,9 @@ class Staff extends Model
     {
         return $this->belongsTo('App\Position', 'positionId');
     }
-    public function office()
+    public function company()
     {
-        return $this->belongsTo('App\Office', 'officeId');
+        return $this->belongsTo('App\Company', 'companyId');
     }
 //--------------------------------------------------------------------
     /** Function of Models */

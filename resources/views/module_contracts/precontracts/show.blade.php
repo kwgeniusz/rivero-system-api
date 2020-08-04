@@ -27,9 +27,9 @@
 
        <div class="col-xs-6">
         <div class="form-group">
-          <label class="col-sm-5 control-label">{{__('office')}}</label>
+          <label class="col-sm-5 control-label">COMPAÑIA</label>
           <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->office->officeName }}</p>
+            <p class="form-control-static">{{ $precontract[0]->company->companyName }}</p>
           </div>
         </div>
        </div>
@@ -59,12 +59,7 @@
             <p class="form-control-static">{{ $precontract[0]->siteAddress }}</p>
           </div>
         </div>
-          <div class="form-group">
-          <label class="col-sm-5 control-label">DESCRIPCION DE PROYECTO</label>
-          <div class="col-sm-7">
-            <p class="form-control-static">{{ $precontract[0]->projectDescription->projectDescriptionName }}</p>
-          </div>
-        </div>
+        
          <div class="form-group">
           <label class="col-sm-5 control-label">TIPO DE PROYECTO</label>
           <div class="col-sm-7">

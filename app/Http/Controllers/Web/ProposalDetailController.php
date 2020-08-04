@@ -27,7 +27,7 @@ class ProposalDetailController extends Controller
     public function index(Request $request)
     {
  
-        $proposal = $this->oProposal->findById($request->id,session('countryId'),session('officeId'));
+        $proposal = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
 
        if($request->modelType == 'pre_contract'){
           $oModelType = $this->oPrecontract;
@@ -36,7 +36,7 @@ class ProposalDetailController extends Controller
         }
         //sacar nombre del campo Id de esta tabla o modelo
         $modelId = $oModelType->getKeyName();
-        $modelRs = $oModelType->findById($proposal[0]->$modelId,session('countryId'),session('officeId'));
+        $modelRs = $oModelType->findById($proposal[0]->$modelId,session('countryId'),session('companyId'));
 
 
         $btnReturn = $request->btnReturn;

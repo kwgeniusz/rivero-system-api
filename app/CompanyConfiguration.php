@@ -4,15 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OfficeConfiguration extends Model
+class CompanyConfiguration extends Model
 {
     public $timestamps = false;
 
-    protected $table      = 'office_configuration';
-    protected $primaryKey = 'officeConfigId';
+    protected $table      = 'company_configuration';
+    protected $primaryKey = 'companyConfigId';
     protected $fillable   = [
                  'countryId',
-                 'officeId',
+                 'companyId',
                  'codePrefix',
                  'currencyId',
                  'contractNumber',
@@ -27,13 +27,13 @@ class OfficeConfiguration extends Model
 //--------------------------------------------------------------------
 //CONTRACT NUMBER
 //--------------------------------------------------------------------
-    public function retrieveContractNumber($countryId, $officeId)
+    public function retrieveContractNumber($countryId, $companyId)
     {
         //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
 
         $contractNumber = 0;
         $rs             = $this->where('countryId', '=', $countryId)
-                               ->where('officeId', '=', $officeId)
+                               ->where('companyId', '=', $companyId)
                                ->get();
 
         if (!empty($rs)) {
@@ -45,9 +45,9 @@ class OfficeConfiguration extends Model
         return $contractNumber;
     }
     //--------------------------------------------------------------------
-  public function generateContractNumberFormat($countryId,$officeId) {
+  public function generateContractNumberFormat($countryId,$companyId) {
 
-        $contractNumber =   $this->retrieveContractNumber($countryId, $officeId);
+        $contractNumber =   $this->retrieveContractNumber($countryId, $companyId);
         $contractNumber++;
 
         $stringLength = 8;
@@ -57,7 +57,7 @@ class OfficeConfiguration extends Model
             $contractNumber = "";
         }
 
-       $codePrefix = $this->getCodePrefix($countryId,$officeId);
+       $codePrefix = $this->getCodePrefix($countryId,$companyId);
 
         $format1 = $codePrefix;
         $format2 = substr(date('Y'), 2, 2);
@@ -67,22 +67,22 @@ class OfficeConfiguration extends Model
        return $contractNumberFormat = $format1 . $format2 . $format3;
     }
     //--------------------------------------------------------------------
-    public function increaseContractNumber($countryId, $officeId)
+    public function increaseContractNumber($countryId, $companyId)
     {
             $this->where('countryId', $countryId)
-                ->where('officeId', $officeId)
+                ->where('companyId', $companyId)
                 ->increment('contractNumber');
     }
 //--------------------------------------------------------------------
 // [PRECONTRACT] NUMBER
 //--------------------------------------------------------------------
-    public function retrievePrecontractNumber($countryId, $officeId)
+    public function retrievePrecontractNumber($countryId, $companyId)
     {
         //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
 
         $precontractNumber = 0;
         $rs             = $this->where('countryId', '=', $countryId)
-                               ->where('officeId', '=', $officeId)
+                               ->where('companyId', '=', $companyId)
                                ->get();
 
         if (!empty($rs)) {
@@ -94,21 +94,21 @@ class OfficeConfiguration extends Model
         return $precontractNumber;
     }
     //--------------------------------------------------------------------
-    public function increasePrecontractNumber($countryId, $officeId)
+    public function increasePrecontractNumber($countryId, $companyId)
     {
             $this->where('countryId', $countryId)
-                ->where('officeId', $officeId)
+                ->where('companyId', $companyId)
                 ->increment('precontractNumber');
     }
     //--------------------------------------------------------------------
          //INVOICES NUMBER
     //-------------------------------------------------------------------
-    public function retrieveInvoiceNumber($countryId,$officeId)
+    public function retrieveInvoiceNumber($countryId,$companyId)
     {
 
         $invoiceNumber = 0;
         $rs             = $this->where('countryId', $countryId)
-                               ->where('officeId', $officeId)
+                               ->where('companyId', $companyId)
                                ->get();
 
             foreach ($rs as $rs0) {
@@ -118,22 +118,22 @@ class OfficeConfiguration extends Model
         return $invoiceNumber;
     }
 //--------------------------------------------------------------------   
-    public function increaseInvoiceNumber($countryId,$officeId)
+    public function increaseInvoiceNumber($countryId,$companyId)
     {
             $this->where('countryId', $countryId)
-                 ->where('officeId', $officeId)
+                 ->where('companyId', $companyId)
                  ->increment('invoiceNumber');
     }
 
  //--------------------------------------------------------------------
 //PROPOSAL NUMBER
     //-------------------------------------------------------------------
-    public function retrieveProposalNumber($countryId,$officeId)
+    public function retrieveProposalNumber($countryId,$companyId)
     {
 
         $proposalNumber = 0;
         $rs             = $this->where('countryId', $countryId)
-                               ->where('officeId', $officeId)
+                               ->where('companyId', $companyId)
                                ->get();
 
             foreach ($rs as $rs0) {
@@ -143,10 +143,10 @@ class OfficeConfiguration extends Model
         return $proposalNumber;
     }
 //--------------------------------------------------------------------   
-    public function increaseProposalNumber($countryId,$officeId)
+    public function increaseProposalNumber($countryId,$companyId)
     {
             $this->where('countryId', $countryId)
-                 ->where('officeId', $officeId)
+                 ->where('companyId', $companyId)
                  ->increment('proposalNumber');
     }
     //--------------------------------------------------------------------
@@ -154,21 +154,21 @@ class OfficeConfiguration extends Model
     //--------------------------------------------------------------------
        //MISCELLANEOUS FUNCTIONS
     //-------------------------------------------------
-    public function getCodePrefix($countryId,$officeId){
+    public function getCodePrefix($countryId,$companyId){
         $rs = $this->where('countryId', $countryId)
-                   ->where('officeId', $officeId)
+                   ->where('companyId', $companyId)
                     ->get();
  
         return $rs[0]->codePrefix;
     }
     //-------------------------------------------------
 
-    public function findInvoiceTaxPercent($countryId,$officeId)
+    public function findInvoiceTaxPercent($countryId,$companyId)
     {
 
         $invoiceTaxPercent = 0;
         $rs             = $this->where('countryId', $countryId)
-                               ->where('officeId', $officeId)
+                               ->where('companyId', $companyId)
                                ->get();
 
             foreach ($rs as $rs0) {

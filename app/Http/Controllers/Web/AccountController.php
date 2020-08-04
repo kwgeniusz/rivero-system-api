@@ -23,7 +23,7 @@ class AccountController extends Controller
      */
     public function index(Request $request,$bankId)
     {
-        $accounts    = $this->oAccount->getAllByBankAndOffice($bankId,session('officeId'));
+        $accounts    = $this->oAccount->getAllByBankAndOffice($bankId,session('companyId'));
 
             if($request->ajax()){
                  return $accounts;

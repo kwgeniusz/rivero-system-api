@@ -20,9 +20,10 @@
 
      <br>
   <h3>Lista de Archivos</h3>
-<div class="text-center">
+<div class="gridy">
+<div>
   <!-- downloads buttons -->  
-       <a v-if="$can('BDGAC') && typeDoc == 'previous'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
+     <!--   <a v-if="$can('BDGAC') && typeDoc == 'previous'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados 
        </a>
       <a v-if="$can('BDGBC') && typeDoc == 'processed'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
@@ -33,8 +34,9 @@
        </a>
       <a v-if="$can('BDGDC') && typeDoc == 'ready'"  @click="downloadFiles" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-download" aria-hidden="true"></i> Descargar Seleccionados
-       </a>
-
+       </a> -->
+</div>
+<div>
   <!-- deletes buttons -->  
        <a  v-if="$can('BDGAB') && typeDoc == 'previous'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
@@ -48,9 +50,13 @@
       <a v-if="$can('BDGDB') && typeDoc == 'ready'" @click="modalDelete" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" >
            <i class="fa fa-times-circle" aria-hidden="true"></i> Eliminar Seleccionados 
        </a> 
-
+</div>
 </div>
 <br>
+<!-- {{process}} -->
+<!-- <progress-bar></progress-bar> -->
+<!-- <progress-bar size="medium" bar-color="#dc720f" :val="process.toString()" :text="process.toString()" :title="process.toString()"/> -->
+
       <div class="table-responsive">
           <table class="table table-striped table-bordered text-center">
             <thead> 
@@ -59,11 +65,11 @@
                 <th>NOMBRE</th>  
                 <th>TIPO</th>
                 <th>FECHA DE SUBIDA</th>
-                <th>SUBIDO POR:</th>
+                <th>SUBIDO POR</th>
                 <th colspan="2" >ACCION</th>
             </tr>
             </thead>
-          <tbody>   
+       <tbody > 
          <tr v-for="(item,index) in documents">
             <td >
            <label :for="item.docId">
@@ -76,13 +82,27 @@
             <td>{{item.dateUploaded | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}} (Dallas)</td> 
             <td v-for="(user) in item.user"> {{user.fullName}}</td> 
             <td>  
+
+            <a :href="'../fileDownloadByUnit/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descarga">
+                           <span class="fa fa-file" aria-hidden="true"></span> 
+               </a>
             <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType">
             </modal-preview-document>
            </td> 
          </tr>
          </tbody>
+
         </table>
        </div>
+
+
+
+ <div id="form">
+   <form action="../fileDownload" name="vote" method="POST">
+    <input type="hidden" name="_token" :value="csrf">
+    <input type="hidden" name="checkedFiles" :value="JSON.stringify(checked)" />
+   </form>
+ </div>
 
    <sweet-modal ref="modalEdit">
         <h2>Editar:</h2> <br>
@@ -108,6 +128,7 @@
  <script>
 
 import modalPreviewDocument from '../ModalPreviewDocument.vue'
+import ProgressBar from 'vue-simple-progress';
 
 import vueUploadPrevious from './VueUploadPrevious.vue'
 import vueUploadProcessed from './VueUploadProcessed.vue'
@@ -125,8 +146,10 @@ export default {
         return {
             documents: [],
             checked: [],
+            process: 0,
 
             docSelected: '',
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             // showMultiples: false,
         }
     },
@@ -136,6 +159,7 @@ export default {
     },
   components: {
          modalPreviewDocument,
+         ProgressBar,
 
          vueUploadPrevious,
          vueUploadProcessed,
@@ -187,13 +211,41 @@ export default {
           downloadFiles: function() {
             // si this.checked no esta vacio ejecuta la funcion de borra multiple
             if(Object.keys(this.checked).length != 0) {
-               var url ='../fileDownload';
-               axios.put(url,{
-                 checkedFiles :  this.checked,
-                  }).then(response => {
-                    this.allFiles();
-                    toastr.success('Archivos Descargados') 
-                  });
+                  
+              // document.getElementById("form").innerHTML = '<form action="../fileDownload" name="vote" method="POST" style="display:none;"><input type="hidden" name="checkedFiles[]" value="'+this.checked+'"/> <input type="hidden" name="_token" value="' + this.csrf + '"> </form>';
+
+              document.forms['vote'].submit();
+
+               // window.location = '../fileDownload/'+JSON.stringify(this.checked);
+
+               // var url ='../fileDownload';
+
+               // axios.put(url,{checkedFiles:this.checked},
+               //    {
+               //    responseType: 'arraybuffer',
+               //    headers: {
+               //       'Accept': 'application/octet-stream',
+               //    },
+               //    onDownloadProgress:  (progressEvent) => {
+               //       let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+               //        console.log(progressEvent.lengthComputable)
+               //          this.process = percentCompleted;
+               //          console.log(this.process)
+               //    }
+               //   },
+               //  ).then(response => {
+                  
+               //    let blob = new Blob([response.data], { type: 'application/zip' })
+               //    let link = document.createElement('a')
+               //    link.href = window.URL.createObjectURL(blob)
+               //    link.download = 'files.zip'
+               //    link.click();
+                   
+               //    this.process = 0;
+               //    toastr.success('Archivos Descargados') 
+               //    });
+
+
              }
           },
     }
@@ -201,3 +253,6 @@ export default {
 }
  </script>
   
+<style lang="scss">
+@import '../../../../sass/app.scss'
+</style>

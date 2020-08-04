@@ -3,8 +3,8 @@
 //ROUTES DE MODULO CONFIGURACION----------------------------------------------------------------------------
 
 //CHANGE OFFICE
-Route::get('change-office', function () {return view('module_configuration.changeoffice.index');})->name('changeOffice.index');
-Route::post('change-office', 'Web\UserController@changeOffice')->name('changeOffice.update');
+Route::get('change-company', function () {return view('module_configuration.changecompany.index');})->name('changeCompany.index');
+Route::post('change-company', 'Web\UserController@changeCompany')->name('changeCompany.update');
 //BUILDING CODES*************
 Route::get('buildingCode', 'Web\BuildingCodeController@index')->name('buildingCode.index');
 Route::get('buildingCode/{id}/groups', 'Web\BuildingCodeController@getGroups');
