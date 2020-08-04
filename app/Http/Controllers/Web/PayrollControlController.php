@@ -174,7 +174,7 @@ class PayrollControlController extends Controller
             $processCode      = $rs->processCode;
         }
 
-        // verifico si los datos recividos y existen en la tabla hrpayroll
+        // verifico si los datos recividos existen en la tabla hrpayroll
         $rsDel0 = DB::select("SELECT COUNT(*) AS cant
                             FROM hrpayroll 
                                 WHERE hrpayroll.countryId = $countryId 
@@ -216,8 +216,8 @@ class PayrollControlController extends Controller
             // get hrprocess data
             $rs2  = DB::select("SELECT * 
                             FROM hrprocess
-                            LEFT JOIN hrprocess_detail
-                            ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId       
+                            LEFT JOIN hrprocess_detail 
+                                ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId       
                             WHERE hrprocess.countryId = $countryId  and 
                                     hrprocess.companyId = $companyId and 
                                     hrprocess.processCode = $processCode");
@@ -247,7 +247,7 @@ class PayrollControlController extends Controller
                     // echo " entro ";
                     $amount = $quantity * $baseSalary;
                     if ($amount > 0) {
-                    $addTransaction = 1;             
+                        $addTransaction = 1;             
                     }
                     
                 } else { 

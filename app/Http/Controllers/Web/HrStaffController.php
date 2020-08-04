@@ -5,8 +5,6 @@ namespace App\Http\Controllers\web;
 use App\hrStaff;
 use App\PayRollType;
 use App\HrPosition;
-use App\Country;
-use App\Company;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

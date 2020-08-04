@@ -112,6 +112,7 @@
               <hr>
               <li><a href="#">Transacciones Fijas</a></li>
               <li><a href="#">Transacciones Variables</a></li>
+              <li><a href="{{route('permanent-trans.index')}}">Transacciones Permanentes</a></li>
               <li><a href="{{route('payrollcontrol.index')}}">Carlcular Pre-nomina</a></li>
               <li><a href="{{route('printprepayroll.index')}}">Imprimir Pre-nomina</a></li>
               <li><a href="#">Generar Asientos Contables</a></li>

@@ -65,10 +65,6 @@ Vue.component('search-subcontractor', require('./components/administration/Searc
 
 Vue.component('btn-invoice-cancel', require('./components/administration/BtnInvoiceCancel.vue'));
 Vue.component('btn-invoice-collection', require('./components/administration/BtnInvoiceCollection.vue'));
-<<<<<<< HEAD
-=======
-Vue.component('credit-note', require('./components/administration/saleNotes/CreditNote.vue'));
->>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
 
 //########### human resource components #############
@@ -113,6 +109,12 @@ Vue.component('main-pre-payroll', require('./components/rrhh/printPrePayroll/mai
 Vue.component('list-pre-payroll', require('./components/rrhh/printPrePayroll/listPrintPrePayroll.vue'));
 Vue.component('list-pre-payroll-detail', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue'));
 Vue.component('list-pre-payroll-detail-staff', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue'));
+// permanent Transaction
+Vue.component('main-permanent-trans', require('./components/rrhh/permanetTransaction/mainPermanetTrac.vue'));
+Vue.component('list-permanent-trans', require('./components/rrhh/permanetTransaction/listPermanentTrac.vue'));
+Vue.component('addUp-permanent-trans', require('./components/rrhh/permanetTransaction/addUpPertmanetTrac.vue'));
+
+
 
 //########### Dashboard Counters #############
 // --> Front Page

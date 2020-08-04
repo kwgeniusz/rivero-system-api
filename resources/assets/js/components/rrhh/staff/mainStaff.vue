@@ -41,6 +41,9 @@
                 :nameField16 = nameField16
                 :nameField17 = nameField17
                 :nameField18 = nameField18
+                :nameField19 = nameField19
+                :nameField20 = nameField20
+                :nameField21 = nameField21
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -73,6 +76,9 @@
                 :nameField16 = nameField16
                 :nameField17 = nameField17
                 :nameField18 = nameField18
+                :nameField19 = nameField19
+                :nameField20 = nameField20
+                :nameField21 = nameField21
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -123,6 +129,9 @@
                 nameField16: "MONEDA LOCAL",
                 nameField17: "SALARIO LOCAL DIARIO",
                 nameField18: "Status",
+                nameField19: "FECHA DE INGRESO",
+                nameField20: "PERIODO DE PRUEBA",
+                nameField21: "FINAL P. DE PRUEBA",
                 
             }
         },

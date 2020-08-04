@@ -111,6 +111,27 @@
                                     
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="employmentDate" class="form-group" v-text="nameField19"></label>
+                                    <input type="date" v-model="employmentDate" class="form-control" id="employmentDate" required="required">
+                                    
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="probationPeriod" class="form-group" v-text="nameField20"></label><br>
+                                    <label>
+                                        <input type="radio" v-model="probationPeriod" value="1"  checked >Si
+                                    </label>
+                                    <label>
+                                        <input type="radio" v-model="probationPeriod" value="0" >No
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="probationPeriodEnd" class="form-group" v-text="nameField21"></label>
+                                    <input type="date" v-model="probationPeriodEnd" class="form-control" id="probationPeriodEnd" required="required">
+                                    
+                                </div>
+                            </div>
                             
                             <div class="row">
                                 <div class="form-group col-md-4">
@@ -245,11 +266,14 @@
                 this.passportNumber = document.querySelector("#passportNumber").value = this.objEdit.passportNumber
                 this.legalNumber = document.querySelector("#legalNumber").value = this.objEdit.legalNumber
                 this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode
+                this.employmentDate = document.querySelector("#employmentDate").value = this.objEdit.staffCode
                 this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary
                 this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId
                 this.localSalary = document.querySelector("#localSalary").value = this.objEdit.localSalary
                 this.localCurrencyId = document.querySelector("#localCurrencyId").value = this.objEdit.localCurrencyId
                 this.localDailySalary = document.querySelector("#localDailySalary").value = this.objEdit.localDailySalary
+                this.probationPeriod = document.querySelector("#probationPeriod").value = this.objEdit.probationPeriod
+                this.probationPeriodEnd = document.querySelector("#probationPeriodEnd").value = this.objEdit.probationPeriodEnd
                 this.status = document.querySelector("#status").value = this.objEdit.status
                
             }
@@ -276,12 +300,15 @@
                 baseSalary: 0,
                 localSalary: 0,
                 localDailySalary: 0,
+                probationPeriod: 0,
                 excTranTypeCode1: 0,
                 excTranTypeCode2: 0,
                 excTranTypeCode3: 0,
                 payrollTypeId: '',
                 baseCurrencyId: '',
                 localCurrencyId: '',
+                employmentDate: '',
+                probationPeriodEnd: '',
                 selectCountrys:{},
                 selectCompanys:{},
                 selectDepartments:{},
@@ -375,12 +402,25 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField19:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField20:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField21:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
         methods:{
             newUpForm(){
-
+                console.log(probationPeriod)
+                return
                 if (this.editId === 0) {
                     
                     const params = {
@@ -404,6 +444,9 @@
                         excTranTypeCode1: this.excTranTypeCode1,
                         excTranTypeCode2: this.excTranTypeCode2,
                         excTranTypeCode3: this.excTranTypeCode3,
+                        employmentDate: this.employmentDate,
+                        probationPeriod: this.probationPeriod,
+                        probationPeriodEnd: this.probationPeriodEnd,
                         status: this.status,
                         
                     }
@@ -450,6 +493,9 @@
                         excTranTypeCode1: this.excTranTypeCode1,
                         excTranTypeCode2: this.excTranTypeCode2,
                         excTranTypeCode3: this.excTranTypeCode3,
+                        employmentDate: this.employmentDate,
+                        probationPeriod: this.probationPeriod,
+                        probationPeriodEnd: this.probationPeriodEnd,
                         status: this.status,
                     }
                     

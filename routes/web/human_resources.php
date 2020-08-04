@@ -106,3 +106,17 @@ Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}/', 'W
 Route::post('periods/post', 'Web\PeriodsController@store');
 Route::put('periods/put/{id}', 'Web\PeriodsController@update');
 Route::delete('periods/delete/{id}', 'Web\PeriodsController@destroy');
+
+// permanent transaction
+Route::get('permanent-trans/', function () {
+    return view('rrhh.permanetTranction.index');
+})->name('permanent-trans.index'); 
+Route::get('list-perm-trans/', 'Web\PerTransController@index');
+Route::post('perm-trans', 'Web\PerTransController@store');
+Route::put('perm-trans/{id}', 'Web\PerTransController@update');
+Route::delete('perm-trans/{id}', 'Web\PerTransController@destroy');
+
+
+// combosBox
+Route::get('combo-staff/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboStaff');
+Route::get('combo-trans-type/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboTransactionType');
