@@ -194,25 +194,56 @@ class PayrollControlController extends Controller
         
 
         // get data from table hrstaff
-        $rs1  = DB::select("SELECT * FROM hrstaff 
-        WHERE countryId = $countryId 
-            AND hrstaff.companyId  = $companyId 
-              AND hrstaff.payrollTypeId = $payrollTypeId
-              AND hrstaff.status = 'A' ");
+        $rs1  = DB::select("SELECT hrstaff.staffCode, hrstaff.shortName, hrstaff.baseSalary, hrstaff.probationPeriod, hrstaff.employmentDate,
+        hrstaff.probationPeriodEnd, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3,
+        hrstaff.probationSalary
+        FROM hrstaff 
+            INNER JOIN hrposition ON hrstaff.positionCode = hrposition.positionCode
+            WHERE hrstaff.countryId = $countryId 
+                AND hrstaff.companyId  = $companyId 
+                  AND hrstaff.payrollTypeId = $payrollTypeId
+                  AND hrstaff.status = 'A'");
         // return $rs1;
 
         foreach ($rs1 as $key => $rs) {
      
-            $staffCode        = $rs->staffCode;
-            $firstName        = $rs->firstName;
-            $lastName         = $rs->lastName;
-            $staffName        = $rs->shortName;
-            $baseSalary       = $rs->baseSalary;
-            $excTTCode1       = $rs->excTranTypeCode1;
-            $excTTCode2       = $rs->excTranTypeCode2;
-            $excTTCode3       = $rs->excTranTypeCode3;
+            $staffCode         = $rs->staffCode;
+            // $firstName         = $rs->firstName;
+            // $lastName          = $rs->lastName;
+            $staffName         = $rs->shortName;
+            $probationSalary   = $rs->probationSalary;
+            $baseSalaryPosition= $rs->baseSalary;
+            $probationPeriod   = $rs->probationPeriod;
+            $employmentDate    = $rs->employmentDate;
+            $probationPeriodEnd= $rs->probationPeriodEnd;
+            $excTTCode1        = $rs->excTranTypeCode1;
+            $excTTCode2        = $rs->excTranTypeCode2;
+            $excTTCode3        = $rs->excTranTypeCode3;
+
+            // **** Para el caso de los periodos de prueba ****
+            //     Si probationPeriod == 1 {
+            //        Si fecha inicio de periodo > probationPeriodEnd 
+            //           Salario de calculo = baseSalary
+            //        }De lo contario{
+            //          Salario de calculo = probationSalary 
+            //        }
+            //     } De lo contario {
+            //           Salario de calculo = baseSalary
+            //     }
+                
                 
         // parte 1
+            // parametrizo el salario base a usar, si es en base al salario de prueba o salario del cargo/posision
+            if ($probationPeriod == 1) {
+                if ($employmentDate > $probationPeriodEnd) {
+                    $baseSalary = $baseSalaryPosition;
+                } else {
+                    $baseSalary = $probationSalary;
+                }
+            } else {
+                $baseSalary = $baseSalaryPosition;
+            }
+            
             // get hrprocess data
             $rs2  = DB::select("SELECT * 
                             FROM hrprocess

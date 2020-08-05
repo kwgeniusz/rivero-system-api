@@ -31,7 +31,7 @@ class getCombosRrhhController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function comboStaff($country = 2, $company = 5)
+    public function comboStaff($country = 2, $company = 4)
     {
         $comboStaff = $this->oStaff->getComboStaff($country, $company);
         return $comboStaff;

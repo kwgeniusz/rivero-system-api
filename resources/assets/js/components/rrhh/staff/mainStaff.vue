@@ -44,6 +44,9 @@
                 :nameField19 = nameField19
                 :nameField20 = nameField20
                 :nameField21 = nameField21
+                :nameField22 = nameField22
+                :nameField23 = nameField23
+                :nameField24 = nameField24
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -79,6 +82,9 @@
                 :nameField19 = nameField19
                 :nameField20 = nameField20
                 :nameField21 = nameField21
+                :nameField22 = nameField22
+                :nameField23 = nameField23
+                :nameField24 = nameField24
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -132,6 +138,9 @@
                 nameField19: "FECHA DE INGRESO",
                 nameField20: "PERIODO DE PRUEBA",
                 nameField21: "FINAL P. DE PRUEBA",
+                nameField22: "DATOS PARA EL PERIODO DE PRUEBA",
+                nameField23: "SALARIO P. PRUEBA",
+                nameField24: "APLICAR DEDUCCIONES",
                 
             }
         },
