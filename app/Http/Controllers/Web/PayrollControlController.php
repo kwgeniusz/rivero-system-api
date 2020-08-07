@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\web;
 
 use App\Periods;
-use App\Country;
-use App\Company;
 use App\PayrollControl;
 use App\Payroll;
+use App\Currency;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,13 +13,13 @@ use App\Http\Controllers\Controller;
 class PayrollControlController extends Controller
 {
     
-    // private $oCountry;
+    private $oCurrency;
     
 
-    // public function __construct()
-    // {
-    //     $this->oCountry        = new Country; 
-    // }
+    public function __construct()
+    {
+        $this->oCurrency= new Currency; 
+    }
     /**
      * Display a listing of the resource.
      *
@@ -150,6 +149,8 @@ class PayrollControlController extends Controller
     $isIncome  = 1;
     $quantity   = 1;
     $amount   =  0; 
+    $localAmount = 0;
+    
         // PARTE 1. 
     /*
        1. leer tabla hrprepayroll_control.
@@ -159,6 +160,9 @@ class PayrollControlController extends Controller
           2.2 calcular transacciones
           2.3 guardar registro calculado en hrpayroll
     */
+        // get currency 
+        $oExchangeRate = $this->oCurrency->getCurrencyTax();
+        $exchangeRate = floatval($oExchangeRate[0]->exchangeRate);
 
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
@@ -195,7 +199,7 @@ class PayrollControlController extends Controller
 
         // get data from table hrstaff
         $rs1  = DB::select("SELECT hrstaff.staffCode, hrstaff.shortName, hrstaff.baseSalary, hrstaff.probationPeriod, hrstaff.employmentDate,
-        hrstaff.probationPeriodEnd, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3,
+        hrstaff.probationPeriodEnd, hrstaff.stopSS, hrstaff.blockSS, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3,
         hrstaff.probationSalary
         FROM hrstaff 
             INNER JOIN hrposition ON hrstaff.positionCode = hrposition.positionCode
@@ -203,7 +207,7 @@ class PayrollControlController extends Controller
                 AND hrstaff.companyId  = $companyId 
                   AND hrstaff.payrollTypeId = $payrollTypeId
                   AND hrstaff.status = 'A'");
-        // return $rs1;
+        // dd($rs1);
 
         foreach ($rs1 as $key => $rs) {
      
@@ -216,6 +220,8 @@ class PayrollControlController extends Controller
             $probationPeriod   = $rs->probationPeriod;
             $employmentDate    = $rs->employmentDate;
             $probationPeriodEnd= $rs->probationPeriodEnd;
+            $stopSS            = $rs->stopSS; //debenga SSO, FAOV, caso de personas nuevas
+            $staffBlockSS      = $rs->blockSS; //debenga SSO, FAOV, caso de personas tercera edad
             $excTTCode1        = $rs->excTranTypeCode1;
             $excTTCode2        = $rs->excTranTypeCode2;
             $excTTCode3        = $rs->excTranTypeCode3;
@@ -270,17 +276,39 @@ class PayrollControlController extends Controller
                 foreach($rs0 as $rs) {
                     $isSalaryBased        = $rs->salaryBased;
                     $isIncome             = $rs->isIncome;
+                    $transTypeBlockSS     = $rs->blockSS;
                 } 
                 // print_r($rs0);
                 // return $rs0;
                 $addTransaction = 0;         // add transaction control
                 if ($isSalaryBased == 1) {   // transaccion basada en salario
-                    // echo " entro ";
-                    $amount = $quantity * $baseSalary;
-                    if ($amount > 0) {
-                        $addTransaction = 1;             
-                    }
                     
+                    // verifico si el parametro que viene es una deducciones como SSO, FAOV, etc.
+                    if ($isSalaryBased == 1 && $isIncome == 0) {
+                        // verificacion si a la persona, se le aplican esta deduccion como SSO, FAOV, etc.
+                        if ($stopSS == 0) {
+                            // si el tipo de transaccion es bloqueable y el usuario tiene esa transaccion 
+                            // especifica bloqueada, no se inserta la transaccion
+                            if ($staffBlockSS == 1 && $transTypeBlockSS == 1) {
+                                $addTransaction = 0;
+                            } else {
+                                $amount = $quantity * $baseSalary;
+                                // dd($amount);
+                                if ($amount > 0) {
+                                    $addTransaction = 1;             
+                                }
+                            }
+                       } else {
+                            $addTransaction = 0;
+                       }
+
+                    } else {
+                        $amount = $quantity * $baseSalary;
+                        if ($amount > 0) {
+                            $addTransaction = 1;             
+                        }
+                    }
+
                 } else { 
                     if ($quantity > 0 and $amount > 0) {
 
@@ -304,7 +332,9 @@ class PayrollControlController extends Controller
                 if ($addTransaction == 1) {
                     // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
                     // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
-                
+                    // localAmount = amount * exchangeRate
+                    $localAmount = $amount * $exchangeRate;
+
                     $hrpayroll = new Payroll();
                     $hrpayroll->countryId = $countryId;
                     $hrpayroll->companyId = $companyId;
@@ -317,6 +347,8 @@ class PayrollControlController extends Controller
                     $hrpayroll->isIncome = $isIncome;
                     $hrpayroll->quantity = $quantity;
                     $hrpayroll->amount = $amount;
+                    $hrpayroll->localAmount = $localAmount;
+                    $hrpayroll->exchangeRate = $exchangeRate;
                     $hrpayroll->save();
                 }
             
@@ -333,6 +365,9 @@ class PayrollControlController extends Controller
             ->get();
             $addTransaction = 0; 
             // dd($rs4);
+            
+            // print_r($rs4);
+            
             foreach ($rs4 as $rs5) {
                     $stCode            = $rs5->staffCode;   
                     $ttCode            = $rs5->transactionTypeCode; 
@@ -347,6 +382,10 @@ class PayrollControlController extends Controller
                     } else {
                             $amount   =   $transactionQty * $transactionAmount;               	
                     }
+                    
+                    // localAmount = amount * exchangeRate
+                    $localAmount = $amount * $exchangeRate;
+
                     $hrpayroll = new Payroll();
                     $hrpayroll->countryId = $countryId;
                     $hrpayroll->companyId = $companyId;
@@ -359,6 +398,8 @@ class PayrollControlController extends Controller
                     $hrpayroll->isIncome = $isIncome;
                     $hrpayroll->quantity = $quantity;
                     $hrpayroll->amount = $amount;
+                    $hrpayroll->localAmount = $localAmount;
+                    $hrpayroll->exchangeRate = $exchangeRate;
                     $hrpayroll->save();
                     // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
                     //     $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );            	 	
@@ -369,8 +410,8 @@ class PayrollControlController extends Controller
 
             // get permanent transactions for this person and transaction code
             $rs6 = DB::select("SELECT hrpermanent_transaction.transactionTypeCode, hrpermanent_transaction.quantity, 
-                        hrpermanent_transaction.amount,
-                        hrtransaction_type.isIncome, hrtransaction_type.salaryBased
+                        hrpermanent_transaction.amount,hrpermanent_transaction.balance,
+                        hrtransaction_type.isIncome, hrtransaction_type.hasBalance, hrtransaction_type.salaryBased
                     FROM `hrpermanent_transaction`
                     INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
                     WHERE hrtransaction_type.countryId = $countryId
@@ -383,10 +424,14 @@ class PayrollControlController extends Controller
                 $transactionTypeCode = $rs7->transactionTypeCode; 
                 $quantity            = $rs7->quantity;  
                 $transAmount         = $rs7->amount;  
+                $transBalance        = $rs7->balance;  
                 $isIncome            = $rs7->isIncome;
+                $transHasBalance     = $rs7->hasBalance;
                 $salaryBased         = $rs7->salaryBased;    
                 $addTransaction = 0;
-
+                
+                // hasBalance = 1  balance = balance - amount (condición: amount debe ser igual o mayor que balance)
+                
                 // dd($transactionTypeCode,$quantity,$transAmount,$isIncome,$salaryBased);
                 if ($salaryBased == 1) {
                     $amount   =   $quantity * $baseSalary;        	
@@ -410,7 +455,8 @@ class PayrollControlController extends Controller
                     $addTransaction = 0;
                 }
 
-
+                // localAmount = amount * exchangeRate
+                $localAmount = $amount * $exchangeRate;
                 // insert record in hrpayroll
                 if ($addTransaction == 1) {
                     $hrpayroll = new Payroll();
@@ -425,6 +471,8 @@ class PayrollControlController extends Controller
                     $hrpayroll->isIncome = $isIncome;
                     $hrpayroll->quantity = $quantity;
                     $hrpayroll->amount = $amount;
+                    $hrpayroll->localAmount = $localAmount;
+                    $hrpayroll->exchangeRate = $exchangeRate;
                     $hrpayroll->save();
                     // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
                     // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );

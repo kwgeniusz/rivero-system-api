@@ -29,7 +29,7 @@ class HrStaffController extends Controller
                                 hrstaff.employmentDate, hrstaff.probationPeriod, hrstaff.probationPeriodEnd,
                                 hrstaff.baseSalary,hrstaff.probationSalary, hrstaff.baseCurrencyId, currencyStaff1.currencyName, currencyStaff1.currencySymbol, 
                                 hrstaff.localSalary, hrstaff.localCurrencyId, currencyStaff2.currencyName, currencyStaff2.currencySymbol, 
-                                hrstaff.localDailySalary, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3, hrstaff.accrue, hrstaff.status,
+                                hrstaff.localDailySalary, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3, hrstaff.stopSS, hrstaff.blockSS, hrstaff.status,
                                 hrstaff.deleted_at
                             FROM `hrstaff` 
                             INNER JOIN country ON hrstaff.countryId = country.countryId
@@ -118,7 +118,8 @@ class HrStaffController extends Controller
         $staff->excTranTypeCode1 = $request->excTranTypeCode1;
         $staff->excTranTypeCode2 = $request->excTranTypeCode2;
         $staff->excTranTypeCode3 = $request->excTranTypeCode3;
-        $staff->accrue = $request->accrue;
+        $staff->stopSS = $request->stopSS;
+        $staff->blockSS = $request->blockSS;
         $staff->status = $request->status;
        
         $staff->save();
@@ -160,7 +161,8 @@ class HrStaffController extends Controller
         $staff->excTranTypeCode1 = $request->excTranTypeCode1;
         $staff->excTranTypeCode2 = $request->excTranTypeCode2;
         $staff->excTranTypeCode3 = $request->excTranTypeCode3;
-        $staff->accrue = $request->accrue;
+        $staff->stopSS = $request->stopSS;
+        $staff->blockSS = $request->blockSS;
         $staff->status = $request->status;
    
         

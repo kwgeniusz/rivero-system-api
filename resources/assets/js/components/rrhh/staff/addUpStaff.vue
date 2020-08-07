@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div v-if="editId === 0" class="panel-heading" :style="addSuccess"><h4 class="text-uppercase">{{namePanel}}</h4></div>
                     <div v-else class="panel-heading" :style="ediPrimary"><h4 class="text-uppercase">{{namePanel2}}</h4></div>
@@ -10,7 +10,7 @@
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()"  id="newUpForm" >
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-4">
                                     <label for="selectCountry" class="form-group" v-text="nameField8"></label>
                                     <select class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" required="required">
                                         <option></option>
@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-5">
                                     <label for="selectCompany" class="form-group" v-text="nameField9"></label>
                                     <select class="form-control" v-model="selectCompany" id="selectCompany"  @change="change($event)" required="required">
                                         <option></option>
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-5">
                                     <label for="departmentId" class="form-group" v-text="nameField10"></label>
                                     <select class="form-control" v-model="departmentId" id="departmentId" required="required">
                                         <option></option>
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-4">
                                     <label for="payrollTypeId" class="form-group" v-text="nameField11"></label>
                                     <select class="form-control" v-model="payrollTypeId" id="payrollTypeId"  required="required">
                                         <option></option>
@@ -65,44 +65,39 @@
                             </div>
                             
                             <div class="row">
-                                <div class="form-group col-md-6 ">
+                                <div class="form-group col-md-4">
                                     <label for="shortName" class="form-group" v-text="nameField1"></label>
                                     <input type="text" v-model="shortName" class="form-control" id="shortName" v-bind:placeholder="nameField1" required="required">
                                     
                                 </div>
-                            
-                                <div class="form-group col-md-9">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-7">
                                     <label for="firstName" class="form-group" v-text="nameField2"></label>
                                     <input type="text" v-model="firstName" class="form-control" id="firstName" v-bind:placeholder="nameField2" required="required">
                 
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-9">
+                                <div class="form-group col-md-7">
                                     <label for="lastName" class="form-group" v-text="nameField3"></label>
                                     <input type="text" v-model="lastName" class="form-control" id="lastName" v-bind:placeholder="nameField3" required="required">
-                                    <!-- <select class="form-control" v-model="firstName" id="firstName" required="required">
-                                        <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select> -->
                                 </div>
-
-                                <div class="form-group col-md-5 ">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-3 ">
                                     <label for="idDocument" class="form-group" v-text="nameField4"></label>
                                     <input type="text" v-model="idDocument" class="form-control" id="idDocument" placeholder="V-99999999">
                                 </div>
-                                
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5"> 
+                                <div class="form-group col-md-3"> 
                                     <label for="passportNumber" class="form-group" v-text="nameField5"> </label> 
                                     <input type="text" v-model="passportNumber" class="form-control" id="passportNumber" v-bind:placeholder="nameField5">
-                                       
-                                    
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-3">
                             
                                     <label for="legalNumber" class="form-group" v-text="nameField6"></label>
                                     <input type="text" v-model="legalNumber" class="form-control" id="legalNumber" v-bind:placeholder="nameField6" >
@@ -110,17 +105,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-2">
                                     <label for="staffCode" class="form-group" v-text="nameField7"></label>
                                     <input type="text" v-model="staffCode" class="form-control" id="staffCode" v-bind:placeholder="nameField7" required="required">
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <hr>
-                                <div class="form-group col-sm-6 col-sm-offset-3">
-                                    <label for="baseSalary" class="form-group" v-text="nameField22"></label>
-                                   
                                     
                                 </div>
                             </div>
@@ -130,6 +117,15 @@
                                     <input type="date" v-model="employmentDate" class="form-control" id="employmentDate" required="required">
                                     
                                 </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="form-group col-sm-5 col-sm-offset-4">
+                                    <label for="baseSalary" class="form-group" v-text="nameField22"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
                                 <div class="form-group col-md-4">
                                     <label for="probationPeriod" class="form-group" v-text="nameField20"></label><br>
                                     <label>
@@ -157,8 +153,8 @@
                                     
                                 </div>
                             
-                                <div class="form-group col-md-4">
-                                    <label for="baseCurrencyId" class="form-group" v-text="nameField14"> </label> 
+                                <div class="form-group col-md-4 hidden">
+                                    <!-- <label for="baseCurrencyId" class="form-group" v-text="nameField14"> </label>  -->
 
                                     <select class="form-control" v-model="baseCurrencyId" id="baseCurrencyId" >
                                         <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
@@ -166,7 +162,21 @@
                                     
                                 </div>
                             </div>
+                            
                             <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="stopSS" class="form-group" v-text="nameField24"></label><br>
+                                    <label>
+                                        <input type="radio" v-model="stopSS" value="0"  checked id="stopSS" >Si
+                                    </label>
+                                    <label>
+                                        <input type="radio" v-model="stopSS" value="1" id="stopSS">No
+                                    </label>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                           
                                 <div class="form-group col-md-4">
                                     <label for="localSalary" class="form-group" v-text="nameField15"></label>
                                     <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField15" >
@@ -187,19 +197,17 @@
                                 </div>
                                 
                             </div>
+                            <hr>
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="accrue" class="form-group" v-text="nameField24"></label><br>
+                                <div class="form-group col-md-12">
+                                    <label for="blockSS" class="form-group" v-text="nameField25"></label><br>
                                     <label>
-                                        <input type="radio" v-model="accrue" value="1"  checked id="accrue" >Si
+                                        <input type="radio" v-model="blockSS" value="0"  checked id="blockSS" >Si
                                     </label>
                                     <label>
-                                        <input type="radio" v-model="accrue" value="0" id="accrue">No
+                                        <input type="radio" v-model="blockSS" value="1" id="blockSS">No
                                     </label>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <hr>
                                 <div class="form-group col-md-4">
                                     <label for="status" class="form-group" v-text="nameField18"></label>
                                     <select class="form-control" v-model="status" id="status" required="required">
@@ -299,7 +307,8 @@
                 this.localDailySalary = document.querySelector("#localDailySalary").value = this.objEdit.localDailySalary
                 this.probationPeriod = document.querySelector("#probationPeriod").value = this.objEdit.probationPeriod
                 this.probationPeriodEnd = document.querySelector("#probationPeriodEnd").value = this.objEdit.probationPeriodEnd
-                this.accrue = document.querySelector("#accrue").value = this.objEdit.accrue
+                this.stopSS = document.querySelector("#stopSS").value = this.objEdit.stopSS
+                this.blockSS = document.querySelector("#blockSS").value = this.objEdit.blockSS
                 this.status = document.querySelector("#status").value = this.objEdit.status
                
             }
@@ -336,7 +345,8 @@
                 localCurrencyId: '',
                 employmentDate: '',
                 probationPeriodEnd: '',
-                accrue: 0,
+                stopSS: 0,
+                blockSS: 0,
                 selectCountrys:{},
                 selectCompanys:{},
                 selectDepartments:{},
@@ -454,6 +464,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField25:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -488,7 +502,8 @@
                         employmentDate: this.employmentDate,
                         probationPeriod: this.probationPeriod,
                         probationPeriodEnd: this.probationPeriodEnd,
-                        accrue: this.accrue,
+                        stopSS: this.stopSS,
+                        blockSS: this.blockSS,
                         status: this.status,
                         
                     }
@@ -534,7 +549,8 @@
                         employmentDate: this.employmentDate,
                         probationPeriod: this.probationPeriod,
                         probationPeriodEnd: this.probationPeriodEnd,
-                        accrue: this.accrue,
+                        stopSS: this.stopSS,
+                        blockSS: this.blockSS,
                         status: this.status,
                     }
                     

@@ -25,6 +25,7 @@
                 :nameField2 = nameField2
                 :nameField3 = nameField3
                 :nameField4 = nameField4
+                :nameField5 = nameField5
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -43,6 +44,7 @@
                 :nameField2 = nameField2
                 :nameField3 = nameField3
                 :nameField4 = nameField4
+                :nameField5 = nameField5
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -73,6 +75,7 @@
                 nameField2: "TIPO DE TRANSACCION",
                 nameField3: "CANTIDAD",
                 nameField4: "MONTO",
+                nameField5: "BALANCE",
                 
             }
         },
@@ -96,7 +99,7 @@
                 this.formStatus = 2
                 // console.log('recibido')
                 this.objEdit = this.objPermanentTrans[index]
-                console.log( this.objEdit)
+                // console.log( this.objEdit)
             },
             delrow(indexId){
                 this.objPermanentTrans.splice(indexId[0],1)

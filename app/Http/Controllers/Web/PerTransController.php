@@ -46,6 +46,7 @@ class PerTransController extends Controller
         $PerTrans->transactionTypeCode = $request->transactionTypeCode;
         $PerTrans->quantity = $request->quantity;
         $PerTrans->amount = $request->amount;
+        $PerTrans->balance = $request->balance;
         
         $PerTrans->save();
         return $PerTrans;
@@ -65,6 +66,7 @@ class PerTransController extends Controller
         $PerTrans = PerTrans::find($id);
         $PerTrans->quantity = $request->quantity;
         $PerTrans->amount = $request->amount;
+        $PerTrans->balance = $request->balance;
         
         $PerTrans->save();
         return $PerTrans;

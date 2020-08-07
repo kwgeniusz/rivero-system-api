@@ -32,6 +32,10 @@
                                 <label for="amount" class="form-group" v-text="nameField4"> </label><br>
                                 <input type="number" step="0.01" v-model="amount" class="form-control" id="amount" v-bind:placeholder="'100.00'" required="required">
                             </div>
+                            <div class="form-group col-sm-3">
+                                <label for="balance" class="form-group" v-text="nameField5"> </label><br>
+                                <input type="number" step="0.01" v-model="balance" class="form-control" id="balance" v-bind:placeholder="'100.00'" required="required">
+                            </div>
                             
                             <div v-if="editId === 0">
                                 <button-form 
@@ -76,6 +80,7 @@
             })
 
             if (this.editId > 0) {
+                console.log(this.objEdit)
                 const selectStaffAtrubute = document.querySelector("#selectStaff")
                 const transactionTypeAtrubute = document.querySelector("#transactionTypeCode")
                 selectStaffAtrubute.setAttribute("disabled", "disabled");
@@ -85,6 +90,7 @@
                 this.transactionTypeCode = document.querySelector("#transactionTypeCode").value = this.objEdit.transactionTypeCode
                 this.quantity = document.querySelector("#quantity").value = this.objEdit.quantity
                 this.amount = document.querySelector("#amount").value = this.objEdit.amount
+                this.balance = document.querySelector("#balance").value = this.objEdit.balance
                 // console.log(this.selectStaff)
             }
             
@@ -98,6 +104,7 @@
                 objtransactionTypeCode:[],
                 quantity:'',
                 amount:'',
+                balance:0,
                 objSelectStaffs:[],
                 staffCodes:''
             }
@@ -131,6 +138,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField5:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -149,6 +160,7 @@
                         transactionTypeCode: this.transactionTypeCode,
                         quantity: parseFloat(this.quantity),
                         amount: parseFloat(this.amount),
+                        balance: parseFloat(this.balance),
                     }
                     // console.log(params)
                     // return
@@ -172,8 +184,9 @@
                     const params = {
                         quantity: parseFloat(this.quantity),
                         amount: parseFloat(this.amount),
+                        balance: parseFloat(this.balance),
                     }
-                    // document.querySelector("#form-add-up").reset()
+                    
 
                     let url = `perm-trans/${this.objEdit.hrpermanentTransactionId}`
                     axios.put(url,params)

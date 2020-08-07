@@ -16,6 +16,7 @@
                             <th>Transaccion</th>
                             <th>Cantidad</th>
                             <th>Monto</th>
+                            <th>Balance</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -58,6 +59,11 @@
                             <td>
                                 <p class="text-right">
                                     {{perTransact.amount}}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="text-right">
+                                    {{perTransact.balance}}
                                 </p>
                             </td>
                             

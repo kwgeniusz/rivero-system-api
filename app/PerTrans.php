@@ -17,7 +17,7 @@ class PerTrans extends Model
     protected $primaryKey = 'hrpermanentTransactionId';
     // protected $dates = ['deleted_at'];
 
-    protected $fillable = ['countryId', 'companyId', 'staffCode', 'transactionTypeCode', 'quantity', 'amount'];
+    protected $fillable = ['countryId', 'companyId', 'staffCode', 'transactionTypeCode', 'quantity', 'amount', 'balance'];
 
     function getPeTransaction($company = 5, $country = 2){
         return DB::table('hrpermanent_transaction')
