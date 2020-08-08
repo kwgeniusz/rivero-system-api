@@ -44,8 +44,10 @@
                                     {{payrollcontro.payrollName}} 
                                 </p>
                             </td>
-                            <td> 
-                                <button v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
+                            <td>
+                                <loading v-if="loading == 1"></loading>
+                                <button v-if="loading == 0" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
+                                <button v-else disabled="disabled" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
                                 <button v-on:click="deleterow(index, payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> Eliminar</button>  
                             </td>
                         </tr>
@@ -71,7 +73,7 @@
         },
         data(){
             return{
-
+                loading: 0,
             }
         },
         props: {
@@ -83,16 +85,20 @@
         },
         methods: {
             process(index, id){
-                console.log('id: ' + id)
+                console.log( this.loading)
+                    this.loading = 1
                 const URL = `payrollcontrol/list/${id}`
                 
                 axios.get(URL).then((res) => {
                         console.log(res)
                         if (res.statusText === 'OK') {
                             alert('Excito..')
+                            this.loading = 0
                         }else{
                             alert('Error al calcular')
+                            this.loading = 0
                         }
+
                 })
               
                 // this.$emit("indexEdit",index)
@@ -104,9 +110,11 @@
                 const indexIs = this.objPayrollCOntrol[index]
             
                 if (confirm("Delete?") ){
+                    
                     axios.delete(`payrollcontrol/${id}`).then((res)=>{
                         // console.log(res)
                         this.$emit("delrow",[index,id])
+                        
                     })
                     .catch(function (error) {
                         alert("Error")
@@ -120,7 +128,8 @@
     }
 </script>
 <style>
-    /* td{
-        padding: 4px 0 0 2px !important;
+    /* loading{
+        width: 10px;
+        height: 10px;
     } */
 </style>

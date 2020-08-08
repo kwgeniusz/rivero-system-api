@@ -19,7 +19,7 @@ class PerTrans extends Model
 
     protected $fillable = ['countryId', 'companyId', 'staffCode', 'transactionTypeCode', 'quantity', 'amount', 'balance'];
 
-    function getPeTransaction($company = 5, $country = 2){
+    function getPeTransaction($company = 4, $country = 2){
         return DB::table('hrpermanent_transaction')
         ->join('hrstaff', 'hrpermanent_transaction.staffCode', '=', 'hrstaff.staffCode')
         ->join('country', 'hrpermanent_transaction.countryId', '=', 'country.countryId')

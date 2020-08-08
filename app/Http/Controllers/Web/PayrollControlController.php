@@ -436,22 +436,42 @@ class PayrollControlController extends Controller
                 $salaryBased         = $rs7->salaryBased;    
                 $addTransaction = 0;
                 
-                // hasBalance = 1  balance = balance - amount (condición: amount debe ser igual o mayor que balance)
+                //si hasBalance = 1  ? balance = balance - amount (condición: balance debe ser igual o mayor que amount)
                 
                 // dd($transactionTypeCode,$quantity,$transAmount,$isIncome,$salaryBased);
-                if ($salaryBased == 1) {
+                if ($salaryBased == 1) { //si es basado en salario se aplica como una deduccion normal, ej: SSO FAOV, etc
                     $amount   =   $quantity * $baseSalary; 
                     $amount = round($amount, 2);       	
                 } else {
-                    $amount   =   $quantity * $transAmount;  
-                    $amount = round($amount, 2);     	
+                    if ($isIncome == 0) { //si es 0, es una deduccion, si no, es una asignacion
+                        if ($transHasBalance == 1) { //si la deduccion es con saldo, hago el proceso de reduccion del balance en la deduccion
+                            $amount   =   $quantity * $transAmount; 
+                            if ($transBalance <= $amount) { //pregunto, si el balance o saldo de la deduccion es menor o igual, al monto a descontar
+                                // si el monto a descontar es mayor al balance de la transaccion, lo igualo al balance para evitar saldos negativos
+                                $amount = $transBalance;
+                            }
+                            //este proceso se aplica solo cuando se actualiza la prenomina
+                            echo $transBalance .' - '.  $amount.' ';
+                            $balance = $transBalance -  $amount; //se activa solo al actualizar la prenomina
+                            echo $staffName.' balance: ' . $balance.' => '; 
+                        }else{
+                            $amount   =   $quantity * $transAmount;
+
+                            //este proceso se aplica solo cuando se actualiza la prenomina
+                            $balance = $transBalance +  $amount; //se activa solo en actualizacion de nomina
+                            // echo $staffName. ' ahorro sumado en:' . $balance . ' => ';
+                        }
+                    }else { 
+                        // si no, la transaccion permanete es una asignacion
+                        $amount   =   $quantity * $transAmount;  
+                        $amount = round($amount, 2);
+                    }
                 }
                     
                 if ($amount > 0) {
                     $addTransaction = 1;              	 	
                 }
-                    
-
+                
                 // check for valid transacction
                 if (($transactionTypeCode == $excTTCode1) or ($transactionTypeCode == $excTTCode2) or 
                     ($transactionTypeCode == $excTTCode3) )  {

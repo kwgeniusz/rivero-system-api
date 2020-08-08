@@ -58,7 +58,7 @@
         mounted() {
             axios.get('list-perm-trans/').then( response => {
                 this.objPermanentTrans = response.data
-                // console.log(this.objPermanentTrans)
+                console.log(this.objPermanentTrans)
             })
 
            

@@ -33,6 +33,7 @@
                 :nameField8 = nameField8
                 :nameField9 = nameField9
                 :nameField10 = nameField10
+                :nameField11 = nameField11
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -57,6 +58,7 @@
                 :nameField8 = nameField8
                 :nameField9 = nameField9
                 :nameField10 = nameField10
+                :nameField11 = nameField11
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -91,12 +93,13 @@
                 nameField2: "EMPRESA",
                 nameField3: "CODIGO",
                 nameField4: "NOMBRE DEL TIPO DE TRANSACCIÓN",
-                nameField5: "CALCULO EN SALARIO BASE:  ",
-                nameField6: "TRANSACCIÓN DE INGRESO:   ",
-                nameField7: "TRANSACCIÓN CON SALDO:    ",
-                nameField8: "ACUMULA PARA IMPUESTO:    ",
-                nameField9: "ACUMULA PARA UTILIDADES:  ",
-                nameField10: "ACUMULA PARA ANTIGUEDAD: ",
+                nameField5: "CALCULO EN SALARIO BASE?:  ",
+                nameField6: "TRANSACCIÓN DE INGRESO?:   ",
+                nameField7: "TRANSACCIÓN CON SALDO?:    ",
+                nameField8: "ACUMULA PARA IMPUESTO?:    ",
+                nameField9: "ACUMULA PARA UTILIDADES?:  ",
+                nameField10: "ACUMULA PARA ANTIGUEDAD?: ",
+                nameField11: "PUEDE SER BLOQUEADO?: ",
                 
             }
         },

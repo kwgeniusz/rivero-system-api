@@ -13,7 +13,7 @@ class HrTransactionType extends Model
     protected $primaryKey = 'hrtransactionTypeId';
 
     protected $fillable = ['countryId', 'companyId', 'transactionTypeCode', 'transactionTypeName', 'salaryBased', 'isIncome',
-        'hasBalance','debitAccount','creditAccount','accTax','accChristmas','accSeniority'];
+        'hasBalance', 'blockSS','debitAccount','creditAccount','accTax','accChristmas','accSeniority'];
     
     function getComboTransactionType($country = 2,$company = 5 ){
         return DB::table('hrtransaction_type')
