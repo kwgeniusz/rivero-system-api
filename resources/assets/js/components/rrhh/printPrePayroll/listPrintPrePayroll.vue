@@ -1,6 +1,26 @@
 <template>
 
     <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-default" >
+            <div class="container">
+                <div class="row">
+
+                    <div class="form-group col-md-12">
+                        <h4 class="text-uppercase">Opciones de Filtrado</h4>
+                    </div>
+                
+                    <div class="col-md-3 col-md-offset-6">
+                        <label for="currency" class="form-group" v-text="namePanel"></label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" v-model="currency" value="1" id="currency1" > USD &nbsp;&nbsp;
+                        </label>
+                        <label>
+                            <input type="radio" v-model="currency" value="2" id="currency2"> VEF 
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="panel panel-default">
             <!-- <div class="panel-heading"><h4>{{namePanelList}}</h4></div> -->
 
@@ -79,11 +99,16 @@
         },
         data(){
             return{
-                imgBase64:[]
+                imgBase64:[],
+                currency:1,
             }
         },
         props: {
             namePanelList: {
+                type: String,
+                default: 'Name defauld',
+            },
+            namePanel: {
                 type: String,
                 default: 'Name defauld',
             },
@@ -150,13 +175,16 @@
                 return dd+'/'+mm+'/'+yyyy;
             },
             closeFrame(){
-                console.log('object')
-                            alert('entro')
+                // console.log('object')
+                //             alert('entro')
                         // let b = document.querySelector("iframe");
                         // b.remove();
             },
             printDetailRow(countryId, companyId, year, payrollNumber){
                 // console.log(countryId, companyId, year, payrollNumber)
+                // return
+                const selecCurrency1 = document.querySelector("#currency1").checked
+            
                 // return
                 
                 const URL  = `pre-payroll-all/list/${countryId}/${companyId}/${year}/${payrollNumber}`
@@ -179,8 +207,6 @@
                     let company = objPrePayrollDetail[2]
                     let logo = objPrePayrollDetail[3]
                     let payrollTypeName = objPrePayrollDetail[4]
-                    let totalAsignacion = objPrePayrollDetail[5]
-                    let totalDeduccion = objPrePayrollDetail[6]
                     let companyAddress = objPrePayrollDetail[7]
                     let companyNumber = objPrePayrollDetail[8]
                     let companyId = objPrePayrollDetail[9]
@@ -196,6 +222,17 @@
                     let colorSec1
                     let colorSec2
                     let colorSec3
+
+                    // chequear si el total general es el local o moneda extrangera
+                    let totalAsignacion
+                    let totalDeduccion
+                    if (selecCurrency1) {
+                        totalAsignacion = objPrePayrollDetail[5]
+                        totalDeduccion = objPrePayrollDetail[6]
+                    } else {
+                        totalAsignacion = objPrePayrollDetail[11]
+                        totalDeduccion = objPrePayrollDetail[12]
+                    }
                     // plantilla de colores
                     switch (color) {
                         case 'YELLOW':
@@ -272,7 +309,7 @@
                         for (let i = 0; i < objPrePayrollDetail.length; i++) {
                         const element = objPrePayrollDetail;
                         // condiciono que comienze a leer los datos a partir de la posicion 11 del array
-                            if (i > 10) {
+                            if (i > 12) {
                                 let name = true
                                 element[i].forEach(element2 => { 
                                     // doc.text( 'text test11', 220, cont ); //######### only test
@@ -400,16 +437,23 @@
                         let nunIniRectangulo = 145
                         let page = 1
                         
-                        function formatNumber(number){
-                            // console.log(number)
+                        function formatNumber(number, currencyCurrent = true){
                             number = parseFloat(number)
-                            // console.log(number)
                             number = number.toFixed(2)
-                            // console.log(number)
-                            let montoNuevo = number.toString().replace(/\D/g, "")
+                            if (currencyCurrent) {
+                                let montoNuevo = number.toString().replace(/\D/g, "")
                                 .replace(/([0-9])([0-9]{2})$/, '$1.$2')
                                 .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-                                return montoNuevo
+                                return `$${montoNuevo}`
+                                
+                            } else {
+                                let montoNuevo = number.toString().replace(/\D/g, "")
+                                .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                                return `${montoNuevo} Bs`
+                            }
+                            
+                            
                             // let num = parseFloat(number).toFixed(2);
                             // return num
                         }
@@ -420,7 +464,7 @@
                             //  console.log('numero de pagina3: ' + numPage) 
 
                             // condiciono que comienze a leer los datos a partir de la posicion 11 del array
-                            if (i > 10) {
+                            if (i > 12) {
                                 
                                 let name = true
 
@@ -450,20 +494,25 @@
                                     doc.line(510, n-10, 510, n+5); // vertical line
                                     doc.text(element2.transactionTypeName, 195, n);
                                     doc.text(element2.quantity, 361, n, 'right' );
+                                    // validacion de moneda
+                                    let amount = element2.amount
+                                    if (selecCurrency1 === false) {
+                                    amount = element2.localAmount
+                                } 
                                     if (element2.isIncome == 1) {
-                                        if (element2.amount == null) {
+                                        if (amount == null) {
                                             //  console.log('entro')
                                             // doc.text('0', 436, n, 'right' );
                                         }else {
-                                            doc.text(element2.amount, 436, n, 'right' );
+                                            doc.text(formatNumber(amount, selecCurrency1), 445, n, 'right' );
                                         }
                                     }
                                     if (element2.isIncome == 0) {
-                                        if (element2.amount == null) {
+                                        if (amount == null) {
                                             // console.log('entro')
                                             // doc.text('0', 502, n, 'right' );
                                         }else {
-                                            doc.text(element2.amount, 502, n, 'right' );
+                                            doc.text(formatNumber(amount, selecCurrency1), 508, n, 'right' );
                                         }
                                         
                                     // doc.text( '2.07', 502, 155, 'right' );
@@ -595,26 +644,36 @@
                                 doc.line(510, n-10, 510, n+5); // vertical line
                                 doc.setFontType("bold")
                                 doc.text( 'TOTALES', 215, n);
-                               
-                                let asignacion = element[i][0].asignacion
-                                let deduccion = element[i][0].deduccion
+
+                                // asignacion para los montos
+                                let asignacion
+                                let deduccion 
+                                if (selecCurrency1 === false) {
+                                    asignacion = element[i][0].asignacionLocal
+                                    deduccion = element[i][0].deduccionLocal
+                                } else {
+                                   asignacion = element[i][0].asignacion
+                                   deduccion = element[i][0].deduccion 
+                                }
+                                
+                                
                                 if (asignacion === null) {
                                     asignacion = 0
                                     // doc.text(`${asignacion}`, 436, n, 'right' );
                                 }else {
-                                    doc.text(`${asignacion}`, 436, n, 'right' );
+                                    doc.text(`${formatNumber(asignacion, selecCurrency1)}`, 445, n, 'right' );
                                 }
                                 if (deduccion === null) {
                                     deduccion = 0
                                     // doc.text(`${deduccion}`, 502, n, 'right' );
                                 }else{
-                                    doc.text(`${deduccion}`, 502, n, 'right' );
+                                    doc.text(`${formatNumber(deduccion, selecCurrency1)}`, 508, n, 'right' );
                                 }
                                 
 
-                                let total = formatNumber(asignacion - deduccion) // calculo para el total
+                                let total = asignacion - deduccion // calculo para el total
                                 // console.log('total: ' + total);
-                                doc.text(`${total}`, 574, n, 'right' );
+                                doc.text(`${formatNumber(total, selecCurrency1)}`, 578, n, 'right' );
                                 // doc.text(total, 574, n, 'right' );
                                 
                                 doc.setFontType("normal");
@@ -634,9 +693,9 @@
                         let totalNeto = totalAsignacion - totalDeduccion
                         n = n + 5
                         doc.text( `TOTAL GENERAL:`, 215, n );
-                        doc.text(` ${formatNumber(totalAsignacion)}`, 436, n, 'right' );
-                        doc.text(` ${formatNumber(totalDeduccion)}`, 502, n, 'right' );
-                        doc.text(` ${formatNumber(totalNeto)}`, 574, n, 'right' );
+                        doc.text(` ${formatNumber(totalAsignacion, selecCurrency1)}`, 438, n, 'right' );
+                        doc.text(` ${formatNumber(totalDeduccion, selecCurrency1)}`, 508, n, 'right' );
+                        doc.text(` ${formatNumber(totalNeto, selecCurrency1)}`, 578, n, 'right' );
                         // doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
                         
                         // return
@@ -664,7 +723,7 @@
                     // llamo la funcion para combertir imagen a base64 y le paso por parametro la variable ' imgLogoURL' con la URL
                     toDataUrl(imgLogoURL,function(dataURL){
                         function closeFrame() {
-                            alert('entro')
+                            // alert('entro')
                         // let b = document.querySelector("iframe");
                         // b.remove();
                     }

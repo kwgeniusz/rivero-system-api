@@ -149,7 +149,7 @@ class PayrollControlController extends Controller
     $isIncome  = 1;
     $quantity   = 1;
     $amount   =  0; 
-    $localAmount = 0;
+    
     
         // PARTE 1. 
     /*
@@ -270,6 +270,7 @@ class PayrollControlController extends Controller
                         transactionTypeCode = $transactionTypeCode ");
                 $isSalaryBased        = 0;
                 $isIncome             = 0;
+                $localAmount          = 0;
 
                
                 
@@ -293,6 +294,7 @@ class PayrollControlController extends Controller
                                 $addTransaction = 0;
                             } else {
                                 $amount = $quantity * $baseSalary;
+                                $amount = round($amount, 2);
                                 // dd($amount);
                                 if ($amount > 0) {
                                     $addTransaction = 1;             
@@ -304,6 +306,7 @@ class PayrollControlController extends Controller
 
                     } else {
                         $amount = $quantity * $baseSalary;
+                        $amount = round($amount, 2);
                         if ($amount > 0) {
                             $addTransaction = 1;             
                         }
@@ -333,6 +336,7 @@ class PayrollControlController extends Controller
                     // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
                     // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
                     // localAmount = amount * exchangeRate
+                    // echo $staffName . ' '.$localAmount  = $amount * $exchangeRate .' = '. $amount .' * '. $exchangeRate .'<br>';
                     $localAmount = $amount * $exchangeRate;
 
                     $hrpayroll = new Payroll();
@@ -378,9 +382,11 @@ class PayrollControlController extends Controller
                     if ($isSalaryBased == 1) {   // transaccion basada en salario
                 
                         $amount = $transactionQty * $baseSalary;
+                        $amount = round($amount, 2);
 
                     } else {
-                            $amount   =   $transactionQty * $transactionAmount;               	
+                        $amount   =   $transactionQty * $transactionAmount; 
+                        $amount = round($amount, 2);              	
                     }
                     
                     // localAmount = amount * exchangeRate
@@ -434,9 +440,11 @@ class PayrollControlController extends Controller
                 
                 // dd($transactionTypeCode,$quantity,$transAmount,$isIncome,$salaryBased);
                 if ($salaryBased == 1) {
-                    $amount   =   $quantity * $baseSalary;        	
+                    $amount   =   $quantity * $baseSalary; 
+                    $amount = round($amount, 2);       	
                 } else {
-                    $amount   =   $quantity * $transAmount;       	
+                    $amount   =   $quantity * $transAmount;  
+                    $amount = round($amount, 2);     	
                 }
                     
                 if ($amount > 0) {

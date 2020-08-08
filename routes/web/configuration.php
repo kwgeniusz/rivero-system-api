@@ -41,3 +41,7 @@ Route::post('companys/', 'Web\CompanyController@store');
 Route::put('companys/{id}', 'Web\CompanyController@update');
 Route::delete('companys/{id}', 'Web\CompanyController@destroy');
 
+
+// currency
+Route::get('currencys/list', 'Web\CurrencyController@index');
+

@@ -44,5 +44,10 @@ class Currency extends Model
                 ->where('currencyId', '=',$id)
                 ->get();
     }
+    public function getAllCurrency(){
+        return  DB::table('currency')
+                ->orderBy('currencyId', 'ASC')
+                ->get();
+    }
 
 }
