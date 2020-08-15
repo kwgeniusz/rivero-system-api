@@ -113,6 +113,10 @@ Vue.component('list-pre-payroll-detail-staff', require('./components/rrhh/printP
 Vue.component('main-permanent-trans', require('./components/rrhh/permanetTransaction/mainPermanetTrac.vue'));
 Vue.component('list-permanent-trans', require('./components/rrhh/permanetTransaction/listPermanentTrac.vue'));
 Vue.component('addUp-permanent-trans', require('./components/rrhh/permanetTransaction/addUpPertmanetTrac.vue'));
+// uptade payroll
+Vue.component('main-update-payroll', require('./components/rrhh/update-payroll/mainUpdatePayroll.vue'));
+Vue.component('list-payroll-history', require('./components/rrhh/update-payroll/listPayrollHistory.vue'));
+Vue.component('add-up-payroll-history', require('./components/rrhh/update-payroll/addUpPayrollHistory.vue'));
 
 
 

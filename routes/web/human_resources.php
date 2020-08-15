@@ -116,6 +116,13 @@ Route::post('perm-trans', 'Web\PerTransController@store');
 Route::put('perm-trans/{id}', 'Web\PerTransController@update');
 Route::delete('perm-trans/{id}', 'Web\PerTransController@destroy');
 
+// Update payroll
+Route::get('update-payroll/', function () {
+    return view('rrhh.update-payroll.index');
+})->name('update-payroll.index'); 
+Route::get('list-payroll-history/', 'Web\PayrollHistoryController@index');
+Route::get('payrollhistoryl/process/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}', 'Web\PayrollHistoryController@processPayrollHistory');
+
 
 // combosBox
 Route::get('combo-staff/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboStaff');

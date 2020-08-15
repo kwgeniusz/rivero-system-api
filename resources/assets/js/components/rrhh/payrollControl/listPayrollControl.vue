@@ -45,7 +45,7 @@
                                 </p>
                             </td>
                             <td>
-                                <loading v-if="loading == 1"></loading>
+                                <!-- <loading v-if="loading == 1"></loading> -->
                                 <button v-if="loading == 0" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
                                 <button v-else disabled="disabled" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
                                 <button v-on:click="deleterow(index, payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> Eliminar</button>  

@@ -36,12 +36,7 @@ class PayrollControlController extends Controller
                     INNER JOIN payroll_type ON hrpayroll_control.payrollTypeId = payroll_type.payrollTypeId
                     ORDER BY hrpayroll_control.companyId");
 
-        // $companys =  Company::select('companyShortName', 'companyId')->get();
-       
-        // $countrys = DB::table('country')->select('countryId', 'countryName')->get();
-        // $payrollType = DB::table('payroll_type')->select('payrollTypeId', 'payrollTypeName')->get();
-       
-        // $countrys   = $this->oCountry->getAll();
+      
         return compact('payrollControl');
     }
     
@@ -162,7 +157,7 @@ class PayrollControlController extends Controller
     */
         // get currency 
         $oExchangeRate = $this->oCurrency->getCurrencyTax();
-        $exchangeRate = floatval($oExchangeRate[0]->exchangeRate);
+        $exchangeRate = floatval($oExchangeRate[0]->exchangeRate); //convierto el string a numeros reales
 
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
@@ -240,8 +235,10 @@ class PayrollControlController extends Controller
                 
         // parte 1
             // parametrizo el salario base a usar, si es en base al salario de prueba o salario del cargo/posision
+            date_default_timezone_set('America/Caracas');
+            echo $hoy = date("Y-m-d");
             if ($probationPeriod == 1) {
-                if ($employmentDate > $probationPeriodEnd) {
+                if ($hoy >= $probationPeriodEnd) {
                     $baseSalary = $baseSalaryPosition;
                 } else {
                     $baseSalary = $probationSalary;
@@ -344,6 +341,7 @@ class PayrollControlController extends Controller
                     $hrpayroll->companyId = $companyId;
                     $hrpayroll->year = $year;
                     $hrpayroll->payrollNumber = $payrollNumber;
+                    $hrpayroll->payrollTypeId = $payrollTypeId;
                     $hrpayroll->payrollName = $payrollName;
                     $hrpayroll->staffCode = $staffCode;
                     $hrpayroll->staffName = $staffName;
@@ -397,6 +395,7 @@ class PayrollControlController extends Controller
                     $hrpayroll->companyId = $companyId;
                     $hrpayroll->year = $year;
                     $hrpayroll->payrollNumber = $payrollNumber;
+                    $hrpayroll->payrollTypeId = $payrollTypeId;
                     $hrpayroll->payrollName = $payrollName;
                     $hrpayroll->staffCode = $staffCode;
                     $hrpayroll->staffName = $staffName;
@@ -451,14 +450,14 @@ class PayrollControlController extends Controller
                                 $amount = $transBalance;
                             }
                             //este proceso se aplica solo cuando se actualiza la prenomina
-                            echo $transBalance .' - '.  $amount.' ';
-                            $balance = $transBalance -  $amount; //se activa solo al actualizar la prenomina
-                            echo $staffName.' balance: ' . $balance.' => '; 
+                            // echo $transBalance .' - '.  $amount.' ';
+                            $transBalance = $transBalance -  $amount; //se activa solo al actualizar la prenomina
+                            // echo $staffName.' balance: ' . $balance.' => '; 
                         }else{
                             $amount   =   $quantity * $transAmount;
 
                             //este proceso se aplica solo cuando se actualiza la prenomina
-                            $balance = $transBalance +  $amount; //se activa solo en actualizacion de nomina
+                            $transBalance = $transBalance +  $amount; //se activa solo en actualizacion de nomina
                             // echo $staffName. ' ahorro sumado en:' . $balance . ' => ';
                         }
                     }else { 
@@ -492,11 +491,14 @@ class PayrollControlController extends Controller
                     $hrpayroll->companyId = $companyId;
                     $hrpayroll->year = $year;
                     $hrpayroll->payrollNumber = $payrollNumber;
+                    $hrpayroll->payrollTypeId = $payrollTypeId;
                     $hrpayroll->payrollName = $payrollName;
                     $hrpayroll->staffCode = $staffCode;
                     $hrpayroll->staffName = $staffName;
                     $hrpayroll->transactionTypeCode = $transactionTypeCode;
                     $hrpayroll->isIncome = $isIncome;
+                    $hrpayroll->hasBalance = $transHasBalance;
+                    $hrpayroll->balance = $transBalance;
                     $hrpayroll->quantity = $quantity;
                     $hrpayroll->amount = $amount;
                     $hrpayroll->localAmount = $localAmount;

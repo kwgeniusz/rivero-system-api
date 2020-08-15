@@ -37,8 +37,8 @@ class printPrePayrollController extends Controller
                             --   AND hrtransaction_type.countryId = 2
                             --   AND hrtransaction_type.companyId = 5
                             --    AND hrpayroll.year = 2020
-                            GROUP BY hrpayroll.payrollName
-                            ORDER BY hrpayroll.companyId");
+                            GROUP BY hrpayroll.countryId, hrpayroll.companyId, hrpayroll.payrollNumber,hrpayroll.year
+                            ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber");
 
         // $countrys   = $this->oCountry->getAll();
         return compact('print');
