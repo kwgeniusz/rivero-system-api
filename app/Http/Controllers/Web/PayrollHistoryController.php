@@ -16,6 +16,7 @@ class PayrollHistoryController extends Controller
     private $oUpPTrans;
     private $oDelPrePayroll;
     private $oDelPayrollControl;
+    private $oUpdatePirod;
     
 
     public function __construct()
@@ -27,6 +28,7 @@ class PayrollHistoryController extends Controller
         $this->oUpPTrans = new PayrollHistory();
         $this->oDelPrePayroll = new PayrollHistory();
         $this->oDelPayrollControl = new PayrollHistory();
+        $this->oUpdatePirod = new PayrollHistory();
     }
     /**
      * Display a listing of the resource.
@@ -82,7 +84,9 @@ class PayrollHistoryController extends Controller
                 $payrollNumberStaff     = $rs->payrollNumber;
                 $payrollTypeId          = $rs->payrollTypeId;
                 $payrollName            = $rs->payrollName;
+                $userProcess            = $rs->userProcess;
                 $staffCode              = $rs->staffCode;
+                $idDocument             = $rs->idDocument;
                 $staffName              = $rs->staffName;
                 $transactionTypeCode    = $rs->transactionTypeCode;
                 $isIncome               = $rs->isIncome;
@@ -90,6 +94,7 @@ class PayrollHistoryController extends Controller
                 $balance                = floatval($rs->balance);
                 $quantity               = floatval($rs->quantity);
                 $amount                 = floatval($rs->amount);
+                $localCurrency          = $rs->localCurrency;                
                 $localAmount            = floatval($rs->localAmount);
                 $exchangeRate           = floatval($rs->exchangeRate);
     
@@ -105,22 +110,25 @@ class PayrollHistoryController extends Controller
                 } 
                 
                 $hrpayroll = new PayrollHistory();
-                $hrpayroll->countryId = $countryId;
-                $hrpayroll->companyId = $companyId;
-                $hrpayroll->year = $year;
-                $hrpayroll->payrollNumber = $payrollNumberStaff;
-                $hrpayroll->payrollTypeId = $payrollTypeId;
-                $hrpayroll->payrollName = $payrollName;
-                $hrpayroll->staffCode = $staffCode;
-                $hrpayroll->staffName = $staffName;
+                $hrpayroll->countryId           = $countryId;
+                $hrpayroll->companyId           = $companyId;
+                $hrpayroll->year                = $year;
+                $hrpayroll->payrollNumber       = $payrollNumberStaff;
+                $hrpayroll->payrollTypeId       = $payrollTypeId;
+                $hrpayroll->payrollName         = $payrollName;
+                $hrpayroll->userProcess         = $userProcess;
+                $hrpayroll->staffCode           = $staffCode;
+                $hrpayroll->idDocument          = $idDocument;
+                $hrpayroll->staffName           = $staffName;
                 $hrpayroll->transactionTypeCode = $transactionTypeCode;
-                $hrpayroll->isIncome = $isIncome;
-                $hrpayroll->hasBalance = $hasBalance;
-                $hrpayroll->balance = $balance;
-                $hrpayroll->quantity = $quantity;
-                $hrpayroll->amount = $amount;
-                $hrpayroll->localAmount = $localAmount;
-                $hrpayroll->exchangeRate = $exchangeRate;
+                $hrpayroll->isIncome            = $isIncome;
+                $hrpayroll->hasBalance          = $hasBalance;
+                $hrpayroll->balance             = $balance;
+                $hrpayroll->quantity            = $quantity;
+                $hrpayroll->amount              = $amount;
+                $hrpayroll->localCurrency       = $localCurrency;
+                $hrpayroll->localAmount         = $localAmount;
+                $hrpayroll->exchangeRate        = $exchangeRate;
                 $hrpayroll->save();
             }
     
@@ -131,6 +139,11 @@ class PayrollHistoryController extends Controller
             // parte 4 
             // borrar el registro seleccionado en tabla hrpayroll_control
             $this->oDelPayrollControl->delPayrollControl($countryId, $companyId, $year, $payrollTypeId, $payrollNumber);
+
+            // parte 5
+            // actualizo el estatus de en la tabla hrperiod: update=1 para indicar que el periodo ya fue actualizado
+            $this->oUpdatePirod->updateStatusPiriod($countryId, $companyId, $year, $payrollTypeId, $payrollNumber);
+
         } catch (\Throwable $th) {
             throw $th;
         }

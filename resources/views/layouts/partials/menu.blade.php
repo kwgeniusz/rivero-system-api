@@ -116,6 +116,7 @@
               <li><a href="{{route('payrollcontrol.index')}}">Carlcular Pre-nomina</a></li>
               <li><a href="{{route('printprepayroll.index')}}">Imprimir Pre-nomina</a></li>
               <li><a href="{{route('update-payroll.index')}}">Actualizar Nomina</a></li>
+              <li><a href="{{route('print-payroll.index')}}">Imprimir Nomina</a></li>
               <li><a href="#">Generar Asientos Contables</a></li>
               {{-- <li><a href="#">{{__('update_payroll')}}</a></li>
               <li><a href="#">{{__('calculate_payroll')}}</a></li>

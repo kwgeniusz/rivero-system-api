@@ -54,7 +54,10 @@
                     </tbody>
                     <tbody v-else>
                         <tr>
-                            <td colspan="9">
+                            <td v-if="this.lengths === 0" colspan="9">
+                                No hay datos registrados
+                            </td>
+                            <td v-else colspan="9">
                                 <loading></loading>
                             </td>
                         </tr>
@@ -82,6 +85,7 @@
                 default: 'Name defauld',
             },
             objPayrollCOntrol:{},
+            lengths:'',
         },
         methods: {
             process(index, id){

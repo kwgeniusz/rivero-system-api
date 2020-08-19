@@ -95,17 +95,19 @@ Route::post('payrollcontrol', 'Web\PayrollControlController@store');
 Route::delete('payrollcontrol/{id}', 'Web\PayrollControlController@destroy');
 
 // imprimir pre-nomina
-// Periods
 Route::get('print-pre-payroll/', function () {
     return view('rrhh.printPrePayroll.index');
 })->name('printprepayroll.index'); 
 Route::get('pre-payroll-all/', 'Web\printPrePayrollController@index');
-Route::get('pre-payroll-all/list/{countryId}/{companyId}/{year}/{payrollNumber}', 'Web\printPrePayrollController@getListPrePayroll');
+Route::get('pre-payroll-all/list/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}', 'Web\printPrePayrollController@getListPrePayroll');
 Route::get('pre-payroll-all/detail/{countryId}/{companyId}/{year}/{payrollNumber}/{staffCode}', 'Web\printPrePayrollController@getListDetail');
-Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}/', 'Web\PeriodsController@getPayrollNumber');
-Route::post('periods/post', 'Web\PeriodsController@store');
-Route::put('periods/put/{id}', 'Web\PeriodsController@update');
-Route::delete('periods/delete/{id}', 'Web\PeriodsController@destroy');
+// imprimir nomina
+Route::get('print-payroll/', function () {
+    return view('rrhh.print-payroll.index');
+})->name('print-payroll.index'); 
+Route::get('print-payroll/list/', 'Web\printPayrollController@index');
+Route::get('print-payroll/show/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}', 'Web\printPayrollController@getPayrollShow');
+
 
 // permanent transaction
 Route::get('permanent-trans/', function () {

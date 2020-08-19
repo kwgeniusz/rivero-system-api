@@ -33,6 +33,7 @@
                             <th>EMPRESA</th>
                             <th>AÑO</th>
                             <th>PRE-NOMINA</th>
+                            <th>GENERADA</th>
                             <th>MONTO</th>
                             <th>ACCIONES</th>
                         </tr>
@@ -42,9 +43,7 @@
                         <tr v-for="(PrePayroll, index) in objPrintPrePayroll" :key="PrePayroll.hrprocessId">
                             <td >{{index + 1}}</td>
                             <td class="text-left">
-                                
-                                    {{PrePayroll.countryName}}
-                               
+                                {{PrePayroll.countryName}}
                             </td>
                             <td > 
                                 <p class="text-left">
@@ -62,13 +61,18 @@
                                 </p>
                             </td>
                             <td>
+                                <p class="text-left">
+                                    {{PrePayroll.userProcess}}
+                                </p>
+                            </td>
+                            <td>
                                 <p class="text-right">
                                     {{PrePayroll.total}}
                                 </p>
                             </td>
                             <td> 
-                                <button v-on:click="detailRow(PrePayroll.countryId, PrePayroll.companyId, PrePayroll.year, PrePayroll.payrollNumber)" class="btn btn-sm btn-info" title="Ver Detalle" ><i class="fa fa-list" ></i> </button>  
-                                <button v-on:click="printDetailRow(PrePayroll.countryId, PrePayroll.companyId, PrePayroll.year, PrePayroll.payrollNumber)" class="btn btn-sm btn-muted" title="Imprimir"><i class="fa fa-print"></i> </button>  
+                                <button v-on:click="detailRow(PrePayroll.countryId, PrePayroll.companyId, PrePayroll.year, PrePayroll.payrollNumber,PrePayroll.payrollTypeId)" class="btn btn-sm btn-info" title="Ver Detalle" ><i class="fa fa-list" ></i> </button>  
+                                <button v-on:click="printDetailRow(PrePayroll.countryId, PrePayroll.companyId, PrePayroll.year, PrePayroll.payrollNumber, PrePayroll.payrollTypeId)" class="btn btn-sm btn-muted" title="Imprimir"><i class="fa fa-print"></i> </button>  
                                 <!-- <button v-on:click="editRow(index, PrePayroll.hrprocessId)" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> </button>  
                                 <button v-on:click="deleterow(index, PrePayroll.hrprocessId)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></button>   -->
                             </td>
@@ -180,14 +184,14 @@
                         // let b = document.querySelector("iframe");
                         // b.remove();
             },
-            printDetailRow(countryId, companyId, year, payrollNumber){
+            printDetailRow(countryId, companyId, year, payrollNumber,payrollTypeId){
                 // console.log(countryId, companyId, year, payrollNumber)
                 // return
                 const selecCurrency1 = document.querySelector("#currency1").checked
             
                 // return
                 
-                const URL  = `pre-payroll-all/list/${countryId}/${companyId}/${year}/${payrollNumber}`
+                const URL  = `pre-payroll-all/list/${countryId}/${companyId}/${year}/${payrollNumber}/${payrollTypeId}`
                 
                 axios.get(URL).then((res)=>{
                     const objPrePayrollDetail = res.data.print
@@ -211,6 +215,7 @@
                     let companyNumber = objPrePayrollDetail[8]
                     let companyId = objPrePayrollDetail[9]
                     let color =  objPrePayrollDetail[10]
+                    let userProcess =  objPrePayrollDetail[13]
                     let icoMap = 'data:image/png;base64,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'
                     let icoPhone = 'data:image/png;base64,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'
                     let icoGlobe = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAzCAYAAADVY1sUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL7SURBVHgB7VqLcdswDH3JdQB1AnODaAR1g25QdgNvEHcCuxM4nSDdQO4ETieQO4HTCVLBthoEESVApBKdz+8Od7QNgHgU+BFoYDzktZS17Gt5quW+FoeJIqvltpYv4nv63BCQInX9yYfDO6DAcbQpsApHQg1ytBPgUjD97OSDvl/jjQhlp854UB7tQXWJJO/F76MSakuXSujcop9EIwthW7X49kiMZSAYz3Qc9CRIaFD4U1kE9JZIAOqo7AjGMd05bETkU8kQXiC2eEnaTGLbEcRPoV/BTmQvfHQN2mAy254gPNMtYCfRSMH8+B7dLYxYKgJwTH+t0A/JivnJFPrqOeMVzuTIVAobbXr1ZQLJHD1wyqBWwuYpUmbM30pJ3vHAr1/yUB8VNqxdIB6fWPtBoU8pGEwxB/0I5sxOM4JjPeGihYd6wlqWTK3IObdX2pWNwQdm/OskfXgUn7/X8gNxkD6/ImIDvGAKuMJxcnmDDR1NmpWFJv1npEGM38NiQQaWick7GHJQDAnf5LzR1tM+UsAGPjFTTkjuawcbciJyg+FISWTG2o+wwRERBxsq1h5ribQSuRlCZIrIrnEeOBsih9OvNR8niXMhsiMimvM/x0eMg7+sbV0ND0T+wIaYjasLMRvt7yFPxKG981jEEHmg9xE6rDmLEWtvavmGNNiw9s7od4MLJoYr1vbQgXKZl0vpWB975orxeSe/oBf5IcUHTUFNXUQ4QVt8kPXnAwpDxzNml7oclBvs/pel+FlrE2LYAmtBrQ/ch4MOd+jo20H3WFOXTHPmb1DJtA2a9/CURexK+CoVNnMooRmVzKgfkjXzo7lWWMGIs7joIfRdvZVCX7tkdqXVfQ+J0e4RNbeyXcKvBtxYJDhCc2DBdLpuZUPimL1HojnRB4/Xq5Pc5RfQk5ABtvlWr05WOBw3otCkt/yFwzE7L35/s38SOTwToqB4/hboJ5ILfw35Emmu8sxwOKaITAGPMAnforvAhC92HJ6XU8p3Gu0cF3TjH2L2H0VgekrQAAAAAElFTkSuQmCC'
@@ -222,7 +227,7 @@
                     let colorSec1
                     let colorSec2
                     let colorSec3
-
+    
                     // chequear si el total general es el local o moneda extrangera
                     let totalAsignacion
                     let totalDeduccion
@@ -309,7 +314,7 @@
                         for (let i = 0; i < objPrePayrollDetail.length; i++) {
                         const element = objPrePayrollDetail;
                         // condiciono que comienze a leer los datos a partir de la posicion 11 del array
-                            if (i > 12) {
+                            if (i > 13) {
                                 let name = true
                                 element[i].forEach(element2 => { 
                                     // doc.text( 'text test11', 220, cont ); //######### only test
@@ -402,9 +407,11 @@
                         doc.text( 'Periodo: ', 435, 90 );
                         doc.text( 'Tipo De Nomina:', 435, 100 );
                         doc.text( 'Pais:', 435, 110 );
-                        doc.text( `Pagina:`, 435, 70 );
+                        doc.text( `Generado Por:`, 435, 70 );
+                        doc.text( `Pagina:`, 435, 60 );
                         doc.setFontType("normal");
-                        doc.text( `1/${numPage}`, 465, 70 );
+                        doc.text( `1/${numPage}`, 465, 60 );
+                        doc.text( userProcess, 489, 70 );
                         doc.text( dataTime, 462, 80 );
                         doc.text( period, 468, 90);
                         doc.text( payrollTypeName, 500, 100 );
@@ -464,7 +471,7 @@
                             //  console.log('numero de pagina3: ' + numPage) 
 
                             // condiciono que comienze a leer los datos a partir de la posicion 11 del array
-                            if (i > 12) {
+                            if (i > 13) {
                                 
                                 let name = true
 
@@ -595,9 +602,11 @@
                                         doc.text( 'Periodo: ', 435, 90 );
                                         doc.text( 'Tipo De Nomina:', 435, 100 );
                                         doc.text( 'Pais:', 435, 110 );
-                                        doc.text( `Pagina:`, 435, 70 );
+                                        doc.text( `Generado Por:`, 435, 70 );
+                                        doc.text( `Pagina:`, 435, 60 );
                                         doc.setFontType("normal");
                                         doc.text( `${page}/${numPage}`, 465, 70 );
+                                        doc.text( userProcess, 489, 70 );
                                         doc.text( dataTime, 462, 80 );
                                         doc.text( period, 468, 90);
                                         doc.text( payrollTypeName, 500, 100 );

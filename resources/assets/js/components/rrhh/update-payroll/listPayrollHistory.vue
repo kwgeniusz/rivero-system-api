@@ -16,7 +16,7 @@
                             <th>MONEDA BASE</th>
                             <th>LOCAL</th>
                             <th>TIPO DE CAMBIO</th>
-                            <th>Acciones</th>
+                            <th>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody v-if="objPayrollHistory.length > 0">
@@ -66,7 +66,10 @@
                     </tbody>
                     <tbody v-else>
                         <tr>
-                            <td colspan="9">
+                            <td v-if="this.lengths === 0" colspan="9">
+                                No hay datos registrados
+                            </td>
+                            <td v-else colspan="9">
                                 <loading></loading>
                             </td>
                         </tr>
@@ -94,6 +97,7 @@
                 default: 'Name defauld',
             },
             objPayrollHistory:{},
+            lengths:'',
         },
         methods: {
             process(countryId,companyId,year,payrollNumber, payrollTypeId){
@@ -106,11 +110,7 @@
                         console.log(res)
                         if (res.statusText === 'OK') {
                             alert('Excito..')
-                            axios.get('list-payroll-history/').then( response => {
-                                this.objPayrollHistory = response.data.payrollHistory
-                                // console.log(this.objPayrollHistory)
-                                // debugger
-                            })
+                            this.$emit("showlist",0)
                             this.loading = 0
                         }else{
                             alert('Error al calcular')

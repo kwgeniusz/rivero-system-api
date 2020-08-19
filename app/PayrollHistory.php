@@ -11,9 +11,9 @@ class PayrollHistory extends Model
     protected $table      = 'hrpayroll_history';
     protected $primaryKey = 'hrpayrollHistoryId';
 
-    protected $fillable = ['countryId', 'companyId', 'year', 'payrollNumber', 'payrollTypeId', 'payrollName','staffCode',
+    protected $fillable = ['countryId', 'companyId', 'year', 'payrollNumber', 'payrollTypeId', 'userProcess', 'payrollName','staffCode', 'idDocument',
                          'staffName', 'transactionTypeCode', 'isIncome', 'hasBalance', 'balance', 'quantity', 
-                         'amount','localAmount', 'exchangeRate'];
+                         'amount', 'localCurrency','localAmount', 'exchangeRate'];
     
 
 
@@ -77,6 +77,16 @@ class PayrollHistory extends Model
                 ->where('hrpayroll_control.year', '=', $year)
                 ->where('hrpayroll_control.payrollNumber', '=', $payrollNumber)
                 ->delete();
+    }
+
+    function updateStatusPiriod($countryId, $companyId, $year, $payrollTypeId, $payrollNumber){
+        echo $countryId, $companyId, $year, $payrollTypeId, $payrollNumber;
+        DB::update("UPDATE hrperiod SET `updated` = 1
+                    WHERE hrperiod.countryId =$countryId 
+                    AND hrperiod.companyId =$companyId
+                    AND hrperiod.year =$year
+                    AND hrperiod.payrollTypeId = $payrollTypeId
+                    AND hrperiod.payrollNumber = $payrollNumber");
     }
 
     // function insertPayollHistory(){

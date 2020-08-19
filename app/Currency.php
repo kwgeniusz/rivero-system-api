@@ -38,10 +38,12 @@ class Currency extends Model
                     ->get();
     }
 
-    public function getCurrencyTax($id = 1){
+    public function getExchangeRate($baseCurrency = 'USD', $localCurrency = 'VEF'){
         return  DB::table('currency')
-                ->select('exchangeRate')
-                ->where('currencyId', '=',$id)
+                ->select('currencyName','currencySymbol','localCurrency','exchangeRate')
+                ->where('currencyName', '=',$baseCurrency)
+                ->where('localCurrency', '=',$localCurrency)
+                ->where('displayCurrency', '=',0)
                 ->get();
     }
     public function getAllCurrency(){

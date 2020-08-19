@@ -27,8 +27,9 @@ class HrTransactionTypeController extends Controller
     public function index()
     {
         $hrtransaction_type = DB::select("SELECT * FROM `hrtransaction_type`
-                INNER JOIN country ON hrtransaction_type.countryId = country.countryId
-                INNER JOIN company ON hrtransaction_type.companyId = company.companyId");
+        INNER JOIN country ON hrtransaction_type.countryId = country.countryId
+        INNER JOIN company ON hrtransaction_type.companyId = company.companyId
+        ORDER BY hrtransaction_type.countryId, hrtransaction_type.companyId, hrtransaction_type.transactionTypeCode ASC");
 
         $companys =  Company::orderBy('companyName', 'ASC')->get();
         $countrys   = $this->oCountry->getAll();

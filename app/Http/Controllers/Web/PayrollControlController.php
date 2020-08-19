@@ -9,6 +9,7 @@ use App\Currency;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
 
 class PayrollControlController extends Controller
 {
@@ -57,7 +58,8 @@ class PayrollControlController extends Controller
         // return $country . ' ' . $company. ' '. $payrollType .' '. $year;
 
         $payrollTypeMax = DB::select("SELECT hrperiod.payrollNumber, hrperiod.periodName FROM `hrperiod` 
-                            WHERE `countryId`= $country AND `companyId`= $company AND `year`= $year AND`payrollTypeId` = $payrollType");
+                            WHERE `countryId`= $country AND `companyId`= $company AND `year`= $year
+                            AND`payrollTypeId` = $payrollType AND`updated` = 0");
 
         return $payrollTypeMax;
     }
@@ -144,8 +146,8 @@ class PayrollControlController extends Controller
     $isIncome  = 1;
     $quantity   = 1;
     $amount   =  0; 
-    
-    
+    $userProcess = Auth::user()->fullName;
+  
         // PARTE 1. 
     /*
        1. leer tabla hrprepayroll_control.
@@ -156,9 +158,9 @@ class PayrollControlController extends Controller
           2.3 guardar registro calculado en hrpayroll
     */
         // get currency 
-        $oExchangeRate = $this->oCurrency->getCurrencyTax();
+        $oExchangeRate = $this->oCurrency->getExchangeRate();
         $exchangeRate = floatval($oExchangeRate[0]->exchangeRate); //convierto el string a numeros reales
-
+       
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
                             WHERE hrpayrollControlId = " . $id);
@@ -193,7 +195,7 @@ class PayrollControlController extends Controller
         
 
         // get data from table hrstaff
-        $rs1  = DB::select("SELECT hrstaff.staffCode, hrstaff.shortName, hrstaff.baseSalary, hrstaff.probationPeriod, hrstaff.employmentDate,
+        $rs1  = DB::select("SELECT hrstaff.staffCode, hrstaff.idDocument, hrstaff.shortName, hrstaff.baseSalary, hrstaff.probationPeriod, hrstaff.employmentDate,
         hrstaff.probationPeriodEnd, hrstaff.stopSS, hrstaff.blockSS, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3,
         hrstaff.probationSalary
         FROM hrstaff 
@@ -207,6 +209,7 @@ class PayrollControlController extends Controller
         foreach ($rs1 as $key => $rs) {
      
             $staffCode         = $rs->staffCode;
+            $idDocument        = $rs->idDocument;
             // $firstName         = $rs->firstName;
             // $lastName          = $rs->lastName;
             $staffName         = $rs->shortName;
@@ -335,7 +338,7 @@ class PayrollControlController extends Controller
                     // localAmount = amount * exchangeRate
                     // echo $staffName . ' '.$localAmount  = $amount * $exchangeRate .' = '. $amount .' * '. $exchangeRate .'<br>';
                     $localAmount = $amount * $exchangeRate;
-
+                    
                     $hrpayroll = new Payroll();
                     $hrpayroll->countryId = $countryId;
                     $hrpayroll->companyId = $companyId;
@@ -343,12 +346,15 @@ class PayrollControlController extends Controller
                     $hrpayroll->payrollNumber = $payrollNumber;
                     $hrpayroll->payrollTypeId = $payrollTypeId;
                     $hrpayroll->payrollName = $payrollName;
+                    $hrpayroll->userProcess = $userProcess;
                     $hrpayroll->staffCode = $staffCode;
+                    $hrpayroll->idDocument = $idDocument;
                     $hrpayroll->staffName = $staffName;
                     $hrpayroll->transactionTypeCode = $transactionTypeCode;
                     $hrpayroll->isIncome = $isIncome;
                     $hrpayroll->quantity = $quantity;
                     $hrpayroll->amount = $amount;
+                    $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
                     $hrpayroll->localAmount = $localAmount;
                     $hrpayroll->exchangeRate = $exchangeRate;
                     $hrpayroll->save();
@@ -397,12 +403,15 @@ class PayrollControlController extends Controller
                     $hrpayroll->payrollNumber = $payrollNumber;
                     $hrpayroll->payrollTypeId = $payrollTypeId;
                     $hrpayroll->payrollName = $payrollName;
+                    $hrpayroll->userProcess = $userProcess;
                     $hrpayroll->staffCode = $staffCode;
+                    $hrpayroll->idDocument = $idDocument;
                     $hrpayroll->staffName = $staffName;
                     $hrpayroll->transactionTypeCode = $transactionTypeCode;
                     $hrpayroll->isIncome = $isIncome;
                     $hrpayroll->quantity = $quantity;
                     $hrpayroll->amount = $amount;
+                    $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
                     $hrpayroll->localAmount = $localAmount;
                     $hrpayroll->exchangeRate = $exchangeRate;
                     $hrpayroll->save();
@@ -493,7 +502,9 @@ class PayrollControlController extends Controller
                     $hrpayroll->payrollNumber = $payrollNumber;
                     $hrpayroll->payrollTypeId = $payrollTypeId;
                     $hrpayroll->payrollName = $payrollName;
+                    $hrpayroll->userProcess = $userProcess;
                     $hrpayroll->staffCode = $staffCode;
+                    $hrpayroll->idDocument = $idDocument;
                     $hrpayroll->staffName = $staffName;
                     $hrpayroll->transactionTypeCode = $transactionTypeCode;
                     $hrpayroll->isIncome = $isIncome;
@@ -501,6 +512,7 @@ class PayrollControlController extends Controller
                     $hrpayroll->balance = $transBalance;
                     $hrpayroll->quantity = $quantity;
                     $hrpayroll->amount = $amount;
+                    $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
                     $hrpayroll->localAmount = $localAmount;
                     $hrpayroll->exchangeRate = $exchangeRate;
                     $hrpayroll->save();

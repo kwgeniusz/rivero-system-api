@@ -14,7 +14,9 @@
                     :objPayrollHistory = objPayrollHistory
                     :namePanelList = namePanelList
                     @indexEdit = "indexEdit"
+                    @showlist = "showlist"
                     @delrow = "delrow"
+                    :lengths = lengths
                 >
                 </list-payroll-history>
             </div>
@@ -69,6 +71,7 @@
             axios.get('list-payroll-history/').then( response => {
                 this.objPayrollHistory = response.data.payrollHistory
                 console.log(this.objPayrollHistory)
+                this.lengths = this.objPayrollHistory.length
                 // debugger
             })
 
@@ -91,6 +94,7 @@
                 nameField6: "PROCESO",
                 nameField7: "",
                 nameField8: "",
+                lengths: "",
                 
             }
         },
@@ -100,9 +104,10 @@
             },
             showlist(){
                 this.formStatus = 0
-                axios.get('payrollcontrol/list/').then( response => {
-                    this.objPayrollHistory = response.data.payrollControl
-                    // console.log(this.objPayrollHistory)
+                axios.get('list-payroll-history/').then( response => {
+                    this.objPayrollHistory = response.data.payrollHistory
+                    console.log(this.objPayrollHistory)
+                    this.lengths = this.objPayrollHistory.length
                     // debugger
                 })
             },

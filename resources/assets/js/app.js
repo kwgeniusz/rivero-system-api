@@ -109,6 +109,9 @@ Vue.component('main-pre-payroll', require('./components/rrhh/printPrePayroll/mai
 Vue.component('list-pre-payroll', require('./components/rrhh/printPrePayroll/listPrintPrePayroll.vue'));
 Vue.component('list-pre-payroll-detail', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue'));
 Vue.component('list-pre-payroll-detail-staff', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue'));
+// PRINT PAYROLL
+Vue.component('main-payroll', require('./components/rrhh/print-payroll/mainPrintPayroll.vue'));
+Vue.component('list-payroll', require('./components/rrhh/print-payroll/listPrintPayroll.vue'));
 // permanent Transaction
 Vue.component('main-permanent-trans', require('./components/rrhh/permanetTransaction/mainPermanetTrac.vue'));
 Vue.component('list-permanent-trans', require('./components/rrhh/permanetTransaction/listPermanentTrac.vue'));
