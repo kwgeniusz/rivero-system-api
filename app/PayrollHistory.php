@@ -50,10 +50,11 @@ class PayrollHistory extends Model
                                     AND hrstaff.status = 'A'");
     }
     function delPermanentTracsaction($staffCode, $transactionTypeCode){
-        DB::table('hrpermanent_transaction')
-                ->where('hrpermanent_transaction.staffCode', '=', $staffCode)
-                ->where('hrpermanent_transaction.transactionTypeCode', '=', $transactionTypeCode)
-                ->delete();
+        $hoy = date("Y-m-d H:i:s");
+       
+        DB::update("UPDATE `hrpermanent_transaction` SET `deleted_at`= '$hoy', `balance` = 0
+            WHERE hrpermanent_transaction.staffCode = '$staffCode'
+            AND hrpermanent_transaction.transactionTypeCode = $transactionTypeCode");
     }
     function updatePermanentTracsaction($staffCode, $transactionTypeCode, $balance){
         DB::update("UPDATE `hrpermanent_transaction` SET `balance`= $balance

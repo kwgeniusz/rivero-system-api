@@ -17,7 +17,7 @@ class PerTrans extends Model
     protected $primaryKey = 'hrpermanentTransactionId';
     // protected $dates = ['deleted_at'];
 
-    protected $fillable = ['countryId', 'companyId', 'staffCode', 'transactionTypeCode', 'quantity', 'amount', 'balance'];
+    protected $fillable = ['countryId', 'companyId', 'staffCode', 'transactionTypeCode', 'quantity', 'amount', 'balance','initialBalance'];
 
     function getPeTransaction($company = 4, $country = 2){
         return DB::table('hrpermanent_transaction')
@@ -30,6 +30,7 @@ class PerTrans extends Model
                  ->where('hrtransaction_type.countryId', '=', "$country");
         })
         ->select('hrpermanent_transaction.*', 'hrstaff.shortName','company.companyShortName','country.countryName','hrtransaction_type.transactionTypeName')
+        ->whereNull('hrpermanent_transaction.deleted_at')
         ->orderBy('hrstaff.staffCode', 'asc')
         ->get();
         
