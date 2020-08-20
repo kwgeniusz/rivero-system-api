@@ -65,7 +65,6 @@ Vue.component('search-subcontractor', require('./components/administration/Searc
 
 Vue.component('btn-invoice-cancel', require('./components/administration/BtnInvoiceCancel.vue'));
 Vue.component('btn-invoice-collection', require('./components/administration/BtnInvoiceCollection.vue'));
-Vue.component('credit-note', require('./components/administration/saleNotes/CreditNote.vue'));
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
 
 //########### human resource components #############
@@ -110,6 +109,19 @@ Vue.component('main-pre-payroll', require('./components/rrhh/printPrePayroll/mai
 Vue.component('list-pre-payroll', require('./components/rrhh/printPrePayroll/listPrintPrePayroll.vue'));
 Vue.component('list-pre-payroll-detail', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue'));
 Vue.component('list-pre-payroll-detail-staff', require('./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue'));
+// PRINT PAYROLL
+Vue.component('main-payroll', require('./components/rrhh/print-payroll/mainPrintPayroll.vue'));
+Vue.component('list-payroll', require('./components/rrhh/print-payroll/listPrintPayroll.vue'));
+// permanent Transaction
+Vue.component('main-permanent-trans', require('./components/rrhh/permanetTransaction/mainPermanetTrac.vue'));
+Vue.component('list-permanent-trans', require('./components/rrhh/permanetTransaction/listPermanentTrac.vue'));
+Vue.component('addUp-permanent-trans', require('./components/rrhh/permanetTransaction/addUpPertmanetTrac.vue'));
+// uptade payroll
+Vue.component('main-update-payroll', require('./components/rrhh/update-payroll/mainUpdatePayroll.vue'));
+Vue.component('list-payroll-history', require('./components/rrhh/update-payroll/listPayrollHistory.vue'));
+Vue.component('add-up-payroll-history', require('./components/rrhh/update-payroll/addUpPayrollHistory.vue'));
+
+
 
 //########### Dashboard Counters #############
 // --> Front Page

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div v-if="editId === 0" class="panel-heading" :style="addSuccess"><h4 class="text-uppercase">{{namePanel}}</h4></div>
                     <div v-else class="panel-heading" :style="ediPrimary"><h4 class="text-uppercase">{{namePanel2}}</h4></div>
@@ -10,9 +10,10 @@
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()"  id="newUpForm" >
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-4">
                                     <label for="selectCountry" class="form-group" v-text="nameField8"></label>
                                     <select class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" required="required">
+                                        <option></option>
                                         <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -20,9 +21,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-5">
                                     <label for="selectCompany" class="form-group" v-text="nameField9"></label>
                                     <select class="form-control" v-model="selectCompany" id="selectCompany"  @change="change($event)" required="required">
+                                        <option></option>
                                         <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -30,9 +32,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-5">
                                     <label for="departmentId" class="form-group" v-text="nameField10"></label>
                                     <select class="form-control" v-model="departmentId" id="departmentId" required="required">
+                                        <option></option>
                                         <option v-for="item in selectDepartments" :key="item.departmentId" :value="item.departmentId">{{item.departmentName}}</option>
                                         
                                     </select>
@@ -40,9 +43,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-4">
                                     <label for="payrollTypeId" class="form-group" v-text="nameField11"></label>
                                     <select class="form-control" v-model="payrollTypeId" id="payrollTypeId"  required="required">
+                                        <option></option>
                                         <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -52,52 +56,48 @@
                             <div class="row">
                                 <div class="form-group col-md-7">
                                     <label for="positionCode" class="form-group" v-text="nameField12"></label>
-                                    <select class="form-control" v-model="positionCode" id="positionCode"  required="required">
-                                        <option v-for="item in selectPosition" :key="item.id" :value="item.id">{{item.vText}}</option>
+                                    <select class="form-control" v-model="positionCode" id="positionCode" @change="positionSalary($event)" required="required">
+                                        <option></option>
+                                        <option v-for="item in selectPosition" :key="item.id" :attrBaseSalary="item.baseSalary" :value="item.id">{{item.vText}} - ${{item.baseSalary}}</option>
                                     </select>
                                     
                                 </div>
                             </div>
                             
                             <div class="row">
-                                <div class="form-group col-md-6 ">
+                                <div class="form-group col-md-4">
                                     <label for="shortName" class="form-group" v-text="nameField1"></label>
                                     <input type="text" v-model="shortName" class="form-control" id="shortName" v-bind:placeholder="nameField1" required="required">
                                     
                                 </div>
-                            
-                                <div class="form-group col-md-9">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-7">
                                     <label for="firstName" class="form-group" v-text="nameField2"></label>
                                     <input type="text" v-model="firstName" class="form-control" id="firstName" v-bind:placeholder="nameField2" required="required">
                 
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-9">
+                                <div class="form-group col-md-7">
                                     <label for="lastName" class="form-group" v-text="nameField3"></label>
                                     <input type="text" v-model="lastName" class="form-control" id="lastName" v-bind:placeholder="nameField3" required="required">
-                                    <!-- <select class="form-control" v-model="firstName" id="firstName" required="required">
-                                        <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select> -->
                                 </div>
-
-                                <div class="form-group col-md-5 ">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-3 ">
                                     <label for="idDocument" class="form-group" v-text="nameField4"></label>
                                     <input type="text" v-model="idDocument" class="form-control" id="idDocument" placeholder="V-99999999">
                                 </div>
-                                
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5"> 
+                                <div class="form-group col-md-3"> 
                                     <label for="passportNumber" class="form-group" v-text="nameField5"> </label> 
                                     <input type="text" v-model="passportNumber" class="form-control" id="passportNumber" v-bind:placeholder="nameField5">
-                                       
-                                    
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-3">
                             
                                     <label for="legalNumber" class="form-group" v-text="nameField6"></label>
                                     <input type="text" v-model="legalNumber" class="form-control" id="legalNumber" v-bind:placeholder="nameField6" >
@@ -105,22 +105,56 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-2">
                                     <label for="staffCode" class="form-group" v-text="nameField7"></label>
                                     <input type="text" v-model="staffCode" class="form-control" id="staffCode" v-bind:placeholder="nameField7" required="required">
                                     
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="employmentDate" class="form-group" v-text="nameField19"></label>
+                                    <input type="date" v-model="employmentDate" class="form-control" id="employmentDate" required="required">
+                                    
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="form-group col-sm-5 col-sm-offset-4">
+                                    <label for="baseSalary" class="form-group" v-text="nameField22"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="form-group col-md-4">
+                                    <label for="probationPeriod" class="form-group" v-text="nameField20"></label><br>
+                                    <label>
+                                        <input type="radio" v-model="probationPeriod" value="1"  checked id="probationPeriod" >Si
+                                    </label>
+                                    <label>
+                                        <input type="radio" v-model="probationPeriod" value="0" id="probationPeriod">No
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="probationPeriodEnd" class="form-group" v-text="nameField21"></label>
+                                    <input type="date" v-model="probationPeriodEnd" class="form-control" id="probationPeriodEnd" required="required">
+                                    
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="baseSalary" class="form-group" v-text="nameField13"></label>
-                                    <input type="text" v-model="baseSalary" class="form-control" id="baseSalary" v-bind:placeholder="nameField13" >
+                                    <input type="text" v-model="baseSalary" class="form-control" id="baseSalary" v-bind:placeholder="nameField13" readonly="readonly">
+                                    
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="probationSalary" class="form-group" v-text="nameField23"></label>
+                                    <input type="text" v-model="probationSalary" class="form-control" id="probationSalary" v-bind:placeholder="'0.00'">
                                     
                                 </div>
                             
-                                <div class="form-group col-md-4">
-                                    <label for="baseCurrencyId" class="form-group" v-text="nameField14"> </label> 
+                                <div class="form-group col-md-4 hidden">
+                                    <!-- <label for="baseCurrencyId" class="form-group" v-text="nameField14"> </label>  -->
 
                                     <select class="form-control" v-model="baseCurrencyId" id="baseCurrencyId" >
                                         <option v-for="item in selectCurrency" :key="item.id" :value="item.id">{{item.vText}}</option>
@@ -128,7 +162,21 @@
                                     
                                 </div>
                             </div>
+                            
                             <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="stopSS" class="form-group" v-text="nameField24"></label><br>
+                                    <label>
+                                        <input type="radio" v-model="stopSS" value="0"  checked id="stopSS" >Si
+                                    </label>
+                                    <label>
+                                        <input type="radio" v-model="stopSS" value="1" id="stopSS">No
+                                    </label>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                           
                                 <div class="form-group col-md-4">
                                     <label for="localSalary" class="form-group" v-text="nameField15"></label>
                                     <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField15" >
@@ -147,8 +195,19 @@
                                     <input type="text" v-model="localDailySalary" class="form-control" id="localDailySalary" v-bind:placeholder="nameField17" >
                                     
                                 </div>
+                                
                             </div>
+                            <hr>
                             <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="blockSS" class="form-group" v-text="nameField25"></label><br>
+                                    <label>
+                                        <input type="radio" v-model="blockSS" value="0"  checked id="blockSS" >Si
+                                    </label>
+                                    <label>
+                                        <input type="radio" v-model="blockSS" value="1" id="blockSS">No
+                                    </label>
+                                </div>
                                 <div class="form-group col-md-4">
                                     <label for="status" class="form-group" v-text="nameField18"></label>
                                     <select class="form-control" v-model="status" id="status" required="required">
@@ -227,17 +286,11 @@
                 })
                 axios.get(`/staff/list/positions/${this.objEdit.countryId}`).then(res => {
                     this.selectPosition = res.data.map(item => {
-                        return {id: item.positionCode, vText: item.positionName}
+                        return {id: item.positionCode, vText: item.positionName, baseSalary: item.baseSalary }
                     })
                     this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode
                 })
                 
-                
-
-
-                
-                
-
                 this.shortName = document.querySelector("#shortName").value = this.objEdit.shortName
                 this.firstName = document.querySelector("#firstName").value = this.objEdit.firstName
                 this.lastName = document.querySelector("#lastName").value = this.objEdit.lastName
@@ -245,11 +298,17 @@
                 this.passportNumber = document.querySelector("#passportNumber").value = this.objEdit.passportNumber
                 this.legalNumber = document.querySelector("#legalNumber").value = this.objEdit.legalNumber
                 this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode
+                this.employmentDate = document.querySelector("#employmentDate").value = this.objEdit.employmentDate
                 this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary
                 this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId
                 this.localSalary = document.querySelector("#localSalary").value = this.objEdit.localSalary
+                this.probationSalary = document.querySelector("#probationSalary").value = this.objEdit.probationSalary
                 this.localCurrencyId = document.querySelector("#localCurrencyId").value = this.objEdit.localCurrencyId
                 this.localDailySalary = document.querySelector("#localDailySalary").value = this.objEdit.localDailySalary
+                this.probationPeriod = document.querySelector("#probationPeriod").value = this.objEdit.probationPeriod
+                this.probationPeriodEnd = document.querySelector("#probationPeriodEnd").value = this.objEdit.probationPeriodEnd
+                this.stopSS = document.querySelector("#stopSS").value = this.objEdit.stopSS
+                this.blockSS = document.querySelector("#blockSS").value = this.objEdit.blockSS
                 this.status = document.querySelector("#status").value = this.objEdit.status
                
             }
@@ -275,13 +334,19 @@
                 status: 'A',
                 baseSalary: 0,
                 localSalary: 0,
+                probationSalary: 0,
                 localDailySalary: 0,
+                probationPeriod: 0,
                 excTranTypeCode1: 0,
                 excTranTypeCode2: 0,
                 excTranTypeCode3: 0,
                 payrollTypeId: '',
                 baseCurrencyId: '',
                 localCurrencyId: '',
+                employmentDate: '',
+                probationPeriodEnd: '',
+                stopSS: 0,
+                blockSS: 0,
                 selectCountrys:{},
                 selectCompanys:{},
                 selectDepartments:{},
@@ -375,12 +440,41 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField19:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField20:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField21:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField22:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField23:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField24:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField25:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
         methods:{
             newUpForm(){
-
+                // console.log(probationPeriod)
+                // return
                 if (this.editId === 0) {
                     
                     const params = {
@@ -399,22 +493,23 @@
                         baseSalary: this.baseSalary,
                         baseCurrencyId: this.baseCurrencyId,
                         localSalary: this.localSalary,
+                        probationSalary: this.probationSalary,
                         localCurrencyId: this.localCurrencyId,
                         localDailySalary: this.localDailySalary,
                         excTranTypeCode1: this.excTranTypeCode1,
                         excTranTypeCode2: this.excTranTypeCode2,
                         excTranTypeCode3: this.excTranTypeCode3,
+                        employmentDate: this.employmentDate,
+                        probationPeriod: this.probationPeriod,
+                        probationPeriodEnd: this.probationPeriodEnd,
+                        stopSS: this.stopSS,
+                        blockSS: this.blockSS,
                         status: this.status,
                         
                     }
-
-                    // console.log(params)
-                    // debugger
-                    
-    
                     axios.post(`staff/post/`,params)
                         .then((response) => {
-                            // console.log(response)
+                            console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
                                 document.querySelector("#newUpForm").reset()
@@ -445,11 +540,17 @@
                         baseSalary: this.baseSalary,
                         baseCurrencyId: this.baseCurrencyId,
                         localSalary: this.localSalary,
+                        probationSalary: this.probationSalary,
                         localCurrencyId: this.localCurrencyId,
                         localDailySalary: this.localDailySalary,
                         excTranTypeCode1: this.excTranTypeCode1,
                         excTranTypeCode2: this.excTranTypeCode2,
                         excTranTypeCode3: this.excTranTypeCode3,
+                        employmentDate: this.employmentDate,
+                        probationPeriod: this.probationPeriod,
+                        probationPeriodEnd: this.probationPeriodEnd,
+                        stopSS: this.stopSS,
+                        blockSS: this.blockSS,
                         status: this.status,
                     }
                     
@@ -498,6 +599,7 @@
                 // console.log(eeeee)
                 // debugger
                 })
+                
                 axios.get(`/staff/list/typepayroll/${cb}`).then(res => {
                
 
@@ -512,12 +614,17 @@
                 
                     // console.log(res)
                     this.selectPosition = res.data.map(item => {
-                        return {id: item.positionCode, vText: item.positionName}
+                        return {id: item.positionCode, vText: item.positionName, baseSalary: item.baseSalary }
                         
                     })
                 // console.log(eeeee)
                 // debugger
                 })
+            },
+            positionSalary(event){
+                const baseSalaryPosition = document.querySelector("#positionCode")
+                let   baseSalaryP = baseSalaryPosition.options[baseSalaryPosition.selectedIndex].getAttribute("attrBaseSalary")
+                this.baseSalary = document.querySelector("#baseSalary").value = baseSalaryP
             }
         },
         computed: {

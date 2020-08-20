@@ -2,14 +2,36 @@
 <div>
   
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
+<<<<<<< HEAD
+             <a class="btn btn-danger btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Anular">
+<<<<<<< HEAD
+              <span class="fa fa-times-circle" aria-hidden="true"></span> 
+=======
+              <i class="fa fa-times-circle" aria-hidden="true"></i> 
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
+            </a>
+=======
     <a class="btn btn-danger btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Anular">
         <i class="fa fa-times-circle" aria-hidden="true"></i> 
     </a>
+>>>>>>> c45b37f228980753f788d1b395a6887549c622a4
 <!-- MODALS -->
    <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalCanceling">
         <h2>¿Esta seguro de que desea Anular Esta Factura</h2> <br>
         <div class="text-center">
              N° Factura: {{invId}}
+<<<<<<< HEAD
+              <!-- {{invoice}} -->
+           <!--    {{invoice.contract.contractNumber}} 
+              {{invoice.contract.siteAddress}}
+              {{invoice.invoiceDate}}
+              {{invoice.projescription.projescriptionName}}
+              {{invoice.netTotal}}
+              {{invoice.balance}}
+              {{invoice.shareSucceed}}
+              {{invoice->pQuantity}}   -->
+=======
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
         </div>
         <br>
         <button class="btn btn-danger" @click="cancelInvoice">Confirmar</button>

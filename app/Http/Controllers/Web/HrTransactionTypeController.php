@@ -27,8 +27,9 @@ class HrTransactionTypeController extends Controller
     public function index()
     {
         $hrtransaction_type = DB::select("SELECT * FROM `hrtransaction_type`
-                INNER JOIN country ON hrtransaction_type.countryId = country.countryId
-                INNER JOIN company ON hrtransaction_type.companyId = company.companyId");
+        INNER JOIN country ON hrtransaction_type.countryId = country.countryId
+        INNER JOIN company ON hrtransaction_type.companyId = company.companyId
+        ORDER BY hrtransaction_type.countryId, hrtransaction_type.companyId, hrtransaction_type.transactionTypeCode ASC");
 
         $companys =  Company::orderBy('companyName', 'ASC')->get();
         $countrys   = $this->oCountry->getAll();
@@ -53,6 +54,7 @@ class HrTransactionTypeController extends Controller
         $hrtransType->salaryBased = $request->salaryBased;
         $hrtransType->isIncome = $request->isIncome;
         $hrtransType->hasBalance = $request->hasBalance;
+        $hrtransType->blockSS = $request->blockSS;
         $hrtransType->accTax = $request->accTax;
         $hrtransType->accChristmas = $request->accChristmas;
         $hrtransType->accSeniority = $request->accSeniority;
@@ -79,6 +81,7 @@ class HrTransactionTypeController extends Controller
         $hrtransType->salaryBased = $request->salaryBased;
         $hrtransType->isIncome = $request->isIncome;
         $hrtransType->hasBalance = $request->hasBalance;
+        $hrtransType->blockSS = $request->blockSS;
         $hrtransType->accTax = $request->accTax;
         $hrtransType->accChristmas = $request->accChristmas;
         $hrtransType->accSeniority = $request->accSeniority;

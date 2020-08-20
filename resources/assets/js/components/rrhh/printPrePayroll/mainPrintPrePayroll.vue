@@ -13,6 +13,7 @@
             <list-pre-payroll
                 :objPrintPrePayroll = objPrintPrePayroll
                 :namePanelList = namePanelList
+                :namePanel = namePanel
                 @indexEdit = "indexEdit"
                 @delrow = "delrow"
                 @prePayrollDetail = "prePayrollDetail"
@@ -82,13 +83,13 @@
                 objprePayrollDetail:{},
                 objListDetailStaff:{},
                 formStatus: 0,
-                namePanelList: "TIPOS DE PROCESOS",
-                namePanel: "AGREGAR TIPO DE PROCESO",
-                namePanel2: "EDITAR TIPO DE PROCESO",
-                nameField1: "CÓDIGO",
-                nameField2: "PAÍS",
-                nameField3: "EMPRESA",
-                nameField4: "NOMBRE DEL PROCESO",
+                namePanelList: " ",
+                namePanel: "MONEDA:",
+                namePanel2: " ",
+                nameField1: " ",
+                nameField2: " ",
+                nameField3: " ",
+                nameField4: " ",
                 nameField5: "",
                 nameField6: "",
                 nameField7: "",

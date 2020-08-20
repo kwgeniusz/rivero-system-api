@@ -43,7 +43,7 @@
                         <tr  v-for="(detail, index) in objprePayrollDetail" :key="index" >
                             
 
-                            <td v-if="index > 10">
+                            <td v-if="index > 12">
                                 <th>CODIGO</th>
                                     <p  class="text-left">
                                         {{detail[0].staffCode }} 
@@ -52,7 +52,7 @@
                             
                                 
                             </td>
-                            <td v-if="index > 10" class="form-inline">
+                            <td v-if="index > 12" class="form-inline">
                                 <table>
                                     <tr>
                                         <td width="180" class="alingTo">

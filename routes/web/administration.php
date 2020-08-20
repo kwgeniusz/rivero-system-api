@@ -24,6 +24,9 @@ Route::get('invoices/{id}/subcontractors', 'Web\InvoiceController@subcontractors
 Route::put('invoices/{invoiceId}/changeStatus','Web\InvoiceController@changeStatus')->name('invoices.changeStatus');
 
  // sub categories 
+Route::get('invoicesCancelled', 'Web\InvoiceController@InvoicesCancelled')->name('invoices.cancelled');
+// Route::put('invoicesCollections', 'Web\InvoiceController@invoicesCollections')->name('invoices.close');
+
 Route::get('invoicesAll', 'Web\InvoiceController@getAllInvoices')->name('invoices.all');
 Route::post('filteredInvoices', 'Web\InvoiceController@getAllInvoices')->name('invoices.filtered');
 Route::get('invoicesCancelled', 'Web\InvoiceController@InvoicesCancelled')->name('invoices.cancelled');

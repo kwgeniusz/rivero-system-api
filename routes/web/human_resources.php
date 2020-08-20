@@ -95,14 +95,37 @@ Route::post('payrollcontrol', 'Web\PayrollControlController@store');
 Route::delete('payrollcontrol/{id}', 'Web\PayrollControlController@destroy');
 
 // imprimir pre-nomina
-// Periods
 Route::get('print-pre-payroll/', function () {
     return view('rrhh.printPrePayroll.index');
 })->name('printprepayroll.index'); 
 Route::get('pre-payroll-all/', 'Web\printPrePayrollController@index');
-Route::get('pre-payroll-all/list/{countryId}/{companyId}/{year}/{payrollNumber}', 'Web\printPrePayrollController@getListPrePayroll');
+Route::get('pre-payroll-all/list/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}', 'Web\printPrePayrollController@getListPrePayroll');
 Route::get('pre-payroll-all/detail/{countryId}/{companyId}/{year}/{payrollNumber}/{staffCode}', 'Web\printPrePayrollController@getListDetail');
-Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}/', 'Web\PeriodsController@getPayrollNumber');
-Route::post('periods/post', 'Web\PeriodsController@store');
-Route::put('periods/put/{id}', 'Web\PeriodsController@update');
-Route::delete('periods/delete/{id}', 'Web\PeriodsController@destroy');
+// imprimir nomina
+Route::get('print-payroll/', function () {
+    return view('rrhh.print-payroll.index');
+})->name('print-payroll.index'); 
+Route::get('print-payroll/list/', 'Web\printPayrollController@index');
+Route::get('print-payroll/show/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}', 'Web\printPayrollController@getPayrollShow');
+
+
+// permanent transaction
+Route::get('permanent-trans/', function () {
+    return view('rrhh.permanetTranction.index');
+})->name('permanent-trans.index'); 
+Route::get('list-perm-trans/', 'Web\PerTransController@index');
+Route::post('perm-trans', 'Web\PerTransController@store');
+Route::put('perm-trans/{id}', 'Web\PerTransController@update');
+Route::delete('perm-trans/{id}', 'Web\PerTransController@destroy');
+
+// Update payroll
+Route::get('update-payroll/', function () {
+    return view('rrhh.update-payroll.index');
+})->name('update-payroll.index'); 
+Route::get('list-payroll-history/', 'Web\PayrollHistoryController@index');
+Route::get('payrollhistoryl/process/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}', 'Web\PayrollHistoryController@processPayrollHistory');
+
+
+// combosBox
+Route::get('combo-staff/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboStaff');
+Route::get('combo-trans-type/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboTransactionType');

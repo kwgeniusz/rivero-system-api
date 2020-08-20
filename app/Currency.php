@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Model
@@ -12,7 +13,7 @@ class Currency extends Model
 
     protected $table      = 'currency';
     protected $primaryKey = 'currencyId';
-    protected $fillable   = ['currencyId', 'currencyName','currencySymbol'];
+    protected $fillable   = ['currencyId', 'currencyName','currencySymbol' , 'exchangeRate'];
 
      protected $dates = ['deleted_at'];
 //--------------------------------------------------------------------
@@ -36,7 +37,19 @@ class Currency extends Model
         return $this->orderBy('currencyId', 'ASC')
                     ->get();
     }
- 
 
+    public function getExchangeRate($baseCurrency = 'USD', $localCurrency = 'VEF'){
+        return  DB::table('currency')
+                ->select('currencyName','currencySymbol','localCurrency','exchangeRate')
+                ->where('currencyName', '=',$baseCurrency)
+                ->where('localCurrency', '=',$localCurrency)
+                ->where('displayCurrency', '=',0)
+                ->get();
+    }
+    public function getAllCurrency(){
+        return  DB::table('currency')
+                ->orderBy('currencyId', 'ASC')
+                ->get();
+    }
 
 }

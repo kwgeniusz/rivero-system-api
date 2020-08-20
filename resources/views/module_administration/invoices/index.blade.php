@@ -167,14 +167,30 @@
 </div> --}}
 
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+                @if($invoice->netTotal > 0) 
+                   @can('BEE') 
+                  <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
+                    </a> 
+                    @endcan  
+                @endif  
+=======
+=======
 
              @if($invoice->netTotal > 0) 
+>>>>>>> c45b37f228980753f788d1b395a6887549c622a4
                 @can('BEE') 
                   <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a> 
                  @endcan  
+<<<<<<< HEAD
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
+=======
                @endif  
+>>>>>>> c45b37f228980753f788d1b395a6887549c622a4
 
                  @can('BED') 
                    <a href="{{route('invoices.subcontractors', ['id' => $invoice->invoiceId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Subcontratistas">
@@ -197,18 +213,48 @@
                   <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>  
+<<<<<<< HEAD
+                   @endif 
+<<<<<<< HEAD
+
+                <btn-invoice-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
+=======
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
+             @endif 
+
+             @can('BEB')
+                <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
+                    </a>
+             @endif  
+<<<<<<< HEAD
+             @if($invoice->invStatusCode == App\Invoice::CLOSED )
+                   <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
+=======
+
+             @if($invoice->invStatusCode == App\Invoice::CLOSED )
+             <a href="{{route('saleNotes.getByInvoice', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+=======
                    @endcan 
              <btn-invoice-cancel class="display:inline" invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
            @endif 
            @if($invoice->invStatusCode == App\Invoice::CLOSED )
            
   {{--            <a href="{{route('saleNotes.getByInvoice', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+>>>>>>> c45b37f228980753f788d1b395a6887549c622a4
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
              </a> --}}
 
              <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
 
+<<<<<<< HEAD
+>>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
+              @endif
+   
+                   
+=======
            @endif
+>>>>>>> c45b37f228980753f788d1b395a6887549c622a4
                    </td>
                 </tr>
                 @endforeach

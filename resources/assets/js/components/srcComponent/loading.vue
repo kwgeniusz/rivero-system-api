@@ -18,7 +18,7 @@
 </script>
 <style>
     .spinner {
-    margin: 20px auto 0;
+    /* margin: 20px auto 0; */
     width: 70px;
     text-align: center;
     display: inline-block;

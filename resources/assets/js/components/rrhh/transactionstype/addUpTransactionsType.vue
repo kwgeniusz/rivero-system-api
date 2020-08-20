@@ -45,12 +45,6 @@
                                 <div class="form-group col-md-7 form-inline"> 
                                     <label for="salaryBased" class="form-group" v-text="nameField5"> </label> 
                                     <input type="checkbox"  id="salaryBased" v-model="salaryBased" value="1">
-                                    <!-- <select class="form-control" v-model="salaryBased" id="salaryBased" required="required">
-                                        <option value="0">No</option>
-                                        <option value="1">Si</option>
-                                    </select>    -->
-
-                                    <!-- <input type="text" v-model="salaryBased" class="form-control" id="salaryBased" v-bind:placeholder="nameField5" required="required"> -->
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                             
@@ -64,11 +58,10 @@
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="hasBalance" class="form-group" v-text="nameField7"></label>
                                     <input type="checkbox" id="hasBalance" v-model="hasBalance" value="1">
-                                    <!-- <select class="form-control" v-model="hasBalance" id="hasBalance" required="required">
-                                        <option value="0">No</option>
-                                        <option value="1">Si</option>
-                                    </select> -->
-                                    <!-- <input type="text" v-model="hasBalance" class="form-control" id="hasBalance" v-bind:placeholder="nameField7" required="required"> -->
+                                </div>
+                                <div class="form-group col-md-7 form-inline">
+                                    <label for="blockSS" class="form-group" v-text="nameField11"></label>
+                                    <input type="checkbox" id="blockSS" v-model="blockSS" value="1">
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="accTax" class="form-group" v-text="nameField8"></label>
@@ -151,6 +144,7 @@
                 this.accTax = document.querySelector("#accTax").value = this.objEdit.accTax
                 this.accChristmas = document.querySelector("#accChristmas").value = this.objEdit.accChristmas
                 this.accSeniority = document.querySelector("#accSeniority").value = this.objEdit.accSeniority
+                this.blockSS = document.querySelector("#blockSS").value = this.objEdit.blockSS
                
             }
             
@@ -171,6 +165,7 @@
                 accTax: 0,
                 accChristmas: 0,
                 accSeniority: 0,
+                blockSS: 0,
             }
         },
         props:{
@@ -226,6 +221,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField11:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -245,6 +244,7 @@
                         accTax: this.accTax,
                         accChristmas: this.accChristmas,
                         accSeniority: this.accSeniority,
+                        blockSS: this.blockSS,
                         
                     }
 
@@ -280,6 +280,7 @@
                         accTax: this.accTax,
                         accChristmas: this.accChristmas,
                         accSeniority: this.accSeniority,
+                        blockSS: this.blockSS,
                     }
                     // document.querySelector("#newUpForm").reset()
     // console.log(params)
