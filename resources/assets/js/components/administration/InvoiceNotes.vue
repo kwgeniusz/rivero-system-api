@@ -36,7 +36,8 @@
           <h4><b>Terminos y Condiciones</b></h4>
            <ul>
             <li v-for="note in notesList">
-              {{ note.noteName }}
+               <span v-html="nl2br(note.noteName,false) "></span> 
+
               <a @click="deleteNote(++index)" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -143,6 +144,13 @@ export default {
             })
            
       },
+            nl2br: function(str, is_xhtml) {
+         if (typeof str === 'undefined' || str === null) {
+               return '';
+          }
+       var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+       return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+     },
     }
        // this.$ceUpdate()
 }

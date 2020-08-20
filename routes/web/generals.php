@@ -55,4 +55,28 @@ Route::get('statistic/invoicesClosed', 'Web\StatisticController@numberOfInvoiceC
 Route::get('statistic/invoicesPaid', 'Web\StatisticController@numberOfInvoicePaid')->name('statistic.invoicesResidencial');
 Route::get('statistic/invoicesCancelled', 'Web\StatisticController@numberOfInvoiceCancelled')->name('statistic.invoicesResidencial');
 
+//***************************************ROUTES TO REPORTS**********************//
+//-----------------------------CONTRACTS---------------------------------------------------//
+// Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
+Route::get('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
+// Route::get('contracts-summary', function () {return view('contractsummary.index');})->name('contracts.summary');
+Route::get('contracts-summary', 'Web\ReportController@summaryContractForCompany')->name('reports.summaryContractForCompany');
+Route::get('contracts-summary-for-clients', 'Web\ReportController@summaryClientForm')->name('contracts.summaryForClient');
+Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForClient')->name('reports.summaryForClient');
+
+Route::get('reportsInvoice', 'Report\Pdf\InvoiceControllerPDF@printInvoice')->name('reports.invoice');
+Route::get('reportsStatement', 'Report\Pdf\InvoiceControllerPDF@printStatement')->name('reports.statement');
+Route::get('reportsProposal', 'Report\Pdf\ProposalControllerPDF@printProposal')->name('reports.proposal');
+Route::get('receivablessPrintReceipt', 'Report\Pdf\ProposalControllerPDF@printProposal')->name('receivables.printReceipt');
+
+//-----------------------------ADMINISTRATION--------------------------------------------------//
+Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
+Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');
+Route::get('transactions-income', function () {return view('module_administration.reportincome.index');})->name('transactions.income');
+Route::post('transactions-income', 'Web\ReportController@transactionSummaryForSign')->name('reports.income');
+Route::get('transactionsexpenses', function () {return view('module_administration.reportexpenses.index');})->name('transactions.expenses');
+Route::post('transactionsexpenses', 'Web\ReportController@transactionSummaryForSign')->name('reports.expenses');
+Route::get('collection-report', 'Web\ReceivableController@reportCollections')->name('collections.index');
+Route::post('collection-report', 'Web\ReportController@collections')->name('collections.result');
+
 

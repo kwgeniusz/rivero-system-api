@@ -47,8 +47,6 @@ Route::get('banksByOffice', 'Web\BankController@getAllByOffice');///axios
 //ACCOUNTS
 Route::get('accounts/{bankId}', 'Web\AccountController@index');
 
-
-
 //TYPES OF TRANSACTIONS
 // Route::resource('transactionsTypes', 'Web\TransactionTypeController', ['except' => ['create']]);
 
@@ -56,16 +54,6 @@ Route::get('accounts/{bankId}', 'Web\AccountController@index');
 Route::get('receivables', 'Web\ReceivableController@index')->name('receivables.index');
 Route::get('receivables/{clientId}', 'Web\ReceivableController@details')->name('receivables.details');
 Route::get('receivables-paymentMethod', 'Web\ReceivableController@paymentMethod')->name('receivables.paymentMethod');
-Route::get('receivablesPrintReceipt/', 'Web\ReportController@printReceipt')->name('receivables.printReceipt');
 Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId')->name('receivables.getForId');
 Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');
 Route::post('receivablesConfirmPayment', 'Web\ReceivableController@confirmPayment')->name('receivables.confirmPayment');
-//REPORTS
-Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
-Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');
-Route::get('transactions-income', function () {return view('module_administration.reportincome.index');})->name('transactions.income');
-Route::post('transactions-income', 'Web\ReportController@transactionSummaryForSign')->name('reports.income');
-Route::get('transactionsexpenses', function () {return view('module_administration.reportexpenses.index');})->name('transactions.expenses');
-Route::post('transactionsexpenses', 'Web\ReportController@transactionSummaryForSign')->name('reports.expenses');
-Route::get('collection-report', 'Web\ReceivableController@reportCollections')->name('collections.index');
-Route::post('collection-report', 'Web\ReportController@collections')->name('collections.result');

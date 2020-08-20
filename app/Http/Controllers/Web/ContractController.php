@@ -393,7 +393,7 @@ class ContractController extends Controller
            return response()->download('storage/'.$doc[0]->docUrl, $doc[0]->docName);
     }
 
-   public function fileDownload(Request $request)
+ public function fileDownload(Request $request)
    {
      $data = json_decode($request->checkedFiles,true);
       // dd($data);

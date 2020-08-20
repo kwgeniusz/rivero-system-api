@@ -73,14 +73,3 @@ Route::get('contractsCancelled/{id}/details', 'Web\ContractController@detailsCon
 Route::get('contractsCancelled/{id}/show', 'Web\ContractController@showContractsCancelled')->name('contracts.cancelledShow');
 Route::delete('contractsCancelled/{id}/delete', 'Web\ContractController@deleteContractsCancelled')->name('contracts.cancelledDelete');
 
-//-----------------------------REPORTS---------------------------------------------------//
-// Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
-Route::get('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
-// Route::get('contracts-summary', function () {return view('contractsummary.index');})->name('contracts.summary');
-Route::get('contracts-summary', 'Web\ReportController@summaryContractForCompany')->name('reports.summaryContractForCompany');
-Route::get('contracts-summary-for-clients', 'Web\ReportController@summaryClientForm')->name('contracts.summaryForClient');
-Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForClient')->name('reports.summaryForClient');
-Route::get('reportsInvoice', 'Web\ReportController@printInvoice')->name('reports.invoice');
-Route::get('reportsProposal', 'Web\ReportController@printProposal')->name('reports.proposal');
-Route::get('reportsStatement', 'Web\ReportController@printStatement')->name('reports.statement');
-

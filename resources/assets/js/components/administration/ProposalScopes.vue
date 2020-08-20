@@ -28,7 +28,7 @@
           <h4><b>Alcances de la Propuesta</b></h4>
            <ul>
             <li v-for="(propScope,index) in scopesList">
-              {{ propScope.description }}
+               <span v-html="nl2br(propScope.description,false) "></span> 
               <a @click="deleteScope(++index)" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -106,7 +106,13 @@ export default {
             })
            
       },
-
+      nl2br: function(str, is_xhtml) {
+         if (typeof str === 'undefined' || str === null) {
+               return '';
+          }
+       var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+       return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+     },
 
     }
        // this.$forceUpdate()
