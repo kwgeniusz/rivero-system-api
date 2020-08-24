@@ -22,12 +22,12 @@
             </thead>
           <tbody>
                 <tr>
-                     <td>{{$client[0]->client->clientCode}}</td>
-                     <td>{{$client[0]->client->clientName}}</td>
-                     <td>{{$client[0]->client->clientAddress}}</td>
-                     <td>{{$client[0]->client->clientPhone}}</td>
-                     <td>{{$client[0]->cuotas}}</td>
-                     <td>{{$client[0]->total}}</td>
+                     <td>{{$receivable[0]->client->clientCode}}</td>
+                     <td>{{$receivable[0]->client->clientName}}</td>
+                     <td>{{$receivable[0]->client->clientAddress}}</td>
+                     <td>{{$receivable[0]->client->clientPhone}}</td>
+                     <td>{{$receivable[0]->cuotas}}</td>
+                     <td>{{$receivable[0]->balanceTotal}}</td>
                 </tr>
         </tbody>
       </table>

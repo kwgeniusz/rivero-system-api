@@ -22,21 +22,31 @@ class ReceivableController extends Controller
     public function index(Request $request)
     {
             $receivables = '';
-            $receivables = $this->oReceivable->clientsPending(session('countryId'));
-        
+            $receivables = $this->oReceivable->clientsPending(session('companyId'));
+
+            $receivables->map(function($receivable){
+                      $paymentsMissing = $this->oReceivable->getAllByClient($receivable->clientId);
+                      $receivable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
+             });
+
         return view('module_administration.receivables.index', compact('receivables'));
     }
     public function details($clientId)
     {
-        $client               = $this->oReceivable->clientPendingInfo($clientId);
-        $receivablesInvoices = $this->oReceivable->invoicesPendingAll($clientId);
+        $receivable           = $this->oReceivable->clientPendingInfo($clientId);
+        $receivablesInvoices  = $this->oReceivable->invoicesPendingAll($clientId);
+
+        $receivable->map(function($receivable){
+                      $paymentsMissing = $this->oReceivable->getAllByClient($receivable->clientId);
+                      $receivable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
+             });
 
         //verifica si hay registros sino redirigeme a "ver todos los clientes con cuentas por cobrar"
-        if (count($client) == 0) {
+        if (count($receivable) == 0) {
             return redirect()->route('receivables.index');
         }
 
-        return view('module_administration.receivables.details', compact('receivablesInvoices', 'client'));
+        return view('module_administration.receivables.details', compact('receivable','receivablesInvoices'));
     }
     public function share(Request $request)
     {

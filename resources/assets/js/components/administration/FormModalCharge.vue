@@ -57,8 +57,8 @@
                 <input type="text" class="form-control" v-model="formSourceBankAccount">
               </div>
               <div class="form-group" v-if="formCollectMethod == 3">
-               <label for="formCheckNumber">N° CHEQUE</label>
-                <input type="number" class="form-control" v-model="formCheckNumber">
+               <label for="formCheckNumber">N° REFERENCIA</label>
+                <input type="number" class="form-control" v-model="formCheckNumber" placeholder="N° Check,N° Transfer, etc...">
               </div>
 
           <div class="form-group col-lg-6 col-lg-offset-3 ">
@@ -69,7 +69,7 @@
     <div v-if="formCollectMethod == 1 || formCollectMethod == 10 ">
           <div class="form-group col-lg-4 col-lg-offset-2 col-lg-8 col-lg-offset-2">
                  <label for="formPercent">PORCENTAJE</label>
-                 <input type="number" step="0.01" min="0" class="form-control" id="formPercent"  pattern="^[0-9]+" v-model="formPercent" >
+                 <input type="number" step="0.01" min="0" max="100" class="form-control" id="formPercent"  pattern="^[0-9]+" v-model="formPercent" >
           </div>
           <div class="form-group col-lg-3 col-lg-8 col-lg-offset-2">
                  <label for="formAmountPercent">FEE</label><br>

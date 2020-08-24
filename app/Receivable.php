@@ -171,12 +171,22 @@ class Receivable extends Model
         return $result;
     }
 //--------------------------------------------
+        public function getAllByClient($clientId)
+    {   // ojo parece que esta repetida mas abajo,revisar si esta en alguna parte del codigo
+        //QUE SE HALLAN PROCESADO CON EXITO
+        $result = $this->where('clientId', $clientId)
+            ->where('recStatusCode','!=' ,Receivable::SUCCESS)
+            ->orderBy('paymentInvoiceId', 'ASC')
+            ->get();
+
+        return $result;
+    } 
     //metodo usado en modulo administrativo para mostrar clientes y la suma de cuotas deudoras de todas sus facturas,countryId
-    public function clientsPending($countryId)
+    public function clientsPending($companyId)
     { //buscar todos los clientes donde el estado No sea exitoso (4) y agrupalos para contar sus cuotas
-        return $this->select('clientId', DB::raw('count(*) as cuotas'))
+        return $this->select('clientId', DB::raw('count(*) as cuotas'),DB::raw('amountDue as balance'))
             ->where('recStatusCode', '!=', Receivable::SUCCESS) 
-            ->where('countryId', '=', $countryId)
+            ->where('companyId', '=', $companyId)
             ->groupBy('clientId')
             ->get();
     }
