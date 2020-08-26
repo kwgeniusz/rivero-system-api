@@ -1525,243 +1525,243 @@ EOD;
 //     } 
 
 //------------------SIMPLE STATEMENT-----------------------------//
-     public function printStatement(Request $request)
-    {
- //reporte traigo de transaction
-        $date         = Carbon::now();
-        $company       = DB::table('company')->where('companyId', session('companyId'))->get();
+//      public function printStatement(Request $request)
+//     {
+//  //reporte traigo de transaction
+//         $date         = Carbon::now();
+//         $company       = DB::table('company')->where('companyId', session('companyId'))->get();
 
-        $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
-        $share          = $this->oReceivable->sharePending($request->id);
-        $client         = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
-        $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('companyId'));
+//         $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
+//         $share          = $this->oReceivable->sharePending($request->id);
+//         $client         = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
+//         $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('companyId'));
 
-         if($share->isEmpty()){
-            $nextShare = '0.00';
-         }else{
-            $nextShare = $share[0]->amountDue;
-         }
+//          if($share->isEmpty()){
+//             $nextShare = '0.00';
+//          }else{
+//             $nextShare = $share[0]->amountDue;
+//          }
 
-        $symbol = $invoice[0]->contract->currency->currencySymbol;
+//         $symbol = $invoice[0]->contract->currency->currencySymbol;
 
-        if ($invoice->isEmpty()) {
-            return view('module_administration.reportincomeexpenses.error');
-        } else {
+//         if ($invoice->isEmpty()) {
+//             return view('module_administration.reportincomeexpenses.error');
+//         } else {
 
- // imprimir encabezado de statemen
-            $html = <<<EOD
-    <table cellspacing="0" cellpadding="1px" border="0"  >
-       <tr >
-        <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>STATEMENT</b></th>
-       </tr>
+//  // imprimir encabezado de statemen
+//             $html = <<<EOD
+//     <table cellspacing="0" cellpadding="1px" border="0"  >
+//        <tr >
+//         <th style="background-color:#e5db99;font-size:14px;" colspan="3" align="center"><b>STATEMENT</b></th>
+//        </tr>
  
-       <tr style="font-size:9px"> 
-         <th width="20%" align="left"> 
-          <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
-         </th>
-        <th width="54%">
-             <div style="text-align:center">
-               <strong style="font-size:17px" sty>{$company[0]->companyName}</strong><br>
-               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$company[0]->companyAddress}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$company[0]->companyPhone},{$company[0]->companyPhoneOptional}<br>
-               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$company[0]->companyEmail}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$company[0]->companyWebsite}
-             </div>
-        </th>
-    <th width="30%">
-    <br><br>
-        <table border="0">
-            <tr>
-              <td> </td>
-              <td> </td>
-            </tr>
-            <tr>
-              <td><b>Statement Date:</b></td>
-              <td align="left">{$date->format('m/d/Y')}</td>
-            </tr>
-         </table>     
+//        <tr style="font-size:9px"> 
+//          <th width="20%" align="left"> 
+//           <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
+//          </th>
+//         <th width="54%">
+//              <div style="text-align:center">
+//                <strong style="font-size:17px" sty>{$company[0]->companyName}</strong><br>
+//                <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {$company[0]->companyAddress}<br>
+//                <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {$company[0]->companyPhone},{$company[0]->companyPhoneOptional}<br>
+//                <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {$company[0]->companyEmail}
+//                <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {$company[0]->companyWebsite}
+//              </div>
+//         </th>
+//     <th width="30%">
+//     <br><br>
+//         <table border="0">
+//             <tr>
+//               <td> </td>
+//               <td> </td>
+//             </tr>
+//             <tr>
+//               <td><b>Statement Date:</b></td>
+//               <td align="left">{$date->format('m/d/Y')}</td>
+//             </tr>
+//          </table>     
 
-        </th>
-       </tr>
-</table>
+//         </th>
+//        </tr>
+// </table>
        
 
- <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
-       <tr>
-        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>CUSTOMER INFORMATION</b></th>
-       </tr>
-       <tr> 
-            <th colspan="1">
-               <b>ID:</b> {$client[0]->clientCode}
-            </th>
-            <th colspan="2">
-              <b>Name:</b> {$client[0]->clientName}
-            </th>
-       </tr>
+//  <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+//        <tr>
+//         <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>CUSTOMER INFORMATION</b></th>
+//        </tr>
+//        <tr> 
+//             <th colspan="1">
+//                <b>ID:</b> {$client[0]->clientCode}
+//             </th>
+//             <th colspan="2">
+//               <b>Name:</b> {$client[0]->clientName}
+//             </th>
+//        </tr>
 
-      <tr> 
-            <th colspan="3">
-              <b>Billing Address:</b> {$client[0]->clientAddress}
-            </th>
-       </tr>
+//       <tr> 
+//             <th colspan="3">
+//               <b>Billing Address:</b> {$client[0]->clientAddress}
+//             </th>
+//        </tr>
 
-     <tr> 
-          <th colspan="2">
-               <b>E-mail:</b> {$client[0]->clientEmail}
-            </th>
-            <th colspan="1">
-                   <b>Phone:</b> {$client[0]->clientPhone}
-            </th>
-       </tr>
-</table>
+//      <tr> 
+//           <th colspan="2">
+//                <b>E-mail:</b> {$client[0]->clientEmail}
+//             </th>
+//             <th colspan="1">
+//                    <b>Phone:</b> {$client[0]->clientPhone}
+//             </th>
+//        </tr>
+// </table>
 
- <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
-       <tr>
-        <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
-       </tr>
-        <tr> 
-            <th>
-             <b>Control Number:</b> {$invoice[0]->contract->contractNumber}
-            </th>
-            <th colspan="2">
-             <b>Address:</b> {$invoice[0]->contract->siteAddress}
-            </th>
-            <th> </th>
-       </tr>
-      <tr> 
-            <th >
-              <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
-            </th>
-            <th colspan="2">
-              <b>Description:</b> {$invoice[0]->projectDescription->projectDescriptionName}
-            </th>
-           <th> </th>
-       </tr>
-</table>   
+//  <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+//        <tr>
+//         <th colspan="3" style="background-color:#f2edd1;font-size:13px;" align="center"><b>PROJECT INFORMATION</b></th>
+//        </tr>
+//         <tr> 
+//             <th>
+//              <b>Control Number:</b> {$invoice[0]->contract->contractNumber}
+//             </th>
+//             <th colspan="2">
+//              <b>Address:</b> {$invoice[0]->contract->siteAddress}
+//             </th>
+//             <th> </th>
+//        </tr>
+//       <tr> 
+//             <th >
+//               <b>Type:</b> {$invoice[0]->contract->projectUse->projectUseName} 
+//             </th>
+//             <th colspan="2">
+//               <b>Description:</b> {$invoice[0]->projectDescription->projectDescriptionName}
+//             </th>
+//            <th> </th>
+//        </tr>
+// </table>   
 
- <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
-        <thead>
-        <tr style="background-color:#f2edd1; color:black; font-size:13px;  font-weight: bold;" align="center">
-          <th width="20%" align="center">DATE</th>
-          <th width="35%" align="center">TRANSACTION</th>
-          <th width="22.5%" >AMOUNT</th>
-          <th width="22.5%" align="center">BALANCE</th>
-        </tr>
-        </thead>
-    <tr style="background-color:white; font-size:10px;">
-        <td width="20%" align="center">{$invoice[0]->invoiceDate}</td>
-        <td width="35%" align="left">ORIGINAL AMOUNT - REF. INV. {$invoice[0]->invId}</td>
-        <td width="22.5%" align="center">$symbol 0.00</td>
-        <td width="22.5%" align="center">$symbol {$invoice[0]->netTotal}</td>
-    </tr>
-EOD;
+//  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
+//         <thead>
+//         <tr style="background-color:#f2edd1; color:black; font-size:13px;  font-weight: bold;" align="center">
+//           <th width="20%" align="center">DATE</th>
+//           <th width="35%" align="center">TRANSACTION</th>
+//           <th width="22.5%" >AMOUNT</th>
+//           <th width="22.5%" align="center">BALANCE</th>
+//         </tr>
+//         </thead>
+//     <tr style="background-color:white; font-size:10px;">
+//         <td width="20%" align="center">{$invoice[0]->invoiceDate}</td>
+//         <td width="35%" align="left">ORIGINAL AMOUNT - REF. INV. {$invoice[0]->invId}</td>
+//         <td width="22.5%" align="center">$symbol 0.00</td>
+//         <td width="22.5%" align="center">$symbol {$invoice[0]->netTotal}</td>
+//     </tr>
+// EOD;
 
 
-       $acum = 0 ;
-       $statement = $invoice[0]->netTotal;
+//        $acum = 0 ;
+//        $statement = $invoice[0]->netTotal;
 
- //// inicio del ciclo de impresion
-foreach ($transactions as $transaction) {
-               $acum = $acum + 1;
-                if ($acum % 2 != 0) {
-                    $background = "#f2edd1";
-                } else {
-                    $background = "#fbfbfb";
-                }
+//  //// inicio del ciclo de impresion
+// foreach ($transactions as $transaction) {
+//                $acum = $acum + 1;
+//                 if ($acum % 2 != 0) {
+//                     $background = "#f2edd1";
+//                 } else {
+//                     $background = "#fbfbfb";
+//                 }
 
-                   $statement = $statement - $transaction->amount;
-                   $statement = number_format((float)$statement, 2, '.', '');
+//                    $statement = $statement - $transaction->amount;
+//                    $statement = number_format((float)$statement, 2, '.', '');
                    
-                $html .= <<<EOD
-        <tr style="background-color:$background; font-size:10px;">
-         <td width="20%" align="center">$transaction->transactionDate</td>
-         <td width="35%" align="left"> $transaction->reason</td>
-         <td width="22.5%" align="center">$symbol $transaction->amount</td>
-         <td width="22.5%" align="center">$symbol $statement</td>
-        </tr>
-EOD;
-}// FIN DE FOREACH DE RENGLONES
+//                 $html .= <<<EOD
+//         <tr style="background-color:$background; font-size:10px;">
+//          <td width="20%" align="center">$transaction->transactionDate</td>
+//          <td width="35%" align="left"> $transaction->reason</td>
+//          <td width="22.5%" align="center">$symbol $transaction->amount</td>
+//          <td width="22.5%" align="center">$symbol $statement</td>
+//         </tr>
+// EOD;
+// }// FIN DE FOREACH DE RENGLONES
 
-   // imprimir footer de factura
- $html .= <<<EOD
- </table>
-  <br><br>
- <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
-       <tr style="background-color:#f2edd1;" align="center">
-        <th ><b>AMOUNT DUE NEXT PAYMENT</b>
-        </th>
-        <th ><b>1-7 DAYS PAST DUE</b>
-        </th>
-        <th ><b>8-15 DAYS PAST DUE</b>
-        </th>
-        <th ><b>OVER 16 DAYS PAST DUE</b>
-        </th>
-       </tr>
-        <tr align="center"> 
-            <th >
-             $symbol {$nextShare}
-            </th>
-            <th>
-             $symbol 0.00
-            </th>   
-              <th>
-             $symbol 0.00
-            </th>  
-               <th>
-             $symbol 0.00
-            </th>     
-       </tr>
-</table>   
- <br><br>
- <table cellspacing="0" cellpadding="0" border="0"  >
-       <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
-       </tr>
+//    // imprimir footer de factura
+//  $html .= <<<EOD
+//  </table>
+//   <br><br>
+//  <table cellspacing="0" cellpadding="1px" border="0" style="font-size:10px">
+//        <tr style="background-color:#f2edd1;" align="center">
+//         <th ><b>AMOUNT DUE NEXT PAYMENT</b>
+//         </th>
+//         <th ><b>1-7 DAYS PAST DUE</b>
+//         </th>
+//         <th ><b>8-15 DAYS PAST DUE</b>
+//         </th>
+//         <th ><b>OVER 16 DAYS PAST DUE</b>
+//         </th>
+//        </tr>
+//         <tr align="center"> 
+//             <th >
+//              $symbol {$nextShare}
+//             </th>
+//             <th>
+//              $symbol 0.00
+//             </th>   
+//               <th>
+//              $symbol 0.00
+//             </th>  
+//                <th>
+//              $symbol 0.00
+//             </th>     
+//        </tr>
+// </table>   
+//  <br><br>
+//  <table cellspacing="0" cellpadding="0" border="0"  >
+//        <tr>
+//         <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
+//        </tr>
 
-       <tr style="font-size:10px"> 
-        <th>
-              <b>T&C:</b>
-                  <ul>
-EOD;
-foreach($invoice['0']->note as $note){ 
- $html .= <<<EOD
-    <li>$note->noteName</li>
-EOD;
-}
- $html .= <<<EOD
-                  </ul>
-        </th>
-       </tr>
-</table>
-EOD;
-          PDF::setFooterCallback(function($pdf) {
-            // Position at 15 mm from bottom
-            $pdf->SetY(-15);
-            // Set font
-            $pdf->SetFont('helvetica', 'I', 8);
-            $pdf->Cell(0, 9, '© Copyright 2020 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
-            $pdf->Ln(4);
+//        <tr style="font-size:10px"> 
+//         <th>
+//               <b>T&C:</b>
+//                   <ul>
+// EOD;
+// foreach($invoice['0']->note as $note){ 
+//  $html .= <<<EOD
+//     <li>$note->noteName</li>
+// EOD;
+// }
+//  $html .= <<<EOD
+//                   </ul>
+//         </th>
+//        </tr>
+// </table>
+// EOD;
+//           PDF::setFooterCallback(function($pdf) {
+//             // Position at 15 mm from bottom
+//             $pdf->SetY(-15);
+//             // Set font
+//             $pdf->SetFont('helvetica', 'I', 8);
+//             $pdf->Cell(0, 9, '© Copyright 2020 JD Rivero Global - All rights reserved ', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+//             $pdf->Ln(4);
             
-            $pdf->Cell(0, 9, 'Designed By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
-            // Page number
-            $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-         });
+//             $pdf->Cell(0, 9, 'Designed By Rivero Visual Group', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+//             // Page number
+//             $pdf->Cell(0, 10, 'Page '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+//          });
 
 
 
-            PDF::AddPage();
-            PDF::writeHTML($html, true, false, false, false, '');
+//             PDF::AddPage();
+//             PDF::writeHTML($html, true, false, false, false, '');
 
-            $fileName = Auth::user()->userName;
-            PDF::SetTitle($fileName);
-            $outputDestination = "F";
-            $outputPdfName     = "pdf/$fileName.pdf";
-            PDF::Output(public_path($outputPdfName), $outputDestination);
+//             $fileName = Auth::user()->userName;
+//             PDF::SetTitle($fileName);
+//             $outputDestination = "F";
+//             $outputPdfName     = "pdf/$fileName.pdf";
+//             PDF::Output(public_path($outputPdfName), $outputDestination);
     
 
-            return view('layouts.reports', compact('outputPdfName'));
-        }
-    }
+//             return view('layouts.reports', compact('outputPdfName'));
+//         }
+//     }
 
 
     public function summaryClientForm()

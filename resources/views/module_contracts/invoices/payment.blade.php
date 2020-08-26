@@ -138,7 +138,7 @@
                  @endif
 
                  @if($payment->receivable->recStatusCode != App\Receivable::STATELESS)  
-                 <a href="{{route('receivables.printReceipt', [
+                 <a href="{{route('reports.printReceipt', [
                   'receivableId' => $payment->receivable->receivableId]) }}" class="btn btn-info btn-sm">
                             <span class="fa fa-file-invoice" aria-hidden="true"></span>  Recibo
                   </a>

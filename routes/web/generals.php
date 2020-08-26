@@ -64,19 +64,19 @@ Route::get('contracts-summary', 'Web\ReportController@summaryContractForCompany'
 Route::get('contracts-summary-for-clients', 'Web\ReportController@summaryClientForm')->name('contracts.summaryForClient');
 Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForClient')->name('reports.summaryForClient');
 
-Route::get('reportsInvoice', 'Report\Pdf\InvoiceControllerPDF@printInvoice')->name('reports.invoice');
-Route::get('reportsStatement', 'Report\Pdf\InvoiceControllerPDF@printStatement')->name('reports.statement');
-Route::get('reportsProposal', 'Report\Pdf\ProposalControllerPDF@printProposal')->name('reports.proposal');
-Route::get('receivablessPrintReceipt', 'Report\Pdf\ProposalControllerPDF@printProposal')->name('receivables.printReceipt');
+Route::get('reportsProposal', 'Report\Pdf\AdministrationControllerPDF@printProposal')->name('reports.proposal');
+Route::get('reportsInvoice', 'Report\Pdf\AdministrationControllerPDF@printInvoice')->name('reports.invoice');
+Route::get('reportsStatement', 'Report\Pdf\AdministrationControllerPDF@printStatement')->name('reports.statement');
+Route::get('reportsReceipt', 'Report\Pdf\AdministrationControllerPDF@printReceipt')->name('reports.printReceipt');
 
 //-----------------------------ADMINISTRATION--------------------------------------------------//
-Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
-Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');
-Route::get('transactions-income', function () {return view('module_administration.reportincome.index');})->name('transactions.income');
-Route::post('transactions-income', 'Web\ReportController@transactionSummaryForSign')->name('reports.income');
-Route::get('transactionsexpenses', function () {return view('module_administration.reportexpenses.index');})->name('transactions.expenses');
-Route::post('transactionsexpenses', 'Web\ReportController@transactionSummaryForSign')->name('reports.expenses');
-Route::get('collection-report', 'Web\ReceivableController@reportCollections')->name('collections.index');
-Route::post('collection-report', 'Web\ReportController@collections')->name('collections.result');
+// Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
+// Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');
+// Route::get('transactions-income', function () {return view('module_administration.reportincome.index');})->name('transactions.income');
+// Route::post('transactions-income', 'Web\ReportController@transactionSummaryForSign')->name('reports.income');
+// Route::get('transactionsexpenses', function () {return view('module_administration.reportexpenses.index');})->name('transactions.expenses');
+// Route::post('transactionsexpenses', 'Web\ReportController@transactionSummaryForSign')->name('reports.expenses');
+// Route::get('collection-report', 'Web\ReceivableController@reportCollections')->name('collections.index');
+// Route::post('collection-report', 'Web\ReportController@collections')->name('collections.result');
 
 

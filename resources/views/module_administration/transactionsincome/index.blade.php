@@ -91,7 +91,11 @@
                 <tr>
                    <td>{{ $acum = $acum +1 }}</td>
                    <td>{{$transaction->transactionDate}}</td>
-                   <td>{{$transaction->description}}</td>
+                   <td>{{$transaction->description}} <br>
+                    @if($transaction->invoice != null)
+                    {{$transaction->invoice->contract->siteAddress}}
+                    @endif
+                  </td>
                    {{-- <td>{{$transaction->payMethodDetails}}</td> --}}
                    <td>@if($transaction->invoice != null)
                     {{$transaction->invoice->invId}}

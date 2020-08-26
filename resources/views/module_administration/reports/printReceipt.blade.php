@@ -13,7 +13,7 @@
          }
         body {
             margin: 1cm 1cm 2cm 1cm;
-            font-size:13px
+            font-size:14px
         }
  
         header {
@@ -57,40 +57,38 @@
 <body>
 
 
-{{--        $receivables = $this->oReceivable->findById($request->receivableId);
-       $company       = DB::table('company')->where('companyId', session('companyId'))->get();
-       $invoice    = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('companyId'));
-       $symbol = $invoice[0]->contract->currency->currencySymbol;
-    
- --}}
-
 <table cellspacing="0" cellpadding="1px" border="0">
        <tr >
-        <th style="background-color:#efcb44;font-size:15px;color:white" colspan="3" align="center"><b>PAYMENT RECEIPT</b></th>
+        <th style="background-color:#efcb44;font-size:18px;color:white" colspan="3" align="center"><b>PAYMENT RECEIPT</b></th>
        </tr>
-        <br><br>
-    <tr style="font-size:11px"> 
+
+        <tr> 
+
          <th width="20%" align="left"> 
-          <img style="float:center;" src="img/logo_jd.jpg" alt="test alt attribute" width="170px" height="150px"/>
+          <br><br>
+          <img src="img/logo_jd.jpg" alt="test alt attribute" width="140px" height="120px"/>
          </th>
+
         <th width="57%">
              <div style="text-align:center">
-               <strong style="font-size:17px" sty>{{$company[0]->companyName}}</strong><br>
-               <img style="float:center;" src="img/icon-point.png" width="10" height="10"/> {{$company[0]->companyAddress}}<br>
-               <img style="float:center;" src="img/icon-phone.png" width="10" height="10"/> {{$company[0]->companyPhone}},{{$company[0]->companyPhoneOptional}}<br>
-               <img style="float:center;" src="img/icon-email.png" width="10" height="10"/> {{$company[0]->companyEmail}}
-               <img style="float:center;" src="img/icon-location.png" width="10" height="10"/> {{$company[0]->companyWebsite}}
+               <strong style="font-size:20px" sty>{{$company[0]->companyName}}</strong><br>
+               <img src="img/icon-point.png" width="10px" height="10px"/> {{$company[0]->companyAddress}}<br>
+               <img src="img/icon-phone.png" width="10px" height="10px"/> {{$company[0]->companyPhone}},{{$company[0]->companyPhoneOptional}}<br>
+               <img src="img/icon-email.png" width="10px" height="10px"/> {{$company[0]->companyEmail}}
+               <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
              </div>
         </th>
+
       <th width="23%" align="center">
-      <br>
-        <img style="float:center;" src="img/codeqr.png" alt="test alt attribute" width="80" height="80"/>
+
+        <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
       </th>
+
     </tr>
 </table>
 
-<br><br><br>
- <table cellspacing="0" cellpadding="6px" border="0" style="font-size:11px;background-color:#f4f4f5;border-radius:4px">
+<br><br>
+ <table cellspacing="0" cellpadding="6px" border="0" style="background-color:#f4f4f5;border-radius:4px">
        <tr>
         <th><b>Dear</b> {{$receivables[0]->client->clientName}}</th>
        </tr>
@@ -102,14 +100,14 @@
     foreach ($receivables as $receivable) {
 @endphp
 <br>
- <div align="center" style="font-size:12px"><b>Payment information</b></div>
+ <div align="center" style="font-size:15px"><b>Payment information</b></div>
  <br>
 
 <table>
 <tr>
 <td style="width:20%"></td>
 <td style="width:60%">
-  <table cellspacing="0" cellpadding="6px" border="0" style="font-size:11px; border: 1px solid black;">
+  <table cellspacing="0" cellpadding="6px" border="0" style=" border: 1px solid black;">
   <tr style="background-color:#f4f4f5;"> 
             <th>
                Payment date:
@@ -145,14 +143,14 @@
 </table>
 
 <br><br>
- <div align="center" style="font-size:12px"><b>Payment details</b></div>
+ <div align="center" style="font-size:15px"><b>Payment details</b></div>
  <br>
 
 <table>
 <tr>
 <td style="width:20%"></td>
 <td style="width:60%">
-  <table  cellspacing="0" cellpadding="6px" border="0" style="font-size:11px; border: 1px solid black;">
+  <table  cellspacing="0" cellpadding="6px" border="0" style=" border: 1px solid black;">
       <tr style="background-color:#f4f4f5;"> 
             <th>
                Control Number:
@@ -175,7 +173,8 @@
               Balance Due:
             </th>
             <th>
-               {{$symbol}}  {{$receivable->balance}}          </th>
+               {{$symbol}}  {{$receivable->balance}}    
+            </th>
        </tr>
 
          <tr style="background-color:#f4f4f5;"> 
@@ -203,17 +202,17 @@
 </table>
 
 <br>
-<div align="center" style="font-size:12px"><b>Overpayment of <u> {{$symbol}}{{$receivable->amountPaid}}</u> converted to credit</b></div>
+<div align="center" style="font-size:15px"><b>Overpayment of <u> {{$symbol}}{{$receivable->amountPaid}}</u> converted to credit</b></div>
 @php
     }
 @endphp
  <br><br>    
- <table cellspacing="0" cellpadding="2px" border="0"  >
+ {{-- <table cellspacing="0" cellpadding="2px" border="0"  >
        <tr>
         <th style="background-color:#f4f4f5;" colspan="1" align="center"><b>Terms & Conditions</b></th>
        </tr>
 
-       <tr style="font-size:11px"> 
+       <tr> 
         <th>
               <b>T&C:</b>
                   <ul>
@@ -223,7 +222,7 @@
                   </ul>
         </th>
        </tr>
-</table>
+</table> --}}
 
 
 <script type="text/php">
