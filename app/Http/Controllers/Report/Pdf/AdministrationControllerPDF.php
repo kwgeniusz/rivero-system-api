@@ -165,7 +165,7 @@ public function printReceipt(Request $request)
     }
 
 
-//------------------SIMPLE STATEMENT-----------------------------//
+//------------------INVOICE STATEMENT-----------------------------//
      public function printStatement(Request $request)
     {
  //reporte trae de transaction
@@ -207,8 +207,48 @@ public function printReceipt(Request $request)
       }
     }
 
+public function printReceivables(Request $request)
+    {
+
+       $date         = Carbon::now();
+       $invoices = $this->oInvoice->getAllByTwoStatus(INVOICE::OPEN,INVOICE::CLOSED,session('companyId'));
+       foreach ($invoices as $invoice) {
+           $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
+        }
+       $company     = DB::table('company')->where('companyId', session('companyId'))->get();
+       $symbol      = $invoices[0]->contract->currency->currencySymbol;
+      
+       $data = [
+        'date' => $date,
+        'company'  => $company,
+        'invoices'  => $invoices,
+        'symbol'  => $symbol,
+         ];
+
+       return PDF::loadView('module_administration.reports.printReceivables', $data)->stream('Receivables.pdf');
+
+            // return view('layouts.reports', compact('outputPdfName'));
+    }
 
 
+public function printPaymentRequest(Request $request)
+    {
+       $receivable = $this->oReceivable->findById($request->receivableId);
+       $invoice    = $receivable[0]->invoice;
+       $symbol      = $invoice->contract->currency->currencySymbol;
+
+       $company     = DB::table('company')->where('companyId', session('companyId'))->get();
+      
+      
+       $data = [
+        'receivable'  => $receivable,
+        'invoice'  => $invoice,
+        'symbol'  => $symbol,
+        'company'  => $company,
+         ];
+
+       return PDF::loadView('module_administration.reports.printPaymentRequest', $data)->stream('PaymentRequest.pdf');
+    }
 
 }//end class
 

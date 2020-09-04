@@ -3,9 +3,7 @@
 @section('content')
 <span class="logo-lg "><h3><b>CUENTAS POR COBRAR</b></h3></span>
 <div class="text-center">
-
 <div class="panel-body">
-
  {{--    <div class="row ">
        <div class="col-xs-12">
       <form class="form-inline" action="{{Route('receivables.index')}}" method="POST">
@@ -27,6 +25,15 @@
             </div>
 
     <hr> --}}
+<div class="text-left">
+ <a href="{{route('reports.receivables')}}" class="btn btn-danger btn-sm text-right" data-toggle="tooltip" data-placement="top" title="">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Reporte
+     </a>
+</div>
+<br>
+
+
+
 @if($receivables)
     <div class="row">
         <div class="col-xs-12 ">
@@ -63,9 +70,7 @@
         </div>
     </div>
 @endif
-   <a href="{{route('home')}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
+ 
  </div>
 </div>
 @endsection

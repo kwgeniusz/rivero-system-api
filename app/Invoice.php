@@ -139,10 +139,22 @@ class Invoice extends Model
                         ->get();
         return $result;
     }
-
+  public function getAllByTwoStatus($invStatusCode1,$invStatusCode2,$companyId)
+    {
+        $result = $this->with('contract','invoiceStatus','projectDescription','client')
+                       ->where('companyId' , '=' , $companyId)
+                       ->where(function($q) use ($invStatusCode1,$invStatusCode2){
+                          $q->where('invStatusCode', $invStatusCode1)
+                          ->orWhere('invStatusCode', $invStatusCode2);
+                        })
+                        ->orderBy('invId', 'ASC')
+                        ->get();
+        return $result;
+    }
     public function getAllByFourStatus($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4,$companyId)
     {
-        $result = $this->where('companyId' , '=' , $companyId)
+        $result = $this->with('contract','invoiceStatus','projectDescription')
+                       ->where('companyId' , '=' , $companyId)
                        ->where(function($q) use ($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4){
                           $q->where('invStatusCode', $invStatusCode1)
                           ->orWhere('invStatusCode', $invStatusCode2)
@@ -165,19 +177,19 @@ class Invoice extends Model
     }  
 
 
-     public function getAllByClientAndCompany($clientId,$companyId)
-    {
-        $result = $this->where('clientId', $clientId)
-            ->where('companyId', $companyId)
-            ->where('invStatusCode', Invoice::OPEN)
-            ->orWhere('clientId', $clientId)
-            ->where('companyId', $companyId)
-            ->where('invStatusCode', Invoice::CLOSED)
-            ->orderBy('invoiceId', 'ASC')
-            ->get();
+    //  public function getAllByClientAndCompany($clientId,$companyId)
+    // {
+    //     $result = $this->where('clientId', $clientId)
+    //         ->where('companyId', $companyId)
+    //         ->where('invStatusCode', Invoice::OPEN)
+    //         ->orWhere('clientId', $clientId)
+    //         ->where('companyId', $companyId)
+    //         ->where('invStatusCode', Invoice::CLOSED)
+    //         ->orderBy('invoiceId', 'ASC')
+    //         ->get();
 
-        return $result;
-    }
+    //     return $result;
+    // }
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {

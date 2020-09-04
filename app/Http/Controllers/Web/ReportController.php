@@ -1766,7 +1766,7 @@ EOD;
 
     public function summaryClientForm()
     {
-        $clients = $this->oClient->getAll(session('countryId'));
+        $clients = $this->oClient->getAll(session('countryId'),'');
         return view('module_contracts.summaryforclient.index', compact('clients'));
     }
     public function summaryForClient(Request $request)

@@ -16,6 +16,29 @@
             font-size:13px
         }
  
+        header {
+            position: fixed;
+            top: 0cm;
+            left: 0cm;
+            right: 0cm;
+            height: 2cm;
+            background-color: #2a0927;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0cm;
+            left: 0cm;
+            right: 0cm;
+            height: 2cm;
+            /*background-color: #2a0927;*/
+            color: white;
+            text-align: center;
+            line-height: 35px;
+        }
+
         table{
             width:100%;
             /*border:1px solid black;*/

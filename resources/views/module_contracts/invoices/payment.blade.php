@@ -111,31 +111,28 @@
                  <td>{{$payment->receivable->amountPaid}}</td>
                  <td>
                 {{-- {{$payment->receivable->recStatusCode}} - {{$invoice[0]->contract->contractStatus}} --}}
-              @if($payment->receivable->paymentInvoiceId == $currentShare)
+       @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
 
+              {{-- EL primer if es para verificar que son opciones de la cuota que lo corresponde a pagar a cliente --}}
+             @if($payment->receivable->paymentInvoiceId == $currentShare) 
                  @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED) 
-                     @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
                   <form-modal-charge r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></form-modal-charge>
-                    @endif
-                 @endif 
+                 @endif
 
                  @if($payment->receivable->recStatusCode == App\Receivable::PROCESS) 
-                   @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED) 
                   <confirm-payment r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></confirm-payment>
-                    @endif
-                 @endif  
-
+                @endif
               @endif
 
-                 @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
-                   @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
-                  <a href="{{route('invoices.paymentsRemove', [
+          @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED)
+             <a href="{{route('invoices.paymentsRemove', [
                   'id' => $payment->paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
-                   @endif
-                 @endif
+          @endif
+
+          @endif
 
                  @if($payment->receivable->recStatusCode != App\Receivable::STATELESS)  
                  <a href="{{route('reports.printReceipt', [
@@ -143,6 +140,18 @@
                             <span class="fa fa-file-invoice" aria-hidden="true"></span>  Recibo
                   </a>
                  @endif 
+
+       {{--           @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
+                   @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
+                  <a href="{{route('invoices.paymentsRemove', [
+                  'id' => $payment->paymentInvoiceId,
+                  'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">
+                            <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
+                  </a>
+                   @endif
+                 @endif --}}
+      
+
 
                  </td>
                 </tr>

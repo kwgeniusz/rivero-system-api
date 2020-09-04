@@ -62,6 +62,12 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Client', 'clientId','clientId');
     }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+    
     public function buildingCode()
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
@@ -302,7 +308,8 @@ class Contract extends Model
 //------------------------------------
     public function getAllForStatus($contractStatus,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->where('contractStatus', $contractStatus)
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+            ->where('contractStatus', $contractStatus)
             ->where('countryId', $countryId)
             ->where('companyId', $companyId) 
             ->orderBy('contractNumber', 'DESC')
@@ -314,7 +321,8 @@ class Contract extends Model
 //------------------------------------------
     public function getAllForSixStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->where('countryId', $countryId)
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+                       ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
                        ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6){
                           $q->where('contractStatus', $contractStatus1)
@@ -332,7 +340,8 @@ class Contract extends Model
 //------------------------------------------ 
       public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->where('countryId', $countryId)
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+                       ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
                        ->where(function($q) use ($contractStatus1,$contractStatus2){
                           $q->where('contractStatus', $contractStatus1)

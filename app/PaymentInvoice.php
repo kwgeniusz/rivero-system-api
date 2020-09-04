@@ -6,6 +6,7 @@ use Auth;
 use DB;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
+use App\Receivable;
 
 class PaymentInvoice extends Model
 {
@@ -158,7 +159,7 @@ class PaymentInvoice extends Model
         try {
             $result = DB::table('receivable')->where('paymentInvoiceId', $id)->value('recStatusCode');
 
-            if ($result != '1') {
+            if ($result == Receivable::SUCCESS || $result == Receivable::PROCESS) {
                 throw new \Exception('Error: La Cuota no se puede eliminar, se esta procesando o ya se pago');
             } else {
                 //ELIMINAR PAGO

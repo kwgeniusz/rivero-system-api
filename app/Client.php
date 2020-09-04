@@ -69,11 +69,13 @@ class Client extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll($countryId)
+    public function getAll($countryId,$filteredOut)
     {
-        return $this->orderBy('clientId', 'ASC')
+        return $this->with('contactType')
                     ->where('countryId','=', $countryId)
-                    ->get();
+                    ->orderBy('clientId', 'ASC')
+                    ->filter($filteredOut)
+                    ->paginate(300);
     }
 //------------------------------------------
     public function findById($id,$countryId)
@@ -162,4 +164,6 @@ class Client extends Model
         }
     }
 //------------------------------------------
+
+    
 }

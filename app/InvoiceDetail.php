@@ -92,8 +92,6 @@ class InvoiceDetail extends Model
 
         DB::beginTransaction();
         try {
-
-
               if($amount == '0.00'){
                 $amount = null;
               }

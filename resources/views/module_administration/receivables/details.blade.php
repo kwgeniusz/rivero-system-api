@@ -39,7 +39,7 @@
     <h4 class="text-info text-center">DETALLES - CUENTAS POR COBRAR</h4>
          <!-- INICIO DE LA TABLA COLLAPSE COMPONENT -->
 
-   @foreach($receivablesInvoices as $index => $invoice)
+   @foreach($receivablesInvoices as $index => $receivable)
      @php 
        $acum = 0;
        $totalDue = 0;
@@ -50,19 +50,20 @@
          <div class="panel-heading" role="tab" id="headingOne">
            <h4 class="panel-title">
              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#{{$index}}" aria-expanded="true" aria-controls="{{$index}}">
-              @foreach($invoice as $share) 
+              @foreach($receivable as $share) 
                @php
                $totalDue += $share->amountDue;
                $totalDue = number_format((float)$totalDue, 2, '.', '');
                @endphp 
               @endforeach
-              FACTURA N° {{$index}} - MONTO A COBRAR: {{$totalDue}}
+              FACTURA N° {{$receivable[0]->invoice->invId}} - MONTO A COBRAR: {{$totalDue}}
             </div>
            </h4>
          </div>
           <div id="{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
            <div class="panel-body">
-           <h4 class="text-info text-center">CUOTAS</h4>
+           <h4 class="text-info text-center">CUOTAS</h4> 
+
               <!-- INICIO DE LA TABLA CUOTAS -->
                <div class="table-responsive">
                    <table class="table table-striped table-bordered text-center ">
@@ -74,7 +75,7 @@
                        </tr>
                    </thead>
                   <tbody>
-                   @foreach($invoice as $share)
+                   @foreach($receivable as $share)
                        <tr>
                         <td>{{ $acum = $acum +1 }}</td>
                         <td>{{$share->amountDue}}</td>
@@ -84,7 +85,11 @@
                                <form-modal-charge r-id="{{$share->receivableId}}" country-id="{{$share->countryId}}"></form-modal-charge>
                               @elseif($share->status == '2')  
                                <confirm-payment r-id="{{$share->receivableId}}" country-id=" {{$share->countryId}}"></confirm-payment>
-                           @endif  
+                              @endif  
+{{-- 
+                               <a href="{{route('reports.paymentRequest', ['receivableId' => $share->receivableId])}}" class="btn btn-info btn-sm " data-toggle="tooltip" data-placement="top" title="">
+                                <span class="fa fa-file-pdf" aria-hidden="true"></span> Solicitud de Cobro
+                               </a> --}}
                         @endif
                        </td>
                        </tr>
@@ -92,6 +97,11 @@
                  </tbody>
                 </table>
                 <!-- FIN TABLA CUOTAS -->
+              <div class="text-center">
+                <a href="{{route('reports.invoice', ['id' => $receivable[0]->invoiceId])}}" class="btn btn-danger btn-sm " data-toggle="tooltip" data-placement="top" title="">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Ver Factura
+                    </a>
+              </div>  
             </div>
 
           </div>

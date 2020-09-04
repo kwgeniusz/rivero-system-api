@@ -46,7 +46,7 @@ Route::put('fileDelete', 'Web\ContractController@fileDelete')->name('contracts.f
 Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
 //COMMENTS*************
 Route::resource('comments', 'Web\CommentController');
-Route::get('contracts/{contractId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
+Route::get('contracts/{modelId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 //INVOICES*********
 
 

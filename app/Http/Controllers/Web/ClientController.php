@@ -30,9 +30,12 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-       $clients = Client::orderBy('cltId', 'ASC')
-                         ->filter($request->filteredOut)
-                         ->paginate(300);
+
+        $clients = $this->oClient->getAll(session('countryId'),$request->filteredOut);
+
+       // $clients = Client::orderBy('cltId', 'ASC')
+       //                   ->filter($request->filteredOut)
+       //                   ->paginate(300);
 
         if($request->ajax()){
              return $clients;

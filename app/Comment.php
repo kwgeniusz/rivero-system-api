@@ -16,6 +16,10 @@ class Comment extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
      public function user()
     {
         return $this->hasOne('App\User', 'userId', 'userId');
@@ -30,9 +34,15 @@ class Comment extends Model
                     ->orderBy('commentDate', 'DESC')->get();
     }
 //------------------------------------------
-    public function insertC($request)
+    public function insertF($file,$modelType,$modelId,$typeDoc)
     {
-        $comment                  = new Comment;
+
+
+        $model=$modelType::findOrFail($request->modelId);
+        $model->comments()->create(['comment'=> $comment]);
+
+        
+         $comment                  = new Comment;
         $comment->commentContent  = $request->commentContent;
         $comment->commentDate     = date('Y-m-d H:i:s');
         $comment->contractId      = $request->contractId;
@@ -55,6 +65,9 @@ class Comment extends Model
 // //------------------------------------------
 //     public function deleteC($projectUseId)
 //     {
+//     $model=$modelType::findOrFail($request->modelId);
+
+// $model->comments()->detach($commentId);
 //         return $this->where('projectUseId', '=', $projectUseId)->delete();
 //     }
 //------------------------------------------

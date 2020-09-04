@@ -20,16 +20,16 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        $comments = $this->oComment->getAll();
+    // public function index(Request $request)
+    // {
+    //     $comments = $this->oComment->getAll();
            
-              if($request->ajax()){
-                return $comments;
-            }
+    //           if($request->ajax()){
+    //             return $comments;
+    //         }
 
-        return view('module_configuration.projectuses.index', compact('comments'));
-    }
+    //     return view('module_configuration.projectuses.index', compact('comments'));
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -37,22 +37,28 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function getAllByModel(Request $request)
+    {
+        $comments = $this->oComment->getAllByModel($request);
+
+        
+
+            if($request->ajax()){
+                return $comments;
+            }
+    }
     public function store(Request $request)
     {
-       $result = $this->oComment->insertC($request);
 
+        // Auth::user()->comments()->create([
+        //     'body' => $request->body,
+        //     'commentable_id' => $post->id,
+        //     'commentable_type' => get_class($post)
+        // ]);
+       $result = $this->oComment->insertC($request);
         return $result;
     }
 
 
-    public function getAllByModel(Request $request)
-    {
-
-        $comments = $this->oComment->getAllByContract($request->contractId);
-           
-              if($request->ajax()){
-                return $comments;
-            }
-    }
 
 }

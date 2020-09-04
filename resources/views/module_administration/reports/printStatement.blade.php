@@ -37,7 +37,7 @@
 
 <table cellspacing="0" cellpadding="1px" border="0"  >
        <tr >
-        <th style="background-color:#e5db99;font-size:18px;" colspan="3" align="center"><b>STATEMENT</b></th>
+        <th style="background-color:#e5db99;font-size:18px;" colspan="3" align="center"><b>INVOICE STATEMENT</b></th>
        </tr>
  
       <tr> 
@@ -165,7 +165,7 @@ foreach ($transactions as $transaction) {
   <br><br>
  <table cellspacing="0" cellpadding="1px" border="0">
        <tr style="background-color:#f2edd1;" align="center">
-        <th ><b>AMOUNT DUE NEXT PAYMENT</b>
+        <th ><b>AMOUNT DUE</b>
         </th>
         <th ><b>1-7 DAYS PAST DUE</b>
         </th>
@@ -179,13 +179,13 @@ foreach ($transactions as $transaction) {
              {{$symbol}} {{$nextShare}}
             </th>
             <th>
-             {{$symbol}} 0.00
+             {{$symbol}} {{$nextShare}}
             </th>   
               <th>
-             {{$symbol}} 0.00
+             {{$symbol}} {{$nextShare}}
             </th>  
                <th>
-             {{$symbol}} 0.00
+             {{$symbol}} {{$nextShare}}
             </th>     
        </tr>
 </table>   

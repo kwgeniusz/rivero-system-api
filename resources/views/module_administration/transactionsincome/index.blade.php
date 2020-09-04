@@ -112,14 +112,13 @@
                    <td>{{$transaction->user->fullName}}</td>
 
                    <td>
-       <!--              <a href="{{route('transactions.edit', ['id' => $transaction->transactionId])}}" class="btn btn-primary">
-                        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
-                    </a> -->
           @if($transaction->invoice == null)  
+       <!--<a href="{{route('transactions.edit', ['id' => $transaction->transactionId])}}" class="btn btn-primary"><span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
+                    </a> -->
               <a href="{{route('transactions.show', ['sign'=>'+', 'id' => $transaction->transactionId])}}" class="btn btn-danger" title="{{__('delete')}}">
                           <span class="fa fa-times-circle" aria-hidden="true"></span> 
                         </a> 
-          @endif   
+          @endif  
                    </td>
                 </tr>
                 @endforeach

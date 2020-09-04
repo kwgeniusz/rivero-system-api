@@ -507,7 +507,7 @@
                         status: this.status,
                         
                     }
-                    axios.post(`staff/post/`,params)
+                    axios.post(`staff/post`,params)
                         .then((response) => {
                             console.log(response)
                             if (response.statusText == "OK") {

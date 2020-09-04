@@ -127,7 +127,8 @@ class Precontract extends Model
     //------------------------------------------
     public function getAll($countryId,$companyId,$filteredOut)
     {
-        $result = $this->where('countryId', $countryId)
+        $result = $this->with('client','buildingCode','projectUse','proposal.projectDescription')
+            ->where('countryId', $countryId)
             ->where('companyId', $companyId) 
             ->orderBy('precontractId', 'DESC')
             ->filter($filteredOut)

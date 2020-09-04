@@ -40,7 +40,9 @@ class ReceivableController extends Controller
                       $paymentsMissing = $this->oReceivable->getAllByClient($receivable->clientId);
                       $receivable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
              });
-
+ 
+          // dd($receivablesInvoices);
+          // exit();
         //verifica si hay registros sino redirigeme a "ver todos los clientes con cuentas por cobrar"
         if (count($receivable) == 0) {
             return redirect()->route('receivables.index');
@@ -69,17 +71,17 @@ class ReceivableController extends Controller
         return $rs;
     }
 
-    public function reportCollections(Request $request)
-    {
-        $receivables = '';
+    // public function reportCollections(Request $request)
+    // {
+    //     $receivables = '';
 
-        if ($request->isMethod('post')) {
-            $receivables = $this->oReceivable->clientsPending($request->countryId);
-        }
-        $countrys = Country::all();
+    //     if ($request->isMethod('post')) {
+    //         $receivables = $this->oReceivable->clientsPending($request->countryId);
+    //     }
+    //     $countrys = Country::all();
 
-        return view('module_administration.reportcollections.index', compact('receivables', 'countrys'));
-    }
+    //     return view('module_administration.reportcollections.index', compact('receivables', 'countrys'));
+    // }
 //----------------QUERYS ASINCRONIOUS-----------------//
     public function getForId($receivableId)
     {

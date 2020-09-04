@@ -57,8 +57,6 @@
   @can('BG') <li><a href="{{route('contracts.cancelled')}}">{{__('contracts_cancelled')}}</a></li> @endcan
             <hr>
   @can('BH')<li><a href="{{route('reports.summaryContractForCompany')}}">{{__('contract_summary')}}</a></li>@endcan
-   @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li>
-   @endcan   
    <br>    
           </ul>
         </li>
@@ -80,7 +78,9 @@
      @can('CF') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
      @can('CG') <li><a href="#">Cuentas Por Pagar</a></li> @endcan
      @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
-
+<hr>
+   @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li>
+   @endcan   
      {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
      {{-- @can('CE') <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li> @endcan --}}
      {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}

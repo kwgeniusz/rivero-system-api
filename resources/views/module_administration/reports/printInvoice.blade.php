@@ -15,7 +15,24 @@
             margin: 1cm 1cm 2cm 1cm;
             font-size:13px
         }
- 
+       #watermark {
+                position: fixed;
+
+                /** 
+                    Set a position in the page for your image
+                    This should center it vertically
+                **/
+                bottom:   16cm;
+                left:     6.5cm;
+
+                /** Change image dimensions**/
+                width:    8cm;
+                height:   5cm;
+
+                /** Your watermark should be behind every content**/
+                z-index:  1000;
+                /*z-index:  -1000;*/
+            }
         header {
             position: fixed;
             top: 0cm;
@@ -85,7 +102,11 @@
     <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
      Designed By Rivero Visual Group</h4>
 </footer> --}}
-
+@if($invoice[0]->invStatusCode == App\Invoice::PAID)
+  <div id="watermark">
+            <img src="img/paid2.png" height="100%" width="100%" />
+   </div>
+@endif
 @php
  // preparar variables  
   $line = 100;  
@@ -128,40 +149,6 @@ foreach ($invoicesDetails as $invDetail) {
 </tr>
 </table>
 
-{{--  <table cellspacing="0" cellpadding="0">       <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
-       </tr>
-
-       <tr> 
-        <th>
-             <div style="text-align:left">
-                  <ul>
-@foreach($invoice['0']->note as $note)  
-    <li>{{$note->noteName}}</li>
-@endforeach
-                  </ul>
-             </div>
-        </th>
-       </tr>
-</table>
-
-
- <table cellspacing="0" cellpadding="0" >
-       <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Scopes of Work</b></th>
-       </tr>
-
-       <tr> 
-        <th>
-                  <ul>
-
-@foreach($invoice['0']->scope as $scope)
-    <li>{{$scope->description}}</li>
-@endforeach
-                  </ul>
-        </th>
-       </tr>
-</table> --}}
      <div class="page-break"></div>
 @php
     }//endif - si la pagina es mayor que uno (1)
