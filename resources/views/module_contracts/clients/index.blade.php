@@ -7,7 +7,10 @@
           <div class="text-center">
 
    <div class="row ">
-      <div class="col-xs-12">
+    <div class="col-xs-3">
+      
+    </div>
+      <div class="col-xs-6">
       <form class="form-inline" action="{{Route('clients.index')}}" method="GET">
 
          <div class="form-group">
@@ -20,9 +23,12 @@
            </button>
         </form>
       </div>
+      <div class="col-xs-3">
+         @can('FE')  <a class="btn btn-info" href="{{route('contactTypes.index')}}">Tipos de Contacto</a>@endcan
+      </div>
     </div>
      <br>
-
+ 
     @can('BAA')
             <a href="{{route('clients.create')}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
@@ -45,6 +51,7 @@
                  <th>{{__('phone')}}</th>
                  <th>{{__('email')}}</th>
                  <th>CONTACTO</th> 
+                 <th>ORIGEN</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
                 </tr>
@@ -58,7 +65,7 @@
                    <td>{{$client->clientPhone}}</td>
                    <td>{{$client->clientEmail}}</td>
                    <td>{{$client->contactType->contactTypeName}}</td> 
-
+                   <td>{{$client->company->companyName}}</td> 
                    <td>
                    @can('BAB')  
                     <a href="{{route('clients.edit', ['id' => $client->clientId])}}" class="btn btn-primary">

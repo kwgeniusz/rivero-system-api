@@ -39,7 +39,7 @@ class CommentController extends Controller
      */
     public function getAllByModel(Request $request)
     {
-        $comments = $this->oComment->getAllByModel($request);
+        $comments = $this->oComment->getAllByContract($request->modelId);
 
         
 

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use App\Client;
-use App\Country;
+// use App\Country;
 use App\ContactType;
-use App\CountryConfiguration;
+use App\CompanyConfiguration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
@@ -14,14 +14,14 @@ use Auth;
 class ClientController extends Controller
 {
     private $oClient;
-    private $oCountryConfiguration;
+    private $oCompanyConfiguration;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->oClient = new Client;
         $this->oContactType = new ContactType;
-        $this->oCountryConfiguration = new CountryConfiguration();
+        $this->oCompanyConfiguration = new CompanyConfiguration();
     }
     /**
      * Display a listing of the resource.
@@ -30,16 +30,13 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-
-        $clients = $this->oClient->getAll(session('countryId'),$request->filteredOut);
-
-       // $clients = Client::orderBy('cltId', 'ASC')
-       //                   ->filter($request->filteredOut)
-       //                   ->paginate(300);
+// ,$request->filteredOut
+        $clients = $this->oClient->getClientByGroupAndPagination(session('countryId'),session('companyId'),session('parentCompanyId'),$request->filteredOut);
 
         if($request->ajax()){
              return $clients;
                 }
+
         return view('module_contracts.clients.index', compact('clients'));
     }
 
@@ -50,12 +47,11 @@ class ClientController extends Controller
      */
     public function create()
     {
-    
-        $clientNumberFormat = $this->oCountryConfiguration->generateClientNumberFormat(session('countryId'));
-        // $countrys     = Country::all();
-        $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
 
-        return view('module_contracts.clients.create', compact('countrys','contactTypes','clientNumberFormat'));
+        $clientNumberFormat = $this->oCompanyConfiguration->generateClientNumberFormat(session('companyId'),session('parentCompanyId'));
+        $contactTypes       = $this->oContactType->getAllByOffice(session('companyId'));
+
+        return view('module_contracts.clients.create', compact('contactTypes','clientNumberFormat'));
     }
 
     /**
@@ -66,26 +62,21 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        $clients = $this->oClient->insertClient(
+        $rs = $this->oClient->insertClient(
             session('countryId'),
-            $request->clientName,
-            $request->clientAddress,
-            $request->contactTypeId, 
-            $request->clientPhone,
-            $request->clientEmail
+            session('companyId'),
+            session('parentCompanyId'),
+            $request->all()
         );
 
         if($request->ajax()){
-                return $clients;
+                return $rs;
             }
-            
-        $notification = array(
-            'message'    => 'Cliente Creado Exitosamente '.$clients->clientCode,
-            'alert-type' => 'success',
-        );
 
-        return redirect()->route('clients.index')
-                         ->with($notification);
+        $notification = array('alert-type' => $rs['alert'],'message'=> $rs['msj']);
+
+        return redirect()->route('clients.index')->with($notification);
+
     }
 
     /**
@@ -96,11 +87,11 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        // $countrys = Country::all();
-        $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
-        $client       = $this->oClient->findById($id, session('countryId'));
 
-        return view('module_contracts.clients.edit', compact('client', 'countrys','contactTypes'));
+        $client       = $this->oClient->findById($id, session('companyId'));
+        $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
+
+        return view('module_contracts.clients.edit', compact('client','contactTypes'));
     }
 
     /**
@@ -110,22 +101,18 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClientRequest $request, $id)
+    public function update(ClientRequest $request,$clientId)
     {
-        $this->oClient->updateClient($id,
-            session('countryId'),
-            $request->clientName,
-            $request->clientAddress,
-            $request->contactTypeId,  
-            $request->clientPhone,
-            $request->clientEmail
-        );
-        $notification = array(
-            'message'    => 'Cliente Modificado Exitosamente',
-            'alert-type' => 'success',
-        );
-        return redirect()->route('clients.index')
-            ->with($notification);
+             $rs = $this->oClient->updateClient(
+               session('companyId'),
+               $clientId,
+               $request->all()
+              );
+
+
+        $notification = array('alert-type' => $rs['alert'],'message' => $rs['msj']);
+
+        return redirect()->route('clients.index')->with($notification);
     }
     /**
      * Display the specified resource.
@@ -135,7 +122,7 @@ class ClientController extends Controller
      */
     public function show(Request $request,$id)
     {
-        $client = $this->oClient->findById($id,session('countryId'));
+        $client = $this->oClient->findById($id,session('companyId'));
 
            if($request->ajax()){
               return $client;
@@ -151,7 +138,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->oClient->deleteClient($id,session('countryId'));
+        $result = $this->oClient->deleteClient(session('countryId'),$id);
 
          $notification = array(
             'message'    => $result['msj'],
@@ -164,19 +151,13 @@ class ClientController extends Controller
 //----------------QUERYS ASINCRONIOUS -------------->>>>
     public function get($client = '')
     {
-        $results = Client::select('clientId', 'clientName', 'clientAddress','clientCode')
-            ->where('clientName', 'LIKE', "%$client%")
-            ->where('countryId', session('countryId'))
-            ->orWhere('clientCode', 'LIKE', "%$client%")
-            ->where('countryId', session('countryId')) 
-            ->orderBy('clientName', 'ASC')
-            ->get();
+        $results = $this->oClient->getClientByGroup(session('countryId'),session('companyId'),session('parentCompanyId'),$client);
 
         return json_encode($results);
     }
    public function getNumberFormat()
     {
-        $clientNumberFormat = $this->oCountryConfiguration->generateClientNumberFormat(session('countryId'));
+        $clientNumberFormat = $this->oCompanyConfiguration->generateClientNumberFormat(session('companyId'),session('parentCompanyId'));
         return json_encode($clientNumberFormat);
     }
 

@@ -49,8 +49,10 @@
   <div class="col-xs-3 text-right">
    <b> Opciones: </b> 
           <a href="{{route('invoices.cancelled')}}" class="btn btn-danger text-center" >
-                   Anuladas
+                   Facturas Anuladas
          </a>
+         <br>
+ @can('FD')<a href="{{route('notes.index')}}"class="btn btn-info text-center">Notas</a>@endcan
   </div>
   
     <div class="row">

@@ -31,6 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //COUNTRYS
 Route::get('countrys/all', 'Web\CountryController@all')->name('countrys.all');
 //CLIENT
+Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');
 Route::get('clientNumberFormat/get', 'Web\ClientController@getNumberFormat')->name('clients.getNumberFormat');
 //CONTACT TYPE
 // Route::get('contactTypes/all', 'Web\ContactTypeController@all')->name('contactTypes.all');
@@ -38,7 +39,6 @@ Route::get('clientNumberFormat/get', 'Web\ClientController@getNumberFormat')->na
 Route::get('companies/{countryId}', 'Web\CompanyController@getForCountry')->name('companies.get');
 //CONTRACTS
 Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
-Route::get('searchClients/{client?}', 'Web\ClientController@get')->name('searchClients.get');
 Route::get('precontract-allFiles/{id}/{type}', 'Web\PrecontractController@getFiles')->name('precontract.getFiles');
 
 //ROUTES TO STATISTIC **********************

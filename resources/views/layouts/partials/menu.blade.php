@@ -82,7 +82,6 @@
    @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li>
    @endcan   
      {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
-     {{-- @can('CE') <li><a href="{{route('receivables.index')}}">{{__('accounts_receivable')}}</a></li> @endcan --}}
      {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
                {{--   <hr>
      @can('CG') <li><a href="{{route('transactions.incomeexpenses')}}">{{__('income_and_expenses_report')}}</a></li> @endcan
@@ -140,6 +139,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
+@can('FC')  <li><a href="{{route('services.index')}}">Servicios</a></li>@endcan 
             <li><a href="#">{{__('Equipment Registration')}}</a></li>
             <li><a href="#">{{__('Registration by Location')}}</a></li>
             <li><a href="#">{{__('Registration by Status')}}</a></li>
@@ -159,9 +159,6 @@
       @endif
  @can('FA')  <li><a href="{{route('company.index')}}">Empresas</a></li>     @endcan
   @can('FB')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
-  @can('FC')  <li><a href="{{route('services.index')}}">Servicios</a></li>@endcan
-  @can('FD')  <li><a href="{{route('notes.index')}}">Notas</a></li>@endcan
-  @can('FE')  <li><a href="{{route('contactTypes.index')}}">Tipo de Contacto(Clientes)</a></li>@endcan
 
             @can('FF')     <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan
           </ul>

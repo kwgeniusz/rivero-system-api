@@ -135,20 +135,21 @@ class UserController extends Controller
         
     	$country = Country::Find($request->countryId);
     	$company  = Company::Find($request->companyId);
-
+        
         session(['countryId' => $country->countryId,
                  'countryName' => $country->countryName,
                  'countryLanguage' => $country->countryConfiguration->language]);
 
-        session(['companyId' => $company->companyId, 
-                 'companyName' =>$company->companyName]);
+
+        session(['companyId'       => $company->companyId, 
+                 'companyName'     =>$company->companyName,
+                 'parentCompanyId' => $company->parentCompanyId]);
 
         $notification = array(
-            'message'    => 'Se ha cambiado de Oficina el Usuario',
+            'message'    => 'Se ha cambiado de Compañia el Usuario',
             'alert-type' => 'success',
         );
 
-        return redirect()->route('home')
-            ->with($notification);
+        return redirect()->route('home')->with($notification);
     }
 }

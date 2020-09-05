@@ -34,12 +34,12 @@ class Comment extends Model
                     ->orderBy('commentDate', 'DESC')->get();
     }
 //------------------------------------------
-    public function insertF($file,$modelType,$modelId,$typeDoc)
+    public function insertC($request)
     {
 
 
-        $model=$modelType::findOrFail($request->modelId);
-        $model->comments()->create(['comment'=> $comment]);
+        // $model=$modelType::findOrFail($request->modelId);
+        // $model->comments()->create(['comment'=> $comment]);
 
         
          $comment                  = new Comment;

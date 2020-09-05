@@ -46,7 +46,7 @@ class AdministrationControllerPDF extends Controller
         $company           = DB::table('company')->where('companyId', session('companyId'))->get();
         $proposal         = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
         $proposalsDetails = $this->oProposalDetail->getAllByProposal($request->id);
-        $client           = $this->oClient->findById($proposal[0]->clientId,session('countryId'));
+        $client           = $this->oClient->findById($proposal[0]->clientId,session('companyId'));
         
         if($proposal[0]->precontract){
            $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;
@@ -173,7 +173,7 @@ public function printReceipt(Request $request)
         $company       = DB::table('company')->where('companyId', session('companyId'))->get();
 
         $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
-        $client         = $this->oClient->findById($invoice[0]->clientId,session('countryId'));
+        $client         = $this->oClient->findById($invoice[0]->clientId,session('companyId'));
         $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('companyId'));
         $share          = $this->oReceivable->sharePending($request->id);
 

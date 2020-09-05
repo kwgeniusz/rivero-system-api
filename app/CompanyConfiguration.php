@@ -25,8 +25,79 @@ class CompanyConfiguration extends Model
     ];
     protected $dates      = ['dateCreated'];
 //--------------------------------------------------------------------
-//CONTRACT NUMBER
+    /** Relations */
 //--------------------------------------------------------------------
+    public function company()
+    {
+        return $this->belongTo('App\Company', 'companyId', 'companyId');
+    }
+//--------------------------------------------------------------------
+         //CLIENT NUMBER 
+//-------------------------------------------------------------------
+     public function generateClientNumberFormat($companyId,$parentCompanyId) {
+  
+        $stringLength = 8;
+        $strPad       = "0";
+
+         $clientNumber = $this->retrieveClientNumber($companyId,$parentCompanyId);
+    
+        if ($clientNumber < 1) {
+            $clientNumber = "";
+        }
+         $codePrefix = $this->getCodePrefixClient($companyId,$parentCompanyId);
+         $format1 = $codePrefix;
+         $format2 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
+       
+        // numero de contrato en foramto
+        return $clientNumberFormat = $format1 . $format2;
+         
+      }
+//--------------------------------------------------------------------
+
+    public function retrieveClientNumber($companyId,$parentCompanyId)
+    {
+     
+        //   esta consulta esta mal , porque si coloco dos paises en tabla config.
+        //abra un conflicto y no sabra cual traer del mismo pais
+
+         $clientNumber = 0;
+
+        if($parentCompanyId == 0 ) {
+           $rs = $this->where('companyId', '=', $companyId)->get(); 
+         } else {
+           $rs = $this->where('companyId', '=', $parentCompanyId)->get();
+         } 
+
+         $clientNumber = $rs[0]->clientNumber;
+         $clientNumber++;
+
+        return $clientNumber;
+    }
+
+    //---------------------------------------------------------------------
+    public function increaseClientNumber($companyId,$parentCompanyId)
+    {
+        if($parentCompanyId == 0 ) {
+            $this->where('companyId', $companyId)->increment('clientNumber');
+         } else {
+            $this->where('companyId', $parentCompanyId)->increment('clientNumber');
+         } 
+    }
+
+    //----------------------------------------------------------------------
+    public function getCodePrefixClient($companyId,$parentCompanyId){
+
+         if($parentCompanyId == 0 ) {
+           $rs = $this->where('companyId', $companyId)->get();
+         } else {
+           $rs = $this->where('companyId', $parentCompanyId)->get();
+         } 
+ 
+        return $rs[0]->codePrefixClient;
+    }
+//---------------------------------------------------------------------------
+//CONTRACT NUMBER
+//---------------------------------------------------------------------------
     public function retrieveContractNumber($countryId, $companyId)
     {
         //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
@@ -57,7 +128,7 @@ class CompanyConfiguration extends Model
             $contractNumber = "";
         }
 
-       $codePrefix = $this->getCodePrefix($countryId,$companyId);
+       $codePrefix = $this->getCodePrefixContract($companyId);
 
         $format1 = $codePrefix;
         $format2 = substr(date('Y'), 2, 2);
@@ -100,9 +171,9 @@ class CompanyConfiguration extends Model
                 ->where('companyId', $companyId)
                 ->increment('precontractNumber');
     }
-    //--------------------------------------------------------------------
+//--------------------------------------------------------------------
          //INVOICES NUMBER
-    //-------------------------------------------------------------------
+//-------------------------------------------------------------------
     public function retrieveInvoiceNumber($countryId,$companyId)
     {
 
@@ -151,15 +222,14 @@ class CompanyConfiguration extends Model
     }
     //--------------------------------------------------------------------
 
-    //--------------------------------------------------------------------
+//--------------------------------------------------------------------
        //MISCELLANEOUS FUNCTIONS
-    //-------------------------------------------------
-    public function getCodePrefix($countryId,$companyId){
-        $rs = $this->where('countryId', $countryId)
-                   ->where('companyId', $companyId)
+//-------------------------------------------------
+    public function getCodePrefixContract($companyId){
+        $rs = $this->where('companyId', $companyId)
                     ->get();
  
-        return $rs[0]->codePrefix;
+        return $rs[0]->codePrefixContract;
     }
     //-------------------------------------------------
 

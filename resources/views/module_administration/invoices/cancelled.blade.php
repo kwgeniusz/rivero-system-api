@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<h3><b>FACTURAS CANCELADAS</b></h3>
+<h3><b>FACTURAS ANULADAS</b></h3>
 
  {{--  <div class="col-xs-3 text-left">
     <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
