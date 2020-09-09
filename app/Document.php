@@ -84,6 +84,13 @@ class Document extends Model
                  $rs = Storage::putFile("docs/contracts/ready/$directoryName",  $file);
                 // $file->move(storage_path("app/public/docs/contracts/processed/$directoryName"), $name);
               }
+      }elseif($modelType == 'precontract'){
+             $model                 = Precontract::find($modelId);
+             $doc->precontractId     = $modelId;
+             $directoryName         = "D".$model->preId;
+
+             $rs = Storage::putFile("docs/precontracts/$directoryName",  $file);
+
       }elseif($modelType == 'transaction') {
             $model                  = Transaction::find($modelId);
             $doc->transactionId     = $modelId;

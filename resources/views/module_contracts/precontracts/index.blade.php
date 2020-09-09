@@ -105,23 +105,21 @@
                     <a href="{{route('precontracts.show', ['id' => $precontract->precontractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a>
-              @endcan      
-                 </td>
-
-                </tr>
-            @else
-        @can('BC')  
+              @endcan   
+        @else
+             @can('BC')  
               <a class="btn btn-primary btn-sm" href="{{url("invoices?id=$precontract->contractId")}}">Ir a Contrato</a>
 
                 <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                     </a>
-       @endcan      
-
-             {{--   <a href="{{route('reports.proposal', ['id' => $precontract->proposal->proposalId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
-                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
-              </a> --}}
-            @endif
+              @endcan      
+        @endif
+                  <a href="{{route('precontractsFile.index', ['id' => $precontract->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                           <span class="fa fa-file" aria-hidden="true"></span> 
+                       </a>  
+               </td>
+                </tr>
                 @endforeach
                 </tbody>
             </table>

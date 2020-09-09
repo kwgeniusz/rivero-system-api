@@ -88,6 +88,7 @@ class Client extends Model
                              ->where('parentCompanyId', '=', 0)
                              ->where('companyId', '=', $parentCompanyId); 
                      })->filter($filteredOut)
+                     ->orderBy('cltId', 'ASC')
                      ->paginate(100); 
      } else {
      //  Cuando parentCompanyId es igual a cero 
@@ -101,7 +102,8 @@ class Client extends Model
                              ->where('parentCompanyId', '=', 0)
                              ->where('companyId', '=', $companyId); 
                      })->filter($filteredOut)
-                       ->paginate(100); 
+                     ->orderBy('cltId', 'ASC')
+                     ->paginate(100); 
      }      
      return $rs;
   }  

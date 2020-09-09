@@ -49,6 +49,7 @@ Vue.component('modal-convert-precontract', require('./components/contracts/Modal
 Vue.component('modal-switch-contract', require('./components/contracts/ModalSwitchContract.vue'));
 Vue.component('modal-client-details', require('./components/contracts/ModalClientDetails.vue'));
 Vue.component('service-templates', require('./components/contracts/ServiceTemplates.vue'));
+Vue.component('grid-files-precontract', require('./components/contracts/documents/precontracts/GridFiles.vue'));
 Vue.component('grid-files', require('./components/contracts/documents/GridFiles.vue'));
 
 //########### module administration components #############
@@ -130,7 +131,7 @@ Vue.component('contract-counter', require('./components/srcComponent/ContractCou
 Vue.component('invoice-counter', require('./components/srcComponent/InvoiceCounter.vue'));
 Vue.component('contract-chart', require('./components/srcComponent/ContractChart.vue'));
 
-//############ COMFIGURATION COMPANY COMPONENTS ##############
+//############ Configuration company components ##############
 Vue.component('main-company', require('./components/configuration/company/mainCompany.vue'));
 Vue.component('panel-heading-add', require('./components/configuration/company/panelHeadingAdd.vue'));
 Vue.component('panel-heading-update', require('./components/configuration/company/panelHeadingUpdate.vue'));

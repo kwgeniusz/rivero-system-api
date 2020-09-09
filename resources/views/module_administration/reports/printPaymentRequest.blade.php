@@ -63,37 +63,55 @@
         </th>
 
       <th width="23%" align="center">
-
         <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
       </th>
 
     </tr>
 </table>
 
-<br>
- <table cellspacing="0" cellpadding="6px" border="0" style="background-color:#f4f4f5;border-radius:4px">
+<br><br>
+  <table cellspacing="0" cellpadding="1px" border="0">
        <tr>
-        <th>
-          <b>Billed to:</b> <br>
-           {{$receivable[0]->client->clientCode}}<br>
-           {{$receivable[0]->client->clientName}}<br>
-           {{$receivable[0]->client->clientAddress}}
-        </th>
-
-        <th>
-          <b>Invoice Date:</b> {{$invoice->invoiceDate}}<br><br>
-          <b>Invoice Number:</b> {{$invoice->invId}}
-        </th>
+        <th colspan="3" style="background-color:#f2edd1;font-size:14px;text-align: center"><span id="bold">Bill To:</span></th>
        </tr>
-
+       <tr> 
+            <th colspan="1">
+               <span id="bold">ID:</span> {{$receivable[0]->client->clientCode}}
+            </th>
+            <th colspan="1">
+              <span id="bold">Name:</span> {{$receivable[0]->client->clientName}}
+            </th>
+             <th colspan="1">
+              <span id="bold">Phone:</span> {{$receivable[0]->client->clientPhone}}
+            </th>
+       </tr>
+      <tr> 
+            <th colspan="2">
+              <span id="bold">Billing Address:</span> {{$receivable[0]->client->clientAddress}}
+            </th>
+             <th colspan="1">
+               <span id="bold">E-mail:</span> {{$receivable[0]->client->clientEmail}}
+            </th>
+       </tr>
 </table>
 
 <br>
- <div align="center" style="font-size:14px;">Reference: Project for a {{$invoice->projectDescription->projectDescriptionName}} at {{$invoice->contract->siteAddress}}</div>: 
- <br>
+ <div align="center">
+ <b>Reference:</b> <br>
+   Project for a {{$invoice->projectDescription->projectDescriptionName}} at {{$invoice->contract->siteAddress}}
+</div>
 
-  <table cellspacing="0" cellpadding="6px" border="1" class="table-center" style="font-size:15px;background-color:#f4f4f5;">
-     <tr style="text-align: center; font-weight:bold"> 
+<br>
+ <div align="center" >
+ <b>Invoice Number:</b> {{$invoice->invId}}<br>
+          <b>Invoice Date:</b> {{$invoice->invoiceDate}}<br>
+          <b>Invoice Amount:</b> {{$symbol}}{{$invoice->netTotal}}<br>
+</div>
+
+
+ <br>
+  <table cellspacing="0" cellpadding="6px" border="1" class="table-center" >
+     <tr style="text-align: center; font-weight:bold; background:#f2edd1;color:black"> 
             <th>
                <strong>
                  Quantity
@@ -134,52 +152,29 @@
                 {{$symbol}}{{$receivable[0]->amountDue}}
             </th>  
        </tr>
-  </table> 
-<br>
+  </table>
 
-Invoice Amount: {{$symbol}}{{$invoice->netTotal}}<br><br>
-Balance due after this payment: {{$symbol}}{{ $receivable[0]->amountDue-$invoice->netTotal}}<br><br>
-Remit payment to:
+<br>
+<div style="text-align: center">
+<b>Invoice Balance:</b> {{$symbol}}{{$invoice->getBalance($invoice->invoiceId)}}<br>
+<b>Balance due after this payment:</b> {{$symbol}}{{ $invoice->getBalance($invoice->invoiceId) - $receivable[0]->amountDue}}
+</div>
+
+<br><br>
+<div style="text-align: center">
+<b>Remit payment to:</b><br>
        Name: JD Rivero Dallas LLC <br>
            Bank: Bank of America <br>
            Account number: 4880 9011 7716 <br>
            Routing number: 111000025<br>
-           026009593 (wires)
-<br>
-{{-- 
- <table cellspacing="0" cellpadding="6px" border="1" style="background-color:#f4f4f5;border-radius:4px;text-align: center">
-       <tr>
-         <th colspan="2"> Remit payment to: </th>
-       </tr>
-       <tr>
-         <th> CHECK or MONEY ORDER: </th>
-         <th> Name: JD Rivero Dallas LLC  </th>
-       </tr>
-      <tr>
-         <th>  ZELLE TRANSFER: </th>
-         <th>           Name: JD Rivero Dallas LLC<br>
-            E-mail: jdriverodallas@gmail.com </th>
-       </tr>
+           026009593 (WIRES)<br>
+           E-mail: jdriverodallas@gmail.com (ZELLE)
+</div>
 
-       <tr>
-         <th>WIRE TRANSFER or TRANSFER: </th>
-         <th> 
-          Name: JD Rivero Dallas LLC <br>
-           Bank: Bank of America <br>
-           Account number: 4880 9011 7716 <br>
-           Routing number: 111000025<br>
-           026009593 (wires) 
-         </th>
-       </tr>
-     </tr> --}}
-</table>
-
-
-<br>
-<div align="center" style="font-size:13px"><b>
-CASH 
-NOTE: If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
-</b></div>
+<br> <br><br>
+<div align="center">
+<b>NOTE:</b> If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
+</div>
 
 <script type="text/php">
     if ( isset($pdf) ) {

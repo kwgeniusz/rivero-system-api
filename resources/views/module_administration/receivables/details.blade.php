@@ -86,10 +86,10 @@
                               @elseif($share->status == '2')  
                                <confirm-payment r-id="{{$share->receivableId}}" country-id=" {{$share->countryId}}"></confirm-payment>
                               @endif  
-{{-- 
+
                                <a href="{{route('reports.paymentRequest', ['receivableId' => $share->receivableId])}}" class="btn btn-info btn-sm " data-toggle="tooltip" data-placement="top" title="">
                                 <span class="fa fa-file-pdf" aria-hidden="true"></span> Solicitud de Cobro
-                               </a> --}}
+                               </a>
                         @endif
                        </td>
                        </tr>

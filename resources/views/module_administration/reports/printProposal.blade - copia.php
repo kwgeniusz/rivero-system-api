@@ -2,7 +2,6 @@
 <html>
 <head>
     <style>
-
         @page {
             margin: 0cm 0cm;
             font-family: helvetica;

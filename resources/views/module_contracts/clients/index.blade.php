@@ -67,10 +67,12 @@
                    <td>{{$client->contactType->contactTypeName}}</td> 
                    <td>{{$client->company->companyName}}</td> 
                    <td>
-                   @can('BAB')  
+                   @can('BAB') 
+                   @if($client->companyId == session('companyId')) 
                     <a href="{{route('clients.edit', ['id' => $client->clientId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>
+                    @endif
                     @endcan
                    <!--  @can('BAC') 
                        <a href="{{route('clients.show', ['id' => $client->clientId])}}" class="btn btn-danger">

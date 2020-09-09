@@ -92,6 +92,10 @@ class Precontract extends Model
     {
         return $this->belongsTo('App\Client', 'clientId');
     }
+    public function document()
+    {
+        return $this->hasMany('App\Document', 'precontractId', 'precontractId')->with('user');
+    }
     public function buildingCode()
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
