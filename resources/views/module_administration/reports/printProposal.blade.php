@@ -4,31 +4,27 @@
     font-family: helvetica;
     font-weight: normal; !important
 }
-  .page-break {
+
+    .page-break {
     page-break-after: always;
 }
-  .pagenum:before {
-     content: counter(page);
- }
+
+    .pagenum:before {
+    content: counter(page);
+}
+
     body {
     margin: 1.5cm 1.5cm 2cm 1.5cm;
     font-size: 13px;
+    background:white;
 }
-   .container-header{
-    position: fixed;
-     top: 0cm;
-     left: 0cm;
-     right: 0cm;
-     height: 2cm;
 
-                /** Extra personal styles **/
-    background-color: #03a9f4;
-                /*color: white;*/
-                /*text-align: center;*/
-                /*line-height: 1.5cm;*/
-   }
+    .container-header{
+    position: fixed;
+}
+
     .header {
-	background-color: #505050;
+	  background-color: #505050;
     border-bottom: 4px solid #303030;
     width:100%;
   	height: 20px;
@@ -46,11 +42,28 @@
   	z-index: 2;
 }
 
-   .logo img {
-       width: 100px;
-       margin: 12px 5px 5px 10px;
+    .logo img {
+    width: 100px;
+    margin: 12px 5px 5px 10px;
+}
 
+    .wm-one {
+    position:absolute;
+    top: 50px;
+  	left: 488px;
+    z-index: 2;
+    opacity:0.5;
+    z-index:-1;
    }
+
+   .wm-two {
+    position:absolute;
+    top: 480px;
+    z-index: 2;
+    opacity:0.5;
+    z-index:-1;
+   }
+
     .upper-right{
     position: absolute;
     width: 100px;
@@ -69,7 +82,6 @@
     left: 0cm; 
     right: 0cm;
     height: 0cm;
-
     width:100%;
   	height:20px;
     border-top: 4px solid #303030;
@@ -79,10 +91,14 @@
 
    .lower-block {
     position:absolute;
-    display:inline-block; 
     background-color: #ffc501;
     width:375px;
+    font-size:10.5px;
+    margin-top:-40px;
+    margin-left:95px;
+    margin-bottom:18px;
     border-radius: 10px 10px 0px 0px;
+    padding: 5px 5px 5px 5px;
     z-index:2;
     /*margin-left:205px;*/
     /*height:40px;*/
@@ -93,6 +109,7 @@
     /*float:left;*/
     /*margin-top:-10px;*/
     display:inline-block; 
+    margin-top:-2px;
     width:100px;
     height:30px;
     background-color:#ffc501;
@@ -104,6 +121,8 @@
     /*float:right;*/
     /*margin-left:700px;*/
     display:inline-block; 
+    margin-top:-40px;
+    margin-left:694px;
     width:100px;
     height:30px;
     background-color:#ffc501;
@@ -111,42 +130,67 @@
     z-index:2;
 }
 
-table{
+    table {
     width:100%;
      /*border:1px solid black;*/
 }
 
-td,tr,th{
-    font-weight:normal;
-        }
+    .table-header {
+    background-color:#ffc501; 
+    font-size:17px; 
+    text-align:center;
+}
 
- #bold {
-     font-weight: bold;
-     }
+    td,tr,th{
+    font-weight:normal;
+}
+
+    .bold {
+    font-weight: bold !important;
+}
+
+    .just {
+    text-align: justify;
+}
+
+    .date {
+    float:right;
+}
+
+    .client-info {
+    margin-top:70px;
+}
 
 </style>
      {{-- Page <span class="pagenum"></span> --}}
 
+<body>
 <div class="container-header">
   <div class="header"></div>
 
   <div class="upper-right"></div>
-   <div class="logo"><img class="img" src="img/logos/jd.png"></img></div>
-
+   <div class="logo"><img src="img/logos/jd.png"></img></div>
 </div>
 
+<img class="wm-one" src="img/logos/1.png"></img>
+<img class="wm-two" src="img/logos/2.png"></img>
+
 <div class="footer">
+
+
      {{-- Page <span class="pagenum"></span> --}}
         <div class="lower-left"></div>
-        <div class="lower-block">ESCRIBE AQUÍ LO DEL FOOTER</div>
+        <div class="lower-block"><i class="fa fa-mail"></i>project@jdrivero.com <i class="fa fa-globe"></i>www.jdrivero.com <i class="fa fa-phone"></i>+ (214) 462-0623 <i class="fa fa-fax"></i>+1 (469) 466-9747 <br>
+        <i class="fa fa-map-marker"></i>9304 Forest Lane Suite #N274, Dallas, TX 75243.
+        </div>
         <div class="lower-right"></div>
  </div>
 
-<div style="text-align: right">
+<div class="date bold">
 July 8th, 2020
 </div>       
 
-<div>
+<div class="client-info bold">
 Mr. Gino Gallegos    <br>                                
 gino2051@gmail.com   <br>
 C. (469) 258 0764    <br>
@@ -167,7 +211,7 @@ Dear Mr/Mrs. Gallegos
 </div>
 
 <br>
-<div style="text-align: justify;">
+<div class="just">
 We are pleased to submit this proposal to provide Professional Design Services associated with the Commercial project at the reference address in Dallas, Texas. Based on our perception of the overall project objectives, we propose to perform the following scope of work.
 </div>
 
@@ -185,11 +229,11 @@ To comply with the scope of work we propose the following tasks:
 
 
  
- <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
+ <table style="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
         <thead>
-        <tr id="bold" style="background-color:#f2edd1; font-size:17px;" align="center">
+        <tr class="table-header bold">
           <th width="5%" align="center">#</th>
-          <th align="center" width="40%">DESCRIPTION</th>
+          <th width="40%">DESCRIPTION</th>
           <th width="10%" align="center">UNIT</th>
           <th width="15%" >QTY</th>
           <th width="15%" align="center">UP</th>
@@ -207,9 +251,9 @@ foreach ($proposalsDetails as $propDetail) {
 
                $acum = $acum + 1;
                 if ($acum % 2 == 0) {
-                    $background = "#f2edd1";
+                    $background = "#d7d7d7";
                 } else {
-                    $background = "#fbfbfb";
+                    $background = "#ffffff";
                 }
      //espacios,numeracion,precios, negritas para reglon con precios
                if ($propDetail->unit == null) {
@@ -261,7 +305,7 @@ foreach ($proposalsDetails as $propDetail) {
 <br>
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Time Frame</span></th>
+        <th class="table-header" colspan="1">Time Frame</th>
        </tr>
        <tr> 
            <ul>
@@ -275,7 +319,7 @@ foreach ($proposalsDetails as $propDetail) {
 
  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Terms & Conditions</span></th>
+        <th class="table-header" colspan="1">Terms & Conditions</th>
        </tr>
        <tr> 
            <ul>
@@ -285,3 +329,4 @@ foreach ($proposalsDetails as $propDetail) {
            </ul>
        </tr>
 </table>
+</body>
