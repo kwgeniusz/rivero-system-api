@@ -55,7 +55,7 @@ class Proposal extends Model
     }
      public function note()
     {
-      return $this->belongsToMany('App\Note', 'proposal_note', 'proposalId', 'noteId')->withPivot('propNoteId');
+        return $this->hasMany('App\ProposalNote', 'proposalId')->orderBy('propNoteId');
     }
      public function scope()
     {

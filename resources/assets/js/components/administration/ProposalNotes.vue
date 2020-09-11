@@ -8,17 +8,17 @@
       </div>
 
           <div class="form-group col-xs-10 col-xs-offset-1">
-            <label for="noteId">NOTAS</label>
-            <select v-model="modelNoteId"  @change="selectNote(modelNoteId)" class="form-control" name="noteId" id="noteId">
+            <label for="noteId">T&C PREDETERMINADOS</label>
+            <select v-model="modelNoteId"  class="form-control" name="noteId" id="noteId">
                 <option v-for="(item,index) in notes" :value="item.noteId" > {{item.noteName}}</option>
             </select>
           </div>
 
- <!--           <div class="form-group col-xs-10 col-xs-offset-1">
-            <label for="noteName">NOMBRE DE LA NOTA</label>
+           <div class="form-group col-xs-10 col-xs-offset-1">
+            <label for="noteName">T&C SELECCIONADO</label>
             <input v-model="modelNoteName" type="text" class="form-control" id="noteName" name="noteName"  autocomplete="off">
           </div>
-           -->
+          
     <div class="row">
        <div class="text-right col-xs-6">
          <button class="btn btn-primary" @click.prevent="addRow()"> 
@@ -85,13 +85,6 @@ export default {
 
             axios.get(url).then(response => {
              this.notesList = response.data
-            });
-        },
-         selectNote: function (id){
-            let url ='notes/'+id;
-            axios.get(url).then(response => {
-              // console.log(response.data[0]);
-             // this.modelNoteName = response.data[0].noteName;
             });
         },
   /*----CRUD----- */
