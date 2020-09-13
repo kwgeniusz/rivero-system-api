@@ -40,27 +40,27 @@ class PaymentProposal extends Model
     {
          return decrypt($this->attributes['amount']);
     }
-    public function getPaymentDateAttribute($paymentDate)
-    {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($paymentDate);
-        return $newDate;
-    }
+    // public function getPaymentDateAttribute($paymentDate)
+    // {
+    //      $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+    //      $newDate    = $oDateHelper->$functionRs($paymentDate);
+    //     return $newDate;
+    // }
 //------------------------MUTADORES--------------------------------
 
     public function setAmountAttribute($amount){
             $amount = number_format((float)$amount, 2, '.', '');
             return $this->attributes['amount'] = encrypt($amount);
      }
-    public function setPaymentDateAttribute($paymentDate)
-    {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($paymentDate);
+    // public function setPaymentDateAttribute($paymentDate)
+    // {
+    //      $oDateHelper = new DateHelper;
+    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+    //      $newDate    = $oDateHelper->$functionRs($paymentDate);
 
-        $this->attributes['paymentDate'] = $newDate;
-    }
+    //     $this->attributes['paymentDate'] = $newDate;
+    // }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -100,6 +100,7 @@ class PaymentProposal extends Model
             $payment              = new PaymentProposal;
             $payment->proposalId   = $proposalId;
             $payment->amount      = $amount;
+            $payment->paymentDate      = $paymentDate;
             $payment->dateCreated = date('Y-m-d H:i:s');
             $payment->lastUserId  = Auth::user()->userId;
             $payment->save();

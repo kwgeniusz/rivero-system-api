@@ -1772,16 +1772,15 @@ EOD;
     public function summaryForClient(Request $request)
   {
  //reporte traigo de transaction
-        $date         = Carbon::now();
-        $company       = DB::table('company')->where('companyId', session('companyId'))->get();
-    
+        $date            = Carbon::now();
+        $company         = DB::table('company')->where('companyId', session('companyId'))->get();
         $invoices        = $this->oInvoice->getAllByClientAndcompany($request->clientId,session('companyId'));
+        $client          = $invoices[0]->client;
 
         if ($invoices->isEmpty()) {
             return view('module_contracts.summaryforclient.error');
         } else {
 
-        $client         = $this->oClient->findById($invoices[0]->clientId,session('countryId'));
         $symbol         = $invoices[0]->contract->currency->currencySymbol;
 
  // imprimir encabezado de statemen
@@ -1828,25 +1827,25 @@ EOD;
        </tr>
        <tr> 
             <th colspan="1">
-               <b>ID:</b> {$client[0]->clientCode}
+               <b>ID:</b> {$client->clientCode}
             </th>
             <th colspan="2">
-              <b>Name:</b> {$client[0]->clientName}
+              <b>Name:</b> {$client->clientName}
             </th>
        </tr>
 
       <tr> 
             <th colspan="3">
-              <b>Billing Address:</b> {$client[0]->clientAddress}
+              <b>Billing Address:</b> {$client->clientAddress}
             </th>
        </tr>
 
      <tr> 
            <th colspan="2">
-               <b>E-mail:</b> {$client[0]->clientEmail}
+               <b>E-mail:</b> {$client->clientEmail}
             </th>
             <th colspan="1">
-                   <b>Phone:</b> {$client[0]->clientPhone}
+                   <b>Phone:</b> {$client->clientPhone}
             </th>
        </tr>
 </table>

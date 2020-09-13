@@ -199,7 +199,7 @@ foreach ($invoicesDetails as $invDetail) {
        
     </tr>
 </table>
-       
+    <br>   
 
   <table cellspacing="0" cellpadding="1px" border="0">
        <tr>
@@ -252,6 +252,7 @@ foreach ($invoicesDetails as $invDetail) {
            </th>
        </tr>
 </table>   
+       <br><br>
 
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>
@@ -324,6 +325,9 @@ foreach ($invoicesDetails as $invDetail) {
 @endphp
    {{-- // imprimir footer de factura --}}
 </table>
+       <br><br>
+
+
 <table cellspacing="0" cellpadding="0" >
        <tr>
         <th colspan="3" style="background-color:#f2edd1;" align="center">
@@ -396,7 +400,7 @@ foreach ($invoicesDetails as $invDetail) {
        </tr>
 </table>
 
-
+{{-- 
 
  <table cellspacing="0" cellpadding="0" >
        <tr>
@@ -427,7 +431,7 @@ foreach ($invoicesDetails as $invDetail) {
                   </ul>
        </tr>
 </table>
-
+ --}}
 
 <script type="text/php">
     if ( isset($pdf) ) {

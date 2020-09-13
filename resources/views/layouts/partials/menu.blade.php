@@ -154,13 +154,14 @@
               </span>
           </a>
           <ul class="treeview-menu">
-      @if(Auth::user()->changeCompany == 'Y')
-          <li><a href="{{route('changeCompany.index')}}">{{'Escoger Pais/Oficina'}}</a></li>
-      @endif
- @can('FA')  <li><a href="{{route('company.index')}}">Empresas</a></li>     @endcan
-  @can('FB')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan
-
-            @can('FF')     <li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>@endcan
+@if(Auth::user()->changeCompany == 'Y')
+          <li><a href="{{route('changeCompany.index')}}">Escoger Compañia</a></li>
+@endif
+@can('FA')<li><a href="{{route('company.index')}}">Empresas</a></li>       @endcan
+{{-- @can('FB')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan --}}
+<li><a href="{{route('users.index')}}">Correos</a></li> 
+<li><a href="{{route('users.index')}}">Telefonos</a></li> 
+@can('FF')<li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>  @endcan
           </ul>
         </li>
  @endcan

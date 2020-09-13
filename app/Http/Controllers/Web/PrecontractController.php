@@ -301,6 +301,5 @@ class PrecontractController extends Controller
             ->with($notification);
 
     }
-// ---------PAYMENT -------//
 
 }

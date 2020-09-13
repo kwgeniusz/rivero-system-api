@@ -45,9 +45,10 @@ class AdministrationControllerPDF extends Controller
         $date             = Carbon::now();
         $company           = DB::table('company')->where('companyId', session('companyId'))->get();
         $proposal         = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
-        $proposalsDetails = $this->oProposalDetail->getAllByProposal($request->id);
-        $client           = $this->oClient->findById($proposal[0]->clientId,session('companyId'));
+        $proposalDetails = $proposal[0]->proposalDetail;
+        $client           = $proposal[0]->client;
         
+
         if($proposal[0]->precontract){
            $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;
            $modelId = $proposal[0]->precontract->preId;
@@ -75,7 +76,7 @@ class AdministrationControllerPDF extends Controller
              return redirect()->back()->with($notification);
          }
         //si no tiene renglones la propuesta disparar error
-        elseif ($proposalsDetails->isEmpty()) {
+        elseif ($proposalDetails->isEmpty()) {
             // return view('module_administration.reportincomeexpenses.error');
                  $notification = array(
                     'message'    => 'Error: Debe llenar renglones de Propuesta',
@@ -88,7 +89,7 @@ class AdministrationControllerPDF extends Controller
                  'date'  => $date,
                  'company'  => $company,
                  'proposal'  => $proposal,
-                 'proposalsDetails'  => $proposalsDetails,
+                 'proposalDetails'  => $proposalDetails,
                  'client'  => $client,
                  'moneySymbol'  => $moneySymbol,
                  'modelId' => $modelId,

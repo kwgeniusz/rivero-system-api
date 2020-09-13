@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Web;
 
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Precontract;
+use Auth;
 use App\Proposal;
 use App\ProposalNote;
-use Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ProposalNoteController extends Controller
 {
@@ -16,24 +15,31 @@ class ProposalNoteController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oPrecontract          = new Precontract;
         $this->oProposal             = new Proposal;
         $this->oProposalNote       = new ProposalNote;
     }
 
+     public function index(Request $request,$id)
+    {
+      $proposal = $this->oProposal->FindById($id,session('countryId'),session('companyId'));
+      $propNotes = $proposal[0]->note;
+   
+        if($request->ajax()){
+             return $propNotes;
+           }
+    }
 
-
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
        //VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
-        $this->oProposalNote->deleteProp($request->proposalId);
+        $this->oProposalNote->deleteAll($id);
 
     //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
         if(!empty($request->notesList)) {
         foreach ($request->notesList as $key => $item) {
 
              $result = $this->oProposalNote->insert(
-              $request->proposalId,
+              $id,
               $item['noteId'],
               $item['noteName']);
 
@@ -55,25 +61,15 @@ class ProposalNoteController extends Controller
             }
     }
 
-     public function show(Request $request,$id)
-    {
-        $proposalNotes = $this->oProposalNote->getAllByProposal($id);
+    // public function destroy($id)
+    // {
+    //     $result = $this->oProposalNote->deleteAll($id);
 
-          if($request->ajax()){
-                return $proposalNotes;
-            }
-        return view('module_contracts.proposals.Notes', compact('proposalNotes'));
-    }
+    //        $notification = array(
+    //         'message'    => $result['message'],
+    //         'alertType' => $result['alertType'],
+    //     );
+    //      return $notification;
 
-    public function destroy($id)
-    {
-        $result = $this->oProposalNote->deleteProp($id);
-
-           $notification = array(
-            'message'    => $result['message'],
-            'alertType' => $result['alertType'],
-        );
-         return $notification;
-
-    }
+    // }
 }

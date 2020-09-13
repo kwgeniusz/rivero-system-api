@@ -55,10 +55,10 @@ Vue.component('grid-files', require('./components/contracts/documents/GridFiles.
 //########### module administration components #############
 Vue.component('form-modal-charge', require('./components/administration/FormModalCharge.vue'));
 Vue.component('confirm-payment', require('./components/administration/ModalConfirmPayment.vue'));
-Vue.component('invoice-details', require('./components/administration/InvoiceDetails.vue'));
-Vue.component('proposal-details', require('./components/administration/ProposalDetails.vue'));
+Vue.component('invoice-details', require('./components/administration/invoice/InvoiceDetails.vue'));
+Vue.component('proposal-details', require('./components/administration/proposal/ProposalDetails.vue'));
+// Vue.component('form-new-note', require('./components/administration/proposal/FormNewNote.vue'));
 Vue.component('form-new-service', require('./components/administration/FormNewService.vue'));
-Vue.component('form-new-note', require('./components/administration/FormNewNote.vue'));
 Vue.component('select-bank-cashbox', require('./components/administration/SelectBankOrCashbox.vue'));
 Vue.component('select-bank-with-account', require('./components/administration/SelectBankWithAccount.vue'));
 Vue.component('invoice-subcontractors', require('./components/administration/InvoiceSubcontractors.vue'));

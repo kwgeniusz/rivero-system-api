@@ -53,13 +53,21 @@ class Proposal extends Model
     {
         return $this->hasMany('App\ProposalDetail', 'proposalId')->orderBy('itemNumber');
     }
-     public function note()
-    {
-        return $this->hasMany('App\ProposalNote', 'proposalId')->orderBy('propNoteId');
-    }
      public function scope()
     {
       return $this->hasMany('App\ProposalScope', 'proposalId', 'proposalId');
+    }
+     public function timeFrame()
+    {
+      return $this->hasMany('App\ProposalTimeFrame', 'proposalId', 'proposalId')->orderBy('propTimeId');
+    }
+     public function term()
+    {
+      return $this->hasMany('App\ProposalTerm', 'proposalId', 'proposalId')->orderBy('propTermId');
+    }
+     public function note()
+    {
+        return $this->hasMany('App\ProposalNote', 'proposalId')->orderBy('propNoteId');
     }
     public function paymentCondition()
     {

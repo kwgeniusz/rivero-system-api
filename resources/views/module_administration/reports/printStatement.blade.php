@@ -63,7 +63,7 @@
         </th>
     </tr>
 </table>
-       
+       <br>
 
  <table cellspacing="0" cellpadding="1px" border="0">
        <tr>
@@ -117,6 +117,7 @@
            <th> </th>
        </tr>
 </table>   
+       <br><br>
 
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
         <thead>
@@ -190,7 +191,7 @@ foreach ($transactions as $transaction) {
        </tr>
 </table>   
  <br><br>
- <table cellspacing="0" cellpadding="0" border="0"  >
+{{--  <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
         <th style="background-color:#f2edd1;" colspan="1" align="center"><b>Terms & Conditions</b></th>
        </tr>
@@ -205,7 +206,7 @@ foreach ($transactions as $transaction) {
                   </ul>
         </th>
        </tr>
-</table>
+</table> --}}
 
 
 

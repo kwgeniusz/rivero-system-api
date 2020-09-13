@@ -53,7 +53,7 @@
             <td v-for="(user) in item.user"> {{user.fullName}}</td> 
             <td>  
 
-            <a :href="'../fileDownloadByUnit/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descarga">
+            <a :href="'/files/'+item.docId+'/download/'" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descarga">
                            <span class="fa fa-file" aria-hidden="true"></span> 
                </a>
             <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType">
@@ -161,7 +161,7 @@ export default {
           deleteFiles: function() {
             // si this.checked no esta vacio ejecuta la funcion de borra multiple
             if(Object.keys(this.checked).length != 0) {
-               var url ='../fileDelete';
+               var url ='/files/delete-multiple';
                axios.put(url,{
                  checkedFiles :  this.checked,
                   }).then(response => {

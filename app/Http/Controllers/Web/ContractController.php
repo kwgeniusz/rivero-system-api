@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use Auth;
 use App;
 use ZipArchive;
 use App\Contract;
@@ -16,7 +17,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Auth;
 
 class ContractController extends Controller
 {
@@ -387,57 +387,58 @@ class ContractController extends Controller
            return response($rs->content(), 500)->header('Content-Type', 'text/plain');
         } 
     }
- public function fileDownloadByUnit(Request $request)
-   {
-        $doc = $this->oDocument->findById($request->docId);
-           return response()->download('storage/'.$doc[0]->docUrl, $doc[0]->docName);
-    }
+//  public function fileDownloadByUnit(Request $request)
+//    {
+//         $doc = $this->oDocument->findById($request->docId);
+//            return response()->download('storage/'.$doc[0]->docUrl, $doc[0]->docName);
+//     }
 
- public function fileDownload(Request $request)
-   {
-     $data = json_decode($request->checkedFiles,true);
-      // dd($data);
+//  public function fileDownload(Request $request)
+//    {
+//      $data = json_decode($request->checkedFiles,true);
+//       // dd($data);
 
-        $zipName = Auth::user()->userName.'.zip';
-        $zip = new \ZipArchive;
+//         $zipName = Auth::user()->userName.'.zip';
+//         $zip = new \ZipArchive;
 
-        if ($zip->open($zipName, ZipArchive::CREATE) === TRUE) {  
+//         if ($zip->open($zipName, ZipArchive::CREATE) === TRUE) {  
 
-         foreach ($data as $file) {
-            // dd($data);
-               $zip->addFile('storage/'.$file['docUrl'],$file['docName']);        
-          }        
-               $zip->close();       
-        }
+//          foreach ($data as $file) {
+//             // dd($data);
+//                $zip->addFile('storage/'.$file['docUrl'],$file['docName']);        
+//           }        
+//                $zip->close();       
+//         }
     
-     $headers = array(
-        'content-description: File Transfer',
-        'content-type: application/octet-stream',
-        'content-disposition: attachment; filename="' . $zipName . '"',
-        'content-length: ' . filesize($zipName),
-        'content-encoding: none'
-      );
+//      $headers = array(
+//         'content-description: File Transfer',
+//         'content-type: application/octet-stream',
+//         'content-disposition: attachment; filename="' . $zipName . '"',
+//         'content-length: ' . filesize($zipName),
+//         'content-encoding: none'
+//       );
 
-        $filetopath=$zipName;
+//         $filetopath=$zipName;
 
-        if(file_exists($filetopath)){
-           return response()->download($filetopath, $zipName, $headers)->deleteFileAfterSend(true);
-        }
+//         if(file_exists($filetopath)){
+//            return response()->download($filetopath, $zipName, $headers)->deleteFileAfterSend(true);
+//         }
 
-        return ['status'=>'Esto Da un Error'];
-    }
+//         return ['status'=>'Esto Da un Error'];
+//     }
 
-   public function fileDelete(Request $request)
-  {
-         foreach ($request->checkedFiles as $key => $file) {
-            Storage::delete($file['docUrl']);
-            $this->oDocument->deleteF($file['docUrl'],$file['docId']);
-          }
+//    public function fileDelete(Request $request)
+//   {
+//          foreach ($request->checkedFiles as $key => $file) {
+//             Storage::delete($file['docUrl']);
+//             $this->oDocument->deleteF($file['docUrl'],$file['docId']);
+//           }
 
-       return response('Archivos Eliminados', 200)->header('Content-Type', 'text/plain');
-   }
+//        return response('Archivos Eliminados', 200)->header('Content-Type', 'text/plain');
+//    }
    
-//-------QUERYS ASINCRONIOUS-----------------//
+// //-------QUERYS ASINCRONIOUS-----------------//
+    //method to get files by document type in contracts
     public function getFiles($id,$type)
     {
         $rs  = $this->oDocument->getAllForContractAndType($id,$type);

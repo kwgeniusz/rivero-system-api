@@ -176,20 +176,20 @@ class Invoice extends Model
         return $result;
     }  
 
+ // this is used to report by client and company.
+     public function getAllByClientAndCompany($clientId,$companyId)
+    {
+        $result = $this->where('clientId', $clientId)
+            ->where('companyId', $companyId)
+            ->where('invStatusCode', Invoice::OPEN)
+            ->orWhere('clientId', $clientId)
+            ->where('companyId', $companyId)
+            ->where('invStatusCode', Invoice::CLOSED)
+            ->orderBy('invoiceId', 'ASC')
+            ->get();
 
-    //  public function getAllByClientAndCompany($clientId,$companyId)
-    // {
-    //     $result = $this->where('clientId', $clientId)
-    //         ->where('companyId', $companyId)
-    //         ->where('invStatusCode', Invoice::OPEN)
-    //         ->orWhere('clientId', $clientId)
-    //         ->where('companyId', $companyId)
-    //         ->where('invStatusCode', Invoice::CLOSED)
-    //         ->orderBy('invoiceId', 'ASC')
-    //         ->get();
-
-    //     return $result;
-    // }
+        return $result;
+    }
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {

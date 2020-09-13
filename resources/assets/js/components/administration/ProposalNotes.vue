@@ -6,18 +6,24 @@
             <h4>Errores:</h4>
                   <div v-for="error in errors">- {{ error }}</div>
       </div>
+      
+     <div class="col-xs-12">
+         <input type="radio" v-model="inputType" value="A"> T&C PREDETERMINADOS
+         <input type="radio" v-model="inputType" value="B"> LIBRE
+    </div>
 
-          <div class="form-group col-xs-10 col-xs-offset-1">
+          <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'A'">
             <label for="noteId">T&C PREDETERMINADOS</label>
             <select v-model="modelNoteId"  class="form-control" name="noteId" id="noteId">
                 <option v-for="(item,index) in notes" :value="item.noteId" > {{item.noteName}}</option>
             </select>
           </div>
 
-           <div class="form-group col-xs-10 col-xs-offset-1">
-            <label for="noteName">T&C SELECCIONADO</label>
+           <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'B'">
+            <label for="noteName">T&C LIBRE</label>
             <input v-model="modelNoteName" type="text" class="form-control" id="noteName" name="noteName"  autocomplete="off">
           </div>
+
           
     <div class="row">
        <div class="text-right col-xs-6">
@@ -25,10 +31,13 @@
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar Nota
          </button>
        </div>
-       <div class="col-xs-6">
+       <div class="col-xs-6" v-if="inputType == 'A'">
          <form-new-note pref-url='' @notecreated='getAllNotes()'></form-new-note>
        </div>   
     </div>
+
+
+
 
     <div class="col-xs-12 text-left">
           <h4><b>Terminos y Condiciones</b></h4>
@@ -66,8 +75,9 @@ export default {
             notes: {},
             notesList:{},
 
+            inputType: 'A',
             modelNoteId: '',
-            // modelNoteName: '',
+            modelNoteName: '',
         }
     },
   props: {
@@ -87,14 +97,22 @@ export default {
              this.notesList = response.data
             });
         },
+        // selectNote: function (id){
+        //     let url ='notes/'+id;
+        //     axios.get(url).then(response => {
+        //       // console.log(response.data[0]);
+        //      // this.modelNoteName = response.data[0].noteName;
+        //     });
+        // },
   /*----CRUD----- */
         addRow: function() {
            this.errors = [];
+
+         if(this.inputType == 'A'){
            //VALIDATIONS
-               if (!this.modelNoteId) 
-                this.errors.push('Debe Escoger una Nota.');
-                // if (!this.modelNoteName) 
-                // this.errors.push('Campo Nombre de Nota es Obligatorio.');
+             if (!this.modelNoteId) 
+              this.errors.push('Debe Escoger una Nota.');
+    
               
           if (!this.errors.length) { 
            //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
@@ -110,12 +128,23 @@ export default {
         let noteSelected = this.notes.filter(filtrarPorID);
             //AGREGAR A ITEMLIST
               //Nota al agregar el item debo meter un objeto con el nombre y el ID
-                 this.notesList.push({
-                                     noteId:noteSelected[0].noteId,
-                                     noteName:noteSelected[0].noteName,
-                                   });
-           }
-         },
+              this.notesList.push({noteId:noteSelected[0].noteId,noteName:noteSelected[0].noteName,});
+           } //end of the errors.length
+         } else{ //end of de inputType A
+
+               //VALIDATIONS
+               if (!this.modelNoteName) 
+                this.errors.push('Debe Escribir una Nota.');
+
+               if (!this.errors.length) {
+                  this.notesList.push({noteId:null,noteName:this.modelNoteName});
+                  this.modelNoteName = '';
+               }
+         } //end else
+
+
+
+        }, //End of the function
         deleteNote: function(id) {
                  this.notesList.splice(--id,1);
           },
