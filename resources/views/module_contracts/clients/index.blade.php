@@ -10,6 +10,7 @@
     <div class="col-xs-3">
       
     </div>
+
       <div class="col-xs-6">
       <form class="form-inline" action="{{Route('clients.index')}}" method="GET">
 
@@ -23,8 +24,15 @@
            </button>
         </form>
       </div>
+
       <div class="col-xs-3">
-         @can('FE')  <a class="btn btn-info" href="{{route('contactTypes.index')}}">Tipos de Contacto</a>@endcan
+          <a href="{{route('reports.clients')}}" class="btn btn-danger btn-sm text-right">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Clientes de la Corporacion
+           </a>
+            <br> 
+         @can('FE')
+           <a class="btn btn-info btn-sm" href="{{route('contactTypes.index')}}">Tipos de Contacto</a>
+          @endcan
       </div>
     </div>
      <br>

@@ -155,8 +155,10 @@ export default {
             });
          },
           modalDelete: function() {
+            if(Object.keys(this.checked).length != 0) { 
              this.$refs.modalDelete.open()
              // this.docSelected= item
+           }
           },
           deleteFiles: function() {
             // si this.checked no esta vacio ejecuta la funcion de borra multiple
@@ -166,6 +168,7 @@ export default {
                  checkedFiles :  this.checked,
                   }).then(response => {
                     this.$refs.modalDelete.close()
+                    this.checked = [];
                     this.getAllFiles();
                     toastr.success('Archivos Eliminados') 
                   });

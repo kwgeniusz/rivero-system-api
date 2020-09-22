@@ -65,8 +65,8 @@ class Client extends Model
                          ->orWhere('clientName', 'LIKE', "%$filteredOut%")
                          ->orWhere('clientPhone', 'LIKE', "%$filteredOut%")
                          ->orWhere('clientEmail', 'LIKE', "%$filteredOut%")
-                         ->orWhereHas('contactType', function ($query) use ($filteredOut) {
-                              return $query->where('contactTypeName', 'LIKE', "%$filteredOut%");
+                         ->orWhereHas('company', function ($query) use ($filteredOut) {
+                              return $query->where('companyName', 'LIKE', "%$filteredOut%");
                           });
         }
     }

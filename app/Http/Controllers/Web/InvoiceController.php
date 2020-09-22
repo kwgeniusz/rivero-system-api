@@ -26,15 +26,15 @@ class InvoiceController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oInvoice        = new Invoice;
-        $this->oProposal        = new Proposal;
-        $this->oReceivable        = new Receivable;
-        $this->oContract       = new Contract;
+        $this->oInvoice               = new Invoice;
+        $this->oProposal              = new Proposal;
+        $this->oReceivable            = new Receivable;
+        $this->oContract              = new Contract;
         $this->oCompanyConfiguration  = new CompanyConfiguration;
-        $this->oInvoiceDetail        = new InvoiceDetail;
+        $this->oInvoiceDetail         = new InvoiceDetail;
         $this->oPaymentInvoice        = new PaymentInvoice;
-        $this->oPaymentCondition  = new PaymentCondition;
-        $this->oProjectDescription = new Projectdescription;
+        $this->oPaymentCondition      = new PaymentCondition;
+        $this->oProjectDescription    = new Projectdescription;
     }
 
     public function index(Request $request)
@@ -132,7 +132,8 @@ class InvoiceController extends Controller
     }
     public function show(Request $request,$id)
     {
-        $invoice = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
+        $invoice          = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
+        // $invoice[0]->balance = $this->oInvoice->getBalance($id);
 
           if($request->ajax()){
                 return $invoice;
@@ -173,9 +174,9 @@ class InvoiceController extends Controller
             $totalMontoFacturas += $invoice->netTotal;
             $totalCobrado   += ($invoice->netTotal - $invoice->balance);
           if ($invoice->invStatusCode == Invoice::COLLECTION) {
-            $totalCollections   += $invoice->balance;    
+            $totalCollections   +=  $invoice->balance;    
           }else{
-            $totalPorCobrar    += $invoice->balance;
+            $totalPorCobrar    +=  $invoice->balance;
            }
         }
 

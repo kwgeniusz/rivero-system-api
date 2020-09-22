@@ -20,20 +20,20 @@ class FileController extends Controller
         $this->oDocument        = new Document;
     }
 
-    public function edit($id)
-    {
+    // public function edit($id)
+    // {
 
-    }
+    // }
 
-    public function update(Request $request, $id)
-    {
+    // public function update(Request $request, $id)
+    // {
 
-    }
+    // }
 
    public function deleteMultiple(Request $request)
    {
          foreach ($request->checkedFiles as $key => $file) {
-            Storage::delete($file['docUrl']);
+            // Storage::delete($file['docUrl']);
             $this->oDocument->deleteF($file['docUrl'],$file['docId']);
           }
 

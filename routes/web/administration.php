@@ -17,6 +17,12 @@ Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@pa
 Route::get('invoices/{id}/subcontractors', 'Web\InvoiceController@subcontractors')->name('invoices.subcontractors');
 Route::put('invoices/{invoiceId}/changeStatus','Web\InvoiceController@changeStatus')->name('invoices.changeStatus');
 
+//SALE NOTES
+Route::get('invoices/{id}/sale-notes', 'Web\InvoiceSaleNoteController@getAll')->name('invoiceSaleNotes.getAll');
+Route::get('invoices/{id}/sale-notes/{noteType}/create', 'Web\InvoiceSaleNoteController@create')->name('invoiceSaleNotes.create');
+Route::post('invoices/sale-notes/store', 'Web\InvoiceSaleNoteController@store')->name('invoiceSaleNotes.store');
+
+
  // sub categories 
 Route::get('invoicesCancelled', 'Web\InvoiceController@InvoicesCancelled')->name('invoices.cancelled');
 Route::get('invoicesAll', 'Web\InvoiceController@getAllInvoices')->name('invoices.all');
@@ -31,10 +37,6 @@ Route::post('transactions/store', 'Web\TransactionController@store')->name('tran
 Route::get('transactions/{id}/edit', 'Web\TransactionController@edit')->name('transactions.edit');
 Route::get('transactions/{sign}/{id}/show', 'Web\TransactionController@show')->name('transactions.show');
 Route::delete('transactions/{sign}/{id}/delete', 'Web\TransactionController@delete')->name('transactions.delete');
-
-//SALE NOTES
-Route::resource('saleNotes', 'Web\SaleNoteController');
-Route::get('saleNotes/invoice/{invoiceId}', 'Web\SaleNoteController@getByInvoice')->name('saleNotes.getByInvoice');
 
 //CASHBOX
 Route::resource('cashboxs', 'Web\CashboxController');

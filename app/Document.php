@@ -27,10 +27,10 @@ class Document extends Model
     {
         return $this->hasMany('App\User', 'userId', 'userId');
     }
-//     public function country()
-//     {
-//         return $this->belongsTo('App\Country', 'countryId', 'countryId');
-//     }
+    public function company()
+    {
+        return $this->belongsTo('App\Company', 'companyId', 'companyId');
+    }
 //        public function contactType()
 //     {
 //         return $this->hasOne('App\ContactType', 'contactTypeId', 'contactTypeId');
@@ -128,7 +128,7 @@ class Document extends Model
     }
     public function deleteF($docUrl,$docId)
     {
-                 Storage::delete($docUrl);
+               Storage::delete($docUrl);
         return $this->where('docId', '=', $docId)->delete();
 
     }

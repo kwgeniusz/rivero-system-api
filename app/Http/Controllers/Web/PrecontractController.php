@@ -254,17 +254,17 @@ class PrecontractController extends Controller
                     }
            // dd($proposal[0]);
            //       exit();
-               foreach ($proposal[0]->note as $note) {
-                     $this->oInvoiceNote->insert(
-                       $invoice->invoiceId,
-                       $note->noteId,
-                       $note->noteName);
-                   }
-                foreach ($proposal[0]->scope as $scope) {
-                     $this->oInvoiceScope->insert(
-                       $invoice->invoiceId,
-                       $scope->description);
-                   }    
+               // foreach ($proposal[0]->note as $note) {
+               //       $this->oInvoiceNote->insert(
+               //         $invoice->invoiceId,
+               //         $note->noteId,
+               //         $note->noteName);
+               //     }
+               //  foreach ($proposal[0]->scope as $scope) {
+               //       $this->oInvoiceScope->insert(
+               //         $invoice->invoiceId,
+               //         $scope->description);
+               //     }    
                foreach ($proposal[0]->paymentProposal as $payment) {
                     $this->oPaymentInvoice->addPayment(
                             $invoice->invoiceId,

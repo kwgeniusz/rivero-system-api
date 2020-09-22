@@ -203,6 +203,7 @@ export default {
                  checkedFiles :  this.checked,
                   }).then(response => {
                     this.$refs.modalDelete.close()
+                    this.checked = [];
                     this.allFiles();
                     toastr.success('Archivos Eliminados') 
                   });

@@ -67,6 +67,7 @@ Route::get('statistic/invoicesCancelled', 'Web\StatisticController@numberOfInvoi
 
 //***************************************ROUTES TO REPORTS**********************//
 //-----------------------------CONTRACTS---------------------------------------------------//
+Route::get('reports/clients', 'Report\Pdf\ClientControllerPdf@printClient')->name('reports.clients');
 // Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
 Route::get('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
 // Route::get('contracts-summary', function () {return view('contractsummary.index');})->name('contracts.summary');

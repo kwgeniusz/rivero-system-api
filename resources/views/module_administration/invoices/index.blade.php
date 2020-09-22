@@ -208,9 +208,9 @@
  
            @if($invoice->invStatusCode == App\Invoice::CLOSED )
            
-{{--              <a href="{{route('saleNotes.getByInvoice', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+             <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
-             </a> --}}
+             </a>
 
              <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
           @endif

@@ -4,6 +4,7 @@ namespace App;
 
 use App;
 use App\Country;
+use App\Receivable;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +20,7 @@ class Invoice extends Model
     protected $primaryKey = 'invoiceId';
     protected $fillable = ['invoiceId','invId','countryId','companyId','contractId','clientId','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','invStatusCode'];
 
-     protected $appends = ['grossTotal','taxAmount','netTotal'];
+     protected $appends = ['grossTotal','taxAmount','netTotal','balanceTotal'];
      protected $dates = ['deleted_at'];
      
     //PARA EVITAR LOS NUMEROS MAGICOS
@@ -28,7 +29,6 @@ class Invoice extends Model
     const PAID      = '3';
     const CANCELLED  = '4';
     const COLLECTION  = '5';
-
 
 //--------------------------------------------------------------------
     /** Relations */
@@ -73,6 +73,14 @@ class Invoice extends Model
     {
       return $this->hasMany('App\Receivable', 'invoiceId', 'invoiceId');
     }
+     public function debitNote()
+    {
+       return $this->hasMany('App\SaleNote', 'invoiceId','invoiceId')->where('noteType', 'debit');
+    } 
+     public function creditNote()
+    {
+      return $this->hasMany('App\SaleNote', 'invoiceId', 'invoiceId')->where('noteType', 'credit');
+    } 
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -95,7 +103,28 @@ class Invoice extends Model
          $newDate    = $oDateHelper->$functionRs($invoiceDate);
         return $newDate;
     }
+   public function getBalanceTotalAttribute()
+    {
+      //obtener el netTotal de la Factura
+          $netTotal    = decrypt($this->attributes['netTotal']);
+      //obtener el netTotal de todas las Notas de Debito(debito para el cliente) (+)
+          $debitNoteTotal = $this->debitNote->sum('netTotal');
+          $netTotal += $debitNoteTotal;
+      //obtener el netTotal de todas las Notas de Credito(credito para el cliente) (-)
+          $creditNoteTotal = $this->creditNote->sum('netTotal');
+          $netTotal -= $creditNoteTotal;
+      //obtener la suma de las cuotas pagadas
+          $oReceivable = new Receivable();
+          $totalPaid   = $oReceivable->sumSucceedSharesForInvoice($this->attributes['invoiceId']);
+      //Restando esta suma de pagos al saldo
+          $balance = $netTotal - $totalPaid;
+          $balance = number_format((float)$balance, 2, '.', '');
 
+          // dd($this->client);
+          // dd($balance);
+  
+          return $balance;
+    }
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -193,7 +222,8 @@ class Invoice extends Model
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->where('invoiceId', '=', $id)
+        return $this->with('invoiceDetails','projectDescription','client','contract')
+                    ->where('invoiceId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('companyId', $companyId) 
                     ->get();
@@ -278,9 +308,7 @@ class Invoice extends Model
     //esta funcion llama a un metodo de receivables es para sacar el balance de lo que se ha pagado de la factura
     public function getBalance($invoiceId)
     {
-        $invoice = $this->select('netTotal')
-            ->where('invoiceId', $invoiceId)
-            ->get();
+        $invoice = $this->select('netTotal')->where('invoiceId', $invoiceId)->get();
 
          // dd($invoice[0]->netTotal);
           $oReceivable = new Receivable();

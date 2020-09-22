@@ -58,6 +58,14 @@
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}} Egreso
             </a>
+
+          {{--     <a href="#" class="btn btn-danger btn-sm text-right" onclick="event.preventDefault();document.getElementById('report-clients').submit();">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Reporte
+           </a>
+                   <form id="report-clients" action="{{route('reports.clients')}}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                       <input type="hidden" name="clients[]" value="{{$clients}}">
+                    </form> --}}
   </div>
 
     <div class="row">
