@@ -103,6 +103,26 @@ class Invoice extends Model
          $newDate    = $oDateHelper->$functionRs($invoiceDate);
         return $newDate;
     }
+   public function getPQuantityAttribute()
+    {
+          return $this->receivable->count();
+    }
+    public function getShareSucceedAttribute()
+    {
+      $shareSucceed = $this->receivable->filter(function ($receivable, $key) {
+              return $receivable->recStatusCode == Receivable::SUCCESS;
+          });
+
+        return $shareSucceed;
+    }
+    public function getSharePendingAttribute()
+    {
+      $sharePending = $this->receivable->filter(function ($receivable, $key) {
+              return $receivable->recStatusCode != Receivable::SUCCESS;
+          });
+
+        return $sharePending;
+    } 
    public function getBalanceTotalAttribute()
     {
       //obtener el netTotal de la Factura
@@ -114,15 +134,10 @@ class Invoice extends Model
           $creditNoteTotal = $this->creditNote->sum('netTotal');
           $netTotal -= $creditNoteTotal;
       //obtener la suma de las cuotas pagadas
-          $oReceivable = new Receivable();
-          $totalPaid   = $oReceivable->sumSucceedSharesForInvoice($this->attributes['invoiceId']);
+          $totalPaid   = $this->shareSucceed->sum('amountPaid');
       //Restando esta suma de pagos al saldo
           $balance = $netTotal - $totalPaid;
           $balance = number_format((float)$balance, 2, '.', '');
-
-          // dd($this->client);
-          // dd($balance);
-  
           return $balance;
     }
 //--------------------------------------------------------------------
@@ -182,7 +197,7 @@ class Invoice extends Model
     }
     public function getAllByFourStatus($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4,$companyId)
     {
-        $result = $this->with('contract','invoiceStatus','projectDescription')
+        $result = $this->with('contract','invoiceStatus','projectDescription','receivable','debitNote','creditNote')
                        ->where('companyId' , '=' , $companyId)
                        ->where(function($q) use ($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4){
                           $q->where('invStatusCode', $invStatusCode1)
@@ -306,17 +321,17 @@ class Invoice extends Model
     }
 //--------------------------------------------------------------------
     //esta funcion llama a un metodo de receivables es para sacar el balance de lo que se ha pagado de la factura
-    public function getBalance($invoiceId)
-    {
-        $invoice = $this->select('netTotal')->where('invoiceId', $invoiceId)->get();
+    // public function getBalance($invoiceId)
+    // {
+    //     $invoice = $this->select('netTotal')->where('invoiceId', $invoiceId)->get();
 
-         // dd($invoice[0]->netTotal);
-          $oReceivable = new Receivable();
-          $totalPaid = $oReceivable->sumSucceedSharesForInvoice($invoiceId);
+    //      // dd($invoice[0]->netTotal);
+    //       $oReceivable = new Receivable();
+    //       $totalPaid = $oReceivable->sumSucceedSharesForInvoice($invoiceId);
 
-          $balance = $invoice[0]->netTotal - $totalPaid;
-          $balance = number_format((float)$balance, 2, '.', '');
+    //       $balance = $invoice[0]->netTotal - $totalPaid;
+    //       $balance = number_format((float)$balance, 2, '.', '');
 
-          return $balance;
-    }
+    //       return $balance;
+    // }
 }

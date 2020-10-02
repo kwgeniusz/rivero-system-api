@@ -117,11 +117,18 @@ class AdministrationControllerPDF extends Controller
 
         // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
 
-  if($invoice[0]->invStatusCode == Invoice::OPEN || $invoice[0]->invStatusCode == Invoice::CLOSED || $invoice[0]->invStatusCode == Invoice::COLLECTION){
+  if($invoice[0]->invStatusCode == Invoice::OPEN   ||
+     $invoice[0]->invStatusCode == Invoice::CLOSED || 
+     $invoice[0]->invStatusCode == Invoice::CANCELLED || 
+     $invoice[0]->invStatusCode == Invoice::COLLECTION){
+
      $status = '- COPY';
+
   }elseif($invoice[0]->invStatusCode == Invoice::PAID){
+
      $status = '';
   }
+
         if ($invoicesDetails->isEmpty()) {
                  $notification = array(
                     'message'    => 'Error: Debe agregar renglones a la Factura',
@@ -213,9 +220,9 @@ public function printReceivables(Request $request)
 
        $date         = Carbon::now();
        $invoices = $this->oInvoice->getAllByTwoStatus(INVOICE::OPEN,INVOICE::CLOSED,session('companyId'));
-       foreach ($invoices as $invoice) {
-           $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
-        }
+       // foreach ($invoices as $invoice) {
+       //     $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
+       //  }
        $company     = DB::table('company')->where('companyId', session('companyId'))->get();
        $symbol      = $invoices[0]->contract->currency->currencySymbol;
       

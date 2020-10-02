@@ -6,6 +6,8 @@ use App;
 use Auth;
 use DB;
 use App\Country;
+use App\Receivable;
+use App\PaymentInvoice;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Database\Eloquent\SoftDeletes;
@@ -65,16 +67,66 @@ use Illuminate\Database\Eloquent\Model;
 
       DB::beginTransaction();
         try {
-            
-            //debo colocar una restriccion que diga que mientras el saldo de la factura sea mayor que cero
-            //me permita crear notas de debito y credito.
-            //if son notas de credito, el monto de esa nota no debe sobrepasar el saldo.
-            //la restriccion va desde el nivel mas bajo(modelos) hasta la capa mas alta (interfaces) 
+            // dd($data);
+            // exit();
+            $saleNote   = new SaleNote;
+            $invoice    = Invoice::find($data['invoiceId']);
+    
 
-            //al crear notas de ventas debo reiniciar las cuotas tambien porque modifico el saldo de la factura. 
+            //si el saldo es igual a cero que no permita crear notas de ventas.
+            if($invoice->balanceTotal == 0){
+             throw new \Exception('Error: Esta Factura Tiene Saldo 0.00, no se permite agregar mas notas de ventas.');
+            }
 
-            //INSERTA UNA NUEVA TRANSACTION
-            $saleNote                    = new SaleNote;
+        if($data['noteType'] == 'credit') {
+             //si son notas de credito, el monto de esa nota no debe sobrepasar el saldo.la restriccion va desde el nivel mas bajo(modelos) hasta la capa mas alta (interfaces) 
+                if($data['netTotal'] > $invoice->balanceTotal){
+                     throw new \Exception('Error: El monto de las Notas de Credito no puede ser mayor al saldo.');
+                       }
+
+                 if($data['formConcept'] == SaleNote::CANCELLATION) {
+                 //si es una anulacion el netTotal de la notesale es igual al saldo de la factura. y se anula la factura 
+                    $oInvoice = new Invoice;
+                    $oInvoice->changeStatus($data['invoiceId'], Invoice::CANCELLED);
+
+                    $saleNote->netTotal = $data['netTotal'];
+                  //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
+                     foreach ($invoice->sharePending as $key => $sharePending) {
+                             $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                             $sharePending->save();
+                       };
+
+                   }elseif($data['formConcept'] == SaleNote::DISCOUNT) {
+                //si es un Descuento el netTotal de la notesale es el resultado de la siguiente formula
+                // $rs = invoice->balanceTotal * porcentaje;
+                    $saleNote->netTotal = $data['netTotal'];
+                    $saleNote->percent = $data['formPercent'];
+
+                 //al crear notas de ventas debo reiniciar las cuotas tambien porque modifico el saldo de la factura. 
+                    foreach ($invoice->sharePending as $key => $sharePending) {
+                        $oPaymentInvoice = new PaymentInvoice;
+                        $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$invoice->invoiceId);
+                    };
+ 
+     
+                   }elseif($data['formConcept'] == SaleNote::PARTIAL_REFUND) {
+                //si es una devolucion parcial.  
+                //al escoger de los items de la factura se toma el Service Id junto con el precio.
+                //esto sera un arreglo de servicios por lo tanto-> debe existir un foreach que sume el total. y luego ingresalo debajo
+                // $saleNote->netTotal          = $data['netTotal'];
+
+                        //al crear notas de ventas debo reiniciar las cuotas tambien porque modifico el saldo de la factura. 
+
+                   }
+            }elseif ($data['noteType'] == 'debit') {      
+
+                   if($data['formConcept'] == SaleNote::INTEREST_ON_ARREARS){
+                     //agregar servicio
+                     // $saleNote->netTotal          = $data['netTotal'];
+                   }   
+            }//end debitnote
+
+            //INSERTA DATOS DE LA NOTA DE VENTA
             $saleNote->invoiceId         = $data['invoiceId'];
             $saleNote->clientId          = $data['clientId'];
             $saleNote->reference         = $data['formReference'];
@@ -82,25 +134,9 @@ use Illuminate\Database\Eloquent\Model;
             $saleNote->noteType          = $data['noteType'];
             $saleNote->dateNote          = date('Y-m-d H:i:s');
             $saleNote->userId            = Auth::user()->userId;
+
+  
                
-
-               if($data['noteType'] == 'credit') {
-                //si es una anulacion el netTotal de la notesale es igual al saldo de la factura. y se anula la factura 
-                // $saleNote->netTotal          = $data['netTotal'];
-
-                //si es un Descuento el netTotal de la notesale es el resultado de la siguiente formula
-                // $rs = invoice->balanceTotal * porcentaje;
-                // $saleNote->netTotal          = $rs;
-
-                //si es una devolucion parcial.  
-                //al escoger de los items de la factura se toma el Service Id junto con el precio.
-                //esto sera un arreglo de servicios por lo tanto-> debe existir un foreach que sume el total. y luego ingresalo debajo
-                // $saleNote->netTotal          = $data['netTotal'];
-               }elseif ($data['noteType'] == 'debit') {         
-               //agregar servicio
-               // $saleNote->netTotal          = $data['netTotal'];
-               }
-
             $saleNote->save();
             
             $success = true;

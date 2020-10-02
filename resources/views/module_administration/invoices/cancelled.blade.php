@@ -91,10 +91,15 @@
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice->netTotal}}</td>
-                   <td>{{$invoice->balance}}</td>
-                   <td>{{$invoice->shareSucceed}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->balanceTotal}}</td>
+                   <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
                    <td>
-                   
+                 @can('BEE') 
+                  <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
+                    </a> 
+                    @endcan  
+
                    </td>
                 </tr>
                 @endforeach

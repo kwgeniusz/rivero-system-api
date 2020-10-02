@@ -40,7 +40,7 @@ class InvoiceSaleNoteController extends Controller
          case SaleNote::CREDIT:
             return view('module_administration.invoices.sale_notes.credit_note.create',compact('invoiceId'));
          break;
-         case SaleNote::CREDIT:
+         case SaleNote::DEBIT:
             return view('module_administration.invoices.sale_notes.debit_note.create',compact('invoiceId'));
          break;
        }

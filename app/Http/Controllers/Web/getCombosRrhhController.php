@@ -36,9 +36,8 @@ class getCombosRrhhController extends Controller
         $comboStaff = $this->oStaff->getComboStaff($country, $company);
         return $comboStaff;
     }
-    public function comboTransactionType( $country,$company)
+    public function comboTransactionType($country,$company)
     {
-        
         $tType = $this->oTType->getComboTransactionType($country,$company);
         return $tType;
     }

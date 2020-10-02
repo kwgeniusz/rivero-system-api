@@ -45,6 +45,7 @@ class Receivable extends Model
     const PROCESS       = '2';
     const DECLINED      = '3';
     const SUCCESS       = '4';
+    const ANNULLED      = '5';
 
     // //COLLECTIONS METHOD
     const DEBIT_CARD     = '1';
@@ -236,19 +237,19 @@ class Receivable extends Model
     }
 //------------------------------------------
     //suma todas las cuotas existosas de la factura, metodo usado por modelo invoice para restar este monto del monto de la factura.
-    public function sumSucceedSharesForInvoice($invoiceId)
-    {
-         $receivables = $this->select('amountPaid')
-            ->where('recStatusCode', '=', Receivable::SUCCESS)
-            ->where('invoiceId', '=', $invoiceId)
-            ->get();
+    // public function sumSucceedSharesForInvoice($invoiceId)
+    // {
+    //      $receivables = $this->select('amountPaid')
+    //         ->where('recStatusCode', '=', Receivable::SUCCESS)
+    //         ->where('invoiceId', '=', $invoiceId)
+    //         ->get();
           
-        $acum=0;
-          foreach ($receivables as $key => $receivable) {
-             $acum += $receivable->amountPaid;
-          }
-          return $acum;
-    }
+    //     $acum=0;
+    //       foreach ($receivables as $key => $receivable) {
+    //          $acum += $receivable->amountPaid;
+    //       }
+    //       return $acum;
+    // }
 
 //------------------------------------------
         //esta funcion me permite saber cual es la cuota de la factura que corresponde pagar 

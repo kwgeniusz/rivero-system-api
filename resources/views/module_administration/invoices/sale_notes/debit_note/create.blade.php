@@ -8,7 +8,7 @@
                            <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                 </a></center>
 
-            <invoice-details invoice-id="{{$invoice[0]->invoiceId}}"></invoice-details>
+            <debit-note invoice-id="{{$invoiceId}}" ></debit-note>
         </div>
       </div>
 

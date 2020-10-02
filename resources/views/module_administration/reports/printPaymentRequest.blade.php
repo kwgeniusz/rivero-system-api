@@ -156,8 +156,8 @@
 
 <br>
 <div style="text-align: center">
-<b>Invoice Balance:</b> {{$symbol}}{{$invoice->getBalance($invoice->invoiceId)}}<br>
-<b>Balance due after this payment:</b> {{$symbol}}{{ $invoice->getBalance($invoice->invoiceId) - $receivable[0]->amountDue}}
+<b>Invoice Balance:</b> {{$symbol}}{{$invoice->balanceTotal}}<br>
+<b>Balance due after this payment:</b> {{$symbol}}{{ $invoice->balanceTotal - $receivable[0]->amountDue}}
 </div>
 
 <br><br>

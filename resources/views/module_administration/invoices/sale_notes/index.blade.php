@@ -13,7 +13,8 @@
             <table class="table table-striped table-bordered text-center">
             <thead  class="bg-success">
                 <tr>
-                 <th>INVOICE ID</th>
+                 <th>N° FACTURA</th>
+                 <th>CLIENTE</th>
                  <th>CONTRATO</th>
                  <th>DIRECCION</th> 
                  <th>FECHA</th>
@@ -29,13 +30,14 @@
 
                 <tr>
                    <td>{{$invoice[0]->invId}}</td> 
+                    <td>{{$invoice[0]->client->clientName}} </td>
                    <td>{{$invoice[0]->contract->contractNumber}}</td> 
                    <td>{{$invoice[0]->contract->siteAddress}}</td>
                    <td>{{$invoice[0]->invoiceDate}}</td>
                    <td>{{$invoice[0]->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice[0]->netTotal}}</td>
                    <td>{{$invoice[0]->balanceTotal}}</td>
-                   <td>{{$invoice[0]->shareSucceed}}/{{$invoice[0]->pQuantity}}</td>  
+                   <td>{{$invoice[0]->shareSucceed->count()}}/{{$invoice[0]->pQuantity}}</td>  
                    <td
                   @if($invoice[0]->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  
@@ -112,6 +114,45 @@
     <div role="tabpanel" class="tab-pane" id="debitNote">
       <br>
       
+     <div class="row">
+        <div class="col-xs-12 ">
+      <center>
+           <a href="{{route('invoiceSaleNotes.create',['id'=> $invoice[0]->invoiceId, 'noteType'=> App\SaleNote::DEBIT])}}" class="btn btn-success" >
+                <span class="fa fa-plus" aria-hidden="true"></span>
+                   {{__('add')}}
+            </a>
+      </center>
+      <br>
+         <div class="table-responsive">
+            <table class="table table-striped table-bordered text-center">
+            <thead  class="bg-success">
+                <tr>
+                  <td>ID</td>
+                  <td>REFERENCIA</td>
+                  <td>FECHA</td>
+                  <td>CONCEPTO</td>
+                  <td>CLIENTE</td>
+                  <td>TOTAL</td>
+                  <td>ACCIONES</td>
+                </tr>
+            </thead>
+                <tbody>
+                @foreach($debitNotes as $item)
+                  <tr>
+                     <td>{{$item->salNoteId}}</td> 
+                     <td>{{$item->reference}}</td>
+                     <td>{{$item->dateNote}}</td>
+                     <td>{{$item->concept}}</td>   
+                     <td>{{$item->clientId}}</td>
+                     <td>{{$item->netTotal}}</td>   
+                     <td>IMPRIMIR</td>   
+                  </tr>
+                @endforeach
+                </tbody>
+            </table>
+           </div>
+      </div>
+   </div>
    </div>  <!--tab 2 final-->
 
 </div><!--tab container final-->

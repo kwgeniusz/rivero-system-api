@@ -107,7 +107,7 @@
                   @endif 
                    <td>{{$transaction->user->fullName}}</td>
                    <td> 
-                       <a href="{{route('contracts.fileDownload', ['id' => $transaction->document->docId])}}" data-toggle="tooltip" data-placement="top" title="Descargar" class="btn btn-info">
+                       <a href="{{route('files.download', ['id' => $transaction->document->docId])}}" data-toggle="tooltip" data-placement="top" title="Descargar" class="btn btn-info">
                          <span class="fa fa-file" aria-hidden="true"></span> 
                       </a>
                        <a href="{{route('transactions.show', ['sign'=>'-', 'id' => $transaction->transactionId])}}" class="btn btn-danger" title="{{__('delete')}}">

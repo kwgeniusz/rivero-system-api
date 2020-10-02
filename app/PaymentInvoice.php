@@ -85,23 +85,19 @@ class PaymentInvoice extends Model
         DB::beginTransaction();
         try {
             $acum = 0;
-            $invoice  = Invoice::where('invoiceId', $invoiceId)->get();
+            $invoice     =  Invoice::where('invoiceId', $invoiceId)->get();
 
-            $receivables =  Receivable::where('invoiceId', $invoiceId)->get();
-      
            //suma todas las cuotas y luego el monto que ingrese por formulario
           //para saber si esto es mayor que el monto de la factura
-            foreach ($receivables as  $payment) {
+            foreach ($invoice[0]->sharePending as  $payment) {
                 $acum = $acum + $payment->amountDue ;
             }
                 $acum = $acum + $amount ;
            
-              if ( $acum > $invoice[0]->netTotal)
+              if ( $acum > $invoice[0]->balanceTotal)
               {
-                throw new \Exception("Error: El total de Cuotas no debe sobrepasar el Monto de Factura.");
-              }
-
-            DB::table('invoice')->where('invoiceId', $invoiceId)->increment('pQuantity');  
+                throw new \Exception("Error: El total de Cuotas no debe sobrepasar el saldo de la Factura.");
+              } 
 
             //INSERTA PAGO
             $payment              = new PaymentInvoice;
@@ -159,13 +155,11 @@ class PaymentInvoice extends Model
         try {
             $result = DB::table('receivable')->where('paymentInvoiceId', $id)->value('recStatusCode');
 
-            if ($result == Receivable::SUCCESS || $result == Receivable::PROCESS) {
-                throw new \Exception('Error: La Cuota no se puede eliminar, se esta procesando o ya se pago');
+            if ($result == Receivable::SUCCESS) {
+                throw new \Exception('Error: La Cuota no se puede eliminar');
             } else {
                 //ELIMINAR PAGO
                 $this->where('paymentInvoiceId', '=', $id)->delete();
-                //DESCONTAR ESA CUOTA
-                DB::table('invoice')->where('invoiceId', $invoiceId)->decrement('pQuantity');  
                 //ELIMINAR DE CUENTA POR COBRAR
                 $rs = DB::table('receivable')->where('paymentInvoiceId', $id)->delete();
                 //REALIZA ACTUALIZACION EN CONTRACTCOST

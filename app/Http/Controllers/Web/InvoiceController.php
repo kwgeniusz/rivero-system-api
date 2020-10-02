@@ -42,10 +42,10 @@ class InvoiceController extends Controller
   
         $contract = $this->oContract->findById($request->id,session('countryId'),session('companyId'));
         $invoices = $this->oInvoice->getAllByContract($request->id);
-        $invoices->map(function($invoice){
-              $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
-              $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
-           });
+        // $invoices->map(function($invoice){
+        //       $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
+        //       $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
+        //    });
 
         $proposals = $this->oProposal->getAllByContract($request->id);
 
@@ -168,15 +168,15 @@ class InvoiceController extends Controller
      $invoices = $this->oInvoice->getAllByFourStatus(Invoice::OPEN,Invoice::CLOSED,Invoice::PAID,Invoice::COLLECTION,session('companyId'));
 
          foreach ($invoices as $invoice) {
-           $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
-           $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
+           // $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
+           // $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
 
             $totalMontoFacturas += $invoice->netTotal;
-            $totalCobrado   += ($invoice->netTotal - $invoice->balance);
+            $totalCobrado       += $invoice->shareSucceed->sum('amountPaid');
           if ($invoice->invStatusCode == Invoice::COLLECTION) {
-            $totalCollections   +=  $invoice->balance;    
+            $totalCollections   +=  $invoice->balanceTotal;    
           }else{
-            $totalPorCobrar    +=  $invoice->balance;
+            $totalPorCobrar     +=  $invoice->balanceTotal;
            }
         }
 
@@ -253,9 +253,9 @@ class InvoiceController extends Controller
 
      $invoices = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('companyId'));
 
-         foreach ($invoices as $invoice) {
-           $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
-           $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
+         // foreach ($invoices as $invoice) {
+           // $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
+           // $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
 
           //   $totalMontoFacturas += $invoice->netTotal;
           //   $totalCobrado   += ($invoice->netTotal - $invoice->balance);
@@ -264,7 +264,7 @@ class InvoiceController extends Controller
           // }else{
           //   $totalPorCobrar    += $invoice->balance;
           //  }
-        }
+        // }
 
 
         return view('module_administration.invoices.cancelled', compact('invoices'));
@@ -278,14 +278,14 @@ class InvoiceController extends Controller
         $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($id);
         $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
 
-         //saldo de la factura
-        $invoiceBalance         = $this->oInvoice->getBalance($id);
-         //saber que cuota le corresponde mostrar los botones de cobro y verificación
         $currentShare           = $this->oReceivable->currentShare($id);
+         //saldo de la factura
+        // $invoiceBalance         = $this->oInvoice->getBalance($id);
+         //saber que cuota le corresponde mostrar los botones de cobro y verificación
 
         $btnReturn = $request->btnReturn;
         
-        return view('module_contracts.invoices.payment', compact('invoice','invoiceDetails', 'payments','invoiceBalance','currentShare','btnReturn'));
+        return view('module_contracts.invoices.payment', compact('invoice','invoiceDetails', 'payments','currentShare','btnReturn'));
 
     }
 

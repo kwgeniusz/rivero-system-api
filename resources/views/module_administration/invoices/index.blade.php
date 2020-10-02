@@ -5,8 +5,8 @@
 
   <div class="col-xs-3 text-left">
     <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
-    <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
     <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
+    <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
     <h4 class="text-warning text-left">Collections: ${{$totalCollections}}</h4>
   </div>
 
@@ -88,8 +88,11 @@
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice->netTotal}}</td>
-                   <td>{{$invoice->balance}}</td>
-                   <td>{{$invoice->shareSucceed}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->balanceTotal}}<br><br>
+                    NC:{{count($invoice->creditNote)}}<br>
+                    ND:{{count($invoice->debitNote)}}
+                   </td>
+                   <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
                    <td
                   @if($invoice->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  
