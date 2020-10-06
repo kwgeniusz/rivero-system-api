@@ -69,6 +69,14 @@
           font-weight: bold;
         }
 
+   /*     span.inner {
+            color: green;
+        }*/
+        tr.outer {
+            color: red;
+            text-decoration: line-through;
+        }
+
     </style>
 </head>
 <body>
@@ -359,8 +367,11 @@ foreach ($invoicesDetails as $invDetail) {
            $recStatusName  = $receivable->receivableStatus[0]->recStatusName;
         }
 @endphp
+
       <table cellspacing="0" cellpadding="0" >
-                <tr>
+                <tr @if($receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
+                  class="outer" 
+                  @endif>
                  <td width="10%">{{$acum3}}</td>
                  <td width="35%">{{$moneySymbol}} {{$receivable->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
@@ -400,6 +411,27 @@ foreach ($invoicesDetails as $invDetail) {
        </tr>
 </table>
 
+<br>
+
+@if($invoice[0]->creditNote->isNotEmpty())
+ <p style="color:red"> Nota: esta factura ha sido afectada con una nota de crédito: 
+  @foreach($invoice[0]->creditNote as $creditNote)
+   ID {{$creditNote['salNoteId']}} 
+  @endforeach
+ </p> 
+ @endif
+
+
+@if($invoice[0]->debitNote->isNotEmpty())
+ <p style="color:red"> Nota: esta factura ha sido afectada con una nota de debito:
+  @foreach($invoice[0]->debitNote as $debitNote)
+   ID {{$debitNote['salNoteId']}} 
+  @endforeach
+ </p> 
+ @endif
+
+
+{{-- Nota: esta factura ha sido afectada con una nota de debito ID xxxx --}}
 {{-- 
 
  <table cellspacing="0" cellpadding="0" >

@@ -88,9 +88,16 @@
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice->netTotal}}</td>
-                   <td>{{$invoice->balanceTotal}}<br><br>
+                   <td>{{$invoice->balanceTotal}}<br>
+
+                   <b> @if($invoice->creditNote->isNotEmpty())
                     NC:{{count($invoice->creditNote)}}<br>
+                    @endif </b>
+
+                    <b>@if($invoice->debitNote->isNotEmpty())
                     ND:{{count($invoice->debitNote)}}
+                    @endif</b>
+                    
                    </td>
                    <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
                    <td
@@ -172,13 +179,13 @@
 </div> --}}
 
 
-          @if($invoice->netTotal > 0) 
+          {{-- @if($invoice->netTotal > 0)  --}}
                    @can('BEE') 
                   <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a> 
                     @endcan  
-            @endif  
+            {{-- @endif  } --}}
 
 
                  @can('BED') 
@@ -216,6 +223,11 @@
              </a>
 
              <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
+          @endif
+        @if($invoice->invStatusCode == App\Invoice::PAID )
+         <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+                     <span class="fa fa-briefcase" aria-hidden="true"></span> 
+             </a>
           @endif
 
                    </td>

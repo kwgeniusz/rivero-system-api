@@ -87,7 +87,7 @@ use Illuminate\Database\Eloquent\Model;
                  if($data['formConcept'] == SaleNote::CANCELLATION) {
                  //si es una anulacion el netTotal de la notesale es igual al saldo de la factura. y se anula la factura 
                     $oInvoice = new Invoice;
-                    $oInvoice->changeStatus($data['invoiceId'], Invoice::CANCELLED);
+                    $oInvoice->changeStatus($data['invoiceId'], Invoice::PAID);
 
                     $saleNote->netTotal = $data['netTotal'];
                   //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)

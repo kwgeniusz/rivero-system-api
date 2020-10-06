@@ -33,16 +33,17 @@
             <td>{{item.quantity}}</td>
             <td>{{item.amount}}</td>
             <td>
-                <a @click="toggle(item.invDetailId)" :class="{ opened: opened.includes(item.invDetailId) }" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Compromisos">
+               <!--  <a @click="toggle(item.invDetailId)" :class="{ opened: opened.includes(item.invDetailId) }" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Compromisos">
                             <span class="fa fa-user" aria-hidden="true"></span> 
-               </a>  
+               </a>   -->
                 <a @click="openModal(item)" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Subcontratista">
                             <span class="fa fa-plus" aria-hidden="true"></span> 
                </a>   
            </td> 
          </tr>
 
-            <tr v-if="opened.includes(item.invDetailId)">
+            <!-- <tr v-if="opened.includes(item.invDetailId)"> -->
+            <tr>
             <td></td>
              <td colspan="6" >
               <div class="text-left">
@@ -180,14 +181,14 @@ export default {
     },
 
     methods: {
-        toggle(id) {
-         const index = this.opened.indexOf(id);
-         if (index > -1) {
-           this.opened.splice(index, 1)
-         } else {
-           this.opened.push(id)
-         }
-       },
+       //  toggle(id) {
+       //   const index = this.opened.indexOf(id);
+       //   if (index > -1) {
+       //     this.opened.splice(index, 1)
+       //   } else {
+       //     this.opened.push(id)
+       //   }
+       // },
         findInvoice: function (){
             let url ='../../invoices/'+this.invoiceId;
             axios.get(url).then(response => {

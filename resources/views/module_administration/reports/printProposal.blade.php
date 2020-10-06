@@ -207,7 +207,8 @@
  </div>
 
 <div class="date bold">
-July 8th, 2020 {{$proposal[0]->proposalDate}}
+{{-- July 8th, 2020  --}}
+{{$date->format('F jS, Y')}}
 </div>       
 
 <div class="big bold">Mr. {{$client->clientName}}</div>                            
@@ -230,7 +231,7 @@ Dear <b>Mr/Mrs. {{$client->clientName}}</b>
 
 <br>
 <div class="just">
-We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
+&nbsp;&nbsp;We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
 </div>
 
         <ul class="just">
@@ -378,7 +379,7 @@ If the payment is by Check, Cash or Money Order, leave it at the office or give 
 
 
 <div class="just">
-We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
+&nbsp;&nbsp;We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
 <br><br>
 Sincerely.
 </div>
@@ -392,9 +393,9 @@ Sincerely.
           (972) 655 6180
         </th>
         <th align="center">
-           Saro Di Frisco<br>
+           {{$invoice->userId}}<br>
            JD representative<br>
-           (214) 718 6256 <br>
+           {{-- (214) 718 6256 <br> --}}
         </th>
        </tr>
 </table>

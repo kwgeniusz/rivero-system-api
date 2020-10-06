@@ -8,6 +8,12 @@
         <a :href="'reportsProposal?id='+proposal[0].proposalId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
          <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
                     </a>
+
+
+
+
+<proposal-scopes :proposal-id="proposal[0].proposalId" ref="proposalScopes"/>
+
 <hr>
     <form class="form">
 
@@ -108,10 +114,6 @@
 
        </div>
 
-
-<hr>
-<proposal-scopes :proposal-id="proposal[0].proposalId" ref="proposalScopes"/>
-
 <hr>
 <proposal-times :proposal-id="proposal[0].proposalId" ref="proposalTimes"/>
 
@@ -120,6 +122,8 @@
 
 <hr>
 <proposal-notes :proposal-id="proposal[0].proposalId" ref="proposalNotes"/>
+
+
 
    </div>
        <div class="text-center"> 

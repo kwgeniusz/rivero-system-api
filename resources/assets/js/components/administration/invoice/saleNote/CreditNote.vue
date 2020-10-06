@@ -241,44 +241,36 @@
         },
       addRow: function() {
            this.errors = [];
+          //buscar si en el arreglo itemList si ya se agrego el servicio
+           let pos  = this.itemList.findIndex(item => item.invDetailId === this.formService.invDetailId);
            //VALIDATIONS
                if (!this.formService) 
                 this.errors.push('Debe Escoger un Servicio.');
-  
+               if (pos != -1) 
+                this.errors.push('Ya se Agrego el Servicio a la Nota.');
+
           if (!this.errors.length) { 
+         
             //AGREGAR A ITEMLIST
               //Nota al agregar el item debo meter un objeto con el nombre y el ID
-                  this.itemList.push(this.formService);   
+                this.itemList.push(this.formService);   
 
-                  var indexOfStevie = this.invoiceDetails.findIndex(
-                    item => item.invDetailId === this.formService.invDetailId
-                    );
-
-                   console.log(indexOfStevie);
-                  // function filtrarPorID(obj,invDetailId) {
-
-                  //    if ('invDetailId' in obj && obj.invDetailId == invDetailId) {
-                  //     return true;
-                  //   } else {
-                  //     return false;
-                  //     }
               }
-                 // console.log(this.formService)
-                 // let pos = invoiceDetail.indexOf('Banana') 
-                 // console.log(pos)
-                  // this.invoiceDetails = this.services.filter(filtrarPorID);
-                  // console.log(this.invoiceDetails.filter(filtrarPorID,this.formService.invDetailId));
-
-           
         },
+       deleteRow: function(id) {
+            //borrar valor que encuentre del arreglo
+                 this.itemList.splice(--id,1);
+        },  
        createNote: function() {
           this.errors = [];
 
    //--------------VALIDATIONS-------------------//
-          if (!this.formConcept) 
-               this.errors.push('Campo Concepto Es Requerido');
           if (!this.formReference) 
                this.errors.push('Campo Referencia es Requerido');
+
+          if (!this.formConcept) 
+               this.errors.push('Campo Concepto Es Requerido');
+
    //-------------------------------
      let netTotalSelected = 0;
         if(this.formConcept == 1){
@@ -292,7 +284,7 @@
                this.errors.push('Porcentaje no puede ser mayor a 60%');  
         }
         if(this.formConcept == 3){
-           if (this.itemList == []) 
+           if (!this.itemList) 
                this.errors.push('Necesitas Agregar Servicios a la Nota');
         }
              

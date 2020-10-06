@@ -72,12 +72,14 @@
 
      <div class="row">
         <div class="col-xs-12 ">
+   @if($invoice[0]->invStatusCode != App\Invoice::PAID)                 
       <center>
            <a href="{{route('invoiceSaleNotes.create',['id'=> $invoice[0]->invoiceId, 'noteType'=> App\SaleNote::CREDIT])}}" class="btn btn-success" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}}
             </a>
       </center>
+   @endif   
       <br>
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
@@ -116,12 +118,14 @@
       
      <div class="row">
         <div class="col-xs-12 ">
+   @if($invoice[0]->invStatusCode != App\Invoice::PAID)       
       <center>
            <a href="{{route('invoiceSaleNotes.create',['id'=> $invoice[0]->invoiceId, 'noteType'=> App\SaleNote::DEBIT])}}" class="btn btn-success" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}}
             </a>
       </center>
+   @endif   
       <br>
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">

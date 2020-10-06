@@ -42,7 +42,9 @@ class AdministrationControllerPDF extends Controller
 {
    $pdf = app('dompdf.wrapper');
 
-        $date             = Carbon::now();
+        $date  = Carbon::now();
+        // $date  = $date->toFormattedDateString();
+        // $date = $date->format('l jS \\of F Y h:i:s A');    
         $company           = DB::table('company')->where('companyId', session('companyId'))->get();
         $proposal         = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
         $proposalDetails = $proposal[0]->proposalDetail;
