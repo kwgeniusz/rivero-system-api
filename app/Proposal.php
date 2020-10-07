@@ -77,6 +77,10 @@ class Proposal extends Model
     {
         return $this->hasMany('App\PaymentProposal', 'proposalId','proposalId');
     }
+     public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'userId');
+    } 
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -99,6 +103,10 @@ class Proposal extends Model
          $newDate    = $oDateHelper->$functionRs($proposalDate);
         return $newDate;
     }
+     public function getPQuantityAttribute()
+    {
+          return $this->paymentProposal->count();
+    }  
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -164,7 +172,8 @@ class Proposal extends Model
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->where('proposalId', '=', $id)
+        return $this->with('user')
+                    ->where('proposalId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('companyId', $companyId) 
                     ->get();

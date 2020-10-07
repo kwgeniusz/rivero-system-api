@@ -350,12 +350,13 @@ foreach ($proposalDetails as $propDetail) {
 
 <div style="text-align: left">
 <b>Remit payment to:</b><br>
-       Name: JD Rivero Dallas LLC <br>
+{!! nl2br($company[0]->paymentMethods) !!}
+   {{--     Name: JD Rivero Dallas LLC <br>
            Bank: Bank of America <br>
            Account number: 4880 9011 7716 <br>
            Routing number: 111000025<br>
            026009593 (WIRES)<br>
-           E-mail: jdriverodallas@gmail.com (ZELLE)
+           E-mail: jdriverodallas@gmail.com (ZELLE) --}}
 </div>
 <br>
 <div align="center">
@@ -393,7 +394,7 @@ Sincerely.
           (972) 655 6180
         </th>
         <th align="center">
-           {{$invoice->userId}}<br>
+           {{$proposal[0]->user->fullName}}<br>
            JD representative<br>
            {{-- (214) 718 6256 <br> --}}
         </th>

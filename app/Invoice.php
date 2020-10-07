@@ -81,6 +81,10 @@ class Invoice extends Model
     {
       return $this->hasMany('App\SaleNote', 'invoiceId', 'invoiceId')->where('noteType', 'credit');
     } 
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'userId');
+    }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------

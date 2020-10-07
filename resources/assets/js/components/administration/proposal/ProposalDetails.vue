@@ -5,6 +5,7 @@
     <div class="panel-body">
 <h4><b>Propuesta N°:</b> {{proposal[0].propId}}</h4>
 <h4><b>Fecha:</b> {{proposal[0].proposalDate | moment("MM/DD/YYYY") }}</h4>
+<h4><b>Vendedor:</b> {{proposal[0].user.fullName }}</h4>
         <a :href="'reportsProposal?id='+proposal[0].proposalId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
          <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
                     </a>
