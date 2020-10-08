@@ -171,6 +171,10 @@
     text-align: justify;
 }
 
+    .tab {
+    padding-left: 40px;
+}
+
     .date {
     float: right;
     margin-top: -40px;
@@ -231,7 +235,7 @@ Dear <b>Mr/Mrs. {{$client->clientName}}</b>
 
 <br>
 <div class="just">
-&nbsp;&nbsp;We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
+<span class="tab">We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
 </div>
 
         <ul class="just">
@@ -380,7 +384,7 @@ If the payment is by Check, Cash or Money Order, leave it at the office or give 
 
 
 <div class="just">
-&nbsp;&nbsp;We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
+<span class="tab">We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
 <br><br>
 Sincerely.
 </div>
