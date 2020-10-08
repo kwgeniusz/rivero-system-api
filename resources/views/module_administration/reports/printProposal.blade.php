@@ -132,7 +132,7 @@ foreach ($proposalsDetails as $propDetail) {
   <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
         <th align="justify">
-        <strong>Dear Mr./Mrs. {{$client[0]->clientName}}:</strong><br>
+        <strong>Dear Mr./Mrs. {{$client->clientName}}:</strong><br>
         We are pleased to submit this proposal to provide professional services associated with this project at the reference, address in DALLAS TX. Based on our perception of the overall project objectives, we propose to perform the following tasks. 
          </th>
        </tr>
@@ -146,21 +146,21 @@ foreach ($proposalsDetails as $propDetail) {
        </tr>
        <tr> 
             <th colspan="1">
-               <span id="bold">ID:</span> {{$client[0]->clientCode}}
+               <span id="bold">ID:</span> {{$client->clientCode}}
             </th>
             <th colspan="1">
-              <span id="bold">Name:</span> {{$client[0]->clientName}}
+              <span id="bold">Name:</span> {{$client->clientName}}
             </th>
              <th colspan="1">
-              <span id="bold">Phone:</span> {{$client[0]->clientPhone}}
+              <span id="bold">Phone:</span> {{$client->clientPhone}}
             </th>
        </tr>
       <tr> 
             <th colspan="2">
-              <span id="bold">Billing Address:</span> {{$client[0]->clientAddress}}
+              <span id="bold">Billing Address:</span> {{$client->clientAddress}}
             </th>
              <th colspan="1">
-               <span id="bold">E-mail:</span> {{$client[0]->clientEmail}}
+               <span id="bold">E-mail:</span> {{$client->clientEmail}}
             </th>
        </tr>
 </table>
@@ -307,32 +307,20 @@ foreach ($proposalsDetails as $propDetail) {
        </tr>
 </table>
 
- <table cellspacing="0" cellpadding="0" border="0"  >
-       <tr>
-        <th style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Terms & Conditions</span></th>
-       </tr>
-       <tr> 
+
+        <div style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Terms & Conditions</span></div>
            <ul>
 @foreach($proposal['0']->note as $note)
     <li>{!! nl2br($note->noteName) !!}</li>
 @endforeach
            </ul>
-       </tr>
-</table>
 
- <table cellspacing="0" cellpadding="0" border="0"  >
-       <tr>
-        <th style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Scope of Work</span>
-        </th>
-       </tr>
-       <tr> 
+        <div style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Scope of Work</span></div>
           <ul>
 @foreach($proposal['0']->scope as $scope)
     <li>{!! nl2br($scope->description) !!}</li>
 @endforeach
          </ul>
-       </tr>
-</table>
 <br>
   <table cellspacing="0" cellpadding="0" border="0" >
   {{--      <tr>
@@ -354,7 +342,7 @@ foreach ($proposalsDetails as $propDetail) {
        <tr align="center">
          <th> 
         ACCEPTED BY: _____________________________________<br>
-                          Mr./Mrs. {{$client[0]->clientName}}
+                          Mr./Mrs. {{$client->clientName}}
          </th>
        </tr>
 </table>
