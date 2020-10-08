@@ -6,9 +6,9 @@ Route::resource('clients', 'Web\ClientController');
 Route::resource('contactTypes', 'Web\ContactTypeController');
 
 //*************************SUBCONTRACTORS************************
-Route::resource('subcontractors', 'Web\SubcontractorController');
-Route::get('subcontractors/{subcontId}/payables', 'Web\SubcontractorController@payables')->name('subcontractors.payables');
-Route::get('subcontractors/{subcontId}/getPayables', 'Web\SubcontractorController@getallPayables')->name('subcontractors.getallPayables');
+Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);
+Route::get('subcontractors/{id}/payables', 'Web\SubcontractorController@payables')->name('subcontractors.payables');
+Route::get('subcontractors/{id}/getPayables', 'Web\SubcontractorController@getallPayables')->name('subcontractors.getallPayables');
 
 //**************************PRECONTRACTS*************************
 Route::resource('precontracts', 'Web\PrecontractController', ['parameters' => ['precontracts' => 'id']]);
@@ -44,13 +44,13 @@ Route::resource('terms', 'Web\TermController', ['parameters' => ['terms' => 'id'
 Route::get('proposals/{id}/notes', 'Web\ProposalNoteController@index')->name('proposalsNotes.index');
 Route::post('proposals/{id}/notes', 'Web\ProposalNoteController@store')->name('proposalsNotes.store');
 
-// Route::resource('proposalsNotes', 'Web\ProposalNoteController');
-// Route::resource('proposalsScopes', 'Web\ProposalScopeController');
+ // ->Proposal Subcontractor
+Route::put('proposal/{id}/update-subcontractor', 'Web\ProposalController@updateSubcontractor');
  // ->Proposal Payments
 Route::get('proposalsPayments/{id}', 'Web\ProposalController@payments')->name('proposals.payments');
 Route::post('proposalsPayments/add', 'Web\ProposalController@paymentsAdd')->name('proposals.paymentsAdd');
 Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@paymentsRemove')->name('proposals.paymentsRemove');
- // ->Proposal Proposal
+ // ->Proposal Convert
 Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
 Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
 

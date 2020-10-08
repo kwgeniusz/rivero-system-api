@@ -52,7 +52,7 @@
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                    </a>   
                     <b>{{++index2}})
-                     Nombre: {{item2.subcontractor.subcontName}} /
+                     Nombre: {{item2.subcontractor.name}} /
                      Monto a Pagar:   {{item2.transactionAmount}}</b>
                   <br>
                  </div>

@@ -237,7 +237,8 @@ class PrecontractController extends Controller
                   '0.00',
                   '0.00',
                   $proposal[0]->pCondId,
-                  Invoice::OPEN);
+                  Invoice::OPEN,
+                  $proposal[0]->userId);
              // dd($invoice);
              // dd($proposal[0]->proposalDetail);
              //      exit();

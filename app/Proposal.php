@@ -77,6 +77,10 @@ class Proposal extends Model
     {
         return $this->hasMany('App\PaymentProposal', 'proposalId','proposalId');
     }
+    public function subcontractor()
+    {
+        return $this->hasOne('App\Subcontractor', 'subcontId','subcontId');
+    }
      public function user()
     {
         return $this->belongsTo('App\User', 'userId', 'userId');
@@ -253,6 +257,19 @@ class Proposal extends Model
 
               $proposal->save();
     }
+
+    public function updateSubcontractor($proposalId, $subcontId) 
+    {
+
+        $proposal             = proposal::find($proposalId);
+        $proposal->subcontId  = $subcontId;
+        $proposal->save();
+
+         $rs  = ['alertType' => 'success', 'message' => "Se ha Modificado el Subcontratista de la Propuesta",'model'=>$proposal];
+
+         return $rs;
+    }
+
     public function deleteProposal($proposalId)
     {
         return $this->where('proposalId', '=', $proposalId) 

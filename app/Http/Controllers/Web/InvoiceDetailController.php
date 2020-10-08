@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Web;
 
 
+use Auth;
+use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Invoice;
 use App\InvoiceDetail;
 use App\Contract;
 use App\CompanyConfiguration;
-use Auth;
 
 class InvoiceDetailController extends Controller
 {
@@ -47,10 +48,20 @@ class InvoiceDetailController extends Controller
 
     public function store(Request $request)
     {
-//VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
-        $this->oInvoiceDetail->deleteInv($request->invoiceId);
+
+       $error = null;
+
+        DB::beginTransaction();
+        try {
+
+           //VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
+        $rs = $this->oInvoiceDetail->deleteInv($request->invoiceId);
+
+      if($rs['alertType'] == 'error'){ 
+         throw new \Exception($rs['message']);
+      }
     
-    //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
+    //recorre el arreglo que viene por request, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
      if(!empty($request->itemList)) {
         foreach ($request->itemList as $key => $item) {
            $result = $this->oInvoiceDetail->insert(
@@ -63,21 +74,25 @@ class InvoiceDetailController extends Controller
                           $item['quantity'],
                           $item['amount']);
              }
-        $notification = array(
-          'message'    => $result['message'],
-          'alertType' => $result['alertType'],
-        );
-      }else{
-        $notification = array(
-          'message'    => 'Renglones Guardados',
-          'alertType' => 'success',
-        );
-      };//fin 1 else
+      }
 
       //envia siempre la notificacion para saber que if fue cumplido 
-         if($request->ajax()){
-                return $notification;
-            }
+         // if($request->ajax()){
+         //        return $notification;
+         //    }
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+            return $result = ['alertType' => 'success', 'message' => 'Reglon Guardados Exitosamente'];
+        } else {
+            return $result = ['alertType' => 'error', 'message' => $error];
+        }
 
     }
 

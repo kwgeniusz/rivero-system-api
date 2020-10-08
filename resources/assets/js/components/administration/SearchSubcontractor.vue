@@ -2,11 +2,11 @@
 <div>
 <!-- INPUT BUSCADOR DE CLIENTES AJAX-->
     <div class="form-group col-xs-12">
-        <label for="subcontName">SUBCONTRATISTA</label>
+        <label for="name">SUBCONTRATISTA</label>
       
         <div class="input-group ">
          <input type="hidden" name="subcontId" :value="subcontId">
-         <input class="form-control" @keyup="searchSubcontract()" name="subcontName" v-model="subcontName" autocomplete="off" :disabled="btnRemove">
+         <input class="form-control" @keyup="searchSubcontract()" name="name" v-model="name" autocomplete="off" :disabled="btnRemove">
            <span class="input-group-btn">
              <!-- <form-new-subcontractor prefUrl="../../"  v-if="btnAdd" @sendClient="addSubcontractor"/> -->
               <a class="btn btn-primary" v-if="btnAdd"><span class="fa fa-search" aria-hidden="true"></span></a>
@@ -15,7 +15,7 @@
          </div>
 
     <div :class="{ sugerencias: this.style }">
-      <div class="result" v-for="(item, index) in list" @click="addSubcontractor(item)">{{item.subcontName}}</div>
+      <div class="result" v-for="(item, index) in list" @click="addSubcontractor(item)">{{item.name}}</div>
    </div>
   
     </div>
@@ -35,7 +35,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
      data: function () {
           return {
             subcontId: '',
-            subcontName : '',
+            name : '',
             list : '',
             style : '',
             btnAdd: true,
@@ -54,11 +54,11 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
         this.$forceUpdate();
      },
        searchSubcontract: function() {
-           if(this.subcontName == '') {
+           if(this.name == '') {
                  this.list = ''
                  this.style =false
            } else { 
-              var url ='../../searchSubcontractor/'+this.subcontName;
+              var url ='../../searchSubcontractor/'+this.name;
               axios.get(url).then(response => {
                  this.list = response.data
                  this.style = true
@@ -69,7 +69,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
        addSubcontractor: function (subcontractor){
          // console.log(subcontractor)
             this.subcontId = subcontractor.subcontId;
-            this.subcontName = subcontractor.subcontName;
+            this.name = subcontractor.name;
 
             this.list = ''
             this.style = false
@@ -80,7 +80,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
         },
          removeSubcontractor: function (){
             this.subcontId = '';
-            this.subcontName = '';
+            this.name = '';
 
             this.list = ''
             this.style = false

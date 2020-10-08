@@ -3,26 +3,28 @@
 
  <div class="panel panel-success  col-xs-10 col-xs-offset-1" v-if="proposal != ''">
     <div class="panel-body">
+
+<div class="col-xs-6">
 <h4><b>Propuesta N°:</b> {{proposal[0].propId}}</h4>
 <h4><b>Fecha:</b> {{proposal[0].proposalDate | moment("MM/DD/YYYY") }}</h4>
 <h4><b>Vendedor:</b> {{proposal[0].user.fullName }}</h4>
-        <a :href="'reportsProposal?id='+proposal[0].proposalId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
-         <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
-                    </a>
+<a :href="'reportsProposal?id='+proposal[0].proposalId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
+        <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
+</a>
+</div>
 
-
-
+<div class="col-xs-6">
+   <proposal-subcontractor :proposal="proposal[0]" ref="proposalSubcontractor"/>
+</div>
 
 <proposal-scopes :proposal-id="proposal[0].proposalId" ref="proposalScopes"/>
 
-<hr>
     <form class="form">
 
-       <div class="alert alert-danger" v-if="errors.length">
-            <h4>Errores:</h4>
-                  <div v-for="error in errors">- {{ error }}</div>
-         </div>
-
+     <div class="alert alert-danger" v-if="errors.length">
+        <h4>Errores:</h4>
+          <div v-for="error in errors">- {{ error }}</div>
+    </div>
           <div class="form-group col-xs-12">
             <label for="serviceId">SERVICIO</label>
             <select v-model="modelServiceId" class="form-control" @change="selectService(modelServiceId)" name="serviceId" id="serviceId">
@@ -117,14 +119,10 @@
 
 <hr>
 <proposal-times :proposal-id="proposal[0].proposalId" ref="proposalTimes"/>
-
 <hr>
 <proposal-terms :proposal-id="proposal[0].proposalId" ref="proposalTerms"/>
-
 <hr>
 <proposal-notes :proposal-id="proposal[0].proposalId" ref="proposalNotes"/>
-
-
 
    </div>
        <div class="text-center"> 
@@ -149,6 +147,7 @@ import proposalScopes from './ProposalScopes.vue'
 import proposalTimes from './ProposalTimes.vue'
 import proposalTerms from './ProposalTerms.vue'
 import proposalNotes from './ProposalNotes.vue'
+import proposalSubcontractor from './ProposalSubcontractor.vue'
 
 export default {
         
@@ -165,10 +164,10 @@ export default {
             proposal: '',
             services: {},
             selectedService: {},
-   
+
             itemList: [],
-       
             
+            //variables del formulario
             hasCost: false,
             modelServiceId: '',
             // modelServiceName: '',
@@ -216,6 +215,7 @@ export default {
          proposalTimes,
          proposalTerms,
          proposalNotes,
+         proposalSubcontractor
   },
     methods: {
         findProposal: function (){
@@ -224,19 +224,19 @@ export default {
              this.proposal = response.data
             });
         },
-         getAllServices: function (){
-            let url ='services';
-            axios.get(url).then(response => {
-             this.services = response.data
-            });
-        },
          getAllProposalDetails: function (){
             let url ='proposalsDetails/'+this.proposalId;
             axios.get(url).then(response => {
              this.itemList = response.data
             });
         },
-          selectService: function (id){
+         getAllServices: function (){
+            let url ='services';
+            axios.get(url).then(response => {
+             this.services = response.data
+            });
+        },
+         selectService: function (id){
             // let url ='services/'+id;
             // axios.get(url).then(response => {
         let serviceId = id;
@@ -249,7 +249,7 @@ export default {
         }
         this.selectedService = this.services.filter(filtrarPorID);
               // this.selectedService =response.data[0];
-              console.log(this.selectedService);
+              // console.log(this.selectedService);
               if(this.selectedService[0].hasCost == 'N'){
                  this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
@@ -356,9 +356,9 @@ export default {
   
             })
            }
-          },
+          }, //end function saveProposal
 
-    } // fin de method
+    } // fin de vue methods
        
 }// fin de export
  </script>

@@ -200,7 +200,7 @@ foreach ($invoicesDetails as $invDetail) {
             </tr>
             <tr>
               <td id="bold">Seller ID:</td>
-              <td align="right"></td>
+              <td align="right">{{$invoice[0]->user->fullName}}</td>
             </tr>
          </table>     
         </th>

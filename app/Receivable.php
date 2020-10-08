@@ -218,26 +218,27 @@ class Receivable extends Model
 
 //         return $receivablesInvoices->groupBy('invoiceId');
 //     }
-// //------------------------------------------
-      //muestra las cuotas pendientes de la factura
-    // public function sharePending($invoiceId)
-    // {
-    //     return $this->where('recStatusCode', '!=', Receivable::SUCCESS)
-    //         ->where('invoiceId', '=', $invoiceId)
-    //         ->orderBy('paymentInvoiceId')
-    //         ->get();
-
-    // }
 //------------------------------------------
-      //muestra las cuotas pagadas de la factura
-    // public function shareSucceed($invoiceId)
-    // {
-    //     return $this->where('recStatusCode', '=', Receivable::SUCCESS)
-    //         ->where('invoiceId', '=', $invoiceId)
-    //         ->orderBy('paymentInvoiceId')
-    //         ->get();
+      //muestra las cuotas pendientes de la factura
+//     public function sharePending($invoiceId)
+//     {
+//         return $this->where('recStatusCode', '!=', Receivable::SUCCESS)
+//             ->where('recStatusCode', '!=', Receivable::SUCCESS)
+//             ->where('invoiceId', '=', $invoiceId)
+//             ->orderBy('paymentInvoiceId')
+//             ->get();
 
-    // }
+//     }
+// //------------------------------------------
+//       //muestra las cuotas pagadas de la factura
+//     public function shareSucceed($invoiceId)
+//     {
+//         return $this->where('recStatusCode', '=', Receivable::SUCCESS)
+//             ->where('invoiceId', '=', $invoiceId)
+//             ->orderBy('paymentInvoiceId')
+//             ->get();
+
+//     }
 //------------------------------------------
     //suma todas las cuotas existosas de la factura, metodo usado por modelo invoice para restar este monto del monto de la factura.
     // public function sumSucceedSharesForInvoice($invoiceId)
@@ -313,17 +314,21 @@ class Receivable extends Model
         $amountR = 0;
 
         DB::beginTransaction();
-
+// $invoice->shareSucceed->sum('amountPaid')
         try {
             //busca datos de la cuota que el usuario escogio
             $receivable = $this->find($receivableId);
+            $invoice    =  Invoice::find($receivable->invoiceId);
+
             //trae todas las cuotas creadas por el usuario, me sirve para saber si queda (01) y determinar que es la ultima cuota.
-            $invoiceShares = $this->sharePending($receivable->invoiceId);
+            $invoiceShares = $invoice->sharePending;
             //suma todas las cuotas creadas para la factura de receivable 
             $totalSumCuotas = 0;
-            foreach ($invoiceShares as $share) {
-                $totalSumCuotas += $share->amountDue;
-            }
+            $totalSumCuotas = $invoiceShares->sum('amountDue');
+
+            // foreach ($invoiceShares as $share) {
+            //     $totalSumCuotas += $share->amountDue;
+            // }
             //error: si es la ultima cuota mandame errores de montos.
             if (count($invoiceShares) == 1) {
                 if ($amountPaid < $receivable->amountDue) {
@@ -359,8 +364,7 @@ class Receivable extends Model
                // $month        = explode("-", $newDate);
                        
                        //PARA SABER EL NUMERO DE LA CUOTA QUE CORRESPONDE
-                     $sharesSucceed = $this->shareSucceed($receivable->invoiceId);
-                     $paymentNumber = count($sharesSucceed)+1;
+                     $paymentNumber = count($invoice->shareSucceed)+1;
                      $paymentNumber = "PAYMENT #".$paymentNumber;
 
                $oTransaction = new Transaction;
@@ -389,11 +393,12 @@ class Receivable extends Model
              } //cierre de if transactionRs2
        }//CIERRE DEL ELSE METODO ES UN PAGO EXITOSO SIN VERIFICACION
             //balance de la factura saldo que falta por pagar si es cero se cambia el status de la factura a pagada(4)
-             $oInvoice       = new Invoice;
-             $invoiceBalance = $oInvoice->getBalance($receivable->invoiceId);
+             // $oInvoice       = new Invoice;
+             $invoiceBalance = $invoice->balanceTotal;
              $invoiceBalance = $invoiceBalance - $amountPaid;
              $receivable->balance = $invoiceBalance;//ASIGNO EL BALANCE A LA CUOTA SE HACE SIEMPRE CADA VEZ QUE SEA EXITOSA,PROCESADA O DECLINADA
-
+                  
+                  
             if($receivable->recStatusCode == Receivable::SUCCESS and $invoiceBalance == 0){
                   $oInvoice->changeStatus($receivable->invoiceId, Invoice::PAID);
             }else{
@@ -462,7 +467,8 @@ class Receivable extends Model
              $receivable = $this->find($receivableId);
              $receivable->recStatusCode = $status;
 
-             $invoiceShares = $this->sharePending($receivable->invoiceId);
+             $invoice    =  Invoice::find($receivable->invoiceId);
+             $invoiceShares = $invoice->sharePending;
 
              //FALTA AGREGAR LA TRANSACCION EN ESTE CASO Y EL CAMBIO DEL ESTADO DE LA FACTURA CUANDO ES PAGADA
 
@@ -473,8 +479,7 @@ class Receivable extends Model
                // $newDate    = $oDateHelper->$functionRs($receivable->datePaid);
                // $month        = explode("-", $newDate);
 
-                     $sharesSucceed = $this->shareSucceed($receivable->invoiceId);
-                     $paymentNumber = count($sharesSucceed)+1;
+                     $paymentNumber = count($invoice->shareSucceed)+1;
                      $paymentNumber = "PAYMENT #".$paymentNumber;
 
                $oTransaction = new Transaction;
@@ -525,8 +530,7 @@ class Receivable extends Model
              }
         }
         //balance de la factura saldo que falta por pagar si es cero se cambia el status de la factura a pagada(4)
-             $oInvoice       = new Invoice;
-             $invoiceBalance = $oInvoice->getBalance($receivable->invoiceId);
+             $invoiceBalance = $invoice->balanceTotal;
              $invoiceBalance = $invoiceBalance -  $receivable->amountPaid;
              $receivable->balance = $invoiceBalance;
              

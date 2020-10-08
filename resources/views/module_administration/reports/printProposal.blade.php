@@ -388,11 +388,17 @@ Sincerely.
 
 <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
-        <th align="center">
-          Juan Murillo, PE <br>
+    @if($proposal[0]->subcontId != null)  
+        <th align="center" >
+        @if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
+          {{$proposal[0]->subcontractor->representative}} <br>
+        @else
+          {{$proposal[0]->subcontractor->name}} <br>
+        @endif
           Engineering Consulting <br>
-          (972) 655 6180
+          {{$proposal[0]->subcontractor->mainPhone}}
         </th>
+    @endif  
         <th align="center">
            {{$proposal[0]->user->fullName}}<br>
            JD representative<br>

@@ -8,6 +8,8 @@
 
 <div class="text-center"><h4 ><b>FACTURA</b></h4></div>
  <div class="table-responsive">
+  {{$invoice[0]->shareSucceed}}<BR><BR>
+  {{$invoice[0]->sharePending}}
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr class="bg-success">

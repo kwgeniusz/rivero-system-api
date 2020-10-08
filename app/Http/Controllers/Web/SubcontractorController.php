@@ -22,10 +22,14 @@ class SubcontractorController extends Controller
         $this->oPayable = new Payable;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $subcontractors = $this->oSubcontractor->getAllByCountry(session('countryId'));
 
+         if($request->ajax()){
+                return $subcontractors;
+            }
+            
         return view('module_contracts.subcontractors.index', compact('subcontractors'));
     }
 
@@ -174,11 +178,11 @@ class SubcontractorController extends Controller
        return $rs;
     }
 //----------------QUERYS ASINCRONIOUS -------------->>>>
-    public function getFiltered($subcontName = '')
+    public function getFiltered($name = '')
     {
-        $results = Subcontractor::where('subcontName', 'LIKE', "%$subcontName%")
+        $results = Subcontractor::where('name', 'LIKE', "%$name%")
             ->where('countryId', session('countryId'))
-            ->orderBy('subcontName', 'ASC')
+            ->orderBy('name', 'ASC')
             ->get();
 
         return json_encode($results);

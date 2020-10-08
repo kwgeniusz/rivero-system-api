@@ -36,9 +36,12 @@
             <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
+                 <th>#</th> 
+                 <th>TIPO DNI</th> 
                  <th>DNI</th> 
                  <th>NOMBRE</th>
                  <th>TIPO</th>
+                 <th>REPRESENTANTE</th>
                  <th>DIRECCION</th>
                  <th>TELEFONO</th>
                  <th>CORREO</th> 
@@ -47,14 +50,19 @@
                 </tr>
             </thead>
                 <tbody>
+                @php $acum=0; @endphp
                 @foreach($subcontractors as $subcontractor)
                 <tr>
-                   <td>{{$subcontractor->subcontDNI}}</td> 
-                   <td>{{$subcontractor->subcontName}}</td>
+
+                   <td>{{++$acum}}</td>
+                   <td>{{$subcontractor->DNIType}}</td> 
+                   <td>{{$subcontractor->DNI}}</td> 
+                   <td>{{$subcontractor->name}}</td>
                    <td>{{$subcontractor->subcontType}}</td>
-                   <td>{{$subcontractor->subcontAddress}}</td>
-                   <td>{{$subcontractor->subcontPhone}}</td>
-                   <td>{{$subcontractor->subcontEmail}}</td> 
+                   <td>{{$subcontractor->representative}}</td>
+                   <td>{{$subcontractor->address}}</td>
+                   <td>{{$subcontractor->mainPhone}}</td>
+                   <td>{{$subcontractor->email}}</td> 
 
                    <td>
                    @can('BAB')  

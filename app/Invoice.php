@@ -124,7 +124,9 @@ class Invoice extends Model
       $sharePending = $this->receivable->filter(function ($receivable, $key) {
               return $receivable->recStatusCode != Receivable::SUCCESS;
           });
-
+     $sharePending = $sharePending->filter(function ($receivable, $key) {
+              return $receivable->recStatusCode != Receivable::ANNULLED;
+          });
         return $sharePending;
     } 
    public function getBalanceTotalAttribute()
@@ -249,7 +251,7 @@ class Invoice extends Model
     }
 
 //------------------------------------------
-    public function insertInv($countryId,$companyId,$contractId,$clientId,$projectDescriptionId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode) {
+    public function insertInv($countryId,$companyId,$contractId,$clientId,$projectDescriptionId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode,$userId) {
 
           $oConfiguration = new CompanyConfiguration();
           $invId = $oConfiguration->retrieveInvoiceNumber($countryId, $companyId);
@@ -270,6 +272,7 @@ class Invoice extends Model
         $invoice->netTotal         =  $netTotal;
         $invoice->pCondId          =  $paymentConditionId;
         $invoice->invStatusCode    =  $invStatusCode;
+        $invoice->userId    =  $userId;
         $invoice->save();
 
       

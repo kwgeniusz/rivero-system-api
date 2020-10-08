@@ -54,8 +54,8 @@
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice->netTotal}}</td>
-                   <td>{{$invoice->balance}}</td>
-                   <td>{{$invoice->shareSucceed}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->balanceTotal}}</td>
+                   <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
                    <td
                   @if($invoice->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  
