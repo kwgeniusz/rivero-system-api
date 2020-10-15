@@ -82,6 +82,9 @@ Route::get('reportsReceipt', 'Report\Pdf\AdministrationControllerPDF@printReceip
 Route::get('reportsPaymentRequest', 'Report\Pdf\AdministrationControllerPDF@printPaymentRequest')->name('reports.paymentRequest');
 Route::get('reportsReceivables', 'Report\Pdf\AdministrationControllerPDF@printReceivables')->name('reports.receivables');
 
+Route::get('reports/credit-note', 'Report\Pdf\AdministrationControllerPDF@printCreditNote')->name('reports.credit-note');
+Route::get('reports/debit-note', 'Report\Pdf\AdministrationControllerPDF@printDebitNote')->name('reports.debit-note');
+
 //-----------------------------ADMINISTRATION--------------------------------------------------//
 // Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
 // Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');

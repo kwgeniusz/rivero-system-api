@@ -35,32 +35,16 @@
                 <th>COSTO</th>
                 <th>CANTIDAD</th>
                 <th>MONTO</th>
-                <!-- <th>COMPROMISOS</th> -->
-                <th>ACCION</th>
-                <!-- <th></th> -->
             </tr>
             </thead>
           <tbody>   
        <tr v-for="(item,index) in invoice.invoice_details" v-if="item.unit != null">
-       <!-- <tr v-for="(item,index) in invoice.invoice_details"> -->
             <td>{{++index}}</td>
             <td>{{item.serviceName}}</td>
             <td>{{item.unit}}</td>
             <td>{{item.unitCost}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.amount}}</td>
-            <!-- <td>{{item.subcontractor_inv_detail.length}} SB</td> -->
-            <td> 
-           <!--   <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-           <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
-              <span class="fa fa-angle-double-up" aria-hidden="true"></span>
-             </button>
-            <button class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
-              <span class="fa fa-angle-double-down" aria-hidden="true"></span>
-             </button> -->
-           </td> 
          </tr>
          </tbody>
         </table>
@@ -74,21 +58,20 @@
 
        <div class="alert alert-danger" v-if="errors.length">
          <h4>Errores:</h4>
-         <ul>
-          <li v-for="error in errors">{{ error }}</li>
-         </ul>
+           <ul>
+            <li v-for="error in errors">{{ error }}</li>
+           </ul>
        </div>
 
 <form class="form-horizontal">
 
-  <!-- <input type="hidden" class="form-control" v-model="noteType">  -->
   <div class="form-group">
      <label for="formConcept" class="col-sm-2 control-label">CONCEPTO</label>
        <div class="col-sm-10">
             <select v-model="formConcept" class="form-control" id="formConcept">
                   <option value="1">Anulación de Factura</option>
-                  <option value="2">Descuento</option>
-                  <option value="3">Devolución parcial</option>
+                  <!-- <option value="2">Descuento</option> -->
+                  <!-- <option value="3">Devolución parcial</option> -->
             </select>
         </div>
     </div>
@@ -115,13 +98,61 @@
   </div>
 </div>
 
-<div v-if="formConcept == 3">
 
+
+<!-- OPCION 1 - ANULACION -->
+<div v-if="formConcept == 1">
+<div class="table-responsive col-xs-12">
+    <p class="text-center"><b>ESTA FACTURA TIENE PAGOS QUE DEBE DISTRIBUIRSE EN LOS SERVICIOS</b></p> 
+    <p class="text-center"><b>MONTO PAGADO EN FACTURA: {{balancePaid}} / MONTO ASIGNADO: {{acumInput}}</b></p> 
+            <table class="table table-striped table-bordered text-center bg-info">
+            <thead> 
+            <tr>  
+                <th>#</th>
+                <th>SERVICIO</th>  
+                <th>UNIDAD</th>
+                <th>COSTO</th>
+                <th>CANTIDAD</th>
+                <th>MONTO</th>
+                <!-- <th>COMPROMISOS</th> -->
+                <th>ASIGNADOS</th>
+            </tr>
+            </thead>
+          <tbody>   
+
+       <tr v-for="(item,index) in itemList" v-if="item.unit != null">
+            <td>{{++index}}</td>
+            <td>{{item.serviceName}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.unitCost}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.amount}}</td>
+            <!-- <td>{{item.subcontractor_inv_detail.length}} SB</td> -->
+            <td> 
+            
+             <div class="form-group col-lg-6 col-lg-offset-3 ">
+                 <input type="number" step="0.01" min="0" value="0" class="form-control" :ref="item.invDetailId" :id="item.invDetailId" pattern="^[0-9]+" @keyup="calculateAssigned(item.amount,$event)">
+             </div>
+<!--              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
+            </a> -->
+    
+           </td> 
+         </tr>
+         </tbody>
+        </table>
+ 
+</div>
+</div>
+<!-- FIN DE LA OPCION 1 -->
+
+<!-- OPCION 3 - DEVOLUCION PARCIAL -->
+<div v-if="formConcept == 3">
   <div class="form-group">
      <label for="formService" class="col-sm-2 control-label">SERVICIOS</label>
        <div class="col-sm-10">
         <select v-model="formService" class="form-control" id="formService">
-          <option v-for="(item,index) in invoiceDetails" :value="item" v-if="item.unit != null"> {{item.serviceName}}</option>
+          <option v-for="(item,index) in invoice.invoice_details" :value="item" v-if="item.unit != null"> {{item.serviceName}}</option>
         </select>
         </div>
     </div>
@@ -134,7 +165,7 @@
     </div>
 
 <div class="table-responsive col-xs-12">
-    <p><b>DEVOLVER</b></p> 
+    <p><b>NOTA DE CREDITO</b></p> 
           <table class="table table-striped table-bordered text-center bg-info">
             <thead> 
             <tr>  
@@ -158,6 +189,7 @@
             <td>{{item.amount}}</td>
             <!-- <td>{{item.subcontractor_inv_detail.length}} SB</td> -->
             <td> 
+
              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -169,14 +201,24 @@
   </div>
 
 </div>
-
+<!-- FIN DE LA DEVOLUCION PARCIAL -->
   
+
+
+
+
+
+
+
+
+
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
       <a class="btn btn-success" @click="createNote()" v-if="btnSubmitForm">Crear</a>
       <!-- <a class="btn btn-danger">Vista Previa</a> -->
     </div>
   </div>
+
 </form>
           </div>
        </div>
@@ -200,6 +242,8 @@
           return {
             errors: [],
             invoice: '',
+            balancePaid: 0,
+            acumInput:0,
             noteType: 'credit',
 
             formConcept: 1,
@@ -207,9 +251,8 @@
             formService: '',
             formReference: '',
 
-            invoiceDetails: [],
             itemList: [],
-
+ 
 
             btnSubmitForm: true,
           }
@@ -220,6 +263,14 @@
     },
    watch: {
        formConcept: function(){
+            console.log(this.formConcept)
+
+             if(this.formConcept == 1) {
+                this.itemList = this.invoice.invoice_details;   
+             }else{
+               this.itemList = [];
+             }
+
             this.formPercent = 0;
             this.formService = '';
        },
@@ -228,17 +279,26 @@
       discount: function () {
         let percentRs = (this.invoice.balanceTotal * this.formPercent)/100;
        return parseFloat(percentRs).toFixed(2);  
-       } 
+       },
     },   
     methods: {
        findInvoice: function (){
-            let url ='/invoices/'+this.invoiceId;
+          let url ='/invoices/'+this.invoiceId;
+
             axios.get(url).then(response => {
              this.invoice = response.data[0]
-             this.invoiceDetails = this.invoice.invoice_details;
-              // console.log(this.invoice)
-            });
-        },
+             this.itemList = this.invoice.invoice_details;   
+
+             //sumar el total de cuotas pagadas de la factura y retornarla a this.balancePaid
+             let suma = 0;
+             this.invoice.shareSucceed.forEach(function(share){
+                suma = parseFloat(suma) + parseFloat(share.amountPaid)
+              });
+               this.balancePaid = suma;
+
+         });
+
+      },
       addRow: function() {
            this.errors = [];
           //buscar si en el arreglo itemList si ya se agrego el servicio
@@ -261,6 +321,28 @@
             //borrar valor que encuentre del arreglo
                  this.itemList.splice(--id,1);
         },  
+       calculateAssigned: function(amount,event){
+         //primera regla si el monto ingresado es mayor que el precio del servicio borrar lo del input
+          if(parseFloat(event.target.value) > parseFloat(amount)) {
+               event.target.value = 0; 
+          }
+         //regla: si no es un numero ponle cero
+           if(event.target.value == '') {
+              event.target.value = 0;
+          }
+           
+        //suma todos los valores ingresados en los inputs de asignacion
+           var acum = 0;
+             Object.keys(this.$refs).forEach(index => {
+               this.$refs[index].forEach(inputAssign => {
+
+                  acum = parseFloat(acum) + parseFloat(inputAssign.value);
+
+                });
+             });
+
+          this.acumInput = acum; 
+       }, 
        createNote: function() {
           this.errors = [];
 
@@ -275,7 +357,14 @@
      let netTotalSelected = 0;
         if(this.formConcept == 1){
           netTotalSelected = this.invoice.balanceTotal;
-        }
+
+              if(this.acumInput > this.balancePaid) 
+               this.errors.push('Ha asignado mas del monto permitido');
+
+              if(this.acumInput < this.balancePaid) 
+               this.errors.push('Debe Asignar el monto pagado de esta factura')
+ 
+        }//end of formConcept 1 - ""
         if(this.formConcept == 2){
           netTotalSelected = this.discount;
             if (!this.formPercent) 
@@ -290,6 +379,23 @@
              
         if (!this.errors.length) { 
         this.btnSubmitForm = false;
+
+            if(this.formConcept == 1){
+         //sacame el indice del arreglo $ref de vue donde tengo los input de asignaciones
+          //luego recorre ese arreglo $ref con esos indices obtenidos cno Object.key
+          //y luego recorre itemLista para modificar donde corresponda y restar lo ingresado en los input antes de enviarlo a backend
+            Object.keys(this.$refs).forEach(index => {
+               this.$refs[index].forEach(inputAssign => {
+                     this.itemList.map(function(service) {
+                         if(parseInt(index) == service.invDetailId){
+                           service.amount =  parseFloat(service.amount).toFixed(2) - parseFloat(inputAssign.value).toFixed(2);
+                         } 
+                           return service;
+                      });
+                   });  
+                });
+            }
+
            let url ='/invoices/sale-notes/store';
             axios.post(url,{
               invoiceId:     this.invoiceId,
@@ -298,20 +404,26 @@
               formConcept:   this.formConcept,
               formReference: this.formReference,
               formPercent:   this.formPercent,
+              itemList:      this.itemList,
               netTotal:      netTotalSelected,
             }).then(response => {
-              // console.log(response.data);
-              // this.$emit("notecreated");
                toastr.info(response.data.message)
+               this.findInvoice();
                this.errors = [];
+
                this.formConcept = '';
                this.formReference = '';
-               this.btnSubmitForm = true;
-               // this.$refs.modalNewNote.close();
-               this.findInvoice();
+               this.acumInput = 0;
+    
+               window.location.href = '/invoices/'+this.invoiceId+'/sale-notes'
+              
+
+               // this.btnSubmitForm = true;
             }).catch(e => {
                toastr.error("Error de Servidor:"+ e)
-               this.btnSubmitForm = true;
+
+               window.location.href = '/invoices/'+this.invoiceId+'/sale-notes'
+               // this.btnSubmitForm = true;
               })
            }
 

@@ -9,6 +9,7 @@ use App\ProposalDetail;
 use App\Invoice;
 use App\InvoiceDetail;
 use App\Transaction;
+use App\SaleNote;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class AdministrationControllerPDF extends Controller
     private $oInvoiceDetail;  
     private $oProposal;
     private $oProposalDetail;
+    private $oSaleNote;
 
     public function __construct()
     {
@@ -35,6 +37,7 @@ class AdministrationControllerPDF extends Controller
         $this->oInvoice         = new Invoice;
         $this->oInvoiceDetail   = new InvoiceDetail;
         $this->oTransaction   = new Transaction;
+        $this->oSaleNote   = new SaleNote;
     }
 
 
@@ -183,7 +186,7 @@ public function printReceipt(Request $request)
         $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
         $client         = $this->oClient->findById($invoice[0]->clientId,session('companyId'));
         $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('companyId'));
-        $share          = $this->oReceivable->sharePending($request->id);
+        $share          = $invoice[0]->sharePending;
 
          if($share->isEmpty()){
             $nextShare = '0.00';
@@ -257,6 +260,54 @@ public function printPaymentRequest(Request $request)
 
        return PDF::loadView('module_administration.reports.printPaymentRequest', $data)->stream('PaymentRequest.pdf');
     }
+
+
+// ----------------SALE NOTES---------------
+     public function printCreditNote(Request $request)
+  {
+      $pdf = app('dompdf.wrapper');
+
+        $date              = Carbon::now();
+        $company           = DB::table('company')->where('companyId', session('companyId'))->get();
+        $creditNote        = $this->oSaleNote->findById($request->id);
+        $client            = $creditNote[0]->client;
+        $creditNoteDetails = $creditNote[0]->saleNoteDetails;
+        // $receivables     = $invoice[0]->receivable;
+
+        $symbol = $creditNote[0]->invoice->contract->currency->currencySymbol;
+
+        // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
+
+
+      if($creditNoteDetails->isEmpty()) {
+             $data = [
+              'date'  => $date,
+              'company'  => $company,
+              'creditNote'  => $creditNote,
+              'client'  => $client,
+              // 'receivables'  => $receivables,
+              'creditNoteDetails'  => $creditNoteDetails,
+              'symbol'  => $symbol,
+              // 'status'  => $status
+               ];
+
+              return PDF::loadView('module_administration.reports.printCreditNoteShort', $data)->stream('CreditNote.pdf');  
+        }else {
+
+          $data = [
+           'date'  => $date,
+           'company'  => $company,
+           'creditNote'  => $creditNote,
+           'client'  => $client,
+           // 'receivables'  => $receivables,
+           'creditNoteDetails'  => $creditNoteDetails,
+           'symbol'  => $symbol,
+          // 'status'  => $status
+           ];
+
+             return PDF::loadView('module_administration.reports.printCreditNote', $data)->stream('CreditNote.pdf');
+        } // end else
+   } //end printInvoice
 
 }//end class
 

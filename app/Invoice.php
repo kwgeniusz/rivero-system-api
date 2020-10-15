@@ -20,7 +20,7 @@ class Invoice extends Model
     protected $primaryKey = 'invoiceId';
     protected $fillable = ['invoiceId','invId','countryId','companyId','contractId','clientId','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','invStatusCode'];
 
-     protected $appends = ['grossTotal','taxAmount','netTotal','balanceTotal'];
+     protected $appends = ['grossTotal','taxAmount','netTotal','balanceTotal','shareSucceed'];
      protected $dates = ['deleted_at'];
      
     //PARA EVITAR LOS NUMEROS MAGICOS

@@ -5,8 +5,8 @@ namespace App;
 use App;
 use Auth;
 use DB;
-use App\Country;
 use App\Receivable;
+use App\PaymentInvoice;
 use App\PaymentInvoice;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +35,18 @@ use Illuminate\Database\Eloquent\Model;
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-
+   public function client()
+    {
+        return $this->belongsTo('App\Client', 'clientId','clientId');
+    }
+   public function invoice()
+    {
+        return $this->hasOne('App\Invoice', 'invoiceId', 'invoiceId');
+    }
+    public function saleNoteDetails()
+    {
+        return $this->hasMany('App\SaleNoteDetail', 'salNoteId', 'salNoteId')->orderBy('itemNumber');
+    }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -58,6 +69,13 @@ use Illuminate\Database\Eloquent\Model;
     {
         return $this->where('invoiceId', $invoiceId)
                     ->where('noteType', $noteType)
+                    ->get();
+    }
+//-----------------------------------------
+    public function findById($id)
+    {
+        return $this->with('saleNoteDetails','client','invoice')
+                    ->where('salNoteId', '=', $id)
                     ->get();
     }
 
@@ -86,8 +104,26 @@ use Illuminate\Database\Eloquent\Model;
 
                  if($data['formConcept'] == SaleNote::CANCELLATION) {
                  //si es una anulacion el netTotal de la notesale es igual al saldo de la factura. y se anula la factura 
+                          dd($data);
+                           exit();
+
                     $oInvoice = new Invoice;
                     $oInvoice->changeStatus($data['invoiceId'], Invoice::PAID);
+
+                      //recorre el arreglo que viene por request, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
+                         // if(!empty($data->itemList)) {
+                            foreach ($data->itemList as $key => $item) {
+                               $result = $this->oSaleNoteDetail->insert(
+                                              $request->invoiceId,
+                                              ++$key,
+                                              $item['serviceId'],
+                                              $item['serviceName'],
+                                              $item['unit'],
+                                              $item['unitCost'],
+                                              $item['quantity'],
+                                              $item['amount']);
+                                 }
+                          // }
 
                     $saleNote->netTotal = $data['netTotal'];
                   //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
@@ -96,20 +132,24 @@ use Illuminate\Database\Eloquent\Model;
                              $sharePending->save();
                        };
 
+
                    }elseif($data['formConcept'] == SaleNote::DISCOUNT) {
                 //si es un Descuento el netTotal de la notesale es el resultado de la siguiente formula
                 // $rs = invoice->balanceTotal * porcentaje;
                     $saleNote->netTotal = $data['netTotal'];
                     $saleNote->percent = $data['formPercent'];
 
-                 //al crear notas de ventas debo reiniciar las cuotas tambien porque modifico el saldo de la factura. 
-                    foreach ($invoice->sharePending as $key => $sharePending) {
-                        $oPaymentInvoice = new PaymentInvoice;
-                        $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$invoice->invoiceId);
-                    };
+                           //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
+                     foreach ($invoice->sharePending as $key => $sharePending) {
+                             $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                             $sharePending->save();
+                       };
  
      
                    }elseif($data['formConcept'] == SaleNote::PARTIAL_REFUND) {
+                       dd($data);
+                           exit();
+
                 //si es una devolucion parcial.  
                 //al escoger de los items de la factura se toma el Service Id junto con el precio.
                 //esto sera un arreglo de servicios por lo tanto-> debe existir un foreach que sume el total. y luego ingresalo debajo
@@ -118,12 +158,18 @@ use Illuminate\Database\Eloquent\Model;
                         //al crear notas de ventas debo reiniciar las cuotas tambien porque modifico el saldo de la factura. 
 
                    }
+
+                   //NUMERACION DE LA NOTA DE CREDITO
+
+                   
             }elseif ($data['noteType'] == 'debit') {      
 
                    if($data['formConcept'] == SaleNote::INTEREST_ON_ARREARS){
                      //agregar servicio
                      // $saleNote->netTotal          = $data['netTotal'];
                    }   
+                   //NUMERACION DE LA NOTA DE DEBITO
+
             }//end debitnote
 
             //INSERTA DATOS DE LA NOTA DE VENTA
@@ -134,9 +180,6 @@ use Illuminate\Database\Eloquent\Model;
             $saleNote->noteType          = $data['noteType'];
             $saleNote->dateNote          = date('Y-m-d H:i:s');
             $saleNote->userId            = Auth::user()->userId;
-
-  
-               
             $saleNote->save();
             
             $success = true;
@@ -154,8 +197,4 @@ use Illuminate\Database\Eloquent\Model;
         }
 
     }
-
-
-
-
-}
+  }

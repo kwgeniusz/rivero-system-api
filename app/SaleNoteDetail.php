@@ -7,27 +7,27 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class InvoiceDetail extends Model
+class SaleNoteDetail extends Model
 {
     //traits
     // use SoftDeletes;
 
     public $timestamps = false;
 
-    protected $table      = 'invoice_detail';
+    protected $table      = 'sale_note_detail';
     protected $primaryKey = 'invDetailId';
-    protected $fillable = ['invDetailId','invoiceId','serviceId','serviceName','unit','unitCost','quantity','amount'];
+    protected $fillable = ['salNoteDetId','salNoteId','itemNumber','serviceId','unit','unitCost','quantity','amount'];
   
     protected $appends = ['unitCost','amount'];
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-    public function subcontractorInvDetail()
-    {
-          $relation = $this->hasMany('App\SubcontractorInvDetail', 'invDetailId', 'invDetailId');
+    // public function subcontractorInvDetail()
+    // {
+    //       $relation = $this->hasMany('App\SubcontractorInvDetail', 'invDetailId', 'invDetailId');
       
-         return $relation->with('subcontractor');
-    }
+    //      return $relation->with('subcontractor');
+    // }
     public function invoice()
     {
           return $this->hasOne('App\Invoice', 'invoiceId', 'invoiceId');

@@ -220,7 +220,58 @@ class CompanyConfiguration extends Model
                  ->where('companyId', $companyId)
                  ->increment('proposalNumber');
     }
+
+
+
+//---------------------------------------------------------------------------
+// CREDIT NOTE NUMBER
+//---------------------------------------------------------------------------
+    public function retrieveCreditNoteNumber($countryId, $companyId)
+    {
+        //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
+
+        $creditNoteNumber = 0;
+        $rs             = $this->where('countryId', '=', $countryId)
+                               ->where('companyId', '=', $companyId)
+                               ->get();
+
+        if (!empty($rs)) {
+            foreach ($rs as $rs0) {
+                    $creditNoteNumber = $rs0->creditNoteNumber;
+            }
+        }
+
+        return $creditNoteNumber;
+    }
     //--------------------------------------------------------------------
+  public function generateCreditNoteNumberFormat($countryId,$companyId) {
+
+        $creditNoteNumber =   $this->retrieveCreditNoteNumber($countryId, $companyId);
+        $creditNoteNumber++;
+
+        $stringLength = 8;
+        $strPad       = "0";
+
+        if ($creditNoteNumber < 1) {
+            $creditNoteNumber = "";
+        }
+
+       $codePrefix = $this->getCodePrefixContract($companyId);
+
+        $format1 = $codePrefix;
+        $format2 = substr(date('Y'), 2, 2);
+        $format3 = str_pad($creditNoteNumber, $stringLength, $strPad, STR_PAD_LEFT);
+
+        // numero de contrato en foramto
+       return $creditNoteNumberFormat = $format1 . $format2 . $format3;
+    }
+    //--------------------------------------------------------------------
+    public function increaseCreditNoteNumber($countryId, $companyId)
+    {
+            $this->where('countryId', $countryId)
+                ->where('companyId', $companyId)
+                ->increment('contractNumber');
+    }
 
 //--------------------------------------------------------------------
        //MISCELLANEOUS FUNCTIONS

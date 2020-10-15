@@ -398,7 +398,7 @@ class Receivable extends Model
              $invoiceBalance = $invoiceBalance - $amountPaid;
              $receivable->balance = $invoiceBalance;//ASIGNO EL BALANCE A LA CUOTA SE HACE SIEMPRE CADA VEZ QUE SEA EXITOSA,PROCESADA O DECLINADA
                   
-                  
+            $oInvoice = new Invoice;
             if($receivable->recStatusCode == Receivable::SUCCESS and $invoiceBalance == 0){
                   $oInvoice->changeStatus($receivable->invoiceId, Invoice::PAID);
             }else{
@@ -533,7 +533,8 @@ class Receivable extends Model
              $invoiceBalance = $invoice->balanceTotal;
              $invoiceBalance = $invoiceBalance -  $receivable->amountPaid;
              $receivable->balance = $invoiceBalance;
-             
+            
+            $oInvoice = new Invoice;
              if($invoiceBalance == 0){
                    $oInvoice->changeStatus($receivable->invoiceId, Invoice::PAID);
               }

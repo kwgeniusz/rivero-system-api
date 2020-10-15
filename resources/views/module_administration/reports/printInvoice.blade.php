@@ -416,7 +416,7 @@ foreach ($invoicesDetails as $invDetail) {
 @if($invoice[0]->creditNote->isNotEmpty())
  <p style="color:red"> Nota: esta factura ha sido afectada con una nota de crédito: 
   @foreach($invoice[0]->creditNote as $creditNote)
-   ID {{$creditNote['salNoteId']}} 
+   ID {{$creditNote['salId']}} 
   @endforeach
  </p> 
  @endif
@@ -425,7 +425,7 @@ foreach ($invoicesDetails as $invDetail) {
 @if($invoice[0]->debitNote->isNotEmpty())
  <p style="color:red"> Nota: esta factura ha sido afectada con una nota de debito:
   @foreach($invoice[0]->debitNote as $debitNote)
-   ID {{$debitNote['salNoteId']}} 
+   ID {{$debitNote['salId']}} 
   @endforeach
  </p> 
  @endif
