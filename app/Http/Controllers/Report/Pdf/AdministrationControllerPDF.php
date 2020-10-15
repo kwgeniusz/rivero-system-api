@@ -94,6 +94,7 @@ class AdministrationControllerPDF extends Controller
                  'modelId' => $modelId,
                  'modelType' => $modelType,
                  'modelTypeView' => $modelTypeView,
+                 'pdf' => $pdf,
                       ];
 
 
@@ -137,7 +138,8 @@ class AdministrationControllerPDF extends Controller
         'receivables'  => $receivables,
         'invoicesDetails'  => $invoicesDetails,
         'symbol'  => $symbol,
-        'status'  => $status
+        'pdf' => $pdf,
+        'status'  => $status,
          ];
 
        return PDF::loadView('module_administration.reports.printInvoice', $data)->stream('I - '.$invoice[0]->contract->siteAddress.'.pdf');
@@ -147,6 +149,8 @@ class AdministrationControllerPDF extends Controller
 
 public function printReceipt(Request $request)
     {
+      $pdf = app('dompdf.wrapper');
+
        $receivables = $this->oReceivable->findById($request->receivableId);
        $company     = DB::table('company')->where('companyId', session('companyId'))->get();
        $invoice     = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('companyId'));
@@ -157,6 +161,7 @@ public function printReceipt(Request $request)
         'invoice'  => $invoice,
         'receivables'  => $receivables,
         'symbol'  => $symbol,
+        'pdf'  => $pdf,
          ];
 
        return PDF::loadView('module_administration.reports.printReceipt', $data)->stream('Receipt.pdf');
@@ -168,6 +173,8 @@ public function printReceipt(Request $request)
 //------------------INVOICE STATEMENT-----------------------------//
      public function printStatement(Request $request)
     {
+      $pdf = app('dompdf.wrapper');
+
  //reporte trae de transaction
         $date         = Carbon::now();
         $company       = DB::table('company')->where('companyId', session('companyId'))->get();
@@ -201,6 +208,7 @@ public function printReceipt(Request $request)
           'transactions'  => $transactions,
           'nextShare'  => $nextShare,
           'symbol'  => $symbol,
+          'pdf'  => $pdf,
          ];
 
        return PDF::loadView('module_administration.reports.printStatement', $data)->stream('Statement - '.$invoice[0]->contract->siteAddress.'.pdf');
@@ -209,6 +217,7 @@ public function printReceipt(Request $request)
 
 public function printReceivables(Request $request)
     {
+      $pdf = app('dompdf.wrapper');
 
        $date         = Carbon::now();
        $invoices = $this->oInvoice->getAllByTwoStatus(INVOICE::OPEN,INVOICE::CLOSED,session('companyId'));
@@ -223,6 +232,7 @@ public function printReceivables(Request $request)
         'company'  => $company,
         'invoices'  => $invoices,
         'symbol'  => $symbol,
+        'pdf'  => $pdf,
          ];
 
        return PDF::loadView('module_administration.reports.printReceivables', $data)->stream('Receivables.pdf');
@@ -233,6 +243,8 @@ public function printReceivables(Request $request)
 
 public function printPaymentRequest(Request $request)
     {
+      $pdf = app('dompdf.wrapper');
+      
        $receivable = $this->oReceivable->findById($request->receivableId);
        $invoice    = $receivable[0]->invoice;
        $symbol      = $invoice->contract->currency->currencySymbol;
@@ -245,6 +257,7 @@ public function printPaymentRequest(Request $request)
         'invoice'  => $invoice,
         'symbol'  => $symbol,
         'company'  => $company,
+        'pdf'  => $pdf,
          ];
 
        return PDF::loadView('module_administration.reports.printPaymentRequest', $data)->stream('PaymentRequest.pdf');

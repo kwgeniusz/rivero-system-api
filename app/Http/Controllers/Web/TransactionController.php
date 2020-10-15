@@ -53,7 +53,7 @@ class TransactionController extends Controller
                  $totalManual += $transaction->amount;
                 }
                 else{
-                   $totalTransaction += $transaction->amount;
+                 $totalTransaction += $transaction->amount;
                 }
             }elseif ($transaction->transactionTypeId == $fee[0]->transactionTypeId) {
               $totalFee += $transaction->amount;
