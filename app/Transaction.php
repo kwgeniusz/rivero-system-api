@@ -3,9 +3,10 @@
 namespace App;
 
 
+use DB;
 use App\Helpers\DateHelper;
 use App\TransactionType;
-use DB;
+use App\SaleNote;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
@@ -112,6 +113,26 @@ class Transaction extends Model
         ->get();
 
         return $result;
+    }
+     public function getAllWithSaleNotesByInvoice($invoiceId,$countryId,$companyId)
+    { 
+
+
+       $notes = SaleNote::select('salId as id','dateNote as transactionDate','netTotal as amount','noteType as reason')
+           ->where('invoiceId',$invoiceId);
+
+
+      $transactions = Transaction::select('transactionId as id','transactionDate','amount','reason')
+        ->join('transaction_type', 'transaction_type.transactionTypeId', '=', 'transaction.transactionTypeId')
+        ->where('transaction_type.transactionTypeCode', 'INCOME_INVOICE')
+        ->where('transaction.countryId', $countryId) 
+        ->where('transaction.companyId',$companyId)
+        ->where('transaction.invoiceId',$invoiceId)
+         ->union($notes)
+         ->orderBy('transactionDate', 'ASC')
+         ->get();
+
+        return $transactions;
     }
     //------------------------------------
     public function getAllForSign($transactionSign,$countryId,$companyId)

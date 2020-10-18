@@ -276,7 +276,10 @@ class InvoiceController extends Controller
 
         $invoice         = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
         $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($id);
-        $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
+        $payments        = $invoice[0]->receivable;
+        // dd($invoice);
+        // exit();
+        // $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
 
         $currentShare           = $this->oReceivable->currentShare($id);
          //saldo de la factura

@@ -112,11 +112,11 @@ class AdministrationControllerPDF extends Controller
         $date            = Carbon::now();
         $company         = DB::table('company')->where('companyId', session('companyId'))->get();
         $invoice         = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
+        $invoiceDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
         $client          = $invoice[0]->client;
-        $receivables     = $invoice[0]->receivable;
-        $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
+        $payments        = $invoice[0]->paymentInvoice;
 
-        $symbol = $invoice[0]->contract->currency->currencySymbol;
+        $symbol          = $invoice[0]->contract->currency->currencySymbol;
 
         // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
 
@@ -128,11 +128,10 @@ class AdministrationControllerPDF extends Controller
      $status = '- COPY';
 
   }elseif($invoice[0]->invStatusCode == Invoice::PAID){
-
      $status = '';
   }
 
-        if ($invoicesDetails->isEmpty()) {
+        if ($invoiceDetails->isEmpty()) {
                  $notification = array(
                     'message'    => 'Error: Debe agregar renglones a la Factura',
                     'alert-type' => 'error',
@@ -142,11 +141,11 @@ class AdministrationControllerPDF extends Controller
 
        $data = [
         'date'  => $date,
+        'client'  => $client,
         'company'  => $company,
         'invoice'  => $invoice,
-        'client'  => $client,
-        'receivables'  => $receivables,
-        'invoicesDetails'  => $invoicesDetails,
+        'invoiceDetails'  => $invoiceDetails,
+        'payments'  => $payments,
         'symbol'  => $symbol,
         'status'  => $status
          ];
@@ -158,8 +157,9 @@ class AdministrationControllerPDF extends Controller
 
 public function printReceipt(Request $request)
     {
-       $receivables = $this->oReceivable->findById($request->receivableId);
+       
        $company     = DB::table('company')->where('companyId', session('companyId'))->get();
+       $receivables = $this->oReceivable->findById($request->receivableId);
        $invoice     = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('companyId'));
        $symbol      = $invoice[0]->contract->currency->currencySymbol;
       
@@ -185,13 +185,14 @@ public function printReceipt(Request $request)
 
         $invoice        = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
         $client         = $this->oClient->findById($invoice[0]->clientId,session('companyId'));
-        $transactions   = $this->oTransaction->getAllByInvoice($request->id,session('countryId'),session('companyId'));
+        $transactions   = $this->oTransaction->getAllWithSaleNotesByInvoice($request->id,session('countryId'),session('companyId'));
+
         $share          = $invoice[0]->sharePending;
 
          if($share->isEmpty()){
             $nextShare = '0.00';
          }else{
-            $nextShare = $share[0]->amountDue;
+              $nextShare = $share->first()->amountDue;
          }
 
         $symbol = $invoice[0]->contract->currency->currencySymbol;
@@ -270,43 +271,26 @@ public function printPaymentRequest(Request $request)
         $date              = Carbon::now();
         $company           = DB::table('company')->where('companyId', session('companyId'))->get();
         $creditNote        = $this->oSaleNote->findById($request->id);
-        $client            = $creditNote[0]->client;
         $creditNoteDetails = $creditNote[0]->saleNoteDetails;
-        // $receivables     = $invoice[0]->receivable;
+        $payments          = $creditNote[0]->paymentInvoice;
+        $client            = $creditNote[0]->client;
 
         $symbol = $creditNote[0]->invoice->contract->currency->currencySymbol;
 
         // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
-
-
-      if($creditNoteDetails->isEmpty()) {
-             $data = [
-              'date'  => $date,
-              'company'  => $company,
-              'creditNote'  => $creditNote,
-              'client'  => $client,
-              // 'receivables'  => $receivables,
-              'creditNoteDetails'  => $creditNoteDetails,
-              'symbol'  => $symbol,
-              // 'status'  => $status
-               ];
-
-              return PDF::loadView('module_administration.reports.printCreditNoteShort', $data)->stream('CreditNote.pdf');  
-        }else {
-
           $data = [
            'date'  => $date,
            'company'  => $company,
            'creditNote'  => $creditNote,
            'client'  => $client,
-           // 'receivables'  => $receivables,
+           'payments'  => $payments,
            'creditNoteDetails'  => $creditNoteDetails,
            'symbol'  => $symbol,
           // 'status'  => $status
            ];
 
-             return PDF::loadView('module_administration.reports.printCreditNote', $data)->stream('CreditNote.pdf');
-        } // end else
+      return PDF::loadView('module_administration.reports.printCreditNote', $data)->stream('CreditNote.pdf');
+
    } //end printInvoice
 
 }//end class

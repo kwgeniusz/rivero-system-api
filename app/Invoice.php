@@ -69,6 +69,10 @@ class Invoice extends Model
     {
       return $this->belongsTo('App\PaymentCondition', 'pCondId', 'pCondCode');
     }
+    public function paymentInvoice()
+    {
+        return $this->hasMany('App\PaymentInvoice', 'invoiceId', 'invoiceId');
+    }
     public function receivable()
     {
       return $this->hasMany('App\Receivable', 'invoiceId', 'invoiceId');

@@ -207,17 +207,18 @@ class Receivable extends Model
             ->get();
     }
 //------------------------------------------
-//     public function invoicesPendingAll($clientId)
-//     {
-//       $receivablesInvoices = $this->select('receivableId','invoiceId','amountDue', 'countryId','recStatusCode')
-//             ->with('invoice')
-//             ->where('recStatusCode', '!=', Receivable::SUCCESS)
-//             ->where('clientId', '=', $clientId)
-//             ->orderBy('receivableId')
-//             ->get();
+    public function invoicesPendingAll($clientId)
+    {
+      $receivablesInvoices = $this->select('receivableId','invoiceId','amountDue', 'countryId','recStatusCode')
+            ->with('invoice')
+            ->where('recStatusCode', '!=', Receivable::SUCCESS)
+            ->where('recStatusCode', '!=', Receivable::ANNULLED) 
+            ->where('clientId', '=', $clientId)
+            ->orderBy('receivableId')
+            ->get();
 
-//         return $receivablesInvoices->groupBy('invoiceId');
-//     }
+        return $receivablesInvoices->groupBy('invoiceId');
+    }
 //------------------------------------------
       //muestra las cuotas pendientes de la factura
 //     public function sharePending($invoiceId)

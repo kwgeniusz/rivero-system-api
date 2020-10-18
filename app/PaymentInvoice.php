@@ -99,9 +99,23 @@ class PaymentInvoice extends Model
                 throw new \Exception("Error: El total de Cuotas no debe sobrepasar el saldo de la Factura.");
               } 
 
-            //INSERTA PAGO
+            //Iniciar creacion de la nueva cuota
             $payment              = new PaymentInvoice;
-            $payment->invoiceId   = $invoiceId;
+        //verificar donde hacer la insercion de la cuota, si la factura no tiene notas de ventas se inserta en la factura, si la factura tiene alguna nota de venta se inserta en la ultima nota de venta.
+            $oSaleNote = new SaleNote;
+            $saleNotes = $oSaleNote->getAllByInvoice($invoice[0]->invoiceId);
+            //si existen notas de vetan toma la mas reciente
+              if($saleNotes->isNotEmpty()){
+                //asigna la cuota a la ultima nota de venta
+                $payment->salNoteId   = $saleNotes->first()->salNoteId;
+              }else{
+                //asigna la cuota a la factura
+                $payment->invoiceId   = $invoiceId;
+              };
+              // dd($saleNotes->isEmpty());
+
+
+            //INSERTA PAGO
             $payment->amount      = $amount;
             $payment->paymentDate = $paymentDate;
             $payment->dateCreated = date('Y-m-d H:i:s');
@@ -110,10 +124,10 @@ class PaymentInvoice extends Model
 
             //INSERTAR A CUENTA POR COBRAR
             $receivable                    = new Receivable;
-            $receivable->companyId          = $payment->invoice->companyId;
-            $receivable->countryId         = $payment->invoice->countryId;
-            $receivable->clientId          = $payment->invoice->clientId;
-            $receivable->invoiceId         = $payment->invoiceId;
+            $receivable->companyId         = $invoice[0]->companyId;
+            $receivable->countryId         = $invoice[0]->countryId;
+            $receivable->clientId          = $invoice[0]->clientId;
+            $receivable->invoiceId         = $invoice[0]->invoiceId;
             $receivable->paymentInvoiceId  = $payment->paymentInvoiceId;
             $receivable->amountDue         = $amount;
             $receivable->amountPaid        = '0.00'; //es necesario colocarlos en 0.00 para que que se inserten encriptados

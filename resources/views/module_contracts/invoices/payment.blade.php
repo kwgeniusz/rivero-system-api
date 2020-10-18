@@ -8,8 +8,8 @@
 
 <div class="text-center"><h4 ><b>FACTURA</b></h4></div>
  <div class="table-responsive">
-  {{$invoice[0]->shareSucceed}}<BR><BR>
-  {{$invoice[0]->sharePending}}
+  {{-- {{$invoice[0]->shareSucceed}}<BR><BR> --}}
+  {{-- {{$invoice[0]->sharePending}} --}}
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr class="bg-success">
@@ -111,41 +111,42 @@
          $acum = 0;
          $total = 0; 
         ?>
-            @foreach($payments as $payment)  
+
+            @foreach($payments as $receivable)  
                 <tr>
                   <td 
-                   @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
+                   @if($receivable->recStatusCode == App\Receivable::STATELESS)
                      style="background-color: #3c8ddc;color:white" 
-                   @elseif($payment->receivable->recStatusCode == App\Receivable::PROCESS)
+                   @elseif($receivable->recStatusCode == App\Receivable::PROCESS)
                      style="background-color: #cbb956;color:white" 
-                   @elseif($payment->receivable->recStatusCode == App\Receivable::DECLINED) 
+                   @elseif($receivable->recStatusCode == App\Receivable::DECLINED) 
                      style="background-color: #78341a;color:white" 
-                   @elseif($payment->receivable->recStatusCode == App\Receivable::SUCCESS)
+                   @elseif($receivable->recStatusCode == App\Receivable::SUCCESS)
                      style="background-color: #2ab25b;color:white" 
-                   @elseif($payment->receivable->recStatusCode == App\Receivable::ANNULLED)
+                   @elseif($receivable->recStatusCode == App\Receivable::ANNULLED)
                      style="background-color: grey;color:white" 
                    @endif >{{ $acum = $acum +1 }}
                 </td>
-                 <td>{{$payment->receivable->amountDue}}</td>
-                 <td>{{$payment->receivable->amountPaid}}</td>
+                 <td>{{$receivable->amountDue}}</td>
+                 <td>{{$receivable->amountPaid}}</td>
                  <td>
-                {{-- {{$payment->receivable->recStatusCode}} - {{$invoice[0]->contract->contractStatus}} --}}
+                {{-- {{$receivable->recStatusCode}} - {{$invoice[0]->contract->contractStatus}} --}}
        @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
 
               {{-- EL primer if es para verificar que son opciones de la cuota que lo corresponde a pagar a cliente --}}
-             @if($payment->receivable->paymentInvoiceId == $currentShare) 
-                 @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED) 
-                  <form-modal-charge r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></form-modal-charge>
+             @if($receivable->paymentInvoiceId == $currentShare) 
+                 @if($receivable->recStatusCode == App\Receivable::STATELESS || $receivable->recStatusCode == App\Receivable::DECLINED) 
+                  <form-modal-charge r-id="{{$receivable->receivableId}}" country-id="{{$receivable->countryId}}"></form-modal-charge>
                  @endif
 
-                 @if($payment->receivable->recStatusCode == App\Receivable::PROCESS) 
-                  <confirm-payment r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></confirm-payment>
+                 @if($receivable->recStatusCode == App\Receivable::PROCESS) 
+                  <confirm-payment r-id="{{$receivable->receivableId}}" country-id="{{$receivable->countryId}}"></confirm-payment>
                 @endif
               @endif
 
-          @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED)
+          @if($receivable->recStatusCode == App\Receivable::STATELESS || $receivable->recStatusCode == App\Receivable::DECLINED)
              <a href="{{route('invoices.paymentsRemove', [
-                  'id' => $payment->paymentInvoiceId,
+                  'id' => $receivable->paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
@@ -153,18 +154,18 @@
 
           @endif
 
-                 @if($payment->receivable->recStatusCode != App\Receivable::STATELESS && 
-                     $payment->receivable->recStatusCode != App\Receivable::ANNULLED)  
+                 @if($receivable->recStatusCode != App\Receivable::STATELESS && 
+                     $receivable->recStatusCode != App\Receivable::ANNULLED)  
                  <a href="{{route('reports.printReceipt', [
-                  'receivableId' => $payment->receivable->receivableId]) }}" class="btn btn-info btn-sm">
+                  'receivableId' => $receivable->receivableId]) }}" class="btn btn-info btn-sm">
                             <span class="fa fa-file-invoice" aria-hidden="true"></span>  Recibo
                   </a>
                  @endif 
 
-       {{--           @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
+       {{--           @if($receivable->recStatusCode == App\Receivable::STATELESS)
                    @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
                   <a href="{{route('invoices.paymentsRemove', [
-                  'id' => $payment->paymentInvoiceId,
+                  'id' => $paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
@@ -176,7 +177,7 @@
                  </td>
                 </tr>
                @php  
-                 $total = $total + $payment->receivable->amountDue; 
+                 $total = $total + $receivable->amountDue; 
                  $total = number_format((float)$total, 2, '.', '');
                 @endphp 
               @endforeach

@@ -132,7 +132,7 @@
         <td width="20%" align="center">{{$invoice[0]->invoiceDate}}</td>
         <td width="35%" align="left">ORIGINAL AMOUNT - REF. INV. {{$invoice[0]->invId}}</td>
         <td width="22.5%" align="center">{{$symbol}} 0.00</td>
-        <td width="22.5%" align="center">{{$symbol}} {{$invoice[0]->netTotal}}</td>
+        <td width="22.5%" align="center">{{$symbol}}{{$invoice[0]->netTotal}}</td>
     </tr>
 @php
        $acum = 0 ;
@@ -147,15 +147,22 @@ foreach ($transactions as $transaction) {
                     $background = "#fbfbfb";
                 }
 
+                if($transaction->reason == 'credit'){
+                    $transaction->reason= 'CREDIT NOTE #'.$transaction->id;
+                    $statement = $statement - $transaction->amount;
+                }elseif($transaction->reason == 'debit'){
+                    $transaction->reason= 'DEBIT NOTE #'.$transaction->id;
+                   $statement = $statement + $transaction->amount;                    
+                }else{
                    $statement = $statement - $transaction->amount;
-                   $statement = number_format((float)$statement, 2, '.', '');
-                   
+                }
+                   $statement = number_format((float)$statement, 2, '.', '');       
 @endphp
         <tr style="background-color:$background;">
          <td width="20%" align="center">{{$transaction->transactionDate}}</td>
          <td width="35%" align="left"> {{$transaction->reason}}</td>
-         <td width="22.5%" align="center">{{$symbol}} {{$transaction->amount}}</td>
-         <td width="22.5%" align="center">{{$symbol}} {{$statement}}</td>
+         <td width="22.5%" align="center">  {{$symbol}}{{$transaction->amount}}</td>
+         <td width="22.5%" align="center">{{$symbol}}{{$statement}}</td>
         </tr>
 @php
 }// FIN DE FOREACH DE RENGLONES
@@ -177,16 +184,16 @@ foreach ($transactions as $transaction) {
        </tr>
         <tr align="center"> 
             <th >
-             {{$symbol}} {{$nextShare}}
+             {{$symbol}}{{$nextShare}}
             </th>
             <th>
-             {{$symbol}} {{$nextShare}}
+             {{$symbol}}{{$nextShare}}
             </th>   
               <th>
-             {{$symbol}} {{$nextShare}}
+             {{$symbol}}{{$nextShare}}
             </th>  
                <th>
-             {{$symbol}} {{$nextShare}}
+             {{$symbol}}{{$nextShare}}
             </th>     
        </tr>
 </table>   

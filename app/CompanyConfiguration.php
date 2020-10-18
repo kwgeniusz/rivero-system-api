@@ -34,25 +34,6 @@ class CompanyConfiguration extends Model
 //--------------------------------------------------------------------
          //CLIENT NUMBER 
 //-------------------------------------------------------------------
-     public function generateClientNumberFormat($companyId,$parentCompanyId) {
-  
-        $stringLength = 8;
-        $strPad       = "0";
-
-         $clientNumber = $this->retrieveClientNumber($companyId,$parentCompanyId);
-    
-        if ($clientNumber < 1) {
-            $clientNumber = "";
-        }
-         $codePrefix = $this->getCodePrefixClient($companyId,$parentCompanyId);
-         $format1 = $codePrefix;
-         $format2 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
-       
-        // numero de contrato en foramto
-        return $clientNumberFormat = $format1 . $format2;
-         
-      }
-//--------------------------------------------------------------------
 
     public function retrieveClientNumber($companyId,$parentCompanyId)
     {
@@ -73,6 +54,25 @@ class CompanyConfiguration extends Model
 
         return $clientNumber;
     }
+//--------------------------------------------------------------------
+     public function generateClientNumberFormat($companyId,$parentCompanyId) {
+  
+        $stringLength = 8;
+        $strPad       = "0";
+
+         $clientNumber = $this->retrieveClientNumber($companyId,$parentCompanyId);
+    
+        if ($clientNumber < 1) {
+            $clientNumber = "";
+        }
+         $codePrefix = $this->getCodePrefixClient($companyId,$parentCompanyId);
+         $format1 = $codePrefix;
+         $format2 = str_pad($clientNumber, $stringLength, $strPad, STR_PAD_LEFT);
+       
+        // numero de contrato en foramto
+        return $clientNumberFormat = $format1 . $format2;
+         
+      }
 
     //---------------------------------------------------------------------
     public function increaseClientNumber($companyId,$parentCompanyId)
@@ -82,18 +82,6 @@ class CompanyConfiguration extends Model
          } else {
             $this->where('companyId', $parentCompanyId)->increment('clientNumber');
          } 
-    }
-
-    //----------------------------------------------------------------------
-    public function getCodePrefixClient($companyId,$parentCompanyId){
-
-         if($parentCompanyId == 0 ) {
-           $rs = $this->where('companyId', $companyId)->get();
-         } else {
-           $rs = $this->where('companyId', $parentCompanyId)->get();
-         } 
- 
-        return $rs[0]->codePrefixClient;
     }
 //---------------------------------------------------------------------------
 //CONTRACT NUMBER
@@ -171,8 +159,8 @@ class CompanyConfiguration extends Model
                 ->where('companyId', $companyId)
                 ->increment('precontractNumber');
     }
-//--------------------------------------------------------------------
-         //INVOICES NUMBER
+//--------------------------------------------------------------------  
+   //INVOICES NUMBER
 //-------------------------------------------------------------------
     public function retrieveInvoiceNumber($countryId,$companyId)
     {
@@ -197,8 +185,8 @@ class CompanyConfiguration extends Model
     }
 
  //--------------------------------------------------------------------
-//PROPOSAL NUMBER
-    //-------------------------------------------------------------------
+   //PROPOSAL NUMBER
+//-------------------------------------------------------------------
     public function retrieveProposalNumber($countryId,$companyId)
     {
 
@@ -221,56 +209,24 @@ class CompanyConfiguration extends Model
                  ->increment('proposalNumber');
     }
 
-
-
 //---------------------------------------------------------------------------
-// CREDIT NOTE NUMBER
+   // CREDIT NOTE NUMBER
 //---------------------------------------------------------------------------
     public function retrieveCreditNoteNumber($countryId, $companyId)
     {
-        //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
-
         $creditNoteNumber = 0;
         $rs             = $this->where('countryId', '=', $countryId)
                                ->where('companyId', '=', $companyId)
                                ->get();
 
-        if (!empty($rs)) {
-            foreach ($rs as $rs0) {
-                    $creditNoteNumber = $rs0->creditNoteNumber;
-            }
-        }
-
-        return $creditNoteNumber;
-    }
-    //--------------------------------------------------------------------
-  public function generateCreditNoteNumberFormat($countryId,$companyId) {
-
-        $creditNoteNumber =   $this->retrieveCreditNoteNumber($countryId, $companyId);
-        $creditNoteNumber++;
-
-        $stringLength = 8;
-        $strPad       = "0";
-
-        if ($creditNoteNumber < 1) {
-            $creditNoteNumber = "";
-        }
-
-       $codePrefix = $this->getCodePrefixContract($companyId);
-
-        $format1 = $codePrefix;
-        $format2 = substr(date('Y'), 2, 2);
-        $format3 = str_pad($creditNoteNumber, $stringLength, $strPad, STR_PAD_LEFT);
-
-        // numero de contrato en foramto
-       return $creditNoteNumberFormat = $format1 . $format2 . $format3;
+        return $rs[0]->creditNoteNumber;
     }
     //--------------------------------------------------------------------
     public function increaseCreditNoteNumber($countryId, $companyId)
     {
             $this->where('countryId', $countryId)
                 ->where('companyId', $companyId)
-                ->increment('contractNumber');
+                ->increment('creditNoteNumber');
     }
 
 //--------------------------------------------------------------------
@@ -282,8 +238,18 @@ class CompanyConfiguration extends Model
  
         return $rs[0]->codePrefixContract;
     }
-    //-------------------------------------------------
+    //----------------------------------------------------------------------
+    public function getCodePrefixClient($companyId,$parentCompanyId){
 
+         if($parentCompanyId == 0 ) {
+           $rs = $this->where('companyId', $companyId)->get();
+         } else {
+           $rs = $this->where('companyId', $parentCompanyId)->get();
+         } 
+ 
+        return $rs[0]->codePrefixClient;
+    }
+    //-------------------------------------------------
     public function findInvoiceTaxPercent($countryId,$companyId)
     {
 

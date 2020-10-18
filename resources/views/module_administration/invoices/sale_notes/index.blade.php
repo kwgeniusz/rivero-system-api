@@ -48,7 +48,10 @@
                    @elseif($invoice[0]->invStatusCode == App\Invoice::COLLECTION )
                         style="background-color: #cbb956;color:white" 
                   @endif
-                   >{{$invoice[0]->invoiceStatus[0]->invStatusName}}</td> 
+                   ><a style="color: white;" href="{{route('reports.invoice', ['id' => $invoice[0]->invoiceId])}}">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
+                     {{$invoice[0]->invoiceStatus[0]->invStatusName}} 
+                    </a></td> 
                 </tr>
                 </tbody>
             </table>
@@ -97,11 +100,11 @@
                 <tbody>
                 @foreach($creditNotes as $item)
                   <tr>
-                     <td>{{$item->salNoteId}}</td> 
+                     <td>{{$item->salId}}</td> 
                      <td>{{$item->reference}}</td>
                      <td>{{$item->dateNote}}</td>
                      <td>{{$item->concept}}</td>   
-                     <td>{{$item->clientId}}</td>
+                     <td>{{$item->client->clientName}}</td>
                      <td>{{$item->netTotal}}</td>   
                      <td>   <a href="{{route('reports.credit-note', ['id' => $item->salNoteId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
@@ -145,11 +148,11 @@
                 <tbody>
                 @foreach($debitNotes as $item)
                   <tr>
-                     <td>{{$item->salNoteId}}</td> 
+                     <td>{{$item->salId}}</td> 
                      <td>{{$item->reference}}</td>
                      <td>{{$item->dateNote}}</td>
                      <td>{{$item->concept}}</td>   
-                     <td>{{$item->clientId}}</td>
+                     <td>{{$item->client}}</td>
                      <td>{{$item->netTotal}}</td>   
                      <td>   <a href="{{route('reports.credit-note', ['id' => $item->salNoteId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
@@ -165,7 +168,7 @@
 
 </div><!--tab container final-->
   <center>
-       <a href="{{URL::previous()}}" class="btn btn-warning">
+       <a href="{{route('invoices.all')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
        </a>
   </center>

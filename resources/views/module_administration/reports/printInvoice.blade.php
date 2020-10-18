@@ -49,7 +49,7 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 2cm;
+            height: 0cm;
             /*background-color: #2a0927;*/
             color: white;
             text-align: center;
@@ -69,9 +69,6 @@
           font-weight: bold;
         }
 
-   /*     span.inner {
-            color: green;
-        }*/
         tr.outer {
             color: red;
             text-decoration: line-through;
@@ -80,25 +77,10 @@
     </style>
 </head>
 <body>
-{{-- 
-
-<header>
-    <h1>Styde.net</h1>
-</header>
- 
-<main>
-    <h1>{{__('add')}}</h1>
-</main>
- 
-<footer>
-    <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
-     Designed By Rivero Visual Group</h4>
-</footer>
-
-<div class="page-break"></div>
 
 
-<header>
+
+{{-- <header>
     <h1>Styde.net</h1>
 </header>
  
@@ -110,6 +92,7 @@
     <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
      Designed By Rivero Visual Group</h4>
 </footer> --}}
+{{-- <div class="page-break"></div> --}}
 @if($invoice[0]->invStatusCode == App\Invoice::PAID)
   <div id="watermark">
             <img src="img/paid2.png" height="100%" width="100%" />
@@ -121,7 +104,7 @@
   $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
   $linesperpage = 30;    // numero maximo de renglones
   //calcular total de paginas
-  $quantityInvDetails = count($invoicesDetails);
+  $quantityInvDetails = count($invoiceDetails);
   $pageTotal = (intval($quantityInvDetails/$linesperpage));
   $pageTotal++;
    //si los registro y el limite de lineas son iguales es una pagina
@@ -137,7 +120,7 @@
            $moneySymbol = '';
 
  //// inicio del ciclo de impresion
-foreach ($invoicesDetails as $invDetail) {
+foreach ($invoiceDetails as $invDetail) {
 
   //if de header
     if ($line > $linesperpage) { //imprimir
@@ -350,33 +333,32 @@ foreach ($invoicesDetails as $invDetail) {
  @php            
       $acum3        = 0;
       $acumPaid     = 0;
-    foreach ($receivables as $receivable) {
-     $acum3 = $acum3 + 1;
-     $acumPaid += $receivable->amountPaid;
+    foreach ($payments as $payment) {
+     $acumPaid += $payment->receivable->amountPaid;
      $acumPaid =  number_format((float)$acumPaid, 2, '.', '');
 
-        if($receivable->paymentMethod == null){ 
+        if($payment->receivable->paymentMethod == null){ 
            $paymentMethod  = null;
         }else{
-           $paymentMethod  =$receivable->paymentMethod->payMethodName;
+           $paymentMethod  =$payment->receivable->paymentMethod->payMethodName;
         }
 
-      if($receivable->recStatusCode != 4){ 
+      if($payment->receivable->recStatusCode != 4){ 
            $recStatusName  = null;
         }else{
-           $recStatusName  = $receivable->receivableStatus[0]->recStatusName;
+           $recStatusName  = $payment->receivable->receivableStatus[0]->recStatusName;
         }
 @endphp
 
       <table cellspacing="0" cellpadding="0" >
-                <tr @if($receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
+                <tr @if($payment->receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
                   class="outer" 
                   @endif>
-                 <td width="10%">{{$acum3}}</td>
-                 <td width="35%">{{$moneySymbol}} {{$receivable->amountDue}}</td>
+                 <td width="10%">{{++$acum3}}</td>
+                 <td width="35%">{{$moneySymbol}} {{$payment->receivable->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
                  <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$receivable->datePaid}}</td>
+                 <td width="30%">{{$payment->receivable->datePaid}}</td>
                  <td width="15%"></td>
                 </tr>
               </table>
@@ -430,9 +412,7 @@ foreach ($invoicesDetails as $invDetail) {
  </p> 
  @endif
 
-
-{{-- Nota: esta factura ha sido afectada con una nota de debito ID xxxx --}}
-{{-- 
+ {{-- 
 
  <table cellspacing="0" cellpadding="0" >
        <tr>
@@ -463,7 +443,7 @@ foreach ($invoicesDetails as $invDetail) {
                   </ul>
        </tr>
 </table>
- --}}
+ --}} 
 
 <script type="text/php">
     if ( isset($pdf) ) {

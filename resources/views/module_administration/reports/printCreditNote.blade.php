@@ -101,7 +101,6 @@
    }
 
            $acum          = 0;
-           $acum2         = 0;
            $acumInvDetail = 0;
            $subTotalPerPage= 0;
            $vienen = 0;
@@ -123,7 +122,7 @@ foreach ($creditNoteDetails as $invDetail) {
    Sub-Total:
  </th>
  <th style="border-top:2px solid black" colspan="1" align="right">
-   {{$invoice[0]->contract->currency->currencySymbol}} {{$subTotalPerPage}}
+   {{$symbol}} {{$subTotalPerPage}}
  </th>
 </tr>
 </table>
@@ -142,7 +141,7 @@ foreach ($creditNoteDetails as $invDetail) {
          <th width="20%" align="center"> 
           <img src="img/logo_jd.jpg" alt="test alt attribute" width="140px" height="120px"/>
          </th>
-        <th width="48%">
+        <th width="55%">
              <div style="text-align:center">
                <strong style=" font-size:22px;"  >{{$company[0]->companyName}}</strong><br>
                <img src="img/icon-point.png" width="10px" height="10px"/> {{$company[0]->companyAddress}}<br>
@@ -151,15 +150,15 @@ foreach ($creditNoteDetails as $invDetail) {
                <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
              </div>
         </th>
-    <th width="32%">
+    <th width="25%">
         <table>       
           <tr>
-              <td id="bold">Credit Note Number:</td>
-              <td align="right">{{$invoice[0]->invId}}</td>
+              <td id="bold">Credit Note Number:
+              {{$creditNote[0]->salId}}</td>
             </tr>
             <tr>
-              <td id="bold">Date:</td>
-              <td align="right">{{$invoice[0]->invoiceDate}}</td>
+              <td id="bold">Date:
+              {{$creditNote[0]->dateNote}}</td>
             </tr>
             <tr>
               <td id="bold">Page: {{$page}}/{{$pageTotal}}</td>
@@ -169,10 +168,9 @@ foreach ($creditNoteDetails as $invDetail) {
               <td> </td>
               <td> </td>
             </tr>
-           {{--  <tr>
-              <td id="bold">Seller ID:</td>
-              <td align="right">{{$invoice[0]->user->fullName}}</td>
-            </tr> --}}
+            <tr>
+              <td id="bold">Apply To: Invoice #{{$creditNote[0]->invoice->invId}}</td>
+            </tr>
          </table>     
         </th>
        
@@ -231,7 +229,7 @@ foreach ($creditNoteDetails as $invDetail) {
            </th>
        </tr>
 </table>   --}} 
-       <br><br>
+       <br>
 
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>
@@ -251,8 +249,6 @@ foreach ($creditNoteDetails as $invDetail) {
        $line= 1;// al pasar la pagina reinicia la linea
 
 } //fin de condicion de header
-
-               
                $acum = $acum + 1;
                 if ($acum % 2 == 0) {
                     $background = "#f2edd1";
@@ -261,14 +257,13 @@ foreach ($creditNoteDetails as $invDetail) {
                 }
      //espacios,numeracion,precios, negritas para reglon con precios
                if ($invDetail->unit == null) {
-                    $acum2 = "";
+                    $acumInvDetail = "";
                     $space = "   ";
                     $moneySymbol = '';
                 } else {
                     $acumInvDetail = $acumInvDetail + 1;
-                    $acum2=$acumInvDetail;
                     $space = "";
-                    $moneySymbol = $invoice[0]->contract->currency->currencySymbol;
+                    $moneySymbol = $symbol;
                 }
      if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
 @endphp
@@ -278,7 +273,7 @@ foreach ($creditNoteDetails as $invDetail) {
         <td width="10%" align="center"></td>
         <td width="15%" align="center"></td>
         <td width="15%" align="center"></td>
-        <td width="15%" align="right"> {{$invoice[0]->contract->currency->currencySymbol}} {{$vienen}}</td>
+        <td width="15%" align="right"> {{$symbol}} {{$vienen}}</td>
         </tr>
 @php
         if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
@@ -287,7 +282,7 @@ foreach ($creditNoteDetails as $invDetail) {
     }
 @endphp
         <tr style="background-color:{{$background}};">
-        <td width="5%" align="center">{{$acum2}}</td>
+        <td width="5%" align="center">{{$acumInvDetail}}</td>
         <td width="40%" >{{$space}} {{$invDetail->serviceName}}</td>
         <td width="10%" align="center">{{$invDetail->unit}}</td>
         <td width="15%" align="center">{{$invDetail->quantity}}</td>
@@ -305,7 +300,7 @@ foreach ($creditNoteDetails as $invDetail) {
    {{-- // imprimir footer de factura --}}
 </table>
        <br><br>
-{{-- 
+
 
 <table cellspacing="0" cellpadding="0" >
        <tr>
@@ -314,73 +309,55 @@ foreach ($creditNoteDetails as $invDetail) {
        </tr>
        <tr> 
         <th width="20%" align="center">
-          <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
+          {{-- <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/> --}}
         </th>
         <th width="50%">
              <b>Payment break down:</b><br>
  @php            
-      $acum3        = 0;
-      $acumPaid     = 0;
-    foreach ($receivables as $receivable) {
-     $acum3 = $acum3 + 1;
-     $acumPaid += $receivable->amountPaid;
-     $acumPaid =  number_format((float)$acumPaid, 2, '.', '');
+      $acum3     = 0;
+    foreach ($payments as $payment) {
 
-        if($receivable->paymentMethod == null){ 
+        if($payment->receivable->paymentMethod == null){ 
            $paymentMethod  = null;
         }else{
-           $paymentMethod  =$receivable->paymentMethod->payMethodName;
+           $paymentMethod  =$payment->receivable->paymentMethod->payMethodName;
         }
 
-      if($receivable->recStatusCode != 4){ 
+      if($payment->receivable->recStatusCode != 4){ 
            $recStatusName  = null;
         }else{
-           $recStatusName  = $receivable->receivableStatus[0]->recStatusName;
+           $recStatusName  = $payment->receivable->receivableStatus[0]->recStatusName;
         }
 @endphp
 
       <table cellspacing="0" cellpadding="0" >
-                <tr @if($receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
+                <tr @if($payment->receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
                   class="outer" 
                   @endif>
-                 <td width="10%">{{$acum3}}</td>
-                 <td width="35%">{{$moneySymbol}} {{$receivable->amountDue}}</td>
+                 <td width="10%">{{++$acum3}}</td>
+                 <td width="35%">{{$moneySymbol}} {{$payment->receivable->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
                  <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$receivable->datePaid}}</td>
+                 <td width="30%">{{$payment->receivable->datePaid}}</td>
                  <td width="15%"></td>
                 </tr>
               </table>
 @php
   }
-   $amountRs =  $invoice[0]->netTotal-$acumPaid;
-   $amountRs =  number_format((float)$amountRs, 2, '.', '');
 @endphp
         </th>
         <th width="30%">
              <table cellspacing="0" cellpadding="0" >
                <tr>
-                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {{$symbol}}{{$invoice[0]->grossTotal}}</th>
+                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {{$symbol}}{{$subTotalPerPage}}</th>
                </tr>
                <tr>
-                <th><b>Tax Rate</b></th><th align="right">{{$invoice[0]->taxPercent}}%</th>
-               </tr>
-               <tr>
-                <th><b>Tax</b></th><th align="right"> {{$symbol}}{{$invoice[0]->taxAmount}}</th>
-               </tr>
-                <tr>
-                <th><b>Total</b></th><th align="right"> {{$symbol}}{{$invoice[0]->netTotal}}</th>
-               </tr>
-                <tr>
-                <th><b>Amount PAID</b></th><th align="right" style="color:red"> {{$symbol}} {{$acumPaid}} </th>
-               </tr>
-                <tr>
-                <th><b>Balance Due</b></th><th align="right"> {{$symbol}} {{$amountRs}} </th>
+                <th><b>Total</b></th><th align="right"> {{$symbol}}{{$subTotalPerPage}}</th>
                </tr>
              </table>
         </th>
        </tr>
-</table> --}}
+</table>
 
 {{-- <br> --}}
 {{-- 

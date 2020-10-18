@@ -40,23 +40,12 @@
          <!-- INICIO DE LA TABLA COLLAPSE COMPONENT -->
 
    @foreach($receivablesInvoices as $index => $receivable)
-     @php 
-       $acum = 0;
-       $totalDue = 0;
-     @endphp
-
      <div class="panel-group col-xs-6" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-primary">
          <div class="panel-heading" role="tab" id="headingOne">
            <h4 class="panel-title">
              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#{{$index}}" aria-expanded="true" aria-controls="{{$index}}">
-              @foreach($receivable as $share) 
-               @php
-               $totalDue += $share->amountDue;
-               $totalDue = number_format((float)$totalDue, 2, '.', '');
-               @endphp 
-              @endforeach
-              FACTURA N° {{$receivable[0]->invoice->invId}} - MONTO A COBRAR: {{$totalDue}}
+              FACTURA N° {{$receivable[0]->invoice->invId}} - MONTO A COBRAR: {{$receivable[0]->invoice->balanceTotal}}
             </div>
            </h4>
          </div>
@@ -75,9 +64,10 @@
                        </tr>
                    </thead>
                   <tbody>
+                  @php $acum= 0; @endphp  
                    @foreach($receivable as $share)
                        <tr>
-                        <td>{{ $acum = $acum +1 }}</td>
+                        <td>{{ ++$acum }}</td>
                         <td>{{$share->amountDue}}</td>
                         <td>
                         @if($acum == 1) 

@@ -40,6 +40,7 @@
             <table class="table table-striped table-bordered text-center">
             <thead class="bg-success">
                 <tr>
+                 <th>#</th>
                  <th>COD. CLIENTE</th>
                  <th>NOMBRE</th>
                  <th>DIRECCIÓN</th>
@@ -50,8 +51,10 @@
                 </tr>
             </thead>
                 <tbody>
+           @php $acum=0; @endphp
             @foreach($receivables as $receivable)
                 <tr>
+                     <td>{{++$acum}}</td>
                      <td>{{$receivable->client->clientCode}}</td>
                      <td>{{$receivable->client->clientName}}</td>
                      <td>{{$receivable->client->clientAddress}}</td>

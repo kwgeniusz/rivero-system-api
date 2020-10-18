@@ -71,7 +71,7 @@
             <select v-model="formConcept" class="form-control" id="formConcept">
                   <option value="1">Anulación de Factura</option>
                   <!-- <option value="2">Descuento</option> -->
-                  <!-- <option value="3">Devolución parcial</option> -->
+                  <option value="3">Devolución parcial</option>
             </select>
         </div>
     </div>
@@ -79,7 +79,7 @@
   <div class="form-group">
     <label for="formReference" class="col-sm-2 control-label">REFERENCIA</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="formReference" v-model="formReference">
+      <input type="text" class="form-control" id="formReference" v-model="formReference" autocomplete="off">
     </div>
   </div>
 
@@ -175,7 +175,6 @@
                 <th>COSTO</th>
                 <th>CANTIDAD</th>
                 <th>MONTO</th>
-                <!-- <th>COMPROMISOS</th> -->
                 <th>ACCION</th>
             </tr>
             </thead>
@@ -187,7 +186,6 @@
             <td>{{item.unitCost}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.amount}}</td>
-            <!-- <td>{{item.subcontractor_inv_detail.length}} SB</td> -->
             <td> 
 
              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
@@ -355,6 +353,7 @@
 
    //-------------------------------
      let netTotalSelected = 0;
+
         if(this.formConcept == 1){
           netTotalSelected = this.invoice.balanceTotal;
 
@@ -373,8 +372,21 @@
                this.errors.push('Porcentaje no puede ser mayor a 60%');  
         }
         if(this.formConcept == 3){
-           if (!this.itemList) 
+
+           if (!Array.isArray(this.itemList) || !this.itemList.length) {
                this.errors.push('Necesitas Agregar Servicios a la Nota');
+         }
+           //suma todos los amount de ItemList
+              let acum = 0;
+                this.itemList.forEach(item => {
+                  acum = parseFloat(acum) + parseFloat(item.amount);
+                });
+           if(acum > parseFloat(this.invoice.balanceTotal)) {
+               this.errors.push('El Suma de Los item no puede superar el balance de la factura.');
+              }
+          netTotalSelected = acum;
+          console.log(netTotalSelected)
+         
         }
              
         if (!this.errors.length) { 
