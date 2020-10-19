@@ -104,7 +104,8 @@ class ProposalController extends Controller
                       $request->invoiceDate,
                       $request->invoiceTaxPercent,
                       $request->paymentConditionId, 
-                      '1');
+                      '1',
+                      Auth::user()->userId);
 
         $notification = array(
                      'message'    => 'Propuesta Creada, Agrege Renglones',
