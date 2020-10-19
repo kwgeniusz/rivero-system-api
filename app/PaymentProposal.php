@@ -95,7 +95,7 @@ class PaymentProposal extends Model
                 throw new \Exception("Error: El total de Cuotas no debe sobrepasar el Monto de Factura.");
               }
 
-            DB::table('proposal')->where('proposalId', $proposalId)->increment('pQuantity');  
+            // DB::table('proposal')->where('proposalId', $proposalId)->increment('pQuantity');  
             //INSERTA PAGO
             $payment              = new PaymentProposal;
             $payment->proposalId   = $proposalId;
@@ -130,7 +130,7 @@ class PaymentProposal extends Model
 
                 //ELIMINAR PAGO
                 $this->where('paymentProposalId', '=', $id)->delete();
-                DB::table('proposal')->where('proposalId', $proposalId)->decrement('pQuantity');  
+                // DB::table('proposal')->where('proposalId', $proposalId)->decrement('pQuantity');  
         
                 $success = true;
                 DB::commit();
