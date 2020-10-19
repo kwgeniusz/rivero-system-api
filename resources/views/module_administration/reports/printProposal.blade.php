@@ -184,6 +184,22 @@
 		line-height: 1.5;
 }
 
+		.pagination {
+		position: absolute;
+		color: black;
+		margin-top: -15px;
+		margin-left: 727px;
+		z-index: 3;
+		}
+
+		.text-alt {
+		font-size: 10px;
+		color:white;
+}
+		.table-sign {
+		margin-left: 40px;
+		}
+
 </style>
 
 
@@ -198,7 +214,13 @@
 </div>
 
 
+
 <div class="footer">
+
+				<div class="pagination">
+				<p>Page <span class="pagenum"></span></p>
+				</div>
+
 				<div class="lower-left"></div>
 				<div class="lower-block">
 																							<b>{{$company[0]->companyName}}</b> - 
@@ -206,11 +228,12 @@
 					<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}} <br>
 					<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
 					<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}
+					<div class="text-alt">
+					<p>© Copyright 2020 JD Rivero Global - All rights reserved | Designed by Rivero Visual Group</p>
+					</div>
 				</div>
-				<div class="lower-right"> 
-					 <p style="color:white"></p>Page <span class="pagenum"></span></p>
+				<div class="lower-right">
 				</div>
-	
  </div>
 
 <div class="date bold">
@@ -239,6 +262,7 @@ Dear <b>Mr/Mrs. {{$client->clientName}}</b>
 <br>
 <div class="just">
 <span class="tab">We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
+
 </div>
 
 				<ul class="just">
@@ -369,13 +393,7 @@ foreach ($proposalDetails as $propDetail) {
 
 <div style="text-align: left">
 <b>Remit payment to:</b><br>
-{!! nl2br($company[0]->paymentMethods) !!}
-	 {{--     Name: JD Rivero Dallas LLC <br>
-					 Bank: Bank of America <br>
-					 Account number: 4880 9011 7716 <br>
-					 Routing number: 111000025<br>
-					 026009593 (WIRES)<br>
-					 E-mail: jdriverodallas@gmail.com (ZELLE) --}}
+<div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
 </div>
 <br>
 <div align="center">
@@ -405,7 +423,7 @@ Sincerely.
 </div>
 <br><br>
 
-<table cellspacing="0" cellpadding="0" border="0"  >
+<table class="table-sign" cellspacing="0" cellpadding="0" border="0"  >
 			 <tr>
 		@if($proposal[0]->subcontId != null)  
 				<th align="center" >
@@ -426,7 +444,7 @@ Sincerely.
 			 </tr>
 </table>
 
- <br><br><br>
+<br><br><br><br><br>
 <div  class="bold center">
 ACCEPTED BY:     _____________________________________ <br>
 												Mr. {{$client->clientName}}
