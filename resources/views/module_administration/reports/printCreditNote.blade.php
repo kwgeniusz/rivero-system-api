@@ -2,7 +2,6 @@
 <html>
 <head>
     <style>
-
         @page {
             margin: 0cm 0cm;
             font-family: helvetica;
@@ -359,25 +358,8 @@ foreach ($creditNoteDetails as $invDetail) {
        </tr>
 </table>
 
-{{-- <br> --}}
-{{-- 
-@if($invoice[0]->creditNote->isNotEmpty())
- <p style="color:red"> Nota: esta factura ha sido afectada con una nota de crédito: 
-  @foreach($invoice[0]->creditNote as $creditNote)
-   ID {{$creditNote['salNoteId']}} 
-  @endforeach
- </p> 
- @endif
+ <p style="color:red"> Note: esta factura ha sido afectada con una nota de crédito: </p> 
 
-
-@if($invoice[0]->debitNote->isNotEmpty())
- <p style="color:red"> Nota: esta factura ha sido afectada con una nota de debito:
-  @foreach($invoice[0]->debitNote as $debitNote)
-   ID {{$debitNote['salNoteId']}} 
-  @endforeach
- </p> 
- @endif
- --}}
 
 <script type="text/php">
     if ( isset($pdf) ) {
