@@ -30,12 +30,12 @@ class SubcontractorController extends Controller
                 return $subcontractors;
             }
             
-        return view('module_contracts.subcontractors.index', compact('subcontractors'));
+        return view('module_administration.subcontractors.index', compact('subcontractors'));
     }
 
     public function payables($subcontId)
     {
-        return view('module_contracts.subcontractors.payables', compact('subcontId'));
+        return view('module_administration.subcontractors.payables', compact('subcontId'));
     }
 
    public function getallPayables($subcontId)
@@ -44,20 +44,16 @@ class SubcontractorController extends Controller
 
         return $payables;
     }
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    
-    //     $clientNumberFormat = $this->oCountryConfiguration->generateClientNumberFormat(session('countryId'));
-    //     // $countrys     = Country::all();
-    //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
-
-    //     return view('module_contracts.clients.create', compact('countrys','contactTypes','clientNumberFormat'));
-    // }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        
+        return view('module_administration.subcontractors.create');
+    }
 
     // /**
     //  * Store a newly created resource in storage.
@@ -101,7 +97,7 @@ class SubcontractorController extends Controller
     //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
     //     $client   = $this->oSubcontractor->findById($id, session('countryId'));
 
-    //     return view('module_contracts.clients.edit', compact('client', 'countrys','contactTypes'));
+    //     return view('module_administration.clients.edit', compact('client', 'countrys','contactTypes'));
     // }
 
     // /**
@@ -141,7 +137,7 @@ class SubcontractorController extends Controller
            if($request->ajax()){
               return $subcontractor;
             }
-        return view('module_contracts.clients.show', compact('subcontractor'));
+        return view('module_administration.clients.show', compact('subcontractor'));
     }
 
     // /**
