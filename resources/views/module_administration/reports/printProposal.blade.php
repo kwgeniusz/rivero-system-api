@@ -14,10 +14,11 @@
 }
 
 		body {
-		margin: 1.5cm 1.5cm 2cm 1.5cm;
+		margin: 1.5cm 1.5cm 2.5cm 1.5cm;
 		font-size: 12px;
 		background: white;
-		margin-top: 100px;
+		/* Para rodar todo desde arriba */
+		margin-top: 135px;
 }
 
 		.container-header{
@@ -26,10 +27,10 @@
 }
 
 		.header {
-	background-color: #505050;
+		background-color: #505050;
 		border-bottom: 4px solid #303030;
 		width:100%;
-		height: 20px;
+		height: 50px;
 		z-index: 1;
 
 }
@@ -37,7 +38,7 @@
 		background-color: #ffc501;
 		float: left;
 		margin-top: -75px;
-		margin-left: 10px;
+		margin-left: 30px;
 		width: 90px;
 		height: 90px;
 		border-radius: 0px 0px 10px 10px;
@@ -51,14 +52,14 @@
 
 		.wm-one {
 		position: absolute;
-		top: 50px;
+		top: 81px;
 		left: 544px;
 		z-index: 2;
 		opacity: 0.5;
 		z-index: -1;
 	 }
 
-	 .wm-two {
+	 	.wm-two {
 		position: absolute;
 		top: 480px;
 		z-index: 2;
@@ -69,7 +70,7 @@
 		.upper-right{
 		position: absolute;
 		width: 100px;
-		height: 30px;
+		height: 70px;
 		margin-top: 50px;
 		margin-left: 695px;
 		background-color: #ffc501;
@@ -78,15 +79,15 @@
 }
 	 /** Define the footer rules **/
 		.footer {
-		position: fixed; 
-		top: 98%;
-		bottom: 0cm; 
-		left: 0cm; 
+		position: fixed;
+		top: 96%;
+		bottom: 0cm;
+		left: 0cm;
 		right: 0cm;
 		height: 0cm;
 		width: 100%;
-		height: 20px;
-		border-top: 4px solid #303030;
+		height: 50px;
+		border-top: 19px solid #303030;
 		background-color:#505050;
 		z-index: 1;
 }
@@ -97,35 +98,36 @@
 		width: 12px;
 }
 
-	 .lower-block {
+	 	.lower-block {
 		position: absolute;
 		background-color: #ffc501;
 		width: 500px;
+		height: 31px;
 		font-size: 10.5px;
 		text-align: center;
-		margin-top: -40px;
+		margin-top: -60px;
 		margin-left: 40px;
-		margin-bottom: 18px;
+		margin-bottom: 48px;
 		border-radius: 10px 10px 0px 0px;
 		padding: 5px 5px 5px 5px;
 		z-index: 2;
 }
 		.lower-left {
 		display: inline-block; 
-		margin-top: -2px;
+		margin-top: -5px;
 		width: 100px;
-		height: 30px;
+		height: 59px;
 		background-color: #ffc501;
 		border-radius: 0px 10px 0px 0px;
 		z-index: 2;
 }
 
 		.lower-right {
-		display: inline-block; 
-		margin-top: -38px;
+		display: inline-block;
+		margin-top: -75px;
 		margin-left: 696px;
 		width: 100px;
-		height: 30px;
+		height: 60px;
 		background-color: #ffc501;
 		border-radius: 10px 0px 0px 0px;
 		z-index: 2;
@@ -187,7 +189,7 @@
 		.pagination {
 		position: absolute;
 		color: black;
-		margin-top: -15px;
+		margin-top: -28px;
 		margin-left: 727px;
 		z-index: 3;
 		}
@@ -212,8 +214,6 @@
 				<img class="wm-one" src="img/logos/1.png"></img>
 				<img class="wm-two" src="img/logos/2.png"></img>
 </div>
-
-
 
 <div class="footer">
 
@@ -388,7 +388,7 @@ foreach ($proposalDetails as $propDetail) {
 </table>
 
 <div class="big bold center">
-	 <b>Method of Payment</b>
+	 <b>Payment Method</b>
 </div>
 
 <div style="text-align: left">
