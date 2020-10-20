@@ -24,7 +24,7 @@ class SubcontractorController extends Controller
 
     public function index(Request $request)
     {
-        $subcontractors = $this->oSubcontractor->getAllByCompany(session('countryId'));
+        $subcontractors = $this->oSubcontractor->getAllByCompany(session('companyId'));
 
          if($request->ajax()){
                 return $subcontractors;
