@@ -2,7 +2,6 @@
 <html>
 <head>
     <style>
-
         @page {
             margin: 0cm 0cm;
             font-family: helvetica;
@@ -308,11 +307,12 @@ foreach ($creditNoteDetails as $invDetail) {
         </th>
        </tr>
        <tr> 
-        <th width="20%" align="center">
-          {{-- <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/> --}}
-        </th>
-        <th width="50%">
-             <b>Payment break down:</b><br>
+{{--         <th width="20%" align="center">
+          <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
+        </th> --}}
+@if($payments->isNotEmpty())
+<th width="70%">
+         <b>Payment break down:</b><br>
  @php            
       $acum3     = 0;
     foreach ($payments as $payment) {
@@ -342,10 +342,11 @@ foreach ($creditNoteDetails as $invDetail) {
                  <td width="15%"></td>
                 </tr>
               </table>
-@php
-  }
-@endphp
-        </th>
+   @php
+    }
+   @endphp
+</th>
+@endif
         <th width="30%">
              <table cellspacing="0" cellpadding="0" >
                <tr>
@@ -359,25 +360,9 @@ foreach ($creditNoteDetails as $invDetail) {
        </tr>
 </table>
 
-{{-- <br> --}}
-{{-- 
-@if($invoice[0]->creditNote->isNotEmpty())
- <p style="color:red"> Nota: esta factura ha sido afectada con una nota de crédito: 
-  @foreach($invoice[0]->creditNote as $creditNote)
-   ID {{$creditNote['salNoteId']}} 
-  @endforeach
- </p> 
- @endif
+<br>
+ <p style="color:red"> Note: esta factura ha sido afectada con una nota de crédito: </p> 
 
-
-@if($invoice[0]->debitNote->isNotEmpty())
- <p style="color:red"> Nota: esta factura ha sido afectada con una nota de debito:
-  @foreach($invoice[0]->debitNote as $debitNote)
-   ID {{$debitNote['salNoteId']}} 
-  @endforeach
- </p> 
- @endif
- --}}
 
 <script type="text/php">
     if ( isset($pdf) ) {

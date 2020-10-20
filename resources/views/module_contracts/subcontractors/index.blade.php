@@ -70,7 +70,7 @@
                         <span class="fa fa-edit" aria-hidden="true"></span>
                     </a>
                     <a href="{{route('subcontractors.payables', ['id' => $subcontractor->subcontId])}}" class="btn btn-success" data-toggle="tooltip" data-placement="top"  title="Cuentas por Pagar">
-                        <span class="fa fa-edit" aria-hidden="true"></span>
+                        <span class="fa fa-user" aria-hidden="true"></span>
                     </a> 
                     @endcan
                    <!--  @can('BAC') 
