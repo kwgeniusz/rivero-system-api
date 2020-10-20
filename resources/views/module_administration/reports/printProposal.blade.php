@@ -30,14 +30,14 @@
 		background-color: #505050;
 		border-bottom: 4px solid #303030;
 		width:100%;
-		height: 50px;
+		height: 30px;
 		z-index: 1;
 
 }
 		.logo {
 		background-color: #ffc501;
 		float: left;
-		margin-top: -75px;
+		margin-top: -50px;
 		margin-left: 30px;
 		width: 90px;
 		height: 90px;
@@ -69,10 +69,10 @@
 
 		.upper-right{
 		position: absolute;
-		width: 100px;
+		width: 80px;
 		height: 70px;
 		margin-top: 50px;
-		margin-left: 695px;
+		margin-left: 715px;
 		background-color: #ffc501;
 		border-radius: 0px 0px 0px 10px;
 		z-index: 2;
@@ -101,12 +101,12 @@
 	 	.lower-block {
 		position: absolute;
 		background-color: #ffc501;
-		width: 500px;
+		width: 535px;
 		height: 31px;
 		font-size: 10.5px;
 		text-align: center;
 		margin-top: -60px;
-		margin-left: 40px;
+		margin-left: 35px;
 		margin-bottom: 48px;
 		border-radius: 10px 10px 0px 0px;
 		padding: 5px 5px 5px 5px;
@@ -114,8 +114,8 @@
 }
 		.lower-left {
 		display: inline-block; 
-		margin-top: -5px;
-		width: 100px;
+		margin-top: -10px;
+		width: 80px;
 		height: 59px;
 		background-color: #ffc501;
 		border-radius: 0px 10px 0px 0px;
@@ -124,9 +124,9 @@
 
 		.lower-right {
 		display: inline-block;
-		margin-top: -75px;
-		margin-left: 696px;
-		width: 100px;
+		margin-top: -79px;
+		margin-left: 715px;
+		width: 80px;
 		height: 60px;
 		background-color: #ffc501;
 		border-radius: 10px 0px 0px 0px;
@@ -189,7 +189,7 @@
 		.pagination {
 		position: absolute;
 		color: black;
-		margin-top: -28px;
+		margin-top: -30px;
 		margin-left: 727px;
 		z-index: 3;
 		}
@@ -198,6 +198,7 @@
 		font-size: 10px;
 		color:white;
 }
+
 		.table-sign {
 		margin-left: 40px;
 		}
@@ -227,7 +228,7 @@
 					<img src="img/icon-email.png"></img> {{$company[0]->companyEmail}} 
 					<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}} <br>
 					<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
-					<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}
+					<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
 					<div class="text-alt">
 					<p>© Copyright 2020 JD Rivero Global - All rights reserved | Designed by Rivero Visual Group</p>
 					</div>
