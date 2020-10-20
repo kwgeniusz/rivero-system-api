@@ -307,11 +307,12 @@ foreach ($creditNoteDetails as $invDetail) {
         </th>
        </tr>
        <tr> 
-        <th width="20%" align="center">
-          {{-- <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/> --}}
-        </th>
-        <th width="50%">
-             <b>Payment break down:</b><br>
+{{--         <th width="20%" align="center">
+          <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
+        </th> --}}
+@if($payments->isNotEmpty())
+<th width="70%">
+         <b>Payment break down:</b><br>
  @php            
       $acum3     = 0;
     foreach ($payments as $payment) {
@@ -341,10 +342,11 @@ foreach ($creditNoteDetails as $invDetail) {
                  <td width="15%"></td>
                 </tr>
               </table>
-@php
-  }
-@endphp
-        </th>
+   @php
+    }
+   @endphp
+</th>
+@endif
         <th width="30%">
              <table cellspacing="0" cellpadding="0" >
                <tr>
@@ -358,6 +360,7 @@ foreach ($creditNoteDetails as $invDetail) {
        </tr>
 </table>
 
+<br>
  <p style="color:red"> Note: esta factura ha sido afectada con una nota de crédito: </p> 
 
 

@@ -22,6 +22,7 @@
                  <th>TOTAL</th>
                  <th>BALANCE</th>
                  <th>CUOTAS</th>
+                 <th>NOTAS </th>
                  <th>{{__('STATUS')}}</th> 
                  </th>
                 </tr>
@@ -37,6 +38,13 @@
                    <td>{{$invoice[0]->netTotal}}</td>
                    <td>{{$invoice[0]->balanceTotal}}</td>
                    <td>{{$invoice[0]->shareSucceed->count()}}/{{$invoice[0]->pQuantity}}</td>  
+                   <td>
+                @if($invoice[0]->invStatusCode == App\Invoice::CLOSED or $invoice[0]->invStatusCode == App\Invoice::PAID )
+                 <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice[0]->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+                     <span class="fa fa-briefcase" aria-hidden="true"></span> 
+                </a>
+                @endif
+                   </td>
                    <td
                   @if($invoice[0]->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  
@@ -47,7 +55,12 @@
                    @elseif($invoice[0]->invStatusCode == App\Invoice::COLLECTION )
                         style="background-color: #cbb956;color:white" 
                   @endif
-                   >{{$invoice[0]->invoiceStatus[0]->invStatusName}}</td> 
+                   >
+                    <a style="color: white;" href="{{route('reports.invoice', ['id' => $invoice[0]->invoiceId])}}">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
+                     {{$invoice[0]->invoiceStatus[0]->invStatusName}} 
+                    </a>
+                 </td> 
                 </tr>
         </tbody>
       </table>

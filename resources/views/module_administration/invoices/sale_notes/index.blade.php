@@ -23,7 +23,6 @@
                  <th>BALANCE</th>
                  <th>CUOTAS</th>
                  <th>{{__('STATUS')}}</th> 
-                 </th>
                 </tr>
             </thead>
                 <tbody>
@@ -48,7 +47,8 @@
                    @elseif($invoice[0]->invStatusCode == App\Invoice::COLLECTION )
                         style="background-color: #cbb956;color:white" 
                   @endif
-                   ><a style="color: white;" href="{{route('reports.invoice', ['id' => $invoice[0]->invoiceId])}}">
+                   >
+                   <a style="color: white;" href="{{route('reports.invoice', ['id' => $invoice[0]->invoiceId])}}">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                      {{$invoice[0]->invoiceStatus[0]->invStatusName}} 
                     </a></td> 

@@ -19,7 +19,7 @@ class Proposal extends Model
     protected $primaryKey = 'proposalId';
     protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
 
-     protected $appends = ['grossTotal','taxAmount','netTotal'];
+     protected $appends = ['grossTotal','taxAmount','netTotal','pQuantity'];
      protected $dates = ['deleted_at'];
  
 //--------------------------------------------------------------------
