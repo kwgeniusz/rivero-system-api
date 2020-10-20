@@ -287,7 +287,7 @@ class Invoice extends Model
     public function changeStatus($invoiceId,$invStatusCode)
     {
 
-        $invoice             = Invoice::find($invoiceId);
+        $invoice                    = Invoice::find($invoiceId);
         $invoice->invStatusCode     = $invStatusCode;
         $invoice->save();
 

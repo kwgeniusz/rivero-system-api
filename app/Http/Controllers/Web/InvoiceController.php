@@ -143,15 +143,20 @@ class InvoiceController extends Controller
 
     public function changeStatus(Request $request)
     {
+        $invoice = $this->oInvoice->findById($request->invoiceId,session('countryId'),session('companyId'));
+
          switch ($request->newStatus) {
            case 'CANCELLED':
             $this->oInvoice->changeStatus($request->invoiceId, Invoice::CANCELLED);
-              $notification = array('message'    => 'Factura Cancelada', 'alertType' => 'info');
+                  foreach ($invoice[0]->sharePending as $key => $sharePending) {
+                             $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                             $sharePending->save();
+                       };
+            $notification = array('message'    => 'Factura Cancelada', 'alertType' => 'info');
              break;
            case 'COLLECTION':
             $this->oInvoice->changeStatus($request->invoiceId, Invoice::COLLECTION);
-              $notification = array('message'    => 'Factura Enviada a Collection', 'alertType' => 'info');
-             # code...
+            $notification = array('message'    => 'Factura Enviada a Collection', 'alertType' => 'info');
              break;
          }
       return $notification;

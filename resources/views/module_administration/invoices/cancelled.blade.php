@@ -68,6 +68,7 @@
                  <th>#</th>
                  <th>INVOICE ID</th>
                  <th>CONTRATO</th>
+                 <th>CLIENTE</th>
                  <th>DIRECCION</th> 
                  <th>FECHA</th>
                  <th>DESCRIPCION DEL PROYECTO</th>
@@ -87,6 +88,7 @@
                    <td>{{ $acum = $acum +1 }}</td>
                    <td>{{$invoice->invId}}</td> 
                    <td>{{$invoice->contract->contractNumber}}</td> 
+                   <td>{{$invoice->client->clientName}}</td> 
                    <td>{{$invoice->contract->siteAddress}}</td>
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->projectDescription->projectDescriptionName}}</td>

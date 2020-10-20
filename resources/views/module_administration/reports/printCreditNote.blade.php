@@ -292,7 +292,7 @@ foreach ($creditNoteDetails as $invDetail) {
        $subTotalPerPage += $invDetail->amount;//acumulacion de subtotal de pagina
        $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
        $vienen =  number_format((float)$subTotalPerPage, 2, '.', '');
-
+ 
     $line++;
 }// FIN DE FOREACH DE RENGLONES
 @endphp
@@ -310,9 +310,9 @@ foreach ($creditNoteDetails as $invDetail) {
 {{--         <th width="20%" align="center">
           <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
         </th> --}}
-@if($payments->isNotEmpty())
 <th width="70%">
-         <b>Payment break down:</b><br>
+@if($payments->isNotEmpty())
+         <b>New Payment break down:</b><br>
  @php            
       $acum3     = 0;
     foreach ($payments as $payment) {
@@ -345,8 +345,8 @@ foreach ($creditNoteDetails as $invDetail) {
    @php
     }
    @endphp
-</th>
 @endif
+</th>
         <th width="30%">
              <table cellspacing="0" cellpadding="0" >
                <tr>
@@ -361,7 +361,7 @@ foreach ($creditNoteDetails as $invDetail) {
 </table>
 
 <br>
- <p style="color:red"> Note: esta factura ha sido afectada con una nota de crédito: </p> 
+ <p style="color:red;"> Note: {{$creditNote[0]->reference}} </p> 
 
 
 <script type="text/php">

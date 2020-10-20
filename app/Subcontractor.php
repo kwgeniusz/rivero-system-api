@@ -60,6 +60,13 @@ class Subcontractor extends Model
                     ->where('countryId','=', $countryId)
                     ->paginate(300);
     }
+
+       public function getAllByCompany($companyId)
+    {
+        return $this->orderBy('subcontId', 'ASC')
+                    ->where('companyId','=', $companyId)
+                    ->paginate(300);
+    } 
 //------------------------------------------
     public function findById($id,$countryId)
     {

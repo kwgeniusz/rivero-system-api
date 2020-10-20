@@ -70,12 +70,10 @@ class Client extends Model
                           });
         }
     }
-
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-      function getClientByGroupAndPagination($countryId,$companyId,$parentCompanyId,$filteredOut) {         
-        
+      function getClientByGroupAndPagination($countryId,$companyId,$parentCompanyId,$filteredOut) {
      //  Cuando parentCompanyId es mayor que cero  
      if ($parentCompanyId > 0 ) {
         $rs = $this->with('contactType','company')
@@ -146,14 +144,16 @@ class Client extends Model
                     ->where('companyId','=', $companyId)
                     ->get();
     }
-    // public function getAll($countryId,$filteredOut)
-    // {
-    //     return $this->with('contactType')
-    //                 ->where('countryId','=', $countryId)
-    //                 ->orderBy('clientId', 'ASC')
-    //                 ->filter($filteredOut)
-    //                 ->paginate(300);
-    // }
+
+
+    public function getClientByCompany($companyId,$filteredOut) {         
+         $rs = $this->with('contactType','company')
+                    ->where('companyId', '=', $companyId)
+                    ->filter($filteredOut)
+                    ->paginate(100); 
+        return $rs;
+     }      
+  
 //------------------------------------------
 //     public function findNameByOffice($companyId)
 

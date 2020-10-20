@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use Auth;
 use App\Client;
 // use App\Country;
 use App\ContactType;
@@ -9,7 +10,6 @@ use App\CompanyConfiguration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
-use Auth;
 
 class ClientController extends Controller
 {
@@ -30,16 +30,17 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-// ,$request->filteredOut
-        $clients = $this->oClient->getClientByGroupAndPagination(session('countryId'),session('companyId'),session('parentCompanyId'),$request->filteredOut);
 
-        if($request->ajax()){
+      $clients = $this->oClient->getClientByGroupAndPagination(session('countryId'),session('companyId'),session('parentCompanyId'),$request->filteredOut);
+
+        if($request->ajax()) {
              return $clients;
                 }
 
-        return view('module_contracts.clients.index', compact('clients'));
-    }
+         $clientsCompany = $this->oClient->getClientByCompany(session('companyId'),$request->filteredOut);
 
+        return view('module_contracts.clients.index', compact('clientsCompany'));
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -47,7 +47,7 @@
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
      <br>
-                {{$clients->render()}}
+                {{$clientsCompany->render()}}
       <br>
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
@@ -65,7 +65,7 @@
                 </tr>
             </thead>
                 <tbody>
-                @foreach($clients as $client)
+                @foreach($clientsCompany as $client)
                 <tr>
                    <td>{{$client->cltId}}</td> 
                    <td>{{$client->clientCode}}</td>
@@ -95,7 +95,7 @@
 
         </div>
   
-                {{$clients->render()}}
+                {{$clientsCompany->render()}}
   
         </div>
         </div>

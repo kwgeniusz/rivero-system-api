@@ -79,16 +79,16 @@
 <body>
 
 
-
-{{-- <header>
+{{-- 
+<header>
     <h1>Styde.net</h1>
 </header>
  
 <main>
     <h1>{{__('add')}}</h1>
-</main>
+</main> --}}
  
-<footer>
+{{-- <footer>
     <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
      Designed By Rivero Visual Group</h4>
 </footer> --}}
@@ -444,7 +444,7 @@ foreach ($invoiceDetails as $invDetail) {
 </table>
  --}} 
 
-<script type="text/php">
+{{-- <script type="text/php">
     if ( isset($pdf) ) {
         $pdf->page_script('
             $font = $fontMetrics->get_font("Helvetica", "italic");
@@ -453,6 +453,6 @@ foreach ($invoiceDetails as $invDetail) {
             $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
         ');
     }
-</script>
+</script> --}}
 </body>
 </html>
