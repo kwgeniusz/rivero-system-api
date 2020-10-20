@@ -8,6 +8,17 @@
             font-family: helvetica;
             font-weight: normal; !important
         }
+
+        .pagenum:before {
+    		content: counter(page);
+        }
+        .pagination {
+        position: absolute;
+        color: black;
+        bottom: 15px;
+        left: 680px;
+        }
+
         .page-break {
           page-break-after: always;
          }
@@ -46,14 +57,14 @@
         }
         footer {
             position: fixed;
-            bottom: 0cm;
+            bottom: 50px;
             left: 0cm;
             right: 0cm;
             height: 0cm;
             /*background-color: #2a0927;*/
-            color: white;
+            color: black;
             text-align: center;
-            line-height: 35px;
+            line-height: 20px;
         }
 
         table{
@@ -163,26 +174,26 @@ foreach ($invoiceDetails as $invDetail) {
                <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
              </div>
         </th>
-    <th width="32%">
+    <th width="20%">
         <table>       
           <tr>
-              <td id="bold">Invoice Number:</td>
+              <td colspan="2" id="bold">Invoice Number:</td>
               <td align="right">{{$invoice[0]->invId}}</td>
             </tr>
             <tr>
-              <td id="bold">Invoice Date:</td>
+              <td colspan="2" id="bold">Invoice Date:</td>
               <td align="right">{{$invoice[0]->invoiceDate}}</td>
             </tr>
             <tr>
-              <td id="bold">Page: {{$page}}/{{$pageTotal}}</td>
-              <td align="left"></td>
+              <td colspan="2" id="bold">Page:</td>
+              <td align="right">{{$page}}/{{$pageTotal}}</td>
             </tr>
             <tr>
               <td> </td>
               <td> </td>
             </tr>
             <tr>
-              <td id="bold">Seller ID:</td>
+              <td colspan="2" id="bold">Seller ID:</td>
               <td align="right">{{$invoice[0]->user->fullName}}</td>
             </tr>
          </table>     
@@ -445,15 +456,13 @@ foreach ($invoiceDetails as $invDetail) {
 </table>
  --}} 
 
-<script type="text/php">
-    if ( isset($pdf) ) {
-        $pdf->page_script('
-            $font = $fontMetrics->get_font("Helvetica", "italic");
-            $pdf->text(210, 805, "© Copyright 2020 JD Rivero Global - All rights reserved", $font, 8);
-            $pdf->text(250, 816, "Designed By Rivero Visual Group", $font, 8);
-            $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
-        ');
-    }
-</script>
+<footer>
+© Copyright 2020 JD Rivero Global - All rights reserved <br>
+    Designed By Rivero Visual Group
+        <div class="pagination">
+				<p>Page <span class="pagenum"></span></p>
+				</div>
+</footer>
+</div>
 </body>
 </html>
