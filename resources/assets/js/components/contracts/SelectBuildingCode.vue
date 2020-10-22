@@ -4,7 +4,7 @@
    <div class="row"></div>
    <div class="col-xs-12 col-lg-8">
          <div class="form-group">
-            <label for="buildingCodeId">INTERNATIONAL BUILDING CODE (IBC)</label>
+            <label for="buildingCodeId">INTERNATIONAL BUILDING CODE (IBC) AND CIVIL WORK</label>
             <select v-model="firstOption" class="form-control" name="buildingCodeId" id="buildingCodeId" required="on">
                 <option v-for="(item, index) in list" :value="item.buildingCodeId"  >{{item.buildingCodeName}}</option>
             </select>

@@ -10,6 +10,13 @@
             <a :href="'reportsInvoice?id='+invoice[0].invoiceId" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Factura
                     </a>
+
+              <!-- <div$invoice->netTotal > 0 </div>  -->
+                 <!-- @can('BEE') -->
+      <!--             <a href="{{route('invoices.payments', ['btnReturn'=> 'mod_cont','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
+                    </a>  -->
+                 <!-- @endcan -->
 <hr>
     <form class="form">
                  

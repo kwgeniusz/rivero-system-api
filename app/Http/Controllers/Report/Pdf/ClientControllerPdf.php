@@ -24,7 +24,7 @@ class ClientControllerPdf extends Controller
     {
        $date            = Carbon::now();
        $company     = DB::table('company')->where('companyId', session('companyId'))->get();
-       $clients     = $this->oClient->getClientByGroup(session('countryId'),session('companyId'),session('parentCompanyId'),'');
+       $clients     = $this->oClient->getClientByCompany(session('companyId'),'');
 
        // $invoice     = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('companyId'));
        // $symbol      = $invoice[0]->contract->currency->currencySymbol;

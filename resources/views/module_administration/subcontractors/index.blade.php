@@ -23,12 +23,12 @@
     </div> --}}
      <br>
 
-    @can('BAA')
+{{--     @can('BAA')
             <a href="{{route('subcontractors.create')}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}}
             </a>
-   @endcan
+   @endcan --}}
      <br>
                 {{$subcontractors->render()}}
       <br>

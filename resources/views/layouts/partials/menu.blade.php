@@ -160,8 +160,8 @@
 @endif
 @can('FA')<li><a href="{{route('company.index')}}">Empresas</a></li>       @endcan
 {{-- @can('FB')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan --}}
-<li><a href="{{route('users.index')}}">Correos</a></li> 
-<li><a href="{{route('users.index')}}">Telefonos</a></li> 
+<li><a href="#">Correos</a></li> 
+<li><a href="#">Telefonos</a></li> 
 @can('FF')<li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>  @endcan
           </ul>
         </li>

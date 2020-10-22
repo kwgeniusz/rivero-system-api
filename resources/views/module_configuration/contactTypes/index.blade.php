@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<span class="logo-lg "><h3><b>TIPOS DE CONTACTO</b></h3></span>
+<span class="logo-lg "><h3><b>¿COMO NOS CONTACTO?</b></h3></span>
 <div class="text-center">
 
 <div class="panel-body">

@@ -346,7 +346,7 @@ foreach ($proposalDetails as $propDetail) {
 			</ul>
 		@endforeach
  --}}
-
+@if($proposal[0]->paymentProposal->isNotEmpty())
  <table cellspacing="0" cellpadding="0" border="0"  >
 			 <tr>
 				<th class="big bold center">Payment Breakdown</th>
@@ -359,8 +359,10 @@ foreach ($proposalDetails as $propDetail) {
 					 </ul>
 			 </tr>
 </table>
-
 <br>
+@endif
+
+@if($proposal[0]->timeFrame->isNotEmpty())
  <table cellspacing="0" cellpadding="0" border="0"  >
 			 <tr>
 				<th class="big bold center">Time Frame</th>
@@ -373,8 +375,9 @@ foreach ($proposalDetails as $propDetail) {
 					 </ul>
 			 </tr>
 </table>
+@endif
 
-
+@if($proposal[0]->term->isNotEmpty())
  <table cellspacing="0" cellpadding="0" border="0"  >
 			 <tr>
 				<th class="big bold center">Terms & Conditions</th>
@@ -387,6 +390,7 @@ foreach ($proposalDetails as $propDetail) {
 					 </ul>
 			 </tr>
 </table>
+@endif
 
 <div class="big bold center">
 	 <b>Payment Method</b>
@@ -418,7 +422,7 @@ If the payment is by Check, Cash or Money Order, leave it at the office or give 
 
 
 <div class="just">
-<span class="tab">We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
+<span style='display:inline; white-space:pre;'> </span>We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
 <br><br>
 Sincerely.
 </div>
