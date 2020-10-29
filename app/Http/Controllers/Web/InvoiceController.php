@@ -93,7 +93,8 @@ class InvoiceController extends Controller
                       '0.00',
                       '0.00',
                       $request->paymentConditionId, 
-                      Invoice::OPEN);
+                      Invoice::OPEN,
+                      Auth::user()->userId);
 
         $notification = array(
             'message'    => 'Factura Creada, Agrege Renglones',

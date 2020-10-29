@@ -245,15 +245,15 @@
 <div class="big bold">Mr. {{$client->clientName}}</div>                            
 {{$client->clientEmail}}   <br>
 P. {{$client->clientPhone}}    <br>
-Customer ID: {{$client->clientCode}}   <br>
+C. ID: {{$client->clientCode}}   <br>
 
 <br>
 <div>
 <div class="float-left"><b>RE:</b></div>
 <div class="float-left">Professional Design Services Proposal <br>
-			 {{$proposal[0]->$modelType->siteAddress}} <br>
-			 Proposal ID: {{$proposal[0]->propId}} <br>
-			 {{$modelTypeView}} ID: {{$modelId}} <br>
+			<b> {{$proposal[0]->$modelType->siteAddress}}</b> <br>
+			          Proposal ID: {{$proposal[0]->propId}} <br>
+			{{$modelTypeView}} ID: {{$modelId}} <br>
 </div>
 
 <div class="prologue">
@@ -347,49 +347,32 @@ foreach ($proposalDetails as $propDetail) {
 		@endforeach
  --}}
 @if($proposal[0]->paymentProposal->isNotEmpty())
- <table cellspacing="0" cellpadding="0" border="0"  >
-			 <tr>
-				<th class="big bold center">Payment Breakdown</th>
-			 </tr>
-			 <tr> 
-					 <ul>
+	<div class="big bold center">Payment Breakdown</div>
+		 <ul>
 @foreach($proposal[0]->paymentProposal as $payment)
 		<li>{!! nl2br($payment->paymentDate) !!} {{$symbol}}{{$payment->amount}}</li>
 @endforeach
-					 </ul>
-			 </tr>
-</table>
+	</ul>
+	
 <br>
 @endif
 
 @if($proposal[0]->timeFrame->isNotEmpty())
- <table cellspacing="0" cellpadding="0" border="0"  >
-			 <tr>
-				<th class="big bold center">Time Frame</th>
-			 </tr>
-			 <tr> 
-					 <ul>
+		<div class="big bold center">Time Frame</div>
+		 <ul>
 @foreach($proposal[0]->timeFrame as $item)
 		<li>{!! nl2br($item->timeName) !!}</li>
 @endforeach
-					 </ul>
-			 </tr>
-</table>
+		 </ul>
 @endif
 
 @if($proposal[0]->term->isNotEmpty())
- <table cellspacing="0" cellpadding="0" border="0"  >
-			 <tr>
-				<th class="big bold center">Terms & Conditions</th>
-			 </tr>
-			 <tr> 
-					 <ul>
+	<div class="big bold center">Terms & Conditions</div>
+		 <ul>
 @foreach($proposal[0]->term as $item)
 		<li>{!! nl2br($item->termName) !!}</li>
 @endforeach
-					 </ul>
-			 </tr>
-</table>
+	  </ul>
 @endif
 
 <div class="big bold center">
@@ -406,23 +389,18 @@ If the payment is by Check, Cash or Money Order, leave it at the office or give 
 </div>
 
 <br>
-<table cellspacing="0" cellpadding="0" border="0"  >
-			 <tr>
-				<th class="big bold center">Note</th>
-			 </tr>
-			 <tr> 
-					 <ul>
+@if($proposal[0]->note->isNotEmpty())
+	 <div class="big bold center">Note</div>
+		 <ul>
 @foreach($proposal[0]->note as $note)
 		<li>{!! nl2br($note->noteName) !!}</li>
 @endforeach
-					 </ul>
-			 </tr>
-</table>
+	 </ul>
 <br><br>
-
+@endif
 
 <div class="just">
-<span style='display:inline; white-space:pre;'> </span>We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
+<span style='display:inline; white-space:pre;'> </span><span style='display:inline; white-space:pre;'> </span>We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
 <br><br>
 Sincerely.
 </div>
@@ -433,16 +411,16 @@ Sincerely.
 		@if($proposal[0]->subcontId != null)  
 				<th align="center" >
 				@if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
-					{{$proposal[0]->subcontractor->representative}} <br>
+					<b>{{$proposal[0]->subcontractor->representative}}</b> <br>
 				@else
-					{{$proposal[0]->subcontractor->name}} <br>
+					<b>{{$proposal[0]->subcontractor->name}}</b> <br>
 				@endif
 					CONSULTING <br>
 					{{$proposal[0]->subcontractor->mainPhone}}
 				</th>
 		@endif  
 				<th align="center">
-					 {{$proposal[0]->user->fullName}}<br>
+					 <b>{{$proposal[0]->user->fullName}}</b><br>
 					 {{$company[0]->companyName}} <br> REPRESENTATIVE
 					 {{-- (214) 718 6256 <br> --}}
 				</th>

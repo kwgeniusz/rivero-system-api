@@ -8,25 +8,27 @@
             font-family: helvetica;
             font-weight: normal; !important
         }
+        body {
+            margin: 1cm 1cm 2cm 1cm;
+            font-size:13px
+        }
 
         .pagenum:before {
-    		content: counter(page);
+        content: counter(page);
         }
+
         .pagination {
-        position: absolute;
-        color: black;
-        bottom: 15px;
-        left: 680px;
+         position: absolute;
+         color: black;
+         bottom: 15px;
+         left: 680px;
         }
 
         .page-break {
           page-break-after: always;
          }
-        body {
-            margin: 1cm 1cm 2cm 1cm;
-            font-size:13px
-        }
-       #watermark {
+
+        #watermark {
                 position: fixed;
 
                 /** 
@@ -75,15 +77,15 @@
         td,tr,th{
             font-weight:normal;
         }
+        tr.outer {
+            color: red;
+            text-decoration: line-through;
+        }
 
         #bold {
           font-weight: bold;
         }
 
-        tr.outer {
-            color: red;
-            text-decoration: line-through;
-        }
 
     </style>
 </head>
@@ -254,7 +256,7 @@ foreach ($invoiceDetails as $invDetail) {
            </th>
        </tr>
 </table>   
-       <br><br>
+       <br>
 
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>

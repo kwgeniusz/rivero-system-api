@@ -7,9 +7,6 @@
             font-family: helvetica;
             font-weight: normal; !important
         }
-        .page-break {
-          page-break-after: always;
-         }
         body {
             margin: 1cm 1cm 2cm 1cm;
             font-size:14px
@@ -19,21 +16,42 @@
             width:100%;
             /*border:1px solid black;*/
         }
+        td,tr,th{
+            font-weight:normal;
+        }
         .table-center{
            table-layout: fixed;
            border: 1px solid black;
            width: 60%;
            margin:0 auto;
         }
-        td,tr,th{
-            font-weight:normal;
-        }
 
         #bold {
           font-weight: bold;
         }
 
+     footer {
+            position: fixed;
+            bottom: 50px;
+            left: 0cm;
+            right: 0cm;
+            height: 0cm;
+            /*background-color: #2a0927;*/
+            color: black;
+            text-align: center;
+            line-height: 20px;
+        }
+        
+       .pagenum:before {
+        content: counter(page);
+        }
 
+        .pagination {
+         position: absolute;
+         color: black;
+         bottom: 15px;
+         left: 680px;
+        }
 
     </style>
 </head>
@@ -176,15 +194,12 @@
 <b>NOTE:</b> If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
 </div>
 
-<script type="text/php">
-    if ( isset($pdf) ) {
-        $pdf->page_script('
-            $font = $fontMetrics->get_font("Helvetica", "italic");
-            $pdf->text(210, 805, "© Copyright 2020 JD Rivero Global - All rights reserved", $font, 8);
-            $pdf->text(250, 816, "Designed By Rivero Visual Group", $font, 8);
-            $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
-        ');
-    }
-</script>
+<footer>
+© Copyright 2020 JD Rivero Global - All rights reserved <br>
+    Designed By Rivero Visual Group
+        <div class="pagination">
+        <p>Page <span class="pagenum"></span></p>
+        </div>
+</footer>
 </body>
 </html>

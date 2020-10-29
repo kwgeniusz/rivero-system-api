@@ -31,7 +31,7 @@
            </a>
             <br> 
          @can('FE')
-           <a class="btn btn-info btn-sm" href="{{route('contactTypes.index')}}">Tipos de Contacto</a>
+           <a class="btn btn-info btn-sm" href="{{route('contactTypes.index')}}">¿Como nos Contacto?</a>
           @endcan
       </div>
     </div>
