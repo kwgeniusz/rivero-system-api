@@ -74,6 +74,7 @@ Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contrac
 Route::get('files/{id}/download', 'Web\FileController@download')->name('files.download');
 Route::post('files/download-zip', 'Web\FileController@downloadZip')->name('files.downloadZip');
 Route::put('files/delete-multiple', 'Web\FileController@deleteMultiple')->name('files.deleteMultiple');
+Route::put('files/move', 'Web\FileController@move')->name('files.move');
 
 //****************************COMMENTS********************************
 Route::resource('comments', 'Web\CommentController');

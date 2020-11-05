@@ -384,9 +384,8 @@
            if(acum > parseFloat(this.invoice.balanceTotal)) {
                this.errors.push('El Suma de Los item no puede superar el balance de la factura.');
               }
+              
           netTotalSelected = acum;
-          console.log(netTotalSelected)
-         
         }
              
         if (!this.errors.length) { 

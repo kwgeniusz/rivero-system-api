@@ -59,7 +59,8 @@ class Document extends Model
 //------------------------------------------
     public function insertF($file,$modelType,$modelId,$typeDoc)
     {
-
+     $year = date("Y");
+     $companyName = session('companyName');
      $heicRs = preg_match('/.HEIC/', $file->getClientOriginalName());
 
         $error = null;
@@ -68,20 +69,19 @@ class Document extends Model
         $doc = new Document;
           // $request->file('file')->getSize();
 
-
      if($modelType == 'contract') { 
            $model               = Contract::find($modelId);
            $doc->contractId     = $modelId;
            $directoryName       = "D".$model->contractNumber;
 
              if($typeDoc == 'previous'){ 
-                $rs = Storage::putFile("docs/contracts/previous/$directoryName",  $file);
+                $rs = Storage::putFile("$companyName/$year/mod_contracts/contracts/previous/$directoryName",  $file);
               }elseif ($typeDoc == 'processed') {
-                $rs = Storage::putFile("docs/contracts/processed/$directoryName",  $file);
+                $rs = Storage::putFile("$companyName/$year/mod_contracts/contracts/processed/$directoryName",  $file);
               }elseif ($typeDoc == 'revised') {
-                 $rs = Storage::putFile("docs/contracts/revised/$directoryName",  $file);
+                 $rs = Storage::putFile("$companyName/$year/mod_contracts/contracts/revised/$directoryName",  $file);
               }elseif ($typeDoc == 'ready') {
-                 $rs = Storage::putFile("docs/contracts/ready/$directoryName",  $file);
+                 $rs = Storage::putFile("$companyName/$year/mod_contracts/contracts/ready/$directoryName",  $file);
                 // $file->move(storage_path("app/public/docs/contracts/processed/$directoryName"), $name);
               }
       }elseif($modelType == 'precontract'){
@@ -89,13 +89,13 @@ class Document extends Model
              $doc->precontractId     = $modelId;
              $directoryName         = "D".$model->preId;
 
-             $rs = Storage::putFile("docs/precontracts/$directoryName",  $file);
+             $rs = Storage::putFile("$companyName/$year/mod_contracts/precontracts/$directoryName",  $file);
 
       }elseif($modelType == 'transaction') {
             $model                  = Transaction::find($modelId);
             $doc->transactionId     = $modelId;
-          if($typeDoc == 'transactionsexpenses') {
-             $rs = Storage::putFile("docs/administration/transactions/expenses",  $file);
+          if($typeDoc == 'expense') {
+             $rs = Storage::putFile("$companyName/$year/mod_administration/transactions/expenses",  $file);
           }
 
       }
@@ -126,12 +126,84 @@ class Document extends Model
            return response($error, 500)->header('Content-Type', 'text/plain');
         } 
     }
+
+    public function moveF($docId,$docUrl,$docTypeOld,$docTypeNew)
+    {
+        $error = null;
+
+        DB::beginTransaction();
+        try {
+            
+           $word1 = "/$docTypeOld/";
+           $word2 = "/$docTypeNew/";
+           $docUrlNew = str_replace($word1,$word2,$docUrl);
+           Storage::move($docUrl, $docUrlNew);
+
+           $doc              = Document::find($docId);
+           $doc->docUrl      = $docUrlNew; 
+           $doc->docType     = $docTypeNew; 
+           $doc->save();
+
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+      if ($success) {
+            return $result = ['alert' => 'success', 'msj' => 'Operacion Exitosa'];
+        } else {
+            return $result = ['alert' => 'error', 'msj' => $error];
+        }
+       
+    } 
+
+    public function moveToContract($contract,$doc)
+    {
+        $error = null;
+    
+        DB::beginTransaction();
+        try {
+           $year                = date("Y");
+           $companyName         = session('companyName');
+           $directoryName       = "D".$contract->contractNumber;
+           $docUrlNew           = "$companyName/$year/mod_contracts/contracts/previous/$directoryName/$doc->docNameOriginal";
+
+           Storage::move($doc->docUrl, $docUrlNew);
+
+           $doc                 = Document::find($doc->docId);
+           $doc->docUrl         = $docUrlNew; 
+           $doc->precontractId  = null; 
+           $doc->contractId     = $contract->contractId; 
+           $doc->save();
+
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+      if ($success) {
+            return $result = ['alert' => 'success', 'msj' => 'Operacion Exitosa'];
+        } else {
+            return $result = ['alert' => 'error', 'msj' => $error];
+        }
+       
+    } 
     public function deleteF($docUrl,$docId)
     {
                Storage::delete($docUrl);
         return $this->where('docId', '=', $docId)->delete();
 
     }
+
+
+
+    
 
 // //------------------------------------------
 //     public function update($docId,$docName,$dateUploaded,$docUrl,$docNameOriginal,$contractId,$clientId)

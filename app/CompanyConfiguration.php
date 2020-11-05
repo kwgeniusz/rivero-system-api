@@ -228,7 +228,25 @@ class CompanyConfiguration extends Model
                 ->where('companyId', $companyId)
                 ->increment('creditNoteNumber');
     }
+//---------------------------------------------------------------------------
+   // DEBIT NOTE NUMBER
+//---------------------------------------------------------------------------
+    public function retrieveDebitNoteNumber($countryId, $companyId)
+    {
+        $debitNoteNumber = 0;
+        $rs             = $this->where('countryId', '=', $countryId)
+                               ->where('companyId', '=', $companyId)
+                               ->get();
 
+        return $rs[0]->debitNoteNumber;
+    }
+    //--------------------------------------------------------------------
+    public function increaseDebitNoteNumber($countryId, $companyId)
+    {
+            $this->where('countryId', $countryId)
+                 ->where('companyId', $companyId)
+                ->increment('debitNoteNumber');
+    }
 //--------------------------------------------------------------------
        //MISCELLANEOUS FUNCTIONS
 //-------------------------------------------------

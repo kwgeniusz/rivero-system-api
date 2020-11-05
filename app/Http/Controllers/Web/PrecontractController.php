@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Contract;
 use App\Currency;
+use App\Document;
 use App\CompanyConfiguration;
 use App\Precontract;
 use App\Proposal;
@@ -22,7 +23,7 @@ use Auth;
 class PrecontractController extends Controller
 {
     private $oPrecontract;
-    // private $oClient;
+    private $oDocument;
     private $oCompanyConfiguration;
     private $oProposal;
     private $oContract;
@@ -38,7 +39,7 @@ class PrecontractController extends Controller
     {
         $this->middleware('auth');
         $this->oPrecontract        = new Precontract;
-        // $this->oClient             = new Client;
+        $this->oDocument             = new Document;
         $this->oCompanyConfiguration         = new CompanyConfiguration;
         $this->oContract           = new Contract;
         $this->oProposal           = new Proposal;
@@ -239,9 +240,7 @@ class PrecontractController extends Controller
                   $proposal[0]->pCondId,
                   Invoice::OPEN,
                   $proposal[0]->userId);
-             // dd($invoice);
-             // dd($proposal[0]->proposalDetail);
-             //      exit();
+
                foreach ($proposal[0]->proposalDetail as $proposalDetail) {
                       $this->oInvoiceDetail->insert(
                        $invoice->invoiceId,
@@ -252,20 +251,7 @@ class PrecontractController extends Controller
                        $proposalDetail->unitCost,
                        $proposalDetail->quantity,
                        $proposalDetail->amount);
-                    }
-           // dd($proposal[0]);
-           //       exit();
-               // foreach ($proposal[0]->note as $note) {
-               //       $this->oInvoiceNote->insert(
-               //         $invoice->invoiceId,
-               //         $note->noteId,
-               //         $note->noteName);
-               //     }
-               //  foreach ($proposal[0]->scope as $scope) {
-               //       $this->oInvoiceScope->insert(
-               //         $invoice->invoiceId,
-               //         $scope->description);
-               //     }    
+                    }   
                foreach ($proposal[0]->paymentProposal as $payment) {
                     $this->oPaymentInvoice->addPayment(
                             $invoice->invoiceId,
@@ -273,7 +259,16 @@ class PrecontractController extends Controller
                             null
                            );
                    }
+                //mover archivos de precontrato a contracto nuevo
+             
+               foreach ($precontract->document as $doc) {
+                    $this->oDocument->moveToContract($contract,$doc);
+                }
+                // dd($precontract->document[0]->docId);
+                // dd($contract->contractId);
 
+
+               
                //eliminar precontrato
             $this->oPrecontract->assignContractId($precontract->precontractId,$contract->contractId);       
             $this->oProposal->assignInvoiceId($proposal[0]->proposalId,$invoice->invoiceId);       

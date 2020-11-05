@@ -152,9 +152,9 @@
                      <td>{{$item->reference}}</td>
                      <td>{{$item->dateNote}}</td>
                      <td>{{$item->concept}}</td>   
-                     <td>{{$item->client}}</td>
+                     <td>{{$item->client->clientName}}</td>
                      <td>{{$item->netTotal}}</td>   
-                     <td>   <a href="{{route('reports.credit-note', ['id' => $item->salNoteId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
+                     <td>   <a href="{{route('reports.debit-note', ['id' => $item->salNoteId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a></td>   
                   </tr>

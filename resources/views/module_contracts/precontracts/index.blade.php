@@ -115,9 +115,9 @@
                     </a>
               @endcan      
         @endif
-         {{--          <a href="{{route('precontractsFile.index', ['id' => $precontract->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                  <a href="{{route('precontractsFile.index', ['id' => $precontract->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
                            <span class="fa fa-file" aria-hidden="true"></span> 
-                       </a>   --}}
+                       </a>  
                </td>
                 </tr>
                 @endforeach

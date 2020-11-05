@@ -55,19 +55,20 @@ Vue.component('grid-files', require('./components/contracts/documents/GridFiles.
 //########### module administration components #############
 Vue.component('form-modal-charge', require('./components/administration/FormModalCharge.vue'));
 Vue.component('confirm-payment', require('./components/administration/ModalConfirmPayment.vue'));
-Vue.component('invoice-details', require('./components/administration/invoice/InvoiceDetails.vue'));
 Vue.component('proposal-details', require('./components/administration/proposal/ProposalDetails.vue'));
 Vue.component('credit-note', require('./components/administration/invoice/saleNote/CreditNote.vue'));
+Vue.component('debit-note', require('./components/administration/invoice/saleNote/DebitNote.vue'));
 Vue.component('subcontractor-create', require('./components/administration/subcontractor/create.vue'));
 // Vue.component('form-new-note', require('./components/administration/proposal/FormNewNote.vue'));
+
 Vue.component('form-new-service', require('./components/administration/FormNewService.vue'));
 Vue.component('select-bank-cashbox', require('./components/administration/SelectBankOrCashbox.vue'));
 Vue.component('select-bank-with-account', require('./components/administration/SelectBankWithAccount.vue'));
-Vue.component('invoice-subcontractors', require('./components/administration/InvoiceSubcontractors.vue'));
 Vue.component('search-subcontractor', require('./components/administration/SearchSubcontractor.vue'));
-
-Vue.component('btn-invoice-cancel', require('./components/administration/BtnInvoiceCancel.vue'));
-Vue.component('btn-invoice-collection', require('./components/administration/BtnInvoiceCollection.vue'));
+Vue.component('invoice-details', require('./components/administration/invoice/InvoiceDetails.vue'));
+Vue.component('invoice-subcontractors', require('./components/administration//invoice/InvoiceSubcontractors.vue'));
+Vue.component('invoice-btn-cancel', require('./components/administration/invoice/InvoiceBtnCancel.vue'));
+Vue.component('invoice-btn-collection', require('./components/administration/invoice/InvoiceBtnCollection.vue'));
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
 
 //########### human resource components #############

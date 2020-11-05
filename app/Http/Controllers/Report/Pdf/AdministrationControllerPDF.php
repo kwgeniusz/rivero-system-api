@@ -293,5 +293,33 @@ public function printPaymentRequest(Request $request)
 
    } //end printInvoice
 
+     public function printDebitNote(Request $request)
+  {
+      $pdf = app('dompdf.wrapper');
+
+        $date              = Carbon::now();
+        $company           = DB::table('company')->where('companyId', session('companyId'))->get();
+        $creditNote        = $this->oSaleNote->findById($request->id);
+        $debitNoteDetails = $creditNote[0]->saleNoteDetails;
+        $payments          = $creditNote[0]->paymentInvoice;
+        $client            = $creditNote[0]->client;
+
+        $symbol = $creditNote[0]->invoice->contract->currency->currencySymbol;
+
+        // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
+          $data = [
+           'date'  => $date,
+           'company'  => $company,
+           'creditNote'  => $creditNote,
+           'client'  => $client,
+           'payments'  => $payments,
+           'debitNoteDetails'  => $debitNoteDetails,
+           'symbol'  => $symbol,
+          // 'status'  => $status
+           ];
+
+      return PDF::loadView('module_administration.reports.printDebitNote', $data)->stream('DebitNote.pdf');
+
+   } //end printInvoice
 }//end class
 

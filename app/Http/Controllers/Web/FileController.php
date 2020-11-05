@@ -25,10 +25,14 @@ class FileController extends Controller
 
     // }
 
-    // public function update(Request $request, $id)
-    // {
+    public function move(Request $request)
+    { 
+ 
+        $rs = $this->oDocument->moveF($request['docId'],$request['docUrl'],$request['docTypeOld'],$request['docTypeNew']);
 
-    // }
+        return $rs;
+
+    }
 
    public function deleteMultiple(Request $request)
    {

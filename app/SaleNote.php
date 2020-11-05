@@ -27,12 +27,12 @@ use Illuminate\Database\Eloquent\Model;
      
 //PARA EVITAR LOS NUMEROS MAGICOS
     const CREDIT = 'credit';
-      const CANCELLATION = 1;
-      const DISCOUNT = 2;
+      const CANCELLATION   = 1;
+      const DISCOUNT       = 2;
       const PARTIAL_REFUND = 3;
     //------------------------
     const DEBIT  = 'debit';
-      const INTEREST_ON_ARREARS = 1;
+      const APPEND_SERVICES = 1;
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -193,9 +193,38 @@ use Illuminate\Database\Eloquent\Model;
                   
             }elseif ($data['noteType'] == 'debit') {      
                    //NUMERACION DE LA NOTA DE DEBITO
+                $oConfiguration = new CompanyConfiguration();
+                $salId = $oConfiguration->retrieveDebitNoteNumber(session('countryId'), session('companyId'));
+                $salId++;
+                $oConfiguration->increaseDebitNoteNumber(session('countryId'), session('companyId'));    
 
-                   if($data['formConcept'] == SaleNote::INTEREST_ON_ARREARS){
-                     //agregar servicio
+                $saleNote->salId = $salId;
+                $saleNote->save();
+            
+            // dd($saleNote->salNoteId);
+            // exit();
+                   if($data['formConcept'] == SaleNote::APPEND_SERVICES){
+                     //agregar servicio 
+                             $oSaleNoteDetail = new SaleNoteDetail;
+                            foreach ($data['itemList'] as $key => $item) {
+                               $result = $oSaleNoteDetail->insertS(
+                                              $saleNote->salNoteId,
+                                              ++$key,
+                                              $item['serviceId'],
+                                              $item['serviceName'],
+                                              $item['unit'],
+                                              $item['unitCost'],
+                                              $item['quantity'],
+                                              $item['amount']);
+                                 }
+
+                                     //  dd($result);
+                                     // exit();
+                  //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
+                     foreach ($invoice->sharePending as $key => $sharePending) {
+                             $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                             $sharePending->save();
+                       };
        
                    }   
 

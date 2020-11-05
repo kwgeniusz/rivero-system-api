@@ -212,7 +212,7 @@
                     </a> 
                     @endcan 
 
-                <btn-invoice-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
+                <invoice-btn-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-btn-cancel>
 
              @endif 
  
@@ -222,7 +222,7 @@
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
              </a>
 
-             <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
+             <invoice-btn-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-btn-collection>
           @endif
         @if($invoice->invStatusCode == App\Invoice::PAID )
          <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">

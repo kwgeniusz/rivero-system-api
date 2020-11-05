@@ -298,7 +298,9 @@ class Contract extends Model
 //--------------------------------------------------------------------
     public function getAllByProjectUse($projectUseId)
     {
-        return $this->where('projectUseId', $projectUseId)->get();
+        return $this->where('projectUseId', $projectUseId)
+                    ->where('companyId', $companyId) 
+                    ->get();
     }
 //------------------------------------
     public function getAllPaginate($number)
