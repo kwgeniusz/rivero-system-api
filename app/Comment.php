@@ -37,12 +37,10 @@ class Comment extends Model
     public function insertC($request)
     {
 
-
         // $model=$modelType::findOrFail($request->modelId);
         // $model->comments()->create(['comment'=> $comment]);
-
         
-         $comment                  = new Comment;
+        $comment                  = new Comment;
         $comment->commentContent  = $request->commentContent;
         $comment->commentDate     = date('Y-m-d H:i:s');
         $comment->contractId      = $request->contractId;

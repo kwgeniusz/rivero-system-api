@@ -154,7 +154,7 @@
      data: function () {
           return {
            contract: null,
-           invoicesList:{}
+           invoicesList: {}
           }
     },
     methods: {

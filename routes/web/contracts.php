@@ -5,11 +5,6 @@
 Route::resource('clients', 'Web\ClientController');
 Route::resource('contactTypes', 'Web\ContactTypeController');
 
-//*************************SUBCONTRACTORS************************
-Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);
-Route::get('subcontractors/{id}/payables', 'Web\SubcontractorController@payables')->name('subcontractors.payables');
-Route::get('subcontractors/{id}/getPayables', 'Web\SubcontractorController@getallPayables')->name('subcontractors.getallPayables');
-
 //**************************PRECONTRACTS*************************
 Route::resource('precontracts', 'Web\PrecontractController', ['parameters' => ['precontracts' => 'id']]);
 Route::get('precontracts/{id}/details', 'Web\PrecontractController@details')->name('precontracts.details');
@@ -81,12 +76,6 @@ Route::resource('comments', 'Web\CommentController');
 Route::get('contracts/{modelId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 
 
-//SUBCONTRACTORS*********
-Route::resource('subcontractors', 'Web\SubcontractorController');
-Route::get('subcontractors/list/{invDetailId}/invDetail', 'Web\SubcontractorController@listSubcontInvDetail');
-Route::post('subcontractors/add/invDetail', 'Web\SubcontractorController@addSubcontInvDetail');
-Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorController@removeSubcontInvDetail');
-Route::get('searchSubcontractor/{subcontName}', 'Web\SubcontractorController@getFiltered')->name('searchSubcontractor.getFiltered');
 //CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');

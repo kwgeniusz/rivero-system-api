@@ -51,7 +51,6 @@ class SubcontractorController extends Controller
      */
     public function create()
     {
-        
         return view('module_administration.subcontractors.create');
     }
 
@@ -61,29 +60,17 @@ class SubcontractorController extends Controller
     //  * @param  \Illuminate\Http\Request  $request
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function store(ClientRequest $request)
-    // {
-    //     $clients = $this->oSubcontractor->insertClient(
-    //         session('countryId'),
-    //         $request->clientName,
-    //         $request->clientAddress,
-    //         $request->contactTypeId, 
-    //         $request->clientPhone,
-    //         $request->clientEmail
-    //     );
+    public function store(Request $request)
+    {
+        $rs = $this->oSubcontractor->insertS(
+            session('countryId'),
+            session('companyId'),
+            $request->all()
+        );
+          
+          return $rs;
 
-    //     if($request->ajax()){
-    //             return $clients;
-    //         }
-            
-    //     $notification = array(
-    //         'message'    => 'Cliente Creado Exitosamente '.$clients->clientCode,
-    //         'alert-type' => 'success',
-    //     );
-
-    //     return redirect()->route('clients.index')
-    //                      ->with($notification);
-    // }
+    }
 
     // /**
     //  * Show the form for editing the specified resource.

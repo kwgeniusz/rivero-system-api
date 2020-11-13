@@ -2,7 +2,7 @@
 <label>
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
        <a class="btn btn-primary btn-sm" @click="openModal()" data-toggle="tooltip" data-placement="top" title="Mover">
-          <span class="fa fa-handshake" aria-hidden="true" ></span>
+          <span class="fa fa-exchange-alt" aria-hidden="true" ></span>
        </a>
   
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->

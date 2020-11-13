@@ -41,8 +41,6 @@ class CommentController extends Controller
     {
         $comments = $this->oComment->getAllByContract($request->modelId);
 
-        
-
             if($request->ajax()){
                 return $comments;
             }

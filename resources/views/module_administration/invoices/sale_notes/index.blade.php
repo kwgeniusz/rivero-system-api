@@ -36,7 +36,10 @@
                    <td>{{$invoice[0]->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice[0]->netTotal}}</td>
                    <td>{{$invoice[0]->balanceTotal}}</td>
-                   <td>{{$invoice[0]->shareSucceed->count()}}/{{$invoice[0]->pQuantity}}</td>  
+                   <td><a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice[0]->invoiceId])}}">
+                    {{$invoice[0]->shareSucceed->count()}}/{{$invoice[0]->pQuantity}}
+                       </a>
+                   </td>  
                    <td
                   @if($invoice[0]->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  

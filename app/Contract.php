@@ -296,7 +296,7 @@ class Contract extends Model
         return $this->orderBy('contractNumber', 'ASC')->get();
     }
 //--------------------------------------------------------------------
-    public function getAllByProjectUse($projectUseId)
+    public function getAllByProjectUse($companyId,$projectUseId)
     {
         return $this->where('projectUseId', $projectUseId)
                     ->where('companyId', $companyId) 

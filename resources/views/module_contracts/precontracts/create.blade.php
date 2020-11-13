@@ -96,6 +96,7 @@
                       <option value="TYPE II" >TYPE II</option>
                       <option value="TYPE III" >TYPE III</option>
                       <option value="TYPE IV" >TYPE IV</option>
+                      <option value="TYPE V" >TYPE V</option>
             </select>
           </div>
 

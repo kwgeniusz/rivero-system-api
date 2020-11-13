@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-    <contract-chart class="chart"></contract-chart>
+    <contract-chart class="chart" pref-url="./" router="statistic/contracts-by-project-use"></contract-chart>
     </div>
 
     <div class="row">

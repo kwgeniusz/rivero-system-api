@@ -76,32 +76,48 @@ class Subcontractor extends Model
     }
 
 // //------------------------------------------
-//     public function insertClient($countryId, $clientName, $clientAddress, $contactTypeId,$clientPhone, $clientEmail)
-//     {
+    public function insertS($countryId,$companyId,$data)
+    {
 
-//       $oConfiguration = new CountryConfiguration();
-      
-//       $clientNumber = $oConfiguration->retrieveClientNumber($countryId);
-//       $clientNumber++;
-//       $clientNumberFormat = $oConfiguration->generateClientNumberFormat($countryId);
-//                             $oConfiguration->increaseClientNumber($countryId);
+     $error = null;
 
-//         $client                = new Client;
-//         $client->cltId         = $clientNumber;
-//         $client->userId        = 1;
-//         $client->countryId     = $countryId;
-//         $client->clientCode    = $clientNumberFormat;
-//         $client->clientName    = $clientName;
-//         $client->clientAddress = $clientAddress;
-//         $client->contactTypeId = $contactTypeId;
-//         $client->clientPhone   = $clientPhone;
-//         $client->clientEmail   = $clientEmail;
-//         $client->dateCreated   = date('Y-m-d H:i:s');
-//         $client->lastUserId    = Auth::user()->userId;
-//         $client->save();
+     DB::beginTransaction();
+      try {
 
-//         return $client;
-//     }
+        $subcontractor                      = new Subcontractor;
+        $subcontractor->countryId           = $countryId;
+        $subcontractor->companyId           = $companyId;
+        $subcontractor->subcontType         = $data['subcontType'];
+        $subcontractor->name                = $data['name'];
+        $subcontractor->representative      = $data['representative'];
+        $subcontractor->DNIType             = $data['DNIType'];
+        $subcontractor->DNI                 = $data['DNI'];
+        $subcontractor->mainPhone           = $data['mainPhone'];
+        $subcontractor->address             = $data['address'];
+        $subcontractor->email               = $data['email'];
+        $subcontractor->bankName            = $data['bankName'];
+        $subcontractor->headline            = $data['headline'];
+        $subcontractor->accountNumber       = $data['accountNumber'];
+        $subcontractor->routingNumber       = $data['routingNumber'];
+        $subcontractor->wires               = $data['wires'];
+        $subcontractor->zelle               = $data['zelle'];
+        $subcontractor->save();
+            
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+
+            $success = false;
+            $error   = $e->getMessage();
+            DB::rollback();
+        }
+
+        if ($success) {
+          return $rs  = ['alert' => 'success', 'msj' => "Subcontractista: $subcontractor->name creado exitosamente ",'model'=>$subcontractor];
+        } else {
+            return $rs = ['alert' => 'error', 'msj' => $error];
+        }
+    }
 // //------------------------------------------
 //     public function updateClient($clientId, $countryId, $clientName, $clientAddress,$contactTypeId, $clientPhone, $clientEmail)
 //     {

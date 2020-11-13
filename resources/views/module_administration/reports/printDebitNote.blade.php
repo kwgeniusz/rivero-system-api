@@ -14,45 +14,28 @@
             margin: 1cm 1cm 2cm 1cm;
             font-size:13px
         }
-       #watermark {
-                position: fixed;
-
-                /** 
-                    Set a position in the page for your image
-                    This should center it vertically
-                **/
-                bottom:   16cm;
-                left:     6.5cm;
-
-                /** Change image dimensions**/
-                width:    8cm;
-                height:   5cm;
-
-                /** Your watermark should be behind every content**/
-                z-index:  1000;
-                /*z-index:  -1000;*/
-            }
-        header {
-            position: fixed;
-            top: 0cm;
-            left: 0cm;
-            right: 0cm;
-            height: 2cm;
-            background-color: #2a0927;
-            color: white;
-            text-align: center;
-            line-height: 30px;
-        }
+   
         footer {
             position: fixed;
-            bottom: 0cm;
+            bottom: 50px;
             left: 0cm;
             right: 0cm;
-            height: 2cm;
+            height: 0cm;
             /*background-color: #2a0927;*/
-            color: white;
+            color: black;
             text-align: center;
-            line-height: 35px;
+            line-height: 20px;
+        }
+
+         .pagenum:before {
+        content: counter(page);
+        }
+
+        .pagination {
+         position: absolute;
+         color: black;
+         bottom: 15px;
+         left: 680px;
         }
 
         table{
@@ -68,9 +51,6 @@
           font-weight: bold;
         }
 
-   /*     span.inner {
-            color: green;
-        }*/
         tr.outer {
             color: red;
             text-decoration: line-through;
@@ -95,6 +75,8 @@
    }
 
            $acum          = 0;
+           $acum2         = 0;
+           $acum3     = 0;
            $acumInvDetail = 0;
            $subTotalPerPage= 0;
            $vienen = 0;
@@ -251,13 +233,14 @@ foreach ($debitNoteDetails as $invDetail) {
                 }
      //espacios,numeracion,precios, negritas para reglon con precios
                if ($invDetail->unit == null) {
-                    $acumInvDetail = "";
+                    $acum2 = "";
                     $space = "   ";
                     $moneySymbol = '';
                 } else {
                     $acumInvDetail = $acumInvDetail + 1;
+                    $acum2=$acumInvDetail;
                     $space = "";
-                    $moneySymbol = $symbol;
+                    $moneySymbol = "+ ".$symbol;
                 }
      if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
 @endphp
@@ -276,12 +259,12 @@ foreach ($debitNoteDetails as $invDetail) {
     }
 @endphp
         <tr style="background-color:{{$background}};">
-        <td width="5%" align="center">{{$acumInvDetail}}</td>
+        <td width="5%" align="center">{{$acum2}}</td>
         <td width="40%" >{{$space}} {{$invDetail->serviceName}}</td>
         <td width="10%" align="center">{{$invDetail->unit}}</td>
         <td width="15%" align="center">{{$invDetail->quantity}}</td>
-        <td width="15%" align="center">{{$moneySymbol}}  {{$invDetail->unitCost}}</td>
-        <td width="15%" align="right">{{$moneySymbol}}  {{$invDetail->amount}}</td>
+        <td width="15%" align="center">{{$moneySymbol}}{{$invDetail->unitCost}}</td>
+        <td width="15%" align="right">{{$moneySymbol}}{{$invDetail->amount}}</td>
         </tr>
 @php
        $subTotalPerPage += $invDetail->amount;//acumulacion de subtotal de pagina
@@ -309,7 +292,7 @@ foreach ($debitNoteDetails as $invDetail) {
 @if($payments->isNotEmpty())
          <b>New Payment break down:</b><br>
  @php            
-      $acum3     = 0;
+      // $acum3     = 0;
     foreach ($payments as $payment) {
 
         if($payment->receivable->paymentMethod == null){ 
@@ -345,10 +328,10 @@ foreach ($debitNoteDetails as $invDetail) {
         <th width="30%">
              <table cellspacing="0" cellpadding="0" >
                <tr>
-                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {{$symbol}}{{$subTotalPerPage}}</th>
+                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right">+ {{$symbol}}{{$subTotalPerPage}}</th>
                </tr>
                <tr>
-                <th><b>Total</b></th><th align="right"> {{$symbol}}{{$subTotalPerPage}}</th>
+                <th><b>Total</b></th><th align="right">+ {{$symbol}}{{$subTotalPerPage}}</th>
                </tr>
              </table>
         </th>
@@ -359,15 +342,14 @@ foreach ($debitNoteDetails as $invDetail) {
  <p style="color:red;"> Note: {{$creditNote[0]->reference}} </p> 
 
 
-<script type="text/php">
-    if ( isset($pdf) ) {
-        $pdf->page_script('
-            $font = $fontMetrics->get_font("Helvetica", "italic");
-            $pdf->text(210, 805, "© Copyright 2020 JD Rivero Global - All rights reserved", $font, 8);
-            $pdf->text(250, 816, "Designed By Rivero Visual Group", $font, 8);
-            $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
-        ');
-    }
-</script>
+<footer>
+© Copyright 2020 JD Rivero Global - All rights reserved <br>
+    Designed By Rivero Visual Group
+        <div class="pagination">
+        <p>Page <span class="pagenum"></span></p>
+        </div>
+</footer>
+
+
 </body>
 </html>

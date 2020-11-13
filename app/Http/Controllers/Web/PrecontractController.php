@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
+use Auth;
+use DB;
 use App\Contract;
 use App\Currency;
 use App\Document;
@@ -17,8 +19,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\PrecontractRequest;
 use Illuminate\Http\Request;
-use DB;
-use Auth;
 
 class PrecontractController extends Controller
 {

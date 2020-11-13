@@ -25,9 +25,13 @@ Vue.mixin(Permissions);
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
  
-Vue.use(VueMoment, {
-    moment,
-})
+Vue.use(VueMoment, {moment})
+
+
+import VuePhoneNumberInput from 'vue-phone-number-input';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
+Vue.component('vue-phone-number-input', VuePhoneNumberInput);
+// <VuePhoneNumberInput v-model="yourValue" />
 
 
 // Vue.use(require('vue-moment'));

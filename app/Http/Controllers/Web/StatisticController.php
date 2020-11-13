@@ -26,7 +26,7 @@ class StatisticController extends Controller
     public function numberOfClients()
     {
       $rs = $this->oClient->getClientByCompany(session('companyId'),'');
-           return count($rs);
+           return $rs->total();
     }
     public function numberOfContracts()
     {
@@ -53,36 +53,42 @@ class StatisticController extends Controller
        $rs = $this->oContract->getAllForStatus(Contract::CANCELLED,'',session('countryId'),session('companyId'));
            return count($rs);
     }
-    public function numberOfContractsCommercial()
+    public function numberOfContractsbyProjectUse()
     {
-       $rs = $this->oContract->getAllByProjectUse(1);
-           return count($rs);
-    }
-    public function numberOfContractsResidential()
-    {
-       $rs = $this->oContract->getAllByProjectUse(2);
-           return count($rs);
-    }
 
-    public function numberOfInvoiceOpen()
-    {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::OPEN,session('companyId'));
-       return count($rs);
+       $residential   = $this->oContract->getAllByProjectUse(session('companyId'),2);
+       $commercial  = $this->oContract->getAllByProjectUse(session('companyId'),1);
+       $others       = $this->oContract->getAllByProjectUse(session('companyId'),3);
+
+        return ['residential' => $residential->count(),
+                'commercial'  => $commercial->count(),
+                'others'      => $others->count()];
     }
-    public function numberOfInvoiceClosed()
-    {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::CLOSED,session('companyId'));
-       return count($rs);
-    }
+    // public function numberOfContractsResidential()
+    // {
+    //    $rs = $this->oContract->getAllByProjectUse(2);
+    //        return count($rs);
+    // }
+
+    // public function numberOfInvoiceOpen()
+    // {
+    //    $rs = $this->oInvoice->getAllByStatus(Invoice::OPEN,session('companyId'));
+    //    return count($rs);
+    // }
+    // public function numberOfInvoiceClosed()
+    // {
+    //    $rs = $this->oInvoice->getAllByStatus(Invoice::CLOSED,session('companyId'));
+    //    return count($rs);
+    // }
         public function numberOfInvoicePaid()
     {
        $rs = $this->oInvoice->getAllByStatus(Invoice::PAID,session('companyId'));
        return count($rs);
     }
-        public function numberOfInvoiceCancelled()
-    {
-       $rs = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('companyId'));
-       return count($rs);
-    }
+    //     public function numberOfInvoiceCancelled()
+    // {
+    //    $rs = $this->oInvoice->getAllByStatus(Invoice::CANCELLED,session('companyId'));
+    //    return count($rs);
+    // }
 
 }

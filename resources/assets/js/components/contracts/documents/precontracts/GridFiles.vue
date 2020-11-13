@@ -54,7 +54,7 @@
             <td>  
 
             <a :href="'/files/'+item.docId+'/download/'" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descarga">
-                           <span class="fa fa-file" aria-hidden="true"></span> 
+                           <span class="fa fa-file-download" aria-hidden="true"></span> 
                </a>
             <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType">
             </modal-preview-document>
