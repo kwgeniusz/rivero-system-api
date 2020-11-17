@@ -100,7 +100,10 @@
                     style="background-color: red;color:white;"  
                    @elseif($contract->contractStatus == App\Contract::DOWNLOADING_FILES)
                     style="background-color: #666666; color:white;"    
-                   @endif>
+                   @elseif($contract->contractStatus == App\Contract::SENT_TO_OFFICE)
+                    style="background-color: #5dc1b9; color:white;"    
+                   @endif
+                   >
                     </td>
 
                 </tr>

@@ -34,25 +34,33 @@ class Comment extends Model
                     ->orderBy('commentDate', 'DESC')->get();
     }
 //------------------------------------------
-    public function insertC($request)
-    {
+    // public function insertC($request)
+    // {
 
-        // $model=$modelType::findOrFail($request->modelId);
-        // $model->comments()->create(['comment'=> $comment]);
+    //     // $model=$modelType::findOrFail($request->modelId);
+    //     // $model->comments()->create(['comment'=> $comment]);
+
         
-        $comment                  = new Comment;
-        $comment->commentContent  = $request->commentContent;
-        $comment->commentDate     = date('Y-m-d H:i:s');
-        $comment->contractId      = $request->contractId;
-        $comment->userId          = Auth::user()->userId;
-        $comment->save();
+    //         //     // Auth::user()->comments()->create([
+    // //     //     'body' => $request->body,
+    // //     //     'commentable_id' => $post->id,
+    // //     //     'commentable_type' => get_class($post)
+    // //     // ]);
 
-         if ($comment) {
-            return $result = ['alert-type' => 'success', 'message' => 'Nuevo Comentario Insertado'];
-        } else {
-            return $result = ['alert-type' => 'error', 'message' => $error];
-        }
-    }
+
+    //     // $comment                  = new Comment;
+    //     // $comment->commentContent  = $request->commentContent;
+    //     // $comment->commentDate     = date('Y-m-d H:i:s');
+    //     // $comment->contractId      = $request->contractId;
+    //     // $comment->userId          = Auth::user()->userId;
+    //     // $comment->save();
+
+    //      if ($comment) {
+    //         return $result = ['alert-type' => 'success', 'message' => 'Nuevo Comentario Insertado'];
+    //     } else {
+    //         return $result = ['alert-type' => 'error', 'message' => $error];
+    //     }
+    // }
 //------------------------------------------
 //     public function updateC($projectUseId, $projectUseName)
 //     {

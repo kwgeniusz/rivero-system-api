@@ -59,13 +59,14 @@ class ContractController extends Controller
         
         $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $contracts = $this->oContract->getAllForSixStatus(
+        $contracts = $this->oContract->getAllForSevenStatus(
             Contract::VACANT, 
             Contract::STARTED,
             Contract::READY_BUT_PENDING_PAYABLE,
             Contract::PROCESSING_PERMIT,
             Contract::WAITING_CLIENT,
             Contract::DOWNLOADING_FILES,
+            Contract::SENT_TO_OFFICE,
             $filteredOut,
             session('countryId'),
             session('companyId')

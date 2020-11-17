@@ -4,31 +4,15 @@ namespace App\Http\Controllers\Web;
 
 use Auth;
 use App;
-use ZipArchive;
 use App\Contract;
-use App\Document;
-use App\Currency;
-use App\Client;
-use App\Staff;
-use App\Receivable;
-use App\CompanyConfiguration;
-use App\ContractStatus;
+use App\Comment;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ContractRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ContractController extends Controller
 {
     private $oContract;
-    private $oDocument;
-    private $oCurrency;
-    private $oClient;
-    private $oStaff;
-    private $oReceivable;
-    private $oCompanyConfiguration;
-    private $oBuildingCode;
-    private $oContractStatus;
+    private $oComment;
 
     public function __construct()
     {
@@ -45,7 +29,7 @@ class ContractController extends Controller
         // $this->middleware("permission:BCI")->only("destroy");
 
         $this->oContract        = new Contract;
-        $this->oDocument        = new Document;
+        $this->oComment        = new Comment;
         $this->oCurrency        = new Currency; 
         $this->oClient          = new Client;
         $this->oStaff           = new Staff;

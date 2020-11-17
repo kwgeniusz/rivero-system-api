@@ -37,25 +37,25 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getAllByModel(Request $request)
-    {
-        $comments = $this->oComment->getAllByContract($request->modelId);
+    // public function getAllByModel(Request $request)
+    // {
+    //     $comments = $this->oComment->getAllByContract($request->modelId);
 
-            if($request->ajax()){
-                return $comments;
-            }
-    }
-    public function store(Request $request)
-    {
+    //         if($request->ajax()){
+    //             return $comments;
+    //         }
+    // }
+    // public function store(Request $request)
+    // {
 
-        // Auth::user()->comments()->create([
-        //     'body' => $request->body,
-        //     'commentable_id' => $post->id,
-        //     'commentable_type' => get_class($post)
-        // ]);
-       $result = $this->oComment->insertC($request);
-        return $result;
-    }
+    //     // Auth::user()->comments()->create([
+    //     //     'body' => $request->body,
+    //     //     'commentable_id' => $post->id,
+    //     //     'commentable_type' => get_class($post)
+    //     // ]);
+    //    $result = $this->oComment->insertC($request);
+    //     return $result;
+    // }
 
 
 
