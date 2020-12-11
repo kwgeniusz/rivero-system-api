@@ -11,19 +11,19 @@
 
  <sweet-modal ref="modal" width="90%">
     <h4 class="bg-warning text-principal"> 
-    <b><i class="fa fa-comments"></i> Comentarios del Contrato {{contractNumber}}<br> 
-    {{contract.propertyNumber}} 
-    {{contract.streetName}} 
-    {{contract.streetType}} 
-    {{contract.suiteNumber}} 
-    {{contract.city}} 
-    {{contract.state}} 
-    {{contract.zipCode}}</b></h4>
+    <b><i class="fa fa-comments"></i> Comentarios del Precontracto {{precontract.preId}}<br> 
+    {{precontract.propertyNumber}} 
+    {{precontract.streetName}} 
+    {{precontract.streetType}} 
+    {{precontract.suiteNumber}} 
+    {{precontract.city}} 
+    {{precontract.state}} 
+    {{precontract.zipCode}}</b></h4>
 
      <a @click="addComment()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
      </a>
 
-        <div class="row comment" v-for="comment in commentsList">
+        <div class="row comment" v-for="(comment,index) in commentsList">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}})</p>
             <p class="text-left">{{comment.commentContent}}</p>
@@ -32,8 +32,8 @@
 
         <div class="row comment">
           <div class="col-xs-12">
-            <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
-            <p class="text-left">{{contract.initialComment}}</p>
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{precontract.precontractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
+            <p class="text-left">{{precontract.comment}}</p>
           </div>
         </div>
    </sweet-modal>
@@ -74,25 +74,26 @@
            },
      data: function () {
           return {
-           contract: '',
-           commentsList: '',
+           precontract: '',
+           commentsList: {},
 
-          // variables about the form
-          btnSubmitForm: true,
+          //variables about the form
           formCommentContent:'',
+          btnSubmitForm: true,
           errors:[],
+
           }
     },
     props: {
            prefUrl: { type: String},
-           contractId: { type: String, default: null}, 
-           contractNumber: { type: String, default: null}, 
+           precontractId: { type: String, default: null}, 
+           // contractNumber: { type: String, default: null}, 
           },
     methods: {
        modalMain: function() {
          //obtener los detalles del contrato
-          axios.get(this.prefUrl+'contracts/'+this.contractId).then(response => {
-                 this.contract = response.data[0]
+          axios.get(this.prefUrl+'precontracts/'+this.precontractId).then(response => {
+                 this.precontract = response.data[0]
             });
            this.getAllComments();
            this.$refs.modal.open();
@@ -100,10 +101,8 @@
        },
        getAllComments: function(){
          //obtener los comentarios del contrato
-          axios.get(this.prefUrl+'contracts/'+this.contractId+'/comments').then(response => {
-
+          axios.get(this.prefUrl+'precontracts/'+this.precontractId+'/comments').then(response => {
                   this.commentsList = response.data
-                 // console.log(this.commentsList);
             });
 
        },
@@ -119,11 +118,11 @@
            }
 
       if (!this.errors.length) { 
-           var url =this.prefUrl+'contracts/'+this.contractId+'/comments';
+           var url =this.prefUrl+'precontracts/'+this.precontractId+'/comments';
             this.btnSubmitForm = false;
 
           axios.post(url,{
-              contractId: this.contract.contractId,
+              precontractId: this.precontract.precontractId,
               commentContent: this.formCommentContent
             }).then(response => {
               // console.log(response)

@@ -88,30 +88,17 @@ class Precontract extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-    public function client()
-    {
-        return $this->belongsTo('App\Client', 'clientId');
-    }
-    public function document()
-    {
-        return $this->hasMany('App\Document', 'precontractId', 'precontractId')->with('user');
-    }
-    public function comments()
-    {
-        return $this->morphMany('App\Comment', 'commentable');
-    }
-    
     public function buildingCode()
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
     }
-       public function buildingCodeGroup()
+    public function buildingCodeGroup()
     {
         return $this->belongsTo('App\BuildingCodeGroup', 'groupId');
     }
-    public function projectUse()
+    public function client()
     {
-        return $this->belongsTo('App\ProjectUse', 'projectUseId');
+        return $this->belongsTo('App\Client', 'clientId');
     }
     public function company()
     {
@@ -121,10 +108,28 @@ class Precontract extends Model
     {
         return $this->belongsTo('App\Country', 'countryId');
     }
-      public function currency()
+    public function contract()
+    {
+        return $this->hasOne('App\Contract', 'contractId');
+    }
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+    public function currency()
     {
         return $this->hasOne('App\Currency', 'currencyId', 'currencyId');
     }
+    public function document()
+    {
+        return $this->hasMany('App\Document', 'precontractId', 'precontractId')->with('user');
+    }
+    
+    public function projectUse()
+    {
+        return $this->belongsTo('App\ProjectUse', 'projectUseId');
+    }
+
     public function proposal()
     {
         return $this->hasMany('App\Proposal', 'precontractId', 'precontractId');

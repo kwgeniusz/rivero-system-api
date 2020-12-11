@@ -101,6 +101,7 @@ class Subcontractor extends Model
         $subcontractor->routingNumber       = $data['routingNumber'];
         $subcontractor->wires               = $data['wires'];
         $subcontractor->zelle               = $data['zelle'];
+        $subcontractor->typeForm1099        = $data['typeForm1099'];
         $subcontractor->save();
             
             $success = true;

@@ -59,6 +59,10 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\Invoice', 'invoiceId', 'invoiceId');
     }
+    public function transactionable()
+    {
+        return $this->morphTo();
+    }
      public function user()
     {
         return $this->belongsTo('App\User', 'userId', 'userId');
@@ -183,7 +187,25 @@ class Transaction extends Model
     }
 
     //------------------------------------------
-    public function insertT($countryId,$companyId, $transactionTypeId,$description, $payMethodId, $payMethodDetails, $reason, $transactionDate, $amount, $sign,$cashboxId = '' , $accountId = '' ,$invoiceId,$userId,$file = '')
+    //   public function insertC($model,$data)
+    // {
+    //     $comment                      = new Comment;
+    //     $comment->commentContent      = $data['commentContent'];
+    //     $comment->commentDate         = date('Y-m-d H:i:s');
+    //     $comment->commentable_id      = $model->getKey();
+    //     $comment->commentable_type    = get_class($model);
+    //     $comment->userId              = Auth::user()->userId;
+    //     $comment->save();
+
+    //      if ($comment) {
+    //         return $result = ['alert-type' => 'success', 'message' => 'Nuevo Comentario Insertado'];
+    //     } else {
+    //         return $result = ['alert-type' => 'error', 'message' => $error];
+    //     }
+    // }
+
+
+    public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '')
     {
 
         $error = null;
@@ -191,30 +213,32 @@ class Transaction extends Model
         DB::beginTransaction();
         try {
             //INSERTA UNA NUEVA TRANSACTION
-            $transaction                    = new Transaction;
-            $transaction->countryId         = $countryId;
-            $transaction->companyId          = $companyId;
-            $transaction->transactionTypeId = $transactionTypeId;
-            $transaction->description       = $description;
-            $transaction->payMethodId      = $payMethodId;
-            $transaction->payMethodDetails = $payMethodDetails;
-            $transaction->reason            = $reason;
-            $transaction->transactionDate   = $transactionDate;
-            $transaction->amount            = $amount;
-            $transaction->sign              = $sign;
-            $transaction->cashboxId         = $cashboxId;
-            $transaction->accountId            = $accountId;
-            $transaction->invoiceId         = $invoiceId;
-            $transaction->userId            = $userId;
+            $transaction                          = new Transaction;
+            $transaction->countryId               = $countryId;
+            $transaction->companyId               = $companyId;
+            $transaction->transactionTypeId       = $transactionTypeId;
+            $transaction->description             = $description;
+            $transaction->payMethodId             = $payMethodId;
+            $transaction->payMethodDetails        = $payMethodDetails;
+            $transaction->reason                  = $reason;
+            $transaction->transactionDate         = $transactionDate;
+            $transaction->amount                  = $amount;
+            $transaction->sign                    = $sign;
+            $transaction->cashboxId               = $cashboxId;
+            $transaction->accountId               = $accountId;
+            if($model != ''){
+             $transaction->transactionable_id      = $model->getKey();
+             $transaction->transactionable_type    = get_class($model);
+            }
+            $transaction->userId                   = $userId;
             $transaction->save();
             
             //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
-
             //AGREGAR DOCUMENTO SI ES DE EGRESO
-            if($sign == '-'){
+          if($sign == '-' && $model == '') {
             $oDocument = new Document;
-              $rs2 = $oDocument->insertF($file,'transaction',$transaction->transactionId,'transactionsexpenses');
-            }
+            $rs2 = $oDocument->insertF($file,'transaction',$transaction->transactionId,'expense');
+          }
             
             //REALIZA ACTUALIZACION EN BANCO
             // $oBank = new Bank;
@@ -224,6 +248,7 @@ class Transaction extends Model
             DB::commit();
         } catch (\Exception $e) {
             $error   = $e->getMessage();
+
             $success = false;
             DB::rollback();
         }

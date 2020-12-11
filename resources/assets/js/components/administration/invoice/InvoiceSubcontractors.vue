@@ -205,6 +205,7 @@ export default {
    openModal: function (item){
             this.service = item;
 
+
             this.errors = [];
             this.btnSubmitForm = true;
             this.$refs.modal.open()
@@ -232,6 +233,7 @@ export default {
            }
             axios.post('../../subcontractors/add/invDetail',{
                 subcontId :  this.formSubcontId,
+                invoiceId: this.service.invoiceId,
                 invDetailId: this.service.invDetailId,
                 transactionPercentage: this.formPercent,
                 transactionAmount : this.formAmountPayable,
@@ -251,8 +253,7 @@ export default {
                          this.btnSubmitForm =  false;
 
                         this.getAllInvoicesDetails();//actualiza los detalles
-                        this.$refs.searchSubcontractor.reRender();//resetea comnponente hijo search
-
+                        this.$refs.searchSubcontractor.Render();//resetea comnponente hijo search
                         this.$refs.modal.close() 
                    }
             })

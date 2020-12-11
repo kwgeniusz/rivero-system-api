@@ -43,7 +43,7 @@ class Proposal extends Model
     }
    public function invoice()
     {
-        return $this->belongsTo('App\Invoice', 'invoiceId','invoiceId');
+        return $this->hasOne('App\Invoice', 'invoiceId','invoiceId');
     }
     public function currency()
     {

@@ -58,7 +58,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
                  this.list = ''
                  this.style =false
            } else { 
-              var url ='../../searchSubcontractor/'+this.name;
+              var url ='../../subcontractors/'+this.name+'/search';
               axios.get(url).then(response => {
                  this.list = response.data
                  this.style = true

@@ -103,12 +103,12 @@ class PrecontractController extends Controller
             ->with($notification);
     }
 
-    public function details($id)
-    {
-        $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('companyId'));
+    // public function details($id)
+    // {
+    //     $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('companyId'));
 
-        return view('module_contracts.precontracts.details', compact('precontract'));
-    }
+    //     return view('module_contracts.precontracts.details', compact('precontract'));
+    // }
 
     public function edit($id)
     {
@@ -154,10 +154,15 @@ class PrecontractController extends Controller
         return redirect()->route('precontracts.index')
             ->with($notification);
     }
-    public function show($id)
+    public function show(Request $request,$id)
     {
 
         $precontract = $this->oPrecontract->FindById($id,session('countryId'),session('companyId'));
+
+             if($request->ajax()){
+                return $precontract;
+            }
+
         return view('module_contracts.precontracts.show', compact('precontract'));
 
     }

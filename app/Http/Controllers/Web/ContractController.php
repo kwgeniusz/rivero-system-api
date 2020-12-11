@@ -121,15 +121,15 @@ class ContractController extends Controller
         return redirect()->route('invoices.create', ['id' => $newContract->contractId])->with($notification);
     }
 
-    public function details(Request $request,$id)
-    {
-        $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
+    // public function details(Request $request,$id)
+    // {
+    //     $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
           
-          if($request->ajax()){
-                return $contract;
-            }
-        return view('module_contracts.contracts.details', compact('contract'));
-    }
+    //       if($request->ajax()){
+    //             return $contract;
+    //         }
+    //     return view('module_contracts.contracts.details', compact('contract'));
+    // }
 
     public function edit($id)
     {

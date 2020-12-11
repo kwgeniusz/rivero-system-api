@@ -48,7 +48,6 @@
                  <th>N° PRECONTRATO</th>
                  <th>COD. {{__('client')}}</th>
                  <th>{{__('name')}}</th>   
-                 {{-- <th>NOMBRE PROYECTO</th>    --}}
                  <th>{{__('address')}}</th>
                  <th>BUILDING CODE</th>
                  <th>DESCRIPCION</th>
@@ -62,10 +61,11 @@
                 @foreach($precontracts as $precontract)
                 <tr>
                    <td>{{++$acum}}</td>
-                    <td>{{$precontract->preId}} </td>
+                    <td>{{$precontract->preId}}
+                      <comments-precontract pref-url="" precontract-id="{{$precontract->precontractId}}"/>
+                     </td>
                     <td>{{$precontract->client->clientCode}}   </td>
                     <td>{{$precontract->client->clientName}}   </td>  
-                    {{-- <td>{{$precontract->projectName}}   </td>   --}}
                     <td >{{$precontract->propertyNumber}}
                         {{$precontract->streetName}}
                         {{$precontract->streetType}}
@@ -75,7 +75,6 @@
                         {{$precontract->zipCode}}   </td>
                     <td >{{$precontract->buildingCode->buildingCodeName}}   </td>
                     <td >
-                     {{-- {{ $precontract->proposal}} --}}
                        @foreach($precontract->proposal as $pd)
                        - {{$pd->projectDescription->projectDescriptionName}}<br>
                         @endforeach
@@ -106,6 +105,9 @@
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a>
               @endcan   
+                  <a href="{{route('precontractsFile.index', ['id' => $precontract->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
+                           <span class="fa fa-file" aria-hidden="true"></span> 
+                       </a>  
         @else
              @can('BC')  
               <a class="btn btn-primary btn-sm" href="{{url("invoices?id=$precontract->contractId")}}">Ir a Contrato</a>
@@ -115,9 +117,6 @@
                     </a>
               @endcan      
         @endif
-                  <a href="{{route('precontractsFile.index', ['id' => $precontract->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Documentos">
-                           <span class="fa fa-file" aria-hidden="true"></span> 
-                       </a>  
                </td>
                 </tr>
                 @endforeach

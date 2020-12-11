@@ -113,7 +113,7 @@ use Illuminate\Database\Eloquent\Model;
             $saleNote->percent           = $data['formPercent'];
             $saleNote->dateNote          = date('Y-m-d H:i:s');
             $saleNote->userId            = Auth::user()->userId;
-
+         
         if($data['noteType'] == 'credit') {
              //si son notas de credito, el monto de esa nota no debe sobrepasar el saldo.la restriccion va desde el nivel mas bajo(modelos) hasta la capa mas alta (interfaces) 
                 if($data['netTotal'] > $invoice->balanceTotal){
@@ -170,6 +170,16 @@ use Illuminate\Database\Eloquent\Model;
                 //si es una devolucion parcial.  
                 //al escoger de los items de la factura se toma el Service Id junto con el precio.
                 //esto sera un arreglo de servicios por lo tanto-> debe existir un foreach que sume el total. y luego ingresalo debajo
+
+                    //verificar si casualmente los articulos pagados hace que el saldo de la factura llege a cero.
+                      $rs = 0;
+                      $rs = $invoice->balanceTotal - $data['netTotal'];
+                    //verificar si casualmente los articulos pagados hace que el saldo de la factura llege a cero.
+                     if($rs == 0){
+                       $oInvoice = new Invoice;
+                       $oInvoice->changeStatus($data['invoiceId'], Invoice::PAID);
+                      }
+
                        $oSaleNoteDetail = new SaleNoteDetail;
                             foreach ($data['itemList'] as $key => $item) {
                                $result = $oSaleNoteDetail->insertS(
@@ -187,7 +197,6 @@ use Illuminate\Database\Eloquent\Model;
                              $sharePending->recStatusCode = Receivable::ANNULLED;                     
                              $sharePending->save();
                        };
-                 
                  
                    }
                   

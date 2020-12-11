@@ -54,16 +54,22 @@ Route::get('accounts/{bankId}', 'Web\AccountController@index');
 //**************************** TYPES OF TRANSACTIONS ***************************
 // Route::resource('transactionsTypes', 'Web\TransactionTypeController', ['except' => ['create']]);
 
-
 //*************************SUBCONTRACTORS************************
 Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);
-Route::get('subcontractors/{id}/payables', 'Web\SubcontractorController@payables')->name('subcontractors.payables');
-Route::get('subcontractors/{id}/getPayables', 'Web\SubcontractorController@getallPayables')->name('subcontractors.getallPayables');
+Route::get('subcontractors/{subcontName}/search', 'Web\SubcontractorController@getFiltered')->name('subcontractors.search');
 
-Route::get('subcontractors/list/{invDetailId}/invDetail', 'Web\SubcontractorController@listSubcontInvDetail');
-Route::post('subcontractors/add/invDetail', 'Web\SubcontractorController@addSubcontInvDetail');
-Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorController@removeSubcontInvDetail');
-Route::get('searchSubcontractor/{subcontName}', 'Web\SubcontractorController@getFiltered')->name('searchSubcontractor.getFiltered');
+ //->Subcontractor Payables
+Route::get('subcontractors/{id}/payables', 'Web\SubcontractorPayableController@index')->name('subcontractors.payables');
+
+ //->Subcontractor relationed with invoice
+Route::get('subcontractors/list/{invDetailId}/invDetail', 'Web\SubcontractorPayableController@listSubcontInvDetail');
+Route::post('subcontractors/add/invDetail', 'Web\SubcontractorPayableController@addSubcontInvDetail');
+Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorPayableController@removeSubcontInvDetail');
+
+//**************************** PAYABLES ******************************
+Route::post('payables/pay', 'Web\PayableController@pay')->name('payables.pay');
+
+
 
 //**************************** RECEIVABLES ***************************
 Route::get('receivables', 'Web\ReceivableController@index')->name('receivables.index');

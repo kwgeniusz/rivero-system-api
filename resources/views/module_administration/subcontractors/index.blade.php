@@ -45,6 +45,7 @@
                  <th>DIRECCION</th>
                  <th>TELEFONO</th>
                  <th>CORREO</th> 
+                 <th>TIPO 1099</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
                 </tr>
@@ -63,6 +64,7 @@
                    <td>{{$subcontractor->address}}</td>
                    <td>{{$subcontractor->mainPhone}}</td>
                    <td>{{$subcontractor->email}}</td> 
+                   <td>{{$subcontractor->typeForm1099}}</td> 
 
                    <td>
                    @can('BAB')  

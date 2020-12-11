@@ -17,9 +17,9 @@ class SubcontractorController extends Controller
     {
         $this->middleware('auth');
         // $this->middleware("permission:BA");
-        $this->oSubcontractor = new Subcontractor;
-        $this->oSubcontractorInvDetail = new SubcontractorInvDetail;
-        $this->oPayable = new Payable;
+        $this->oSubcontractor           = new Subcontractor;
+        $this->oSubcontractorInvDetail  = new SubcontractorInvDetail;
+        $this->oPayable                 = new Payable;
     }
 
     public function index(Request $request)
@@ -33,17 +33,6 @@ class SubcontractorController extends Controller
         return view('module_administration.subcontractors.index', compact('subcontractors'));
     }
 
-    public function payables($subcontId)
-    {
-        return view('module_administration.subcontractors.payables', compact('subcontId'));
-    }
-
-   public function getallPayables($subcontId)
-    {
-        $payables = $this->oPayable->getAllBySubcontractor($subcontId);
-
-        return $payables;
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -144,22 +133,6 @@ class SubcontractorController extends Controller
     //     return redirect()->route('clients.index')
     //         ->with($notification);
     // }
-//----------------FUNCTIONS TO INSERT ON INVOICES -------------->>>>
-    public function listSubcontInvDetail(Request $request)
-    { 
-       $rs   = $this->oSubcontractorInvDetail->getAllByInvDetail($request->invDetailId);
-       return $rs;
-    }
-    public function addSubcontInvDetail(Request $request)
-    { 
-       $rs   = $this->oSubcontractorInvDetail->insertS($request->all());
-       return $rs;
-    }
-    public function removeSubcontInvDetail(Request $request)
-    { 
-       $rs   = $this->oSubcontractorInvDetail->deleteS($request->subcontInvDetailId);
-       return $rs;
-    }
 //----------------QUERYS ASINCRONIOUS -------------->>>>
     public function getFiltered($name = '')
     {

@@ -101,6 +101,10 @@ class Contract extends Model
     {
         return $this->hasMany('App\PaymentInvoice', 'contractId', 'contractId');
     }
+   public function precontract()
+    {
+        return $this->belongsTo('App\Precontract', 'contractId');
+    } 
    public function invoice()
     {
         return $this->hasMany('App\Invoice', 'contractId', 'contractId');
@@ -285,6 +289,12 @@ class Contract extends Model
                           })
                          ->orWhereHas('client', function ($query) use ($filteredOut) {
                               return $query->where('clientName', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('projectUse', function ($query) use ($filteredOut) {
+                              return $query->where('projectUseName', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('invoice.projectDescription', function ($query) use ($filteredOut) {
+                              return $query->where('projectDescriptionName', 'LIKE', "%$filteredOut%");
                           });
         }
     }

@@ -59,9 +59,8 @@
               @php $acum=0; @endphp
                 @foreach($contracts as $contract)
                 <tr>
-
                    <td>{{++$acum}}</td>
-                    <td>
+                  <td>
                 <modal-switch-contract pref-url="/" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></modal-switch-contract>
         @can('BDE')
                 <comments-contract pref-url="" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></comments-contract>

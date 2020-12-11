@@ -375,7 +375,7 @@ class Receivable extends Model
                $collection = $oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
                $fee        = $oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+',$cashboxId, $accountId, $receivable->invoiceId,$userId);
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+',$cashboxId, $accountId, $invoice,$userId);
                
               if($transactionRs1['alert'] == 'error') {
                 throw new \Exception($transactionRs1['msj']);
@@ -386,7 +386,7 @@ class Receivable extends Model
                  $receivable->percent =  $percent;
                  $receivable->amountPercentaje =  $amountPercent;
 
-                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $receivable->invoiceId,$userId);
+                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $invoice,$userId);
                
               if($transactionRs2['alert'] == 'error') {
                 throw new \Exception($transactionRs2['msj']);
@@ -491,7 +491,7 @@ class Receivable extends Model
                $collection = $oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
                // $fee        = $oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+',$receivable->cashboxId, $receivable->accountId, $invoice, Auth::user()->userId);
 
                     if($transactionRs1['alert'] == 'error') {
                         throw new \Exception($transactionRs['msj']);
@@ -558,69 +558,5 @@ class Receivable extends Model
         }
 
     }   
-//------------------------------------------
-    // public function collections($countryId,$companyId, $date1, $date2)
-    // {
 
-    //     $result[] = $this->where('countryId', $countryId)
-    //         ->where('companyId', $companyId) 
-    //         ->where("collectMethod", "=", '1')
-    //         ->where("status", "=", Receivable::SUCCESS)
-    //         ->where("datePaid", ">=", $date1)
-    //         ->where("datePaid", "<=", $date2)
-    //         ->orderBy('collectMethod', 'ASC')
-    //         ->get();
-    //     $result[] = $this->where("countryId", "=", $countryId)
-    //         ->where('companyId', $companyId) 
-    //         ->where("collectMethod", "=", '2')
-    //         ->where("status", "=", Receivable::SUCCESS)
-    //         ->where("datePaid", ">=", $date1)
-    //         ->where("datePaid", "<=", $date2)
-    //         ->orderBy('collectMethod', 'ASC')
-    //         ->get();
-    //     $result[] = $this->where("countryId", "=", $countryId)
-    //         ->where('companyId', $companyId) 
-    //         ->where("collectMethod", "=", '3')
-    //         ->where("status", "=", Receivable::SUCCESS)
-    //         ->where("datePaid", ">=", $date1)
-    //         ->where("datePaid", "<=", $date2)
-    //         ->orderBy('collectMethod', 'ASC')
-    //         ->get();
-    //     $result[] = $this->where("countryId", "=", $countryId)
-    //         ->where('companyId', $companyId) 
-    //         ->where("collectMethod", "=", '4')
-    //         ->where("status", "=", Receivable::SUCCESS)
-    //         ->where("datePaid", ">=", $date1)
-    //         ->where("datePaid", "<=", $date2)
-    //         ->orderBy('collectMethod', 'ASC')
-    //         ->get();
-    //    $result[] = $this->where("countryId", "=", $countryId)
-    //         ->where('companyId', $companyId) 
-    //         ->where("collectMethod", "=", '5')
-    //         ->where("status", "=", Receivable::SUCCESS)
-    //         ->where("datePaid", ">=", $date1)
-    //         ->where("datePaid", "<=", $date2)
-    //         ->orderBy('collectMethod', 'ASC')
-    //         ->get();
-    //     $result[] = $this->where("countryId", "=", $countryId)
-    //         ->where('companyId', $companyId) 
-    //         ->where("collectMethod", "=", '6')
-    //         ->where("status", "=", Receivable::SUCCESS)
-    //         ->where("datePaid", ">=", $date1)
-    //         ->where("datePaid", "<=", $date2)
-    //         ->orderBy('collectMethod', 'ASC')
-    //         ->get();     
-    //     //filtrando para eliminar resultados vacios del arreglo()
-    //     $results = array_filter($result, function ($array) {
-    //         foreach ($array as $value) {
-    //             if ($value == []) {
-    //                 return false;
-    //             } else {
-    //                 return true;
-    //             }
-    //         }
-    //     });
-
-    //     return $results;
-    // }
 }

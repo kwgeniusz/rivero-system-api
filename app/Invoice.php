@@ -49,14 +49,18 @@ class Invoice extends Model
     {
       return $this->hasMany('App\InvoiceDetail', 'invoiceId', 'invoiceId')->orderBy('itemNumber');
     }
-     public function note()
+     public function subcontInvDetail()
     {
-      return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
-    }
-    public function scope()
-    {
-      return $this->hasMany('App\InvoiceScope', 'invoiceId', 'invoiceId');
-    }
+      return $this->hasMany('App\SubcontractorInvDetail', 'invoiceId', 'invoiceId');
+    } 
+    //  public function note()
+    // {
+    //   return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
+    // }
+    // public function scope()
+    // {
+    //   return $this->hasMany('App\InvoiceScope', 'invoiceId', 'invoiceId');
+    // }
      public function invoiceStatus()
     {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
          $relation = $this->hasMany('App\InvoiceStatus', 'invStatusCode','invStatusCode');
@@ -73,6 +77,11 @@ class Invoice extends Model
     {
         return $this->hasMany('App\PaymentInvoice', 'invoiceId', 'invoiceId');
     }
+
+    public function proposal()
+    {
+        return $this->belongsTo('App\Proposal', 'invoiceId', 'invoiceId');
+    } 
     public function receivable()
     {
       return $this->hasMany('App\Receivable', 'invoiceId', 'invoiceId');
@@ -222,7 +231,7 @@ class Invoice extends Model
 
     public function getAllByContract($contractId)
     {
-        $result = $this->with('invoiceDetails','note','scope','projectDescription')
+        $result = $this->with('invoiceDetails','proposal.term','proposal.scope','projectDescription')
             ->where('contractId', $contractId)
             ->orderBy('invoiceId', 'ASC')
             ->get();

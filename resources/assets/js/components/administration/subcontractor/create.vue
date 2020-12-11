@@ -14,8 +14,8 @@
               <div class="form-group col-lg-8">
                <i class="fas fa-user-tie"></i> <label for="formSubcontType">TIPO DE SUBCONTRATISTA</label>
                 <select class="form-control" id="formSubcontType" v-model="formSubcontType">
-                  <option value="company" selected>Compañia</option>
-                  <option value="individual">Individual</option>
+                  <option value="COMPANY" selected>Compañia</option>
+                  <option value="INDIVIDUAL">Individual</option>
                  </select>
               </div>
 
@@ -58,6 +58,14 @@
          <div class="form-group col-lg-6 ">
                 <i class="fas fa-at"></i> <label for="formEmail">CORREO</label>
                   <input type="email" class="form-control" id="formEmail" v-model="formEmail" placeholder="" autocomplete="off ">
+        </div>
+
+         <div class="form-group col-lg-6 ">
+                 <label for="typeForm1099">TIPO DE FORM 1099</label>
+                  <select class="form-control" id="typeForm1099" v-model="typeForm1099">
+                  <option value="1099_MISC" selected>1099 MISC</option>
+                  <option value="1099_NEC">1099 NEC</option>
+                 </select>
         </div>
 
 
@@ -140,6 +148,7 @@ export default {
            formRoutingNumber: '',
            formWires: '',
            formZelle: '', 
+           typeForm1099: '1099_MISC',
 
            btnSubmitForm: true,
 
@@ -201,6 +210,7 @@ export default {
                  routingNumber:  this.formRoutingNumber,
                  wires:          this.formWires,
                  zelle:          this.formZelle,  
+                 typeForm1099:   this.typeForm1099
             }).then(response => {
                    if (response.data.alert == "error") {
                        toastr.error(response.data.msj)

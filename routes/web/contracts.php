@@ -16,6 +16,9 @@ Route::post('precontracts/{id}/files', 'Web\PrecontractFileController@store')->n
  // ->Precontract Convert to Contract
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAdd')->name('precontracts.convertAgg');
+ // ->Precontract Comments
+Route::get('precontracts/{id}/comments', 'Web\PrecontractCommentController@index')->name('precontractsComment.index');
+Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@store')->name('precontractsComment.store');
 
 //***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
@@ -60,10 +63,13 @@ Route::put('contractsupdateStatus', 'Web\ContractController@updateStatus')->name
 Route::get('contractsStaff/{contract}', 'Web\ContractController@staff')->name('contracts.staff');
 Route::post('contractsStaff/add', 'Web\ContractController@staffAdd')->name('contracts.staffAdd');
 Route::get('contractsStaff/{contractId}/remove/{staffId}', 'Web\ContractController@staffRemove')->name('contracts.staffRemove');
- // ->Proposal File
+ // ->Contract File
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
 Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
 Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contracts.fileAdd');
+ // ->Contract Comments
+Route::get('contracts/{id}/comments', 'Web\ContractCommentController@index')->name('contractsComment.index');
+Route::post('contracts/{id}/comments', 'Web\ContractCommentController@store')->name('contractsComment.store');
 
 //****************************FILES********************************
 Route::get('files/{id}/download', 'Web\FileController@download')->name('files.download');
@@ -71,9 +77,9 @@ Route::post('files/download-zip', 'Web\FileController@downloadZip')->name('files
 Route::put('files/delete-multiple', 'Web\FileController@deleteMultiple')->name('files.deleteMultiple');
 Route::put('files/move', 'Web\FileController@move')->name('files.move');
 
-//****************************COMMENTS********************************
-Route::resource('comments', 'Web\CommentController');
-Route::get('contracts/{modelId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
+// //****************************COMMENTS********************************
+// Route::resource('comments', 'Web\CommentController');
+// Route::get('contracts/{modelId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 
 
 //CONTRACT-SEARCH********

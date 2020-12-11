@@ -1875,7 +1875,7 @@ foreach ($invoices as $invoice) {
                 } else {
                     $background = "#f2edd1";
                 }
-        $balanceInvoice = $this->oInvoice->getBalance($invoice->invoiceId);
+        $balanceInvoice = $invoice->balanceTotal;
 
              $totalOriginalAmount += $invoice->netTotal;
              $totalBalance += $balanceInvoice;

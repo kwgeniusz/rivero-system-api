@@ -57,6 +57,8 @@ Route::get('statistic/clients', 'Web\StatisticController@numberOfClients')->name
 Route::get('statistic/contractsFinished', 'Web\StatisticController@numberOfContractsFinished')->name('statistic.contractsFinished');
 // Route::get('statistic/contractsCancelled', 'Web\StatisticController@numberOfContractsCancelled')->name('statistic.contractsCancelled');
 Route::get('statistic/contracts-by-project-use', 'Web\StatisticController@numberOfContractsbyProjectUse')->name('statistic.contractsByProjectUse');
+Route::get('statistic/contracts-by-status', 'Web\StatisticController@numberOfContractsbyStatus')->name('statistic.contractsByStatus');
+
 // Route::get('statistic/invoicesOpen', 'Web\StatisticController@numberOfInvoiceOpen')->name('statistic.contractsResidencial');
 // Route::get('statistic/invoicesClosed', 'Web\StatisticController@numberOfInvoiceClosed')->name('statistic.invoicesResidencial');
 Route::get('statistic/invoicesPaid', 'Web\StatisticController@numberOfInvoicePaid')->name('statistic.invoicesPaid');

@@ -107,16 +107,23 @@
                   @endif 
                    <td>{{$transaction->user->fullName}}</td>
                    <td> 
+              @if($transaction->transactionable_id == null)     
+                  @if($transaction->document)  
                        <a href="{{route('files.download', ['id' => $transaction->document->docId])}}" data-toggle="tooltip" data-placement="top" title="Descargar" class="btn btn-info">
                          <span class="fa fa-file" aria-hidden="true"></span> 
                       </a>
+                  @endif
                        <a href="{{route('transactions.show', ['sign'=>'-', 'id' => $transaction->transactionId])}}" class="btn btn-danger" title="{{__('delete')}}">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                         </a>
                     <a href="{{route('transactions.edit', ['sign'=>'-', 'id' => $transaction->transactionId])}}" class="btn btn-primary" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span>
                     </a>
+
+                  @if($transaction->document)  
                        <modal-preview-document doc-url="{{$transaction->document->docUrl}}" ext="{{$transaction->document->mimeType}}"></modal-preview-document>
+                  @endif
+              @endif
                    </td>
                 </tr>
                 @endforeach

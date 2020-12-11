@@ -103,7 +103,6 @@
               <br>
 
   </sweet-modal>
-
 </div>   
 </template>
 

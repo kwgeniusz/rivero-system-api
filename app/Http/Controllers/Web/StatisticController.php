@@ -55,7 +55,7 @@ class StatisticController extends Controller
     }
     public function numberOfContractsbyProjectUse()
     {
-
+         //por compañia, reporte general desde la creacion de la empresa.
        $residential   = $this->oContract->getAllByProjectUse(session('companyId'),2);
        $commercial  = $this->oContract->getAllByProjectUse(session('companyId'),1);
        $others       = $this->oContract->getAllByProjectUse(session('companyId'),3);
@@ -63,6 +63,32 @@ class StatisticController extends Controller
         return ['residential' => $residential->count(),
                 'commercial'  => $commercial->count(),
                 'others'      => $others->count()];
+    }
+
+     public function numberOfContractsbyStatus()
+    {
+
+         //por compañia, reporte general desde la creacion de la empresa.
+    $vacant = $this->oContract->getAllForStatus(Contract::VACANT,'',session('countryId'),session('companyId'));
+    $started = $this->oContract->getAllForStatus(Contract::STARTED,'',session('countryId'),session('companyId'));
+    $finished = $this->oContract->getAllForStatus(Contract::FINISHED,'',session('countryId'),session('companyId'));
+    $cancelled = $this->oContract->getAllForStatus(Contract::CANCELLED,'',session('countryId'),session('companyId'));
+    $readyButPendingPayable = $this->oContract->getAllForStatus(Contract::READY_BUT_PENDING_PAYABLE,'',session('countryId'),session('companyId'));
+    $processingPermit = $this->oContract->getAllForStatus(Contract::PROCESSING_PERMIT,'',session('countryId'),session('companyId'));
+    $waitingClient = $this->oContract->getAllForStatus(Contract::WAITING_CLIENT,'',session('countryId'),session('companyId'));
+    $downloadingFiles = $this->oContract->getAllForStatus(Contract::DOWNLOADING_FILES,'',session('countryId'),session('companyId'));
+    $sentToOffice = $this->oContract->getAllForStatus(Contract::SENT_TO_OFFICE,'',session('countryId'),session('companyId'));
+
+
+        return ['vacant'                  => $vacant->count(),
+                'started'                 => $started->count(),
+                'finished'                => $finished->count(),
+                'cancelled'               => $cancelled->count(),
+                'readyButPendingPayable'  => $readyButPendingPayable->count(),
+                'processingPermit'        => $processingPermit->count(),
+                'waitingClient'           => $waitingClient->count(),
+                'downloadingFiles'        => $downloadingFiles->count(),
+                'sentToOffice'            => $sentToOffice->count()];
     }
     // public function numberOfContractsResidential()
     // {

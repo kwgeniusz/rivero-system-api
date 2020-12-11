@@ -1,11 +1,13 @@
 <script>
+
+
+
 import { Pie } from 'vue-chartjs'
 
 export default {
   extends: Pie,
   mounted () {
     this.getData();
-    this.renderChart(this.chartdata, this.options)
   },
   data: () => ({
     chartdata: {
@@ -16,7 +18,7 @@ export default {
           {
             label: "Project Types",
             backgroundColor: ["#0093b1", "#f79c49"],
-            data: [10,10,10]
+            data: []
         }
       ]
     },
@@ -35,10 +37,14 @@ export default {
         getData: function (){
          var url = this.prefUrl+this.router;
             axios.get(url).then(response => {
-              this.result =response.data;
+              this.result = response.data;
 
-              console.log(this.result );
-              // console.log(this.result.residential);
+             this.chartdata.datasets[0].data.push(this.result.residential)
+             this.chartdata.datasets[0].data.push(this.result.commercial)
+             this.chartdata.datasets[0].data.push(this.result.others)
+  
+              // console.log(this.chartdata.datasets[0].data);
+                  this.renderChart(this.chartdata, this.options)
 
             });
         },
