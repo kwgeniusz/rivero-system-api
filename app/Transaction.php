@@ -63,6 +63,10 @@ class Transaction extends Model
     {
         return $this->morphTo();
     }
+    public function payable()
+    {
+        return  $this->belongsToMany('App\Payable', 'transaction_payable','transactionId', 'payableId')->withPivot('amountPaid', 'reason');
+    }
      public function user()
     {
         return $this->belongsTo('App\User', 'userId', 'userId');

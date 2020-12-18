@@ -85,6 +85,10 @@ class Payable extends Model
     {
         return $this->hasOne('App\InvoiceDetail', 'invDetailId', 'invDetailId');
     }  
+  public function transaction()
+    {
+        return $this->belongsToMany('App\Transaction','transaction_payable','payableId', 'transactionId')->withPivot('amountPaid', 'reason');;
+    }  
 //-------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -92,7 +96,7 @@ class Payable extends Model
     {
         //consulta que traer relaciones desde tabla payable hasta contratc, y tiene una comparacion dentro de la relacion
         //subcontratos
-        $result = $this->with('subcontInvDetail.subcontractor','subcontInvDetail.invoice','subcontInvDetail.invoice.contract')
+        $result = $this->with('subcontInvDetail.subcontractor','subcontInvDetail.invoice','subcontInvDetail.invoice.contract','transaction')
             ->whereHas('subcontInvDetail.subcontractor',function($q) use ($subcontId){
                 $q->where('subcontId',$subcontId);
             })->where('payStatusCode','=',Payable::STATELESS)
@@ -117,17 +121,45 @@ class Payable extends Model
   //usado para el cobro de cuotas
     public function addPay($payables,$payMethodId,$payMethodDetails,$cashboxId,$accountId)
     {
-
         $error   = null;
         DB::beginTransaction();
-// $invoice->shareSucceed->sum('amountPaid')
         try {
+
+        $subcontractor = Subcontractor::findOrFail($payables[0]['subcont_inv_detail']['subcontractor']['subcontId']);
+        //sumar amountPaid
+          $amountPaidAcum = 0;
+           foreach ($payables as $index => $item) {
+             $amountPaidAcum += $item['amountPaid'];
+            }
+  
+            $oTransactionType = new TransactionType;
+            $transactionType = $oTransactionType->findByOfficeAndCode(session('companyId'),$subcontractor->typeForm1099);
+
+            $oTransaction = new Transaction;
+            $rs1 = $oTransaction->insertT(
+              session('countryId'),
+              session('companyId'),
+              $transactionType[0]->transactionTypeId,
+              $subcontractor->name,
+              $payMethodId,
+              $payMethodDetails,
+              'NINGUNA RAZON',
+              date('m/d/Y'),
+              $amountPaidAcum,
+              '-',
+              $cashboxId,
+              $accountId,
+              $subcontractor,
+              Auth::user()->userId);
+
+              if($rs1['alert'] == 'error') {
+                throw new \Exception($rs1['msj']);
+               }; 
+          
             //busca datos de la cuota que el usuario escogio 
               $total = 0;
               foreach ($payables as $index => $item) {
-
                   $index++;
-
                    if($item['reason'] == '') {
                     throw new \Exception('Error: Debe Escribir un Motivo en la cuota # '.$index);
                    };
@@ -137,6 +169,8 @@ class Payable extends Model
                   if($item['amountPaid'] > $item['balance']) {
                     throw new \Exception('Error: El monto pagado es mayor que el saldo, ingrese uno menor en la cuota # '.$index);
                   };
+                  //acumula el saldo pagado
+                  $amountPaidAcum += $item['amountPaid'];
                   //resta el balance de la cuota menos el monto pagado por formulario.
                   $total = $item['balance'] - $item['amountPaid'];
 
@@ -147,40 +181,16 @@ class Payable extends Model
                    }
                   $payable->save();
 
-                 $oTransactionType = new TransactionType;
-                 $transactionType = $oTransactionType->findByOfficeAndCode(session('companyId'),$item['subcont_inv_detail']['subcontractor']['typeForm1099']);
+            //asignar a la transaccion - los pagos realizados de cuentas por pagar
+               $transaction  = Transaction::findOrfail($rs1['transactionId']);
 
-
-            $oTransaction = new Transaction;
-            $rs1 = $oTransaction->insertT(
-              session('countryId'),
-              session('companyId'),
-              $transactionType[0]->transactionTypeId,
-              $item['subcont_inv_detail']['subcontractor']['name'],
-              $payMethodId,
-              $payMethodDetails,
-              $item['reason'],
-              date('m/d/Y'),
-              $item['amountPaid'],
-              '-',
-              $cashboxId,
-              $accountId,
-              $payable,
-              Auth::user()->userId);
-
-
-
-              if($rs1['alert'] == 'error') {
-                throw new \Exception($rs1['msj']);
-               };
+               $transaction->payable()->attach($payable->payableId, 
+                ['amountPaid' => number_format((float)$item['amountPaid'], 2, '.', ''),
+                'reason'      => $item['reason']
+                ]);
 
             } //cierre del foreach
 
-            //---------comienza actualizacion del pago de cuota------------
-            // $invoiceShares[1] es la cuota que le sigue a la seleccionada
-        
-            
-      
             $success = true;
             DB::commit();
         } catch (\Exception $e) {

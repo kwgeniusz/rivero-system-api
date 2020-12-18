@@ -32,7 +32,10 @@
       </table>
      </div>
 
+  <hr>
+
 <h4><b>CUENTAS POR PAGAR:</b></h4>
+
     <div class="row text-center">
          <button class="btn btn-success" @click.prevent="modalPaymentForm()"> 
           <span class="fa fa-dollar" aria-hidden="true"></span> Pagar Seleccionados
@@ -46,8 +49,9 @@
                 <th><input type="checkbox" v-model="checkAll"> # </th>
                 <th>DIRECCION</th>
                 <th>FACTURA</th>
-                <th>MONTO DEUDA</th>  
-                <th>SALDO</th>
+                <th>MONTO CONTRATADO</th>  
+                <th>MONTO PAGADO</th>  
+                <th>PENDIENTE POR PAGAR</th>
             </tr>
             </thead>
           <tbody>   
@@ -70,8 +74,12 @@
             </td>
             <td>{{payable.subcont_inv_detail.invoice.invId}}</td>
             <td>{{payable.amountDue}}</td>
+            <td>
+              <p v-for="(transaction) in payable.transaction">
+                 {{transaction.pivot.amountPaid}} 
+              </p>
+            </td>
             <td>{{payable.balance}}</td> 
-            <!-- <td>{{payable.payableId}}</td> -->
             <td v-for="(user) in payable.user"> {{user.fullName}}</td> 
   
          </tr>
@@ -79,19 +87,8 @@
         </table>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
 <sweet-modal ref="modalPaymentForm">
-        <h2><b>Cuentas por Pagar Seleccionadas:</b></h2> <br>
+  <h2><b>Cuentas por Pagar Seleccionadas:</b></h2> <br>
     <table class="table table-striped table-bordered text-center">
           <tbody>   
          <tr v-for="(payable,index) in checked">
@@ -124,7 +121,7 @@
               <div class="form-group">
                 <label for="reason" class=" control-label">Motivo:</label>
                 <div class="">
-                   <input type="text" class="form-control" id="reason" v-model="payable.reason">
+                   <textarea class="form-control" v-model="payable.reason" rows="3"></textarea>
                 </div>
               </div>
             </td>
@@ -174,6 +171,8 @@
 
          <br><br>
   </sweet-modal>
+
+
    </div>
   </div>
  </template>
@@ -217,6 +216,8 @@ import SelectBankOrCashbox from '../SelectBankOrCashbox.vue'
             cashboxId: '',
             accountId:'',
             btnSubmitForm:true,
+
+            sum:0,
           }
     },
     props: {
@@ -237,19 +238,20 @@ import SelectBankOrCashbox from '../SelectBankOrCashbox.vue'
         }
         this.checked = checked;
       }
-    }
+    },   
   },
     methods: {
+         sumTotal: function(val) {
+           this.sum = this.sum + val;
+      },
        getPayables: function () {
-            //datos del subcontratista
+         //datos del subcontratista
           axios.get(this.prefUrl+'subcontractors/'+this.subcontractorId).then(response => {
                   this.subcontractor = response.data
-                 // console.log(this.subcontractor);
             });
           //llamar las cuentas que se le deben pagar a este subcontratista
           axios.get(this.prefUrl+'subcontractors/'+this.subcontractorId+'/payables').then(response => {
                   this.payables = response.data
-                 // console.log(this.payables);
             });
         },
       modalPaymentForm: function () {

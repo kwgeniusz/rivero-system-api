@@ -27,6 +27,7 @@
         "sweet-modal-vue": "^2.0.0",
         "toastr": "^2.1.4",
         "vue-chartjs": "^3.5.0",
+        "vue-js-popover": "^1.2.1",
         "vue-moment": "^4.1.0",
         "vue-phone-number-input": "^1.1.10",
         "vue-simple-progress": "^1.1.1",

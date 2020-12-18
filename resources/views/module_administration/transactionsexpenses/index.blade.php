@@ -68,6 +68,7 @@
                     </form> --}}
   </div>
 
+
     <div class="row">
         <div class="col-xs-12 ">
 
@@ -107,6 +108,25 @@
                   @endif 
                    <td>{{$transaction->user->fullName}}</td>
                    <td> 
+
+              @if($transaction->payable->isEmpty() != 1)
+                <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
+               <a @click="$refs.amount.open();" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
+                Ver Detalles
+               </a>
+           
+              <sweet-modal ref="amount">
+                 <h3><b>Cuentas por Paga Asociadas:</b></h3>
+              @foreach($transaction->payable as $payable)
+                -Direccion: {{$payable->subcontInvDetail->invoice->contract->siteAddress}} 
+                -Monto Pagado: ${{$payable->pivot->amountPaid}} 
+                -Motivo: {{$payable->pivot->reason}}
+               @endforeach
+                   <br>
+                
+              </sweet-modal>
+              @endif
+
               @if($transaction->transactionable_id == null)     
                   @if($transaction->document)  
                        <a href="{{route('files.download', ['id' => $transaction->document->docId])}}" data-toggle="tooltip" data-placement="top" title="Descargar" class="btn btn-info">

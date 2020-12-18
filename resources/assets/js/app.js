@@ -24,9 +24,10 @@ Vue.mixin(Permissions);
 
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
- 
 Vue.use(VueMoment, {moment})
 
+import Popover from 'vue-js-popover' 
+Vue.use(Popover)
 
 // import VuePhoneNumberInput from 'vue-phone-number-input';
 // import 'vue-phone-number-input/dist/vue-phone-number-input.css';
