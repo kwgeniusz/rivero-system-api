@@ -104,7 +104,7 @@
 <div v-if="formConcept == 1">
 <div class="table-responsive col-xs-12">
     <p class="text-center"><b>ESTA FACTURA TIENE PAGOS QUE DEBE DISTRIBUIRSE EN LOS SERVICIOS</b></p> 
-    <p class="text-center"><b>MONTO PAGADO EN FACTURA: {{balancePaid}} / MONTO ASIGNADO: {{acumInput}}</b></p> 
+    <p class="text-center"><b>MONTO PAGADO EN FACTURA: {{invoiceTotalPaid}} / MONTO ASIGNADO: {{acumInput}}</b></p> 
             <table class="table table-striped table-bordered text-center bg-info">
             <thead> 
             <tr>  
@@ -183,11 +183,23 @@
             <td>{{++index}}</td>
             <td>{{item.serviceName}}</td>
             <td>{{item.unit}}</td>
-            <td>{{item.unitCost}}</td>
-            <td>{{item.quantity}}</td>
+            <td>
+              <input v-if="editMode === index" type="text" class="form-control" v-model="item.unitCost" >
+              <p v-else>{{item.unitCost}}</p> 
+            </td>
+            <td>
+              <input v-if="editMode === index" type="text" class="form-control" v-model="item.quantity" >
+              <p v-else>{{item.quantity}}</p> 
+               // {{item.quantity}}
+            </td>
             <td>{{item.amount}}</td>
             <td> 
 
+            <button v-if="editMode === index" v-on:click="updateDepartment(index, item)" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></button> &nbsp; 
+            <a  @click="editDepartment(index)" class="btn btn-sm btn-primary" title="Editar">
+                <i class="fa fa-edit"></i>
+            </a> 
+            
              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -201,15 +213,6 @@
 </div>
 <!-- FIN DE LA DEVOLUCION PARCIAL -->
   
-
-
-
-
-
-
-
-
-
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
       <a class="btn btn-success" @click="createNote()" v-if="btnSubmitForm">Crear</a>
@@ -238,11 +241,11 @@
         },
     data: function () {
           return {
+            noteType: 'credit',
             errors: [],
             invoice: '',
-            balancePaid: 0,
+            invoiceTotalPaid: 0,
             acumInput:0,
-            noteType: 'credit',
 
             formConcept: 1,
             formPercent: 0,
@@ -250,6 +253,7 @@
             formReference: '',
 
             itemList: [],
+            editMode: -1,
  
 
             btnSubmitForm: true,
@@ -287,12 +291,12 @@
              this.invoice = response.data[0]
              this.itemList = this.invoice.invoice_details;   
 
-             //sumar el total de cuotas pagadas de la factura y retornarla a this.balancePaid
+             //sumar el total de cuotas pagadas de la factura y retornarla a this.invoiceTotalPaid
              let suma = 0;
              this.invoice.shareSucceed.forEach(function(share){
                 suma = parseFloat(suma) + parseFloat(share.amountPaid)
               });
-               this.balancePaid = suma;
+               this.invoiceTotalPaid = suma;
 
          });
 
@@ -319,6 +323,31 @@
             //borrar valor que encuentre del arreglo
                  this.itemList.splice(--id,1);
         },  
+      // editItemList: function(index){
+      //           // console.log(id)
+      //               this.editMode = index
+      //           // this.$emit('delete',index)
+      //       },
+      // updateItemList: function(index, company){
+      //           // console.log(company) companyId departmentId departmentName parentDepartmentId
+      //           const params = {
+                    
+      //               departmentName: company.departmentName,
+      //           }
+      //           let url = '/departments/' + company.departmentId
+        
+      //           axios.put(url, params)
+      //           .then((response) => {
+      //               // console.log(response)
+      //                   this.editMode = -1
+      //                   // console.log(response)
+      //                   const company = response.data
+      //                   this.$emit('update', [index, company])
+      //           })
+      //           .catch(function (error) {
+      //               console.log(error);
+      //           });
+      //       },  
        calculateAssigned: function(amount,event){
          //primera regla si el monto ingresado es mayor que el precio del servicio borrar lo del input
           if(parseFloat(event.target.value) > parseFloat(amount)) {
@@ -357,21 +386,23 @@
         if(this.formConcept == 1){
           netTotalSelected = this.invoice.balanceTotal;
 
-              if(this.acumInput > this.balancePaid) 
+              if(this.acumInput > this.invoiceTotalPaid) 
                this.errors.push('Ha asignado mas del monto permitido');
 
-              if(this.acumInput < this.balancePaid) 
+              if(this.acumInput < this.invoiceTotalPaid) 
                this.errors.push('Debe Asignar el monto pagado de esta factura')
  
         }//end of formConcept 1 - ""
         if(this.formConcept == 2){
           netTotalSelected = this.discount;
+
             if (!this.formPercent) 
                this.errors.push('Campo Porcentaje es requerido');  
             if (this.formPercent > 60) 
                this.errors.push('Porcentaje no puede ser mayor a 60%');  
         }
         if(this.formConcept == 3){
+          netTotalSelected = acum;
 
            if (!Array.isArray(this.itemList) || !this.itemList.length) {
                this.errors.push('Necesitas Agregar Servicios a la Nota');
@@ -385,7 +416,6 @@
                this.errors.push('El Suma de Los item no puede superar el balance de la factura.');
               }
               
-          netTotalSelected = acum;
         }
              
         if (!this.errors.length) { 
