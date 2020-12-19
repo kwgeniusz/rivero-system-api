@@ -184,22 +184,23 @@
             <td>{{item.serviceName}}</td>
             <td>{{item.unit}}</td>
             <td>
-              <input v-if="editMode === index" type="text" class="form-control" v-model="item.unitCost" >
+              <input v-if="editMode === index" type="text" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
               <p v-else>{{item.unitCost}}</p> 
             </td>
             <td>
-              <input v-if="editMode === index" type="text" class="form-control" v-model="item.quantity" >
+              <input v-if="editMode === index" type="text" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
               <p v-else>{{item.quantity}}</p> 
-               // {{item.quantity}}
             </td>
             <td>{{item.amount}}</td>
             <td> 
 
-            <button v-if="editMode === index" v-on:click="updateDepartment(index, item)" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></button> &nbsp; 
-            <a  @click="editDepartment(index)" class="btn btn-sm btn-primary" title="Editar">
+            <a v-if="editMode === index" @click="updateItemList(index, item)" class="btn btn-sm btn-success">
+               <i class="glyphicon glyphicon-ok"></i>
+            </a> 
+            <a v-else @click="editItemList(index)" class="btn btn-sm btn-primary" title="Editar" > 
                 <i class="fa fa-edit"></i>
             </a> 
-            
+
              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -265,7 +266,7 @@
     },
    watch: {
        formConcept: function(){
-            console.log(this.formConcept)
+            // console.log(this.formConcept)
 
              if(this.formConcept == 1) {
                 this.itemList = this.invoice.invoice_details;   
@@ -323,31 +324,36 @@
             //borrar valor que encuentre del arreglo
                  this.itemList.splice(--id,1);
         },  
-      // editItemList: function(index){
-      //           // console.log(id)
-      //               this.editMode = index
-      //           // this.$emit('delete',index)
-      //       },
-      // updateItemList: function(index, company){
-      //           // console.log(company) companyId departmentId departmentName parentDepartmentId
-      //           const params = {
-                    
-      //               departmentName: company.departmentName,
-      //           }
-      //           let url = '/departments/' + company.departmentId
-        
-      //           axios.put(url, params)
-      //           .then((response) => {
-      //               // console.log(response)
-      //                   this.editMode = -1
-      //                   // console.log(response)
-      //                   const company = response.data
-      //                   this.$emit('update', [index, company])
-      //           })
-      //           .catch(function (error) {
-      //               console.log(error);
-      //           });
-      //       },  
+     calculateItemAmount: function(index,item)
+     
+             const found = this.invoice.invoice_details.find(invDetail => invDetail.invDetailId == item.invDetailId);
+             console.log(found.amount);
+
+             console.log(item)
+
+             const found2 = this.itemList.find(item => item == item.invDetailId);
+             console.log(found2.amount);
+                // this.editMode = index
+                // this.$emit('delete',index)
+            },
+      editItemList: function(index){
+                // console.log(id)
+                    this.editMode = index
+                // this.$emit('delete',index)
+            },
+      updateItemList: function(index, item){
+                console.log(index) 
+                console.log(item) 
+             
+             //buscar el monto total del item para no sobrepasarlo con la modificacion
+             // const found = this.invoice.invoice_details.find(invDetail => invDetail.invDetailId == item.invDetailId);
+             // console.log(found.amount);
+                // const params = {
+                //     departmentName: item.departmentName,
+                // }
+                // this.editMode = -1
+
+            },  
        calculateAssigned: function(amount,event){
          //primera regla si el monto ingresado es mayor que el precio del servicio borrar lo del input
           if(parseFloat(event.target.value) > parseFloat(amount)) {
