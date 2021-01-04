@@ -28,7 +28,7 @@ class ReceivableController extends Controller
                       $paymentsMissing = $this->oReceivable->getAllByClient($receivable->clientId);
                       $receivable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
              });
-
+       
         return view('module_administration.receivables.index', compact('receivables'));
     }
     public function details($clientId)

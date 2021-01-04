@@ -260,6 +260,8 @@ class TransactionController extends Controller
     {
 
         $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
+
+        
         if ($sign == '+') {
             return view('module_administration.transactionsincome.show', compact('transaction'));
         } else {

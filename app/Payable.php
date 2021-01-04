@@ -17,7 +17,7 @@ class Payable extends Model
     protected $primaryKey = 'payableId';
     public $timestamps    = false;
 
-    protected $appends = ['amountDue','balance'];
+    protected $appends = ['amountDue','acumAmountPaid','balance'];
 
     /**
      * The attributes that are mass assignable.
@@ -43,6 +43,10 @@ class Payable extends Model
     {
        return decrypt($this->attributes['amountDue']);
     }
+    public function getAcumAmountPaidAttribute($acumAmountPaid)
+    {
+       return decrypt($this->attributes['acumAmountPaid']);
+    }
     public function getBalanceAttribute($balance)
     {
         return decrypt($this->attributes['balance']);
@@ -60,6 +64,11 @@ class Payable extends Model
     { 
         $amountDue = number_format((float)$amountDue, 2, '.', '');
         return $this->attributes['amountDue'] = encrypt($amountDue);
+    } 
+    public function setAcumAmountPaidAttribute($acumAmountPaid)
+    { 
+        $acumAmountPaid = number_format((float)$acumAmountPaid, 2, '.', '');
+        return $this->attributes['acumAmountPaid'] = encrypt($acumAmountPaid);
     } 
     public function setBalanceAttribute($balance)
     {
@@ -158,7 +167,9 @@ class Payable extends Model
           
             //busca datos de la cuota que el usuario escogio 
               $total = 0;
+              $acumAmountPaid = 0;
               foreach ($payables as $index => $item) {
+                //verificacion de errores de cada cuota
                   $index++;
                    if($item['reason'] == '') {
                     throw new \Exception('Error: Debe Escribir un Motivo en la cuota # '.$index);
@@ -170,11 +181,13 @@ class Payable extends Model
                     throw new \Exception('Error: El monto pagado es mayor que el saldo, ingrese uno menor en la cuota # '.$index);
                   };
                   //acumula el saldo pagado
-                  $amountPaidAcum += $item['amountPaid'];
+                //   $amountPaidAcum += $item['amountPaid'];
                   //resta el balance de la cuota menos el monto pagado por formulario.
-                  $total = $item['balance'] - $item['amountPaid'];
+                  $acumAmountPaid = $item['acumAmountPaid'] + $item['amountPaid'];
+                  $total          = $item['balance']        - $item['amountPaid'];
 
                   $payable = $this->find($item['payableId']);
+                  $payable->acumAmountPaid = $acumAmountPaid;
                   $payable->balance = $total;
                    if($total == 0){
                      $payable->payStatusCode = Payable::SUCCESS;

@@ -38,13 +38,13 @@
             </tr>
             </thead>
           <tbody>   
-       <tr v-for="(item,index) in invoice.invoice_details" v-if="item.unit != null">
+       <tr v-for="(articule,index) in invoice.invoice_details" v-if="articule.unit != null">
             <td>{{++index}}</td>
-            <td>{{item.serviceName}}</td>
-            <td>{{item.unit}}</td>
-            <td>{{item.unitCost}}</td>
-            <td>{{item.quantity}}</td>
-            <td>{{item.amount}}</td>
+            <td>{{articule.serviceName}}</td>
+            <td>{{articule.unit}}</td>
+            <td>{{articule.unitCost}}</td>
+            <td>{{articule.quantity}}</td>
+            <td>{{articule.amount}}</td>
          </tr>
          </tbody>
         </table>
@@ -184,11 +184,11 @@
             <td>{{item.serviceName}}</td>
             <td>{{item.unit}}</td>
             <td>
-              <input v-if="editMode === index" type="text" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
+              <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
               <p v-else>{{item.unitCost}}</p> 
             </td>
             <td>
-              <input v-if="editMode === index" type="text" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
+              <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
               <p v-else>{{item.quantity}}</p> 
             </td>
             <td>{{item.amount}}</td>
@@ -269,7 +269,7 @@
             // console.log(this.formConcept)
 
              if(this.formConcept == 1) {
-                this.itemList = this.invoice.invoice_details;   
+                this.itemList = Object.assign({} , this.invoice.invoice_details);    
              }else{
                this.itemList = [];
              }
@@ -290,7 +290,7 @@
 
             axios.get(url).then(response => {
              this.invoice = response.data[0]
-             this.itemList = this.invoice.invoice_details;   
+             this.itemList =  Object.assign({} , this.invoice.invoice_details);   
 
              //sumar el total de cuotas pagadas de la factura y retornarla a this.invoiceTotalPaid
              let suma = 0;
@@ -313,10 +313,9 @@
                 this.errors.push('Ya se Agrego el Servicio a la Nota.');
 
           if (!this.errors.length) { 
-         
             //AGREGAR A ITEMLIST
               //Nota al agregar el item debo meter un objeto con el nombre y el ID
-                this.itemList.push(this.formService);   
+                this.itemList.push(Object.assign({} , this.formService));   
 
               }
         },
@@ -324,35 +323,34 @@
             //borrar valor que encuentre del arreglo
                  this.itemList.splice(--id,1);
         },  
-     calculateItemAmount: function(index,item)
-     
-             const found = this.invoice.invoice_details.find(invDetail => invDetail.invDetailId == item.invDetailId);
-             console.log(found.amount);
+     calculateItemAmount: function(index,item) { 
+          //regla: si no es un numero ponle cero
+           if(item.unitCost == '' || item.unitCost == 0) {
+              item.unitCost = 1;
+          }
+           if(item.quantity == '' || item.quantity == 0) {
+              item.quantity = 1;
+          }
+            //la multiplicacion de la monto unidad por la cantidad no debe ser mayor a este monto
+             const found = this.invoice.invoice_details.find(el => el.invDetailId == item.invDetailId);
+             let amountRs = item.unitCost * item.quantity;
 
-             console.log(item)
+             let myObj = this.itemList.find(el => el.invDetailId = item.invDetailId);
+              myObj.amount = parseFloat(amountRs).toFixed(2);
 
-             const found2 = this.itemList.find(item => item == item.invDetailId);
-             console.log(found2.amount);
-                // this.editMode = index
-                // this.$emit('delete',index)
-            },
+              if(amountRs > found.amount){
+                  item.unitCost = found.unitCost;
+                  item.quantity = found.quantity;
+                  item.amount   = found.amount;
+              
+              }
+        },
       editItemList: function(index){
-                // console.log(id)
-                    this.editMode = index
-                // this.$emit('delete',index)
-            },
+             this.editMode = index
+        },
       updateItemList: function(index, item){
-                console.log(index) 
-                console.log(item) 
-             
-             //buscar el monto total del item para no sobrepasarlo con la modificacion
-             // const found = this.invoice.invoice_details.find(invDetail => invDetail.invDetailId == item.invDetailId);
-             // console.log(found.amount);
-                // const params = {
-                //     departmentName: item.departmentName,
-                // }
-                // this.editMode = -1
-
+              item.unitCost = parseFloat(item.unitCost).toFixed(2);
+              this.editMode = -1
             },  
        calculateAssigned: function(amount,event){
          //primera regla si el monto ingresado es mayor que el precio del servicio borrar lo del input
@@ -408,7 +406,7 @@
                this.errors.push('Porcentaje no puede ser mayor a 60%');  
         }
         if(this.formConcept == 3){
-          netTotalSelected = acum;
+          
 
            if (!Array.isArray(this.itemList) || !this.itemList.length) {
                this.errors.push('Necesitas Agregar Servicios a la Nota');
@@ -421,6 +419,7 @@
            if(acum > parseFloat(this.invoice.balanceTotal)) {
                this.errors.push('El Suma de Los item no puede superar el balance de la factura.');
               }
+          netTotalSelected = acum;
               
         }
              

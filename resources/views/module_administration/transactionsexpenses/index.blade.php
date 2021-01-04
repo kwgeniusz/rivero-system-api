@@ -92,7 +92,7 @@
             </thead>
                 <tbody>
                @php $acum = 0; @endphp
-                @foreach($transactions as $transaction)
+                @foreach($transactions as $index => $transaction)
                 <tr>
                    <td>{{ $acum = $acum +1 }}</td>
                    <td>{{$transaction->transactionDate}}</td>
@@ -109,22 +109,8 @@
                    <td>{{$transaction->user->fullName}}</td>
                    <td> 
 
-              @if($transaction->payable->isEmpty() != 1)
-                <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
-               <a @click="$refs.amount.open();" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
-                Ver Detalles
-               </a>
-           
-              <sweet-modal ref="amount">
-                 <h3><b>Cuentas por Paga Asociadas:</b></h3>
-              @foreach($transaction->payable as $payable)
-                -Direccion: {{$payable->subcontInvDetail->invoice->contract->siteAddress}} 
-                -Monto Pagado: ${{$payable->pivot->amountPaid}} 
-                -Motivo: {{$payable->pivot->reason}}
-               @endforeach
-                   <br>
-                
-              </sweet-modal>
+              @if($transaction->payable->isEmpty() != 1) 
+                <modal-transaction-details :payables="{{$transaction->payable}}"/>
               @endif
 
               @if($transaction->transactionable_id == null)     

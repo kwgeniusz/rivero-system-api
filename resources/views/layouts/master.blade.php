@@ -112,6 +112,7 @@ desired effect
 
   //Tooltip Boostrap 3.3
   $(function () { $('[data-toggle="tooltip"]').tooltip()})
+  
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {

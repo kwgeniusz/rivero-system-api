@@ -167,7 +167,7 @@
           //llamar las facturas activas del contrato, con detalles, notas, alcances
           axios.get('invoices?id='+this.contractId).then(response => {
                   this.invoicesList = response.data
-                 console.log(this.invoicesList);
+                //  console.log(this.invoicesList);
             });
 
             this.$refs.mainModal.open()

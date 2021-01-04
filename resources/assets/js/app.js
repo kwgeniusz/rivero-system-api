@@ -26,8 +26,8 @@ import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
 Vue.use(VueMoment, {moment})
 
-import Popover from 'vue-js-popover' 
-Vue.use(Popover)
+// import Popover from 'vue-js-popover' 
+// Vue.use(Popover)
 
 // import VuePhoneNumberInput from 'vue-phone-number-input';
 // import 'vue-phone-number-input/dist/vue-phone-number-input.css';
@@ -63,9 +63,10 @@ Vue.component('confirm-payment', require('./components/administration/ModalConfi
 Vue.component('proposal-details', require('./components/administration/proposal/ProposalDetails.vue'));
 Vue.component('credit-note', require('./components/administration/invoice/saleNote/CreditNote.vue'));
 Vue.component('debit-note', require('./components/administration/invoice/saleNote/DebitNote.vue'));
-Vue.component('subcontractor-datasheet', require('./components/administration/subcontractor/SubcontractorDatasheet.vue'));
-Vue.component('subcontractor-create', require('./components/administration/subcontractor/create.vue'));
+Vue.component('subcontractor-datasheet', require('./components/administration/subcontractor/Datasheet.vue'));
+Vue.component('subcontractor-create', require('./components/administration/subcontractor/Create.vue'));
 Vue.component('search-subcontractor', require('./components/administration/SearchSubcontractor.vue'));
+Vue.component('modal-transaction-details', require('./components/administration/ModalTransactionDetails.vue'));
 // Vue.component('form-new-note', require('./components/administration/proposal/FormNewNote.vue'));
 
 Vue.component('form-new-service', require('./components/administration/FormNewService.vue'));

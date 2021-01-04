@@ -65,7 +65,9 @@ class Transaction extends Model
     }
     public function payable()
     {
-        return  $this->belongsToMany('App\Payable', 'transaction_payable','transactionId', 'payableId')->withPivot('amountPaid', 'reason');
+        return  $this->belongsToMany('App\Payable', 'transaction_payable','transactionId', 'payableId')
+        ->with('subcontInvDetail.invoice.contract')
+        ->withPivot('amountPaid', 'reason');
     }
      public function user()
     {

@@ -56,10 +56,10 @@
             @foreach($receivables as $receivable)
                 <tr>
                      <td>{{++$acum}}</td>
-                     <td>{{$receivable->client->clientCode}}</td>
-                     <td>{{$receivable->client->clientName}}</td>
-                     <td>{{$receivable->client->clientAddress}}</td>
-                     <td>{{$receivable->client->clientPhone}}</td>
+                     <td>{{$receivable->client['clientCode']}}</td>
+                     <td>{{$receivable->client['clientName']}}</td>
+                     <td>{{$receivable->client['clientAddress']}}</td>
+                     <td>{{$receivable->client['clientPhone']}}</td>
                      <td>{{$receivable->cuotas}}</td>
                      <td>{{$receivable->balanceTotal}}</td>
                      <td><a href="{{route('receivables.details', ['clientId' => $receivable->clientId])}}" class="btn btn-info">

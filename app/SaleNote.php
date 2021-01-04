@@ -76,8 +76,7 @@ use Illuminate\Database\Eloquent\Model;
                     ->where('noteType', $noteType)
                     ->get();
     }
-
-        public function getAllByInvoice($invoiceId)
+    public function getAllByInvoice($invoiceId)
     {
         return $this->where('invoiceId', $invoiceId)
                     ->orderBy('dateNote', 'DESC')
