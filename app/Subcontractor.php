@@ -93,8 +93,10 @@ class Subcontractor extends Model
         $subcontractor->DNIType             = $data['DNIType'];
         $subcontractor->DNI                 = $data['DNI'];
         $subcontractor->mainPhone           = $data['mainPhone'];
+        $subcontractor->secondaryPhone      = $data['secondaryPhone'];
         $subcontractor->address             = $data['address'];
         $subcontractor->email               = $data['email'];
+        
         $subcontractor->bankName            = $data['bankName'];
         $subcontractor->headline            = $data['headline'];
         $subcontractor->accountNumber       = $data['accountNumber'];

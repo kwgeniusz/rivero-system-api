@@ -33,8 +33,8 @@ class Payable extends Model
        'payStatusCode'
     ];
     //RECEIVABLE STATUS
-    const STATELESS     = '1';
-    const SUCCESS   = '2';
+    const STATELESS      = '1';
+    const SUCCESS        = '2';
     // const PROCESS     = '2';
     // const DECLINED    = '3';
 
@@ -96,7 +96,7 @@ class Payable extends Model
     }  
   public function transaction()
     {
-        return $this->belongsToMany('App\Transaction','transaction_payable','payableId', 'transactionId')->withPivot('amountPaid', 'reason');;
+        return $this->belongsToMany('App\Transaction','transaction_payable','payableId', 'transactionId')->withPivot('amountPaid', 'reason');
     }  
 //-------------------------------------------------------------------
     /** Function of Models */
