@@ -78,6 +78,11 @@ Vue.component('invoice-btn-cancel', require('./components/administration/invoice
 Vue.component('invoice-btn-collection', require('./components/administration/invoice/InvoiceBtnCollection.vue'));
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
 
+// --> Transaction Expense
+Vue.component('index-transaction-expense', require('./components/administration/transaction/expense/index.vue'));
+Vue.component('add-transaction-expense'  , require('./components/administration/transaction/expense/add.vue'));
+
+
 //########### human resource components #############
 // --> Department
 Vue.component('rrhh-departments', require('./components/rrhh/department/rrhhDepartments.vue'));

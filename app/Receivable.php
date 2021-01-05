@@ -347,8 +347,8 @@ class Receivable extends Model
             $receivable->sourceBank        = $sourceBank;
             $receivable->sourceBankAccount = $sourceBankAccount;
             $receivable->checkNumber       = $checkNumber;
-            $receivable->cashboxId         = $cashboxId;
-            $receivable->accountId         = $accountId;
+            // $receivable->cashboxId         = $cashboxId;
+            // $receivable->accountId         = $accountId;
             $receivable->datePaid          = $datePaid;
             $receivable->userId            = $userId;
             
