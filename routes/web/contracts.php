@@ -1,61 +1,87 @@
 <?php
 
-
-//CONTRACT MODULE ROUTES------------------------------------------------------------------
-//CLIENTS************
+//--------------------CONTRACT MODULE ROUTES-------------------------//
+//****************************CLIENTS***************************
 Route::resource('clients', 'Web\ClientController');
-//Subcontractors************
-Route::resource('subcontractors', 'Web\SubcontractorController');
-Route::get('subcontractors/{subcontId}/payables', 'Web\SubcontractorController@payables')->name('subcontractors.payables');
-Route::get('subcontractors/{subcontId}/getPayables', 'Web\SubcontractorController@getallPayables')->name('subcontractors.getallPayables');
-//PRECONTRACTS**********
-Route::resource('precontracts', 'Web\PrecontractController');
-Route::get('precontracts/{precontract}/details', 'Web\PrecontractController@details')->name('precontracts.details');
+Route::resource('contactTypes', 'Web\ContactTypeController');
+
+//**************************PRECONTRACTS*************************
+Route::resource('precontracts', 'Web\PrecontractController', ['parameters' => ['precontracts' => 'id']]);
+Route::get('precontracts/{id}/details', 'Web\PrecontractController@details')->name('precontracts.details');
 //PRECONTRACTS-OPTIONS
+ // ->Precontract Files
+Route::get('precontracts/{id}/files', 'Web\PrecontractFileController@index')->name('precontractsFile.index');
+Route::post('precontracts/{id}/files', 'Web\PrecontractFileController@store')->name('precontractsFile.store');
+
+ // ->Precontract Convert to Contract
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAdd')->name('precontracts.convertAgg');
-//PROPOSAL*********
+ // ->Precontract Comments
+Route::get('precontracts/{id}/comments', 'Web\PrecontractCommentController@index')->name('precontractsComment.index');
+Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@store')->name('precontractsComment.store');
+
+//***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
-Route::resource('proposalsNotes', 'Web\ProposalNoteController');
-Route::resource('proposalsScopes', 'Web\ProposalScopeController');
 
+ //->Proposal Scopes
+Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
+Route::post('proposals/{id}/scopes', 'Web\ProposalScopeController@store')->name('proposalsScopes.store');
+
+ //->Proposal Time Frames
+Route::get('proposals/{id}/time-frames', 'Web\ProposalTimeFrameController@index')->name('proposalsTimeFrames.index');
+Route::post('proposals/{id}/time-frames', 'Web\ProposalTimeFrameController@store')->name('proposalsTimeFrames.store');
+Route::resource('time-frames', 'Web\TimeFrameController', ['parameters' => ['time-frames' => 'id']]);
+
+ //->Proposal Terms and Conditions
+Route::get('proposals/{id}/terms', 'Web\ProposalTermController@index')->name('proposalsTerms.index');
+Route::post('proposals/{id}/terms', 'Web\ProposalTermController@store')->name('proposalsTerms.store');
+Route::resource('terms', 'Web\TermController', ['parameters' => ['terms' => 'id']]);
+
+ //->Proposal Notes
+Route::get('proposals/{id}/notes', 'Web\ProposalNoteController@index')->name('proposalsNotes.index');
+Route::post('proposals/{id}/notes', 'Web\ProposalNoteController@store')->name('proposalsNotes.store');
+
+ // ->Proposal Subcontractor
+Route::put('proposal/{id}/update-subcontractor', 'Web\ProposalController@updateSubcontractor');
+ // ->Proposal Payments
 Route::get('proposalsPayments/{id}', 'Web\ProposalController@payments')->name('proposals.payments');
 Route::post('proposalsPayments/add', 'Web\ProposalController@paymentsAdd')->name('proposals.paymentsAdd');
 Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@paymentsRemove')->name('proposals.paymentsRemove');
-
+ // ->Proposal Convert
 Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
 Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
-//CONTRACT*********
+
+//****************************CONTRACT*****************************
 Route::resource('contracts', 'Web\ContractController', ['except' => ['create']]);
 Route::get('contracts/{contract}/details', 'Web\ContractController@details')->name('contracts.details');
 //CONTRACT-OPTIONS
+ // ->Contract Change Status
 Route::get('contractsChangeStatus/{contract}', 'Web\ContractController@changeStatus')->name('contracts.changeStatus');
 Route::put('contractsupdateStatus', 'Web\ContractController@updateStatus')->name('contracts.updateStatus');
-
+ // ->Contract staff
 Route::get('contractsStaff/{contract}', 'Web\ContractController@staff')->name('contracts.staff');
 Route::post('contractsStaff/add', 'Web\ContractController@staffAdd')->name('contracts.staffAdd');
 Route::get('contractsStaff/{contractId}/remove/{staffId}', 'Web\ContractController@staffRemove')->name('contracts.staffRemove');
-
+ // ->Contract File
 Route::get('contractsFile/{id}', 'Web\ContractController@files')->name('contracts.files');
-Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contracts.fileAdd');
-Route::get('fileDownloadByUnit/{docId}', 'Web\ContractController@fileDownloadByUnit')->name('contracts.fileDownloadByUnit');
-Route::post('fileDownload', 'Web\ContractController@fileDownload')->name('contracts.fileDownload');
-Route::put('fileDelete', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
-// Route::get('fileDelete/{docId}', 'Web\ContractController@fileDelete')->name('contracts.fileDelete');
 Route::get('contract/{id}/files/{type}', 'Web\ContractController@getFiles')->name('contracts.getFiles');
-//COMMENTS*************
-Route::resource('comments', 'Web\CommentController');
-Route::get('contracts/{modelId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
-//INVOICES*********
+Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contracts.fileAdd');
+ // ->Contract Comments
+Route::get('contracts/{id}/comments', 'Web\ContractCommentController@index')->name('contractsComment.index');
+Route::post('contracts/{id}/comments', 'Web\ContractCommentController@store')->name('contractsComment.store');
+
+//****************************FILES********************************
+Route::get('files/{id}/download', 'Web\FileController@download')->name('files.download');
+Route::post('files/download-zip', 'Web\FileController@downloadZip')->name('files.downloadZip');
+Route::put('files/delete-multiple', 'Web\FileController@deleteMultiple')->name('files.deleteMultiple');
+Route::put('files/move', 'Web\FileController@move')->name('files.move');
+
+// //****************************COMMENTS********************************
+// Route::resource('comments', 'Web\CommentController');
+// Route::get('contracts/{modelId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 
 
-//SUBCONTRACTORS*********
-Route::resource('subcontractors', 'Web\SubcontractorController');
-Route::get('subcontractors/list/{invDetailId}/invDetail', 'Web\SubcontractorController@listSubcontInvDetail');
-Route::post('subcontractors/add/invDetail', 'Web\SubcontractorController@addSubcontInvDetail');
-Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorController@removeSubcontInvDetail');
-Route::get('searchSubcontractor/{subcontName}', 'Web\SubcontractorController@getFiltered')->name('searchSubcontractor.getFiltered');
 //CONTRACT-SEARCH********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');

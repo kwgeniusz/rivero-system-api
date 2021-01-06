@@ -26,8 +26,8 @@
 
  <div class="row">
           <div class="form-group col-lg-4">
-            <label for="changeOffice">PUEDE CAMBIAR DE OFICINA?</label>
-            <select class="form-control" name="changeOffice" id="changeOffice">
+            <label for="changeCompany">PUEDE CAMBIAR DE OFICINA?</label>
+            <select class="form-control" name="changeCompany" id="changeCompany">
                       <option value="Y"> YES </option>
                       <option value="N"> NO </option>
             </select>

@@ -7,9 +7,6 @@
             font-family: helvetica;
             font-weight: normal; !important
         }
-        .page-break {
-          page-break-after: always;
-         }
         body {
             margin: 1cm 1cm 2cm 1cm;
             font-size:14px
@@ -19,21 +16,42 @@
             width:100%;
             /*border:1px solid black;*/
         }
+        td,tr,th{
+            font-weight:normal;
+        }
         .table-center{
            table-layout: fixed;
            border: 1px solid black;
            width: 60%;
            margin:0 auto;
         }
-        td,tr,th{
-            font-weight:normal;
-        }
 
         #bold {
           font-weight: bold;
         }
 
+     footer {
+            position: fixed;
+            bottom: 50px;
+            left: 0cm;
+            right: 0cm;
+            height: 0cm;
+            /*background-color: #2a0927;*/
+            color: black;
+            text-align: center;
+            line-height: 20px;
+        }
+        
+       .pagenum:before {
+        content: counter(page);
+        }
 
+        .pagination {
+         position: absolute;
+         color: black;
+         bottom: 15px;
+         left: 680px;
+        }
 
     </style>
 </head>
@@ -63,37 +81,55 @@
         </th>
 
       <th width="23%" align="center">
-
         <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
       </th>
 
     </tr>
 </table>
 
-<br>
- <table cellspacing="0" cellpadding="6px" border="0" style="background-color:#f4f4f5;border-radius:4px">
+<br><br>
+  <table cellspacing="0" cellpadding="1px" border="0">
        <tr>
-        <th>
-          <b>Billed to:</b> <br>
-           {{$receivable[0]->client->clientCode}}<br>
-           {{$receivable[0]->client->clientName}}<br>
-           {{$receivable[0]->client->clientAddress}}
-        </th>
-
-        <th>
-          <b>Invoice Date:</b> {{$invoice->invoiceDate}}<br><br>
-          <b>Invoice Number:</b> {{$invoice->invId}}
-        </th>
+        <th colspan="3" style="background-color:#f2edd1;font-size:14px;text-align: center"><span id="bold">Bill To:</span></th>
        </tr>
-
+       <tr> 
+            <th colspan="1">
+               <span id="bold">ID:</span> {{$receivable[0]->client->clientCode}}
+            </th>
+            <th colspan="1">
+              <span id="bold">Name:</span> {{$receivable[0]->client->clientName}}
+            </th>
+             <th colspan="1">
+              <span id="bold">Phone:</span> {{$receivable[0]->client->clientPhone}}
+            </th>
+       </tr>
+      <tr> 
+            <th colspan="2">
+              <span id="bold">Billing Address:</span> {{$receivable[0]->client->clientAddress}}
+            </th>
+             <th colspan="1">
+               <span id="bold">E-mail:</span> {{$receivable[0]->client->clientEmail}}
+            </th>
+       </tr>
 </table>
 
 <br>
- <div align="center" style="font-size:14px;">Reference: Project for a {{$invoice->projectDescription->projectDescriptionName}} at {{$invoice->contract->siteAddress}}</div>: 
- <br>
+ <div align="center">
+ <b>Reference:</b> <br>
+   Project for a {{$invoice->projectDescription->projectDescriptionName}} at {{$invoice->contract->siteAddress}}
+</div>
 
-  <table cellspacing="0" cellpadding="6px" border="1" class="table-center" style="font-size:15px;background-color:#f4f4f5;">
-     <tr style="text-align: center; font-weight:bold"> 
+<br>
+ <div align="center" >
+ <b>Invoice Number:</b> {{$invoice->invId}}<br>
+          <b>Invoice Date:</b> {{$invoice->invoiceDate}}<br>
+          <b>Invoice Amount:</b> {{$symbol}}{{$invoice->netTotal}}<br>
+</div>
+
+
+ <br>
+  <table cellspacing="0" cellpadding="6px" border="1" class="table-center" >
+     <tr style="text-align: center; font-weight:bold; background:#f2edd1;color:black"> 
             <th>
                <strong>
                  Quantity
@@ -134,62 +170,36 @@
                 {{$symbol}}{{$receivable[0]->amountDue}}
             </th>  
        </tr>
-  </table> 
-<br>
+  </table>
 
-Invoice Amount: {{$symbol}}{{$invoice->netTotal}}<br><br>
-Balance due after this payment: {{$symbol}}{{ $receivable[0]->amountDue-$invoice->netTotal}}<br><br>
-Remit payment to:
+<br>
+<div style="text-align: center">
+<b>Invoice Balance:</b> {{$symbol}}{{$invoice->balanceTotal}}<br>
+<b>Balance due after this payment:</b> {{$symbol}}{{ $invoice->balanceTotal - $receivable[0]->amountDue}}
+</div>
+
+<br><br>
+<div style="text-align: center">
+<b>Remit payment to:</b><br>
        Name: JD Rivero Dallas LLC <br>
            Bank: Bank of America <br>
            Account number: 4880 9011 7716 <br>
            Routing number: 111000025<br>
-           026009593 (wires)
-<br>
-{{-- 
- <table cellspacing="0" cellpadding="6px" border="1" style="background-color:#f4f4f5;border-radius:4px;text-align: center">
-       <tr>
-         <th colspan="2"> Remit payment to: </th>
-       </tr>
-       <tr>
-         <th> CHECK or MONEY ORDER: </th>
-         <th> Name: JD Rivero Dallas LLC  </th>
-       </tr>
-      <tr>
-         <th>  ZELLE TRANSFER: </th>
-         <th>           Name: JD Rivero Dallas LLC<br>
-            E-mail: jdriverodallas@gmail.com </th>
-       </tr>
+           026009593 (WIRES)<br>
+           E-mail: jdriverodallas@gmail.com (ZELLE)
+</div>
 
-       <tr>
-         <th>WIRE TRANSFER or TRANSFER: </th>
-         <th> 
-          Name: JD Rivero Dallas LLC <br>
-           Bank: Bank of America <br>
-           Account number: 4880 9011 7716 <br>
-           Routing number: 111000025<br>
-           026009593 (wires) 
-         </th>
-       </tr>
-     </tr> --}}
-</table>
+<br> <br><br>
+<div align="center">
+<b>NOTE:</b> If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
+</div>
 
-
-<br>
-<div align="center" style="font-size:13px"><b>
-CASH 
-NOTE: If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
-</b></div>
-
-<script type="text/php">
-    if ( isset($pdf) ) {
-        $pdf->page_script('
-            $font = $fontMetrics->get_font("Helvetica", "italic");
-            $pdf->text(210, 805, "© Copyright 2020 JD Rivero Global - All rights reserved", $font, 8);
-            $pdf->text(250, 816, "Designed By Rivero Visual Group", $font, 8);
-            $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
-        ');
-    }
-</script>
+<footer>
+© Copyright 2020 JD Rivero Global - All rights reserved <br>
+    Designed By Rivero Visual Group
+        <div class="pagination">
+        <p>Page <span class="pagenum"></span></p>
+        </div>
+</footer>
 </body>
 </html>

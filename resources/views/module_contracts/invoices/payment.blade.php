@@ -6,34 +6,61 @@
 <div class="panel panel-default col-xs-12">
     <div class="panel-body">
 
-<div class="text-center"><h4 ><b>DETALLES DE FACTURA</b></h4></div>
+<div class="text-center"><h4 ><b>FACTURA</b></h4></div>
  <div class="table-responsive">
+  {{-- {{$invoice[0]->shareSucceed}}<BR><BR> --}}
+  {{-- {{$invoice[0]->sharePending}} --}}
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr class="bg-success">
                  <th>N° FACTURA</th>
-                 <th>CONTRATO</th>
                  <th>CLIENTE</th>
+                 <th>CONTRATO</th>
                  <th>DIRECCIÓN</th>
                  <th>FECHA</th>
-                 <th>SUB-TOTAL</th>
-                 <th>IMPUESTO</th>
+                 <th>DESCRIPCION DEL PROYECTO</th>
                  <th>TOTAL</th>
+                 <th>BALANCE</th>
                  <th>CUOTAS</th>
+                 <th>NOTAS </th>
+                 <th>{{__('STATUS')}}</th> 
                  </th>
                 </tr>
             </thead>
           <tbody>
                 <tr>
                     <td>{{$invoice[0]->invId}} </td>
-                    <td>{{$invoice[0]->contract->contractNumber}} </td>
                     <td>{{$invoice[0]->client->clientName}} </td>
+                    <td>{{$invoice[0]->contract->contractNumber}} </td>
                     <td>{{$invoice[0]->contract->siteAddress}} </td>
                     <td>{{$invoice[0]->invoiceDate}} </td>
-                    <td>{{$invoice[0]->grossTotal }} </td>
-                    <td>{{$invoice[0]->taxAmount }} </td>
-                    <td>{{$invoice[0]->netTotal }} </td>
-                    <td>{{$invoice[0]->pQuantity }} </td>
+                    <td>{{$invoice[0]->projectDescription->projectDescriptionName}}</td>
+                   <td>{{$invoice[0]->netTotal}}</td>
+                   <td>{{$invoice[0]->balanceTotal}}</td>
+                   <td>{{$invoice[0]->shareSucceed->count()}}/{{$invoice[0]->pQuantity}}</td>  
+                   <td>
+                @if($invoice[0]->invStatusCode == App\Invoice::CLOSED or $invoice[0]->invStatusCode == App\Invoice::PAID )
+                 <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice[0]->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+                     <span class="fa fa-briefcase" aria-hidden="true"></span> 
+                </a>
+                @endif
+                   </td>
+                   <td
+                  @if($invoice[0]->invStatusCode == App\Invoice::OPEN )
+                      style="background-color: #2ab25b;color:white"  
+                  @elseif($invoice[0]->invStatusCode == App\Invoice::CLOSED )
+                       style="background-color: #3c8ddc;color:white" 
+                  @elseif($invoice[0]->invStatusCode == App\Invoice::PAID )
+                        style="background-color: #78341a;color:white" 
+                   @elseif($invoice[0]->invStatusCode == App\Invoice::COLLECTION )
+                        style="background-color: #cbb956;color:white" 
+                  @endif
+                   >
+                    <a style="color: white;" href="{{route('reports.invoice', ['id' => $invoice[0]->invoiceId])}}">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
+                     {{$invoice[0]->invoiceStatus[0]->invStatusName}} 
+                    </a>
+                 </td> 
                 </tr>
         </tbody>
       </table>
@@ -42,6 +69,7 @@
      <hr>
      <h4 class="text-center"><b>CUOTAS</b></h4>
  @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
+  @if($invoice[0]->invStatusCode <> App\Invoice::PAID  && $invoice[0]->invStatusCode <> App\Invoice::CANCELLED)
   <div class="col-lg-offset-3 col-lg-5 ">
         @if ($errors->any())
           <div class="alert alert-danger">
@@ -52,8 +80,9 @@
                   @endforeach
               </ul>
           </div>
-      @endif
+     @endif
         </div>
+
 
     <div class="row text-center">
       <form class="form-inline form-prevent-multiple-submits" action="{{Route('invoices.paymentsAdd')}}" method="POST">
@@ -74,6 +103,7 @@
 
         </form>
     </div>
+ @endif
 @endif
 
         <br>
@@ -94,39 +124,42 @@
          $acum = 0;
          $total = 0; 
         ?>
-            @foreach($payments as $payment)  
+
+            @foreach($payments as $receivable)  
                 <tr>
                   <td 
-                   @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
+                   @if($receivable->recStatusCode == App\Receivable::STATELESS)
                      style="background-color: #3c8ddc;color:white" 
-                   @elseif($payment->receivable->recStatusCode == App\Receivable::PROCESS)
+                   @elseif($receivable->recStatusCode == App\Receivable::PROCESS)
                      style="background-color: #cbb956;color:white" 
-                   @elseif($payment->receivable->recStatusCode == App\Receivable::DECLINED) 
+                   @elseif($receivable->recStatusCode == App\Receivable::DECLINED) 
                      style="background-color: #78341a;color:white" 
-                   @elseif($payment->receivable->recStatusCode == App\Receivable::SUCCESS)
+                   @elseif($receivable->recStatusCode == App\Receivable::SUCCESS)
                      style="background-color: #2ab25b;color:white" 
+                   @elseif($receivable->recStatusCode == App\Receivable::ANNULLED)
+                     style="background-color: grey;color:white" 
                    @endif >{{ $acum = $acum +1 }}
                 </td>
-                 <td>{{$payment->receivable->amountDue}}</td>
-                 <td>{{$payment->receivable->amountPaid}}</td>
+                 <td>{{$receivable->amountDue}}</td>
+                 <td>{{$receivable->amountPaid}}</td>
                  <td>
-                {{-- {{$payment->receivable->recStatusCode}} - {{$invoice[0]->contract->contractStatus}} --}}
+                {{-- {{$receivable->recStatusCode}} - {{$invoice[0]->contract->contractStatus}} --}}
        @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
 
               {{-- EL primer if es para verificar que son opciones de la cuota que lo corresponde a pagar a cliente --}}
-             @if($payment->receivable->paymentInvoiceId == $currentShare) 
-                 @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED) 
-                  <form-modal-charge r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></form-modal-charge>
+             @if($receivable->paymentInvoiceId == $currentShare) 
+                 @if($receivable->recStatusCode == App\Receivable::STATELESS || $receivable->recStatusCode == App\Receivable::DECLINED) 
+                  <form-modal-charge r-id="{{$receivable->receivableId}}" country-id="{{$receivable->countryId}}"></form-modal-charge>
                  @endif
 
-                 @if($payment->receivable->recStatusCode == App\Receivable::PROCESS) 
-                  <confirm-payment r-id="{{$payment->receivable->receivableId}}" country-id="{{$payment->receivable->countryId}}"></confirm-payment>
+                 @if($receivable->recStatusCode == App\Receivable::PROCESS) 
+                  <confirm-payment r-id="{{$receivable->receivableId}}" country-id="{{$receivable->countryId}}"></confirm-payment>
                 @endif
               @endif
 
-          @if($payment->receivable->recStatusCode == App\Receivable::STATELESS || $payment->receivable->recStatusCode == App\Receivable::DECLINED)
+          @if($receivable->recStatusCode == App\Receivable::STATELESS || $receivable->recStatusCode == App\Receivable::DECLINED)
              <a href="{{route('invoices.paymentsRemove', [
-                  'id' => $payment->paymentInvoiceId,
+                  'id' => $receivable->paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
@@ -134,17 +167,18 @@
 
           @endif
 
-                 @if($payment->receivable->recStatusCode != App\Receivable::STATELESS)  
+                 @if($receivable->recStatusCode != App\Receivable::STATELESS && 
+                     $receivable->recStatusCode != App\Receivable::ANNULLED)  
                  <a href="{{route('reports.printReceipt', [
-                  'receivableId' => $payment->receivable->receivableId]) }}" class="btn btn-info btn-sm">
+                  'receivableId' => $receivable->receivableId]) }}" class="btn btn-info btn-sm">
                             <span class="fa fa-file-invoice" aria-hidden="true"></span>  Recibo
                   </a>
                  @endif 
 
-       {{--           @if($payment->receivable->recStatusCode == App\Receivable::STATELESS)
+       {{--           @if($receivable->recStatusCode == App\Receivable::STATELESS)
                    @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
                   <a href="{{route('invoices.paymentsRemove', [
-                  'id' => $payment->paymentInvoiceId,
+                  'id' => $paymentInvoiceId,
                   'invoiceId' =>$invoice[0]->invoiceId]) }}" class="btn btn-danger btn-sm link-prevent-multiple-submits">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                   </a>
@@ -156,14 +190,14 @@
                  </td>
                 </tr>
                @php  
-                 $total = $total + $payment->receivable->amountDue; 
+                 $total = $total + $receivable->amountDue; 
                  $total = number_format((float)$total, 2, '.', '');
                 @endphp 
               @endforeach
                   <tr>
                     <td></td>
                     <td><h4 class="text-info" align="center" >Suma de Cuotas: {{$total}} </h3></td>
-                    <td><h4 class="text-danger" align="center" >Restante a Pagar: {{$invoiceBalance}}</h4></td>
+                    <td><h4 class="text-danger" align="center" >Restante a Pagar: {{$invoice[0]->balanceTotal}}</h4></td>
                     <td></td>
                  </tr>
         </tbody>

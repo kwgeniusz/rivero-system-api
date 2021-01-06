@@ -26,6 +26,8 @@ class ClientRequest extends FormRequest
         return [
             'clientName'    => 'required|max:255',
             'clientAddress' => 'max:255',
+            'contactTypeId'    => 'required',
+
         ];
     }
     /**
@@ -37,6 +39,7 @@ class ClientRequest extends FormRequest
     {
         return [
             'clientName.required' => 'Nombre y Apellido es Requerido',
+            'contactTypeId.required' => 'Tipo de Contacto es Requerido, debe configurar esos registros,en la vista anterior.',
         ];
     }
 }

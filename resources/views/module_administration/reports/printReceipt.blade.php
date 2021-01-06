@@ -15,7 +15,6 @@
             margin: 1cm 1cm 2cm 1cm;
             font-size:14px
         }
-
         table{
             width:100%;
             /*border:1px solid black;*/

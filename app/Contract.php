@@ -47,6 +47,7 @@ class Contract extends Model
     const PROCESSING_PERMIT = '6';
     const WAITING_CLIENT = '7';
     const DOWNLOADING_FILES = '8';
+    const SENT_TO_OFFICE = '9';
 
 // -VACANTE (VERDE)
 // -INICIADO (AZUL)
@@ -100,6 +101,10 @@ class Contract extends Model
     {
         return $this->hasMany('App\PaymentInvoice', 'contractId', 'contractId');
     }
+   public function precontract()
+    {
+        return $this->belongsTo('App\Precontract', 'contractId');
+    } 
    public function invoice()
     {
         return $this->hasMany('App\Invoice', 'contractId', 'contractId');
@@ -284,6 +289,12 @@ class Contract extends Model
                           })
                          ->orWhereHas('client', function ($query) use ($filteredOut) {
                               return $query->where('clientName', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('projectUse', function ($query) use ($filteredOut) {
+                              return $query->where('projectUseName', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('invoice.projectDescription', function ($query) use ($filteredOut) {
+                              return $query->where('projectDescriptionName', 'LIKE', "%$filteredOut%");
                           });
         }
     }
@@ -296,9 +307,11 @@ class Contract extends Model
         return $this->orderBy('contractNumber', 'ASC')->get();
     }
 //--------------------------------------------------------------------
-    public function getAllByProjectUse($projectUseId)
+    public function getAllByProjectUse($companyId,$projectUseId)
     {
-        return $this->where('projectUseId', $projectUseId)->get();
+        return $this->where('projectUseId', $projectUseId)
+                    ->where('companyId', $companyId) 
+                    ->get();
     }
 //------------------------------------
     public function getAllPaginate($number)
@@ -319,18 +332,19 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForSixStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$filteredOut,$countryId,$companyId)
+    public function getAllForSevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$filteredOut,$countryId,$companyId)
     {
         $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
                        ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
                           ->orWhere('contractStatus', $contractStatus4)
                           ->orWhere('contractStatus', $contractStatus5)
-                          ->orWhere('contractStatus', $contractStatus6);
+                          ->orWhere('contractStatus', $contractStatus6)
+                          ->orWhere('contractStatus', $contractStatus7);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)

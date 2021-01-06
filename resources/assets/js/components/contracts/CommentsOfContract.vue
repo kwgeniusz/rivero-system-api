@@ -1,16 +1,17 @@
 <template>
 <div>
 
-
-
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
            <a @click="modalMain()" class="btn btn-default btn-sm">
                 <i class="fa fa-comments" aria-hidden="true"></i> Comentarios 
            </a>
+
+
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
+
  <sweet-modal ref="modal" width="90%">
     <h4 class="bg-warning text-principal"> 
-       <b><i class="fa fa-comments"></i> Comentarios del Contrato {{contractNumber}}<br> 
+    <b><i class="fa fa-comments"></i> Comentarios del Contrato {{contractNumber}}<br> 
     {{contract.propertyNumber}} 
     {{contract.streetName}} 
     {{contract.streetType}} 
@@ -22,23 +23,20 @@
      <a @click="addComment()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
      </a>
 
-        <div class="row comment" v-for="(comment,index) in commentsList">
+        <div class="row comment" v-for="comment in commentsList">
           <div class="col-xs-12">
-
             <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}})</p>
-
             <p class="text-left">{{comment.commentContent}}</p>
           </div>
         </div>
-<!-- {{ new Date()  }} -->
+
         <div class="row comment">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
             <p class="text-left">{{contract.initialComment}}</p>
           </div>
         </div>
-
-    </sweet-modal>
+   </sweet-modal>
 
 
 <sweet-modal ref="nestedChild">
@@ -61,12 +59,8 @@
 
         </div>
     </form>
+
 </sweet-modal>
-
-
-
-
-
 
 </div>   
 </template>
@@ -81,7 +75,7 @@
      data: function () {
           return {
            contract: '',
-           commentsList: {},
+           commentsList: '',
 
           // variables about the form
           btnSubmitForm: true,
@@ -96,8 +90,8 @@
           },
     methods: {
        modalMain: function() {
-         //llamar los detalles del contrato
-          axios.get(this.prefUrl+'contracts/'+this.contractId+'/details').then(response => {
+         //obtener los detalles del contrato
+          axios.get(this.prefUrl+'contracts/'+this.contractId).then(response => {
                  this.contract = response.data[0]
             });
            this.getAllComments();
@@ -105,8 +99,9 @@
 
        },
        getAllComments: function(){
-         //llamar las facturas activas del contrato, con detalles, notas, alcances
+         //obtener los comentarios del contrato
           axios.get(this.prefUrl+'contracts/'+this.contractId+'/comments').then(response => {
+
                   this.commentsList = response.data
                  // console.log(this.commentsList);
             });
@@ -115,7 +110,7 @@
        addComment: function() {
            this.$refs.nestedChild.open();
        },
-      sendForm: function() {
+       sendForm: function() {
 
            this.errors = [];
 
@@ -124,7 +119,7 @@
            }
 
       if (!this.errors.length) { 
-           var url =this.prefUrl+'comments';
+           var url =this.prefUrl+'contracts/'+this.contractId+'/comments';
             this.btnSubmitForm = false;
 
           axios.post(url,{
@@ -137,7 +132,9 @@
 
                this.formCommentContent = "";
                this.getAllComments();
+
                this.$refs.nestedChild.close();
+               this.btnSubmitForm = true;
 
             }).catch(e => {
                toastr.error("Error de Servidor:"+ e)

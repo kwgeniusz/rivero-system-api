@@ -24,10 +24,15 @@ Vue.mixin(Permissions);
 
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
- 
-Vue.use(VueMoment, {
-    moment,
-})
+Vue.use(VueMoment, {moment})
+
+// import Popover from 'vue-js-popover' 
+// Vue.use(Popover)
+
+// import VuePhoneNumberInput from 'vue-phone-number-input';
+// import 'vue-phone-number-input/dist/vue-phone-number-input.css';
+// Vue.component('vue-phone-number-input', VuePhoneNumberInput);
+// <VuePhoneNumberInput v-model="yourValue" />
 
 
 // Vue.use(require('vue-moment'));
@@ -39,33 +44,44 @@ Vue.use(VueMoment, {
 
 //########### module contracts components #############
 Vue.component('comments-contract', require('./components/contracts/CommentsOfContract.vue'));
+Vue.component('comments-precontract', require('./components/contracts/CommentsOfPrecontract.vue'));
 Vue.component('select-country-office', require('./components/contracts/SelectCountryOffice.vue'));
 Vue.component('select-country-office-contract', require('./components/contracts/SelectCountryOfficeContract.vue'));
 Vue.component('select-building-code', require('./components/contracts/SelectBuildingCode.vue'));
 Vue.component('search-client', require('./components/contracts/SearchClient.vue'));
-Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
 Vue.component('modal-preview-document', require('./components/contracts/ModalPreviewDocument.vue'));
 Vue.component('modal-convert-precontract', require('./components/contracts/ModalConvertPrecontract.vue'));
 Vue.component('modal-switch-contract', require('./components/contracts/ModalSwitchContract.vue'));
 Vue.component('modal-client-details', require('./components/contracts/ModalClientDetails.vue'));
 Vue.component('service-templates', require('./components/contracts/ServiceTemplates.vue'));
+Vue.component('grid-files-precontract', require('./components/contracts/documents/precontracts/GridFiles.vue'));
 Vue.component('grid-files', require('./components/contracts/documents/GridFiles.vue'));
 
 //########### module administration components #############
 Vue.component('form-modal-charge', require('./components/administration/FormModalCharge.vue'));
 Vue.component('confirm-payment', require('./components/administration/ModalConfirmPayment.vue'));
-Vue.component('invoice-details', require('./components/administration/InvoiceDetails.vue'));
-Vue.component('proposal-details', require('./components/administration/ProposalDetails.vue'));
+Vue.component('proposal-details', require('./components/administration/proposal/ProposalDetails.vue'));
+Vue.component('credit-note', require('./components/administration/invoice/saleNote/CreditNote.vue'));
+Vue.component('debit-note', require('./components/administration/invoice/saleNote/DebitNote.vue'));
+Vue.component('subcontractor-datasheet', require('./components/administration/subcontractor/Datasheet.vue'));
+Vue.component('subcontractor-create', require('./components/administration/subcontractor/Create.vue'));
+Vue.component('search-subcontractor', require('./components/administration/SearchSubcontractor.vue'));
+Vue.component('modal-transaction-details', require('./components/administration/ModalTransactionDetails.vue'));
+// Vue.component('form-new-note', require('./components/administration/proposal/FormNewNote.vue'));
+
 Vue.component('form-new-service', require('./components/administration/FormNewService.vue'));
-Vue.component('form-new-note', require('./components/administration/FormNewNote.vue'));
 Vue.component('select-bank-cashbox', require('./components/administration/SelectBankOrCashbox.vue'));
 Vue.component('select-bank-with-account', require('./components/administration/SelectBankWithAccount.vue'));
-Vue.component('invoice-subcontractors', require('./components/administration/InvoiceSubcontractors.vue'));
-Vue.component('search-subcontractor', require('./components/administration/SearchSubcontractor.vue'));
-
-Vue.component('btn-invoice-cancel', require('./components/administration/BtnInvoiceCancel.vue'));
-Vue.component('btn-invoice-collection', require('./components/administration/BtnInvoiceCollection.vue'));
+Vue.component('invoice-details', require('./components/administration/invoice/InvoiceDetails.vue'));
+Vue.component('invoice-subcontractors', require('./components/administration//invoice/InvoiceSubcontractors.vue'));
+Vue.component('invoice-btn-cancel', require('./components/administration/invoice/InvoiceBtnCancel.vue'));
+Vue.component('invoice-btn-collection', require('./components/administration/invoice/InvoiceBtnCollection.vue'));
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
+
+// --> Transaction Expense
+Vue.component('index-transaction-expense', require('./components/administration/transaction/expense/index.vue'));
+Vue.component('add-transaction-expense'  , require('./components/administration/transaction/expense/add.vue'));
+
 
 //########### human resource components #############
 // --> Department
@@ -129,8 +145,9 @@ Vue.component('client-counter', require('./components/srcComponent/ClientCounter
 Vue.component('contract-counter', require('./components/srcComponent/ContractCounter.vue'));
 Vue.component('invoice-counter', require('./components/srcComponent/InvoiceCounter.vue'));
 Vue.component('contract-chart', require('./components/srcComponent/ContractChart.vue'));
+Vue.component('contract-status-chart', require('./components/srcComponent/ContractStatusChart.vue'));
 
-//############ COMFIGURATION COMPANY COMPONENTS ##############
+//############ Configuration company components ##############
 Vue.component('main-company', require('./components/configuration/company/mainCompany.vue'));
 Vue.component('panel-heading-add', require('./components/configuration/company/panelHeadingAdd.vue'));
 Vue.component('panel-heading-update', require('./components/configuration/company/panelHeadingUpdate.vue'));

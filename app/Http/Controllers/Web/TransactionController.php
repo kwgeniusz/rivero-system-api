@@ -37,9 +37,9 @@ class TransactionController extends Controller
     public function index(Request $request,$sign)
     {
 
-        $transactions   = $this->oTransaction->getAllForSign($sign,session('countryId'),session('companyId'));
-        $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
-        $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
+    $transactions   = $this->oTransaction->getAllForSign($sign,session('countryId'),session('companyId'));
+    $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
+    $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
       $totalTransaction = 0;
       $totalFee = 0;
@@ -49,7 +49,7 @@ class TransactionController extends Controller
         if($sign == '+') {
 
             if($transaction->transactionTypeId == $income_invoice[0]->transactionTypeId){
-                if($transaction->invoice == null){
+                if($transaction->transactionable == null){
                  $totalManual += $transaction->amount;
                 }
                 else{
@@ -72,31 +72,31 @@ class TransactionController extends Controller
                       switch ($request->filterBy) {
                         case 'contractNumber':
                             if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->invoice->contract->contractNumber;
+                              $valorABuscar =  $transaction->transactionable->contract->contractNumber;
                             else
                               $valorABuscar = '';
                           break;
                         case 'invId':
                             if($transaction->invoiceId != null)
-                               $valorABuscar = $transaction->invoice->invId;
+                               $valorABuscar = $transaction->transactionable->invId;
                            else
                               $valorABuscar = ''; 
                           break;
                         case 'clientCode':
                             if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->invoice->client->clientCode;
+                              $valorABuscar =  $transaction->transactionable->client->clientCode;
                              else
                               $valorABuscar = ''; 
                           break;
                         case 'clientName':
                             if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->invoice->client->clientName;
+                              $valorABuscar =  $transaction->transactionable->client->clientName;
                                 else
                               $valorABuscar = ''; 
                           break;  
                         case 'clientPhone':
                             if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->invoice->client->clientPhone;
+                              $valorABuscar =  $transaction->transactionable->client->clientPhone;
                                 else
                               $valorABuscar = ''; 
                           break;
@@ -180,12 +180,11 @@ class TransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(TransactionRequest $request)
-    {
-               
-             if($request->sign == '-'){  
-               $this->validate($request, ['file' => 'required|image']);
-             }
-
+    {        
+         if($request->sign == '-'){  
+             $this->validate($request, ['file' => 'required|image']);
+         }
+         
         //insert transaction and Update BANK...
         $rs1 = $this->oTransaction->insertT(
             session('countryId'),
@@ -200,7 +199,7 @@ class TransactionController extends Controller
             $request->sign,
             $request->cashboxId,
             $request->accountId,
-            $request->invoiceId,
+            '',
             Auth::user()->userId,
             $request->file);
 
@@ -215,7 +214,6 @@ class TransactionController extends Controller
         } else {
             return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
         }
-
     }
 
        public function edit($sign,$id)
@@ -262,6 +260,8 @@ class TransactionController extends Controller
     {
 
         $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
+
+        
         if ($sign == '+') {
             return view('module_administration.transactionsincome.show', compact('transaction'));
         } else {

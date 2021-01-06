@@ -95,10 +95,10 @@ foreach ($invoices as $invoice) {
                     $background = "#f2edd1";
                 }
                    // monto pagado de cada factura
-                      $paid = $invoice->netTotal - $invoice->balance;
+                      $paid = $invoice->netTotal - $invoice->balanceTotal;
                       $paid = number_format((float)$paid, 2, '.', '');
                    // acumulacion de balance
-                     $acumBalance += $invoice->balance;
+                     $acumBalance += $invoice->balanceTotal;
                     $acumBalance = number_format((float)$acumBalance, 2, '.', '');
 
 

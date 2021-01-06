@@ -54,7 +54,7 @@
             </table>
 
 
-     <a href="{{route('home')}}" class="btn btn-warning">
+     <a href="{{route('invoices.all')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
         </div>

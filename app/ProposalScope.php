@@ -22,15 +22,15 @@ class ProposalScope extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
 
-//------------------------------------
-    public function getAllByProposal($proposalId)
-    {
-        $result = $this->where('proposalId', $proposalId)
-            ->orderBy('propScopeId', 'ASC')
-            ->get();
+// //------------------------------------
+//     public function getAllByProposal($proposalId)
+//     {
+//         $result = $this->where('proposalId', $proposalId)
+//             ->orderBy('propScopeId', 'ASC')
+//             ->get();
 
-        return $result;
-    }
+//         return $result;
+//     }
 //------------------------------------------
     public function insert($proposalId,$description) {
 
@@ -61,7 +61,7 @@ class ProposalScope extends Model
 //------------------------------------------
 
 //------------------------------------------
-    public function deleteProp($id)
+    public function deleteAll($id)
     {
            $error = null;
 

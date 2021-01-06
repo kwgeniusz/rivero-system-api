@@ -5,8 +5,8 @@
 
   <div class="col-xs-3 text-left">
     <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
-    <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
     <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
+    <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
     <h4 class="text-warning text-left">Collections: ${{$totalCollections}}</h4>
   </div>
 
@@ -49,8 +49,10 @@
   <div class="col-xs-3 text-right">
    <b> Opciones: </b> 
           <a href="{{route('invoices.cancelled')}}" class="btn btn-danger text-center" >
-                   Anuladas
+                   Facturas Anuladas
          </a>
+         <br>
+ @can('FD')<a href="{{route('notes.index')}}"class="btn btn-info text-center">Notas</a>@endcan
   </div>
   
     <div class="row">
@@ -86,8 +88,18 @@
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice->netTotal}}</td>
-                   <td>{{$invoice->balance}}</td>
-                   <td>{{$invoice->shareSucceed}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->balanceTotal}}<br>
+
+                   <b> @if($invoice->creditNote->isNotEmpty())
+                    NC:{{count($invoice->creditNote)}}<br>
+                    @endif </b>
+
+                    <b>@if($invoice->debitNote->isNotEmpty())
+                    ND:{{count($invoice->debitNote)}}
+                    @endif</b>
+                    
+                   </td>
+                   <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
                    <td
                   @if($invoice->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  
@@ -167,13 +179,13 @@
 </div> --}}
 
 
-          @if($invoice->netTotal > 0) 
+          {{-- @if($invoice->netTotal > 0)  --}}
                    @can('BEE') 
                   <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a> 
                     @endcan  
-            @endif  
+            {{-- @endif  } --}}
 
 
                  @can('BED') 
@@ -200,17 +212,22 @@
                     </a> 
                     @endcan 
 
-                <btn-invoice-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
+                <invoice-btn-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-btn-cancel>
 
              @endif 
  
            @if($invoice->invStatusCode == App\Invoice::CLOSED )
            
-{{--              <a href="{{route('saleNotes.getByInvoice', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+             <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
-             </a> --}}
+             </a>
 
-             <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
+             <invoice-btn-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-btn-collection>
+          @endif
+        @if($invoice->invStatusCode == App\Invoice::PAID )
+         <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
+                     <span class="fa fa-briefcase" aria-hidden="true"></span> 
+             </a>
           @endif
 
                    </td>

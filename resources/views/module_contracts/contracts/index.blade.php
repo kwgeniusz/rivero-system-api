@@ -59,9 +59,8 @@
               @php $acum=0; @endphp
                 @foreach($contracts as $contract)
                 <tr>
-
                    <td>{{++$acum}}</td>
-                    <td>
+                  <td>
                 <modal-switch-contract pref-url="/" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></modal-switch-contract>
         @can('BDE')
                 <comments-contract pref-url="" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></comments-contract>
@@ -100,7 +99,10 @@
                     style="background-color: red;color:white;"  
                    @elseif($contract->contractStatus == App\Contract::DOWNLOADING_FILES)
                     style="background-color: #666666; color:white;"    
-                   @endif>
+                   @elseif($contract->contractStatus == App\Contract::SENT_TO_OFFICE)
+                    style="background-color: #5dc1b9; color:white;"    
+                   @endif
+                   >
                     </td>
 
                 </tr>

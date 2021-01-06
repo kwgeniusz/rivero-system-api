@@ -88,7 +88,7 @@ import FormNewClient from './FormNewClient.vue'
          },
        aggClient: function (id,clientCode,name,address){
          // console.log(id,name,address)
-            this.clientId = id;clientCode;
+            this.clientId = id;
             this.clientName = clientCode+'-'+name;
             this.clientAddress = address;
             this.list = ''

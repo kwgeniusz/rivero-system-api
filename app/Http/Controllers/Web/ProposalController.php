@@ -104,7 +104,8 @@ class ProposalController extends Controller
                       $request->invoiceDate,
                       $request->invoiceTaxPercent,
                       $request->paymentConditionId, 
-                      '1');
+                      '1',
+                      Auth::user()->userId);
 
         $notification = array(
                      'message'    => 'Propuesta Creada, Agrege Renglones',
@@ -177,98 +178,6 @@ class ProposalController extends Controller
 
     }
 
-// ESTO ES SOLO PARA LAS PROPUESTAS DE CONTRATOS.
-  public function convert(Request $request)
-    {
-      $proposal = $this->oProposal->FindById($request->id,session('countryId'),session('companyId')); 
-
-        return view('module_contracts.proposals.convert', compact('proposal'));
-
-    }
-// ESTO ES SOLO PARA LAS PROPUESTAS DE CONTRATOS    
-    public function convertAdd($id)
-    {
-        $error = null;
-
-        DB::beginTransaction();
-        try {
-      //traer todos los datos del proposal
-    $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
-  
-        //insertar el nuevo Invoice
-            $invoice  = $this->oInvoice->insertInv(
-                  $proposal[0]->countryId,
-                  $proposal[0]->companyId,
-                  $proposal[0]->contractId,
-                  $proposal[0]->clientId,
-                  $proposal[0]->projectDescriptionId,
-                  date('m/d/Y'),
-                  '0.00',
-                  $proposal[0]->taxPercent,
-                  '0.00',
-                  '0.00',
-                  $proposal[0]->pCondId,
-                  Invoice::OPEN);
-             // dd($invoice);
-             // dd($proposal[0]->proposalDetail);
-             //      exit();
-               foreach ($proposal[0]->proposalDetail as $proposalDetail) {
-                      $this->oInvoiceDetail->insert(
-                       $invoice->invoiceId,
-                       $proposalDetail->itemNumber,
-                       $proposalDetail->serviceId,
-                       $proposalDetail->serviceName,
-                       $proposalDetail->unit,
-                       $proposalDetail->unitCost,
-                       $proposalDetail->quantity,
-                       $proposalDetail->amount);
-                    }
-           // dd($proposal[0]);
-           //       exit();
-               foreach ($proposal[0]->note as $note) {
-                     $this->oInvoiceNote->insert(
-                       $invoice->invoiceId,
-                       $note->noteId,
-                       $note->noteName);
-                   }
-
-            foreach ($proposal[0]->scope as $scope) {
-                     $this->oInvoiceScope->insert(
-                       $invoice->invoiceId,
-                       $scope->description);
-                   }      
-               foreach ($proposal[0]->paymentProposal as $payment) {
-                    $this->oPaymentInvoice->addPayment(
-                            $invoice->invoiceId,
-                            $payment->amount,
-                            null
-                           );
-                   }
-
-            $this->oProposal->assignInvoiceId($proposal[0]->proposalId,$invoice->invoiceId);       
-
-            $success = true;
-            DB::commit();
-        } catch (\Exception $e) {
-            $error   = $e->getMessage();
-            $success = false;
-            DB::rollback();
-        }
-
-        if ($success) {
-            $result = ['alert' => 'success', 'msj' => "Conversión Exitosa, Contrato N° $invoice->invId creada"];
-        } else {
-            $result = ['alert' => 'error', 'msj' => $error];
-        }
-
-        $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
-        );
-        return redirect()->route('invoices.index',['id' => $proposal[0]->contractId])->with($notification);
-
-    }
-
   public function getAllProposals(Request $request)
     {
       $proposals = $this->oProposal->getAllByCompany(session('companyId'));
@@ -335,6 +244,106 @@ class ProposalController extends Controller
  }//cierre de request->post
 
         return view('module_administration.proposals.index', compact('proposals'));
+    }
+
+
+//------------ACTUALIZAR EL CAMPO DE SUBCONTRATISTA DE LA PROPUESTA
+  public function updateSubcontractor(Request $request,$id)
+    {
+        $rs = $this->oProposal->updateSubcontractor($id,$request->subcontId); 
+        return $rs;
+         
+    }
+//-----------ESTO ES SOLO PARA LAS PROPUESTAS DE CONTRATOS.
+  public function convert(Request $request)
+    {
+      $proposal = $this->oProposal->FindById($request->id,session('countryId'),session('companyId')); 
+
+        return view('module_contracts.proposals.convert', compact('proposal'));
+
+    }   
+    public function convertAdd($id)
+    {
+        $error = null;
+
+        DB::beginTransaction();
+        try {
+      //traer todos los datos del proposal
+    $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
+  
+        //insertar el nuevo Invoice
+            $invoice  = $this->oInvoice->insertInv(
+                  $proposal[0]->countryId,
+                  $proposal[0]->companyId,
+                  $proposal[0]->contractId,
+                  $proposal[0]->clientId,
+                  $proposal[0]->projectDescriptionId,
+                  date('m/d/Y'),
+                  '0.00',
+                  $proposal[0]->taxPercent,
+                  '0.00',
+                  '0.00',
+                  $proposal[0]->pCondId,
+                  Invoice::OPEN,
+                  $proposal[0]->userId);
+             // dd($invoice);
+             // dd($proposal[0]->proposalDetail);
+             //      exit();
+               foreach ($proposal[0]->proposalDetail as $proposalDetail) {
+                      $this->oInvoiceDetail->insert(
+                       $invoice->invoiceId,
+                       $proposalDetail->itemNumber,
+                       $proposalDetail->serviceId,
+                       $proposalDetail->serviceName,
+                       $proposalDetail->unit,
+                       $proposalDetail->unitCost,
+                       $proposalDetail->quantity,
+                       $proposalDetail->amount);
+                    }
+           // dd($proposal[0]);
+           //       exit();
+            //    foreach ($proposal[0]->note as $note) {
+            //          $this->oInvoiceNote->insert(
+            //            $invoice->invoiceId,
+            //            $note->noteId,
+            //            $note->noteName);
+            //        }
+
+            // foreach ($proposal[0]->scope as $scope) {
+            //          $this->oInvoiceScope->insert(
+            //            $invoice->invoiceId,
+            //            $scope->description);
+            //        }      
+               foreach ($proposal[0]->paymentProposal as $payment) {
+                    $this->oPaymentInvoice->addPayment(
+                            $invoice->invoiceId,
+                            $payment->amount,
+                            null
+                           );
+                   }
+
+            $this->oProposal->assignInvoiceId($proposal[0]->proposalId,$invoice->invoiceId);       
+
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+            $result = ['alert' => 'success', 'msj' => "Conversión Exitosa, Contrato N° $invoice->invId creada"];
+        } else {
+            $result = ['alert' => 'error', 'msj' => $error];
+        }
+
+        $notification = array(
+            'message'    => $result['msj'],
+            'alert-type' => $result['alert'],
+        );
+        return redirect()->route('invoices.index',['id' => $proposal[0]->contractId])->with($notification);
+
     }
 //---------------PAYMENTS-----------------------//
 

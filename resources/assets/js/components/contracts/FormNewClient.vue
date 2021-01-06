@@ -162,8 +162,10 @@
             clientEmail: this.formClientEmail
             }).then(response => {
                // this.aggClient(response.data.clientId,response.data.clientName,response.data.clientAddress)
-          console.log(response);
-              this.$emit("sendClient", response.data.clientId,response.data.clientName,response.data.clientAddress);
+               // console.log(response);
+               let client = response.data.model;
+               this.$emit("sendClient",client.clientId, client.clientCode,client.clientName,client.clientAddress);
+
                toastr.info("Cliente Nuevo Insertado")
                this.formClientCountry = "";
                this.formClientName = "";

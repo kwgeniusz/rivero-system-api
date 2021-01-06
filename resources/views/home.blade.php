@@ -10,7 +10,14 @@
     </div>
 
     <div class="row">
-    <contract-chart class="chart"></contract-chart>
+          <div class="col-lg-3 col-6">
+        <h4>Contratos Por Uso del Proyecto</h4>      
+      <contract-chart class="chart" pref-url="./" router="statistic/contracts-by-project-use"/>
+</div> 
+    <div class="col-lg-6 col-6">
+        <h4>Contractos Por Estado</h4>
+      <contract-status-chart class="chart" pref-url="./" router="statistic/contracts-by-status"/>
+</div> 
     </div>
 
     <div class="row">

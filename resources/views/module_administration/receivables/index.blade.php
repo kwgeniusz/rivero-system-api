@@ -37,9 +37,11 @@
 @if($receivables)
     <div class="row">
         <div class="col-xs-12 ">
+      <div class="table-responsive"> 
             <table class="table table-striped table-bordered text-center">
             <thead class="bg-success">
                 <tr>
+                 <th>#</th>
                  <th>COD. CLIENTE</th>
                  <th>NOMBRE</th>
                  <th>DIRECCIÓN</th>
@@ -50,12 +52,14 @@
                 </tr>
             </thead>
                 <tbody>
+           @php $acum=0; @endphp
             @foreach($receivables as $receivable)
                 <tr>
-                     <td>{{$receivable->client->clientCode}}</td>
-                     <td>{{$receivable->client->clientName}}</td>
-                     <td>{{$receivable->client->clientAddress}}</td>
-                     <td>{{$receivable->client->clientPhone}}</td>
+                     <td>{{++$acum}}</td>
+                     <td>{{$receivable->client['clientCode']}}</td>
+                     <td>{{$receivable->client['clientName']}}</td>
+                     <td>{{$receivable->client['clientAddress']}}</td>
+                     <td>{{$receivable->client['clientPhone']}}</td>
                      <td>{{$receivable->cuotas}}</td>
                      <td>{{$receivable->balanceTotal}}</td>
                      <td><a href="{{route('receivables.details', ['clientId' => $receivable->clientId])}}" class="btn btn-info">
@@ -67,6 +71,7 @@
 
                 </tbody>
             </table>
+           </div> 
         </div>
     </div>
 @endif

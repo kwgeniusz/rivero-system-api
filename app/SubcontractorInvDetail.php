@@ -23,6 +23,10 @@ class SubcontractorInvDetail extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+   public function invoice()
+  {
+      return $this->belongsTo('App\Invoice', 'invoiceId', 'invoiceId');
+  }   
   public function invoiceDetail()
   {
       return $this->hasOne('App\InvoiceDetail', 'invDetailId', 'invDetailId');
@@ -102,9 +106,8 @@ class SubcontractorInvDetail extends Model
               }
             //INSERTA UN RENGLON
            $subcontInvDetail                         = new SubcontractorInvDetail;
-           $subcontInvDetail->countryId              = session('countryId');
-           $subcontInvDetail->companyId               = session('companyId');
            $subcontInvDetail->subcontId              = $request['subcontId'];
+           $subcontInvDetail->invoiceId              = $request['invoiceId'];
            $subcontInvDetail->invDetailId            = $request['invDetailId'];
            $subcontInvDetail->transactionPercentage  = $request['transactionPercentage'];
            $subcontInvDetail->transactionAmount      = $request['transactionAmount'];
@@ -128,8 +131,6 @@ class SubcontractorInvDetail extends Model
             return $result = ['alertType' => 'error', 'message' => $error];
         }
     }
-//------------------------------------------
-
 //------------------------------------------
     public function deleteS($subcontInvDetailId)
     {

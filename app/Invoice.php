@@ -4,6 +4,7 @@ namespace App;
 
 use App;
 use App\Country;
+use App\Receivable;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +20,7 @@ class Invoice extends Model
     protected $primaryKey = 'invoiceId';
     protected $fillable = ['invoiceId','invId','countryId','companyId','contractId','clientId','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','invStatusCode'];
 
-     protected $appends = ['grossTotal','taxAmount','netTotal'];
+     protected $appends = ['grossTotal','taxAmount','netTotal','balanceTotal','shareSucceed'];
      protected $dates = ['deleted_at'];
      
     //PARA EVITAR LOS NUMEROS MAGICOS
@@ -28,7 +29,6 @@ class Invoice extends Model
     const PAID      = '3';
     const CANCELLED  = '4';
     const COLLECTION  = '5';
-
 
 //--------------------------------------------------------------------
     /** Relations */
@@ -49,14 +49,18 @@ class Invoice extends Model
     {
       return $this->hasMany('App\InvoiceDetail', 'invoiceId', 'invoiceId')->orderBy('itemNumber');
     }
-     public function note()
+     public function subcontInvDetail()
     {
-      return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
-    }
-    public function scope()
-    {
-      return $this->hasMany('App\InvoiceScope', 'invoiceId', 'invoiceId');
-    }
+      return $this->hasMany('App\SubcontractorInvDetail', 'invoiceId', 'invoiceId');
+    } 
+    //  public function note()
+    // {
+    //   return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
+    // }
+    // public function scope()
+    // {
+    //   return $this->hasMany('App\InvoiceScope', 'invoiceId', 'invoiceId');
+    // }
      public function invoiceStatus()
     {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
          $relation = $this->hasMany('App\InvoiceStatus', 'invStatusCode','invStatusCode');
@@ -69,9 +73,30 @@ class Invoice extends Model
     {
       return $this->belongsTo('App\PaymentCondition', 'pCondId', 'pCondCode');
     }
+    public function paymentInvoice()
+    {
+        return $this->hasMany('App\PaymentInvoice', 'invoiceId', 'invoiceId');
+    }
+
+    public function proposal()
+    {
+        return $this->belongsTo('App\Proposal', 'invoiceId', 'invoiceId');
+    } 
     public function receivable()
     {
       return $this->hasMany('App\Receivable', 'invoiceId', 'invoiceId');
+    }
+     public function debitNote()
+    {
+       return $this->hasMany('App\SaleNote', 'invoiceId','invoiceId')->where('noteType', 'debit');
+    } 
+     public function creditNote()
+    {
+      return $this->hasMany('App\SaleNote', 'invoiceId', 'invoiceId')->where('noteType', 'credit');
+    } 
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'userId');
     }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -95,7 +120,45 @@ class Invoice extends Model
          $newDate    = $oDateHelper->$functionRs($invoiceDate);
         return $newDate;
     }
+   public function getPQuantityAttribute()
+    {
+          return $this->receivable->count();
+    }
+    public function getShareSucceedAttribute()
+    {
+      $shareSucceed = $this->receivable->filter(function ($receivable, $key) {
+              return $receivable->recStatusCode == Receivable::SUCCESS;
+          });
 
+        return $shareSucceed;
+    }
+    public function getSharePendingAttribute()
+    {
+      $sharePending = $this->receivable->filter(function ($receivable, $key) {
+              return $receivable->recStatusCode != Receivable::SUCCESS;
+          });
+     $sharePending = $sharePending->filter(function ($receivable, $key) {
+              return $receivable->recStatusCode != Receivable::ANNULLED;
+          });
+        return $sharePending;
+    } 
+   public function getBalanceTotalAttribute()
+    {
+      //obtener el netTotal de la Factura
+          $netTotal    = decrypt($this->attributes['netTotal']);
+      //obtener el netTotal de todas las Notas de Debito(debito para el cliente) (+)
+          $debitNoteTotal = $this->debitNote->sum('netTotal');
+          $netTotal += $debitNoteTotal;
+      //obtener el netTotal de todas las Notas de Credito(credito para el cliente) (-)
+          $creditNoteTotal = $this->creditNote->sum('netTotal');
+          $netTotal -= $creditNoteTotal;
+      //obtener la suma de las cuotas pagadas
+          $totalPaid   = $this->shareSucceed->sum('amountPaid');
+      //Restando esta suma de pagos al saldo
+          $balance = $netTotal - $totalPaid;
+          $balance = number_format((float)$balance, 2, '.', '');
+          return $balance;
+    }
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -153,7 +216,7 @@ class Invoice extends Model
     }
     public function getAllByFourStatus($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4,$companyId)
     {
-        $result = $this->with('contract','invoiceStatus','projectDescription')
+        $result = $this->with('contract','invoiceStatus','projectDescription','receivable','debitNote','creditNote')
                        ->where('companyId' , '=' , $companyId)
                        ->where(function($q) use ($invStatusCode1,$invStatusCode2,$invStatusCode3,$invStatusCode4){
                           $q->where('invStatusCode', $invStatusCode1)
@@ -168,7 +231,7 @@ class Invoice extends Model
 
     public function getAllByContract($contractId)
     {
-        $result = $this->with('invoiceDetails','note','scope','projectDescription')
+        $result = $this->with('invoiceDetails','proposal.term','proposal.scope','projectDescription')
             ->where('contractId', $contractId)
             ->orderBy('invoiceId', 'ASC')
             ->get();
@@ -176,31 +239,32 @@ class Invoice extends Model
         return $result;
     }  
 
+ // this is used to report by client and company.
+     public function getAllByClientAndCompany($clientId,$companyId)
+    {
+        $result = $this->where('clientId', $clientId)
+            ->where('companyId', $companyId)
+            ->where('invStatusCode', Invoice::OPEN)
+            ->orWhere('clientId', $clientId)
+            ->where('companyId', $companyId)
+            ->where('invStatusCode', Invoice::CLOSED)
+            ->orderBy('invoiceId', 'ASC')
+            ->get();
 
-    //  public function getAllByClientAndCompany($clientId,$companyId)
-    // {
-    //     $result = $this->where('clientId', $clientId)
-    //         ->where('companyId', $companyId)
-    //         ->where('invStatusCode', Invoice::OPEN)
-    //         ->orWhere('clientId', $clientId)
-    //         ->where('companyId', $companyId)
-    //         ->where('invStatusCode', Invoice::CLOSED)
-    //         ->orderBy('invoiceId', 'ASC')
-    //         ->get();
-
-    //     return $result;
-    // }
+        return $result;
+    }
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->where('invoiceId', '=', $id)
+        return $this->with('invoiceDetails','projectDescription','client','contract')
+                    ->where('invoiceId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('companyId', $companyId) 
                     ->get();
     }
 
 //------------------------------------------
-    public function insertInv($countryId,$companyId,$contractId,$clientId,$projectDescriptionId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode) {
+    public function insertInv($countryId,$companyId,$contractId,$clientId,$projectDescriptionId, $invoiceDate,$grossTotal,$taxPercent,$taxAmount,$netTotal,$paymentConditionId,$invStatusCode,$userId) {
 
           $oConfiguration = new CompanyConfiguration();
           $invId = $oConfiguration->retrieveInvoiceNumber($countryId, $companyId);
@@ -221,6 +285,7 @@ class Invoice extends Model
         $invoice->netTotal         =  $netTotal;
         $invoice->pCondId          =  $paymentConditionId;
         $invoice->invStatusCode    =  $invStatusCode;
+        $invoice->userId    =  $userId;
         $invoice->save();
 
       
@@ -231,7 +296,7 @@ class Invoice extends Model
     public function changeStatus($invoiceId,$invStatusCode)
     {
 
-        $invoice             = Invoice::find($invoiceId);
+        $invoice                    = Invoice::find($invoiceId);
         $invoice->invStatusCode     = $invStatusCode;
         $invoice->save();
 
@@ -276,19 +341,17 @@ class Invoice extends Model
     }
 //--------------------------------------------------------------------
     //esta funcion llama a un metodo de receivables es para sacar el balance de lo que se ha pagado de la factura
-    public function getBalance($invoiceId)
-    {
-        $invoice = $this->select('netTotal')
-            ->where('invoiceId', $invoiceId)
-            ->get();
+    // public function getBalance($invoiceId)
+    // {
+    //     $invoice = $this->select('netTotal')->where('invoiceId', $invoiceId)->get();
 
-         // dd($invoice[0]->netTotal);
-          $oReceivable = new Receivable();
-          $totalPaid = $oReceivable->sumSucceedSharesForInvoice($invoiceId);
+    //      // dd($invoice[0]->netTotal);
+    //       $oReceivable = new Receivable();
+    //       $totalPaid = $oReceivable->sumSucceedSharesForInvoice($invoiceId);
 
-          $balance = $invoice[0]->netTotal - $totalPaid;
-          $balance = number_format((float)$balance, 2, '.', '');
+    //       $balance = $invoice[0]->netTotal - $totalPaid;
+    //       $balance = number_format((float)$balance, 2, '.', '');
 
-          return $balance;
-    }
+    //       return $balance;
+    // }
 }

@@ -84,13 +84,13 @@
 
                     <center><b><u>Términos y Condiciones</u></b></center>
                     <br>
-                     <p v-for="(note,index2) in invoice.note">
-                           - {{note.noteName}}     
+                     <p v-for="(term,index2) in invoice.proposal.term">
+                           - {{term.termName}}     
                      </p>
 
                     <center><b><u>Alcance</u></b></center>
                     <br>
-                    <p v-for="(scope,index3) in invoice.scope">
+                    <p v-for="(scope,index3) in invoice.proposal.scope">
                              - {{scope.description}}
                      </p>
 
@@ -154,20 +154,20 @@
      data: function () {
           return {
            contract: null,
-           invoicesList:{}
+           invoicesList: {}
           }
     },
     methods: {
        openMainModal: function (){
           //llamar los detalles del contrato
-          axios.get('contracts/'+this.contractId+'/details').then(response => {
+          axios.get('contracts/'+this.contractId).then(response => {
                  this.contract = response.data
             });
 
           //llamar las facturas activas del contrato, con detalles, notas, alcances
           axios.get('invoices?id='+this.contractId).then(response => {
                   this.invoicesList = response.data
-                 // console.log(this.invoicesList);
+                //  console.log(this.invoicesList);
             });
 
             this.$refs.mainModal.open()

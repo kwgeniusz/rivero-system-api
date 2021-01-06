@@ -47,7 +47,7 @@
               </div>
    <div class="row">
           <div class="form-group col-xs-4">
-            <label for="contactTypeId">TIPO DE CONTACTO</label>
+            <label for="contactTypeId">¿COMO NOS CONTACTO?</label>
             <select class="form-control" name="contactTypeId" id="contactTypeId">
                 @foreach($contactTypes as $contactType)
                       <option value="{{$contactType->contactTypeId}}" > {{$contactType->contactTypeName}} </option>

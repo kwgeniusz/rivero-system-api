@@ -8,14 +8,27 @@
             font-family: helvetica;
             font-weight: normal; !important
         }
-        .page-break {
-          page-break-after: always;
-         }
         body {
             margin: 1cm 1cm 2cm 1cm;
             font-size:13px
         }
-       #watermark {
+
+        .pagenum:before {
+        content: counter(page);
+        }
+
+        .pagination {
+         position: absolute;
+         color: black;
+         bottom: 15px;
+         left: 680px;
+        }
+
+        .page-break {
+          page-break-after: always;
+         }
+
+        #watermark {
                 position: fixed;
 
                 /** 
@@ -46,14 +59,14 @@
         }
         footer {
             position: fixed;
-            bottom: 0cm;
+            bottom: 50px;
             left: 0cm;
             right: 0cm;
-            height: 2cm;
+            height: 0cm;
             /*background-color: #2a0927;*/
-            color: white;
+            color: black;
             text-align: center;
-            line-height: 35px;
+            line-height: 20px;
         }
 
         table{
@@ -64,44 +77,35 @@
         td,tr,th{
             font-weight:normal;
         }
+        tr.outer {
+            color: red;
+            text-decoration: line-through;
+        }
 
         #bold {
           font-weight: bold;
         }
 
+
     </style>
 </head>
 <body>
+
+
 {{-- 
-
 <header>
     <h1>Styde.net</h1>
 </header>
  
 <main>
     <h1>{{__('add')}}</h1>
-</main>
+</main> --}}
  
-<footer>
-    <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
-     Designed By Rivero Visual Group</h4>
-</footer>
-
-<div class="page-break"></div>
-
-
-<header>
-    <h1>Styde.net</h1>
-</header>
- 
-<main>
-    <h1>{{__('add')}}</h1>
-</main>
- 
-<footer>
+{{-- <footer>
     <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
      Designed By Rivero Visual Group</h4>
 </footer> --}}
+{{-- <div class="page-break"></div> --}}
 @if($invoice[0]->invStatusCode == App\Invoice::PAID)
   <div id="watermark">
             <img src="img/paid2.png" height="100%" width="100%" />
@@ -113,7 +117,7 @@
   $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
   $linesperpage = 30;    // numero maximo de renglones
   //calcular total de paginas
-  $quantityInvDetails = count($invoicesDetails);
+  $quantityInvDetails = count($invoiceDetails);
   $pageTotal = (intval($quantityInvDetails/$linesperpage));
   $pageTotal++;
    //si los registro y el limite de lineas son iguales es una pagina
@@ -129,7 +133,7 @@
            $moneySymbol = '';
 
  //// inicio del ciclo de impresion
-foreach ($invoicesDetails as $invDetail) {
+foreach ($invoiceDetails as $invDetail) {
 
   //if de header
     if ($line > $linesperpage) { //imprimir
@@ -172,34 +176,34 @@ foreach ($invoicesDetails as $invDetail) {
                <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
              </div>
         </th>
-    <th width="32%">
+    <th width="20%">
         <table>       
           <tr>
-              <td id="bold">Invoice Number:</td>
+              <td colspan="2" id="bold">Invoice Number:</td>
               <td align="right">{{$invoice[0]->invId}}</td>
             </tr>
             <tr>
-              <td id="bold">Invoice Date:</td>
+              <td colspan="2" id="bold">Invoice Date:</td>
               <td align="right">{{$invoice[0]->invoiceDate}}</td>
             </tr>
             <tr>
-              <td id="bold">Page: {{$page}}/{{$pageTotal}}</td>
-              <td align="left"></td>
+              <td colspan="2" id="bold">Page:</td>
+              <td align="right">{{$page}}/{{$pageTotal}}</td>
             </tr>
             <tr>
               <td> </td>
               <td> </td>
             </tr>
             <tr>
-              <td id="bold">Seller ID:</td>
-              <td align="right"></td>
+              <td colspan="2" id="bold">Seller ID:</td>
+              <td align="right">{{$invoice[0]->user->fullName}}</td>
             </tr>
          </table>     
         </th>
        
     </tr>
 </table>
-       
+    <br>   
 
   <table cellspacing="0" cellpadding="1px" border="0">
        <tr>
@@ -252,6 +256,7 @@ foreach ($invoicesDetails as $invDetail) {
            </th>
        </tr>
 </table>   
+       <br>
 
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>
@@ -324,6 +329,9 @@ foreach ($invoicesDetails as $invDetail) {
 @endphp
    {{-- // imprimir footer de factura --}}
 </table>
+       <br><br>
+
+
 <table cellspacing="0" cellpadding="0" >
        <tr>
         <th colspan="3" style="background-color:#f2edd1;" align="center">
@@ -338,30 +346,32 @@ foreach ($invoicesDetails as $invDetail) {
  @php            
       $acum3        = 0;
       $acumPaid     = 0;
-    foreach ($receivables as $receivable) {
-     $acum3 = $acum3 + 1;
-     $acumPaid += $receivable->amountPaid;
+    foreach ($payments as $payment) {
+     $acumPaid += $payment->receivable->amountPaid;
      $acumPaid =  number_format((float)$acumPaid, 2, '.', '');
 
-        if($receivable->paymentMethod == null){ 
+        if($payment->receivable->paymentMethod == null){ 
            $paymentMethod  = null;
         }else{
-           $paymentMethod  =$receivable->paymentMethod->payMethodName;
+           $paymentMethod  =$payment->receivable->paymentMethod->payMethodName;
         }
 
-      if($receivable->recStatusCode != 4){ 
+      if($payment->receivable->recStatusCode != 4){ 
            $recStatusName  = null;
         }else{
-           $recStatusName  = $receivable->receivableStatus[0]->recStatusName;
+           $recStatusName  = $payment->receivable->receivableStatus[0]->recStatusName;
         }
 @endphp
+
       <table cellspacing="0" cellpadding="0" >
-                <tr>
-                 <td width="10%">{{$acum3}}</td>
-                 <td width="35%">{{$moneySymbol}} {{$receivable->amountDue}}</td>
+                <tr @if($payment->receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
+                  class="outer" 
+                  @endif>
+                 <td width="10%">{{++$acum3}}</td>
+                 <td width="35%">{{$moneySymbol}} {{$payment->receivable->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
                  <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$receivable->datePaid}}</td>
+                 <td width="30%">{{$payment->receivable->datePaid}}</td>
                  <td width="15%"></td>
                 </tr>
               </table>
@@ -396,7 +406,25 @@ foreach ($invoicesDetails as $invDetail) {
        </tr>
 </table>
 
+<br>
 
+@if($invoice[0]->creditNote->isNotEmpty())
+ <p style="color:red"> Note: this invoice has been affected by a credit note:
+  @foreach($invoice[0]->creditNote as $creditNote)
+   (ID {{$creditNote['salId']}})
+  @endforeach
+ </p> 
+ @endif
+
+@if($invoice[0]->debitNote->isNotEmpty())
+ <p style="color:red">Note: this invoice has been affected by a debit note:
+  @foreach($invoice[0]->debitNote as $debitNote)
+   (ID {{$debitNote['salId']}}) 
+  @endforeach
+ </p> 
+ @endif
+
+ {{-- 
 
  <table cellspacing="0" cellpadding="0" >
        <tr>
@@ -427,17 +455,16 @@ foreach ($invoicesDetails as $invDetail) {
                   </ul>
        </tr>
 </table>
+ --}} 
 
+<footer>
+© Copyright 2020 JD Rivero Global - All rights reserved <br>
+    Designed By Rivero Visual Group
+        <div class="pagination">
+				<p>Page <span class="pagenum"></span></p>
+				</div>
+</footer>
 
-<script type="text/php">
-    if ( isset($pdf) ) {
-        $pdf->page_script('
-            $font = $fontMetrics->get_font("Helvetica", "italic");
-            $pdf->text(210, 805, "© Copyright 2020 JD Rivero Global - All rights reserved", $font, 8);
-            $pdf->text(250, 816, "Designed By Rivero Visual Group", $font, 8);
-            $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
-        ');
-    }
-</script>
+</div>
 </body>
 </html>

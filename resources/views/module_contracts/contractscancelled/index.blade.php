@@ -40,9 +40,11 @@
                 </tr>
             </thead>
                 <tbody>
+                    @php $acum=0;@endphp
+                    
                 @foreach($contracts as $contract)
                 <tr>
-                    <td>{{$contract->conId}} </td>
+                     <td>{{++$acum}} </td>
                     <td>{{$contract->contractNumber}} </td>
                     <td>{{$contract->client->clientCode}}</p></td>
                     <td>{{$contract->client->clientName}}   </td>  

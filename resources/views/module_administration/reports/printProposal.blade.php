@@ -1,134 +1,254 @@
+<style>
+@page {
+		margin: 0cm 0cm;
+		font-family: helvetica;
+		font-weight: normal;
+}
 
-<html>
-<head>
-    <style>
+		.page-break {
+		page-break-after: always;
+}
 
-        @page {
-            margin: 0cm 0cm;
-            font-family: helvetica;
-            font-weight: normal; !important
-        }
-        .page-break {
-          page-break-after: always;
-         }
-        body {
-            margin: 1cm 1cm 2cm 1cm;
-            font-size:13px
-        }
- 
-        table{
-            width:100%;
-            /*border:1px solid black;*/
-        }
+		.pagenum:before {
+		content: counter(page);
+}
 
-        td,tr,th{
-            font-weight:normal;
-        }
+		body {
+		margin: 1.5cm 1.5cm 2.5cm 1.5cm;
+		font-size: 12px;
+		background: white;
+		/* Para rodar todo desde arriba */
+		margin-top: 135px;
+}
 
-        #bold {
-          font-weight: bold;
-        }
+		.container-header{
+		position: fixed;
+		z-index: -1;
+}
 
-    </style>
-</head>
+		.header {
+		background-color: #505050;
+		border-bottom: 4px solid #303030;
+		width:100%;
+		height: 30px;
+		z-index: 1;
+
+}
+		.logo {
+		background-color: #ffc501;
+		float: left;
+		margin-top: -50px;
+		margin-left: 30px;
+		width: 90px;
+		height: 90px;
+		border-radius: 0px 0px 10px 10px;
+		z-index: 2;
+}
+
+		.logo img {
+		width: 70px;
+		margin: 12px 5px 5px 10px;
+}
+
+		.wm-one {
+		position: absolute;
+		top: 81px;
+		left: 544px;
+		z-index: 2;
+		opacity: 0.5;
+		z-index: -1;
+	 }
+
+	 	.wm-two {
+		position: absolute;
+		top: 480px;
+		z-index: 2;
+		opacity: 0.5;
+		z-index: -1;
+	 }
+
+		.upper-right{
+		position: absolute;
+		width: 80px;
+		height: 70px;
+		margin-top: 50px;
+		margin-left: 715px;
+		background-color: #ffc501;
+		border-radius: 0px 0px 0px 10px;
+		z-index: 2;
+}
+	 /** Define the footer rules **/
+		.footer {
+		position: fixed;
+		top: 96%;
+		bottom: 0cm;
+		left: 0cm;
+		right: 0cm;
+		height: 0cm;
+		width: 100%;
+		height: 50px;
+		border-top: 19px solid #303030;
+		background-color:#505050;
+		z-index: 1;
+}
+
+		.footer img {
+		position: relative;
+		margin-top: 3px;
+		width: 12px;
+}
+
+	 	.lower-block {
+		position: absolute;
+		background-color: #ffc501;
+		width: 535px;
+		height: 31px;
+		font-size: 10.5px;
+		text-align: center;
+		margin-top: -60px;
+		margin-left: 35px;
+		margin-bottom: 48px;
+		border-radius: 10px 10px 0px 0px;
+		padding: 5px 5px 5px 5px;
+		z-index: 2;
+}
+		.lower-left {
+		display: inline-block; 
+		margin-top: -10px;
+		width: 80px;
+		height: 59px;
+		background-color: #ffc501;
+		border-radius: 0px 10px 0px 0px;
+		z-index: 2;
+}
+
+		.lower-right {
+		display: inline-block;
+		margin-top: -79px;
+		margin-left: 715px;
+		width: 80px;
+		height: 60px;
+		background-color: #ffc501;
+		border-radius: 10px 0px 0px 0px;
+		z-index: 2;
+}
+
+		table {
+		width: 100%;
+		 /*border:1px solid black;*/
+}
+
+		.table-header {
+		background-color: #ffc501; 
+		font-size: 17px; 
+		text-align: center;
+}
+
+		td,tr,th{
+		font-weight:normal;
+}
+
+		.bold {
+		font-weight: bold !important;
+}
+
+		.big {
+		font-size: 16px;
+}
+
+		.float-left {
+		float: left;
+		margin-left: 5px;
+}
+
+		.center {
+		text-align: center;
+		}
+
+		.prologue {
+		margin-top: 70px;
+}
+
+		.just {
+		text-align: justify;
+}
+
+		.tab {
+		padding-left: 40px;
+}
+
+		.date {
+		float: right;
+		margin-top: -40px;
+}
+
+		.line-height {
+		line-height: 1.5;
+}
+
+		.pagination {
+		position: absolute;
+		color: black;
+		margin-top: -30px;
+		margin-left: 727px;
+		z-index: 3;
+		}
+
+		.text-alt {
+		font-size: 10px;
+		color:white;
+}
+
+		.table-sign {
+		margin-left: 40px;
+		}
+
+</style>
+
+
 <body>
+<div class="container-header">
+	<div class="header"></div>
 
-@php
-  // preparar variables  
-  $line = 100;  
-  $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
-  $linesperpage = 30;    // numero maximo de renglones
-  //calcular total de paginas
-  $quantityPropDetails = count($proposalsDetails);
-  $pageTotal = (intval($quantityPropDetails/$linesperpage));
-  $pageTotal++;
-   //si los registro y el limite de lineas son iguales es una pagina
-   if($quantityPropDetails == $linesperpage){
-    $pageTotal = 1;
-   }
+	<div class="upper-right"></div>
+	 <div class="logo"><img src="img/logos/jd.png"></img></div>
+				<img class="wm-one" src="img/logos/1.png"></img>
+				<img class="wm-two" src="img/logos/2.png"></img>
+</div>
 
-           $acum          = 0;
-           $acum2         = 0;
-           $acumPropDetail = 0;
-           $subTotalPerPage= 0;
-           $vienen = 0;
+<div class="footer">
 
- //// inicio del ciclo de impresion
-foreach ($proposalsDetails as $propDetail) {
-//invoiceDetail
+				<div class="pagination">
+				<p>Page <span class="pagenum"></span></p>
+				</div>
 
-  //if de header
-    if ($line > $linesperpage) { //imprimir
-            if($page > 1) {
-//FOOTER
-@endphp
-<tr>
- <th colspan="4" align="right">
-   
- </th>
-  <th colspan="1" align="right">
-   Sub-Total:
- </th>
- <th style="border-top:2px solid black" colspan="1" align="right">
-   {{$moneySymbol}} {{$subTotalPerPage}}
- </th>
-</tr>
-</table>
-     <div class="page-break"></div>
+				<div class="lower-left"></div>
+				<div class="lower-block">
+																							<b>{{$company[0]->companyName}}</b> - 
+					<img src="img/icon-email.png"></img> {{$company[0]->companyEmail}} 
+					<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}} <br>
+					<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
+					<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
+					<div class="text-alt">
+					<p>© Copyright 2020 JD Rivero Global - All rights reserved | Designed by Rivero Visual Group</p>
+					</div>
+				</div>
+				<div class="lower-right">
+				</div>
+ </div>
 
-@php
-    }//endif - si la pagina es mayor que uno (1)
- // imprimir encabezado de factura 
-@endphp
+<div class="date bold">
+{{-- July 8th, 2020  --}}
+{{$date->format('F jS, Y')}}
+</div>       
 
-<table cellspacing="0" cellpadding="1px" border="0"  >
-       <tr >
-        <th style="background-color:#e5db99;font-size:18px;" colspan="3" align="center"><span id="bold">ELECTRONIC PROPOSAL</span></th>
-       </tr>
+<div class="big bold">Mr. {{$client->clientName}}</div>                            
+{{$client->clientEmail}}   <br>
+P. {{$client->clientPhone}}    <br>
+C. ID: {{$client->clientCode}}   <br>
 
-     <tr> 
-        <th width="20%" align="center"> 
-          <img src="img/logo_jd.jpg" alt="test alt attribute" width="140px" height="120px"/>
-         </th>
-        <th width="48%">
-             <div style="text-align:center">
-               <strong style="font-size:22px">{{$company[0]->companyName}}</strong><br>
-               <img src="img/icon-point.png" width="10px" height="10px"/> {{$company[0]->companyAddress}}<br>
-               <img src="img/icon-phone.png" width="10px" height="10px"/> {{$company[0]->companyPhone}},{{$company[0]->companyPhoneOptional}}<br>
-               <img src="img/icon-email.png" width="10px" height="10px"/> {{$company[0]->companyEmail}}
-               <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
-             </div>
-        </th>
-    <th width="32%">
-      <table border="0">
-             <tr>
-              <td><span id="bold">Proposal Number:</span></td>
-              <td align="right">{{$proposal[0]->propId}}</td>
-            </tr>
-            <tr>
-              <td><span id="bold">Proposal Date:</span></td>
-              <td align="right">{{$proposal[0]->proposalDate}}</td>
-            </tr>
-
-            <tr>
-              <td><span id="bold">Page:</span> {{$page}}/{{$pageTotal}}</td>
-              <td align="left"></td>
-            </tr>
-            <tr>
-              <td> </td>
-              <td> </td>
-            </tr>
-            <tr>
-              <td><span id="bold">Seller ID:</span></td>
-              <td align="right"></td>
-            </tr>
-        </table>     
-        </th>
-   </tr>
-</table>
-
-@if($page == 1)
 <br>
+<<<<<<< HEAD
   <table cellspacing="0" cellpadding="0" border="0"  >
        <tr>
         <th align="justify">
@@ -137,9 +257,25 @@ foreach ($proposalsDetails as $propDetail) {
          </th>
        </tr>
 </table>
-<br>
-@endif
+=======
+<div>
+<div class="float-left"><b>RE:</b></div>
+<div class="float-left">Professional Design Services Proposal <br>
+			<b> {{$proposal[0]->$modelType->siteAddress}}</b> <br>
+			          Proposal ID: {{$proposal[0]->propId}} <br>
+			{{$modelTypeView}} ID: {{$modelId}} <br>
+</div>
 
+<div class="prologue">
+Dear <b>Mr/Mrs. {{$client->clientName}}</b>
+</div>
+
+>>>>>>> develop
+<br>
+<div class="just">
+<span class="tab">We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
+
+<<<<<<< HEAD
  <table cellspacing="0" cellpadding="1px" border="0">
        <tr>
         <th colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center"><span id="bold">CUSTOMER INFORMATION</span></th>
@@ -164,149 +300,81 @@ foreach ($proposalsDetails as $propDetail) {
             </th>
        </tr>
 </table>
+=======
+</div>
+>>>>>>> develop
 
- <table cellspacing="0" cellpadding="1px" border="0">
-       <tr>
-        <th colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center"><span id="bold">PROJECT INFORMATION</span>
-        </th>
-       </tr>
-        <tr> 
-            <th width="45%">
-             <span id="bold">{{$modelTypeView}} ID:</span> {{$modelId}}
-            </th>
-            <th width="55%" colspan="2">
-             <span id="bold">Address:</span> {{$proposal[0]->$modelType->siteAddress}}
-            </th>
-            <th> </th>
-       </tr>
-       <tr> 
-            <th width="15%">
-              <span id="bold">Type:</span> {{$proposal[0]->$modelType->projectUse->projectUseName}} 
-            </th>
-            <th width="35%">
-              <span id="bold">Description:</span> {{$proposal[0]->projectDescription->projectDescriptionName}}
-            </th>
-           <th width="60%"> 
-             <span id="bold">Project Name:</span> {{$proposal[0]->$modelType->projectName}}
-           </th>
-       </tr>
-</table>   
+				<ul class="just">
+@foreach($proposal['0']->scope as $scope)
+					<li>{!! nl2br($scope->description) !!}</li>
+@endforeach
+				</ul>
+	
+<div>
+To comply with the scope of work we propose the following deliverables:
+</div>
+<br>
  
- <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
-        <thead>
-        <tr id="bold" style="background-color:#f2edd1; font-size:17px;" align="center">
-          <th width="5%" align="center">#</th>
-          <th align="center" width="40%">DESCRIPTION</th>
-          <th width="10%" align="center">UNIT</th>
-          <th width="15%" >QTY</th>
-          <th width="15%" align="center">UP</th>
-          <th width="15%" align="center">AMOUNT</th>
-        </tr>
-        </thead>
+ <table style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
+				<thead>
+				<tr class="table-header bold">
+					<th width="5%" align="center">#</th>
+					<th width="55%">DESCRIPTION</th>
+					<th width="10%" align="center">UNIT</th>
+					<th width="10%" align="center">QTY</th>
+					<th width="10%" align="center">UP</th>
+					<th width="10%" align="center">AMOUNT</th>
+				</tr>
+				</thead>
 @php 
-       $page++;
-       $acum= 0 ;
-       $subTotalPerPage= 0;
-       $line= 1;// al pasar la pagina reinicia la linea
+			 $acum= 0 ;
+			 $subTotalPerPage= 0;
+					 $acumPropDetail = 0;
 
-} //fin de condicion de header
+foreach ($proposalDetails as $propDetail) {
 
-               
-               $acum = $acum + 1;
-                if ($acum % 2 == 0) {
-                    $background = "#f2edd1";
-                } else {
-                    $background = "#fbfbfb";
-                }
-     //espacios,numeracion,precios, negritas para reglon con precios
-               if ($propDetail->unit == null) {
-                    $acum2 = "";
-                    $space = "   ";
-                    $symbol = '';
-                } else {
-                    $acumPropDetail = $acumPropDetail + 1;
-                    $acum2=$acumPropDetail;
-                    $space = "";
-                    $symbol = $moneySymbol;
-                }
-     if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
+							 $acum = $acum + 1;
+								if ($acum % 2 == 0) {
+										$background = "#ffffff";
+								} else {
+										$background = "#ffffff";
+								}
+		 //espacios,numeracion,precios, negritas para reglon con precios
+							 if ($propDetail->unit == null) {
+										$acum2 = "";
+										$space = "   ";
+										$symbol = '';
+								} else {
+										$acumPropDetail = $acumPropDetail + 1;
+										$acum2=$acumPropDetail;
+										$space = "";
+										$symbol = $moneySymbol;
+								}
 @endphp
-
-        <tr style="background-color:;">
-        <td width="5%" align="center"></td>
-        <td width="40%" >CONTINUED</td>
-        <td width="10%" align="center"></td>
-        <td width="15%" align="center"></td>
-        <td width="15%" align="center"></td>
-        <td width="15%" align="right"> {{$moneySymbol}} {{$vienen}}</td>
-        </tr>
+				<tr class="line-height">
+				<td width="5%" align="center">{{$acum2}}</td>
+				<td width="40%" >{{$space}}{{$propDetail->serviceName}}</td>
+				<td width="10%" align="center">{{$propDetail->unit}}</td>
+				<td width="15%" align="center">{{$propDetail->quantity}}</td>
+				<td width="15%" align="center">{{$symbol}}  {{$propDetail->unitCost}}</td>
+				<td width="15%" align="right">{{$symbol}}  {{$propDetail->amount}}</td>
+				</tr>
 @php
-        if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
-            $subTotalPerPage += $vienen;
-         }
-    }
-@endphp
-        <tr style="background-color:{{$background}}">
-        <td width="5%" align="center">{{$acum2}}</td>
-        <td width="40%" >{{$space}}{{$propDetail->serviceName}}</td>
-        <td width="10%" align="center">{{$propDetail->unit}}</td>
-        <td width="15%" align="center">{{$propDetail->quantity}}</td>
-        <td width="15%" align="center">{{$symbol}}  {{$propDetail->unitCost}}</td>
-        <td width="15%" align="right">{{$symbol}}  {{$propDetail->amount}}</td>
-        </tr>
-@php
-       $subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
-       $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
-       $vienen =  number_format((float)$subTotalPerPage, 2, '.', '');
-
-    $line++;
+			 $subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
+			 $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
 }// FIN DE FOREACH DE RENGLONES
 @endphp
-   {{-- // imprimir footer de factura --}}
-</table>
-<table cellspacing="0" cellpadding="0" border="0">
-      <tr>
-        <th colspan="3" style="background-color:#f2edd1;" align="center"><span id="bold"></span>
-        </th>
-       </tr>
-       <tr>
-        <th width="70%">
-             <span id="bold">Payment break down:</span><br>
- @php        
-       $acum3  = 0;
-       foreach ($proposal[0]->paymentProposal as $receivable) {
-        $acum3 = $acum3 + 1;
-@endphp
-      <table cellspacing="0" cellpadding="0" border="0"  >
-                <tr>
-                 <td width="10%">{{$acum3}}</td>
-                 <td width="20%">{{$moneySymbol}} {{$receivable->amount}}</td>
-                 <td width="75%"></td>
-                </tr>
-      </table>
-@php
-  }
-@endphp
-        </th>
-        <th width="30%">
-             <table cellspacing="0" cellpadding="0" border="0"  >
-               <tr>
-                <th><span id="bold">Subtotal</span></th><th style="border-top:1px solid black;"  align="right"> {{$moneySymbol}}{{$proposal[0]->grossTotal}}</th>
-               </tr>
-               <tr>
-                <th><span id="bold">Tax Rate</span></th><th align="right">{{$proposal[0]->taxPercent}}%</th>
-               </tr>
-               <tr>
-                <th><span id="bold">Tax</span></th><th align="right"> {{$moneySymbol}}{{$proposal[0]->taxAmount}}</th>
-               </tr>
-                <tr>
-                <th><span id="bold">Total</span></th><th align="right"> {{$moneySymbol}}{{$proposal[0]->netTotal}}</th>
-               </tr>
-             </table>
-        </th>
-       </tr>
+			<tr >
+				<td width="5%" align="center"></td>
+				<td width="40%" ></td>
+				<td width="10%" align="center"></td>
+				<td width="15%" align="center"></td>
+				<td width="15%" align="center">TOTAL:</td>
+				<td width="15%" style="border-top:2px solid black"align="right"> {{$subTotalPerPage}}</td>
+		 </tr>
 </table>
 
+<<<<<<< HEAD
 
         <div style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Terms & Conditions</span></div>
            <ul>
@@ -321,23 +389,79 @@ foreach ($proposalsDetails as $propDetail) {
     <li>{!! nl2br($scope->description) !!}</li>
 @endforeach
          </ul>
+=======
 <br>
-  <table cellspacing="0" cellpadding="0" border="0" >
-  {{--      <tr>
-        <th style="background-color:#f2edd1;" colspan="1" align="center">
-          -
-        </th>
-       </tr> --}}
-       <br>
-       <tr>
-        <th align="center">
-         We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us.
-         </th>
-       </tr>
-</table>
+{{-- <div class="big bold center">
+	 <b>Payment Breakdown</b>
+</div>
+		@foreach ($proposal[0]->paymentProposal as $payment) 
+			<ul>
+					<li>{{$payment->paymentDate}} {{$symbol}}{{$payment->amount}}</li>
+			</ul>
+		@endforeach
+ --}}
+@if($proposal[0]->paymentProposal->isNotEmpty())
+	<div class="big bold center">Payment Breakdown</div>
+		 <ul>
+@foreach($proposal[0]->paymentProposal as $payment)
+		<li>{!! nl2br($payment->paymentDate) !!} {{$symbol}}{{$payment->amount}}</li>
+@endforeach
+	</ul>
+	
+<br>
+@endif
 
-<br><br><br>
+@if($proposal[0]->timeFrame->isNotEmpty())
+		<div class="big bold center">Time Frame</div>
+		 <ul>
+@foreach($proposal[0]->timeFrame as $item)
+		<li>{!! nl2br($item->timeName) !!}</li>
+@endforeach
+		 </ul>
+@endif
 
+@if($proposal[0]->term->isNotEmpty())
+	<div class="big bold center">Terms & Conditions</div>
+		 <ul>
+@foreach($proposal[0]->term as $item)
+		<li>{!! nl2br($item->termName) !!}</li>
+@endforeach
+	  </ul>
+@endif
+
+<div class="big bold center">
+	 <b>Payment Method</b>
+</div>
+
+<div style="text-align: left">
+<b>Remit payment to:</b><br>
+<div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
+</div>
+>>>>>>> develop
+<br>
+<div align="center">
+If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
+</div>
+
+<br>
+@if($proposal[0]->note->isNotEmpty())
+	 <div class="big bold center">Note</div>
+		 <ul>
+@foreach($proposal[0]->note as $note)
+		<li>{!! nl2br($note->noteName) !!}</li>
+@endforeach
+	 </ul>
+<br><br>
+@endif
+
+<div class="just">
+<span style='display:inline; white-space:pre;'> </span><span style='display:inline; white-space:pre;'> </span>We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
+<br><br>
+Sincerely.
+</div>
+<br><br>
+
+<<<<<<< HEAD
   <table  cellspacing="0" cellpadding="0" border="0">
        <tr align="center">
          <th> 
@@ -345,17 +469,36 @@ foreach ($proposalsDetails as $propDetail) {
                           Mr./Mrs. {{$client->clientName}}
          </th>
        </tr>
+=======
+<table class="table-sign" cellspacing="0" cellpadding="0" border="0"  >
+			 <tr>
+		@if($proposal[0]->subcontId != null)  
+				<th align="center" >
+				@if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
+					<b>{{$proposal[0]->subcontractor->representative}}</b> <br>
+				@else
+					<b>{{$proposal[0]->subcontractor->name}}</b> <br>
+				@endif
+					CONSULTING <br>
+					{{$proposal[0]->subcontractor->mainPhone}}
+				</th>
+		@endif  
+				<th align="center">
+					 <b>{{$proposal[0]->user->fullName}}</b><br>
+					 {{$company[0]->companyName}} <br> REPRESENTATIVE
+					 {{-- (214) 718 6256 <br> --}}
+				</th>
+			 </tr>
+>>>>>>> develop
 </table>
 
-<script type="text/php">
-    if ( isset($pdf) ) {
-        $pdf->page_script('
-            $font = $fontMetrics->get_font("Helvetica", "italic");
-            $pdf->text(210, 805, "© Copyright 2020 JD Rivero Global - All rights reserved", $font, 8);
-            $pdf->text(250, 816, "Designed By Rivero Visual Group", $font, 8);
-            $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
-        ');
-    }
-</script>
+<br><br><br><br><br>
+<div  class="bold center">
+ACCEPTED BY:     _____________________________________ <br>
+												Mr. {{$client->clientName}}
+</div>
+
+
+
+
 </body>
-</html>

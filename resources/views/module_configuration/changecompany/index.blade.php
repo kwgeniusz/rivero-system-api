@@ -10,7 +10,7 @@
  
   
              <div class="form-group col-xs-12 col-lg-7">
-                <label for="user">Usuario</label>
+                <label for="user">USUARIO:</label>
                 <input type="text" class="form-control" id="user" name="user" value="{{ Auth::user()->fullName }}" placeholder="Nombres y Apellidos" disabled="on">
              </div>
                <br><br>

@@ -73,12 +73,19 @@
       {{csrf_field()}}
           <input type="hidden" name="proposalId" value="{{$proposal[0]->proposalId}}">
 
-          <div class="form-group col-lg-12  col-xs-12">  
+        <div class="form-group col-xs-12">  
+            <label for="paymentDate" >MOMENTO DEL PAGO</label>
+          <textarea class="form-control" id="paymentDate" name="paymentDate"  rows="3" required autocomplete="off"></textarea>
+         </div>
+         
+           <br><br>
+          <div class="form-group col-xs-12">  
             <label for="amount" >MONTO</label>
               <input type="number" min='0.01' step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
          </div>
-   <br><br>
-          <div class="form-group col-lg-12  col-xs-12">  
+
+         <br><br>
+          <div class="form-group col-xs-12">  
            <button type="submit" class="btn btn-success button-prevent-multiple-submits">
                  <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Cuota
@@ -96,6 +103,7 @@
             <thead>
                 <tr class="bg-info">
                  <th>N°</th>
+                 <th>MOMENTO DEL PAGO</th>
                  <th>MONTO</th>
                  <th colspan="1">ACCIONES</th>
                 </tr>
@@ -109,6 +117,7 @@
 
                 <tr>
                  <td>{{ $acum = $acum +1 }}</td>
+                 <td>{{$payment->paymentDate}}</td>
                  <td>{{$payment->amount}}</td>
                  <td>
              @can('BCEB')   

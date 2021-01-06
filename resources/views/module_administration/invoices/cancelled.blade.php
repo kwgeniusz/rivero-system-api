@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<h3><b>FACTURAS CANCELADAS</b></h3>
+<h3><b>FACTURAS ANULADAS</b></h3>
 
  {{--  <div class="col-xs-3 text-left">
     <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
@@ -68,6 +68,7 @@
                  <th>#</th>
                  <th>INVOICE ID</th>
                  <th>CONTRATO</th>
+                 <th>CLIENTE</th>
                  <th>DIRECCION</th> 
                  <th>FECHA</th>
                  <th>DESCRIPCION DEL PROYECTO</th>
@@ -87,14 +88,20 @@
                    <td>{{ $acum = $acum +1 }}</td>
                    <td>{{$invoice->invId}}</td> 
                    <td>{{$invoice->contract->contractNumber}}</td> 
+                   <td>{{$invoice->client->clientName}}</td> 
                    <td>{{$invoice->contract->siteAddress}}</td>
                    <td>{{$invoice->invoiceDate}}</td>
                    <td>{{$invoice->projectDescription->projectDescriptionName}}</td>
                    <td>{{$invoice->netTotal}}</td>
-                   <td>{{$invoice->balance}}</td>
-                   <td>{{$invoice->shareSucceed}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->balanceTotal}}</td>
+                   <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
                    <td>
-                   
+                 @can('BEE') 
+                  <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
+                    </a> 
+                    @endcan  
+
                    </td>
                 </tr>
                 @endforeach

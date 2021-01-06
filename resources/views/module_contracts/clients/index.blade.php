@@ -7,7 +7,11 @@
           <div class="text-center">
 
    <div class="row ">
-      <div class="col-xs-12">
+    <div class="col-xs-3">
+      
+    </div>
+
+      <div class="col-xs-6">
       <form class="form-inline" action="{{Route('clients.index')}}" method="GET">
 
          <div class="form-group">
@@ -20,9 +24,19 @@
            </button>
         </form>
       </div>
+
+      <div class="col-xs-3">
+          <a href="{{route('reports.clients')}}" class="btn btn-danger btn-sm text-right">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Clientes de la Corporacion
+           </a>
+            <br> 
+         @can('FE')
+           <a class="btn btn-info btn-sm" href="{{route('contactTypes.index')}}">¿Como nos Contacto?</a>
+          @endcan
+      </div>
     </div>
      <br>
-
+ 
     @can('BAA')
             <a href="{{route('clients.create')}}" class="btn btn-success text-center" >
                 <span class="fa fa-plus" aria-hidden="true"></span>
@@ -33,7 +47,7 @@
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
      <br>
-                {{$clients->render()}}
+                {{$clientsCompany->render()}}
       <br>
          <div class="table-responsive">
             <table class="table table-striped table-bordered text-center">
@@ -45,12 +59,13 @@
                  <th>{{__('phone')}}</th>
                  <th>{{__('email')}}</th>
                  <th>CONTACTO</th> 
+                 <th>ORIGEN</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
                 </tr>
             </thead>
                 <tbody>
-                @foreach($clients as $client)
+                @foreach($clientsCompany as $client)
                 <tr>
                    <td>{{$client->cltId}}</td> 
                    <td>{{$client->clientCode}}</td>
@@ -58,12 +73,14 @@
                    <td>{{$client->clientPhone}}</td>
                    <td>{{$client->clientEmail}}</td>
                    <td>{{$client->contactType->contactTypeName}}</td> 
-
+                   <td>{{$client->company->companyName}}</td> 
                    <td>
-                   @can('BAB')  
+                   @can('BAB') 
+                   @if($client->companyId == session('companyId')) 
                     <a href="{{route('clients.edit', ['id' => $client->clientId])}}" class="btn btn-primary">
                         <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a>
+                    @endif
                     @endcan
                    <!--  @can('BAC') 
                        <a href="{{route('clients.show', ['id' => $client->clientId])}}" class="btn btn-danger">
@@ -78,7 +95,7 @@
 
         </div>
   
-                {{$clients->render()}}
+                {{$clientsCompany->render()}}
   
         </div>
         </div>
