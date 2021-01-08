@@ -1,0 +1,137 @@
+.create {
+  position: relative;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #dadada;
+  border-radius: 20px;
+  flex-wrap: wrap;
+}
+
+.formulario {
+  background: #fff;
+  width: 80%;
+  padding: 40px;
+  border-radius: 20px;
+  position: relative;
+}
+.formulario2 {
+  background: #fff;
+  width: 40%;
+  padding: 40px;
+  border-radius: 20px;
+  position: relative;
+  margin-left: 40px;
+}
+.title {
+  font-weight: 400;
+  color: rgb(134, 134, 134);
+  padding: 20px 0px;
+}
+
+.boxes {
+  border-top: 2px solid #ccc;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.input-label{
+  position: relative;
+  max-width: 100%;
+  min-width: 100%;
+  margin-bottom: 0px;
+}
+.input {
+  position: relative;
+  max-width: 48%;
+  min-width: 48%;
+  margin-bottom: 0px;
+}
+
+.inputother {
+  position: relative;
+  max-width: 48%;
+  min-width: 48%;
+  margin-bottom: 30px;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: rgba(248, 248, 248, 0.815);
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+.birthday {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit {
+  margin-top: 30px;
+  font-size: 1em;
+  padding: 10px 20px;
+  background: #0062be;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+}
+.return {
+  margin-top: 30px;
+  font-size: 1em;
+  padding: 10px 20px;
+  background: #eea508;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+}
+
+@media (max-width: 500px) {
+  .formulario, .formulario2 {
+    width: 95%;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 0;
+  }
+  .formulario2 {
+    margin-top: 20px;
+  }
+  .create  {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 95%;
+    padding: 20px 0;
+    border-radius: 10px;
+  }
+
+  .input {
+    margin-bottom: 15px;
+  }
+ 
+  .inputother {
+    margin-bottom: 15px;
+  }
+
+  input,
+  select {
+    border-radius: 3px;
+  }
+
+  label {
+    margin-bottom: 5px;
+    font-weight: 300;
+    width: 150px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

@@ -11,6 +11,7 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
+    @stack('styles')
     <link rel="shortcut icon" href="{{{ asset('img/favicon.ico') }}}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -112,7 +113,6 @@ desired effect
 
   //Tooltip Boostrap 3.3
   $(function () { $('[data-toggle="tooltip"]').tooltip()})
-  
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {
