@@ -94,10 +94,8 @@
       <button type="submit" class="submit">
         <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
       </button>
-      <a href="{{route('precontracts.index')}}">
-        <button class="return">
+      <a href="{{route('precontracts.index')}}" class="return">
           <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-        </button>
       </a>
     </div>
   </form>

@@ -88,13 +88,17 @@ label {
 .return {
   margin-top: 30px;
   font-size: 1em;
-  padding: 10px 20px;
+  padding: 12px 20px;
   background: #eea508;
   border: none;
   border-radius: 5px;
   color: #fff;
+  text-decoration: none;
 }
-
+.return:hover {
+  text-decoration: none;
+  color: #ffff;
+}
 @media (max-width: 500px) {
   .formulario, .formulario2 {
     width: 95%;
