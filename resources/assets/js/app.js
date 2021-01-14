@@ -79,8 +79,8 @@ Vue.component('invoice-btn-collection', require('./components/administration/inv
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
 
 // --> Transaction Expense
-Vue.component('index-transaction-expense', require('./components/administration/transaction/expense/index.vue'));
-Vue.component('add-transaction-expense'  , require('./components/administration/transaction/expense/add.vue'));
+Vue.component('main-transaction-expense', require('./components/administration/transaction/expense/main.vue'));
+Vue.component('add-transaction-expense'  , require('./components/administration/transaction/expense/addUp.vue'));
 
 
 //########### human resource components #############

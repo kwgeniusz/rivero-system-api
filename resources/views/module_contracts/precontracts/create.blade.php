@@ -87,9 +87,21 @@
                 <input type="number" value="{{ old('zipCode') }}" class="form-control" id="zipCode" name="zipCode" placeholder="75230">
            </div>
 
-             <select-building-code pref-Url='../'></select-building-code>
+             <!-- <select-building-code pref-Url='../'></select-building-code> -->
+      
+      <div class="row"></div>
+       <div class="form-group col-lg-8">
+       <label for="projectUseId">USO DEL PROYECTO</label>:
 
-        <div class="form-group col-lg-9">
+       <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio1" value="1">
+       <label class="form-check-label" for="inlineRadio1">COM</label>
+    
+         <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio2" value="2">
+         <label class="form-check-label" for="inlineRadio2">RES</label>
+
+      </div>
+
+        <!-- <div class="form-group col-lg-9">
             <label for="constructionType">TIPO DE CONSTRUCCION</label>
             <select class="form-control" name="constructionType" id="constructionType">
                       <option value="TYPE I" >TYPE I</option>
@@ -98,7 +110,7 @@
                       <option value="TYPE IV" >TYPE IV</option>
                       <option value="TYPE V" >TYPE V</option>
             </select>
-          </div>
+          </div> -->
 
               <div class="col-lg-12">
                  <div class="form-group">

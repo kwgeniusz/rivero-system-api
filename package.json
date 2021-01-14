@@ -19,6 +19,7 @@
         "vue": "^2.6.11"
     },
     "dependencies": {
+        "@codekraft-studio/vue-record": "0.0.3",
         "@xkeshi/image-compressor": "^0.5.3",
         "admin-lte": "^2.4.8",
         "chart.js": "^2.9.3",

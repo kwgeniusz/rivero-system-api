@@ -1,8 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="row ">
-          <div class="col-xs-12 ">
+<div class="row col-xs-12">
         @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
@@ -13,14 +12,30 @@
               </ul>
           </div>
       @endif
-        </div>
   </div>
 
 <div class="col-xs-12 col-lg-10 col-lg-offset-1">
 <div class="panel panel-success ">
-    <div class="panel-heading"> <h3><b>{{__('edit_contract')}}</b></h3></div>
+    <div class="panel-heading text-center"> <h3><b>{{__('edit_contract')}}</b></h3></div>
     <div class="panel-body">
 
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  @can('BDC') 
+    <li role="presentation" class="active"><a href="#basicInformation" aria-controls="basicInformation" role="tab" data-toggle="tab">Informacion Basica</a></li>
+  @endcan
+  @can('BDCA') 
+    <li role="presentation"><a href="#IBC" aria-controls="IBC" role="tab" data-toggle="tab">International Building Code</a></li>
+  @endcan
+</ul>
+
+  <br>
+
+<!-- Tab panes -->
+<div class="tab-content">
+@can('BDC') 
+
+  <div role="tabpanel" class="tab-pane active" id="basicInformation">
   <form class="form" action="{{Route('contracts.update',['id' => $contract[0]->contractId])}}" method="POST">
         {{csrf_field()}}
         {{method_field('PUT')}}
@@ -29,11 +44,13 @@
            <label for="contractNumber">CONTROL NUMBER </label>
            <input disabled type="text" class="form-control" id="contractNumber" name="contractNumber" value="{{ $contract[0]->contractNumber }}" placeholder="JDR-000000-18">
          </div>
+
     <div class="row"></div>
-           <div class="form-group col-lg-7">
+     <div class="form-group col-lg-7">
                  <label for="projectName">NOMBRE DEL PROYECTO</label>
                 <input type="text" value="{{ $contract[0]->projectName }}" class="form-control" id="projectName" name="projectName">
-           </div>
+    </div>
+
    <div class="col-lg-6">
          <div class="form-group">
             <label for="countryId">Pais</label>
@@ -102,50 +119,15 @@
                 <input type="number" value="{{$contract[0]->zipCode }}" class="form-control" id="zipCode" name="zipCode" placeholder="75230">
            </div>
 
-            <select-building-code 
-             pref-Url='../../' 
-             prop-building-code='{{$contract[0]->buildingCodeId}}' 
-             prop-building-code-group='{{$contract[0]->groupId}}' 
-             prop-project-use='{{$contract[0]->projectUseId}}'></select-building-code>
-
-<div class="form-group col-lg-9">
-            <label for="constructionType">TIPO DE CONSTRUCCION</label>
-            <select class="form-control" name="constructionType" id="constructionType">
-                 @if($contract[0]->constructionType == 'TYPE I')
-                      <option value="TYPE I" selected>TYPE I</option>
-                      <option value="TYPE II" >TYPE II</option>
-                      <option value="TYPE III" >TYPE III</option>
-                      <option value="TYPE IV" >TYPE IV</option>
-                 @elseif($contract[0]->constructionType == 'TYPE II') 
-                      <option value="TYPE I" >TYPE I</option>
-                      <option value="TYPE II" selected>TYPE II</option>
-                      <option value="TYPE III" >TYPE III</option>
-                      <option value="TYPE IV" >TYPE IV</option>    
-                 @elseif($contract[0]->constructionType == 'TYPE III')
-                      <option value="TYPE I" >TYPE I</option>
-                      <option value="TYPE II" >TYPE II</option>
-                      <option value="TYPE III" selected>TYPE III</option>
-                      <option value="TYPE IV" >TYPE IV</option>     
-                 @elseif($contract[0]->constructionType == 'TYPE IV')
-                      <option value="TYPE I" >TYPE I</option>
-                      <option value="TYPE II" >TYPE II</option>
-                      <option value="TYPE III" >TYPE III</option>
-                      <option value="TYPE IV" selected>TYPE IV</option>     
-                 @else
-                      <option value="TYPE I" >TYPE I</option>
-                      <option value="TYPE II" >TYPE II</option>
-                      <option value="TYPE III" >TYPE III</option>
-                      <option value="TYPE IV" >TYPE IV</option>     
-                 @endif      
-            </select>
-          </div>
-       <!--     <div class="row"></div>
-              <div class="form-group col-lg-6 ">
-                <label for="registryNumber">N° {{__('registration')}}</label>
-                <input type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ $contract[0]->registryNumber }}">
-              </div> -->
+      <div class="row"></div>
+       <div class="form-group col-lg-8">
+       <label for="projectUseId">USO DEL PROYECTO</label>: 
+       <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio1" value="1" {{ ($contract[0]->projectUseId == '1')? "checked" : "" }}>
+       <label class="form-check-label" for="inlineRadio1">COM</label>
+        <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio2" value="2" {{ ($contract[0]->projectUseId == '2')? "checked" : "" }}>
+        <label class="form-check-label" for="inlineRadio2">RES</label>
+      </div>
   @else
-        
          <div class="row"></div>
               <div class="form-group col-lg-6 ">
                 <label for="clientId">{{__('client')}}</label>
@@ -171,55 +153,13 @@
               <input disabled type="text" class="form-control" id="projectUseId" value="{{ $contract[0]->projectUse->projectUseName }}">
           </div>
           <input type="hidden" name="projectUseId" value="{{ $contract[0]->projectUseId }}">
-
- <!--           <div class="row"></div>
-              <div class="form-group col-lg-6 ">
-                <label for="registryNumber">N° {{__('registration')}}</label>
-                <input disabled type="text" class="form-control" id="registryNumber" name="registryNumber" value="{{ $contract[0]->registryNumber }}">
-              </div>
-          <input type="hidden" name="registryNumber" value="{{ $contract[0]->registryNumber }}">    -->
-
 @endif
-        <!--   <div class="row"></div>
-              <div class="form-group col-lg-5">
-                <label for="startDate">{{__('start_date')}}</label>
-                <input class="form-control flatpickr" id="startDate" name="startDate" value="{{ $contract[0]->startDate }}">
-              </div>
 
-          <div class="row"></div>
-              <div class="form-group">
-                <label class="col-lg-8" for="scheduledFinishDate">{{__('scheduled_finish_date')}}</label>
-                 <div class="col-lg-5">
-                  <input class="form-control flatpickr" id="scheduledFinishDate" name="scheduledFinishDate" value="{{ $contract[0]->scheduledFinishDate }}">
-                </div>
-              </div>
-
-          <div class="row"></div>
-              <div class="form-group col-lg-5">
-                <label for="actualFinishDate">{{__('finish_date')}}</label>
-                <input class="form-control flatpickr" id="actualFinishDate" name="actualFinishDate" value="{{ $contract[0]->actualFinishDate}}">
-
-
-                <label for="deliveryDate">{{__('delivery_date')}}</label>
-                <input class="form-control flatpickr" id="deliveryDate" name="deliveryDate" value="{{ $contract[0]->deliveryDate}}">
-              </div> -->
-
-
-        <div class="col-lg-12">
-             <div class="form-group">
+             <div class="form-group col-lg-12">
                 <label for="initialComment">{{__('initial_comment')}}</label>
                 <textarea class="form-control" id="initialComment" name="initialComment" rows="3">{{ $contract[0]->initialComment }}</textarea>
               </div>
-     <!--         <div class="form-group">
-                <label for="intermediateComment">{{__('intermediate_comment')}}</label>
-                <textarea class="form-control" id="intermediateComment" name="intermediateComment" rows="3">{{ $contract[0]->intermediateComment }}</textarea>
-              </div>
-             <div class="form-group">
-                <label for="finalComment">{{__('final_comment')}}</label>
-                <textarea class="form-control" id="finalComment" name="finalComment" rows="3">{{ $contract[0]->finalComment }}</textarea>
-              </div>
-           </div> -->
-
+  
 @if($blockEdit == false)
     <div class="form-group col-lg-6">
             <label for="currencyId">{{__('currency')}}</label>
@@ -234,14 +174,38 @@
             </select>
     </div>
 @else
-            <div class="col-lg-6">
-               <div class="form-group">
+
+            <div class="form-group col-lg-6">
               <label for="currencyId">{{__('currency')}}</label>
               <input disabled type="text" class="form-control" id="currencyId"  value="{{ $contract[0]->currency->currencyName }}">
             </div>
           <input type="hidden" name="currencyId" value="{{ $contract[0]->currencyId }}">     
 @endif
+          <div class="col-lg-12 text-center">
+              <button type="submit" class="btn btn-primary">
+                <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
+              </button>
+              <a href="{{route('contracts.index')}}" class="btn btn-warning">
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+              </a>
+            </div>
 
+   </form>
+  </div>
+@endcan
+
+@can('BDCA') 
+  <div role="tabpanel" class="tab-pane" id="IBC">
+  <form class="form" action="{{Route('contracts.updateIbc',['id' => $contract[0]->contractId])}}" method="POST">
+        {{csrf_field()}}
+        {{method_field('PUT')}}
+
+           <select-building-code 
+             pref-Url='../../' 
+             prop-building-code='{{$contract[0]->buildingCodeId}}' 
+             prop-building-code-group='{{$contract[0]->groupId}}' 
+             prop-project-use='{{$contract[0]->projectUseId}}'
+             prop-construction-type='{{$contract[0]->constructionType}}'></select-building-code> 
 
           <div class="col-lg-12">
             <div class="text-center">
@@ -253,12 +217,13 @@
               </a>
             </div>
           </div>
-
-   </form>
-
-
+  </form>
+  </div>
+@endcan
     </div>
 
+  </div>
+  </div>
   </div>
 
 

@@ -123,28 +123,9 @@ class PrecontractController extends Controller
 
     public function update(PrecontractRequest $request, $id)
     {
-
         $this->oPrecontract->updatePrecontract(
             $id,
-            $request->countryId,
-            $request->companyId,
-            $request->contractType,
-            $request->projectName,
-            $request->precontractDate,
-            $request->clientId,
-            $request->propertyNumber,
-            $request->streetName,
-            $request->streetType,
-            $request->suiteNumber,
-            $request->city,
-            $request->state,
-            $request->zipCode,       
-            $request->buildingCodeId,
-            $request->groupId,
-            $request->projectUseId,
-            $request->constructionType,
-            $request->comment,
-            $request->currencyId
+            $request->all()
         );
 
         $notification = array(
@@ -154,6 +135,22 @@ class PrecontractController extends Controller
         return redirect()->route('precontracts.index')
             ->with($notification);
     }
+
+    public function updateIbc(Request $request, $id)
+    {
+        $this->oPrecontract->updatePrecontract(
+            $id,
+            $request->all()
+        );
+
+        $notification = array(
+            'message'    => 'Datos IBC del Pre-Contrato Modificados Exitosamente',
+            'alert-type' => 'info',
+        );
+        return redirect()->route('precontracts.index')
+            ->with($notification);
+    }
+    
     public function show(Request $request,$id)
     {
 

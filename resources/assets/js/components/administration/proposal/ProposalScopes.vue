@@ -15,7 +15,6 @@
             </select> -->
           </div>
 
-
     <div class="row">
        <div class="text-right col-xs-7">
          <button class="btn btn-primary" @click.prevent="addRow()"> 
@@ -28,10 +27,22 @@
           <h4><b>Alcances de la Propuesta</b></h4>
            <ul>
             <li v-for="(propScope,index) in scopesList">
-               <span v-html="nl2br(propScope.description,false) "></span> 
+
+            <textarea v-if="editMode === index" class="form-control" rows="2" v-model="propScope.description" ></textarea>
+            <!-- <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)"> -->
+            <span v-else v-html="nl2br(propScope.description,false) "></span> 
+
+
+              <a v-if="editMode === index" @click="updateItemList()" class="btn btn-xs btn-success">
+                <i class="glyphicon glyphicon-ok"></i>
+              </a> 
+              <a v-else @click="editItemList(index)" class="btn btn-primary btn-xs" title="Editar" > 
+                 <i class="fa fa-edit"></i>
+              </a> 
               <a @click="deleteScope(++index)" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
+            
             </li>
           </ul>
     </div>
@@ -58,6 +69,8 @@ export default {
           
             scopesList:{},
             // modelNoteName: '',
+            editMode: -1,
+
         }
     },
   props: {
@@ -88,6 +101,12 @@ export default {
                this.scopeDescription = '';
 
          },
+      editItemList: function(index){
+             this.editMode = index
+        },
+      updateItemList: function(){
+              this.editMode = -1
+            },
         deleteScope: function(id) {
                  this.scopesList.splice(--id,1);
           },

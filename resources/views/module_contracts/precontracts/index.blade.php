@@ -48,7 +48,7 @@
                  <th>N° PRECONTRATO</th>
                  <th>COD. {{__('client')}}</th>
                  <th>{{__('name')}}</th>   
-                 <th>{{__('address')}}</th>
+                 <th>{{__('address')}}  / NOMBRE DEL PROYECTO</th>
                  <th>BUILDING CODE</th>
                  <th>DESCRIPCION</th>
                  <th>USO</th>
@@ -72,34 +72,43 @@
                         {{$precontract->suiteNumber}}
                         {{$precontract->city}}
                         {{$precontract->state}}
-                        {{$precontract->zipCode}}   </td>
-                    <td >{{$precontract->buildingCode->buildingCodeName}}   </td>
+                        {{$precontract->zipCode}} <br>
+                        @if($precontract->projectName) 
+                         ( {{$precontract->projectName}} )
+                        @endif  </td>
+                <td>
+                @if($precontract->buildingCodeId)      
+                 {{$precontract->buildingCode->buildingCodeName}}  
+                @endif 
+                </td>
                     <td >
                        @foreach($precontract->proposal as $pd)
                        - {{$pd->projectDescription->projectDescriptionName}}<br>
                         @endforeach
-                     </td>
-                    <td >{{$precontract->projectUse->projectUseName}}   </td>
+                     </td>     
+                    <td >
+                     @if($precontract->projectUseId) 
+                      {{$precontract->projectUse->projectUseName}} 
+                    @endif 
+                      </td>
+    
                     <td >{{$precontract->contractType}}   </td>
                     <td>
         @if($precontract->contractId == null)
               @can('BCF')
-         <!--<a href="{{route('precontracts.convert', ['id' => $precontract->precontractId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Convertir en Contrato">
-                     <span class="fa fa-sync" aria-hidden="true"></span>  
-                    </a> -->
-                  <modal-convert-precontract pref-url="./" precontract-id="{{$precontract->precontractId}}"></modal-convert-precontract>
-
+               <modal-convert-precontract pref-url="./" precontract-id="{{$precontract->precontractId}}"></modal-convert-precontract>
               @endcan      
               @can('BC')
-                     <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
-                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
-                    </a>
+                <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
+                    <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
+                </a>
                  @endcan      
-              @can('BBB')     
+               <!-- @can('BBB')      -->
                     <a href="{{route('precontracts.edit', ['id' => $precontract->precontractId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
-                @endcan      
+               <!-- @endcan   -->
+
               @can('BBC')      
                     <a href="{{route('precontracts.show', ['id' => $precontract->precontractId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('delete')}}">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
