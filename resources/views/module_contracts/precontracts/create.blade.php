@@ -1,8 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="row ">
-          <div class="col-xs-12 ">
+<div class="create">
+  <form  class="formulario" action="{{Route('precontracts.store')}}" method="POST">
+    <div>
+    <h3><i class="fas fa-user-tie"></i> Nuevo Pre-contrato</h3>
+      <div class="boxes">
         @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
@@ -12,137 +15,93 @@
                   @endforeach
               </ul>
           </div>
-      @endif
-        </div>
- </div>
-
- <div class="panel panel-success col-xs-12 col-lg-offset-1 col-lg-10">
-    <div class="panel-heading text-center"> <h3><b>Nuevo Pre-contrato</b><h3></div>
-    <div class="panel-body">
-
-      <form class="form  form-prevent-multiple-submits" action="{{Route('precontracts.store')}}" method="POST">
+        @endif
         {{csrf_field()}}
+        <div class="inputother boxes2">
+          <label for="preId"><i class="far fa-id-card"></i> N° PRECONTRATO</label>
+          <input type="text" style="cursor: no-drop" class="input-label" id="preId" name="preId" value="{{ $preId}}" disabled="on">
+        </div>
+        <div class="inputother boxes2">
+                <label for="projectName"><i class="fas fa-user-friends"></i> NOMBRE DEL PROYECTO</label>
+                <input type="text" class="input-label" id="projectName" name="projectName" value="{{ old('projectName') }}" placeholder="NOMBRE DEL PROYECTO">
+              </div>
+        <div class="inputother boxes2">
+          <label for="precontractDate"><i class=""></i> FECHA</label>
+          <input class="input-label flatpickr" id="precontractDate" name="precontractDate" value="{{ old('precontractDate') }}">
+        </div>
+        <search-client pref-url='../'></search-client>
+        <div class="inputother boxes2">
+          <label for="contractType"><i class=""></i> TIPO DE CONTRATO</label>
+          <select name="contractType" id="contractType">
+              <option value="P" >P</option>
+              <option value="S" >S</option>
+          </select>
+        </div>
+        <div class="inputother boxes2">
+          <label for="propertyNumber"><i class=""></i> NUMERO DE LA PROPIEDAD</label>
+          <input type="text" class="input-label" id="propertyNumber" name="propertyNumber" value="{{ old('propertyNumber') }}" placeholder="5924">
+        </div>
+        <div class="inputother boxes2">  
+          <label for="streetName"><i class=""></i> CALLE</label>
+          <input type="text" class="input-label" id="streetName" name="streetName" maxlength="20" value="{{ old('streetName') }}" placeholder="AZALEA">
+        </div>
+        <div class="inputother boxes2">  
+          <label for="streetType"><i class=""></i> TIPO DE CALLE</label>
+          <input type="text" class="input-label" id="streetType" name="streetType" maxlength="10" value="{{ old('streetType') }}" placeholder="LN">
+        </div>
+        <div class="inputother boxes2">  
+          <label for="suiteNumber"><i class=""></i> SUITE NUMBER</label>
+          <input type="text" class="input-label" id="suiteNumber" name="suiteNumber" maxlength="20" value="{{ old('suiteNumber') }}" placeholder="SUITE 114 (Opcional)">
+        </div>
+        <div class="inputother boxes2">  
+          <label for="city"><i class=""></i> CIUDAD</label>
+          <input type="text" class="input-label" id="city" name="city" maxlength="20" value="{{ old('city') }}" placeholder="DALLAS">
+        </div>
+        <div class="inputother boxes2">  
+          <label for="state"><i class=""></i> ESTADO</label>
+          <input type="text" class="input-label" id="state" name="state" maxlength="20" value="{{ old('state') }}" placeholder="TX">
+        </div>
+        <div class="inputother boxes2">  
+          <label for="zipCode"><i class=""></i> CODIGO POSTAL</label>
+          <input type="number" class="input-label" id="zipCode" name="zipCode" value="{{ old('zipCode') }}" placeholder="75230">
+        </div>
 
-         <!-- <select-country-office></select-country-office>  -->
-
-        <div class="row"></div>
-         <div class="form-group col-lg-3">
-            <label for="preId">N° PRECONTRATO</label>
-            <input type="text" class="form-control" id="preId" name="preId" value="{{ $preId}}" disabled="on">
-          </div>
-
-
-        <div class="row"></div>
-           <div class="form-group col-lg-7">
-                 <label for="projectName">NOMBRE DEL PROYECTO</label>
-                <input type="text" value="{{ old('projectName') }}" class="form-control" id="projectName" name="projectName">
-           </div>
-
-           <div class="row"></div>
-                <div class="form-group col-lg-5">
-                  <label for="precontractDate">FECHA</label>
-                  <input class="form-control flatpickr" id="precontractDate" name="precontractDate" value="{{ old('precontractDate') }}">
-                </div>
-
-           <div class="row"></div>
-           <search-client pref-url='../'></search-client>
-           
-        <div class="row"></div>
-           <div class="form-group col-lg-6">
-            <label for="contractType">TIPO DE CONTRATO</label>
-            <select class="form-control" name="contractType" id="contractType">
-                <option value="P" >P</option>
-                <option value="S" >S</option>
-            </select>
-          </div>
-     <!--input Address-->   
-
-          <div class="form-group col-lg-7">
-                <label for="propertyNumber">NUMERO DE LA PROPIEDAD</label>
-                <input type="number" value="{{ old('propertyNumber') }}" class="form-control" id="propertyNumber" name="propertyNumber" placeholder="5924">
-           </div>
-           <div class="form-group col-lg-7">
-                <label for="streetName">CALLE</label>
-                <input type="text" maxlength="20" value="{{ old('streetName') }}" class="form-control" id="streetName" name="streetName" placeholder="AZALEA">
-           </div>
-            <div class="form-group col-lg-4">
-                <label for="streetType">TIPO DE CALLE</label>
-                <input type="text" maxlength="10" value="{{ old('streetType') }}" class="form-control" id="streetType" name="streetType" placeholder="LN">
-           </div>
-           <div class="form-group col-lg-6">
-                <label for="suiteNumber">SUITE NUMBER</label>
-                <input type="text" maxlength="20" value="{{ old('suiteNumber') }}" class="form-control" id="suiteNumber" name="suiteNumber" placeholder="SUITE 114 (Opcional)">
-           </div>
-            <div class="form-group col-lg-8">
-                <label for="city">CIUDAD</label>
-                <input type="text" maxlength="20" value="{{ old('city') }}" class="form-control" id="city" name="city" placeholder="DALLAS">
-           </div>
-           <div class="form-group col-lg-8">
-                <label for="state">ESTADO</label>
-                <input type="text" maxlength="20" value="{{ old('state') }}" class="form-control" id="state" name="state" placeholder="TX">
-           </div>
-                   <div class="row"></div>
-            <div class="form-group col-lg-4">
-                <label for="zipCode">CODIGO POSTAL</label>
-                <input type="number" value="{{ old('zipCode') }}" class="form-control" id="zipCode" name="zipCode" placeholder="75230">
-           </div>
-
-             <!-- <select-building-code pref-Url='../'></select-building-code> -->
-      
       <div class="row"></div>
        <div class="form-group col-lg-8">
        <label for="projectUseId">USO DEL PROYECTO</label>:
-
        <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio1" value="1">
        <label class="form-check-label" for="inlineRadio1">COM</label>
-    
          <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio2" value="2">
          <label class="form-check-label" for="inlineRadio2">RES</label>
-
       </div>
-
-        <!-- <div class="form-group col-lg-9">
-            <label for="constructionType">TIPO DE CONSTRUCCION</label>
-            <select class="form-control" name="constructionType" id="constructionType">
-                      <option value="TYPE I" >TYPE I</option>
-                      <option value="TYPE II" >TYPE II</option>
-                      <option value="TYPE III" >TYPE III</option>
-                      <option value="TYPE IV" >TYPE IV</option>
-                      <option value="TYPE V" >TYPE V</option>
-            </select>
-          </div> -->
-
-              <div class="col-lg-12">
-                 <div class="form-group">
-                   <label for="comment">{{__('initial_comment')}}</label>
-                   <textarea class="form-control" id="comment" name="comment"  rows="3">{{old('comment')}}</textarea>
-                  </div>
-              </div>
-
-         <div class="form-group col-lg-6">
-            <label for="currencyId">{{__('currency')}}</label>
-            <select class="form-control" name="currencyId" id="currencyId">
+        </div>
+        <div class="textarea">  
+          <label for="comment"><i class=""></i> {{__('initial_comment')}}</label>
+          <textarea name="comment" id="comment" rows="10">{{ old('comment') }}</textarea>
+        </div>
+        <div class="inputother boxes2">
+          <label for="currencyId"><i class=""></i> {{__('currency')}}</label>
+          <select name="currencyId" id="currencyId">
                 @foreach($currencies as $currency)
                       <option value="{{$currency->currencyId}}" > {{$currency->currencyName}} </option>
                 @endforeach
             </select>
-          </div>
-
-
-            <div class="col-lg-12 text-center">
-              <button type="submit" class="btn btn-primary  button-prevent-multiple-submits">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
-              </button>
-              <a href="{{route('precontracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
-            </div>
-
-          </form>
-
-
+        </div>
+      </div>
     </div>
-
-
-
+    <div style="width: 100%; text-align: center;">
+      <button type="submit" class="submit">
+        <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
+      </button>
+      <a href="{{route('precontracts.index')}}">
+        <button class="return">
+          <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+        </button>
+      </a>
+    </div>
+  </form>
+</div>
 @endsection
+@push('styles')
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+@endpush
