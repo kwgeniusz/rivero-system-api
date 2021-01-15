@@ -69,25 +69,41 @@
        <div class="form-group">
           <label class="col-lg-5 control-label">INTERNATIONAL BUILDING CODE (IBM)</label>
           <div class="col-lg-7">
-            <p class="form-control-static">{{ $precontract->buildingCode->buildingCodeName }}</p>
+            <p class="form-control-static">
+            @if($precontract->buildingCodeId)    
+              {{ $precontract->buildingCode->buildingCodeName }}
+            @endif
+            </p>
           </div>
       </div> 
        <div class="form-group">
           <label class="col-lg-5 control-label">GRUPO</label>
           <div class="col-lg-7">
-            <p class="form-control-static">{{ $precontract->buildingCodeGroup->groupName }}</p>
+            <p class="form-control-static">
+            @if($precontract->groupId)    
+              {{ $precontract->buildingCodeGroup->groupName }}
+            @endif  
+            </p>
           </div>
       </div> 
          <div class="form-group">
           <label class="col-lg-5 control-label">USO DEL PROYECTO</label>
           <div class="col-lg-7">
-            <p class="form-control-static">{{ $precontract->projectUse->projectUseName }}</p>
+            <p class="form-control-static">
+            @if($precontract->projectUseId)                  
+            {{ $precontract->projectUse->projectUseName }}
+            @endif
+          </p>
           </div>
         </div>
          <div class="form-group">
           <label class="col-lg-5 control-label">TIPO DE CONSTRUCCIÓN</label>
           <div class="col-lg-7">
-            <p class="form-control-static">{{ $precontract->constructionType }}</p>
+            <p class="form-control-static">
+            @if($precontract->constructionType)    
+              {{ $precontract->constructionType }}
+            @endif  
+            </p>
           </div>
         </div> 
            <div class="form-group">

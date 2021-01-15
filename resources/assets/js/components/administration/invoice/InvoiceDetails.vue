@@ -97,12 +97,32 @@
        <tr v-for="(item,index) in itemList">
             <td>{{++index}}</td>
             <td>{{item.serviceName}}</td>
-            <td>{{item.unit}}</td>
-            <td>{{item.unitCost}}</td>
-            <td>{{item.quantity}}</td>
-            <td>{{item.amount}}</td>
+         <td>
+              <select v-if="editMode === index" class="form-control" v-model="item.unit">
+                 <option value="sqft">sqft</option>
+                 <option value="ea">ea</option>
+              </select>
+              <p v-else>{{item.unit}}</p> 
+            </td>
+            <td>
+               <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
+               <p v-else>{{item.unitCost}}</p> 
+            </td>
+            <td>
+               <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
+               <p v-else>{{item.quantity}}</p> 
+            </td>
+            <td> {{item.amount}}</td>
             <!-- <td>{{item.subcontractor_inv_detail.length}} SB</td> -->
             <td> 
+              
+             <a v-if="editMode != index && item.unit != null" @click="editItemList(index)" class="btn btn-sm btn-primary" title="Editar" > 
+                 <i class="fa fa-edit"></i>
+              </a>   
+             <a v-if="editMode === index" @click="updateItemList()" class="btn btn-sm btn-success">
+                <i class="glyphicon glyphicon-ok"></i>
+              </a> 
+
              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
             </a>
@@ -133,16 +153,18 @@
 
    </div>
        <div class="text-center"> 
-        <!--    <a :href="'invoices?id='+invoice[0].contractId" class="btn btn-warning btn-sm">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  Regresar
-          </a> -->
+
           <a @click.prevent="saveInvoice()" class="btn btn-info btn-sm">
             <span class="fa fa-save" aria-hidden="true"></span>  Guardar Factura
           </a>
            <a @click.prevent="itemList = []"  class="btn btn-danger btn-sm">
             <span class="fa fa-recycle" aria-hidden="true"></span>  Vaciar
-          </a>   
-              </div>
+          </a> 
+
+            <a v-if="invoice.netTotal > 0" :href="'invoicesPayments/'+invoice[0].invoiceId+'?btnReturn=mod_cont'" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> Cuotas
+            </a>  
+        </div>
        <br>
 
 <!-- MODALES -->
@@ -179,6 +201,8 @@ export default {
             modelQuantity: '',
             modelUnit: '',
             modelUnitCost: '',
+           
+           editMode: -1,
 
         }
     },
@@ -253,7 +277,7 @@ export default {
               if(this.selectedService[0].hasCost == 'N'){
                  this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
-                 this.modelUnit =''
+                 this.modelUnit = null
                  this.modelUnitCost =''
               }else{
                  this.hasCost = true
@@ -313,6 +337,27 @@ export default {
                                    });
            }
          },
+
+       editItemList: function(index){
+             this.editMode = index
+        },
+      updateItemList: function(){
+              this.editMode = -1
+        },
+      calculateItemAmount: function(index,item) { 
+          //regla: si no es un numero ponle cero
+           if(item.unitCost == '' || item.unitCost == 0) {
+              item.unitCost = 1;
+          }
+           if(item.quantity == '' || item.quantity == 0) {
+              item.quantity = 1;
+          }
+
+             let amountRs = item.unitCost * item.quantity;
+
+             let myObj = this.itemList.find(el => el.invDetailId == item.invDetailId);
+              myObj.amount = parseFloat(amountRs).toFixed(2);
+        }, 
        deleteRow: function(id) {
             //borrar valor que encuentre del arreglo
                  this.itemList.splice(--id,1);

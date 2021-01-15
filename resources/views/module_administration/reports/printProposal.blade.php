@@ -224,7 +224,7 @@
 
 				<div class="lower-left"></div>
 				<div class="lower-block">
-																							<b>{{$company[0]->companyName}}</b> - 
+				                                     <b>{{$company[0]->companyName}}</b> - 
 					<img src="img/icon-email.png"></img> {{$company[0]->companyEmail}} 
 					<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}} <br>
 					<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
@@ -251,11 +251,21 @@ C. ID: {{$client->clientCode}}   <br>
 <div>
 <div class="float-left"><b>RE:</b></div>
 <div class="float-left">Professional Design Services Proposal <br>
+           @if($proposal[0]->$modelType->projectName)
+		    <b>Project Name:</b> {{$proposal[0]->$modelType->projectName}} <br>
+           @endif
+           @if($proposal[0]->$modelType->siteAddress)
 			<b> {{$proposal[0]->$modelType->siteAddress}}</b> <br>
-			          Proposal ID: {{$proposal[0]->propId}} <br>
-			{{$modelTypeView}} ID: {{$modelId}} <br>
+           @endif
+  <div style="font-size:10px">	   
+			Proposal ID: {{$proposal[0]->propId}} 
+			- {{$modelTypeView}} ID: {{$modelId}} <br>
+			Type: {{$proposal[0]->$modelType->projectUse->projectUseName}} -
+			Description: {{$proposal[0]->projectDescription->projectDescriptionName}} <br>
+  </div>			
 </div>
 
+<br>
 <div class="prologue">
 Dear <b>Mr/Mrs. {{$client->clientName}}</b>
 </div>

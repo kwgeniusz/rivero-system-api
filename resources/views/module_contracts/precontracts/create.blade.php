@@ -65,16 +65,14 @@
           <label for="zipCode"><i class="fas fa-envelope"></i> CODIGO POSTAL</label>
           <input type="number" class="input-label" id="zipCode" name="zipCode" value="{{ old('zipCode') }}" placeholder="75230">
         </div>
-        <select-building-code pref-Url='../'></select-building-code>
-        <div class="inputother boxes2">
-          <label for="constructionType"><i class="fas fa-building"></i> TIPO DE CONTRUCCION</label>
-            <select class="form-control" name="constructionType" id="constructionType">
-              <option value="TYPE I" >TYPE I</option>
-              <option value="TYPE II" >TYPE II</option>
-              <option value="TYPE III" >TYPE III</option>
-              <option value="TYPE IV" >TYPE IV</option>
-              <option value="TYPE V" >TYPE V</option>
-            </select>
+      <div class="row"></div>
+       <div class="form-group col-lg-8">
+       <label for="projectUseId">USO DEL PROYECTO</label>:
+       <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio1" value="1">
+       <label class="form-check-label" for="inlineRadio1">COM</label>
+         <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio2" value="2">
+         <label class="form-check-label" for="inlineRadio2">RES</label>
+      </div>
         </div>
         <div class="textarea">  
           <label for="comment"><i class="fas fa-comment-alt"></i> {{__('initial_comment')}}</label>

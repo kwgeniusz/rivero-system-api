@@ -155,9 +155,9 @@
                   </a>
                   @endif
              @elseif($btnReturn == 'mod_adm')
-                  <a href="{{route('proposals.all')}}" class="btn btn-warning">
-                                 <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-                      </a>
+                  <a href="{{ URL::previous() }}" class="btn btn-warning">
+                       <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+                  </a>
              @endif
 
             </div>

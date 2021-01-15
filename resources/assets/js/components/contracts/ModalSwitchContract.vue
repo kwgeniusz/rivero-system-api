@@ -125,7 +125,7 @@
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
  -->
-                       <a v-if="$can('BDC')" :href="'contracts/'+contractId+'/edit'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
+                       <a :href="'contracts/'+contractId+'/edit'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
                         <a v-if="$can('BDB')" :href="'contracts/'+contractId" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">

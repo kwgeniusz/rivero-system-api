@@ -89,20 +89,40 @@
          <tr v-for="(item,index) in itemList">
             <td>{{++index}}</td>
             <td>{{item.serviceName}}</td>
-            <td>{{item.unit}}</td>
-            <td>{{item.unitCost}}</td>
-            <td>{{item.quantity}}</td>
-            <td>{{item.amount}}</td>
-            <td>  
-             <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                            <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-           <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
-              <span class="fa fa-angle-double-up" aria-hidden="true"></span>
-             </button>
-            <button class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
-              <span class="fa fa-angle-double-down" aria-hidden="true"></span>
-             </button>
+            <td>
+              <select v-if="editMode === index" class="form-control" v-model="item.unit">
+                 <option value="sqft">sqft</option>
+                 <option value="ea">ea</option>
+              </select>
+              <p v-else>{{item.unit}}</p> 
+            </td>
+            <td>
+               <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
+               <p v-else>{{item.unitCost}}</p> 
+            </td>
+            <td>
+               <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
+               <p v-else>{{item.quantity}}</p> 
+            </td>
+            <td> {{item.amount}}</td>
+            <td>
+             {{item.unit}}
+              <a v-if="editMode != index && item.unit != null" @click="editItemList(index)" class="btn btn-sm btn-primary" title="Editar" > 
+                 <i class="fa fa-edit"></i>
+              </a>   
+              <a v-if="editMode === index" @click="updateItemList()" class="btn btn-sm btn-success">
+                <i class="glyphicon glyphicon-ok"></i>
+              </a> 
+              <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
+              </a>
+             <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
+               <span class="fa fa-angle-double-up" aria-hidden="true"></span>
+              </button>
+             <button class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
+               <span class="fa fa-angle-double-down" aria-hidden="true"></span>
+              </button>
+
            </td> 
          </tr>
          </tbody>
@@ -126,15 +146,15 @@
 
    </div>
        <div class="text-center"> 
-          <!--  <a href="javascript:window.history.back()" class="btn btn-warning btn-sm">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  Regresar
-          </a> -->
            <a @click.prevent="saveProposal()" class="btn btn-info btn-sm">
                   <span class="fa fa-save" aria-hidden="true"></span>  Guardar Propuesta
           </a>
             <a @click.prevent="itemList = []"  class="btn btn-danger btn-sm">
                   <span class="fa fa-recycle" aria-hidden="true"></span>  Vaciar
           </a>
+           <a v-if="proposal[0].netTotal > 0" :href="'proposalsPayments/'+proposal[0].proposalId+'?btnReturn=mod_cont'" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> Cuotas
+            </a>
        </div>
        <br>
   </div>
@@ -157,6 +177,13 @@ export default {
             this.getAllProposalDetails();
             this.getAllServices();
         },
+   components: {
+         proposalScopes,
+         proposalTimes,
+         proposalTerms,
+         proposalNotes,
+         proposalSubcontractor
+  },     
     data: function() {
         return {
             errors: [],
@@ -164,16 +191,16 @@ export default {
             proposal: '',
             services: {},
             selectedService: {},
-
             itemList: [],
             
             //variables del formulario
             hasCost: false,
             modelServiceId: '',
-            // modelServiceName: '',
             modelQuantity: '',
             modelUnit: '',
             modelUnitCost: '',
+
+            editMode: -1,
             
         }
     },
@@ -193,15 +220,10 @@ export default {
             suma += parseFloat(item.amount);
             suma.toFixed(2);
           });
-          // console.log(suma);
-
+  
               let taxAmount   = (parseFloat(suma).toFixed(2) * parseFloat(this.proposal[0].taxPercent).toFixed(2))/100;
-              // taxAmount.toFixed(2);
-              // console.log(taxAmount);
-
               let netTotal    = parseFloat(taxAmount) + parseFloat(suma);
-              // netTotal.toFixed(2);
-              // console.log(netTotal);
+
                return (
                 `Sub Total: ${suma} /
                Impuesto:${this.proposal[0].taxPercent}% = ${taxAmount} /
@@ -209,14 +231,6 @@ export default {
                ` )
        } 
     },
-
-   components: {
-         proposalScopes,
-         proposalTimes,
-         proposalTerms,
-         proposalNotes,
-         proposalSubcontractor
-  },
     methods: {
         findProposal: function (){
             let url ='proposals/'+this.proposalId;
@@ -253,7 +267,7 @@ export default {
               if(this.selectedService[0].hasCost == 'N'){
                  this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
-                 this.modelUnit =''
+                 this.modelUnit = null
                  this.modelUnitCost =''
               }else{
                  this.hasCost = true
@@ -270,8 +284,8 @@ export default {
              }else {
                this.modelUnitCost = this.selectedService[0].cost2;
              }
-            
           },
+
   /*----CRUD----- */
   addRow: function() {
            this.errors = [];
@@ -304,6 +318,27 @@ export default {
                                    });
            }
           },
+
+      editItemList: function(index){
+             this.editMode = index
+        },
+      updateItemList: function(){
+              this.editMode = -1
+        },
+      calculateItemAmount: function(index,item) { 
+          //regla: si no es un numero ponle cero
+           if(item.unitCost == '' || item.unitCost == 0) {
+              item.unitCost = 1;
+          }
+           if(item.quantity == '' || item.quantity == 0) {
+              item.quantity = 1;
+          }
+
+             let amountRs = item.unitCost * item.quantity;
+
+             let myObj = this.itemList.find(el => el.propDetailId == item.propDetailId);
+              myObj.amount = parseFloat(amountRs).toFixed(2);
+        },            
         deleteRow: function(id) {
             //borrar valor que encuentre del arreglo
                  this.itemList.splice(--id,1);
@@ -338,8 +373,8 @@ export default {
                    // if (response.data.alert == "error") {
                    //     toastr.error(response.data.msj)
                    // } else {
-                       this.getAllProposalDetails();
                        this.findProposal();
+                       this.getAllProposalDetails();
 
                        this.modelServiceId = ''
                        // this.modelServiceName = ''

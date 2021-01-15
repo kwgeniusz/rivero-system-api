@@ -63,7 +63,6 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Client', 'clientId','clientId');
     }
-
     public function comments()
     {
         return $this->morphMany('App\Comment', 'commentable');
@@ -444,38 +443,30 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function updateContract($contractId,$contractType,$projectName, $contractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
+    public function updateContract($contractId,$data) {
+        
+        $contract                        = Contract::find($contractId);
 
-        $contract                         = contract::find($contractId);
-        $contract->contractType           = $contractType;
-        $contract->projectName            = $projectName;
-        // $contract->countryId           = $countryId;
-        // $contract->companyId            = $companyId;
-        $contract->contractDate           = $contractDate;
-        $contract->clientId               = $clientId;
-        $contract->propertyNumber         = $propertyNumber;
-        $contract->streetName             = $streetName;
-        $contract->streetType             = $streetType;
-        $contract->suiteNumber            = $suiteNumber;
-        $contract->city                   = $city;
-        $contract->state                  = $state;
-        $contract->zipCode                = $zipCode;
-        $contract->buildingCodeId         = $buildingCodeId;
-        $contract->groupId                = $groupId;
-        $contract->projectUseId           = $projectUseId;
-        $contract->constructionType       = $constructionType;
-        // $contract->registryNumber      = $registryNumber;
-        // $contract->startDate           = $startDate;
-        // $contract->scheduledFinishDate = $scheduledFinishDate;
-        // $contract->actualFinishDate    = $actualFinishDate;
-        // $contract->deliveryDate        = $deliveryDate;
-        $contract->initialComment       = $initialComment;
-        // $contract->intermediateComment = $intermediateComment;
-        // $contract->finalComment        = $finalComment;
-        $contract->currencyId           = $currencyId;
+        $contract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $contract->contractType;
+        $contract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $contract->projectName;
+        $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : $contract->contractDate;
+        $contract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $contract->clientId;
+        $contract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $contract->propertyNumber;
+        $contract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $contract->streetName;
+        $contract->streetType            = !empty($data['streetType']) ? $data['streetType'] : $contract->streetType;
+        $contract->suiteNumber           = !empty($data['suiteNumber']) ? $data['suiteNumber'] : $contract->suiteNumber;
+        $contract->city                  = !empty($data['city']) ? $data['city'] : $contract->city;
+        $contract->state                 = !empty($data['state']) ? $data['state'] : $contract->state;
+        $contract->zipCode               = !empty($data['zipCode']) ? $data['zipCode'] : $contract->zipCode;
+        $contract->buildingCodeId         = !empty($data['buildingCodeId']) ? $data['buildingCodeId'] : $contract->buildingCodeId;
+        $contract->groupId                = !empty($data['groupId']) ? $data['groupId'] : $contract->groupId;
+        $contract->projectUseId           = !empty($data['projectUseId']) ? $data['projectUseId'] : $contract->projectUseId;
+        $contract->constructionType       = !empty($data['constructionType']) ? $data['constructionType'] : $contract->constructionType;
+     // $contract->projectDescriptionId  = !empty($data['projectDescriptionId']) ? $data['contractType'] : $contract->projectDescriptionId;
+        $contract->initialComment         = !empty($data['initialComment']) ? $data['initialComment'] : $contract->initialComment;
+        $contract->currencyId             = !empty($data['currencyId']) ? $data['currencyId'] : $contract->currencyId;
 
         $contract->save();
-
     }
 //------------------------------------------
     public function deleteContract($contractId)
