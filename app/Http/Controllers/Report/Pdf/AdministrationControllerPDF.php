@@ -112,9 +112,10 @@ class AdministrationControllerPDF extends Controller
         $date            = Carbon::now();
         $company         = DB::table('company')->where('companyId', session('companyId'))->get();
         $invoice         = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
-        $invoiceDetails = $this->oInvoiceDetail->getAllByInvoice($request->id);
+        $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($request->id);
         $client          = $invoice[0]->client;
-        $payments        = $invoice[0]->paymentInvoice;
+        $payments        = $invoice[0]->shareSucceed;
+
 
         $symbol          = $invoice[0]->contract->currency->currencySymbol;
 
@@ -272,7 +273,6 @@ public function printPaymentRequest(Request $request)
         $company           = DB::table('company')->where('companyId', session('companyId'))->get();
         $creditNote        = $this->oSaleNote->findById($request->id);
         $creditNoteDetails = $creditNote[0]->saleNoteDetails;
-        $payments          = $creditNote[0]->paymentInvoice;
         $client            = $creditNote[0]->client;
 
         $symbol = $creditNote[0]->invoice->contract->currency->currencySymbol;
@@ -283,7 +283,6 @@ public function printPaymentRequest(Request $request)
            'company'  => $company,
            'creditNote'  => $creditNote,
            'client'  => $client,
-           'payments'  => $payments,
            'creditNoteDetails'  => $creditNoteDetails,
            'symbol'  => $symbol,
           // 'status'  => $status
@@ -301,7 +300,6 @@ public function printPaymentRequest(Request $request)
         $company           = DB::table('company')->where('companyId', session('companyId'))->get();
         $creditNote        = $this->oSaleNote->findById($request->id);
         $debitNoteDetails = $creditNote[0]->saleNoteDetails;
-        $payments          = $creditNote[0]->paymentInvoice;
         $client            = $creditNote[0]->client;
 
         $symbol = $creditNote[0]->invoice->contract->currency->currencySymbol;
@@ -312,7 +310,6 @@ public function printPaymentRequest(Request $request)
            'company'  => $company,
            'creditNote'  => $creditNote,
            'client'  => $client,
-           'payments'  => $payments,
            'debitNoteDetails'  => $debitNoteDetails,
            'symbol'  => $symbol,
           // 'status'  => $status

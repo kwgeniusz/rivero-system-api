@@ -126,8 +126,6 @@ class Transaction extends Model
     }
      public function getAllWithSaleNotesByInvoice($invoiceId,$countryId,$companyId)
     { 
-
-
        $notes = SaleNote::select('salId as id','dateNote as transactionDate','netTotal as amount','noteType as reason')
            ->where('invoiceId',$invoiceId);
 
@@ -137,7 +135,8 @@ class Transaction extends Model
         ->where('transaction_type.transactionTypeCode', 'INCOME_INVOICE')
         ->where('transaction.countryId', $countryId) 
         ->where('transaction.companyId',$companyId)
-        ->where('transaction.invoiceId',$invoiceId)
+        ->where('transaction.transactionable_type','App\Invoice')
+        ->where('transaction.transactionable_id',$invoiceId)
          ->union($notes)
          ->orderBy('transactionDate', 'ASC')
          ->get();
