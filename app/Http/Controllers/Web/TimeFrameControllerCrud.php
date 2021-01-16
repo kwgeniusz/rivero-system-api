@@ -29,8 +29,6 @@ class TimeFrameControllerCrud extends Controller
     {
         $timeframe = new TimeFrame();
 
-        $timeframe->countryId = $request->countryId;
-        $timeframe->companyId = $request->companyId;
         $timeframe->timeName = $request->timeName;
         $timeframe->countryId = session('countryId');
         $timeframe->companyId = session('companyId');

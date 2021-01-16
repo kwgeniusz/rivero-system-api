@@ -120,7 +120,7 @@ export default {
     };
   },
   created() {
-    axios.get("/timeframes").then((res) => {
+    axios.get("/crud-timeframes").then((res) => {
       this.alltimeframes = res.data;
     });
   },
@@ -138,7 +138,7 @@ export default {
         timeName: this.timeframe.timeName,
       };
       axios
-        .post("/timeframes", params)
+        .post("/crud-timeframes", params)
         .then((res) => {
           this.alltimeframes.unshift(res.data);
         })
@@ -168,7 +168,7 @@ export default {
         timeName: item.timeName,
       };
 
-      axios.put(`/timeframes/${item.timeId}`, params).then((res) => {
+      axios.put(`/crud-timeframes/${item.timeId}`, params).then((res) => {
         this.modoEdicion = false;
 
         //Correccion al error de actualizar listado de datos locales encontrado en el video, solucion
@@ -184,7 +184,7 @@ export default {
       });
     },
     eliminar(item, index) {
-      axios.delete(`/timeframes/${item.timeId}`).then(() => {
+      axios.delete(`/crud-timeframes/${item.timeId}`).then(() => {
         this.alltimeframes.splice(index, 1); // https://youtu.be/QW4dMbFxv3c min 49:11
       });
     },

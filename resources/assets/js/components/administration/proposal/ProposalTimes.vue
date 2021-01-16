@@ -43,7 +43,7 @@
         </button>
       </div>
       <div class="col-xs-4 text-center">
-        <a class="btn btn-warning" href="/timeframes" role="button">
+        <a class="btn btn-warning" href="/crud-timeframes" role="button">
           <span class="fa fa-list" aria-hidden="true"></span> Timeframes</a
         >
       </div>

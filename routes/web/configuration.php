@@ -45,4 +45,7 @@ Route::delete('companys/{id}', 'Web\CompanyController@destroy');
 Route::get('currencys/list', 'Web\CurrencyController@index');
 
 //TIME FRAMES
-Route::resource('timeframes', 'Web\TimeFrameControllerCrud');
+Route::resource('crud-timeframes', 'Web\TimeFrameControllerCrud');
+
+//TIME FRAMES
+Route::resource('crud-notes', 'Web\NoteControllerCrud');

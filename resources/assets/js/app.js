@@ -393,6 +393,11 @@ Vue.component(
   require("./components/administration/proposal/TimeFrameCrud.vue")
 );
 
+Vue.component(
+  "note-crud",
+  require("./components/administration/proposal/NoteCrud.vue")
+);
+
 const app = new Vue({
   el: "#app",
   data: {
