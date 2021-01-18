@@ -121,7 +121,7 @@ Vue.component(
 );
 Vue.component(
   "subcontractor-create",
-  require("./components/administration/subcontractor/Create.vue")
+  require("./components/administration/subcontractor/create.vue")
 );
 Vue.component(
   "search-subcontractor",

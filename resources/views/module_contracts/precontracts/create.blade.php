@@ -65,18 +65,16 @@
           <label for="zipCode"><i class="fas fa-envelope"></i> CODIGO POSTAL</label>
           <input type="number" class="input-label" id="zipCode" name="zipCode" value="{{ old('zipCode') }}" placeholder="75230">
         </div>
-      <div class="row"></div>
-       <div class="form-group col-lg-8">
-       <label for="projectUseId">USO DEL PROYECTO</label>:
-       <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio1" value="1">
-       <label class="form-check-label" for="inlineRadio1">COM</label>
-         <input class="form-check-input" type="radio" name="projectUseId" id="inlineRadio2" value="2">
-         <label class="form-check-label" for="inlineRadio2">RES</label>
-      </div>
-        </div>
-        <div class="textarea">  
-          <label for="comment"><i class="fas fa-comment-alt"></i> {{__('initial_comment')}}</label>
-          <textarea name="comment" id="comment" rows="10">{{ old('comment') }}</textarea>
+        <div class="inputother boxes2">
+          <label for="projectUseId">USO DEL PROYECTO</label>:
+          <div class="input-label">
+            <input class="input" type="radio" name="projectUseId" id="inlineRadio1" value="1">
+            <label class="input" for="inlineRadio1">COM</label>
+          </div>
+          <div class="input-label">
+            <input class="input" type="radio" name="projectUseId" id="inlineRadio2" value="2">
+            <label class="input" for="inlineRadio2">RES</label>
+          </div>
         </div>
         <div class="inputother boxes2">
           <label for="currencyId"><i class="fas fa-donate"></i> {{__('currency')}}</label>
@@ -85,6 +83,10 @@
                       <option value="{{$currency->currencyId}}" > {{$currency->currencyName}} </option>
                 @endforeach
             </select>
+        </div>
+        <div class="input-label">  
+          <label for="comment"><i class="fas fa-comment-alt"></i> {{__('initial_comment')}}</label>
+          <textarea name="comment" id="comment" rows="10">{{ old('comment') }}</textarea>
         </div>
       </div>
     </div>
