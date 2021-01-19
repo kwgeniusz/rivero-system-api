@@ -1,57 +1,45 @@
 
 <template> 
-    <form class="formTerms">
-
-     <div class="col-xs-12  alert alert-danger " v-if="errors.length">
-            <h4>Errores:</h4>
-                  <div v-for="error in errors">- {{ error }}</div>
+    <form class="input-label boxes2" style="margin-top: 30px">
+      <div class="alert alert-danger " v-if="errors.length">
+        <h4>Errores:</h4>
+        <div v-for="error in errors">- {{ error }}</div>
       </div>
-      
-     <div class="col-xs-8 col-xs-offset-3">
-         <input type="radio" v-model="inputType" value="A"> PRECARGADOR
-         <input type="radio" v-model="inputType" value="B"> LIBRE
-    </div>
-
-          <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'A'">
-            <label for="termId">T&C</label>
-            <select v-model="modelTermId"  class="form-control" name="termId" id="termId">
-                <option v-for="(item,index) in notes" :value="item.termId" > {{item.termName}}</option>
-            </select>
-          </div>
-
-           <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'B'">
-            <label for="termName">T&C</label>
-            <input v-model="modelTermName" type="text" class="form-control" id="termName" name="termName"  autocomplete="off">
-          </div>
-
-          
-    <div class="row">
-       <div class="text-right col-xs-6">
-         <button class="btn btn-primary" @click.prevent="addRow()"> 
+      <div>
+        <input class="input" type="radio" v-model="inputType" value="A"> PRECARGADOR
+      </div>
+      <div>
+        <input class="input" type="radio" v-model="inputType" value="B"> LIBRE
+      </div>
+      <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'A'">
+        <label for="termId">T&C</label>
+        <select v-model="modelTermId"  class="form-control" name="termId" id="termId">
+            <option v-for="(item,index) in notes" :value="item.termId" > {{item.termName}}</option>
+        </select>
+      </div>
+      <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'B'">
+        <label for="termName">T&C</label>
+        <input v-model="modelTermName" type="text" class="form-control" id="termName" name="termName"  autocomplete="off">
+      </div>
+      <div style="display: flex; justify-content: center; align-items: flex-start;">
+        <button class="submit" style="margin-top: 0px;" @click.prevent="addRow()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar
-         </button>
-       </div>
-       <div class="col-xs-6" v-if="inputType == 'A'">
-         <form-new-term pref-url='' @termcreated='getAllTerms()'/>
-       </div>   
-    </div>
-
-
-
-
-    <div class="col-xs-12 text-left">
-          <h4><b>Terminos y Condiciones</b></h4>
-           <ul>
+        </button>
+        <div class="submit" style="padding: 0px; margin-top: 0px; margin-left: 20px;" v-if="inputType == 'A'">
+          <form-new-term pref-url='' @termcreated='getAllTerms()'/>
+        </div>   
+      </div>
+      <div class="input-label">
+        <h4><b>Terminos y Condiciones</b></h4>
+          <ul>
             <li v-for="(note,index) in termsList">
-               <span v-html="nl2br(note.termName,false) "></span> 
-              <a @click="deleteTerm(++index)" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
+              <span v-html="nl2br(note.termName,false) "></span> 
+              <a @click="deleteTerm(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar">
                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
+              </a>
             </li>
-          </ul>
-    </div>
-
-
+        </ul>
+      </div>
     </form>    
  </template>
 

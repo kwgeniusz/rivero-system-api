@@ -1,16 +1,16 @@
 <template>
-  <form class="formTimes">
-    <div class="col-xs-12  alert alert-danger " v-if="errors.length">
+  <form class="input-label boxes2" style="margin-top: 30px">
+    <div class="alert alert-danger " v-if="errors.length">
       <h4>Errores:</h4>
       <div v-for="error in errors">- {{ error }}</div>
     </div>
-
-    <div class="col-xs-8 col-xs-offset-3">
-      <input type="radio" v-model="inputType" value="A" /> PRECARGADOS
-      <input type="radio" v-model="inputType" value="B" /> LIBRE
+    <div>
+      <input class="input" type="radio" v-model="inputType" value="A" /> PRECARGADOS
     </div>
-
-    <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'A'">
+    <div>
+      <input class="input" type="radio" v-model="inputType" value="B" /> LIBRE
+    </div>
+    <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'A'">
       <label for="timeId">TIME FRAME</label>
       <select
         v-model="modelTimeId"
@@ -23,8 +23,7 @@
         >
       </select>
     </div>
-
-    <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'B'">
+    <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'B'">
       <label for="timeName">TIME FRAME</label>
       <input
         v-model="modelTimeName"
@@ -35,31 +34,24 @@
         autocomplete="off"
       />
     </div>
-
-    <div class="row">
-      <div class="col-xs-4 text-center">
-        <button class="btn btn-primary" @click.prevent="addRow()">
+    <div style="display: flex; justify-content: center; align-items: flex-start;">
+        <button class="submit buttonmovil" style="margin-top: 0px;" @click.prevent="addRow()">
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar
         </button>
-      </div>
-      <div class="col-xs-4 text-center">
-        <a class="btn btn-warning" href="/timeframes" role="button">
-          <span class="fa fa-list" aria-hidden="true"></span> Timeframes</a
-        >
-      </div>
-      <div class="col-xs-4 text-center" v-if="inputType == 'A'">
+        <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/timeframes" role="button">
+          <span class="fa fa-list" aria-hidden="true"></span> Timeframes</a>
+      <div class="submit" style="padding: 0px; margin-top: 0px; margin-left: 20px" v-if="inputType == 'A'">
         <form-new-time pref-url="" @timecreated="getAllTimes()"></form-new-time>
       </div>
     </div>
-
-    <div class="col-xs-12 text-left">
+    <div class="input-label">
       <h4><b>Time Frame</b></h4>
       <ul>
         <li v-for="(item, index) in timesList">
           <span v-html="nl2br(item.timeName, false)"></span>
           <a
             @click="deleteTime(++index)"
-            class="btn btn-danger btn-xs"
+            class="supr"
             data-toggle="tooltip"
             data-placement="top"
             title="Eliminar"

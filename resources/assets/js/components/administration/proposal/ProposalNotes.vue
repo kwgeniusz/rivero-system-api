@@ -1,58 +1,48 @@
 
 <template> 
-    <form class="formNotes">
-
-     <div class="col-xs-12  alert alert-danger " v-if="errors.length">
-            <h4>Errores:</h4>
-                  <div v-for="error in errors">- {{ error }}</div>
-      </div>
-      
-     <div class="col-xs-8 col-xs-offset-3">
-         <input type="radio" v-model="inputType" value="A"> PRECARGADOR
-         <input type="radio" v-model="inputType" value="B"> LIBRE
+  <form class="input-label boxes2" style="margin-top: 30px;">
+    <div class="alert alert-danger " v-if="errors.length">
+      <h4>Errores:</h4>
+      <div v-for="error in errors">- {{ error }}</div>
     </div>
-
-          <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'A'">
-            <label for="noteId">NOTA</label>
-            <select v-model="modelNoteId"  class="form-control" name="noteId" id="noteId">
-                <option v-for="(item,index) in notes" :value="item.noteId" > {{item.noteName}}</option>
-            </select>
-          </div>
-
-           <div class="form-group col-xs-10 col-xs-offset-1" v-if="inputType == 'B'">
-            <label for="noteName">NOTA</label>
-            <input v-model="modelNoteName" type="text" class="form-control" id="noteName" name="noteName"  autocomplete="off">
-          </div>
-
-          
-    <div class="row">
-       <div class="text-right col-xs-6">
-         <button class="btn btn-primary" @click.prevent="addRow()"> 
+    <div>
+      <input class="input" type="radio" v-model="inputType" value="A"> PRECARGADOR
+    </div>
+    <div>
+      <input class="input" type="radio" v-model="inputType" value="B"> LIBRE
+    </div>
+    <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'A'">
+      <label for="noteId">NOTA</label>
+      <select v-model="modelNoteId"  class="form-control" name="noteId" id="noteId">
+          <option v-for="(item,index) in notes" :value="item.noteId" > {{item.noteName}}</option>
+      </select>
+    </div>
+    <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'B'">
+      <label for="noteName">NOTA</label>
+      <input v-model="modelNoteName" type="text" class="form-control" id="noteName" name="noteName"  autocomplete="off">
+    </div>
+    <div style="display: flex; justify-content: center; align-items: flex-start;">
+        <button class="submit" style="margin-top: 0px" @click.prevent="addRow()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar
-         </button>
-       </div>
-       <div class="col-xs-6" v-if="inputType == 'A'">
-         <form-new-note pref-url='' @notecreated='getAllNotes()'></form-new-note>
-       </div>   
+        </button>
+      <div class="submit" style="padding: 0px; margin-top: 0px; margin-left: 20px;" v-if="inputType == 'A'">
+        <form-new-note pref-url='' @notecreated='getAllNotes()'></form-new-note> 
+      </div>
     </div>
-
-
-
-
-    <div class="col-xs-12 text-left">
+    <div class="input-label">
           <h4><b>Notas</b></h4>
-           <ul>
+            <ul>
             <li v-for="(note,index) in notesList">
-               <span v-html="nl2br(note.noteName,false) "></span> 
-              <a @click="deleteNote(++index)" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
+              <span v-html="nl2br(note.noteName,false) "></span> 
+              <a @click="deleteNote(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar">
                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
+              </a>
             </li>
           </ul>
     </div>
 
 
-    </form>    
+  </form>    
  </template>
 
 
