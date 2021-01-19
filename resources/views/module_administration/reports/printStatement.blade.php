@@ -160,12 +160,12 @@ foreach ($transactions as $transaction) {
                 }
                    $statement = number_format((float)$statement, 2, '.', '');       
 @endphp
-        <tr style="background-color:$background;">
+    <tr style="background-color: {{$background}};">
          <td width="20%" align="center">{{$transaction->transactionDate}}</td>
          <td width="35%" align="left"> {{$transaction->reason}}</td>
          <td width="22.5%" align="center">{{$sign}}  {{$symbol}}{{$transaction->amount}}</td>
          <td width="22.5%" align="center">{{$symbol}}{{$statement}}</td>
-        </tr>
+    </tr>
 @php
 }// FIN DE FOREACH DE RENGLONES
 
