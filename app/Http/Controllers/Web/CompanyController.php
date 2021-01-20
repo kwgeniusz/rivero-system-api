@@ -27,7 +27,10 @@ class CompanyController extends Controller
     }
     public function comboContry()
     {
-        return Country::orderBy('countryName', 'ASC')->get();
+        $countryId = session('countryId');
+        return Country::orderBy('countryName', 'ASC')
+            ->where('countryId', '=', $countryId)
+            ->get();
     }
     public function comboContryId($id)
     {
