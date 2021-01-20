@@ -17,43 +17,31 @@ class SubcontractorController extends Controller
     {
         $this->middleware('auth');
         // $this->middleware("permission:BA");
-        $this->oSubcontractor = new Subcontractor;
-        $this->oSubcontractorInvDetail = new SubcontractorInvDetail;
-        $this->oPayable = new Payable;
+        $this->oSubcontractor           = new Subcontractor;
+        $this->oSubcontractorInvDetail  = new SubcontractorInvDetail;
+        $this->oPayable                 = new Payable;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $subcontractors = $this->oSubcontractor->getAllByCountry(session('countryId'));
+        $subcontractors = $this->oSubcontractor->getAllByCompany(session('companyId'));
 
-        return view('module_contracts.subcontractors.index', compact('subcontractors'));
+         if($request->ajax()){
+                return $subcontractors;
+            }
+            
+        return view('module_administration.subcontractors.index', compact('subcontractors'));
     }
 
-    public function payables($subcontId)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        return view('module_contracts.subcontractors.payables', compact('subcontId'));
+        return view('module_administration.subcontractors.create');
     }
-
-   public function getallPayables($subcontId)
-    {
-        $payables = $this->oPayable->getAllBySubcontractor($subcontId);
-
-        return $payables;
-    }
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    
-    //     $clientNumberFormat = $this->oCountryConfiguration->generateClientNumberFormat(session('countryId'));
-    //     // $countrys     = Country::all();
-    //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
-
-    //     return view('module_contracts.clients.create', compact('countrys','contactTypes','clientNumberFormat'));
-    // }
 
     // /**
     //  * Store a newly created resource in storage.
@@ -61,29 +49,17 @@ class SubcontractorController extends Controller
     //  * @param  \Illuminate\Http\Request  $request
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function store(ClientRequest $request)
-    // {
-    //     $clients = $this->oSubcontractor->insertClient(
-    //         session('countryId'),
-    //         $request->clientName,
-    //         $request->clientAddress,
-    //         $request->contactTypeId, 
-    //         $request->clientPhone,
-    //         $request->clientEmail
-    //     );
+    public function store(Request $request)
+    {
+        $rs = $this->oSubcontractor->insertS(
+            session('countryId'),
+            session('companyId'),
+            $request->all()
+        );
+          
+          return $rs;
 
-    //     if($request->ajax()){
-    //             return $clients;
-    //         }
-            
-    //     $notification = array(
-    //         'message'    => 'Cliente Creado Exitosamente '.$clients->clientCode,
-    //         'alert-type' => 'success',
-    //     );
-
-    //     return redirect()->route('clients.index')
-    //                      ->with($notification);
-    // }
+    }
 
     // /**
     //  * Show the form for editing the specified resource.
@@ -97,7 +73,7 @@ class SubcontractorController extends Controller
     //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
     //     $client   = $this->oSubcontractor->findById($id, session('countryId'));
 
-    //     return view('module_contracts.clients.edit', compact('client', 'countrys','contactTypes'));
+    //     return view('module_administration.clients.edit', compact('client', 'countrys','contactTypes'));
     // }
 
     // /**
@@ -137,7 +113,7 @@ class SubcontractorController extends Controller
            if($request->ajax()){
               return $subcontractor;
             }
-        return view('module_contracts.clients.show', compact('subcontractor'));
+        return view('module_administration.clients.show', compact('subcontractor'));
     }
 
     // /**
@@ -157,28 +133,12 @@ class SubcontractorController extends Controller
     //     return redirect()->route('clients.index')
     //         ->with($notification);
     // }
-//----------------FUNCTIONS TO INSERT ON INVOICES -------------->>>>
-    public function listSubcontInvDetail(Request $request)
-    { 
-       $rs   = $this->oSubcontractorInvDetail->getAllByInvDetail($request->invDetailId);
-       return $rs;
-    }
-    public function addSubcontInvDetail(Request $request)
-    { 
-       $rs   = $this->oSubcontractorInvDetail->insertS($request->all());
-       return $rs;
-    }
-    public function removeSubcontInvDetail(Request $request)
-    { 
-       $rs   = $this->oSubcontractorInvDetail->deleteS($request->subcontInvDetailId);
-       return $rs;
-    }
 //----------------QUERYS ASINCRONIOUS -------------->>>>
-    public function getFiltered($subcontName = '')
+    public function getFiltered($name = '')
     {
-        $results = Subcontractor::where('subcontName', 'LIKE', "%$subcontName%")
+        $results = Subcontractor::where('name', 'LIKE', "%$name%")
             ->where('countryId', session('countryId'))
-            ->orderBy('subcontName', 'ASC')
+            ->orderBy('name', 'ASC')
             ->get();
 
         return json_encode($results);

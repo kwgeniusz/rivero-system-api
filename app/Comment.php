@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use App\Comment;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
@@ -16,6 +17,10 @@ class Comment extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
      public function user()
     {
         return $this->hasOne('App\User', 'userId', 'userId');
@@ -23,28 +28,13 @@ class Comment extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAllByContract($contractId)
-    {
-        return $this->with('user')
-                    ->where('contractId', $contractId)
-                    ->orderBy('commentDate', 'DESC')->get();
-    }
-//------------------------------------------
-    public function insertC($request)
-    {
-        $comment                  = new Comment;
-        $comment->commentContent  = $request->commentContent;
-        $comment->commentDate     = date('Y-m-d H:i:s');
-        $comment->contractId      = $request->contractId;
-        $comment->userId          = Auth::user()->userId;
-        $comment->save();
-
-         if ($comment) {
-            return $result = ['alert-type' => 'success', 'message' => 'Nuevo Comentario Insertado'];
-        } else {
-            return $result = ['alert-type' => 'error', 'message' => $error];
-        }
-    }
+    //------------------------------------------
+//     public function findById($projectUseId, $projectUseName)
+//     {
+//         $this->where('projectUseId', $projectUseId)->update(array(
+//             'projectUseName' => $projectUseName,
+//         ));
+//     }
 //------------------------------------------
 //     public function updateC($projectUseId, $projectUseName)
 //     {
@@ -55,7 +45,29 @@ class Comment extends Model
 // //------------------------------------------
 //     public function deleteC($projectUseId)
 //     {
+//        $model=$modelType::findOrFail($request->modelId);
+
+//        $model->comments()->detach($commentId);
 //         return $this->where('projectUseId', '=', $projectUseId)->delete();
 //     }
 //------------------------------------------
+
+
+   public function insertC($model,$data)
+    {
+        $comment                      = new Comment;
+        $comment->commentContent      = $data['commentContent'];
+        $comment->commentDate         = date('Y-m-d H:i:s');
+        $comment->commentable_id      = $model->getKey();
+        $comment->commentable_type    = get_class($model);
+        $comment->userId              = Auth::user()->userId;
+        $comment->save();
+
+         if ($comment) {
+            return $result = ['alert-type' => 'success', 'message' => 'Nuevo Comentario Insertado'];
+        } else {
+            return $result = ['alert-type' => 'error', 'message' => $error];
+        }
+    }
+
 }

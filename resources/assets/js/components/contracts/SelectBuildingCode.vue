@@ -4,7 +4,7 @@
    <div class="row"></div>
    <div class="col-xs-12 col-lg-8">
          <div class="form-group">
-            <label for="buildingCodeId">INTERNATIONAL BUILDING CODE (IBC)</label>
+            <label for="buildingCodeId">INTERNATIONAL BUILDING CODE (IBC) AND CIVIL WORK</label>
             <select v-model="firstOption" class="form-control" name="buildingCodeId" id="buildingCodeId" required="on">
                 <option v-for="(item, index) in list" :value="item.buildingCodeId"  >{{item.buildingCodeName}}</option>
             </select>
@@ -20,17 +20,26 @@
             </select>
           </div> 
     </div>
-
+<!--
     <div class="row"></div>
       <div class="col-xs-12 col-lg-6" v-if="firstOption">
          <div class="form-group">
             <label for="projectUseId">USO DEL PROYECTO</label>:
             <input v-model="thirdOption" type="hidden" name="projectUseId">
                                                          {{list3[0].projectUseName}}
-          </div>
-           
+          </div>       
     </div>
-
+ -->   
+ <!-- {{propConstructionType}} -->
+  <div class="form-group col-lg-9">
+            <label for="constructionType">TIPO DE CONSTRUCCION</label>
+            <select class="form-control" name="constructionType" id="constructionType" v-model="propConstructionType" >
+              <option value="TYPE I">TYPE I</option>
+              <option value="TYPE II">TYPE II</option>
+              <option value="TYPE III">TYPE III</option>
+              <option value="TYPE IV">TYPE IV</option>
+            </select>
+  </div>
 
 
 </div>   
@@ -59,6 +68,7 @@
            propBuildingCode: { type: String, default: null}, 
            propBuildingCodeGroup: { type: String, default: null}, 
            propProjectUse: { type: String, default: null}, 
+           propConstructionType: { type: String, default: null}, 
     },
     watch: {
       firstOption: function () {   

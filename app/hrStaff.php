@@ -19,7 +19,7 @@ class hrStaff extends Model
     'baseSalary', 'probationSalary', 'baseCurrencyId',
     'localSalary', 'localCurrencyId', 'localDailySalary', 'stopSS', 'blockSS', 'excTranTypeCode1', 'excTranTypeCode2', 'excTranTypeCode3', 'status', 'deleted_at'];
     
-    function getComboStaff(){
+   function getComboStaff(){
         return DB::table('hrstaff')
                 ->select('hrstaff.shortName','hrstaff.staffCode','hrstaff.countryId','hrstaff.companyId')
                 ->where('hrstaff.countryId', '=',session('countryId'))

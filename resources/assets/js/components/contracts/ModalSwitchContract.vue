@@ -84,13 +84,13 @@
 
                     <center><b><u>Términos y Condiciones</u></b></center>
                     <br>
-                     <p v-for="(note,index2) in invoice.note">
-                           - {{note.noteName}}     
+                     <p v-for="(term,index2) in invoice.proposal.term">
+                           - {{term.termName}}     
                      </p>
 
                     <center><b><u>Alcance</u></b></center>
                     <br>
-                    <p v-for="(scope,index3) in invoice.scope">
+                    <p v-for="(scope,index3) in invoice.proposal.scope">
                              - {{scope.description}}
                      </p>
 
@@ -125,7 +125,7 @@
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> 
                     </a>
  -->
-                       <a v-if="$can('BDC')" :href="'contracts/'+contractId+'/edit'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
+                       <a :href="'contracts/'+contractId+'/edit'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>
                         <a v-if="$can('BDB')" :href="'contracts/'+contractId" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
@@ -154,20 +154,20 @@
      data: function () {
           return {
            contract: null,
-           invoicesList:{}
+           invoicesList: {}
           }
     },
     methods: {
        openMainModal: function (){
           //llamar los detalles del contrato
-          axios.get('contracts/'+this.contractId+'/details').then(response => {
+          axios.get('contracts/'+this.contractId).then(response => {
                  this.contract = response.data
             });
 
           //llamar las facturas activas del contrato, con detalles, notas, alcances
           axios.get('invoices?id='+this.contractId).then(response => {
                   this.invoicesList = response.data
-                 // console.log(this.invoicesList);
+                //  console.log(this.invoicesList);
             });
 
             this.$refs.mainModal.open()

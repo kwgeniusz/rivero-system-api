@@ -91,10 +91,14 @@
                 <tr>
                    <td>{{ $acum = $acum +1 }}</td>
                    <td>{{$transaction->transactionDate}}</td>
-                   <td>{{$transaction->description}}</td>
+                   <td>{{$transaction->description}} <br>
+                    @if($transaction->invoice != null)
+                    {{$transaction->invoice->contract->siteAddress}}
+                    @endif
+                  </td>
                    {{-- <td>{{$transaction->payMethodDetails}}</td> --}}
-                   <td>@if($transaction->invoice != null)
-                    {{$transaction->invoice->invId}}
+                   <td>@if($transaction->transactionable != null)
+                    {{$transaction->transactionable->invId}}
                      @endif
                   </td>
                    <td>{{$transaction->reason}}</td>
@@ -108,14 +112,13 @@
                    <td>{{$transaction->user->fullName}}</td>
 
                    <td>
-       <!--              <a href="{{route('transactions.edit', ['id' => $transaction->transactionId])}}" class="btn btn-primary">
-                        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
+          @if($transaction->transactionable_id == null)  
+       <!--<a href="{{route('transactions.edit', ['id' => $transaction->transactionId])}}" class="btn btn-primary"><span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
                     </a> -->
-          @if($transaction->invoice == null)  
               <a href="{{route('transactions.show', ['sign'=>'+', 'id' => $transaction->transactionId])}}" class="btn btn-danger" title="{{__('delete')}}">
                           <span class="fa fa-times-circle" aria-hidden="true"></span> 
                         </a> 
-          @endif   
+          @endif  
                    </td>
                 </tr>
                 @endforeach

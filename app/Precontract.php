@@ -88,21 +88,17 @@ class Precontract extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-    public function client()
-    {
-        return $this->belongsTo('App\Client', 'clientId');
-    }
     public function buildingCode()
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
     }
-       public function buildingCodeGroup()
+    public function buildingCodeGroup()
     {
         return $this->belongsTo('App\BuildingCodeGroup', 'groupId');
     }
-    public function projectUse()
+    public function client()
     {
-        return $this->belongsTo('App\ProjectUse', 'projectUseId');
+        return $this->belongsTo('App\Client', 'clientId');
     }
     public function company()
     {
@@ -112,10 +108,28 @@ class Precontract extends Model
     {
         return $this->belongsTo('App\Country', 'countryId');
     }
-      public function currency()
+    public function contract()
+    {
+        return $this->hasOne('App\Contract', 'contractId');
+    }
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+    public function currency()
     {
         return $this->hasOne('App\Currency', 'currencyId', 'currencyId');
     }
+    public function document()
+    {
+        return $this->hasMany('App\Document', 'precontractId', 'precontractId')->with('user');
+    }
+    
+    public function projectUse()
+    {
+        return $this->belongsTo('App\ProjectUse', 'projectUseId');
+    }
+
     public function proposal()
     {
         return $this->hasMany('App\Proposal', 'precontractId', 'precontractId');
@@ -127,7 +141,8 @@ class Precontract extends Model
     //------------------------------------------
     public function getAll($countryId,$companyId,$filteredOut)
     {
-        $result = $this->where('countryId', $countryId)
+        $result = $this->with('client','buildingCode','projectUse','proposal.projectDescription')
+            ->where('countryId', $countryId)
             ->where('companyId', $companyId) 
             ->orderBy('precontractId', 'DESC')
             ->filter($filteredOut)
@@ -178,29 +193,31 @@ class Precontract extends Model
 
     }
 //------------------------------------------
-    public function updatePrecontract($precontractId, $countryId, $companyId,$contractType,$projectName,$precontractDate,$clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
-
+    public function updatePrecontract($precontractId,$data) {
+        
+    
+        
         $precontract                        = precontract::find($precontractId);
-        $precontract->countryId             = $countryId;
-        $precontract->companyId              = $companyId;
-        $precontract->contractType          = $contractType;
-        $precontract->projectName           = $projectName;
-        $precontract->precontractDate       = $precontractDate;
-        $precontract->clientId              = $clientId;
-        $precontract->propertyNumber        = $propertyNumber;
-        $precontract->streetName            = $streetName;
-        $precontract->streetType            = $streetType;
-        $precontract->suiteNumber           = $suiteNumber;
-        $precontract->city                  = $city;
-        $precontract->state                 = $state;
-        $precontract->zipCode               = $zipCode;
-        $precontract->buildingCodeId         = $buildingCodeId;
-        $precontract->groupId                = $groupId;
-        $precontract->projectUseId           = $projectUseId;
-        $precontract->constructionType       = $constructionType;
-        // $precontract->projectDescriptionId             = $projectDescriptionId;
-        $precontract->comment                   = $comment;
-        $precontract->currencyId              = $currencyId;
+
+        $precontract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $precontract->contractType;
+        $precontract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $precontract->projectName;
+        $precontract->precontractDate       = !empty($data['precontractDate']) ? $data['precontractDate'] : $precontract->precontractDate;
+        $precontract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $precontract->clientId;
+        $precontract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $precontract->propertyNumber;
+        $precontract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $precontract->streetName;
+        $precontract->streetType            = !empty($data['streetType']) ? $data['streetType'] : $precontract->streetType;
+        $precontract->suiteNumber           = !empty($data['suiteNumber']) ? $data['suiteNumber'] : $precontract->suiteNumber;
+        $precontract->city                  = !empty($data['city']) ? $data['city'] : $precontract->city;
+        $precontract->state                 = !empty($data['state']) ? $data['state'] : $precontract->state;
+        $precontract->zipCode               = !empty($data['zipCode']) ? $data['zipCode'] : $precontract->zipCode;
+        $precontract->buildingCodeId         = !empty($data['buildingCodeId']) ? $data['buildingCodeId'] : $precontract->buildingCodeId;
+        $precontract->groupId                = !empty($data['groupId']) ? $data['groupId'] : $precontract->groupId;
+        $precontract->projectUseId           = !empty($data['projectUseId']) ? $data['projectUseId'] : $precontract->projectUseId;
+        $precontract->constructionType       = !empty($data['constructionType']) ? $data['constructionType'] : $precontract->constructionType;
+        // $precontract->projectDescriptionId             = !empty($data['projectDescriptionId']) ? $data['contractType'] : $precontract->projectDescriptionId;
+        $precontract->comment                   = !empty($data['comment']) ? $data['comment'] : $precontract->comment;
+        $precontract->currencyId              = !empty($data['currencyId']) ? $data['currencyId'] : $precontract->currencyId;
+
         $precontract->save();
 
     }

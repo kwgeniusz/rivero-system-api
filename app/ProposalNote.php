@@ -22,15 +22,15 @@ class ProposalNote extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
 
-//------------------------------------
-    public function getAllByProposal($proposalId)
-    {
-        $result = $this->where('proposalId', $proposalId)
-            ->orderBy('propNoteId', 'ASC')
-            ->get();
+// //------------------------------------
+//     public function getAllByProposal($proposalId)
+//     {
+//         $result = $this->where('proposalId', $proposalId)
+//             ->orderBy('propNoteId', 'ASC')
+//             ->get();
 
-        return $result;
-    }
+//         return $result;
+//     }
 //------------------------------------------
     public function insert($proposalId,$noteId,$noteName) {
 
@@ -41,8 +41,8 @@ class ProposalNote extends Model
             //INSERTA UN RENGLON
              $propNote                   = new ProposalNote;
              $propNote->proposalId        = $proposalId;
-             $propNote->noteId        = $noteId;
-             $propNote->noteName      = $noteName;
+             $propNote->noteId           = $noteId;
+             $propNote->noteName         = $noteName;
              $propNote->save();
             
             $success = true;
@@ -62,7 +62,7 @@ class ProposalNote extends Model
 //------------------------------------------
 
 //------------------------------------------
-    public function deleteProp($id)
+    public function deleteAll($id)
     {
            $error = null;
 

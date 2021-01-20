@@ -47,7 +47,7 @@
                  <th>{{__('contract_number')}}</th>
                  {{-- <th>COD. {{__('client')}}</th> --}}
                  <th>{{__('name')}}</th>   
-                 <th>{{__('address')}}</th>
+                 <th>{{__('address')}} / NOMBRE DEL PROYECTO</th>
                  <th>IBC</th>
                  <th>DESCRIPCION</th>
                  <th>USO</th>
@@ -59,9 +59,8 @@
               @php $acum=0; @endphp
                 @foreach($contracts as $contract)
                 <tr>
-
                    <td>{{++$acum}}</td>
-                    <td>
+                  <td>
                 <modal-switch-contract pref-url="/" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></modal-switch-contract>
         @can('BDE')
                 <comments-contract pref-url="" contract-id="{{$contract->contractId}}" contract-number="{{$contract->contractNumber}}"></comments-contract>
@@ -72,13 +71,18 @@
                 <modal-client-details pref-url="/" client-id="{{$contract->client->clientId}}" client-name="{{$contract->client->clientName}}"></modal-client-details>
 
                      </td>  
-                       <td >{{$contract->propertyNumber}}
+                       <td>{{$contract->propertyNumber}}
                         {{$contract->streetName}}
                         {{$contract->streetType}}
                         {{$contract->suiteNumber}}
                         {{$contract->city}}
                         {{$contract->state}}
-                        {{$contract->zipCode}}   </td>
+                        {{$contract->zipCode}}  
+                        <br> 
+                      @if($contract->projectName) 
+                       ( {{$contract->projectName}} )
+                      @endif 
+                    </td>
                     <td>{{$contract->buildingCode->buildingCodeName}}   </td>
                     <td> 
                      @foreach($contract->invoice as $inv)
@@ -100,7 +104,10 @@
                     style="background-color: red;color:white;"  
                    @elseif($contract->contractStatus == App\Contract::DOWNLOADING_FILES)
                     style="background-color: #666666; color:white;"    
-                   @endif>
+                   @elseif($contract->contractStatus == App\Contract::SENT_TO_OFFICE)
+                    style="background-color: #5dc1b9; color:white;"    
+                   @endif
+                   >
                     </td>
 
                 </tr>

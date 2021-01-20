@@ -15,44 +15,20 @@ class CommentController extends Controller
         $this->middleware('auth');
         $this->oComment = new Comment;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $comments = $this->oComment->getAll();
-           
-              if($request->ajax()){
-                return $comments;
-            }
 
-        return view('module_configuration.projectuses.index', compact('comments'));
+    public function show()
+    {
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function edit()
     {
-       $result = $this->oComment->insertC($request);
 
-        return $result;
     }
 
-
-    public function getAllByModel(Request $request)
+    public function destroy()
     {
 
-        $comments = $this->oComment->getAllByContract($request->contractId);
-           
-              if($request->ajax()){
-                return $comments;
-            }
     }
 
 }

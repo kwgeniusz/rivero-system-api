@@ -82,12 +82,14 @@
             <td>{{item.dateUploaded | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}} (Dallas)</td> 
             <td v-for="(user) in item.user"> {{user.fullName}}</td> 
             <td>  
+            <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType"></modal-preview-document>
+            
+            <modal-move-file :doc="item"></modal-move-file>
 
-            <a :href="'../fileDownloadByUnit/'+item.docId" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descarga">
-                           <span class="fa fa-file" aria-hidden="true"></span> 
+            <a :href="'/files/'+item.docId+'/download/'" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Descarga">
+                           <span class="fa fa-file-download" aria-hidden="true"></span> 
                </a>
-            <modal-preview-document :doc-url="item.docUrl" :ext="item.mimeType">
-            </modal-preview-document>
+            
            </td> 
          </tr>
          </tbody>
@@ -103,7 +105,7 @@
     <input type="hidden" name="checkedFiles" :value="JSON.stringify(checked)" />
    </form>
  </div>
-
+<!-- MODAL PARA EDITAR INFORMACION DE EL DOCUMENTO -->
    <sweet-modal ref="modalEdit">
         <h2>Editar:</h2> <br>
             <div class="form-group ">
@@ -113,6 +115,7 @@
         <button class="btn btn-primary" >Actualizar</button>
    </sweet-modal>
 
+<!-- MODAL PARA ELIMINAR INFORMACION DE EL DOCUMENTO -->
    <sweet-modal icon="error" overlay-theme="dark" modal-theme="dark" ref="modalDelete">
         <h2>¿Esta seguro de eliminar estos archivos?</h2> <br>
         <div class="text-center">
@@ -127,8 +130,9 @@
 
  <script>
 
-import modalPreviewDocument from '../ModalPreviewDocument.vue'
 import ProgressBar from 'vue-simple-progress';
+import modalPreviewDocument from '../ModalPreviewDocument.vue'
+import modalMoveFile from './ModalMoveFile.vue'
 
 import vueUploadPrevious from './VueUploadPrevious.vue'
 import vueUploadProcessed from './VueUploadProcessed.vue'
@@ -159,6 +163,7 @@ export default {
     },
   components: {
          modalPreviewDocument,
+         modalMoveFile,
          ProgressBar,
 
          vueUploadPrevious,
@@ -198,11 +203,12 @@ export default {
           deleteFiles: function() {
             // si this.checked no esta vacio ejecuta la funcion de borra multiple
             if(Object.keys(this.checked).length != 0) {
-               var url ='../fileDelete';
+               var url ='/files/delete-multiple';
                axios.put(url,{
                  checkedFiles :  this.checked,
                   }).then(response => {
                     this.$refs.modalDelete.close()
+                    this.checked = [];
                     this.allFiles();
                     toastr.success('Archivos Eliminados') 
                   });

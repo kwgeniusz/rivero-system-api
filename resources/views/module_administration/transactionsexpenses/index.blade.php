@@ -58,7 +58,16 @@
                 <span class="fa fa-plus" aria-hidden="true"></span>
                    {{__('add')}} Egreso
             </a>
+
+          {{--     <a href="#" class="btn btn-danger btn-sm text-right" onclick="event.preventDefault();document.getElementById('report-clients').submit();">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Reporte
+           </a>
+                   <form id="report-clients" action="{{route('reports.clients')}}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                       <input type="hidden" name="clients[]" value="{{$clients}}">
+                    </form> --}}
   </div>
+
 
     <div class="row">
         <div class="col-xs-12 ">
@@ -83,7 +92,7 @@
             </thead>
                 <tbody>
                @php $acum = 0; @endphp
-                @foreach($transactions as $transaction)
+                @foreach($transactions as $index => $transaction)
                 <tr>
                    <td>{{ $acum = $acum +1 }}</td>
                    <td>{{$transaction->transactionDate}}</td>
@@ -99,16 +108,28 @@
                   @endif 
                    <td>{{$transaction->user->fullName}}</td>
                    <td> 
-                       <a href="{{route('contracts.fileDownload', ['id' => $transaction->document->docId])}}" data-toggle="tooltip" data-placement="top" title="Descargar" class="btn btn-info">
+
+              @if($transaction->payable->isEmpty() != 1) 
+                <modal-transaction-details :payables="{{$transaction->payable}}"/>
+              @endif
+
+              @if($transaction->transactionable_id == null)     
+                  @if($transaction->document)  
+                       <a href="{{route('files.download', ['id' => $transaction->document->docId])}}" data-toggle="tooltip" data-placement="top" title="Descargar" class="btn btn-info">
                          <span class="fa fa-file" aria-hidden="true"></span> 
                       </a>
+                  @endif
                        <a href="{{route('transactions.show', ['sign'=>'-', 'id' => $transaction->transactionId])}}" class="btn btn-danger" title="{{__('delete')}}">
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                         </a>
                     <a href="{{route('transactions.edit', ['sign'=>'-', 'id' => $transaction->transactionId])}}" class="btn btn-primary" title="{{__('edit')}}">
                         <span class="fa fa-edit" aria-hidden="true"></span>
                     </a>
+
+                  @if($transaction->document)  
                        <modal-preview-document doc-url="{{$transaction->document->docUrl}}" ext="{{$transaction->document->mimeType}}"></modal-preview-document>
+                  @endif
+              @endif
                    </td>
                 </tr>
                 @endforeach

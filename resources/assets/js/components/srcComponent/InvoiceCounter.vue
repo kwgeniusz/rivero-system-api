@@ -10,7 +10,7 @@
               <div class="icon">
                 <i class="fas fa-edit"></i>
               </div>
-              <a href="/invoicesAll" class="small-box-footer">
+              <a href="#" class="small-box-footer">
                 Info <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>

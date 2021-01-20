@@ -28,7 +28,7 @@
                  </select>
               </div>
           
-
+ 
           <div class="form-group col-lg-8 col-lg-offset-2" v-if="formCollectMethod == 2">
             <label for="formCashBoxId">DESTINO:</label>
              <div> CAJA </div>
@@ -48,28 +48,36 @@
             </select>
           </div> 
 
-              <div class="form-group" v-if="formCollectMethod != 2 && formCollectMethod != 4 && formCollectMethod != 5">
+              <div class="form-group" v-if="formCollectMethod == 3">
                 <label for="formSourceBank">BANCO DE ORIGEN</label>
                 <input type="text" class="form-control" v-model="formSourceBank">
               </div>
-              <div class="form-group" v-if="formCollectMethod != 2 && formCollectMethod != 4 && formCollectMethod != 5">
+              <div class="form-group" v-if="formCollectMethod == 3">
               <label for="formSourceBankAccount">CUENTA BANCARIA DE ORIGEN</label>
                 <input type="text" class="form-control" v-model="formSourceBankAccount">
               </div>
-              <div class="form-group" v-if="formCollectMethod == 3">
-               <label for="formCheckNumber">N° CHEQUE</label>
-                <input type="number" class="form-control" v-model="formCheckNumber">
+              <div class="form-group" v-if="formCollectMethod != 2">
+               <label for="formCheckNumber">N° REFERENCIA</label>
+                <input type="text" class="form-control" v-model="formCheckNumber" placeholder="N° Check,N° Transfer, etc...">
               </div>
 
           <div class="form-group col-lg-6 col-lg-offset-3 ">
                  <label for="formAmountPaid">MONTO</label>
                  <input type="number" step="0.01" min="0" class="form-control" id="formAmountPaid"  pattern="^[0-9]+" v-model="formAmountPaid" >
           </div>
-    
-    <div v-if="formCollectMethod == 1 || formCollectMethod == 10 ">
+
+        <div class="form-group col-lg-4 col-lg-offset-4" v-if="formCollectMethod == 1 || formCollectMethod == 10">
+            <label for="formFeeCharge">¿COBRAR FEE?</label>:<br> 
+           <select class="form-control" id="formFeeCharge" v-model="formFeeCharge">
+             <option value="N">NO</option>
+             <option value="Y">SI</option>
+            </select>
+          </div> 
+
+    <div v-if="formFeeCharge == 'Y'">
           <div class="form-group col-lg-4 col-lg-offset-2 col-lg-8 col-lg-offset-2">
                  <label for="formPercent">PORCENTAJE</label>
-                 <input type="number" step="0.01" min="0" class="form-control" id="formPercent"  pattern="^[0-9]+" v-model="formPercent" >
+                 <input type="number" step="0.01" min="0" max="100" class="form-control" id="formPercent"  pattern="^[0-9]+" v-model="formPercent" >
           </div>
           <div class="form-group col-lg-3 col-lg-8 col-lg-offset-2">
                  <label for="formAmountPercent">FEE</label><br>
@@ -80,7 +88,8 @@
                    {{sumTotal}}
 
           </div>
-  </div>
+     </div>
+
          <div class="form-group col-lg-6 col-lg-offset-3">
            <label for="formDatePaid">FECHA DEL COBRO</label>
             <input class="form-control flatpickr" id="formDatePaid" v-model="formDatePaid">
@@ -94,7 +103,6 @@
               <br>
 
   </sweet-modal>
-
 </div>   
 </template>
 
@@ -122,10 +130,13 @@
             formBankId: '',
             formAccountId:'',
             formAmountPaid: 0.00,
+
             formPercent: 0,
             formAmountPercent:'',
             formDatePaid: '',
             btnSubmitForm: false,
+
+            formFeeCharge: 'N',
           }
     },
     watch: {
@@ -181,27 +192,25 @@
        sendForm: function() {
            this.errors = [];
            //VALIDATIONS
-        // if(this.formCollectMethod != 1 && this.formCollectMethod != 5){ 
+        // if(this.formCollectMethod == 3){ 
         //        if (!this.formSourceBank) 
         //         this.errors.push('Banco de Origen es Requerido.');
         //        if (!this.formSourceBankAccount) 
         //         this.errors.push('Cuenta de Origen es Requerido.');
-        // }
-        //  if(this.formCollectMethod == 2){ 
         //        if (!this.formCheckNumber) 
         //         this.errors.push('Numero de Cheque es Requerido.');
         //  }
         
-               if (!this.formBankId && this.formCollectMethod != 2) 
+               if (!this.formBankId && this.formCollectMethod == 3) 
                 this.errors.push('Debe escoger un Banco de Destino.');
 
-                 if (!this.formAccountId && this.formCollectMethod != 2) 
+                 if (!this.formAccountId && this.formCollectMethod == 3) 
                 this.errors.push('Debe escoger una Cuenta de Destino.');
 
                 if (!this.formAmountPaid || this.formAmountPaid == 0) 
                 this.errors.push('Monto es Requerido.');
-    
-                if(this.formCollectMethod == 1 || this.formCollectMethod == 10){ 
+
+                if(this.formFeeCharge == 'Y'){ 
                   if (!this.formPercent || this.formPercent == 0) 
                      this.errors.push('Monto de Porcentaje es requerido.');
                  }

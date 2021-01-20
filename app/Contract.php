@@ -47,6 +47,7 @@ class Contract extends Model
     const PROCESSING_PERMIT = '6';
     const WAITING_CLIENT = '7';
     const DOWNLOADING_FILES = '8';
+    const SENT_TO_OFFICE = '9';
 
 // -VACANTE (VERDE)
 // -INICIADO (AZUL)
@@ -62,6 +63,11 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Client', 'clientId','clientId');
     }
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+    
     public function buildingCode()
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
@@ -94,6 +100,10 @@ class Contract extends Model
     {
         return $this->hasMany('App\PaymentInvoice', 'contractId', 'contractId');
     }
+   public function precontract()
+    {
+        return $this->belongsTo('App\Precontract', 'contractId');
+    } 
    public function invoice()
     {
         return $this->hasMany('App\Invoice', 'contractId', 'contractId');
@@ -278,6 +288,12 @@ class Contract extends Model
                           })
                          ->orWhereHas('client', function ($query) use ($filteredOut) {
                               return $query->where('clientName', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('projectUse', function ($query) use ($filteredOut) {
+                              return $query->where('projectUseName', 'LIKE', "%$filteredOut%");
+                          })
+                         ->orWhereHas('invoice.projectDescription', function ($query) use ($filteredOut) {
+                              return $query->where('projectDescriptionName', 'LIKE', "%$filteredOut%");
                           });
         }
     }
@@ -290,9 +306,11 @@ class Contract extends Model
         return $this->orderBy('contractNumber', 'ASC')->get();
     }
 //--------------------------------------------------------------------
-    public function getAllByProjectUse($projectUseId)
+    public function getAllByProjectUse($companyId,$projectUseId)
     {
-        return $this->where('projectUseId', $projectUseId)->get();
+        return $this->where('projectUseId', $projectUseId)
+                    ->where('companyId', $companyId) 
+                    ->get();
     }
 //------------------------------------
     public function getAllPaginate($number)
@@ -302,7 +320,8 @@ class Contract extends Model
 //------------------------------------
     public function getAllForStatus($contractStatus,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->where('contractStatus', $contractStatus)
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+            ->where('contractStatus', $contractStatus)
             ->where('countryId', $countryId)
             ->where('companyId', $companyId) 
             ->orderBy('contractNumber', 'DESC')
@@ -312,17 +331,19 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForSixStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$filteredOut,$countryId,$companyId)
+    public function getAllForSevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->where('countryId', $countryId)
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+                       ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
                           ->orWhere('contractStatus', $contractStatus4)
                           ->orWhere('contractStatus', $contractStatus5)
-                          ->orWhere('contractStatus', $contractStatus6);
+                          ->orWhere('contractStatus', $contractStatus6)
+                          ->orWhere('contractStatus', $contractStatus7);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)
@@ -332,7 +353,8 @@ class Contract extends Model
 //------------------------------------------ 
       public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->where('countryId', $countryId)
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+                       ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
                        ->where(function($q) use ($contractStatus1,$contractStatus2){
                           $q->where('contractStatus', $contractStatus1)
@@ -421,38 +443,30 @@ class Contract extends Model
 
     }
 //------------------------------------------
-    public function updateContract($contractId,$contractType,$projectName, $contractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
+    public function updateContract($contractId,$data) {
+        
+        $contract                        = Contract::find($contractId);
 
-        $contract                         = contract::find($contractId);
-        $contract->contractType           = $contractType;
-        $contract->projectName            = $projectName;
-        // $contract->countryId           = $countryId;
-        // $contract->companyId            = $companyId;
-        $contract->contractDate           = $contractDate;
-        $contract->clientId               = $clientId;
-        $contract->propertyNumber         = $propertyNumber;
-        $contract->streetName             = $streetName;
-        $contract->streetType             = $streetType;
-        $contract->suiteNumber            = $suiteNumber;
-        $contract->city                   = $city;
-        $contract->state                  = $state;
-        $contract->zipCode                = $zipCode;
-        $contract->buildingCodeId         = $buildingCodeId;
-        $contract->groupId                = $groupId;
-        $contract->projectUseId           = $projectUseId;
-        $contract->constructionType       = $constructionType;
-        // $contract->registryNumber      = $registryNumber;
-        // $contract->startDate           = $startDate;
-        // $contract->scheduledFinishDate = $scheduledFinishDate;
-        // $contract->actualFinishDate    = $actualFinishDate;
-        // $contract->deliveryDate        = $deliveryDate;
-        $contract->initialComment       = $initialComment;
-        // $contract->intermediateComment = $intermediateComment;
-        // $contract->finalComment        = $finalComment;
-        $contract->currencyId           = $currencyId;
+        $contract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $contract->contractType;
+        $contract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $contract->projectName;
+        $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : $contract->contractDate;
+        $contract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $contract->clientId;
+        $contract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $contract->propertyNumber;
+        $contract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $contract->streetName;
+        $contract->streetType            = !empty($data['streetType']) ? $data['streetType'] : $contract->streetType;
+        $contract->suiteNumber           = !empty($data['suiteNumber']) ? $data['suiteNumber'] : $contract->suiteNumber;
+        $contract->city                  = !empty($data['city']) ? $data['city'] : $contract->city;
+        $contract->state                 = !empty($data['state']) ? $data['state'] : $contract->state;
+        $contract->zipCode               = !empty($data['zipCode']) ? $data['zipCode'] : $contract->zipCode;
+        $contract->buildingCodeId         = !empty($data['buildingCodeId']) ? $data['buildingCodeId'] : $contract->buildingCodeId;
+        $contract->groupId                = !empty($data['groupId']) ? $data['groupId'] : $contract->groupId;
+        $contract->projectUseId           = !empty($data['projectUseId']) ? $data['projectUseId'] : $contract->projectUseId;
+        $contract->constructionType       = !empty($data['constructionType']) ? $data['constructionType'] : $contract->constructionType;
+     // $contract->projectDescriptionId  = !empty($data['projectDescriptionId']) ? $data['contractType'] : $contract->projectDescriptionId;
+        $contract->initialComment         = !empty($data['initialComment']) ? $data['initialComment'] : $contract->initialComment;
+        $contract->currencyId             = !empty($data['currencyId']) ? $data['currencyId'] : $contract->currencyId;
 
         $contract->save();
-
     }
 //------------------------------------------
     public function deleteContract($contractId)

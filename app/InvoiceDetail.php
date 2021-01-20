@@ -92,8 +92,6 @@ class InvoiceDetail extends Model
 
         DB::beginTransaction();
         try {
-
-
               if($amount == '0.00'){
                 $amount = null;
               }
@@ -137,15 +135,16 @@ class InvoiceDetail extends Model
         DB::beginTransaction();
         try {
 
-
+            $invoice       = Invoice::find($invoiceId);
+            $successShares = $invoice->shareSucceed;
             //Buscar alguna cuota pagada en essta factura.
-            $oReceivable = new Receivable;
-            $successShares=$oReceivable->shareSucceed($invoiceId);
+            // $oReceivable = new Receivable;
+            // $successShares=$oReceivable->shareSucceed($invoiceId);
 
    if($successShares->isEmpty()) { //si esta vacio(es decir no tiene pagos, permitelo eliminar),y limpia las cuotas creadas
 
           //Eliminar las cuentas por pagar de los invoices details
-            $invDetails=$this->getAllByInvoice($invoiceId);
+            $invDetails= $this->getAllByInvoice($invoiceId);
             foreach ($invDetails as $invDetail) {
                  $oSub = new SubcontractorInvDetail;
                  $oSub->deleteS($invDetail->subcontractorInvDetail);
@@ -159,13 +158,12 @@ class InvoiceDetail extends Model
                   $oPaymentInvoice->removePayment($value->paymentInvoiceId,$invoiceId);
               }
        //eliminar items de la factura
-             InvoiceDetail::where('invoiceId',$invoiceId)->delete();
+             $this->where('invoiceId',$invoiceId)->delete();
          
       //REALIZA ACTUALIZACION EN PROPUESTA
             //BUSCO LA PROPUESTA
-            $inv = Invoice::find($invoiceId);
             $oInvoice = new Invoice; 
-            $oInvoice->updateInvoiceTotal('-',$inv->invoiceId, $inv->grossTotal); // RESTA TODO EL MONTO DE GROSSTOTAL PARA QUE HAGA EL DESCUENTO.
+            $oInvoice->updateInvoiceTotal('-',$invoice->invoiceId, $invoice->grossTotal); // RESTA TODO EL MONTO DE GROSSTOTAL PARA QUE HAGA EL DESCUENTO.
         }else{
            throw new \Exception('Error: No se puede modificar renglones se ha comenzado a pagar la factura');
         };

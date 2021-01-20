@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<span class="logo-lg "><h3><b>TIPOS DE CONTACTO(CLIENTES)</b></h3></span>
+<span class="logo-lg "><h3><b>¿COMO NOS CONTACTO?</b></h3></span>
 <div class="text-center">
 
 <div class="panel-body">
@@ -13,7 +13,7 @@
       {{csrf_field()}}
 
          <div class="form-group">
-           <label for="contactTypeName">CREA TIPO</label>
+           <label for="contactTypeName">NOMBRE</label>
            <input type="text" class="form-control" name="contactTypeName" id="contactTypeName" required>
          </div>
            <button type="submit" class="btn btn-success">
@@ -26,12 +26,12 @@
     <br>
 
     <div class="row">
-        <div class="col-xs-12 ">
+        <div class="col-xs-9 col-xs-offset-1 ">
             <table class="table table-striped table-bordered text-center bg-default">
             <thead>
                 <tr>
                  <th>ID</th>
-                 <th>TIPO DE CONTACTO</th>
+                 <th>NOMBRE</th>
                  <th>{{__('actions')}}</th>
                 </tr>
             </thead>
@@ -53,8 +53,7 @@
                 </tbody>
             </table>
 
-
-     <a href="{{route('home')}}" class="btn btn-warning">
+     <a href="{{route('clients.index')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
         </div>

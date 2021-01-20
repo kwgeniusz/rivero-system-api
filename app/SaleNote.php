@@ -3,7 +3,12 @@
 namespace App;
 
 use App;
-use App\Country;
+use Auth;
+use DB;
+use App\Receivable;
+use App\PaymentInvoice;
+use App\SaleNoteDetail;
+use App\CompanyConfiguration;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,14 +25,33 @@ use Illuminate\Database\Eloquent\Model;
     protected $appends    = ['netTotal'];
      // protected $dates = ['deleted_at'];
      
-    //PARA EVITAR LOS NUMEROS MAGICOS
-    const CREDIT = '1';
-    const DEBIT  = '2';
-
+//PARA EVITAR LOS NUMEROS MAGICOS
+    const CREDIT = 'credit';
+      const CANCELLATION   = 1;
+      const DISCOUNT       = 2;
+      const PARTIAL_REFUND = 3;
+    //------------------------
+    const DEBIT  = 'debit';
+      const APPEND_SERVICES = 1;
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-
+   public function client()
+    {
+        return $this->belongsTo('App\Client', 'clientId','clientId');
+    }
+   public function invoice()
+    {
+        return $this->hasOne('App\Invoice', 'invoiceId', 'invoiceId');
+    }
+    // public function paymentInvoice()
+    // {
+    //     return $this->hasMany('App\PaymentInvoice', 'salNoteId', 'salNoteId');
+    // }
+        public function saleNoteDetails()
+    {
+        return $this->hasMany('App\SaleNoteDetail', 'salNoteId', 'salNoteId')->orderBy('itemNumber');
+    }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -52,4 +76,186 @@ use Illuminate\Database\Eloquent\Model;
                     ->where('noteType', $noteType)
                     ->get();
     }
-}
+    public function getAllByInvoice($invoiceId)
+    {
+        return $this->where('invoiceId', $invoiceId)
+                    ->orderBy('dateNote', 'DESC')
+                    ->get();
+    }
+//-----------------------------------------
+    public function findById($id)
+    {
+        return $this->with('saleNoteDetails','client','invoice')
+                    ->where('salNoteId', '=', $id)
+                    ->get();
+    }
+
+    public function insertS($data)
+    {
+        $error = null;
+ 
+      DB::beginTransaction();
+        try {
+              $oPaymentInvoice   = new paymentInvoice;
+              $invoice    = Invoice::find($data['invoiceId']);
+            //si el saldo es igual a cero que no permita crear notas de ventas.
+            if($invoice->balanceTotal == 0){
+             throw new \Exception('Error: Esta Factura Tiene Saldo 0.00, no se permite agregar mas notas de ventas.');
+            }
+                //INSERTA DATOS DE LA NOTA DE VENTA
+            $saleNote   = new SaleNote;
+            $saleNote->invoiceId         = $data['invoiceId'];
+            $saleNote->clientId          = $data['clientId'];
+            $saleNote->reference         = $data['formReference'];
+            $saleNote->concept           = $data['formConcept'];
+            $saleNote->noteType          = $data['noteType'];
+            $saleNote->netTotal          = $data['netTotal'];
+            $saleNote->percent           = $data['formPercent'];
+            $saleNote->dateNote          = date('Y-m-d H:i:s');
+            $saleNote->userId            = Auth::user()->userId;
+         
+        if($data['noteType'] == 'credit') {
+             //si son notas de credito, el monto de esa nota no debe sobrepasar el saldo.la restriccion va desde el nivel mas bajo(modelos) hasta la capa mas alta (interfaces) 
+                if($data['netTotal'] > $invoice->balanceTotal){
+                  throw new \Exception('Error: El monto de las Notas de Credito no puede ser mayor al saldo.');
+                 }
+           //NUMERACION DE LA NOTA DE CREDITO
+           $oConfiguration = new CompanyConfiguration();
+           $salId = $oConfiguration->retrieveCreditNoteNumber(session('countryId'), session('companyId'));
+           $salId++;
+           $oConfiguration->increaseCreditNoteNumber(session('countryId'), session('companyId'));    
+
+            $saleNote->salId = $salId;
+            $saleNote->save();
+            
+            // dd($saleNote->salNoteId);
+            // exit();
+
+                 if($data['formConcept'] == SaleNote::CANCELLATION) {
+                 //si es una anulacion el netTotal de la notesale es igual al saldo de la factura. y se anula la factura
+                    $oInvoice = new Invoice;
+                    $oInvoice->changeStatus($data['invoiceId'], Invoice::PAID);
+                      //recorre el arreglo que viene por request, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
+                               $oSaleNoteDetail = new SaleNoteDetail;
+                            foreach ($data['itemList'] as $key => $item) {
+                               $result = $oSaleNoteDetail->insertS(
+                                              $saleNote->salNoteId,
+                                              $item['itemNumber'],
+                                              $item['serviceId'],
+                                              $item['serviceName'],
+                                              $item['unit'],
+                                              $item['unitCost'],
+                                              $item['quantity'],
+                                              $item['amount']);
+                                 }
+                  //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
+       
+                 
+             foreach ($invoice->sharePending as $key => $sharePending) {
+                $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$sharePending->invoiceId);   
+                            //  $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                            //  $sharePending->save();
+              };
+
+
+                   }elseif($data['formConcept'] == SaleNote::DISCOUNT) {
+                //si es un Descuento el netTotal de la notesale es el resultado de la siguiente formula
+                // $rs = invoice->balanceTotal * porcentaje;
+                
+                           //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
+                     // foreach ($invoice->sharePending as $key => $sharePending) {
+                     //         $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                     //         $sharePending->save();
+                     //   };
+ 
+     
+                   }elseif($data['formConcept'] == SaleNote::PARTIAL_REFUND) {
+                //si es una devolucion parcial.  
+                //al escoger de los items de la factura se toma el Service Id junto con el precio.
+                //esto sera un arreglo de servicios por lo tanto-> debe existir un foreach que sume el total. y luego ingresalo debajo
+
+                    //verificar si casualmente los articulos pagados hace que el saldo de la factura llege a cero.
+                      $rs = 0;
+                      $rs = $invoice->balanceTotal - $data['netTotal'];
+                    //verificar si casualmente los articulos pagados hace que el saldo de la factura llege a cero.
+                     if($rs == 0){
+                       $oInvoice = new Invoice;
+                       $oInvoice->changeStatus($data['invoiceId'], Invoice::PAID);
+                      }
+
+                       $oSaleNoteDetail = new SaleNoteDetail;
+                            foreach ($data['itemList'] as $key => $item) {
+                               $result = $oSaleNoteDetail->insertS(
+                                              $saleNote->salNoteId,
+                                              $item['itemNumber'],
+                                              $item['serviceId'],
+                                              $item['serviceName'],
+                                              $item['unit'],
+                                              $item['unitCost'],
+                                              $item['quantity'],
+                                              $item['amount']);
+                                 }
+                  //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
+                     foreach ($invoice->sharePending as $key => $sharePending) {
+                        $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$sharePending->invoiceId);       
+                            //  $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                            //  $sharePending->save();
+                       };
+                 
+                   }
+                  
+            }elseif ($data['noteType'] == 'debit') {      
+                   //NUMERACION DE LA NOTA DE DEBITO
+                $oConfiguration = new CompanyConfiguration();
+                $salId = $oConfiguration->retrieveDebitNoteNumber(session('countryId'), session('companyId'));
+                $salId++;
+                $oConfiguration->increaseDebitNoteNumber(session('countryId'), session('companyId'));    
+
+                $saleNote->salId = $salId;
+                $saleNote->save();
+            
+            // dd($saleNote->salNoteId);
+            // exit();
+                   if($data['formConcept'] == SaleNote::APPEND_SERVICES){
+                     //agregar servicio 
+                             $oSaleNoteDetail = new SaleNoteDetail;
+                            foreach ($data['itemList'] as $key => $item) {
+                               $result = $oSaleNoteDetail->insertS(
+                                              $saleNote->salNoteId,
+                                              ++$key,
+                                              $item['serviceId'],
+                                              $item['serviceName'],
+                                              $item['unit'],
+                                              $item['unitCost'],
+                                              $item['quantity'],
+                                              $item['amount']);
+                                 }
+
+                  //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
+                    //  foreach ($invoice->sharePending as $key => $sharePending) {
+                    //          $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                    //          $sharePending->save();
+                    //    };
+       
+                   }   
+
+            }//end debitnote
+
+        
+            
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+            return $rs  = ['alert' => 'success', 'msj' => 'Nota de Venta Agregada a Factura','saleNote' => $saleNote];
+        } else {
+            return $rs = ['alert' => 'error', 'msj' => $error];
+        }
+
+    }
+  }

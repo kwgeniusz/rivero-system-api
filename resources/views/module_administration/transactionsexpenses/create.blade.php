@@ -28,16 +28,16 @@
                 <label for="description">REFERENCIA EN BANCO O NOMBRE DE BENEFICIARIO:</label>
                 <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}">
               </div>
-{{-- 
-             <div class="form-group col-lg-6">
+
+<!--              <div class="form-group col-lg-6">
                 <label for="payMethodId">METODO DE PAGO:</label>
                 <select class="form-control" name="payMethodId">
                   @foreach($paymentsMethod as $paymentMethod)
                         <option value="{{$paymentMethod->payMethodId}}" > {{$paymentMethod->payMethodName}} </option>
                   @endforeach
               </select>
-              </div>
- --}}
+              </div> -->
+
               <select-bank-cashbox pref-url="../"></select-bank-cashbox>
 
               <div class="form-group col-lg-7">

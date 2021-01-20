@@ -2,6 +2,7 @@
 
 namespace App;
 
+
 use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
 

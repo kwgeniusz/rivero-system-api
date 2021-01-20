@@ -40,7 +40,8 @@ class Cashbox extends Model
 //------------------------------------
        public function getAllByOffice($companyId)
     {
-        return $this->where('companyId' , '=' , $companyId)
+        return $this->with('transaction.user')
+          ->where('companyId' , '=' , $companyId)
           ->orderBy('cashboxId', 'ASC')
           ->get();
     }

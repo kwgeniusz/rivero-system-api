@@ -19,7 +19,7 @@ class Proposal extends Model
     protected $primaryKey = 'proposalId';
     protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
 
-     protected $appends = ['grossTotal','taxAmount','netTotal'];
+     protected $appends = ['grossTotal','taxAmount','netTotal','pQuantity'];
      protected $dates = ['deleted_at'];
  
 //--------------------------------------------------------------------
@@ -43,7 +43,7 @@ class Proposal extends Model
     }
    public function invoice()
     {
-        return $this->belongsTo('App\Invoice', 'invoiceId','invoiceId');
+        return $this->hasOne('App\Invoice', 'invoiceId','invoiceId');
     }
     public function currency()
     {
@@ -53,13 +53,21 @@ class Proposal extends Model
     {
         return $this->hasMany('App\ProposalDetail', 'proposalId')->orderBy('itemNumber');
     }
-     public function note()
-    {
-      return $this->belongsToMany('App\Note', 'proposal_note', 'proposalId', 'noteId')->withPivot('propNoteId');
-    }
      public function scope()
     {
       return $this->hasMany('App\ProposalScope', 'proposalId', 'proposalId');
+    }
+     public function timeFrame()
+    {
+      return $this->hasMany('App\ProposalTimeFrame', 'proposalId', 'proposalId')->orderBy('propTimeId');
+    }
+     public function term()
+    {
+      return $this->hasMany('App\ProposalTerm', 'proposalId', 'proposalId')->orderBy('propTermId');
+    }
+     public function note()
+    {
+        return $this->hasMany('App\ProposalNote', 'proposalId')->orderBy('propNoteId');
     }
     public function paymentCondition()
     {
@@ -69,6 +77,14 @@ class Proposal extends Model
     {
         return $this->hasMany('App\PaymentProposal', 'proposalId','proposalId');
     }
+    public function subcontractor()
+    {
+        return $this->hasOne('App\Subcontractor', 'subcontId','subcontId');
+    }
+     public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'userId');
+    } 
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -91,6 +107,10 @@ class Proposal extends Model
          $newDate    = $oDateHelper->$functionRs($proposalDate);
         return $newDate;
     }
+     public function getPQuantityAttribute()
+    {
+          return $this->paymentProposal->count();
+    }  
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -156,13 +176,14 @@ class Proposal extends Model
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->where('proposalId', '=', $id)
+        return $this->with('user')
+                    ->where('proposalId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('companyId', $companyId) 
                     ->get();
     }
 //------------------------------------------
-    public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status) {
+    public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status,$userId) {
 
           $oConfiguration = new CompanyConfiguration();
           $propId = $oConfiguration->retrieveProposalNumber($countryId, $companyId);
@@ -188,6 +209,7 @@ class Proposal extends Model
         $proposal->taxAmount        =  '0.00';
         $proposal->netTotal         =  '0.00';
         $proposal->pCondId          =  $paymentConditionId;
+        $proposal->userId    =  $userId;
         $proposal->save();
 
       
@@ -236,6 +258,19 @@ class Proposal extends Model
 
               $proposal->save();
     }
+
+    public function updateSubcontractor($proposalId, $subcontId) 
+    {
+
+        $proposal             = proposal::find($proposalId);
+        $proposal->subcontId  = $subcontId;
+        $proposal->save();
+
+         $rs  = ['alertType' => 'success', 'message' => "Se ha Modificado el Subcontratista de la Propuesta",'model'=>$proposal];
+
+         return $rs;
+    }
+
     public function deleteProposal($proposalId)
     {
         return $this->where('proposalId', '=', $proposalId) 

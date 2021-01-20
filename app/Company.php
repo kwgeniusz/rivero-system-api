@@ -11,8 +11,14 @@ class Company extends Model
     protected $table      = 'company';
     protected $primaryKey = 'companyId';
 
-    protected $fillable = ['companyName', 'companyShortName', 'companyNumber', 'countryId', 'officeId', 'companyAddress'];
+    protected $fillable = ['companyName', 'companyShortName', 'companyNumber', 'companyId', 'officeId', 'companyAddress'];
     
-
+//--------------------------------------------------------------------
+    /** Relations */
+//--------------------------------------------------------------------
+    public function companyConfiguration()
+    {
+        return $this->hasOne('App\CompanyConfiguration', 'companyId', 'companyId');
+    }
 
 }

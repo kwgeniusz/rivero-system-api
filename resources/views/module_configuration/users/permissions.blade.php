@@ -54,12 +54,12 @@
            <label><u>OFICINA PREDETERMINADA:</u></label>
          </div>
 
-        <select-country-office pref-url="../../" country-id="{{$user->countryId}}" office-id="{{$user->officeId}}"></select-country-office>
+        <select-country-office pref-url="../../" country-id="{{$user->countryId}}" company-id="{{$user->companyId}}"></select-country-office>
 
          <div class="form-group col-xs-6">
-            <label for="changeOffice">Puede Cambiar de Pais?:</label>
-          <select  class="form-control" name="changeOffice" id="changeOffice" required="on">
-                   @if ($user->changeOffice == 'Y')
+            <label for="changeCompany">Puede Cambiar de Pais?:</label>
+          <select  class="form-control" name="changeCompany" id="changeCompany" required="on">
+                   @if ($user->changeCompany == 'Y')
                      <option value="Y" selected>Si</option>
                      <option value="N" >No</option>
                   @else
