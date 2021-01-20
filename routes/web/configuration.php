@@ -49,3 +49,6 @@ Route::resource('crud-timeframes', 'Web\TimeFrameControllerCrud');
 
 //TIME FRAMES
 Route::resource('crud-notes', 'Web\NoteControllerCrud');
+
+//TIME FRAMES
+Route::resource('crud-term', 'Web\TermControllerCrud');

@@ -393,9 +393,16 @@ Vue.component(
   require("./components/administration/proposal/TimeFrameCrud.vue")
 );
 
+// Notes Crud Component
 Vue.component(
   "note-crud",
   require("./components/administration/proposal/NoteCrud.vue")
+);
+
+// Terms and conditions Crud Component
+Vue.component(
+  "term-crud",
+  require("./components/administration/proposal/TermCrud.vue")
 );
 
 const app = new Vue({
