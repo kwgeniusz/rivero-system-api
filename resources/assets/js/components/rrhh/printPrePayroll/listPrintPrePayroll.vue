@@ -80,10 +80,10 @@
                     </tbody>
                     <tbody v-else>
                         <tr>
-                            <td v-if="this.lengths === 0" colspan="7">
+                            <td v-if="this.lengths === 0" colspan="8">
                                 No hay datos registrados
                             </td>
-                            <td v-else colspan="7">
+                            <td v-else colspan="8">
                                 <loading></loading>
                             </td>
                         </tr>

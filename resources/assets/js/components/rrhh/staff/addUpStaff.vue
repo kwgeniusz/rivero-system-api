@@ -149,7 +149,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="probationSalary" class="form-group" v-text="nameField23"></label>
-                                    <input type="text" v-model="probationSalary" class="form-control" id="probationSalary" v-bind:placeholder="'0.00'">
+                                    <input type="text" v-model="probationSalary" class="form-control" id="probationSalary" @keyup="validProbationSalary()" v-bind:placeholder="'0.00'">
                                     
                                 </div>
                             
@@ -284,7 +284,7 @@
                     this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
                     console.log(this.objEdit)
                 })
-                axios.get(`/staff/list/positions/${this.objEdit.countryId}`).then(res => {
+                axios.get(`/staff/list/positions`).then(res => {
                     this.selectPosition = res.data.map(item => {
                         return {id: item.positionCode, vText: item.positionName, baseSalary: item.baseSalary }
                     })
@@ -507,7 +507,7 @@
                         status: this.status,
                         
                     }
-                    axios.post(`staff/post/`,params)
+                    axios.post(`staff/post`,params)
                         .then((response) => {
                             console.log(response)
                             if (response.statusText == "OK") {
@@ -625,6 +625,19 @@
                 const baseSalaryPosition = document.querySelector("#positionCode")
                 let   baseSalaryP = baseSalaryPosition.options[baseSalaryPosition.selectedIndex].getAttribute("attrBaseSalary")
                 this.baseSalary = document.querySelector("#baseSalary").value = baseSalaryP
+            },
+            validProbationSalary(){
+                const salaryBase = this.baseSalary
+                const probationSalaryBase = document.querySelector('#probationSalary')
+                let val1 = parseFloat(salaryBase)
+                let val2 = parseFloat(probationSalaryBase.value)
+                
+                if (val1 < val2) {
+                    probationSalaryBase.value = ''
+                    alert('El salario de prueba no puede ser mayor, al salario base')
+                }
+                
+              
             }
         },
         computed: {

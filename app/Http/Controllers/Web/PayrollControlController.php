@@ -6,7 +6,7 @@ use App\Periods;
 use App\PayrollControl;
 use App\Payroll;
 use App\Currency;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -240,7 +240,7 @@ class PayrollControlController extends Controller
             // parametrizo el salario base a usar, si es en base al salario de prueba o salario del cargo/posision
             date_default_timezone_set('America/Caracas');
             echo $hoy = date("Y-m-d");
-            if ($probationPeriod == 1) {
+            if ($probationPeriod == 1) { // $probationPeriod == 1 la persona es en periodo de prueba
                 if ($hoy >= $probationPeriodEnd) {
                     $baseSalary = $baseSalaryPosition;
                 } else {
@@ -265,7 +265,7 @@ class PayrollControlController extends Controller
                 $amount               = $rs3->amount;  
 
                 $rs0 = DB::select("SELECT * FROM hrtransaction_type 
-                    WHERE countryId = $countryId AND  
+                        WHERE countryId = $countryId AND  
                         companyId  = $companyId AND 
                         transactionTypeCode = $transactionTypeCode ");
                 $isSalaryBased        = 0;
@@ -288,8 +288,8 @@ class PayrollControlController extends Controller
                     if ($isSalaryBased == 1 && $isIncome == 0) {
                         // verificacion si a la persona, se le aplican esta deduccion como SSO, FAOV, etc.
                         if ($stopSS == 0) {
-                            // si el tipo de transaccion es bloqueable y el usuario tiene esa transaccion 
-                            // especifica bloqueada, no se inserta la transaccion
+                            /* si el tipo de transaccion es bloqueable y el usuario tiene esa transaccion 
+                            especifica bloqueada, no se inserta la transaccion */
                             if ($staffBlockSS == 1 && $transTypeBlockSS == 1) {
                                 $addTransaction = 0;
                             } else {
@@ -423,7 +423,7 @@ class PayrollControlController extends Controller
             // procesar transacciones variables
 
             // get permanent transactions for this person and transaction code
-            $rs6 = DB::select("SELECT hrpermanent_transaction.transactionTypeCode, hrpermanent_transaction.quantity, 
+            $rs6 = DB::select("SELECT hrpermanent_transaction.hrpermanentTransactionId, hrpermanent_transaction.transactionTypeCode, hrpermanent_transaction.quantity, 
                         hrpermanent_transaction.amount,hrpermanent_transaction.balance,
                         hrtransaction_type.isIncome, hrtransaction_type.hasBalance, hrtransaction_type.salaryBased
                     FROM `hrpermanent_transaction`
@@ -435,6 +435,7 @@ class PayrollControlController extends Controller
             // dd($rs6);
             
             foreach ($rs6 as $rs7) { 
+                $idTransType         = $rs7->hrpermanentTransactionId;
                 $transactionTypeCode = $rs7->transactionTypeCode; 
                 $quantity            = $rs7->quantity;  
                 $transAmount         = $rs7->amount;  
@@ -506,6 +507,7 @@ class PayrollControlController extends Controller
                     $hrpayroll->staffCode = $staffCode;
                     $hrpayroll->idDocument = $idDocument;
                     $hrpayroll->staffName = $staffName;
+                    $hrpayroll->idTransType = $idTransType;
                     $hrpayroll->transactionTypeCode = $transactionTypeCode;
                     $hrpayroll->isIncome = $isIncome;
                     $hrpayroll->hasBalance = $transHasBalance;

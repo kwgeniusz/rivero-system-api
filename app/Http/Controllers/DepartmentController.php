@@ -17,10 +17,12 @@ class DepartmentController extends Controller
      */
     public function index()
     {
+        // $companyId = session('companyId');
         return DB::select("SELECT * FROM `department` 
         LEFT JOIN `company` ON department.companyId = company.companyId
         LEFT JOIN ( SELECT departmentName as dpParentName, departmentId as dpId FROM department) dpName 
-        	On department.parentDepartmentId = dpName.dpId      
+        	On department.parentDepartmentId = dpName.dpId  
+       
         ORDER BY department.departmentId ASC");
        
     }
@@ -35,15 +37,20 @@ class DepartmentController extends Controller
     }
     public function parent()
     {
-        
+        $companyId = session('companyId');
         // return DB::select("SELECT departmentName as nameParent FROM department             
         // WHERE departmentId = $id");
-        return RrhhDepartment::orderBy('departmentId', 'ASC')->get();
+        return RrhhDepartment::orderBy('departmentId', 'ASC')
+                ->where('department.companyId', '=',$companyId)
+                // ->where('countryId', '=',session('companyId'))
+                ->get();
     }
     public function searchCompany()
     {
-        // return "entro";
-        return Company::orderBy('companyId', 'ASC')->get();
+        $companyId = session('companyId');
+        return Company::orderBy('companyId', 'ASC')
+            ->where('companyId', '=',$companyId)
+            ->get();
     }
 
     /**

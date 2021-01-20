@@ -126,7 +126,7 @@
               <li><a href="#">Trabajadores Por Departamento</a></li>
               <li><a href="#">Expediente</a></li>
               <li><a href="#">Nomina de Pago</a></li>
-              <li><a href="#">Recibo de Pago</a></li>
+              <li><a href="{{route('paycheck.index')}}">Recibo de Pago</a></li>
               {{-- <li><a href="#">{{__('payment_receipt')}}</a></li>
               <li><a href="#">{{__('payroll_list')}}</a></li> --}}
           </ul>

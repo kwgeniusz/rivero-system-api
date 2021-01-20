@@ -105,11 +105,8 @@ class Payable extends Model
         $payable->countryId         = session('countryId');
         $payable->companyId          = session('companyId');
         $payable->amountDue         = $amountDue;
-<<<<<<< HEAD
         $payable->balance           = $amountDue;
-=======
         $payable->amountPaid           = $amountDue;
->>>>>>> aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de
         $payable->subcontInvDetailId = $subcontInvDetailId;
         $payable->userId            = Auth::user()->userId;
         $payable->save();

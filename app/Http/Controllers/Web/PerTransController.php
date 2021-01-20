@@ -4,14 +4,12 @@ namespace App\Http\Controllers\web;
 
 use App\PerTrans;
 use App\HrTransactionType;
-use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PerTransController extends Controller
 {
     private $oPerTrans;
-    private $oTType;
     public function __construct()
     {
         // $this->middleware('auth');
@@ -47,6 +45,8 @@ class PerTransController extends Controller
         $PerTrans->quantity = $request->quantity;
         $PerTrans->amount = $request->amount;
         $PerTrans->balance = $request->balance;
+        $PerTrans->initialBalance = $request->initialBalance;
+        $PerTrans->cuotas = $request->cuotas;
         
         $PerTrans->save();
         return $PerTrans;
@@ -82,7 +82,9 @@ class PerTransController extends Controller
     {
         // return $id;
         $PerTrans = PerTrans::findOrFail($id);
-        $PerTrans->delete();
+        $PerTrans->deleted_at = now();
+        $PerTrans->save();
+        return $PerTrans;
     
     }
 }
