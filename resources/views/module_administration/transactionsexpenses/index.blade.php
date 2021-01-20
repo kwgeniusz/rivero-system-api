@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
 @section('content')
+
+
+<main-transaction-expense/>
+
 <span class="logo-lg "><h3><b> TRANSACCIONES DE EGRESO</b></h3></span>
  
   <div class="col-xs-3 text-left">

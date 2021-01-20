@@ -169,7 +169,12 @@ Vue.component(
   require("./components/administration/transaction/expense/main.vue")
 );
 Vue.component(
-  "add-transaction-expense",
+  "table-transaction-expense",
+  require("./components/administration/transaction/expense/table.vue")
+);
+
+Vue.component(
+  "addUp-transaction-expense",
   require("./components/administration/transaction/expense/addUp.vue")
 );
 

@@ -2,46 +2,40 @@
     <div class="container">
         <!-- agregar -->
         <div v-if="formStatus === 1">
-            <add-Departements
-                @new = "addPepartment"
-                :nameField1=nameField1
-                :nameField2=nameField2
-                :nameField3=nameField3
+            <addUp-transaction-expense
+                @new = "addTransactionExpense"
                 @showlist = "showlist"
                 :editId=0
-            > </add-Departements> 
+            > </addUp-transaction-expense> 
         </div>
 
         <!-- Vista actualizar -->
         <div v-if="formStatus === 2">
-            <add-Departements
-                @new = "addPepartment"
-                :nameField1=nameField1
-                :nameField2=nameField2
-                :nameField3=nameField3
-                :editId=editId
+            <addUp-transaction-expense
+                @new = "addTransactionExpense"
                 @showlist = "showlist"
-                
-            > </add-Departements> 
+                :editId=editId                
+            > </addUp-transaction-expense> 
         </div>
 
 
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>DEPARTAMENTOS</b></h3>
+            <h3><b>TRANSACCIONES DE EGRESO</b></h3>
+
             <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
             ></button-form>
-            <rrhh-table-departments  
-                :companys = objCompanys
-                :parents = parents
-                @update = "upDepartment( ...arguments)"
+
+            <table-transaction-expense  
+                :transactionList = transactionList
                 @editData = "editData"
-                @delete = "delDepartment"
-            > </rrhh-table-departments>
-        </div>    
+                @delete = "delDepartment">
+            </table-transaction-expense>
+        </div>  
+
     </div>         
 </template>
 
@@ -49,16 +43,16 @@
     export default {
         mounted() {
 
-            axios.get('departments').then((response) => {
-                this.objCompanys = response.data
-            // console.log(this.objCompanys)
+            axios.get('/transactions/-').then((response) => {
+                this.transactionList = response.data
+            console.log(this.transactionList)
             })
         
         },
         data() {
             return{
-                objCompanys: [],
-                parents: [],
+                transactionList: [],
+                // parents: [],
                 formStatus: 0,
                 editId: '',
                 nameField1: 'EMPRESA',
@@ -70,17 +64,17 @@
             addFormStatus(){
                 this.formStatus = 1
             },
-            addPepartment(department){
+            addTransactionExpense(department){
                 // console.log(department)
-                // this.objCompanys.push(department)
+                // this.transactionList.push(department)
             },
             delDepartment(index){
                 // console.log(index)
-                this.objCompanys.splice(index, 1)
+                this.transactionList.splice(index, 1)
             },
             upDepartment( company){
                 // console.log(company)
-                // this.objCompanys[company[0]] = company[1]
+                // this.transactionList[company[0]] = company[1]
             },
             carga(){
                 XMLHttpRequest.onprogress = function (event) {
@@ -94,11 +88,10 @@
                 this.formStatus = 2
             },
             showlist(n){
-                
                 this.formStatus = 0
-                axios.get('departments').then((response) => {
-                    this.objCompanys = response.data
-                    // console.log(this.objCompanys)
+                axios.get('/transactions/-').then((response) => {
+                    this.transactionList = response.data
+                    // console.log(this.transactionList)
                 })
             
             

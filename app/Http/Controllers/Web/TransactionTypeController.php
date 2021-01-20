@@ -22,9 +22,14 @@ class TransactionTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request,$sign)
     {
-        $transaction = $this->oTransactionType->getAll();
+        $transactionType = $this->oTransactionType->getAllByOfficeAndSign(session('companyId'),$sign);
+
+          if($request->ajax()) {
+               return $transactionType;
+          }
+
         return view('module_administration.typesoftransactions.index', compact('transaction'));
     }
 
