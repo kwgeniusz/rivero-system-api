@@ -1,13 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="col-xs-12 col-lg-8 col-lg-offset-2">
-<div class="panel panel-success">
-    <div class="panel-heading text-center"> <h3><b>Nueva Propuesta: N° {{$propId}}</b></h3></div>
-    <div class="panel-body">
-
-      <div class="row ">
-          <div class="col-xs-12 ">
+<div class="create">
+  <form  class="formulario" action="{{Route('proposals.store')}}" method="POST">
+    <div>
+      <h3><i class="fas fa-book"></i> Nueva Propuesta: N° {{$propId}}</h3>
+      <div class="boxes">
         @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
@@ -17,71 +15,59 @@
                   @endforeach
               </ul>
           </div>
-      @endif
-        <form class="form form-prevent-multiple-submits" action="{{Route('proposals.store')}}" method="POST">
+        @endif
         {{csrf_field()}}
-@if($modelRs[0]->getTable() == 'pre_contract')
-      <input type="hidden" name="modelId" value="{{$modelRs[0]->precontractId}}">
-@else
-      <input type="hidden" name="modelId" value="{{$modelRs[0]->contractId}}">
-@endif
-      <input type="hidden" name="modelType" value="{{$modelRs[0]->getTable()}}">
-
-              <div class="form-group">
-                <label for="clientName">CLIENTE:</label>
-                <input type="text" class="form-control" id="clientName" name="clientName" value="{{ $modelRs[0]->client->clientName}}" disabled="on">
-              </div>
-
-              <div class="form-group">
-                <label for="contractSiteAddress">DIRECCIÓN:</label>
-                <input type="text" class="form-control" id="contractSiteAddress" name="contractSiteAddress" value="{{ $modelRs[0]->siteAddress}}" disabled="on">
-              </div>
-
-         <div class="form-group">
-            <label for="projectDescriptionId">DESCRIPCION DEL PROYECTO</label>
-            <select  class="form-control" name="projectDescriptionId" id="projectDescriptionId" required="on">
-             @foreach($projectDescriptions as $item)
-                      <option value="{{$item->projectDescriptionId}}" >{{$item->projectDescriptionName}}</option>
-                @endforeach</option>
-            </select>
-          </div> 
- 
-            <div class="form-group">
-            <label for="paymentConditionId">CONDICION DE PAGO</label>
-            <select class="form-control" name="paymentConditionId" id="paymentConditionId">
-                @foreach($paymentConditions as $paymentC)
-                      <option value="{{$paymentC->pCondCode}}" >{{$paymentC->pCondName}}</option>
-                @endforeach
-            </select>
-          </div>
-
-        <div class="row">
-          <div class="form-group col-xs-12 col-lg-6">
-              <label for="preinvoiceDate">FECHA DE LA PROPUESTA:</label>
-              <input class="form-control flatpickr" id="invoiceDate" name="invoiceDate" required> 
-            </div>
-
-        <div class="form-group col-xs-12 col-lg-6">
-            <label for="invoiceTaxPercent">IMPUESTO (%)</label>
-            <input type="number" min="0.00" step="0.01" class="form-control" id="invoiceTaxPercent" name="invoiceTaxPercent" value="{{ $invoiceTaxPercent}}" required>
+        @if($modelRs[0]->getTable() == 'pre_contract')
+        <input type="hidden" name="modelId" value="{{$modelRs[0]->precontractId}}">
+        @else
+        <input type="hidden" name="modelId" value="{{$modelRs[0]->contractId}}">
+        @endif
+        <input type="hidden" name="modelType" value="{{$modelRs[0]->getTable()}}">
+        <div class="inputother boxes2">
+          <label for="clientName"><i class="fas fa-user-tie"></i> CLIENTE:</label>
+          <input type="text" style="cursor: no-drop" class="input-label" id="clientName" name="clientName" value="{{ $modelRs[0]->client->clientName}}" disabled="on">
         </div>
+        <div class="inputother boxes2">
+          <label for="contractSiteAddress"><i class="fas fa-map-marked-alt"></i> DIRECCIÓN:</label>
+          <input type="text" style="cursor: no-drop" class="input-label" id="contractSiteAddress" name="contractSiteAddress" value="{{ $modelRs[0]->siteAddress}}" disabled="on">
         </div>
-      
-
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary  button-prevent-multiple-submits">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
-              </button>
-               <a href="{{URL::previous()}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
-            </div>
-            </form>
-
-          </div>
+        <div class="inputother boxes2">
+          <label for="projectDescriptionId"><i class="fas fa-cogs"></i> DESCRIPCION DEL PROYECTO</label>
+          <select name="projectDescriptionId" id="projectDescriptionId" required="on">
+            @foreach($projectDescriptions as $item)
+              <option value="{{$item->projectDescriptionId}}" >{{$item->projectDescriptionName}}</option>
+            @endforeach
+          </select>
         </div>
-
+        <div class="inputother boxes2">
+          <label for="paymentConditionId"><i class="fas fa-money-check-alt"></i> CONDICION DE PAGO</label>
+          <select name="paymentConditionId" id="paymentConditionId">
+            @foreach($paymentConditions as $paymentC)
+              <option value="{{$paymentC->pCondCode}}" >{{$paymentC->pCondName}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="inputother boxes2">
+          <label for="proposalDate"><i class="fas fa-calendar-alt"></i> FECHA DE LA PROPUESTA:</label>
+          <input class="input-label flatpickr" id="proposalDate" name="proposalDate" required>
+        </div>
+        <div class="inputother boxes2">  
+        <label for="invoiceTaxPercent"><i class="fas fa-percent"></i> IMPUESTO</label>
+          <input type="number" class="input-label" id="invoiceTaxPercent" name="invoiceTaxPercent" value="{{ $invoiceTaxPercent}}" required min="0.00" step="0.01">
+        </div>
       </div>
     </div>
-  </div>
+    <div style="width: 100%; text-align: center;">
+      <button type="submit" class="submit">
+        <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
+      </button>
+      <a href="{{URL::previous()}}" class="return">
+        <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+      </a>
+    </div>
+  </form>
+</div>
 @endsection
+@push('styles')
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+@endpush

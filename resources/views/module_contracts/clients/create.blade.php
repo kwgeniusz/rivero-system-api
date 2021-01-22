@@ -59,10 +59,8 @@
       <button type="submit" class="submit">
         <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
       </button>
-      <a href="{{route('clients.index')}}">
-        <button class="return">
+      <a href="{{route('clients.index')}}" class="return">
           <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-        </button>
       </a>
     </div>
   </form>

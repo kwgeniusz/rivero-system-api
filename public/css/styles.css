@@ -50,14 +50,20 @@
   min-width: 48%;
   margin-bottom: 0px;
 }
-
 .inputother {
   position: relative;
   max-width: 48%;
   min-width: 48%;
   margin-bottom: 30px;
 }
-
+.textarea {
+  position: relative;
+  max-width: 48%;
+  min-width: 48%;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
 input,
 select {
   padding: 10px;
@@ -70,7 +76,12 @@ select {
 label {
   margin-bottom: 10px;
 }
-
+textarea {
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 100px;
+  min-height: 100px;
+}
 .birthday {
   display: flex;
   flex-direction: column;
@@ -88,13 +99,17 @@ label {
 .return {
   margin-top: 30px;
   font-size: 1em;
-  padding: 10px 20px;
+  padding: 12px 20px;
   background: #eea508;
   border: none;
   border-radius: 5px;
   color: #fff;
+  text-decoration: none;
 }
-
+.return:hover {
+  text-decoration: none;
+  color: #ffff;
+}
 @media (max-width: 500px) {
   .formulario, .formulario2 {
     width: 95%;
