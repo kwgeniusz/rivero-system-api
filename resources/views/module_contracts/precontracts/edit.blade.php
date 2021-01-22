@@ -28,7 +28,7 @@
         <br>
         <!-- Tab panes -->
           @can('BBB') 
-            <div role="tabpanel" style="width= 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" id="basicInformation">
+            <div role="tabpanel" style="width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" id="basicInformation">
               <form class="form" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
                 {{csrf_field()}}
                 {{method_field('PUT')}}
