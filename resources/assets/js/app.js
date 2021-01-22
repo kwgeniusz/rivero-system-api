@@ -410,6 +410,12 @@ Vue.component(
   require("./components/administration/proposal/TermCrud.vue")
 );
 
+// Time payments Crud Component
+Vue.component(
+  "time-payment-crud",
+  require("./components/administration/proposal/TimePaymentCrud.vue")
+);
+
 const app = new Vue({
   el: "#app",
   data: {

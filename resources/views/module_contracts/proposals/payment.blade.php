@@ -84,13 +84,19 @@
               <input type="number" min='0.01' step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
          </div>
 
-         <br><br>
-          <div class="form-group col-xs-12">  
-           <button type="submit" class="btn btn-success button-prevent-multiple-submits">
+         <div class="col-xs-12" style="height: 25px;"></div>
+          <div class="form-group col-xs-6 text-right">  
+           <button type="submit" class="btn btn-success button-prevent-multiple-submits text-center">
                  <span class="fa fa-plus" aria-hidden="true"></span>
                  Agregar Cuota
             </button>
            </div> 
+
+           <div class="form-group col-xs-6 text-left">  
+            <a class="btn btn-warning" href="/crud-timepayments" role="button">
+              <span class="fa fa-dollar-sign" aria-hidden="true"></span> Momentos de pago</a
+            >
+            </div> 
 
         </form>
     </div>
@@ -146,16 +152,16 @@
 
              @if($btnReturn == 'mod_cont')
                   @if($proposal[0]->contractId ==null)   
-                   <a href="{{route('proposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
+                   <a href="{{route('proposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-primary">
                      <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                    </a>
                   @else
-                  <a href="{{route('invoices.index', ['id' => $proposal[0]->contractId])}}" class="btn btn-warning">
+                  <a href="{{route('invoices.index', ['id' => $proposal[0]->contractId])}}" class="btn btn-primary">
                      <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                   </a>
                   @endif
              @elseif($btnReturn == 'mod_adm')
-                  <a href="{{ URL::previous() }}" class="btn btn-warning">
+                  <a href="{{ URL::previous() }}" class="btn btn-primary">
                        <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                   </a>
              @endif
