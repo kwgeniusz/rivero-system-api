@@ -172,18 +172,20 @@
         </div>
         <proposal-subcontractor :proposal="proposal[0]" ref="proposalSubcontractor"/>
         <proposal-scopes :proposal-id="proposal[0].proposalId" ref="proposalScopes"/>
-        <form class="inputother boxes2">
+        <form class="inputother" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
           <div class="alert alert-danger" v-if="errors.length">
             <h4>Errores:</h4>
             <div v-for="error in errors">- {{ error }}</div>
           </div>
-          <label for="serviceId">SERVICIO</label>
-          <select v-model="modelServiceId" class="form-control" @change="selectService(modelServiceId)" name="serviceId" id="serviceId">
-              <option :class="{ bold: item.hasCost == 'Y' ? true : false }" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}}
-              </option>
-                }
-          </select>
-          <div v-if="hasCost" class="form-group  col-xs-12 col-lg-4">
+          <div class="input-label boxes2" style="margin-bottom: 30px;">
+            <label for="serviceId">SERVICIO</label>
+            <select v-model="modelServiceId" class="form-control" @change="selectService(modelServiceId)" name="serviceId" id="serviceId">
+                <option :class="{ bold: item.hasCost == 'Y' ? true : false }" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}}
+                </option>
+                  }
+            </select>
+          </div>
+          <div v-if="hasCost" class="inputother boxes2">
             <label for="unit">UNIDAD</label>
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
                 <option value="sqft">sqft</option>
@@ -191,15 +193,15 @@
 
             </select>
           </div>
-          <div v-if="hasCost" class="form-group col-xs-12 col-lg-4">
+          <div v-if="hasCost" class="inputother boxes2">
             <label for="unitCost">PRECIO</label>
             <input v-model="modelUnitCost" type="number" class="form-control" id="unitCost" name="unitCost" autocomplete="off">
           </div>
-          <div v-if="hasCost" class="form-group col-xs-12 col-lg-4">
+          <div v-if="hasCost" class="inputother boxes2">
             <label for="quantity">CANTIDAD</label>
             <input v-model="modelQuantity" type="number" class="form-control" id="quantity" name="quantity"  autocomplete="off">
           </div>
-          <div v-if="hasCost" class="form-group col-xs-12 text-center">
+          <div v-if="hasCost" class="inputother boxes2">
             <label> COSTO TOTAL: {{sumTotal}}</label>
           </div>
           <div style="display: flex; justify-content: space-between; align-items: flex-start;">
@@ -209,7 +211,7 @@
             <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
           </div>
         </form>
-        <div class="tableother">
+        <div class="table-responsive tableother">
             <table class="table table-striped table-bordered text-center bg-info">
               <thead> 
               <tr>  
