@@ -110,6 +110,12 @@ textarea {
   text-decoration: none;
   color: #ffff;
 }
+.tableother {
+  position: relative;
+  max-width: 100%;
+  min-width: 100%;
+  margin-bottom: 10px;
+}
 @media (max-width: 500px) {
   .formulario, .formulario2 {
     width: 95%;
