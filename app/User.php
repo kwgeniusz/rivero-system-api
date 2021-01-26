@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
@@ -15,6 +16,7 @@ class User extends Authenticatable
     use SoftDeletes;
 
     use Notifiable;
+    use HasApiTokens;
     use HasRoles;
 
     protected $table ='user';
@@ -30,13 +32,13 @@ class User extends Authenticatable
         'fullName',
         'userName',
         'userLevel',
-        'userName',
         'userEmail',
         
     ];
     protected $hidden = [
         'userPassword','remember_token','dateCreated'
     ];
+
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -75,8 +77,10 @@ public function company()
     }
     public function getAuthPassword()
     {
+        // return $this->attributes['userPassword'];
         return $this->userPassword;
     }
+
    public function getAll()
     {
         return $this->orderBy('userId', 'ASC')

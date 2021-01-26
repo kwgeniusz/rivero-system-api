@@ -47,7 +47,9 @@
                   <label for="precontractDate"><i class="fas fa-calendar-alt"></i> FECHA</label>
                   <input class="input-label flatpickr" id="precontractDate" name="precontractDate" value="{{ $precontract[0]->precontractDate  }}">
                 </div>
+
                 <search-client pref-url='../../' c-id="{{$precontract[0]->clientId}}" c-name="{{$precontract[0]->client->clientName}}" c-address="{{$precontract[0]->siteAddress}}"></search-client>
+              
                 <div class="inputother boxes2">
                   <label for="contractType"><i class="fas fa-file-contract"></i> TIPO DE CONTRATO</label>
                   <select name="contractType" id="contractType">

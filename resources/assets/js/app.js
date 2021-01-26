@@ -169,7 +169,12 @@ Vue.component(
   require("./components/administration/transaction/expense/main.vue")
 );
 Vue.component(
-  "add-transaction-expense",
+  "table-transaction-expense",
+  require("./components/administration/transaction/expense/table.vue")
+);
+
+Vue.component(
+  "addUp-transaction-expense",
   require("./components/administration/transaction/expense/addUp.vue")
 );
 
@@ -391,6 +396,18 @@ Vue.component("time-live", require("./components/srcComponent/timeLive.vue"));
 Vue.component(
   "time-frame-crud",
   require("./components/administration/proposal/TimeFrameCrud.vue")
+);
+
+// Notes Crud Component
+Vue.component(
+  "note-crud",
+  require("./components/administration/proposal/NoteCrud.vue")
+);
+
+// Terms and conditions Crud Component
+Vue.component(
+  "term-crud",
+  require("./components/administration/proposal/TermCrud.vue")
 );
 
 const app = new Vue({

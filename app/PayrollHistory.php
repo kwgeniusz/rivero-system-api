@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use Illuminate\Support\Facades\DB;
 class PayrollHistory extends Model
 {
     public $timestamps = false;
@@ -49,17 +49,30 @@ class PayrollHistory extends Model
                                     AND hrstaff.payrollTypeId = $payrollTypeId
                                     AND hrstaff.status = 'A'");
     }
-    function delPermanentTracsaction($staffCode, $transactionTypeCode){
+    function delPermanentTracsaction($idTransType){
         $hoy = date("Y-m-d H:i:s");
        
         DB::update("UPDATE `hrpermanent_transaction` SET `deleted_at`= '$hoy', `balance` = 0
-            WHERE hrpermanent_transaction.staffCode = '$staffCode'
-            AND hrpermanent_transaction.transactionTypeCode = $transactionTypeCode");
+            WHERE hrpermanent_transaction.hrpermanentTransactionId = $idTransType");
     }
-    function updatePermanentTracsaction($staffCode, $transactionTypeCode, $balance){
-        DB::update("UPDATE `hrpermanent_transaction` SET `balance`= $balance
-        WHERE`staffCode`= '$staffCode'
-        AND `transactionTypeCode` = $transactionTypeCode");
+    function updatePermanentTracsaction($idTransType, $balance){
+        $rs1 = DB::select("select cuotas from `hrpermanent_transaction`
+        WHERE `hrpermanentTransactionId` = $idTransType");
+
+        $cuotas = 0;
+        $cuota = 0;
+        foreach ($rs1 as $rs) {
+            $cuotas  = $rs->cuotas;
+            $cuota = $cuotas - 1;
+            DB::update("UPDATE `hrpermanent_transaction` SET `balance`= $balance, `cuotas`= $cuota
+                WHERE `hrpermanentTransactionId` = $idTransType");
+            
+        }
+        // $cuota = $cuotas - 1;
+        // return $cuota;
+        // DB::update("UPDATE `hrpermanent_transaction` SET `balance`= $balance, `cuotas`= $cuota
+        // WHERE `staffCode`= '$staffCode'
+        // AND `transactionTypeCode` = $transactionTypeCode");
     }
 
     function delPrePayroll($countryId, $companyId, $year, $payrollNumber){

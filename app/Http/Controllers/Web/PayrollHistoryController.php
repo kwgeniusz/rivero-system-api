@@ -88,6 +88,7 @@ class PayrollHistoryController extends Controller
                 $staffCode              = $rs->staffCode;
                 $idDocument             = $rs->idDocument;
                 $staffName              = $rs->staffName;
+                $idTransType            = $rs->idTransType;
                 $transactionTypeCode    = $rs->transactionTypeCode;
                 $isIncome               = $rs->isIncome;
                 $hasBalance             = $rs->hasBalance;
@@ -102,9 +103,9 @@ class PayrollHistoryController extends Controller
                 // verificar las transacciones con saldo en la tabla permanet transaction para actualizar el balance
                 if ($hasBalance == 1) {
                     if ($balance == 0) { //si el balance de la transaccion llega a 0, se elimina la transaccion permanente
-                        $this->oPTrans->delPermanentTracsaction($staffCode, $transactionTypeCode);
+                        $this->oPTrans->delPermanentTracsaction($idTransType);
                     } else {//se actualiza el balance
-                        $this->oUpPTrans->updatePermanentTracsaction($staffCode, $transactionTypeCode, $balance);
+                        $this->oUpPTrans->updatePermanentTracsaction($idTransType, $balance);
                     }
                     
                 } 
@@ -120,6 +121,7 @@ class PayrollHistoryController extends Controller
                 $hrpayroll->staffCode           = $staffCode;
                 $hrpayroll->idDocument          = $idDocument;
                 $hrpayroll->staffName           = $staffName;
+                $hrpayroll->idTransType         = $idTransType;
                 $hrpayroll->transactionTypeCode = $transactionTypeCode;
                 $hrpayroll->isIncome            = $isIncome;
                 $hrpayroll->hasBalance          = $hasBalance;
@@ -131,7 +133,8 @@ class PayrollHistoryController extends Controller
                 $hrpayroll->exchangeRate        = $exchangeRate;
                 $hrpayroll->save();
             }
-    
+            
+            // return;
             // parte 3 
             // borrar los registro de la prenomina seleccionada
             $this->oDelPrePayroll->delPrePayroll($countryId, $companyId, $year, $payrollNumber);

@@ -147,7 +147,7 @@ class Transaction extends Model
     public function getAllForSign($transactionSign,$countryId,$companyId)
     {
 // ->with('invoiceDetails','note','scope','projectDescription')
-        $result = $this->with('invoice','paymentMethod','account','user','invoice.contract')
+        $result = $this->with('invoice','paymentMethod','transactionType','account.bank','user','invoice.contract','document','payable')
                       ->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 

@@ -172,7 +172,7 @@
         </div>
         <proposal-subcontractor :proposal="proposal[0]" ref="proposalSubcontractor"/>
         <proposal-scopes :proposal-id="proposal[0].proposalId" ref="proposalScopes"/>
-        <form class="inputother" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+        <form class="input-label" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
           <div class="alert alert-danger" v-if="errors.length">
             <h4>Errores:</h4>
             <div v-for="error in errors">- {{ error }}</div>
@@ -204,8 +204,8 @@
           <div v-if="hasCost" class="inputother boxes2">
             <label> COSTO TOTAL: {{sumTotal}}</label>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <button class="submit buttonmovil" @click.prevent="addRow()"> 
+          <div style="width: 100%; display: flex; justify-content: center; align-items: flex-start;">
+            <button class="submit buttonmovil" @click.prevent="addRow()" style="margin-right: 20px;"> 
               <span class="fa fa-plus" aria-hidden="true"></span> Agregar Renglon
             </button>
             <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
@@ -245,7 +245,6 @@
               </td>
               <td> {{item.amount}}</td>
               <td>
-              {{item.unit}}
                 <a v-if="editMode != index && item.unit != null" @click="editItemList(index)" class="btn btn-sm btn-primary" title="Editar" > 
                   <i class="fa fa-edit"></i>
                 </a>   

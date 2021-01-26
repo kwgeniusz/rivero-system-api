@@ -82,7 +82,7 @@ class ProposalController extends Controller
     public function store(Request $request)
     {
            $this->validate($request, [
-                'invoiceDate' => 'required',
+                'proposalDate' => 'required',
                 'invoiceTaxPercent' => 'required',
            ]);
  
@@ -101,7 +101,7 @@ class ProposalController extends Controller
                       $request->modelId,//se trae el id de la tabla que halla escogido el usuasio en formulario create .
                       $modelRs[0]->clientId,
                       $request->projectDescriptionId,
-                      $request->invoiceDate,
+                      $request->proposalDate,
                       $request->invoiceTaxPercent,
                       $request->paymentConditionId, 
                       '1',
@@ -133,7 +133,7 @@ class ProposalController extends Controller
             $id,
             $request->paymentConditionId,
             $request->projectDescriptionId,
-            $request->invoiceDate,
+            $request->proposalDate,
             $request->invoiceTaxPercent
         );
 

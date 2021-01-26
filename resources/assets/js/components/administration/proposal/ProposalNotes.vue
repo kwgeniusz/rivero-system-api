@@ -1,4 +1,3 @@
-
 <template> 
   <form class="input-label boxes2" style="margin-top: 30px;">
     <div class="alert alert-danger " v-if="errors.length">
@@ -40,11 +39,8 @@
             </li>
           </ul>
     </div>
-
-
-  </form>    
- </template>
-
+  </form>
+</template>
 
 
  <script>
@@ -52,120 +48,120 @@ import formNewNote from './FormNewNote.vue'
 
 
 export default {
+  mounted() {
+    console.log("Component ProposalNotes mounted.");
+    // this.findproposal();
+    this.getAllNotes();
+    this.getProposalNotes();
+  },
+  data: function() {
+    return {
+      errors: [],
 
-     mounted() {
-            console.log('Component ProposalNotes mounted.')
-            // this.findproposal();
-            this.getAllNotes();
-            this.getProposalNotes();
-        },
-    data: function() {
-        return {
-            errors: [],
-            
-            notes: {},
-            notesList:{},
+      notes: {},
+      notesList: {},
 
-            inputType: 'A',
-            modelNoteId: '',
-            modelNoteName: '',
-        }
-    },
+      inputType: "A",
+      modelNoteId: "",
+      modelNoteName: "",
+    };
+  },
   props: {
-           proposalId: { type: Number},
-    },
+    proposalId: { type: Number },
+  },
   components: {
-         formNewNote,
-  }, 
-    methods: {
-         getAllNotes: function (){
-            let url ='notes';
-            axios.get(url).then(response => {
-             this.notes = response.data
-            });
-        },
-          getProposalNotes: function (){
-            let url ='proposals/'+this.proposalId+'/notes';
+    formNewNote,
+  },
+  methods: {
+    getAllNotes: function() {
+      let url = "notes";
+      axios.get(url).then((response) => {
+        this.notes = response.data;
+      });
+    },
+    getProposalNotes: function() {
+      let url = "proposals/" + this.proposalId + "/notes";
 
-            axios.get(url).then(response => {
-             this.notesList = response.data
-            });
-        },
-        // selectNote: function (id){
-        //     let url ='notes/'+id;
-        //     axios.get(url).then(response => {
-        //       // console.log(response.data[0]);
-        //      // this.modelNoteName = response.data[0].noteName;
-        //     });
-        // },
-  /*----CRUD----- */
-        addRow: function() {
-           this.errors = [];
+      axios.get(url).then((response) => {
+        this.notesList = response.data;
+      });
+    },
+    // selectNote: function (id){
+    //     let url ='notes/'+id;
+    //     axios.get(url).then(response => {
+    //       // console.log(response.data[0]);
+    //      // this.modelNoteName = response.data[0].noteName;
+    //     });
+    // },
+    /*----CRUD----- */
+    addRow: function() {
+      this.errors = [];
 
-         if(this.inputType == 'A'){
-           //VALIDATIONS
-             if (!this.modelNoteId) 
-              this.errors.push('Debe Escoger una Nota.');
-    
-              
-          if (!this.errors.length) { 
-           //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
-        let noteId = this.modelNoteId;
-    
-        function filtrarPorID(obj) {
-          if ('noteId' in obj && obj.noteId == noteId) {
-            return true;
-          } else {
-            return false;
+      if (this.inputType == "A") {
+        //VALIDATIONS
+        if (!this.modelNoteId) this.errors.push("Debe Escoger una Nota.");
+
+        if (!this.errors.length) {
+          //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
+          let noteId = this.modelNoteId;
+
+          function filtrarPorID(obj) {
+            if ("noteId" in obj && obj.noteId == noteId) {
+              return true;
+            } else {
+              return false;
+            }
           }
+          let noteSelected = this.notes.filter(filtrarPorID);
+          //AGREGAR A ITEMLIST
+          //Nota al agregar el item debo meter un objeto con el nombre y el ID
+          this.notesList.push({
+            noteId: noteSelected[0].noteId,
+            noteName: noteSelected[0].noteName,
+          });
+        } //end of the errors.length
+      } else {
+        //end of de inputType A
+
+        //VALIDATIONS
+        if (!this.modelNoteName) this.errors.push("Debe Escribir una Nota.");
+
+        if (!this.errors.length) {
+          this.notesList.push({ noteId: null, noteName: this.modelNoteName });
+          this.modelNoteName = "";
         }
-        let noteSelected = this.notes.filter(filtrarPorID);
-            //AGREGAR A ITEMLIST
-              //Nota al agregar el item debo meter un objeto con el nombre y el ID
-              this.notesList.push({noteId:noteSelected[0].noteId,noteName:noteSelected[0].noteName,});
-           } //end of the errors.length
-         } else{ //end of de inputType A
-
-               //VALIDATIONS
-               if (!this.modelNoteName) 
-                this.errors.push('Debe Escribir una Nota.');
-
-               if (!this.errors.length) {
-                  this.notesList.push({noteId:null,noteName:this.modelNoteName});
-                  this.modelNoteName = '';
-               }
-         } //end else
-
-
-
-        }, //End of the function
-        deleteNote: function(id) {
-                 this.notesList.splice(--id,1);
-          },
-        sendNotes: function() {
-            axios.post('proposals/'+this.proposalId+'/notes',{
-              notesList:   this.notesList,
-            }).then(response => {
-                       this.getProposalNotes();
-                       this.modelNoteId = '';
-                       if (response.data.alertType == 'success') {
-                         toastr.success(response.data.message)
-                       } else {
-                          toastr.error(response.data.message)
-                       }
-            })
-           
-      },
-      nl2br: function(str, is_xhtml) {
-         if (typeof str === 'undefined' || str === null) {
-               return '';
+      } //end else
+    }, //End of the function
+    deleteNote: function(id) {
+      this.notesList.splice(--id, 1);
+    },
+    sendNotes: function() {
+      axios
+        .post("proposals/" + this.proposalId + "/notes", {
+          notesList: this.notesList,
+        })
+        .then((response) => {
+          this.getProposalNotes();
+          this.modelNoteId = "";
+          if (response.data.alertType == "success") {
+            toastr.success(response.data.message);
+          } else {
+            toastr.error(response.data.message);
           }
-       var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
-       return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
-     },
-
-    }
-       // this.$forceUpdate()
-  }
- </script>
-  
+        });
+    },
+    nl2br: function(str, is_xhtml) {
+      if (typeof str === "undefined" || str === null) {
+        return "";
+      }
+      var breakTag =
+        is_xhtml || typeof is_xhtml === "undefined" ? "<br />" : "<br>";
+      return (str + "").replace(
+        /([^>\r\n]?)(\r\n|\n\r|\r|\n)/g,
+        "$1" + breakTag + "$2"
+      );
+    },
+  },
+  // this.$forceUpdate()
+};
+</script>

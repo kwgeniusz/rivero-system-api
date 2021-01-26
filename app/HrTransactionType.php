@@ -17,7 +17,7 @@ class HrTransactionType extends Model
     
     function getComboTransactionType($country = 2,$company = 5 ){
         return DB::table('hrtransaction_type')
-                ->select('hrtransaction_type.transactionTypeName','hrtransaction_type.transactionTypeCode')
+                ->select('hrtransaction_type.*')
                 ->where('hrtransaction_type.companyId', '=',$company)
                 ->where('hrtransaction_type.countryId', '=',$country)
                 ->get();

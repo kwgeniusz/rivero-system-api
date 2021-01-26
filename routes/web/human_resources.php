@@ -49,6 +49,7 @@ Route::get('periods/', function () {
 })->name('periods.index'); 
 Route::get('periods/list/', 'Web\PeriodsController@index');
 Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
+Route::get('periods/list/{year}/{month}', 'Web\PeriodsController@generatePeriods');
 Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PeriodsController@getPayrollNumber');
 Route::post('periods/post', 'Web\PeriodsController@store');
 Route::put('periods/put/{id}', 'Web\PeriodsController@update');
@@ -77,7 +78,7 @@ Route::get('staff/list/', 'Web\HrStaffController@index');
 Route::get('staff/list/combox/', 'Web\HrStaffController@comboBoxMult');
 Route::get('staff/list/comboxDepartment/{id}', 'Web\HrStaffController@comboBoxDeparmet');
 Route::get('staff/list/typepayroll/{id}', 'Web\HrStaffController@comboTypePayroll');
-Route::get('staff/list/positions/{id}', 'Web\HrStaffController@comboPositions');
+Route::get('staff/list/positions', 'Web\HrStaffController@comboPositions');
 Route::post('staff/post', 'Web\HrStaffController@store');
 Route::put('staff/put/{id}', 'Web\HrStaffController@update');
 Route::delete('staff/delete/{id}', 'Web\HrStaffController@destroy');
@@ -129,3 +130,13 @@ Route::get('payrollhistoryl/process/{countryId}/{companyId}/{year}/{payrollNumbe
 // combosBox
 Route::get('combo-staff/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboStaff');
 Route::get('combo-trans-type/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboTransactionType');
+
+// salarios netos
+Route::get('net-salary/{staff}', 'Web\functionsRrhhController@netSalary');
+
+// Payment receipt
+Route::get('payment-receipt/', function () {
+    return view('rrhh.paycheck.index');
+})->name('paycheck.index'); 
+Route::get('staff-receipt', 'Web\functionsRrhhController@paymenSalary');
+Route::get('history-receipt/{staff}', 'Web\functionsRrhhController@historyReceipt');

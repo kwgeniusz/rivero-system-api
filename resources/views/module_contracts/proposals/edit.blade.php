@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="create">
-  <form  class="formulario" action="{{Route('precontracts.store')}}" method="POST">
+  <form  class="formulario" action="{{Route('proposals.update',['proposal' => $proposal[0]->proposalId])}}" method="POST">
     <div>
       <h3><i class="fas fa-book"></i> Editar Propuesta: N° {{$proposal[0]->propId}}</h3>
       <div class="boxes">
@@ -60,8 +60,8 @@
           </select>
         </div>
         <div class="inputother boxes2">
-          <label for="preinvoiceDate"><i class="fas fa-calendar-alt"></i> FECHA DE LA PROPUESTA:</label>
-          <input class="input-label flatpickr" id="invoiceDate" name="invoiceDate" value="{{ $proposal[0]->proposalDate}}" required>
+          <label for="proposalDate"><i class="fas fa-calendar-alt"></i> FECHA DE LA PROPUESTA:</label>
+          <input class="input-label flatpickr" id="proposalDate" name="proposalDate" value="{{ $proposal[0]->proposalDate}}" required>
         </div>
         <div class="inputother boxes2">  
         <label for="invoiceTaxPercent"><i class="fas fa-percent"></i> IMPUESTO</label>

@@ -116,6 +116,71 @@ class PeriodsController extends Controller
         $periods->save();
         return $periods;
     }
+    function generatePeriods($year,$month){
+        // echo $year.$month;
+        $year;
+        $month;
+        
+        $countryId = 2;
+        $companyId = 5;
+        $payrollTypeId = 4;
+        $payrollNumber = 1;
+        $periodName ='';
+        $periodFrom = '';
+        $periodTo ='';
+        // $yearMonth    = "{$year}-{$month}";
+
+        $monthName = array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
+
+        // echo $monthName[date('n')-1];
+        
+        for ($i=1; $i <= 12; $i++) { 
+            
+            // para primera quincena
+            $yearMonth    = "{$year}-{$month}";
+            $fromPrimeraQuincena  = date('Y-m-d', strtotime("{$yearMonth}"));
+            $toPrimeraQuincena     = date('Y-m-d', strtotime("{$yearMonth} + 14 day"));
+            // echo '1era Quincena '.$monthName[$month-1];
+            
+            
+            // para segunda quincena
+            $fromSegundaQuincena     = date('Y-m-d', strtotime("{$yearMonth} + 15 day"));
+            $auxPrimeraQuincena  = date('Y-m-d', strtotime("{$yearMonth} + 1 month"));
+            $toSegundaQuincena     = date('Y-m-d', strtotime("{$auxPrimeraQuincena} - 1 day"));
+
+            $periods = new Periods();
+            $periods->countryId = $countryId;
+            $periods->companyId = $companyId;
+            $periods->year = $year;
+            $periods->payrollTypeId = $payrollTypeId;
+            $periods->payrollNumber = $payrollNumber;
+            $periods->periodName = '1era Quincena '.$monthName[$month-1].' '.$year.' ';
+            $periods->periodFrom = $fromPrimeraQuincena;
+            $periods->periodTo = $toPrimeraQuincena;
+            $periods->updated = 0;
+            $periods->save();
+
+            $periods = new Periods();
+            $periods->countryId = $countryId;
+            $periods->companyId = $companyId;
+            $periods->year = $year;
+            $periods->payrollTypeId = $payrollTypeId;
+            $periods->payrollNumber = $payrollNumber + 1;
+            $periods->periodName = '2da Quincena '.$monthName[$month-1].' '.$year.' ';
+            $periods->periodFrom = $fromSegundaQuincena;
+            $periods->periodTo = $toSegundaQuincena;
+            $periods->updated = 0;
+            $periods->save();
+
+            $payrollNumber = $payrollNumber + 2;
+            // return $periods;
+            // echo $ToPrimeraQuincena ."<br>";
+            // echo $segundaQuincena ."<br>";
+            $month = $month + 1;
+        }
+        // echo date('M', strtotime("{$yearMonth} + 14 day"));;
+        return 'success';
+    }
     
     /**
      * Remove the specified resource from storage.

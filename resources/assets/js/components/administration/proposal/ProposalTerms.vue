@@ -1,4 +1,3 @@
-
 <template> 
     <form class="input-label boxes2" style="margin-top: 30px">
       <div class="alert alert-danger " v-if="errors.length">
@@ -50,121 +49,122 @@ import formNewTerm from './FormNewTerm.vue'
 
 
 export default {
+  mounted() {
+    console.log("Component ProposalNotes mounted.");
+    // this.findproposal();
+    this.getAllTerms();
+    this.getProposalTerms();
+  },
+  data: function() {
+    return {
+      errors: [],
 
-     mounted() {
-            console.log('Component ProposalNotes mounted.')
-            // this.findproposal();
-            this.getAllTerms();
-            this.getProposalTerms();
-        },
-    data: function() {
-        return {
-            errors: [],
-            
-            notes: {},
-            termsList:{},
+      notes: {},
+      termsList: {},
 
-            inputType: 'A',
-            modelTermId: '',
-            modelTermName: '',
-        }
-    },
+      inputType: "A",
+      modelTermId: "",
+      modelTermName: "",
+    };
+  },
   props: {
-           proposalId: { type: Number},
-    },
+    proposalId: { type: Number },
+  },
   components: {
-         formNewTerm,
-  },     
-    methods: {
-         getAllTerms: function (){
-            let url ='terms';
-            axios.get(url).then(response => {
-             this.notes = response.data
-            });
-        },
-          getProposalTerms: function (){
-            let url ='proposals/'+this.proposalId+'/terms';
+    formNewTerm,
+  },
+  methods: {
+    getAllTerms: function() {
+      let url = "terms";
+      axios.get(url).then((response) => {
+        this.notes = response.data;
+      });
+    },
+    getProposalTerms: function() {
+      let url = "proposals/" + this.proposalId + "/terms";
 
-            axios.get(url).then(response => {
-             this.termsList = response.data
-            });
-        },
-        // selectNote: function (id){
-        //     let url ='notes/'+id;
-        //     axios.get(url).then(response => {
-        //       // console.log(response.data[0]);
-        //      // this.modelTermName = response.data[0].termName;
-        //     });
-        // },
-  /*----CRUD----- */
-        addRow: function() {
-           this.errors = [];
+      axios.get(url).then((response) => {
+        this.termsList = response.data;
+      });
+    },
+    // selectNote: function (id){
+    //     let url ='notes/'+id;
+    //     axios.get(url).then(response => {
+    //       // console.log(response.data[0]);
+    //      // this.modelTermName = response.data[0].termName;
+    //     });
+    // },
+    /*----CRUD----- */
+    addRow: function() {
+      this.errors = [];
 
-         if(this.inputType == 'A'){
-           //VALIDATIONS
-             if (!this.modelTermId) 
-              this.errors.push('Debe Escoger un elemento de la lista.');
-    
-              
-          if (!this.errors.length) { 
-           //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
-        let termId = this.modelTermId;
-    
-        function filtrarPorID(obj) {
-          if ('termId' in obj && obj.termId == termId) {
-            return true;
-          } else {
-            return false;
+      if (this.inputType == "A") {
+        //VALIDATIONS
+        if (!this.modelTermId)
+          this.errors.push("Debe Escoger un elemento de la lista.");
+
+        if (!this.errors.length) {
+          //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
+          let termId = this.modelTermId;
+
+          function filtrarPorID(obj) {
+            if ("termId" in obj && obj.termId == termId) {
+              return true;
+            } else {
+              return false;
+            }
           }
+          let termSelected = this.notes.filter(filtrarPorID);
+          //AGREGAR A ITEMLIST
+          //Nota al agregar el item debo meter un objeto con el nombre y el ID
+          this.termsList.push({
+            termId: termSelected[0].termId,
+            termName: termSelected[0].termName,
+          });
+        } //end of the errors.length
+      } else {
+        //end of de inputType A
+
+        //VALIDATIONS
+        if (!this.modelTermName) this.errors.push("Debe Escribir un Texto.");
+
+        if (!this.errors.length) {
+          this.termsList.push({ termId: null, termName: this.modelTermName });
+          this.modelTermName = "";
         }
-        let termSelected = this.notes.filter(filtrarPorID);
-            //AGREGAR A ITEMLIST
-              //Nota al agregar el item debo meter un objeto con el nombre y el ID
-              this.termsList.push({termId:termSelected[0].termId,termName:termSelected[0].termName,});
-           } //end of the errors.length
-         } else{ //end of de inputType A
-
-               //VALIDATIONS
-               if (!this.modelTermName) 
-                this.errors.push('Debe Escribir un Texto.');
-
-               if (!this.errors.length) {
-                  this.termsList.push({termId:null,termName:this.modelTermName});
-                  this.modelTermName = '';
-               }
-         } //end else
-
-
-
-        }, //End of the function
-        deleteTerm: function(id) {
-                 this.termsList.splice(--id,1);
-          },
-        sendTerms: function() {
-            axios.post('proposals/'+this.proposalId+'/terms',{
-              // proposalId :  this.proposalId,
-              termsList:   this.termsList,
-            }).then(response => {
-                       this.getProposalTerms();
-                       this.modelTermId = '';
-                       if (response.data.alertType == 'success') {
-                         toastr.success(response.data.message)
-                       } else {
-                          toastr.error(response.data.message)
-                       }
-            })
-           
-      },
-      nl2br: function(str, is_xhtml) {
-         if (typeof str === 'undefined' || str === null) {
-               return '';
+      } //end else
+    }, //End of the function
+    deleteTerm: function(id) {
+      this.termsList.splice(--id, 1);
+    },
+    sendTerms: function() {
+      axios
+        .post("proposals/" + this.proposalId + "/terms", {
+          // proposalId :  this.proposalId,
+          termsList: this.termsList,
+        })
+        .then((response) => {
+          this.getProposalTerms();
+          this.modelTermId = "";
+          if (response.data.alertType == "success") {
+            toastr.success(response.data.message);
+          } else {
+            toastr.error(response.data.message);
           }
-       var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
-       return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
-     },
-
-    }
-       // this.$forceUpdate()
-  }
- </script>
-  
+        });
+    },
+    nl2br: function(str, is_xhtml) {
+      if (typeof str === "undefined" || str === null) {
+        return "";
+      }
+      var breakTag =
+        is_xhtml || typeof is_xhtml === "undefined" ? "<br />" : "<br>";
+      return (str + "").replace(
+        /([^>\r\n]?)(\r\n|\n\r|\r|\n)/g,
+        "$1" + breakTag + "$2"
+      );
+    },
+  },
+  // this.$forceUpdate()
+};
+</script>

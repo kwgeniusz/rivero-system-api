@@ -2,7 +2,7 @@
 
 namespace App;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,7 +17,7 @@ class PerTrans extends Model
     protected $primaryKey = 'hrpermanentTransactionId';
     // protected $dates = ['deleted_at'];
 
-    protected $fillable = ['countryId', 'companyId', 'staffCode', 'transactionTypeCode', 'quantity', 'amount', 'balance','initialBalance'];
+    protected $fillable = ['countryId', 'companyId', 'staffCode', 'transactionTypeCode', 'quantity', 'amount', 'balance','initialBalance','cde'];
 
     function getPeTransaction(){
         // $company = session('countryId');
@@ -38,6 +38,25 @@ class PerTrans extends Model
         ->orderBy('hrstaff.staffCode', 'asc')
         ->get();
         
+    }
+    
+    function getEmployees($country, $company)
+    {
+        return DB::table('hrstaff')
+            ->select('hrstaff.shortName','hrstaff.staffCode','hrstaff.countryId','hrstaff.companyId')
+            ->where('hrstaff.countryId', '=', $country)
+            ->where('hrstaff.companyId', '=', $company)
+            // ->where('hrstaff.companyId', '=',4)
+            ->get();
+    }
+    function getHistoryLoans(  $staffCode )
+    {
+        return DB::table('hrpermanent_transaction')
+            ->select('hrpermanent_transaction.*')
+            ->where('hrpermanent_transaction.staffCode', '=', $staffCode)
+            ->where('hrpermanent_transaction.transactionTypeCode', '=', 2004)
+            ->whereNull('deleted_at')
+            ->get();
     }
 
 }
