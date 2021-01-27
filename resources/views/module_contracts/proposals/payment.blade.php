@@ -3,7 +3,7 @@
   <div class="create">
     <div class="formulario">
       <div>
-        <h4><b>DETALLES DE PROPUESTA</h4>
+        <h3>DETALLES DE PROPUESTA</h3>
         <div class="boxes" style="padding-top: 10px;">
           <div class="table-responsive tableother">
             <table class="table table-striped table-bordered text-center ">

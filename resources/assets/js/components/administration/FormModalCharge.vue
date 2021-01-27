@@ -1,7 +1,7 @@
 <template>
 <div>
 <!-- BUTTON PARA FORMULARIO MODAL DE COBRO DE CUOTA-->
-             <a class="btn btn-success btn-sm" @click="openModal()">
+             <a class="return" style="padding: 2px 5px; background: green; cursor: pointer;" @click="openModal()">
               <span  class="fa fa-money-bill-alt" aria-hidden="true"></span> Cobrar
             </a>
   
