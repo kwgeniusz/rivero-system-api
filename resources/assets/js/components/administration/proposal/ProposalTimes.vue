@@ -4,26 +4,29 @@
       <h4>Errores:</h4>
       <div v-for="error in errors">- {{ error }}</div>
     </div>
-    <div>
-      <input class="input" type="radio" v-model="inputType" value="A" /> PRECARGADOS
-    </div>
-    <div>
-      <input class="input" type="radio" v-model="inputType" value="B" /> LIBRE
-    </div>
-    <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'A'">
-      <label for="timeId">TIME FRAME</label>
-      <select
-        v-model="modelTimeId"
-        class="form-control"
-        name="timeId"
-        id="timeId"
-      >
-        <option v-for="(item, index) in times" :value="item.timeId">
-          {{ item.timeName }}</option
+    <div class="input-label" style="display: flex; flex-wrap: wrap;">
+      <div class="inputother" style="display: flex; align-items: center; flex-direction: column;">
+        <div style="width: 48%;">
+          <input style="position: relative; max-width: 10%; min-width: 10%;" type="radio" v-model="inputType" value="A" /> PRECARGADOS
+        </div>
+        <div style="width: 48%;">
+          <input style="position: relative; max-width: 10%; min-width: 10%;" type="radio" v-model="inputType" value="B" /> LIBRE
+        </div>
+      </div>
+      <div class="inputother" v-if="inputType == 'A'">
+        <label for="timeId">TIME FRAME</label>
+        <select
+          v-model="modelTimeId"
+          class="form-control"
+          name="timeId"
+          id="timeId"
         >
-      </select>
-    </div>
-    <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'B'">
+          <option v-for="(item, index) in times" :value="item.timeId">
+            {{ item.timeName }}</option
+          >
+        </select>
+      </div>
+      <div class="inputother" v-if="inputType == 'B'">
       <label for="timeName">TIME FRAME</label>
       <input
         v-model="modelTimeName"
@@ -34,13 +37,14 @@
         autocomplete="off"
       />
     </div>
+    </div>
     <div style="display: flex; justify-content: center; align-items: flex-start;">
         <button class="submit buttonmovil" style="margin-top: 0px;" @click.prevent="addRow()">
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar
         </button>
         <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/timeframes" role="button">
           <span class="fa fa-list" aria-hidden="true"></span> Timeframes</a>
-      <div class="submit" style="padding: 0px; margin-top: 0px; margin-left: 20px" v-if="inputType == 'A'">
+      <div style="margin-left: 20px;" v-if="inputType == 'A'">
         <form-new-time pref-url="" @timecreated="getAllTimes()"></form-new-time>
       </div>
     </div>
