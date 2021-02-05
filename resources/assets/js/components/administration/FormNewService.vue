@@ -1,5 +1,5 @@
 <template>
-<div class="margindiv" >
+<div class="margindivw" >
 
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
  <a class="submit buttonmovil" style="background: green" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear Servicio</a>
@@ -128,11 +128,11 @@
 }
 </script>
 <style>
-  .margindiv {
+  .margindivw {
     margin-top: 40px
   }
   @media (max-width: 500px) {
-    .margindiv {
+    .margindivw {
       margin-top: 35px;
     }
   }

@@ -42,7 +42,7 @@
         <button class="submit buttonmovil" style="margin-top: 0px;" @click.prevent="addRow()">
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar
         </button>
-        <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/timeframes" role="button">
+        <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/crud-timeframes" role="button">
           <span class="fa fa-list" aria-hidden="true"></span> Timeframes</a>
       <div style="margin-left: 20px;" v-if="inputType == 'A'">
         <form-new-time pref-url="" @timecreated="getAllTimes()"></form-new-time>
