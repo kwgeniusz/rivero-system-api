@@ -1,9 +1,4 @@
 <?php
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization');
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,7 +9,10 @@ header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Author
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::group(['middleware' => 'cors'], function(){
+    Route::post('login', 'Api\AuthController@login');
+    Route::get('user-session', 'Api\AuthController@session');//->middleware('permission:shop.index');
+});
 
 Route::group(['middleware' => ['auth:api']], function () {
 // rutas protegidas
