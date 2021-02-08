@@ -60,13 +60,10 @@
               </select>
               </div>
 
-
-
               <div class="form-group col-lg-4">
                 <label for="amount">MONTO</label>
                 <input type="number" class="form-control" step="0.01" id="amount" name="amount" value="{{ old('amount') }}">
               </div>
-
 
 {{-- 
                 <div class="form-group col-lg-6">

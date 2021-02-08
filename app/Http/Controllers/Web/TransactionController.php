@@ -14,7 +14,6 @@ use Auth;
 
 class TransactionController extends Controller
 {
-
     private $oTransaction;
     private $oTransactionType;
     private $oPaymentMethod;
@@ -38,6 +37,11 @@ class TransactionController extends Controller
     {
 
     $transactions   = $this->oTransaction->getAllForSign($sign,session('countryId'),session('companyId'));
+
+        if($request->ajax()) {
+           return $transactions;
+        }
+        
     $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
     $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 

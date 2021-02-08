@@ -1,49 +1,87 @@
 <template>
-            <div class="col-md-10 col-md-offset-1">
+       <div class="col-xs-11">
                 <div class="panel panel-default">
-                    <!-- <div class="panel-heading"><h4>Departamentos</h4></div> -->
-
                     <div class="table-responsive text-center">
+
                         <table class="table table-striped table-bordered text-center">
                             <thead>
-                                <tr>
-                                    <th>N.</th>
-                                    <th>Empresa</th>
-                                    <th>Departamento</th>
-                                    <th>Departamento Padre</th>
-                                    <th>Acciones</th>
-                                </tr>
+                              <tr>
+                                <th>#</th>
+                                <th>FECHA</th>
+                                <th>REFERENCIA EN BANCO O BENEFICIARIO</th>
+                                <th >METODO DE PAGO</th>
+                                <th>MOTIVO</th>
+                                <th>EXPENSES</th>
+                                <th>MONTO</th>
+                                <th>DESTINO</th>
+                                <th>RESPONSABLE</th>
+                                <th>ACCIONES</th>
+                               </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(company, index) in companys" :key="company.departmentId">
-                                
-                                    <td >{{index + 1}}</td>
-                                    <td class="form-inline"> 
-                                        <p class="text-left"> 
-                                            {{company.companyName}}
-                                        </p>  
-                                    </td>
-                                    <td class="form-inline">    
-                                        <p class="text-left">
-                                            <button v-if="editMode === index" v-on:click="updateDepartment(index, company)" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></button> &nbsp;
-                                            <input v-if="editMode === index" type="text" class="form-control" v-model="company.departmentName" >
-                                            <a v-else v-on:click="editDepartment(index)">{{company.departmentName}}</a> 
-                                        </p>
-                                    </td>
-                                    <td> 
-                                        <p class="text-left">
-                                            {{  company.dpParentName}}
-                                        </p>
-                                    </td>
-                                    <td> 
-                                        <button v-on:click="editDataDepartment(index,company.departmentId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
-                                        <button v-on:click="deleteDepartment(index,company.departmentId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  
-                                        
-                                    </td>
-
+                             <template v-for="(transaction, index) in transactionList">       
+                             <tr>
+                                <td >{{index + 1}}</td>
+                                <td class="text-left"> {{transaction.transactionDate}}</td>
+                                <td class="text-left"> {{transaction.description}}</td>
+                                <td class="text-left"> {{transaction.payment_method.payMethodName}} {{transaction.payMethodDetails}}</td>
+                                <td class="text-left"> {{transaction.reason}}</td> 
+                                <td class="text-left"> {{transaction.transaction_type.transactionTypeName}}</td>  
+                                <td class="text-left"> {{transaction.amount}}</td>
+                                <td class="text-left"> 
+                                   <p v-if="transaction.cashboxId == null" class="text-left"> 
+                                    {{transaction.account.bank.bankName}}<br> {{transaction.account.accountCodeId}} 
+                                    </p>
+                                     <p v-else class="text-left"> 
+                                       CASHBOX
+                                     </p>                                          
+                                </td>      
+                               <td class="text-left">{{transaction.user.fullName}}</td>
+                                  <td> 
+                                 <button @click="toggle(transaction.transactionId)" :class="{ opened: opened.includes(transaction.transactionId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-user" aria-hidden="true"></i></button>  
+                                     <div v-if="transaction.transactionable_id == null">
+                                        <button @click="editDataTransaction(index,transaction.transactionId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
+                                        <button @click="deleteTransaction(index,transaction.transactionId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
+                                    </div>  
+                                  </td>
                                 </tr>
-                            </tbody>
-                        </table>
+
+                         <tr v-if="opened.includes(transaction.transactionId)">
+                            <td></td>
+                            <td colspan="9">
+                          
+                             <div v-if="transaction.document">
+                                <!-- previzualizar la imagen -->
+                                 <img :src="raizUrl+transaction.document.docUrl">
+                                <!-- descargar la imagen, -->
+                          
+                            </div>  
+                        
+                             <div v-if="transaction.payable != ''">
+                                 <h3><b>Cuentas por Pagar Asociadas:</b></h3>
+                                    <hr>
+                                    <ul v-for="(payable,index) in transaction.payable" :key="payable.payableId">
+                                        {{++index}}) <b>Direccion:</b> 
+                                       {{payable.subcont_inv_detail.invoice.contract.propertyNumber}} 
+                                       {{payable.subcont_inv_detail.invoice.contract.streetName}} 
+                                       {{payable.subcont_inv_detail.invoice.contract.streetType}} 
+                                       {{payable.subcont_inv_detail.invoice.contract.suiteNumber}} 
+                                       {{payable.subcont_inv_detail.invoice.contract.city}} 
+                                       {{payable.subcont_inv_detail.invoice.contract.state}} 
+                                       {{payable.subcont_inv_detail.invoice.contract.zipCode}}
+                                         <br>
+                                        <b>Monto Pagado:</b> {{payable.pivot.amountPaid}} <br>
+                                        <b>Motivo:</b> {{payable.pivot.reason}}<br>    
+                                      </ul>
+                                    <hr>
+                            </div>  
+                            </td>
+                        </tr> 
+
+                         </template>                 
+                        </tbody>
+                     </table>
+
                     </div>
                 </div>
             </div>
@@ -53,58 +91,42 @@
 <script>
     export default {
         mounted() {
-
             console.log('Component mounted.') 
         },
         props: {
-            companys: {},
-            parents:{},
+            transactionList: {},
+            // parents:{},
         },  
         data(){
             return{
-                editMode: -1,
-                num: 1,
-                parent:'',
+                // editMode: -1,
+                // num: 1,
+                // parent:'',
+                raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
+                opened: [],
             }
         },
         methods: {
-            deleteDepartment(index, id){
+          toggle(id) {
+         const index = this.opened.indexOf(id);
+         if (index > -1) {
+           this.opened.splice(index, 1)
+         } else {
+           this.opened.push(id)
+         }
+       },
+            editDataTransaction(index, id){
+                // console.log('index: '+index + ' id: '+ id)
+                this.$emit('editData', id)
+            },
+            deleteTransaction(index, id){
                 // console.log('index 1: ' + index)
                 if (confirm("Delete?") ){
                     axios.delete(`departments/${id}`).then(()=>{
                         this.$emit('delete',index)
                     })
                 }    
-            },
-            editDataDepartment(index, id){
-                // console.log('index: '+index + ' id: '+ id)
-                this.$emit('editData', id)
-            },
-            editDepartment(index){
-                // console.log(id)
-                    this.editMode = index
-                // this.$emit('delete',index)
-            },
-            updateDepartment(index, company){
-                // console.log(company) companyId departmentId departmentName parentDepartmentId
-                const params = {
-                    
-                    departmentName: company.departmentName,
-                }
-                let url = '/departments/' + company.departmentId
-        
-                axios.put(url, params)
-                .then((response) => {
-                    // console.log(response)
-                        this.editMode = -1
-                        // console.log(response)
-                        const company = response.data
-                        this.$emit('update', [index, company])
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            }
+            }, 
         }
     }
 

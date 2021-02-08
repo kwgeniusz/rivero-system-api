@@ -47,8 +47,11 @@ Route::get('currencys/list', 'Web\CurrencyController@index');
 //TIME FRAMES
 Route::resource('crud-timeframes', 'Web\TimeFrameControllerCrud');
 
-//TIME FRAMES
+//NOTES
 Route::resource('crud-notes', 'Web\NoteControllerCrud');
 
-//TIME FRAMES
+//TERMS & CONDITIONS
 Route::resource('crud-term', 'Web\TermControllerCrud');
+
+//PAYMENT MOMENTS
+Route::resource('crud-timepayments', 'Web\TimePaymentControllerCrud');

@@ -1,54 +1,42 @@
 
 <template> 
-    <form class="formScope">
-<hr>
-     <div class="col-xs-12  alert alert-danger " v-if="errors.length">
-            <h4>Errores:</h4>
-                  <div v-for="error in errors">- {{ error }}</div>
+  <form class="inputother boxes2">
+    <div class="col-xs-12  alert alert-danger " v-if="errors.length">
+      <h4>Errores:</h4>
+      <div v-for="error in errors">- {{ error }}</div>
+    </div>
+      <label for="scopeDescription">ALCANCE </label>
+      <textarea v-model="scopeDescription" class="form-control" id="scopeDescription" name="scopeDescription" rows="3" ></textarea>
+<!--             <select v-model="scopeDescription"  @change="selectNote(scopeDescription)" class="form-control" name="noteId" id="noteId">
+          <option v-for="(item,index) in notes" :value="item.noteId" > {{item.noteName}}</option>
+      </select> -->
+      <button class="submit" @click.prevent="addRow()"> 
+        <span class="fa fa-plus" aria-hidden="true"></span> Agregar Alcance
+      </button>
+      <div style="word-wrap: break-word;">
+        <h4><b>Alcances de la Propuesta</b></h4>
+          <ul>
+          <li v-for="(propScope,index) in scopesList">
+
+          <textarea v-if="editMode === index" class="form-control" rows="2" v-model="propScope.description" ></textarea>
+          <!-- <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)"> -->
+          <span v-else v-html="nl2br(propScope.description,false) "></span>
+          <br>
+            <a v-if="editMode === index" @click="updateItemList()" class="supc">
+              <i class="glyphicon glyphicon-ok"></i>
+            </a> 
+            <a v-else @click="editItemList(index)" class="edit" title="Editar" > 
+                <i class="fa fa-edit"></i>
+            </a> 
+            <a @click="deleteScope(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar">
+              <span class="fa fa-times-circle" aria-hidden="true"></span> 
+          </a>
+          </li>
+        </ul>
       </div>
 
-          <div class="form-group col-xs-10 col-xs-offset-1">
-            <label for="scopeDescription">ALCANCE </label>
-             <textarea v-model="scopeDescription" class="form-control" id="scopeDescription" name="scopeDescription" rows="3" ></textarea>
-<!--             <select v-model="scopeDescription"  @change="selectNote(scopeDescription)" class="form-control" name="noteId" id="noteId">
-                <option v-for="(item,index) in notes" :value="item.noteId" > {{item.noteName}}</option>
-            </select> -->
-          </div>
 
-    <div class="row">
-       <div class="text-right col-xs-7">
-         <button class="btn btn-primary" @click.prevent="addRow()"> 
-          <span class="fa fa-plus" aria-hidden="true"></span> Agregar Alcance
-         </button>
-       </div>
-    </div>
-
-    <div class="col-xs-12 text-left" style="word-wrap: break-word;">
-          <h4><b>Alcances de la Propuesta</b></h4>
-           <ul>
-            <li v-for="(propScope,index) in scopesList">
-
-            <textarea v-if="editMode === index" class="form-control" rows="2" v-model="propScope.description" ></textarea>
-            <!-- <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)"> -->
-            <span v-else v-html="nl2br(propScope.description,false) "></span> 
-
-
-              <a v-if="editMode === index" @click="updateItemList()" class="btn btn-xs btn-success">
-                <i class="glyphicon glyphicon-ok"></i>
-              </a> 
-              <a v-else @click="editItemList(index)" class="btn btn-primary btn-xs" title="Editar" > 
-                 <i class="fa fa-edit"></i>
-              </a> 
-              <a @click="deleteScope(++index)" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                <span class="fa fa-times-circle" aria-hidden="true"></span> 
-            </a>
-            
-            </li>
-          </ul>
-    </div>
-
-
-    </form>    
+  </form>    
  </template>
 
 
