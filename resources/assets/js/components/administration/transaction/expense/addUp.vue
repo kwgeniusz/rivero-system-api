@@ -7,21 +7,21 @@
                 <div v-else class="panel-heading" style="background: #d9edf7"><h4 class="text-uppercase">Actualizar Transaccion de Egreso</h4></div>
 
                 <div class="panel-body">
-                    <form  class="form" role="form" @submit.prevent="createUpdateTransaction()"  id="formDepartment">
+                    <form  class="form" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
                       
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
-                         <datepicker :bootstrap-styling="true" v-model="formTransactionDate"></datepicker>
+                         <datepicker :bootstrap-styling="true" v-model="transaction.transactionDate"></datepicker>
                     </div>
 
                         <div class="form-group col-md-9">
                                 <label for="description" class="form-group">DESCRIPCION</label>
-                                <input type="text" v-model="formDescription" class="form-control" id="description" name="description">
+                                <input type="text" v-model="transaction.description" class="form-control" id="description" name="description">
                         </div>
 
                         <div class="form-group col-md-7">
                                 <label for="reason" class="form-group">MOTIVO</label>
-                                <input type="text" v-model="formReason" class="form-control" id="reason" name="reason">
+                                <input type="text" v-model="transaction.reason" class="form-control" id="reason" name="reason">
                         </div>
 
                           <div class="row"></div>
@@ -29,28 +29,31 @@
 
                         <div class="form-group col-md-9">
                                 <label for="payMethodDetails" class="form-group">DETALLES DEL METODO</label>
-                                <input type="text" v-model="formPayMethodDetails" class="form-control" id="payMethodDetails" name="payMethodDetails">
+                                <input type="text" v-model="transaction.payMethodDetails" class="form-control" id="payMethodDetails" name="payMethodDetails">
                         </div>
                           
                           <div class="row"></div>
                         <div class="form-group col-lg-10 ">
                             <label for="transactionTypeId">EXPENSES:</label>
-                                 <select class="form-control" v-model="formTransactionTypeId" id="transactionTypeId">
+                                 <select class="form-control" v-model="transaction.transactionTypeId" id="transactionTypeId">
                                     <option v-for="item in transactionTypesList" :key="item.transactionTypeId" :value="item.transactionTypeId">{{item.transactionTypeName}}</option>
                                 </select>
                         </div>
 
                          <div class="form-group col-md-5">
                               <label for="amount">MONTO</label>
-                              <input type="number" class="form-control" step="0.01" id="amount" name="amount"  v-model="formAmount" >
+                              <input type="number" class="form-control" step="0.01" id="amount" name="amount"  v-model="transaction.amount" >
                         </div>  
 
                <div class="row"></div>
                   <div class="form-group col-lg-6">
                   <label for="file">COMPROBANTE DE EGRESO</label>
-                  <input type="file" name="file">
+                  <input type="file" @change="obtenerImagen" name="file">
                </div>
                
+               <figure>
+                   <img width="200" height="200" :src="imagen" alt="Foto del Producto">
+               </figure>
                         <div v-if="editId === 0">
                              <button-form 
                               :buttonType = 1
@@ -75,6 +78,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+
     export default {
         mounted() {
          console.log('Component mounted.');
@@ -102,45 +106,48 @@ import Datepicker from 'vuejs-datepicker';
             return{
                 transactionData: [],
                 transactionTypesList: [],
-
-                formTransactionDate: '',
-                formDescription: '',
-                formReason: '',
-                formPayMethodDetails: '',
-                formTransactionTypeId: '',
-                formAmount: '',
+                
+                imagenMiniatura:'',
+                transaction:  {
+                     transactionDate: '',
+                     description: '',
+                     reason: '',
+                     payMethodDetails: '',
+                     transactionTypeId: '',
+                     amount: '',
+                     imagen: ''
+                },
 
                  date: new Date(2016, 9, 16)
             }
          },
-     components: {
-        Datepicker
-      },
-        props: {
+      components: {
+            Datepicker
+       },
+       props: {
             editId:'',
         },
+       computed: {
+         imagen(){
+             return this.imagenMiniatura;
+         }
+       },
         methods: {
             createUpdateTransaction(){
                     const params = {
-                        formTransactionDate:   this.formTransactionDate,
-                        formDescription:       this.formDescription,
-                        formReason:            this.formReason,
-                        formPayMethodDetails:  this.formPayMethodDetails,
-                        formTransactionTypeId: this.formTransactionTypeId,
-                        formAmount:            this.formAmount,
+                        transactionDate:   this.transaction.transactionDate,
+                        description:       this.transaction.description,
+                        reason:            this.transaction.reason,
+                        payMethodDetails:  this.transaction.payMethodDetails,
+                        transactionTypeId: this.transaction.transactionTypeId,
+                        amount:            this.transaction.amount,
                     }
-                if (this.editId === 0) {
 
-                    document.querySelector("#formDepartment").reset()
+                if (this.editId === 0) {
+                    document.querySelector("#formTransaction").reset()
                     axios.post('/transactions/store', params)
                     .then((response) => {
-                        // console.log(response)
-                        // const department = response.data
                         alert("Success")
-                        
-                        // este emit era utilizado para insertar datos en el array de la vista
-                        // this.$emit('new', department)
-                    
                         })
                     .catch(function (response,error) {
                         alert("Faile")
@@ -149,11 +156,6 @@ import Datepicker from 'vuejs-datepicker';
                     });
 
                 }else {
-                    // console.log(params)
-                    // document.querySelector("#formDepartment").reset()
-
-                    // console.log( params)
-                    // console.log('la url es: '+ url)
                     axios.put('/transactions/', params)
                     .then((response) => {
                         alert('Success')
@@ -161,10 +163,21 @@ import Datepicker from 'vuejs-datepicker';
                     .catch(function (error) {
                         console.log(error);
                     });
-                }
-                
-                
-                
+                }       
+            },
+            obtenerImagen(e){
+                let file = e.target.files[0];
+                this.transaction.imagen = file;
+                this.cargarImagen(file);
+            },
+            cargarImagen(file){
+              let reader = new FileReader();
+
+              reader.onload = (e) => {
+                this.imagenMiniatura = e.target.result;
+              }
+
+              reader.readAsDataURL(file)
             },
             cancf(n){
                 console.log('vista a mostrar: ' + n)
