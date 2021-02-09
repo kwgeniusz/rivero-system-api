@@ -18,7 +18,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 // rutas protegidas
 
 // rutas para las sesiones
-Route::get('user-session', 'Api\AuthController@session');//->middleware('permission:shop.index');
+// Route::get('user-session', 'Api\AuthController@session');//->middleware('permission:shop.index');
 Route::get('user-logout', 'Api\AuthController@logout');//->middleware('permission:shop.index');
 
 // obtener compañias (uso global)
@@ -40,7 +40,7 @@ Route::post('perm-trans-pay', 'Web\HrLoansController@payLoans');
 
 
 // login
-Route::post('login', 'Api\AuthController@login');
+// Route::post('login', 'Api\AuthController@login');
 Route::post('register', 'Api\AuthController@register');
 
 // Route::resource('clients', 'Api\ClientController',['only' => ['index','show']]);
