@@ -330,18 +330,6 @@ Vue.component(
   require("./components/rrhh/permanetTransaction/addUpPertmanetTrac.vue")
 );
 // uptade payroll
-<<<<<<< HEAD
-Vue.component('main-update-payroll', require('./components/rrhh/update-payroll/mainUpdatePayroll.vue'));
-Vue.component('list-payroll-history', require('./components/rrhh/update-payroll/listPayrollHistory.vue'));
-Vue.component('add-up-payroll-history', require('./components/rrhh/update-payroll/addUpPayrollHistory.vue'));
-// paycheck
-Vue.component('main-paycheck', require('./components/rrhh/paycheck/mainPaycheck.vue'));
-Vue.component('list-paycheck', require('./components/rrhh/paycheck/listPaycheck.vue'));
-Vue.component('add-up-paycheck', require('./components/rrhh/paycheck/addUpPaycheck.vue'));
-Vue.component('list-recipt-detail', require('./components/rrhh/paycheck/paycheckDetail/listReciptDetail.vue'));
-
-
-=======
 Vue.component(
   "main-update-payroll",
   require("./components/rrhh/update-payroll/mainUpdatePayroll.vue")
@@ -354,7 +342,23 @@ Vue.component(
   "add-up-payroll-history",
   require("./components/rrhh/update-payroll/addUpPayrollHistory.vue")
 );
->>>>>>> 5645354b7618e56cb294f66eb85646846a862635
+// paycheck
+Vue.component(
+  "main-paycheck",
+  require("./components/rrhh/paycheck/mainPaycheck.vue")
+);
+Vue.component(
+  "list-paycheck",
+  require("./components/rrhh/paycheck/listPaycheck.vue")
+);
+Vue.component(
+  "add-up-paycheck",
+  require("./components/rrhh/paycheck/addUpPaycheck.vue")
+);
+Vue.component(
+  "list-recipt-detail",
+  require("./components/rrhh/paycheck/paycheckDetail/listReciptDetail.vue")
+);
 
 //########### Dashboard Counters #############
 // --> Front Page
