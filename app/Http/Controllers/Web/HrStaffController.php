@@ -19,6 +19,8 @@ class HrStaffController extends Controller
      */
     public function index()
     {
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $hrstaff = DB::select("SELECT country.countryId, country.countryName,company.companyId, company.companyName, company.companyShortName,
                                 department.departmentId, department.departmentName, hrstaff.payrollTypeId, payroll_type.payrollTypeName,
                                 hrposition.positionCode,hrposition.positionName,
@@ -42,7 +44,9 @@ class HrStaffController extends Controller
                         --  INNER JOIN currency AS currency2 ON hrposition.localCurrencyId = currency2.currencyId
                             LEFT JOIN currency AS currencyStaff1 ON hrstaff.baseCurrencyId = currencyStaff1.currencyId
                             LEFT JOIN currency AS currencyStaff2 ON hrstaff.localCurrencyId = currencyStaff2.currencyId
-                            WHERE hrstaff.deleted_at is NULL
+                            WHERE hrstaff.countryId = $countryId
+                            AND hrstaff.companyId = $companyId
+                            AND hrstaff.deleted_at is NULL
                             ORDER BY hrstaff.staffCode");
 
                             return compact('hrstaff');
@@ -75,8 +79,9 @@ class HrStaffController extends Controller
         ->where('countryId', '=', $idCountry)
         ->get();
     }
-    public function comboPositions($idCountry)
+    public function comboPositions()
     {
+        $idCountry = session('countryId');
         return HrPosition::select('positionCode', 'positionName', 'baseSalary')
         ->where('countryId', '=', $idCountry)
         ->get();

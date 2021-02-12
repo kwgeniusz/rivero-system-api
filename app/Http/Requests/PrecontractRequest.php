@@ -26,11 +26,10 @@ class PrecontractRequest extends FormRequest
         return [
             'precontractDate'        => 'required',
             'clientId'            => 'required',
-            'buildingCodeId' => 'required',
-            'groupId'  => 'required',
+            // 'buildingCodeId' => 'required',
+            // 'groupId'  => 'required',
             'projectUseId' => 'required',
-            'constructionType' => 'required',
-            // 'projectDescriptionId' => 'required'
+            // 'constructionType' => 'required',
         ];
     }
 }

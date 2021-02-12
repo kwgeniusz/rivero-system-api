@@ -26,6 +26,11 @@
                 :nameField3 = nameField3
                 :nameField4 = nameField4
                 :nameField5 = nameField5
+                :nameField6 = nameField6
+                :nameField7 = nameField7
+                :nameField8 = nameField8
+                :nameField9 = nameField9
+                :nameField10 = nameField10
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -45,6 +50,11 @@
                 :nameField3 = nameField3
                 :nameField4 = nameField4
                 :nameField5 = nameField5
+                :nameField6 = nameField6
+                :nameField7 = nameField7
+                :nameField8 = nameField8
+                :nameField9 = nameField9
+                :nameField10 = nameField10
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -75,7 +85,12 @@
                 nameField2: "TIPO DE TRANSACCION",
                 nameField3: "CANTIDAD",
                 nameField4: "MONTO",
-                nameField5: "BALANCE",
+                nameField5: "SALDO",
+                nameField6: "CUOTAS",
+                nameField7: "SALDO INICIAL",
+                nameField8: "CAPACIDAD DE ENDEUDAMIENTO MENSUAL",
+                nameField9: "SALARIO NETO",
+                nameField10: "SALDO ANTERIOR",
                 
             }
         },

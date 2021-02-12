@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Auth;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -43,4 +44,19 @@ class LoginController extends Controller
     }
 
 
+    // public function login(){
+    //     $credentials = request(['userName', 'userPassword']);
+    //     $credentials['userPassword'] = bcrypt($credentials['userPassword']);
+    //     // return response()->json($credentials);
+    //     // $userName = Request::get('userName');
+    //     // $userPassword = Request::get('userPassword');
+    //     $autentication = Auth::attempt($credentials);
+    //     return response()->json($autentication);
+    //         if (Auth::attempt($credentials)){
+    //             return "success";
+    //         }
+    //         else {        
+    //             return "Wrong Credentials";
+    //         }
+    //     }
 }

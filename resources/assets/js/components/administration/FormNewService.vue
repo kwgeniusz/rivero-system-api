@@ -1,8 +1,8 @@
 <template>
-<div>
+<div class="submit buttonmovil" style="background: green">
 
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
- <a class="btn btn-success" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear Servicio</a>
+ <a class="submit buttonmovil" style="background: green" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear Servicio</a>
 
  <sweet-modal ref="modalNewService">
     <form class="form form-prevent-multiple-submits">

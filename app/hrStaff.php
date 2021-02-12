@@ -2,9 +2,9 @@
 
 namespace App;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class hrStaff extends Model
 {
@@ -29,3 +29,4 @@ class hrStaff extends Model
     }
 
 }
+

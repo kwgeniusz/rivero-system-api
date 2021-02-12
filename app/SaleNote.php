@@ -44,10 +44,10 @@ use Illuminate\Database\Eloquent\Model;
     {
         return $this->hasOne('App\Invoice', 'invoiceId', 'invoiceId');
     }
-    public function paymentInvoice()
-    {
-        return $this->hasMany('App\PaymentInvoice', 'salNoteId', 'salNoteId');
-    }
+    // public function paymentInvoice()
+    // {
+    //     return $this->hasMany('App\PaymentInvoice', 'salNoteId', 'salNoteId');
+    // }
         public function saleNoteDetails()
     {
         return $this->hasMany('App\SaleNoteDetail', 'salNoteId', 'salNoteId')->orderBy('itemNumber');
@@ -93,9 +93,10 @@ use Illuminate\Database\Eloquent\Model;
     public function insertS($data)
     {
         $error = null;
-
+ 
       DB::beginTransaction();
         try {
+              $oPaymentInvoice   = new paymentInvoice;
               $invoice    = Invoice::find($data['invoiceId']);
             //si el saldo es igual a cero que no permita crear notas de ventas.
             if($invoice->balanceTotal == 0){
@@ -148,10 +149,13 @@ use Illuminate\Database\Eloquent\Model;
                                               $item['amount']);
                                  }
                   //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
-                     foreach ($invoice->sharePending as $key => $sharePending) {
-                             $sharePending->recStatusCode = Receivable::ANNULLED;                     
-                             $sharePending->save();
-                       };
+       
+                 
+             foreach ($invoice->sharePending as $key => $sharePending) {
+                $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$sharePending->invoiceId);   
+                            //  $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                            //  $sharePending->save();
+              };
 
 
                    }elseif($data['formConcept'] == SaleNote::DISCOUNT) {
@@ -193,8 +197,9 @@ use Illuminate\Database\Eloquent\Model;
                                  }
                   //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
                      foreach ($invoice->sharePending as $key => $sharePending) {
-                             $sharePending->recStatusCode = Receivable::ANNULLED;                     
-                             $sharePending->save();
+                        $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$sharePending->invoiceId);       
+                            //  $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                            //  $sharePending->save();
                        };
                  
                    }
@@ -226,13 +231,11 @@ use Illuminate\Database\Eloquent\Model;
                                               $item['amount']);
                                  }
 
-                                     //  dd($result);
-                                     // exit();
                   //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
-                     foreach ($invoice->sharePending as $key => $sharePending) {
-                             $sharePending->recStatusCode = Receivable::ANNULLED;                     
-                             $sharePending->save();
-                       };
+                    //  foreach ($invoice->sharePending as $key => $sharePending) {
+                    //          $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                    //          $sharePending->save();
+                    //    };
        
                    }   
 

@@ -36,7 +36,6 @@
                   <input class="form-control flatpickr" id="contractDate" name="contractDate" value="{{ old('contractDate') }}">
                 </div>
 
-
            <div class="row"></div>
            <search-client pref-url='../'></search-client>
 
@@ -47,8 +46,8 @@
                 <option value="S" >S</option>
             </select>
           </div>
-     <!--input Address-->      
-        
+          
+     <!--input Address-->     
           <div class="form-group col-xs-7">
                 <label for="propertyNumber">NUMERO DE LA PROPIEDAD</label>
                 <input type="number" value="{{ old('propertyNumber') }}" class="form-control" id="propertyNumber" name="propertyNumber" placeholder="5924">

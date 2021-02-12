@@ -99,19 +99,19 @@ class PaymentInvoice extends Model
                 throw new \Exception("Error: El total de Cuotas no debe sobrepasar el saldo de la Factura.");
               } 
 
-            //Iniciar creacion de la nueva cuota
+        //     //Iniciar creacion de la nueva cuota
             $payment              = new PaymentInvoice;
-        //verificar donde hacer la insercion de la cuota, si la factura no tiene notas de ventas se inserta en la factura, si la factura tiene alguna nota de venta se inserta en la ultima nota de venta.
-            $oSaleNote = new SaleNote;
-            $saleNotes = $oSaleNote->getAllByInvoice($invoice[0]->invoiceId);
-            //si existen notas de vetan toma la mas reciente
-              if($saleNotes->isNotEmpty()){
-                //asigna la cuota a la ultima nota de venta
-                $payment->salNoteId   = $saleNotes->first()->salNoteId;
-              }else{
+        // //verificar donde hacer la insercion de la cuota, si la factura no tiene notas de ventas se inserta en la factura, si la factura tiene alguna nota de venta se inserta en la ultima nota de venta.
+        //     $oSaleNote = new SaleNote;
+        //     $saleNotes = $oSaleNote->getAllByInvoice($invoice[0]->invoiceId);
+        //     //si existen notas de vetan toma la mas reciente
+        //       if($saleNotes->isNotEmpty()){
+        //         //asigna la cuota a la ultima nota de venta
+        //         $payment->salNoteId   = $saleNotes->first()->salNoteId;
+        //       }else{
                 //asigna la cuota a la factura
                 $payment->invoiceId   = $invoiceId;
-              };
+            //   };
               // dd($saleNotes->isEmpty());
 
 

@@ -25,7 +25,7 @@ class HrPositionController extends Controller
      */
     public function index()
     {
-        
+        $countryId = session('countryId');
         $hrposition = DB::select("SELECT hrposition.hrpositionId, hrposition.countryId, hrposition.positionCode, hrposition.positionName, hrposition.baseSalary, 
                         hrposition.baseCurrencyId, hrposition.localSalary, hrposition.localCurrencyId, hrposition.localDailySalary, country.countryId,
                         country.countryName, currency.currencyName AS currencyName, currency.currencySymbol AS currencyNameSymbol,
@@ -33,9 +33,10 @@ class HrPositionController extends Controller
                     FROM `hrposition`
                         INNER JOIN country ON hrposition.`countryId`= country.countryId
                         LEFT JOIN currency ON hrposition.`baseCurrencyId`= currency.currencyId
-                        LEFT JOIN currency AS currency2 ON hrposition.`localCurrencyId`= currency2.currencyId");
+                        LEFT JOIN currency AS currency2 ON hrposition.`localCurrencyId`= currency2.currencyId
+                        WHERE hrposition.countryId = $countryId");
 
-        $currencies   = $this->oCurrency->getAll();
+        $currencies   = $this->oCurrency->getExchangeRate();
         return compact('currencies','hrposition');
     }
     

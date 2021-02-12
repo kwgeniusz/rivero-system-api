@@ -288,42 +288,9 @@ foreach ($creditNoteDetails as $invDetail) {
 {{--         <th width="20%" align="center">
           <img src="img/codeqr.png" alt="test alt attribute" width="100px" height="100px"/>
         </th> --}}
+        
 <th width="70%">
-@if($payments->isNotEmpty())
-         <b>New Payment break down:</b><br>
- @php            
-      // $acum3     = 0;
-    foreach ($payments as $payment) {
 
-        if($payment->receivable->paymentMethod == null){ 
-           $paymentMethod  = null;
-        }else{
-           $paymentMethod  =$payment->receivable->paymentMethod->payMethodName;
-        }
-
-      if($payment->receivable->recStatusCode != 4){ 
-           $recStatusName  = null;
-        }else{
-           $recStatusName  = $payment->receivable->receivableStatus[0]->recStatusName;
-        }
-@endphp
-
-      <table cellspacing="0" cellpadding="0" >
-                <tr @if($payment->receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
-                  class="outer" 
-                  @endif>
-                 <td width="10%">{{++$acum3}}</td>
-                 <td width="35%">{{$moneySymbol}} {{$payment->receivable->amountDue}}</td>
-                 <td width="35%">{{$paymentMethod}}</td>
-                 <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$payment->receivable->datePaid}}</td>
-                 <td width="15%"></td>
-                </tr>
-              </table>
-   @php
-    }
-   @endphp
-@endif
 </th>
         <th width="30%">
              <table cellspacing="0" cellpadding="0" >

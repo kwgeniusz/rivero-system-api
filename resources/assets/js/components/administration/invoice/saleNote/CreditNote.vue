@@ -184,11 +184,11 @@
             <td>{{item.serviceName}}</td>
             <td>{{item.unit}}</td>
             <td>
-              <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
+          <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
               <p v-else>{{item.unitCost}}</p> 
             </td>
             <td>
-              <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
+          <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
               <p v-else>{{item.quantity}}</p> 
             </td>
             <td>{{item.amount}}</td>
@@ -255,7 +255,6 @@
 
             itemList: [],
             editMode: -1,
- 
 
             btnSubmitForm: true,
           }
@@ -318,12 +317,15 @@
                 this.itemList.push(Object.assign({} , this.formService));   
 
               }
+        }, 
+      editItemList: function(index){
+             this.editMode = index
         },
-       deleteRow: function(id) {
-            //borrar valor que encuentre del arreglo
-                 this.itemList.splice(--id,1);
-        },  
-     calculateItemAmount: function(index,item) { 
+      updateItemList: function(index, item){
+              item.unitCost = parseFloat(item.unitCost).toFixed(2);
+              this.editMode = -1
+            },  
+    calculateItemAmount: function(index,item) { 
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
               item.unitCost = 1;
@@ -331,11 +333,11 @@
            if(item.quantity == '' || item.quantity == 0) {
               item.quantity = 1;
           }
-            //la multiplicacion de la monto unidad por la cantidad no debe ser mayor a este monto
+            //la multiplicacion del monto unidad por la cantidad no debe ser mayor a este monto
              const found = this.invoice.invoice_details.find(el => el.invDetailId == item.invDetailId);
              let amountRs = item.unitCost * item.quantity;
 
-             let myObj = this.itemList.find(el => el.invDetailId = item.invDetailId);
+             let myObj = this.itemList.find(el => el.invDetailId == item.invDetailId);
               myObj.amount = parseFloat(amountRs).toFixed(2);
 
               if(amountRs > found.amount){
@@ -345,13 +347,10 @@
               
               }
         },
-      editItemList: function(index){
-             this.editMode = index
-        },
-      updateItemList: function(index, item){
-              item.unitCost = parseFloat(item.unitCost).toFixed(2);
-              this.editMode = -1
-            },  
+      deleteRow: function(id) {
+            //borrar valor que encuentre del arreglo
+                 this.itemList.splice(--id,1);
+        },          
        calculateAssigned: function(amount,event){
          //primera regla si el monto ingresado es mayor que el precio del servicio borrar lo del input
           if(parseFloat(event.target.value) > parseFloat(amount)) {
