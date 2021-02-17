@@ -342,6 +342,23 @@ Vue.component(
   "add-up-payroll-history",
   require("./components/rrhh/update-payroll/addUpPayrollHistory.vue")
 );
+// paycheck
+Vue.component(
+  "main-paycheck",
+  require("./components/rrhh/paycheck/mainPaycheck.vue")
+);
+Vue.component(
+  "list-paycheck",
+  require("./components/rrhh/paycheck/listPaycheck.vue")
+);
+Vue.component(
+  "add-up-paycheck",
+  require("./components/rrhh/paycheck/addUpPaycheck.vue")
+);
+Vue.component(
+  "list-recipt-detail",
+  require("./components/rrhh/paycheck/paycheckDetail/listReciptDetail.vue")
+);
 
 //########### Dashboard Counters #############
 // --> Front Page

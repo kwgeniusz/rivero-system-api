@@ -1,9 +1,4 @@
 <?php
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization');
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,24 +10,24 @@ header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Author
 |
 */
 
+Route::post('login', 'Api\AuthController@login');
+Route::get('user-session', 'Api\AuthController@session');
 
 Route::group(['middleware' => ['auth:api']], function () {
-// rutas protegidas
+    // rutas protegidas
 
-// rutas para las sesiones
-Route::get('user-session', 'Api\AuthController@session');//->middleware('permission:shop.index');
-Route::get('user-logout', 'Api\AuthController@logout');//->middleware('permission:shop.index');
+    // rutas para las sesiones
+// Route::get('user-session', 'Api\AuthController@session');//->middleware('permission:shop.index');
+Route::get('user-logout', 'Api\AuthController@logout'); //->middleware('permission:shop.index');
 
 // obtener compañias (uso global)
-Route::get('country-company', 'Api\CountryCompanyController@contryCompany');
+    Route::get('country-company', 'Api\CountryCompanyController@contryCompany');
 
-// llena el combo para mostrar los empleados (uso global)
-Route::get('hr-employees/{country}/{company}', 'Web\HrLoansController@getEmployees');
+    // llena el combo para mostrar los empleados (uso global)
+    Route::get('hr-employees/{country}/{company}', 'Web\HrLoansController@getEmployees');
 
-// prestamos
-
+    // prestamos
 });
-
 
 // Prestamos
 Route::get('hr-history-loans/{staff}', 'Web\HrLoansController@getHistoryLoans');
@@ -40,9 +35,8 @@ Route::get('net-salary/{staff}', 'Web\functionsRrhhController@netSalary');
 Route::post('perm-trans', 'Web\PerTransController@store');
 Route::post('perm-trans-pay', 'Web\HrLoansController@payLoans');
 
-
 // login
-Route::post('login', 'Api\AuthController@login');
+// Route::post('login', 'Api\AuthController@login');
 Route::post('register', 'Api\AuthController@register');
 
 // Route::resource('clients', 'Api\ClientController',['only' => ['index','show']]);
@@ -53,8 +47,5 @@ Route::post('register', 'Api\AuthController@register');
 
 // Route::apiResource('departamentos', 'DepartmentController');
 // Route::apiResource('hr-employees', 'Web\HrLoansController');
-
-
-
 
 // Route::post('login', 'Api\AuthController@login');
