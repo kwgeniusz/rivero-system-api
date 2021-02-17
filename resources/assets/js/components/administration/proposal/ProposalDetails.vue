@@ -116,10 +116,10 @@
               <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                              <span class="fa fa-times-circle" aria-hidden="true"></span> 
               </a>
-             <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
+             <button v-if="editMode != index && item.unit != null" class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
                <span class="fa fa-angle-double-up" aria-hidden="true"></span>
               </button>
-             <button class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
+             <button v-if="editMode != index && item.unit != null" class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
                <span class="fa fa-angle-double-down" aria-hidden="true"></span>
               </button>
 

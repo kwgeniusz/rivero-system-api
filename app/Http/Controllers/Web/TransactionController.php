@@ -188,7 +188,19 @@ class TransactionController extends Controller
          if($request->sign == '-'){  
              $this->validate($request, ['file' => 'required|image']);
          }
-         
+        
+          echo $request->transactionTypeId.'/';
+          echo $request->description.'/';
+          echo $request->payMethodId.'/';
+          echo $request->payMethodDetails.'/';
+          echo $request->reason.'/';
+          echo $request->transactionDate.'/';
+          echo $request->amount.'/';
+          echo $request->sign.'/';
+          echo $request->cashboxId.'/';
+          echo $request->accountId.'/';
+          echo $request->file.'/';
+         exit();
         //insert transaction and Update BANK...
         $rs1 = $this->oTransaction->insertT(
             session('countryId'),
@@ -211,13 +223,14 @@ class TransactionController extends Controller
             'message'    => $rs1['msj'],
             'alert-type' => $rs1['alert'],
         );
-    
+         
+        return $notification;
 
-        if ($request->sign == '+') {
-            return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
-        } else {
-            return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
-        }
+        // if ($request->sign == '+') {
+        //     return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
+        // } else {
+        //     return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
+        // }
     }
 
        public function edit($sign,$id)

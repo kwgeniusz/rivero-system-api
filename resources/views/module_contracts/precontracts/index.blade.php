@@ -4,8 +4,6 @@
 
 
   <h3><b>PRE-CONTRATOS</b></h3>
-
-
    <div class="row ">
       <div class="col-xs-12 text-center">
       <form class="form-inline" action="{{Route('precontracts.index')}}" method="GET">
@@ -47,9 +45,9 @@
                  <th>#</th>
                  <th>N° PRECONTRATO</th>
                  <th>COD. {{__('client')}}</th>
-                 <th>{{__('name')}}</th>   
+                 <th>CLIENTE</th>   
                  <th>{{__('address')}}  / NOMBRE DEL PROYECTO</th>
-                 <th>BUILDING CODE</th>
+                 <!-- <th>BUILDING CODE</th> -->
                  <th>DESCRIPCION</th>
                  <th>USO</th>
                  <th>TIPO</th>
@@ -65,7 +63,9 @@
                       <comments-precontract pref-url="" precontract-id="{{$precontract->precontractId}}"/>
                      </td>
                     <td>{{$precontract->client->clientCode}}   </td>
-                    <td>{{$precontract->client->clientName}}   </td>  
+                    <td>
+                     <modal-client-details pref-url="/" client-id="{{$precontract->client->clientId}}" client-name="{{$precontract->client->clientName}}"></modal-client-details>
+                    </td>  
                     <td >{{$precontract->propertyNumber}}
                         {{$precontract->streetName}}
                         {{$precontract->streetType}}
@@ -81,11 +81,11 @@
                  {{$precontract->buildingCode->buildingCodeName}}  
                 @endif 
                 </td>
-                    <td >
+                    <!-- <td >
                        @foreach($precontract->proposal as $pd)
                        - {{$pd->projectDescription->projectDescriptionName}}<br>
                         @endforeach
-                     </td>     
+                     </td>      -->
                     <td >
                      @if($precontract->projectUseId) 
                       {{$precontract->projectUse->projectUseName}} 

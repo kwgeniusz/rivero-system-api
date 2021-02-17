@@ -33,22 +33,10 @@
 </div>
 
    <div class="row"> 
-
          <div class="form-group col-xs-12 col-lg-7">
            <label for="fullName"><u>USUARIO:</u></label>
            <input disabled type="text" class="form-control" id="fullName" name="fullName" value="{{$user->fullName}}">
          </div>
-
-<!--         <div class="form-group col-xs-12 col-lg-7">
-           <label>ROL:</u></label>
-           @if($user->roles->count() > 0)
-             {{$user->roles[0]->name}}
-           @else
-             NO TIENE
-           @endif  
-           <br>
-           <a class="btn btn-info" href="#">Cambiar Rol</a>
-         </div> -->
 
         <div class="form-group col-xs-12 col-lg-7">
            <label><u>OFICINA PREDETERMINADA:</u></label>
@@ -70,26 +58,6 @@
         </div>  
 
    </div>      
-<!--{{$user->roles}}-->
-<!--{{$user->permissions}} -->
-{{-- <ol id="lista3">
-    <li>List item</li>
-    <li>List item</li>
-    <li>List item
-       <ol>
-          <li>List sub item
-             <ol>
-               <li>List item</li>
-               <li>List item</li>
-             </ol>   
-           </li>
-          <li>List sub item</li>
-          <li>List sub item</li>
-       </ol>
-    </li>
-    <li>List item</li>
-    <li>List item</li> 
-</ol> --}}
      <div class="row">
         <div class="form-group col-xs-7">
                     <label ><u> PERMISOS:</u></label>

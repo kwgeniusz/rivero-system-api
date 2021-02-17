@@ -6,12 +6,19 @@
                 <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Transaccion de Egreso</h4></div>
                 <div v-else class="panel-heading" style="background: #d9edf7"><h4 class="text-uppercase">Actualizar Transaccion de Egreso</h4></div>
 
-                <div class="panel-body">
-                    <form  class="form" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
-                      
+        <div class="panel-body">
+
+            <div class="alert alert-danger" v-if="errors.length">
+             <h4>Errores:</h4>
+             <ul>
+               <li v-for="error in errors">{{ error }}</li>
+            </ul>
+           </div>
+        <form  class="form" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
+
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
-                         <datepicker :bootstrap-styling="true" v-model="transaction.transactionDate"></datepicker>
+                         <datepicker :bootstrap-styling="true" :format="DatePickerFormat" v-model="transaction.transactionDate"></datepicker>
                     </div>
 
                         <div class="form-group col-md-9">
@@ -24,8 +31,8 @@
                                 <input type="text" v-model="transaction.reason" class="form-control" id="reason" name="reason">
                         </div>
 
-                          <div class="row"></div>
-                        <select-bank-cashbox pref-url="../"></select-bank-cashbox>
+                        <div class="row"></div>
+                        <select-bank-cashbox @shareData="getValueFromPayMethod" pref-url="../"></select-bank-cashbox>
 
                         <div class="form-group col-md-9">
                                 <label for="payMethodDetails" class="form-group">DETALLES DEL METODO</label>
@@ -50,9 +57,10 @@
                   <label for="file">COMPROBANTE DE EGRESO</label>
                   <input type="file" @change="obtenerImagen" name="file">
                </div>
-               
+
+               <div class="row"></div>
                <figure>
-                   <img width="200" height="200" :src="imagen" alt="Foto del Producto">
+                   <img width="400" height="300" :src="imagen" alt="Foto del Producto">
                </figure>
                         <div v-if="editId === 0">
                              <button-form 
@@ -85,13 +93,13 @@ import Datepicker from 'vuejs-datepicker';
 
             axios.get('/transaction-types/-').then(response => {
                 this.transactionTypesList = response.data;
-                console.log(this.transactionTypesList)
+               // console.log(this.transactionTypesList)
             })
 
             if (this.editId > 0) {
                 // departments
                 axios.get(`departments/edit/${this.editId}`).then((response) => {
-                    this.transactionData = response.data
+                    // this.transactionData = response.data
                     // console.log(this.transactionData)
                     // this.selectCompany = document.querySelector("#selectCompani").value = this.transactionData[0].companyId
                     // this.nameCompany = document.querySelector("#department_name").value = this.transactionData[0].departmentName
@@ -104,21 +112,25 @@ import Datepicker from 'vuejs-datepicker';
         },
         data(){
             return{
-                transactionData: [],
+                errors: [],
                 transactionTypesList: [],
                 
                 imagenMiniatura:'',
+                DatePickerFormat: 'yyyy-MM-dd',
                 transaction:  {
                      transactionDate: '',
                      description: '',
                      reason: '',
+                     payMethodId: '',
                      payMethodDetails: '',
                      transactionTypeId: '',
                      amount: '',
+                     cashboxId: '',
+                     accountId: '',
                      imagen: ''
                 },
 
-                 date: new Date(2016, 9, 16)
+                //  date: new Date(2016, 9, 16)
             }
          },
       components: {
@@ -134,25 +146,55 @@ import Datepicker from 'vuejs-datepicker';
        },
         methods: {
             createUpdateTransaction(){
-                    const params = {
-                        transactionDate:   this.transaction.transactionDate,
-                        description:       this.transaction.description,
-                        reason:            this.transaction.reason,
-                        payMethodDetails:  this.transaction.payMethodDetails,
-                        transactionTypeId: this.transaction.transactionTypeId,
-                        amount:            this.transaction.amount,
-                    }
+              this.errors = [];
 
+               if (!this.transaction.transactionDate) 
+                this.errors.push('Debe escoger una Fecha Para la Transaccion.');
+                if (!this.transaction.description) 
+                this.errors.push('Debe Ingresar Una Descripcion.');
+                 if (!this.transaction.reason) 
+                this.errors.push('Debe escoger una Razon.');
+                 if (!this.transaction.payMethodDetails) 
+                this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
+                 if (!this.transaction.transactionTypeId) 
+                this.errors.push('Debe escoger un Expense.');
+                 if (!this.transaction.amount) 
+                this.errors.push('Debe Ingresar Un Monto.');
+                 if (!this.transaction.imagen) 
+                this.errors.push('Debe adjuntar una Imagen Obligatoria.');
+
+           if (!this.errors.length) { 
                 if (this.editId === 0) {
-                    document.querySelector("#formTransaction").reset()
-                    axios.post('/transactions/store', params)
+                    // document.querySelector("#formTransaction").reset();
+
+                let formData = new FormData();
+                     formData.append('transactionDate',this.transaction.transactionDate);
+                     formData.append('description',this.transaction.description);
+                     formData.append('reason',this.transaction.reason);
+                     formData.append('payMethodId',this.transaction.payMethodId);
+                     formData.append('payMethodDetails',this.transaction.payMethodDetails);
+                     formData.append('transactionTypeId',this.transaction.transactionTypeId);
+                     formData.append('amount',this.transaction.amount);
+                     formData.append('sign', '-');
+                     formData.append('file',this.transaction.imagen);
+                     if(this.transaction.payMethodId == 2){
+                       formData.append('cashboxId',this.transaction.cashboxId);
+                       formData.append('accountId',null);
+                     }else{
+                       formData.append('cashboxId',null);
+                       formData.append('accountId',this.transaction.accountId);
+                     }
+
+                    axios.post('/transactions/store', formData, {
+                           headers: {
+                            'Content-Type': 'multipart/form-data'
+                             }
+                    })
                     .then((response) => {
                         alert("Success")
                         })
-                    .catch(function (response,error) {
-                        alert("Faile")
-                        console.log(error);
-                        console.log(response);
+                    .catch(function (response) {
+                        alert("Faile post")
                     });
 
                 }else {
@@ -163,7 +205,8 @@ import Datepicker from 'vuejs-datepicker';
                     .catch(function (error) {
                         console.log(error);
                     });
-                }       
+                }   // else end   
+             }  //end if error.length 
             },
             obtenerImagen(e){
                 let file = e.target.files[0];
@@ -176,14 +219,21 @@ import Datepicker from 'vuejs-datepicker';
               reader.onload = (e) => {
                 this.imagenMiniatura = e.target.result;
               }
-
               reader.readAsDataURL(file)
             },
             cancf(n){
                 console.log('vista a mostrar: ' + n)
                 this.$emit('showlist', 0)
             },
+            getValueFromPayMethod(payMethodId,accountId,cashboxId) {
+                // console.log('metodo de pago'+payMethodId)
+                // console.log('account Id'+accountId)
+                // console.log('cashbox Id'+cashboxId)
 
+                this.transaction.payMethodId = payMethodId;
+                this.transaction.accountId = accountId;
+                this.transaction.cashboxId = cashboxId;
+            },
         }
     }
 

@@ -22,14 +22,14 @@
         {{csrf_field()}}
         {{method_field('PUT')}}
  <div class="row">
-      <select-country-office pref-url="../../" country-id="{{$user[0]->countryId}}" office-id="{{$user[0]->officeId}}"></select-country-office>
+      <select-country-office pref-url="../../" country-id="{{$user[0]->countryId}}" company-id="{{$user[0]->companyId}}"></select-country-office>
 </div>
 
  <div class="row">
           <div class="form-group col-xs-4">
-            <label for="changeOffice">PUEDE CAMBIAR DE OFICINA?</label>
-            <select class="form-control" name="changeOffice" id="changeOffice">
-              @if($user[0]->changeOffice == 'Y')
+            <label for="changeCompany">PUEDE CAMBIAR DE OFICINA?</label>
+            <select class="form-control" name="changeCompany" id="changeCompany">
+              @if($user[0]->changeCompany == 'Y')
                       <option value="Y" selected="on"> YES </option>
                       <option value="N"> NO </option>
 
