@@ -4,27 +4,33 @@
         <h4>Errores:</h4>
         <div v-for="error in errors">- {{ error }}</div>
       </div>
-      <div>
-        <input class="input" type="radio" v-model="inputType" value="A"> PRECARGADOR
-      </div>
-      <div>
-        <input class="input" type="radio" v-model="inputType" value="B"> LIBRE
-      </div>
-      <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'A'">
-        <label for="termId">T&C</label>
-        <select v-model="modelTermId"  class="form-control" name="termId" id="termId">
-            <option v-for="(item,index) in notes" :value="item.termId" > {{item.termName}}</option>
-        </select>
-      </div>
-      <div class="input-label" style="margin-bottom: 30px;" v-if="inputType == 'B'">
-        <label for="termName">T&C</label>
-        <input v-model="modelTermName" type="text" class="form-control" id="termName" name="termName"  autocomplete="off">
-      </div>
+      <div class="input-label" style="display: flex; flex-wrap: wrap;">
+        <div class="inputother" style="display: flex; align-items: center; flex-direction: column;">
+          <div style="width: 48%;">
+            <input style="position: relative; max-width: 10%; min-width: 10%;" type="radio" v-model="inputType" value="A"> PRECARGADOR
+          </div>
+          <div style="width: 48%;">
+            <input style="position: relative; max-width: 10%; min-width: 10%;" type="radio" v-model="inputType" value="B"> LIBRE
+          </div>
+        </div>
+        <div class="inputother" v-if="inputType == 'A'">
+          <label for="termId">T&C</label>
+          <select v-model="modelTermId"  class="form-control" name="termId" id="termId">
+              <option v-for="(item,index) in notes" :value="item.termId" > {{item.termName}}</option>
+          </select>
+        </div>
+        <div class="inputother" v-if="inputType == 'B'">
+          <label for="termName">T&C</label>
+          <input v-model="modelTermName" type="text" class="form-control" id="termName" name="termName"  autocomplete="off">
+        </div>
+      </div>  
       <div style="display: flex; justify-content: center; align-items: flex-start;">
-        <button class="submit" style="margin-top: 0px;" @click.prevent="addRow()"> 
+        <button class="submit buttonmovil" style="margin-top: 0px;" @click.prevent="addRow()"> 
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar
         </button>
-        <div class="submit" style="padding: 0px; margin-top: 0px; margin-left: 20px;" v-if="inputType == 'A'">
+        <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/crud-term" role="button">
+          <span class="fa fa-list" aria-hidden="true"></span> Term&Cond</a>
+        <div style="margin-left: 20px;" v-if="inputType == 'A'">
           <form-new-term pref-url='' @termcreated='getAllTerms()'/>
         </div>   
       </div>
