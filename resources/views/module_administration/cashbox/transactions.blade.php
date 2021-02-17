@@ -2,7 +2,7 @@
 
 @section('content')
 <span class="logo-lg "><h3><b> TRANSACCIONES EN CAJA</b></h3></span>
-
+ 
 <div class="text-center">
 <h4 class="text-success text-left">Saldo inicial año {{$year}}: <u>${{$initialBalance}}</u></h4>
 

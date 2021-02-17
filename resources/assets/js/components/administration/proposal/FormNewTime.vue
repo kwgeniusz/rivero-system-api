@@ -1,8 +1,8 @@
 <template>
-<div>
+<div class="submit buttonmovil" style="margin-top: 0px; background: green;">
 
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL NOTA-->
-<a class="btn btn-success" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear</a>
+<a  class="submit" style="padding: 0px; background: green;" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear</a>
 
  <sweet-modal ref="modalNewTime">
     <form class="form form-prevent-multiple-submits">

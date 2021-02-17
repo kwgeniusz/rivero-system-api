@@ -3,7 +3,7 @@
 //ROUTES DE MODULO CONFIGURACION----------------------------------------------------------------------------
 
 //CHANGE OFFICE
-Route::get('change-company', function () {return view('module_configuration.changecompany.index');})->name('changeCompany.index');
+Route::get('change-company', function () {return view('module_configuration.changecompany.index'); })->name('changeCompany.index');
 Route::post('change-company', 'Web\UserController@changeCompany')->name('changeCompany.update');
 //BUILDING CODES*************
 Route::get('buildingCode', 'Web\BuildingCodeController@index')->name('buildingCode.index');
@@ -41,7 +41,17 @@ Route::post('companys/', 'Web\CompanyController@store');
 Route::put('companys/{id}', 'Web\CompanyController@update');
 Route::delete('companys/{id}', 'Web\CompanyController@destroy');
 
-
 // currency
 Route::get('currencys/list', 'Web\CurrencyController@index');
 
+//TIME FRAMES
+Route::resource('crud-timeframes', 'Web\TimeFrameControllerCrud');
+
+//NOTES
+Route::resource('crud-notes', 'Web\NoteControllerCrud');
+
+//TERMS & CONDITIONS
+Route::resource('crud-term', 'Web\TermControllerCrud');
+
+//PAYMENT MOMENTS
+Route::resource('crud-timepayments', 'Web\TimePaymentControllerCrud');

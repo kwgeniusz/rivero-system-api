@@ -1,0 +1,74 @@
+<?php
+
+namespace App;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+
+class functionsRrhh extends Model
+{
+   
+    function getNetSalary($staff){
+        // calcula el salario neto del empleado
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        $neto[] = DB::select("SELECT SUM(hrpermanent_transaction.amount) AS bonos , hrstaff.baseSalary
+                    FROM hrpermanent_transaction
+                    INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
+                    INNER JOIN hrstaff ON hrpermanent_transaction.staffCode = hrstaff.staffCode
+                WHERE hrpermanent_transaction.staffCode = '$staff'
+                AND hrtransaction_type.isIncome = 1
+                AND hrtransaction_type.countryId = 2
+                AND hrtransaction_type.companyId = 4");
+
+        // decrepitado (se usaba para traer el bono de alimentacion y asignarlo al neto)
+        // $neto[] = DB::select("SELECT hrprocess_detail.transactionTypeCode, hrprocess_detail.amount FROM `hrprocess` 
+        //                         INNER JOIN hrprocess_detail ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId
+        //                     WHERE hrprocess.`countryId`= $countryId 
+        //                     AND hrprocess.`companyId` = $companyId 
+        //                     AND hrprocess_detail.amount <> 0");        
+    return $neto;
+    }
+
+    function getPreviousBalance($staff){
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        return DB::select("SELECT SUM(hrpermanent_transaction.balance) AS prestamos 
+                                FROM hrpermanent_transaction 
+                                INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode 
+                                INNER JOIN hrstaff ON hrpermanent_transaction.staffCode = hrstaff.staffCode 
+                            WHERE hrpermanent_transaction.staffCode = '$staff' 
+                            AND hrpermanent_transaction.deleted_at IS NULL
+                            AND hrtransaction_type.isIncome = 0 
+                            AND hrtransaction_type.salaryBased = 0
+                            AND hrtransaction_type.hasBalance = 1
+                            AND hrtransaction_type.countryId = $countryId 
+                            AND hrtransaction_type.companyId = $companyId");
+    }
+
+    // reportes
+    function getStaffReceipt(){
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        return DB::select("SELECT `staffCode`,`shortName`,`idDocument` 
+                            FROM `hrstaff` 
+                            WHERE `countryId`= $countryId
+                            AND `companyId`  = $companyId
+                            AND `status` ='A'");
+    }
+    function getHistoryReceipt($staff){
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+
+        $rs = DB::select("SELECT hrpayroll_history.`countryId`, hrpayroll_history.`companyId`, hrpayroll_history.payrollName, hrpayroll_history.year,
+                            hrpayroll_history.payrollNumber,hrpayroll_history.staffCode, hrpayroll_history.isIncome, SUM(hrpayroll_history.amount) AS amount
+                                FROM hrpayroll_history 
+                            WHERE hrpayroll_history.staffCode = '$staff'
+                            AND  hrpayroll_history.isIncome = 1
+                            AND hrpayroll_history.countryId = $countryId
+                            AND hrpayroll_history.companyId = $companyId
+                            GROUP BY hrpayroll_history.year,hrpayroll_history.payrollNumber");
+        return $rs;
+    }
+
+}

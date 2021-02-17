@@ -143,14 +143,14 @@
                 @endif  
                 @if($proposal->netTotal > 0) 
                  @can('BCE')      
-                  <a href="{{route('proposals.payments', ['id' => $proposal->proposalId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
+                  <a href="{{route('proposals.payments', ['btnReturn' => 'mod_adm','id' => $proposal->proposalId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
                         <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
                     </a> 
                     @endcan
                   @endif  
                 @if($contract[0]->contractStatus <> App\Contract::FINISHED && $contract[0]->contractStatus <> App\Contract::CANCELLED)     
                 @can('BCF')        
-                  <a href="{{route('proposalsDetails.index', ['id' => $proposal->proposalId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
+                  <a href="{{route('proposalsDetails.index', ['btnReturn' => 'mod_adm','id' => $proposal->proposalId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
                     </a>
                   @endcan

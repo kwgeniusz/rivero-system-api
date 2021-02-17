@@ -126,8 +126,6 @@ class Transaction extends Model
     }
      public function getAllWithSaleNotesByInvoice($invoiceId,$countryId,$companyId)
     { 
-
-
        $notes = SaleNote::select('salId as id','dateNote as transactionDate','netTotal as amount','noteType as reason')
            ->where('invoiceId',$invoiceId);
 
@@ -137,7 +135,8 @@ class Transaction extends Model
         ->where('transaction_type.transactionTypeCode', 'INCOME_INVOICE')
         ->where('transaction.countryId', $countryId) 
         ->where('transaction.companyId',$companyId)
-        ->where('transaction.invoiceId',$invoiceId)
+        ->where('transaction.transactionable_type','App\Invoice')
+        ->where('transaction.transactionable_id',$invoiceId)
          ->union($notes)
          ->orderBy('transactionDate', 'ASC')
          ->get();
@@ -148,7 +147,7 @@ class Transaction extends Model
     public function getAllForSign($transactionSign,$countryId,$companyId)
     {
 // ->with('invoiceDetails','note','scope','projectDescription')
-        $result = $this->with('invoice','paymentMethod','account','user','invoice.contract')
+        $result = $this->with('invoice','paymentMethod','transactionType','account.bank','user','invoice.contract','document','payable')
                       ->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 

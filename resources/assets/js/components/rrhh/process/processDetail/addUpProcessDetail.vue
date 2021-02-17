@@ -34,7 +34,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="amount" class="form-group" v-text="nameField4"></label>
-                                    <input type="text" v-model="amount" class="form-control" id="amount" v-bind:placeholder="nameField4" required="required">
+                                    <input type="text" v-model="amount" class="form-control" id="amount" v-bind:placeholder="nameField4">
                                 </div>
                                 
                             </div>

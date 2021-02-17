@@ -11,14 +11,14 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
+    @stack('styles')
     <link rel="shortcut icon" href="{{{ asset('img/favicon.ico') }}}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-   {{-- <link href="https://vjs.zencdn.net/7.6.0/video-js.css" rel="stylesheet"> --}}
+   <!-- {{-- <link href="https://vjs.zencdn.net/7.6.0/video-js.css" rel="stylesheet"> --}} -->
   <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-   
 
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -112,7 +112,6 @@ desired effect
 
   //Tooltip Boostrap 3.3
   $(function () { $('[data-toggle="tooltip"]').tooltip()})
-  
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {

@@ -75,7 +75,7 @@
                     </tbody>
                     <tbody v-else>
                         <tr>
-                            <td colspan="5">
+                            <td colspan="10">
                                 <loading></loading>
                             </td>
                         </tr>

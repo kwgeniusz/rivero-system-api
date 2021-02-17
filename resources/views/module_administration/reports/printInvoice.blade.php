@@ -347,59 +347,70 @@ foreach ($invoiceDetails as $invDetail) {
       $acum3        = 0;
       $acumPaid     = 0;
     foreach ($payments as $payment) {
-     $acumPaid += $payment->receivable->amountPaid;
+     $acumPaid += $payment->amountPaid;
      $acumPaid =  number_format((float)$acumPaid, 2, '.', '');
 
-        if($payment->receivable->paymentMethod == null){ 
+        if($payment->paymentMethod == null){ 
            $paymentMethod  = null;
         }else{
-           $paymentMethod  =$payment->receivable->paymentMethod->payMethodName;
+           $paymentMethod  =$payment->paymentMethod->payMethodName;
         }
 
-      if($payment->receivable->recStatusCode != 4){ 
+      if($payment->recStatusCode != 4){ 
            $recStatusName  = null;
         }else{
-           $recStatusName  = $payment->receivable->receivableStatus[0]->recStatusName;
+           $recStatusName  = $payment->receivableStatus[0]->recStatusName;
         }
 @endphp
 
       <table cellspacing="0" cellpadding="0" >
-                <tr @if($payment->receivable->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
+                <tr @if($payment->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
                   class="outer" 
                   @endif>
                  <td width="10%">{{++$acum3}}</td>
-                 <td width="35%">{{$moneySymbol}} {{$payment->receivable->amountDue}}</td>
+                 <td width="35%">{{$moneySymbol}} {{$payment->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
                  <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$payment->receivable->datePaid}}</td>
+                 <td width="30%">{{$payment->datePaid}}</td>
                  <td width="15%"></td>
                 </tr>
               </table>
 @php
   }
-   $amountRs =  $invoice[0]->netTotal-$acumPaid;
+   $amountRs =  $invoice[0]->balanceTotal- $acumPaid;
    $amountRs =  number_format((float)$amountRs, 2, '.', '');
+
+
+  $debitNoteTotal  = $invoice[0]->debitNote->sum('netTotal');
+  $creditNoteTotal  = $invoice[0]->creditNote->sum('netTotal');
 @endphp
         </th>
         <th width="30%">
              <table cellspacing="0" cellpadding="0" >
                <tr>
-                <th><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {{$symbol}}{{$invoice[0]->grossTotal}}</th>
+                <th align="left"><b>Subtotal</b></th><th style="border-top:1px solid black;"  align="right"> {{$symbol}}{{$invoice[0]->grossTotal}}</th>
                </tr>
                <tr>
-                <th><b>Tax Rate</b></th><th align="right">{{$invoice[0]->taxPercent}}%</th>
+                <th align="left"><b>Debit Notes:</b></th><th align="right">+ {{$symbol}}{{$debitNoteTotal}}</th>
+               </tr>    
+               <tr>
+                <th align="left"><b>Credit Notes:</b></th><th align="right">- {{$symbol}}{{$creditNoteTotal}}</th>
+               </tr>
+
+               <tr>
+                <th align="left"><b>Tax Rate</b></th><th align="right">{{$invoice[0]->taxPercent}}%</th>
                </tr>
                <tr>
-                <th><b>Tax</b></th><th align="right"> {{$symbol}}{{$invoice[0]->taxAmount}}</th>
+                <th align="left"><b>Tax</b></th><th align="right"> {{$symbol}}{{$invoice[0]->taxAmount}}</th>
                </tr>
                 <tr>
-                <th><b>Total</b></th><th align="right"> {{$symbol}}{{$invoice[0]->netTotal}}</th>
+                <th align="left"><b>Total</b></th><th align="right"> {{$symbol}} {{ ($invoice[0]->netTotal + $debitNoteTotal) - $creditNoteTotal }}</th>
                </tr>
                 <tr>
-                <th><b>Amount PAID</b></th><th align="right" style="color:red"> {{$symbol}} {{$acumPaid}} </th>
+                <th align="left"><b>Amount PAID</b></th><th align="right" style="color:red"> {{$symbol}} {{$acumPaid}} </th>
                </tr>
                 <tr>
-                <th><b>Balance Due</b></th><th align="right"> {{$symbol}} {{$amountRs}} </th>
+                <th align="left"><b>Balance Due</b></th><th align="right"> {{$symbol}} {{$invoice[0]->balanceTotal}} </th>
                </tr>
              </table>
         </th>

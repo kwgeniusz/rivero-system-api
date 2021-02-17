@@ -51,10 +51,16 @@ Route::get('banksByOffice', 'Web\BankController@getAllByOffice');///axios
 //**************************** ACCOUNTS ***************************
 Route::get('accounts/{bankId}', 'Web\AccountController@index');
 
-//**************************** TYPES OF TRANSACTIONS ***************************
-// Route::resource('transactionsTypes', 'Web\TransactionTypeController', ['except' => ['create']]);
+//****************************TYPES OF TRANSACTIONS ***************************
+// Route::resource('transactionsTypes', 'Web\TransactionTypeController', ['parameters' => ['transaction-types' => 'id']] );
+Route::get('transaction-types/{sign}', 'Web\TransactionTypeController@index')->name('transactionsTypes.index');
+// Route::get('transaction-types/{sign}/create', 'Web\TransactionController@create')->name('transaction-types.create');
+// Route::post('transaction-types/store', 'Web\TransactionController@store')->name('transaction-types.store');
+// Route::get('transaction-types/{id}/edit', 'Web\TransactionController@edit')->name('transaction-types.edit');
+// Route::get('transaction-types/{sign}/{id}/show', 'Web\TransactionController@show')->name('transaction-types.show');
+// Route::delete('transaction-types/{sign}/{id}/delete', 'Web\TransactionController@delete')->name('transactions.delete');
 
-//*************************SUBCONTRACTORS************************
+//******************************SUBCONTRACTORS***********************************
 Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);
 Route::get('subcontractors/{subcontName}/search', 'Web\SubcontractorController@getFiltered')->name('subcontractors.search');
 

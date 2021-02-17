@@ -47,7 +47,7 @@
                  <th>{{__('contract_number')}}</th>
                  {{-- <th>COD. {{__('client')}}</th> --}}
                  <th>{{__('name')}}</th>   
-                 <th>{{__('address')}}</th>
+                 <th>{{__('address')}} / NOMBRE DEL PROYECTO</th>
                  <th>IBC</th>
                  <th>DESCRIPCION</th>
                  <th>USO</th>
@@ -71,13 +71,18 @@
                 <modal-client-details pref-url="/" client-id="{{$contract->client->clientId}}" client-name="{{$contract->client->clientName}}"></modal-client-details>
 
                      </td>  
-                       <td >{{$contract->propertyNumber}}
+                       <td>{{$contract->propertyNumber}}
                         {{$contract->streetName}}
                         {{$contract->streetType}}
                         {{$contract->suiteNumber}}
                         {{$contract->city}}
                         {{$contract->state}}
-                        {{$contract->zipCode}}   </td>
+                        {{$contract->zipCode}}  
+                        <br> 
+                      @if($contract->projectName) 
+                       ( {{$contract->projectName}} )
+                      @endif 
+                    </td>
                     <td>{{$contract->buildingCode->buildingCodeName}}   </td>
                     <td> 
                      @foreach($contract->invoice as $inv)

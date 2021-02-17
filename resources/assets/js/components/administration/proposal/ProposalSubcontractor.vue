@@ -1,19 +1,16 @@
 
 <template> 
-    <form class="formSubcontractor">
-
-      <div class="text-center">
-        <label for="modelSubcontId">Lista de Subcontractistas:</label>
-        <select v-model="modelSubcontId"  class="form-control" name="modelSubcontId" id="modelSubcontId">
-            <option value="">N/A</option>
-            <option v-for="(item,index) in subcontractors" :value="item.subcontId" > {{item.name}}</option>
-       </select>
-         <button class="btn btn-primary text-right" @click.prevent="addSubcontractor()"> 
-          <span class="fa fa-plus" aria-hidden="true"></span> Agregar
-         </button>
-     </div>
-
-    </form>    
+  <form class="inputother boxes2">
+    <hr>
+    <label for="modelSubcontId">Lista de Subcontractistas:</label>
+    <select v-model="modelSubcontId"  class="form-control" name="modelSubcontId" id="modelSubcontId">
+        <option value="">N/A</option>
+        <option v-for="(item,index) in subcontractors" :value="item.subcontId" > {{item.name}}</option>
+    </select>
+      <button class="submit" @click.prevent="addSubcontractor()"> 
+        <span class="fa fa-plus" aria-hidden="true"></span> Agregar
+      </button>
+  </form>    
  </template>
 
 

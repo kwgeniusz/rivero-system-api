@@ -19,6 +19,7 @@
         "vue": "^2.6.11"
     },
     "dependencies": {
+        "@codekraft-studio/vue-record": "0.0.3",
         "@xkeshi/image-compressor": "^0.5.3",
         "admin-lte": "^2.4.8",
         "chart.js": "^2.9.3",
@@ -32,6 +33,7 @@
         "vue-phone-number-input": "^1.1.10",
         "vue-simple-progress": "^1.1.1",
         "vue-tables-2": "^1.6.25",
-        "vue-upload-component": "^2.8.20"
+        "vue-upload-component": "^2.8.20",
+        "vuejs-datepicker": "^1.6.2"
     }
 }

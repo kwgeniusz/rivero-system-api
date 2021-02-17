@@ -77,7 +77,6 @@ class Invoice extends Model
     {
         return $this->hasMany('App\PaymentInvoice', 'invoiceId', 'invoiceId');
     }
-
     public function proposal()
     {
         return $this->belongsTo('App\Proposal', 'invoiceId', 'invoiceId');

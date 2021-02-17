@@ -148,39 +148,27 @@ class ContractController extends Controller
 
     public function update(ContractRequest $request, $id)
     {
-
         $this->oContract->updateContract(
             $id,
-            // $request->countryId,
-            // $request->companyId,
-            $request->contractType,
-            $request->projectName,
-            $request->contractDate,
-            $request->clientId,
-            $request->propertyNumber,
-            $request->streetName,
-            $request->streetType,
-            $request->suiteNumber,
-            $request->city,
-            $request->state,
-            $request->zipCode,     
-            $request->buildingCodeId,
-            $request->groupId,
-            $request->projectUseId,
-            $request->constructionType,
-            // $request->registryNumber,
-            // $request->startDate,
-            // $request->scheduledFinishDate,
-            // $request->actualFinishDate,
-            // $request->deliveryDate,
-            $request->initialComment,
-            // $request->intermediateComment,
-            // $request->finalComment,
-            $request->currencyId
+            $request->all());
+            
+        $notification = array(
+            'message'    => 'Contrato Modificado Exitosamente',
+            'alert-type' => 'info',
+        );
+        return redirect()->route('contracts.index')
+            ->with($notification);
+    }
+
+    public function updateIbc(Request $request, $id)
+    {
+        $this->oContract->updateContract(
+            $id,
+            $request->all()
         );
 
         $notification = array(
-            'message'    => 'Contrato Modificado Exitosamente',
+            'message'    => 'Datos IBC del Contrato Modificados Exitosamente',
             'alert-type' => 'info',
         );
         return redirect()->route('contracts.index')

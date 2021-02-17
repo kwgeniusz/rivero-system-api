@@ -1,13 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="col-xs-12 col-xs-offset-1">
-<div class="panel panel-success col-xs-7">
-    <div class="panel-heading"> <h3><b>{{__('edit_client')}}</b></h3></div>
-    <div class="panel-body">
-      <div class="row ">
-          <div class="col-xs-12 ">
-
+<div class="create">
+  <form  class="formulario" action="{{Route('clients.update',['id' => $client[0]->clientId])}}" method="POST">
+    <div>
+    <h3><i class="fas fa-user-tie"></i> {{__('new_client')}}</h3>
+      <div class="boxes">
         @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
@@ -17,9 +15,7 @@
                   @endforeach
               </ul>
           </div>
-      @endif
-
-        <form class="form" action="{{Route('clients.update',['id' => $client[0]->clientId])}}" method="POST">
+        @endif
         {{csrf_field()}}
         {{method_field('PUT')}}
 
@@ -39,26 +35,21 @@
           </div>
          </div>
  --}}
-            <input type="hidden" name="countryId" value="{{$client[0]->countryId}}">
-
-            <div class="form-group">
-                <label for="clientCode">CODIGO</label>
-                <input type="text" class="form-control" id="clientCode" name="clientCode" value="{{$client[0]->clientCode}}" placeholder="Nombres y Apellidos" disabled>
-            </div>
-            
-              <div class="form-group">
-                <label for="clientName">{{__('names_and_surnames')}}</label>
-                <input type="text" class="form-control" id="clientName" name="clientName" value="{{$client[0]->clientName}}" placeholder="Nombres y Apellidos">
+        <div class="inputother boxes2">
+          <label for="clientCode"><i class="far fa-id-card"></i> CODIGO</label>
+          <input type="text" style="cursor: no-drop" class="input-label" id="clientCode" name="clientCode" value="{{$client[0]->clientCode}}" disabled="on">
+        </div>
+        <div class="inputother boxes2">
+                <label for="clientName"><i class="fas fa-user-friends"></i> {{__('names_and_surnames')}}</label>
+                <input type="text" class="input-label" id="clientName" name="clientName" value="{{$client[0]->clientName}}" placeholder="NOMBRE Y APELLIDO / EMPRESA">
               </div>
-
-              <div class="form-group">
-                <label for="clientAddress">{{__('address')}}</label>
-                <input type="text" class="form-control" id="clientAddress" name="clientAddress" value="{{$client[0]->clientAddress}}" placeholder="Direccion">
-              </div>
-  <div class="row">
-          <div class="form-group col-xs-4">
-            <label for="contactTypeId">TIPO DE CONTACTO</label>
-            <select class="form-control" name="contactTypeId" id="contactTypeId">
+        <div class="inputother boxes2">
+          <label for="clientAddress"><i class="fas fa-map-marked-alt"></i> {{__('address')}}</label>
+          <input type="text" class="input-label" id="clientAddress" name="clientAddress" value="{{$client[0]->clientAddress}}" placeholder="5924 Azalea Ln Dallas, TX 75230">
+        </div>
+        <div class="inputother boxes2">
+          <label for="contactTypeId"><i class="fas fa-tty"></i> ¿COMO NOS CONTACTO?</label>
+          <select name="contactTypeId" id="contactTypeId">
                 @foreach($contactTypes as $contactType)
                    @if($contactType->contactTypeId == $client[0]->contactTypeId)
                       <option value="{{$contactType->contactTypeId}}" selected > {{$contactType->contactTypeName}} </option>
@@ -67,34 +58,28 @@
                    @endif
                 @endforeach
             </select>
-          </div>
- </div>
-              <div class="col-xs-6">
-              <div class="form-group">
-                <label for="clientPhone">{{__('phone')}}</label>
-                <input type="text" class="form-control" id="clientPhone" name="clientPhone" value="{{$client[0]->clientPhone}}" placeholder="000 000 0000" title="formato: 000 000 0000">
-              </div>
-            </div>
-            <div class="col-xs-6">
-              <div class="form-group">
-                <label for="clientEmail">{{__('email')}}</label>
-                <input type="email" class="form-control" id="clientEmail" name="clientEmail" value="{{$client[0]->clientEmail}}" placeholder="Correo">
-              </div>
-            </div>
-
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">
-                <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
-              </button>
-              <a href="{{route('clients.index')}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
-            </div>
-            </div>
-          </form>
         </div>
-
+        <div class="inputother boxes2">
+          <label for="clientPhone"><i class="fas fa-phone-square"></i> {{__('phone')}}</label>
+          <input type="text" class="input-label" id="clientPhone" name="clientPhone" value="{{$client[0]->clientPhone}}" placeholder="(000) 000 0000"  title="formato: (000) 000 0000">
+        </div>
+        <div class="inputother boxes2">  
+          <label for="clientEmail"><i class="fas fa-at"></i> {{__('email')}}</label>
+          <input type="email" class="input-label" id="clientEmail" name="clientEmail" value="{{$client[0]->clientEmail}}" placeholder="CORREO DE CONTACTO">
+        </div>
       </div>
     </div>
-  </div>
+    <div style="width: 100%; text-align: center;">
+      <button type="submit" class="submit">
+        <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
+      </button>
+      <a href="{{route('clients.index')}}" class="return">
+        <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+      </a>
+    </div>
+  </form>
+</div>
 @endsection
+@push('styles')
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+@endpush

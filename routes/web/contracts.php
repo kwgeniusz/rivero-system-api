@@ -1,12 +1,13 @@
 <?php
 
 //--------------------CONTRACT MODULE ROUTES-------------------------//
-//****************************CLIENTS***************************
+//****************************CLIENTS***************************//
 Route::resource('clients', 'Web\ClientController');
 Route::resource('contactTypes', 'Web\ContactTypeController');
 
-//**************************PRECONTRACTS*************************
+//**************************PRECONTRACTS*************************//
 Route::resource('precontracts', 'Web\PrecontractController', ['parameters' => ['precontracts' => 'id']]);
+Route::put('precontracts/{id}/update-ibc', 'Web\PrecontractController@updateIbc')->name('precontracts.updateIbc');
 Route::get('precontracts/{id}/details', 'Web\PrecontractController@details')->name('precontracts.details');
 //PRECONTRACTS-OPTIONS
  // ->Precontract Files
@@ -52,8 +53,9 @@ Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@
 Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
 Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
 
-//****************************CONTRACT*****************************
+//*******************************CONTRACT**************************************//
 Route::resource('contracts', 'Web\ContractController', ['except' => ['create']]);
+Route::put('contracts/{id}/update-ibc', 'Web\ContractController@updateIbc')->name('contracts.updateIbc');
 Route::get('contracts/{contract}/details', 'Web\ContractController@details')->name('contracts.details');
 //CONTRACT-OPTIONS
  // ->Contract Change Status
