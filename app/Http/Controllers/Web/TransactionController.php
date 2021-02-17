@@ -189,18 +189,19 @@ class TransactionController extends Controller
              $this->validate($request, ['file' => 'required|image']);
          }
         
-          echo $request->transactionTypeId.'/';
-          echo $request->description.'/';
-          echo $request->payMethodId.'/';
-          echo $request->payMethodDetails.'/';
-          echo $request->reason.'/';
-          echo $request->transactionDate.'/';
-          echo $request->amount.'/';
-          echo $request->sign.'/';
-          echo $request->cashboxId.'/';
-          echo $request->accountId.'/';
-          echo $request->file.'/';
-         exit();
+        //   echo $request->transactionTypeId.'/';
+        //   echo $request->description.'/';
+        //   echo $request->payMethodId.'/';
+        //   echo $request->payMethodDetails.'/';
+        //   echo $request->reason.'/';
+        //   echo $request->transactionDate.'/';
+        //   echo $request->amount.'/';
+        //   echo $request->sign.'/';
+        //   echo $request->cashboxId.'/';
+        //   echo $request->accountId.'/';
+        //   echo $request->file.'/';
+        //  exit();
+
         //insert transaction and Update BANK...
         $rs1 = $this->oTransaction->insertT(
             session('countryId'),
