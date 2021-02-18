@@ -82,42 +82,6 @@
               </form>
             @endcan
           </div>
-      @endif
-
-    <div class="row text-center">
-      <form class="form-inline form-prevent-multiple-submits" action="{{Route('proposals.paymentsAdd')}}" method="POST">
-      {{csrf_field()}}
-          <input type="hidden" name="proposalId" value="{{$proposal[0]->proposalId}}">
-
-        <div class="form-group col-xs-12">  
-            <label for="paymentDate" >MOMENTO DEL PAGO</label>
-          <textarea class="form-control" id="paymentDate" name="paymentDate"  rows="3" required autocomplete="off"></textarea>
-         </div>
-         
-           <br><br>
-          <div class="form-group col-xs-12">  
-            <label for="amount" >MONTO</label>
-              <input type="number" min='0.01' step="0.01" class="form-control" id="amount" name="amount" required autocomplete="off">
-         </div>
-
-         <div class="col-xs-12" style="height: 25px;"></div>
-          <div class="form-group col-xs-6 text-right">  
-           <button type="submit" class="btn btn-success button-prevent-multiple-submits text-center">
-                 <span class="fa fa-plus" aria-hidden="true"></span>
-                 Agregar Cuota
-            </button>
-           </div> 
-
-           <div class="form-group col-xs-6 text-left">  
-            <a class="btn btn-warning" href="/crud-timepayments" role="button">
-              <span class="fa fa-dollar-sign" aria-hidden="true"></span> Momentos de pago</a
-            >
-            </div> 
-
-        </form>
-    </div>
-
-@endcan
 
         <br>
          <div class="table-responsive tableother">
