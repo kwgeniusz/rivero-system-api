@@ -248,16 +248,6 @@ P. {{$client->clientPhone}}    <br>
 C. ID: {{$client->clientCode}}   <br>
 
 <br>
-<<<<<<< HEAD
-  <table cellspacing="0" cellpadding="0" border="0"  >
-       <tr>
-        <th align="justify">
-        <strong>Dear Mr./Mrs. {{$client->clientName}}:</strong><br>
-        We are pleased to submit this proposal to provide professional services associated with this project at the reference, address in DALLAS TX. Based on our perception of the overall project objectives, we propose to perform the following tasks. 
-         </th>
-       </tr>
-</table>
-=======
 <div>
 <div class="float-left"><b>RE:</b></div>
 <div class="float-left">Professional Design Services Proposal <br>
@@ -280,39 +270,11 @@ C. ID: {{$client->clientCode}}   <br>
 Dear <b>Mr/Mrs. {{$client->clientName}}</b>
 </div>
 
->>>>>>> develop
 <br>
 <div class="just">
 <span class="tab">We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
 
-<<<<<<< HEAD
- <table cellspacing="0" cellpadding="1px" border="0">
-       <tr>
-        <th colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center"><span id="bold">CUSTOMER INFORMATION</span></th>
-       </tr>
-       <tr> 
-            <th colspan="1">
-               <span id="bold">ID:</span> {{$client->clientCode}}
-            </th>
-            <th colspan="1">
-              <span id="bold">Name:</span> {{$client->clientName}}
-            </th>
-             <th colspan="1">
-              <span id="bold">Phone:</span> {{$client->clientPhone}}
-            </th>
-       </tr>
-      <tr> 
-            <th colspan="2">
-              <span id="bold">Billing Address:</span> {{$client->clientAddress}}
-            </th>
-             <th colspan="1">
-               <span id="bold">E-mail:</span> {{$client->clientEmail}}
-            </th>
-       </tr>
-</table>
-=======
 </div>
->>>>>>> develop
 
 				<ul class="just">
 @foreach($proposal['0']->scope as $scope)
@@ -384,22 +346,6 @@ foreach ($proposalDetails as $propDetail) {
 		 </tr>
 </table>
 
-<<<<<<< HEAD
-
-        <div style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Terms & Conditions</span></div>
-           <ul>
-@foreach($proposal['0']->note as $note)
-    <li>{!! nl2br($note->noteName) !!}</li>
-@endforeach
-           </ul>
-
-        <div style="background-color:#f2edd1;font-size:17px;" colspan="1" align="center"><span id="bold">Scope of Work</span></div>
-          <ul>
-@foreach($proposal['0']->scope as $scope)
-    <li>{!! nl2br($scope->description) !!}</li>
-@endforeach
-         </ul>
-=======
 <br>
 {{-- <div class="big bold center">
 	 <b>Payment Breakdown</b>
@@ -447,7 +393,6 @@ foreach ($proposalDetails as $propDetail) {
 <b>Remit payment to:</b><br>
 <div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
 </div>
->>>>>>> develop
 <br>
 <div align="center">
 If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
@@ -471,15 +416,6 @@ Sincerely.
 </div>
 <br><br>
 
-<<<<<<< HEAD
-  <table  cellspacing="0" cellpadding="0" border="0">
-       <tr align="center">
-         <th> 
-        ACCEPTED BY: _____________________________________<br>
-                          Mr./Mrs. {{$client->clientName}}
-         </th>
-       </tr>
-=======
 <table class="table-sign" cellspacing="0" cellpadding="0" border="0"  >
 			 <tr>
 		@if($proposal[0]->subcontId != null)  
@@ -499,7 +435,6 @@ Sincerely.
 					 {{-- (214) 718 6256 <br> --}}
 				</th>
 			 </tr>
->>>>>>> develop
 </table>
 
 <br><br><br><br><br>
