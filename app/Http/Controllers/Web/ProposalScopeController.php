@@ -30,33 +30,39 @@ class ProposalScopeController extends Controller
 
     public function store(Request $request,$id)
     {
-       //VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
-        $this->oProposalScope->deleteAll($id);
+      $error = null;
+
+      DB::beginTransaction();
+      try {
 
     //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
         if(!empty($request->scopesList)) {
-        foreach ($request->scopesList as $key => $item) {
+        //Vacia toda las notas relacionadas con la propuesta.
+           $this->oProposalScope->deleteAll($id);
+           foreach ($request->scopesList as $key => $item) {
+                $result = $this->oProposalScope->insert(
+                $id,
+                $item['description']);
 
-             $result = $this->oProposalScope->insert(
-              $id,
-              $item['description']);
+                if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+              };
+         }else{
+          $this->oProposalScope->deleteAll($id);
+         };//fin 1 else
 
-         $notification = array(
-           'message'    => $result['message'],
-           'alertType' => $result['alertType'],
-          );
-        };
-     }else{
-          $notification = array(
-           'message'    => 'Alcances Guardados',
-          'alertType' => 'success',
-        );
-      };//fin 1 else
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
 
-      //envia siempre la notificacion para saber que if fue cumplido 
-         if($request->ajax()){
-                return $notification;
-            }
+        if ($success) {
+            return $notification = ['alertType' => 'success', 'message' => 'Alcances Guardados'];
+        } else {
+            return $notification = ['alertType' => 'error', 'message' => $error];
+        }
     }
 
 

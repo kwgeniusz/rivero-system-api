@@ -42,7 +42,7 @@
         <tr> 
          <th width="20%" align="left"> 
           <br><br>
-          <img src="img/logo_jd.jpg" alt="test alt attribute" width="140px" height="120px"/>
+          <img src="img/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
 
         <th width="55%">

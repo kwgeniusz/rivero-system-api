@@ -46,9 +46,9 @@
                  <th>#</th>
                  <th>{{__('contract_number')}}</th>
                  {{-- <th>COD. {{__('client')}}</th> --}}
-                 <th>{{__('name')}}</th>   
+                 <th>CLIENTE</th>   
                  <th>{{__('address')}} / NOMBRE DEL PROYECTO</th>
-                 <th>IBC</th>
+                 <!-- <th>IBC</th> -->
                  <th>DESCRIPCION</th>
                  <th>USO</th>
                  <th>TIPO</th>
@@ -84,11 +84,11 @@
                       @endif 
                     </td>
                     <td>{{$contract->buildingCode->buildingCodeName}}   </td>
-                    <td> 
+                    <!-- <td> 
                      @foreach($contract->invoice as $inv)
                        - {{$inv->projectDescription->projectDescriptionName}}<br>
                         @endforeach 
-                        </td>
+                        </td> -->
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
                     <td data-toggle="tooltip" data-placement="top" title="{{$contract->contractStatusR[0]->contStatusName}}"

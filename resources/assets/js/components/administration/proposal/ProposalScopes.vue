@@ -1,6 +1,6 @@
 
 <template> 
-  <form class="inputother boxes2">
+  <form class="input-label boxes2" style="margin-bottom: 30px;">
     <div class="col-xs-12  alert alert-danger " v-if="errors.length">
       <h4>Errores:</h4>
       <div v-for="error in errors">- {{ error }}</div>

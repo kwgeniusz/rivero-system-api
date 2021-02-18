@@ -42,7 +42,7 @@
           <input type="text" class="input-label" id="propertyNumber" name="propertyNumber" value="{{ old('propertyNumber') }}" placeholder="5924">
         </div>
         <div class="inputother boxes2">  
-          <label for="streetName"><i class="fas fa-road"></i> CALLE</label>
+          <label for="streetName"><i class="fas fa-road"></i>NOMBRE DE LA CALLE</label>
           <input type="text" class="input-label" id="streetName" name="streetName" maxlength="20" value="{{ old('streetName') }}" placeholder="AZALEA">
         </div>
         <div class="inputother boxes2">  

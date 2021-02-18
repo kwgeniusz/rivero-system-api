@@ -14,4 +14,4 @@ yarn-error.log
 .history/
 /public/js/*
 /public/css/*
-/public/fonts
+/public/fonts/*
