@@ -82,7 +82,7 @@
               </form>
             @endcan
           </div>
-      @endif
+      <!-- @endif -->
 
     <div class="row text-center">
       <form class="form-inline form-prevent-multiple-submits" action="{{Route('proposals.paymentsAdd')}}" method="POST">
