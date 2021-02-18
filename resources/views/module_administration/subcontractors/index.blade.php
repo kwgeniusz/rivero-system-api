@@ -37,8 +37,8 @@
             <thead>
                 <tr>
                  <th>#</th> 
-                 <th>TIPO DNI</th> 
-                 <th>DNI</th> 
+                 <th>TIPO TAX ID</th> 
+                 <th># TAX ID</th> 
                  <th>NOMBRE</th>
                  <th>TIPO</th>
                  <th>REPRESENTANTE</th>

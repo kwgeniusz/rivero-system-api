@@ -31,45 +31,40 @@ class ProposalNoteController extends Controller
 
     public function store(Request $request,$id)
     {
-       //VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
+      $error = null;
+
+        DB::beginTransaction();
+        try {
+
+    //recorre el arreglo que viene por request, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
+     if(!empty($request->notesList)) {
+      //Vacia toda las notas relacionadas con la propuesta.
         $this->oProposalNote->deleteAll($id);
-
-    //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
-        if(!empty($request->notesList)) {
         foreach ($request->notesList as $key => $item) {
-
              $result = $this->oProposalNote->insert(
               $id,
               $item['noteId'],
               $item['noteName']);
 
-         $notification = array(
-           'message'    => $result['message'],
-           'alertType' => $result['alertType'],
-          );
+          if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
         };
+
      }else{
-          $notification = array(
-           'message'    => 'Notas Guardadas',
-          'alertType' => 'success',
-        );
-      };//fin 1 else
+        $this->oProposalNote->deleteAll($id);
+      };
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
 
-      //envia siempre la notificacion para saber que if fue cumplido 
-         if($request->ajax()){
-                return $notification;
-            }
+        if ($success) {
+            return $notification = ['alertType' => 'success', 'message' => 'Notas Guardadas'];
+        } else {
+            return $notification = ['alertType' => 'error', 'message' => $error];
+        }
+
     }
-
-    // public function destroy($id)
-    // {
-    //     $result = $this->oProposalNote->deleteAll($id);
-
-    //        $notification = array(
-    //         'message'    => $result['message'],
-    //         'alertType' => $result['alertType'],
-    //     );
-    //      return $notification;
-
-    // }
 }

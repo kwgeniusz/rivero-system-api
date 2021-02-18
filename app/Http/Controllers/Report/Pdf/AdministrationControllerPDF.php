@@ -160,13 +160,9 @@ class AdministrationControllerPDF extends Controller
 
 public function printReceipt(Request $request)
     {
-<<<<<<< HEAD
       $pdf = app('dompdf.wrapper');
 
-       $receivables = $this->oReceivable->findById($request->receivableId);
-=======
-       
->>>>>>> develop
+      //  $receivables = $this->oReceivable->findById($request->receivableId);
        $company     = DB::table('company')->where('companyId', session('companyId'))->get();
        $receivables = $this->oReceivable->findById($request->receivableId);
        $invoice     = $this->oInvoice->findById($receivables[0]->invoiceId,session('countryId'),session('companyId'));

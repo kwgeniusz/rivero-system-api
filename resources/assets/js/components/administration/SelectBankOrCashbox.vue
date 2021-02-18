@@ -1,6 +1,5 @@
 <template>
 <div>
-
           <div class="form-group col-lg-8">
             <label for="payMethodId">METODO DE PAGO</label>
             <select class="form-control" id="payMethodId" name="payMethodId" v-model="payMethodId">
@@ -38,20 +37,22 @@
         
      mounted() {
             console.log('Component SelectBankOrCashbox mounted.')
-
+            
                axios.get(this.prefUrl+'receivables-paymentMethod').then(response => {
                  this.listPaymentMethods = response.data
-                });  
 
-               axios.get(this.prefUrl+'banksByOffice').then(response => {
-                 this.listBank = response.data
-                 this.bankId = this.listBank[0].bankId;
-                 this.getAccount();
-                }); 
-               
-               axios.get(this.prefUrl+'cashboxs').then(response => {
-                 this.cashboxId =  response.data[0].cashboxId
-                });
+                       axios.get(this.prefUrl+'banksByOffice').then(response => {
+                       this.listBank = response.data
+                       this.bankId = this.listBank[0].bankId;
+                       this.getAccount();
+
+                           axios.get(this.prefUrl+'cashboxs').then(response => {
+                            this.cashboxId =  response.data[0].cashboxId
+                               this.payMethodId = 1;
+                            });
+                      }); 
+                });  
+ 
            },
      data: function () {
           return {
@@ -60,15 +61,20 @@
            listAccount: {},
 
             // errors: [],
-            payMethodId: 1,
+            payMethodId: '',
             bankId: '',
-            cashboxId: '',
             accountId:'',
+            cashboxId: '',
           }
     },
     props: {
            prefUrl: { type: String,default:null},
           },
+    watch: {
+     payMethodId: function () {
+          this.$emit("shareData",this.payMethodId,this.accountId,this.cashboxId);
+       }, 
+    },
     methods: {
         getAccount: function (){
          var url = this.prefUrl+'accounts/'+this.bankId;
@@ -76,6 +82,7 @@
               this.listAccount = response.data;
               this.accountId = this.listAccount[0].accountId;
             });
+            
         },
      }
 }
