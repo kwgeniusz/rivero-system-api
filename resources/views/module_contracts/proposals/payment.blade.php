@@ -2,10 +2,11 @@
 @section('content')
   <div class="create">
     <div class="formulario">
-      <div>
+
         <h3>DETALLES DE PROPUESTA</h3>
         <div class="boxes" style="padding-top: 10px;">
           <div class="table-responsive tableother">
+
             <table class="table table-striped table-bordered text-center ">
               <thead>
                 <tr class="bg-success">
@@ -43,7 +44,10 @@
                 </tr>
               </tbody>
             </table>
+
           </div>
+        </div>
+
           <div class="input-label boxes2">
             <h4 style="font-size: 25px; font-weight: 700; text-align: center;">CUOTAS</h4>
             @can('BCEA')
@@ -79,7 +83,6 @@
             @endcan
           </div>
       @endif
-        </div>
 
     <div class="row text-center">
       <form class="form-inline form-prevent-multiple-submits" action="{{Route('proposals.paymentsAdd')}}" method="POST">
@@ -173,10 +176,11 @@
               </a>
             @endif
           </div>
+
+
+
         </div>
       </div>
-    </div>
-  </div>
 @endsection
 @push('styles')
   <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
