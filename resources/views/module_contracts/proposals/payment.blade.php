@@ -73,7 +73,13 @@
                   <input type="number" min='0.01' step="0.01" class="input-label" id="amount" name="amount" required autocomplete="off">
                 </div>
                 <br><br>
+            
                 <div style="width: 100%; display: flex; justify-content: center; align-items: flex-start;">  
+                <a href="{{route('crud-timepayments.index') }}" class="btn submit" style="background: purpose; margin-top: 0px;">
+                    <span class="fa fa-plus" aria-hidden="true"></span>
+                    Momentos de Pago
+                    <!-- <a href="#" class="btn btn-success">¿Soy un botón o un enlace?</a> -->
+                  </a>
                   <button type="submit" class="submit button-prevent-multiple-submits" style="background: green; margin-top: 0px;">
                     <span class="fa fa-plus" aria-hidden="true"></span>
                     Agregar Cuota
