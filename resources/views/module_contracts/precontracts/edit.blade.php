@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="create">
-  <form  class="formulario" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
+  <!-- <form  class="formulario"> -->
     <h3><i class="fas fa-user-tie"></i> Editar Pre-contrato</h3>
-    <div class="boxes">
+    <div class="boxes formulario">
       @if ($errors->any())
         <div class="alert alert-danger">
             <h4>Errores:</h4>
@@ -15,6 +15,7 @@
             </ul>
         </div>
       @endif
+
       <div class="panel-body" style="width: 100%;">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -27,8 +28,9 @@
         </ul>
         <br>
         <!-- Tab panes -->
+        <div class="tab-content">  
           @can('BBB') 
-            <div role="tabpanel" style="width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" id="basicInformation">
+            <div role="tabpanel" class="tab-pane active" id="basicInformation">
               <form class="form" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
                 {{csrf_field()}}
                 {{method_field('PUT')}}
@@ -141,7 +143,6 @@
                 pref-Url='../../' 
                 prop-building-code='{{$precontract[0]->buildingCodeId}}' 
                 prop-building-code-group='{{$precontract[0]->groupId}}' 
-                prop-project-use='{{$precontract[0]->projectUseId}}'
                 prop-construction-type='{{$precontract[0]->constructionType}}'>
               </select-building-code> 
               <div class="col-lg-12 text-center">
@@ -159,9 +160,10 @@
             </form>
           </div>
         @endcan
+        </div>
       </div>
     </div>
-  </form>
+  <!-- </form> -->
 </div>
 @endsection
 

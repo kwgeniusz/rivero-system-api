@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-
+use DB;
 use Auth;
 use App\Proposal;
 use App\ProposalNote;

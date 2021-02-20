@@ -33,7 +33,7 @@
         <div class="row comment">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
-            <p class="text-left" v-html="nl2br(contract.comment,false) "></p>
+            <p class="text-left" v-html="nl2br(contract.initialComment,false) "></p>
           </div>
         </div>
    </sweet-modal>

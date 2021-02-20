@@ -86,11 +86,10 @@ class PrecontractController extends Controller
             $request->city,
             $request->state,
             $request->zipCode,
-            $request->buildingCodeId,
-            $request->groupId,
+            // $request->buildingCodeId,
+            // $request->groupId,
             $request->projectUseId,
-            $request->constructionType,
-            // $request->projectDescriptionId,
+            // $request->constructionType,
             $request->comment,
             $request->currencyId);
 
