@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use DB;
 use Auth;
 use App\Proposal;
 use App\ProposalTimeFrame;
@@ -35,12 +36,16 @@ class ProposalTimeFrameController extends Controller
     // {
     // }
     public function store(Request $request,$id) {
+      
+      $error = null;
 
-     //VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
-        $this->oProposalTimeFrame->deleteAll($id);
-
+      DB::beginTransaction();
+      try {
     //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
         if(!empty($request->timesList)) {
+        //Vacia todos los Time Frame relacionados con la propuesta.
+          $this->oProposalTimeFrame->deleteAll($id);
+
         foreach ($request->timesList as $key => $item) {
 
              $result = $this->oProposalTimeFrame->insert(
@@ -48,40 +53,25 @@ class ProposalTimeFrameController extends Controller
               $item['timeId'],
               $item['timeName']);
 
-         $notification = array(
-           'message'    => $result['message'],
-           'alertType' => $result['alertType'],
-          );
+              if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
         };
      }else{
-          $notification = array(
-           'message'    => 'Time Frame Guardadas',
-          'alertType' => 'success',
-        );
+        $this->oProposalTimeFrame->deleteAll($id);
       };//fin 1 else
-
-      //envia siempre la notificacion para saber que if fue cumplido 
-         if($request->ajax()){
-                return $notification;
-            }
-    }
-
-    // public function edit($id)
-    // {
-       
-    // }
-    // public function update(ContractRequest $request, $id)
-    // {
  
-    // }
-    // public function show(Request $request,$id)
-    // {
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
 
-    // // }
-    // public function destroy($id)
-    // {
-      
-    // }
+        if ($success) {
+            return $notification = ['alertType' => 'success', 'message' => 'Time Frames Guardados'];
+        } else {
+            return $notification = ['alertType' => 'error', 'message' => $error];
+        }
 
-
-}
+    } //function store end
+} // class TimeFrame edn

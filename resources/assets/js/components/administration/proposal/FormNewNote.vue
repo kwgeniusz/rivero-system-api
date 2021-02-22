@@ -1,8 +1,8 @@
 <template>
-<div class="submit" style="margin-top: 0px; background: green;">
+<div class="margindiv">
 
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL NOTA-->
- <a class="submit" style="padding: 0px; background: green;" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear</a>
+ <a class="submit paddingpro" style="background: green;" @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear</a>
 
  <sweet-modal ref="modalNewNote">
     <form class="form form-prevent-multiple-submits">
@@ -90,3 +90,19 @@
      }
 }
 </script>
+<style>
+  .margindiv {
+    margin-top: 10px
+  }
+  .paddingpro {
+    padding: 12px 20px;
+  }
+  @media (max-width: 500px) {
+    .margindiv {
+      margin-top: 5px;
+    }
+    .paddingpro {
+      padding: 6px 10px;
+    }
+  }
+</style>

@@ -26,7 +26,7 @@
          <div class="form-group">
             <label for="projectUseId">USO DEL PROYECTO</label>:
             <input v-model="thirdOption" type="hidden" name="projectUseId">
-                                                         {{list3[0].projectUseName}}
+                                                         {{list3[0].projectUseName}} 
           </div>       
     </div>
  -->   
@@ -57,17 +57,17 @@
           return {
            firstOption: null,
            secondOption: this.propBuildingCodeGroup,
-           thirdOption: this.propProjectUse,
+          //  thirdOption: this.propProjectUse,
            list: {},
            list2: {},
-           list3: {},
+          //  list3: {},
           }
     },
       props: {
            prefUrl: { type: String},
            propBuildingCode: { type: String, default: null}, 
            propBuildingCodeGroup: { type: String, default: null}, 
-           propProjectUse: { type: String, default: null}, 
+          //  propProjectUse: { type: String, default: null}, 
            propConstructionType: { type: String, default: null}, 
     },
     watch: {
@@ -85,16 +85,16 @@
         let projectUseSelected = this.list.filter(filtrarPorID);
 
           let url2 =this.prefUrl+'buildingCode/'+this.firstOption+'/groups';
-          let url3 =this.prefUrl+'projectUses/'+projectUseSelected[0].projectUseId;
+          // let url3 =this.prefUrl+'projectUses/'+projectUseSelected[0].projectUseId;
 
             axios.get(url2).then(response => {
              this.list2 = response.data
 
-                     axios.get(url3).then(response => {
+                  //    axios.get(url3).then(response => {
                       this.list3 = response.data
                       this.thirdOption=this.list3[0].projectUseId;
-                      // alert(this.thirdOption)
-                   });
+                  //     // alert(this.thirdOption)
+                  //  });
                 
             });
         }, 

@@ -159,7 +159,7 @@ class Precontract extends Model
                      ->get();
     }
 //------------------------------------------
-    public function insertPrecontract($countryId, $companyId, $contractType,$projectName,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode, $buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
+    public function insertPrecontract($countryId, $companyId, $contractType,$projectName,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$projectUseId, $comment, $currencyId) {
         
         $oConfiguration = new CompanyConfiguration();
         $preId = $oConfiguration->retrievePrecontractNumber($countryId, $companyId);
@@ -181,11 +181,10 @@ class Precontract extends Model
         $precontract->city                   = $city;
         $precontract->state                  = $state;
         $precontract->zipCode                = $zipCode;
-        $precontract->buildingCodeId         = $buildingCodeId;
-        $precontract->groupId                = $groupId;
+        // $precontract->buildingCodeId         = $buildingCodeId;
+        // $precontract->groupId                = $groupId;
         $precontract->projectUseId           = $projectUseId;
-        $precontract->constructionType       = $constructionType;
-        // $precontract->projectDescriptionId   = $projectDescriptionId;
+        // $precontract->constructionType       = $constructionType;
         $precontract->comment                = $comment;
         $precontract->precontractCost        = '0.00';
         $precontract->currencyId             = $currencyId;

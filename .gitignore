@@ -12,3 +12,6 @@ npm-debug.log
 yarn-error.log
 .env
 .history/
+/public/js/*
+/public/css/*
+/public/fonts/*

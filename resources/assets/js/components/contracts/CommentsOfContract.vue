@@ -26,14 +26,14 @@
         <div class="row comment" v-for="comment in commentsList">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}})</p>
-            <p class="text-left">{{comment.commentContent}}</p>
+            <p class="text-left" v-html="nl2br(comment.commentContent,false) "></p>
           </div>
         </div>
 
         <div class="row comment">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
-            <p class="text-left">{{contract.initialComment}}</p>
+            <p class="text-left" v-html="nl2br(contract.initialComment,false) "></p>
           </div>
         </div>
    </sweet-modal>
@@ -141,7 +141,14 @@
                this.btnSubmitForm = true;
               })
            }//end if error.length
-       }
+       },
+       nl2br: function(str, is_xhtml) {
+        if (typeof str === 'undefined' || str === null) {
+              return '';
+         }
+      var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+      return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+      },
      }
 }
 
