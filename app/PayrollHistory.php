@@ -17,7 +17,7 @@ class PayrollHistory extends Model
     
 
 
-    function listPayRollHistory( $country = 2, $companyId = 4 ){
+    function listPayRollHistory( $country, $companyId ){
         return DB::select("SELECT hrpayroll.countryId, country.countryName, 
                             hrpayroll.companyId, company.companyName, 
                             hrpayroll.year, hrpayroll.payrollNumber, hrpayroll.payrollName, hrpayroll.payrollTypeId,
@@ -27,6 +27,8 @@ class PayrollHistory extends Model
                         FROM `hrpayroll`
                         INNER JOIN country ON hrpayroll.countryId = country.countryId
                         INNER JOIN company ON hrpayroll.companyId = company.companyId
+                        WHERE hrpayroll.countryId = $country
+                        AND hrpayroll.companyId = $companyId
                         GROUP BY hrpayroll.countryId, hrpayroll.companyId, hrpayroll.payrollNumber,hrpayroll.year
                         ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber");
     }

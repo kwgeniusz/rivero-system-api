@@ -37,7 +37,9 @@ class PayrollHistoryController extends Controller
      */
     public function index()
     {
-        $payrollHistory = $this->oPayRoll->listPayRollHistory();
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        $payrollHistory = $this->oPayRoll->listPayRollHistory($countryId, $companyId);
 
       
         return compact('payrollHistory');
