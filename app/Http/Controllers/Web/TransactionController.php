@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use Carbon;
 use App\Helpers\DateHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TransactionRequest;
@@ -189,6 +190,11 @@ class TransactionController extends Controller
              $this->validate($request, ['file' => 'required|image']);
          }
         
+       
+
+$date = Carbon\Carbon::parse($request->transactionDate)->toDateTimeString();
+dd($date);
+exit();
         //   echo $request->transactionTypeId.'/';
         //   echo $request->description.'/';
         //   echo $request->payMethodId.'/';

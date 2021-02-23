@@ -76,22 +76,21 @@
                         @if($precontract->projectName) 
                          ( {{$precontract->projectName}} )
                         @endif  </td>
-                <td>
+                <!-- <td>
                 @if($precontract->buildingCodeId)      
                  {{$precontract->buildingCode->buildingCodeName}}  
                 @endif 
-                </td>
-                    <!-- <td >
+                </td> -->
+                    <td >
                        @foreach($precontract->proposal as $pd)
                        - {{$pd->projectDescription->projectDescriptionName}}<br>
                         @endforeach
-                     </td>      -->
+                     </td>     
                     <td >
-                     @if($precontract->projectUseId) 
+                      @if($precontract->projectUseId) 
                       {{$precontract->projectUse->projectUseName}} 
-                    @endif 
-                      </td>
-    
+                    @endif  
+                       </td>     
                     <td >{{$precontract->contractType}}   </td>
                     <td>
         @if($precontract->contractId == null)
