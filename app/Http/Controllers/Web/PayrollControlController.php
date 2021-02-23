@@ -28,6 +28,8 @@ class PayrollControlController extends Controller
      */
     public function index()
     {
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $payrollControl = DB::select("SELECT hrpayroll_control.hrpayrollControlId, country.countryId, country.countryName, company.companyId, company.companyName,
                         payroll_type.payrollTypeId, payroll_type.payrollTypeName, hrpayroll_control.year, hrpayroll_control.payrollNumber,
                         hrpayroll_control.payrollName, hrpayroll_control.processCode
@@ -35,6 +37,8 @@ class PayrollControlController extends Controller
                     INNER JOIN country ON hrpayroll_control.countryId = country.countryId
                     INNER JOIN company ON hrpayroll_control.companyId = company.companyId
                     INNER JOIN payroll_type ON hrpayroll_control.payrollTypeId = payroll_type.payrollTypeId
+                    WHERE hrpayroll_control.countryId = $countryId
+                    AND hrpayroll_control.companyId = $companyId
                     ORDER BY hrpayroll_control.companyId");
 
       

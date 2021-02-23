@@ -5,7 +5,7 @@ namespace App\Http\Controllers\web;
 use App\Periods;
 use App\Country;
 use App\Company;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,6 +21,8 @@ class printPrePayrollController extends Controller
     public function index()
     {
 
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $print = DB::select("SELECT hrpayroll.countryId, country.countryName, 
                                     hrpayroll.companyId, company.companyName, hrpayroll.userProcess,
                                     hrpayroll.year, hrpayroll.payrollNumber, hrpayroll.payrollName, hrpayroll.payrollTypeId,
@@ -28,8 +30,11 @@ class printPrePayrollController extends Controller
                             FROM `hrpayroll`
                             INNER JOIN country ON hrpayroll.countryId = country.countryId
                             INNER JOIN company ON hrpayroll.companyId = company.companyId
+                            WHERE hrpayroll.countryId = $countryId
+                            AND hrpayroll.companyId = $companyId
                             GROUP BY hrpayroll.countryId, hrpayroll.companyId, hrpayroll.payrollNumber,hrpayroll.year
-                            ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber");
+                            ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber
+                            ");
 
         // $countrys   = $this->oCountry->getAll();
         return compact('print');
