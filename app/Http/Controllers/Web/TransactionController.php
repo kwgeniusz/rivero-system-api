@@ -192,9 +192,9 @@ class TransactionController extends Controller
         
        
 
-$date = Carbon\Carbon::parse($request->transactionDate)->toDateTimeString();
-dd($date);
-exit();
+// $date = Carbon\Carbon::parse($request->transactionDate)->toDateTimeString();
+// dd($date);
+// exit();
         //   echo $request->transactionTypeId.'/';
         //   echo $request->description.'/';
         //   echo $request->payMethodId.'/';
@@ -206,7 +206,8 @@ exit();
         //   echo $request->cashboxId.'/';
         //   echo $request->accountId.'/';
         //   echo $request->file.'/';
-        //  exit();
+        dd($request->transactionDate); 
+        exit();
 
         //insert transaction and Update BANK...
         $rs1 = $this->oTransaction->insertT(

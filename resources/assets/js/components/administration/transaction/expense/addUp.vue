@@ -116,7 +116,7 @@ import Datepicker from 'vuejs-datepicker';
                 transactionTypesList: [],
                 
                 imagenMiniatura:'',
-                DatePickerFormat: 'yyyy-MM-dd',
+                DatePickerFormat: 'MM/dd/yyyy',
                 transaction:  {
                      transactionDate: '',
                      description: '',
@@ -142,11 +142,14 @@ import Datepicker from 'vuejs-datepicker';
        computed: {
          imagen(){
              return this.imagenMiniatura;
-         }
+         },
        },
         methods: {
             createUpdateTransaction(){
               this.errors = [];
+
+                //  let mydate = "2018-11-16T22:12:00.000Z"
+
 
                if (!this.transaction.transactionDate) 
                 this.errors.push('Debe escoger una Fecha Para la Transaccion.');
@@ -163,12 +166,15 @@ import Datepicker from 'vuejs-datepicker';
                  if (!this.transaction.imagen) 
                 this.errors.push('Debe adjuntar una Imagen Obligatoria.');
 
+                 let dateFormated = new Date(this.transaction.transactionDate);
+                  dateFormated    = dateFormated.toLocaleDateString().replace(/\//g, "-")// output "16-11-2018"
+
            if (!this.errors.length) { 
                 if (this.editId === 0) {
-                    // document.querySelector("#formTransaction").reset();
+
 
                 let formData = new FormData();
-                     formData.append('transactionDate',this.transaction.transactionDate);
+                     formData.append('transactionDate',dateFormated);
                      formData.append('description',this.transaction.description);
                      formData.append('reason',this.transaction.reason);
                      formData.append('payMethodId',this.transaction.payMethodId);
@@ -191,7 +197,7 @@ import Datepicker from 'vuejs-datepicker';
                              }
                     })
                     .then((response) => {
-                        alert("Success")
+                        console.log(response.message)
                         })
                     .catch(function (response) {
                         alert("Faile post")

@@ -214,7 +214,7 @@ class Transaction extends Model
     {
 
         $error = null;
-
+      
         DB::beginTransaction();
         try {
             //INSERTA UNA NUEVA TRANSACTION
