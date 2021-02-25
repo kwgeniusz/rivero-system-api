@@ -61,7 +61,12 @@
                     <tbody v-else>
                         <tr>
                             <td colspan="8">
-                                <loading></loading>
+                                <div v-if="showLoading === true">
+                                    <loading></loading>
+                                </div>
+                                <div v-else>
+                                    No hay registros para la empresa seleccionada
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -75,11 +80,11 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            
         },
         data(){
             return{
-
+                showLoading: true,
             }
         },
         props: {
@@ -88,6 +93,11 @@
                 default: 'Name defauld',
             },
             objStaff:{},
+            vacio: {
+                type: Number,
+                default: 0,
+            },
+            
         },
         methods: {
             editRow(index, id){
@@ -115,6 +125,14 @@
                 }
                 
                 // console.log('enviado')
+            }
+        },
+        watch: {
+            vacio: function(val){
+                // console.log(val)
+                if (val === 1) {
+                    this.showLoading = false
+                }
             }
         }
     }

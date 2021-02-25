@@ -605,7 +605,7 @@
                                         doc.text( `Generado Por:`, 435, 70 );
                                         doc.text( `Pagina:`, 435, 60 );
                                         doc.setFontType("normal");
-                                        doc.text( `${page}/${numPage}`, 465, 70 );
+                                        doc.text( `${page}/${numPage}`, 465, 60 );
                                         doc.text( userProcess, 489, 70 );
                                         doc.text( dataTime, 462, 80 );
                                         doc.text( period, 468, 90);

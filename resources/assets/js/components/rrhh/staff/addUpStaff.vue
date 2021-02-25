@@ -609,7 +609,7 @@
                     })
                 
                 })
-                axios.get(`staff/list/positions/${cb}`).then(res => {
+                axios.get(`staff/list/positions`).then(res => {
                 // const eeeee = res.data
                 
                     // console.log(res)
