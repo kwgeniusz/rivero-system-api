@@ -166,18 +166,18 @@ class TransactionController extends Controller
 
     }
 
-    public function create($sign)
-    {
-        $transactionType = $this->oTransactionType->getAllByOfficeAndSign(session('companyId'),$sign);
-        $paymentsMethod   = $this->oPaymentMethod->getAll();
+    // public function create($sign)
+    // {
+    //     $transactionType = $this->oTransactionType->getAllByOfficeAndSign(session('companyId'),$sign);
+    //     $paymentsMethod   = $this->oPaymentMethod->getAll();
   
-        if ($sign == '+') {
-            return view('module_administration.transactionsincome.create', compact('paymentsMethod','transactionType'));
-        } else {
-            return view('module_administration.transactionsexpenses.create', compact('paymentsMethod','transactionType'));
-        }
+    //     if ($sign == '+') {
+    //         return view('module_administration.transactionsincome.create', compact('paymentsMethod','transactionType'));
+    //     } else {
+    //         return view('module_administration.transactionsexpenses.create', compact('paymentsMethod','transactionType'));
+    //     }
 
-    }
+    // }
     /**
      * Store a newly created resource in storage.
      *
@@ -189,25 +189,6 @@ class TransactionController extends Controller
          if($request->sign == '-'){  
              $this->validate($request, ['file' => 'required|image']);
          }
-        
-       
-
-// $date = Carbon\Carbon::parse($request->transactionDate)->toDateTimeString();
-// dd($date);
-// exit();
-        //   echo $request->transactionTypeId.'/';
-        //   echo $request->description.'/';
-        //   echo $request->payMethodId.'/';
-        //   echo $request->payMethodDetails.'/';
-        //   echo $request->reason.'/';
-        //   echo $request->transactionDate.'/';
-        //   echo $request->amount.'/';
-        //   echo $request->sign.'/';
-        //   echo $request->cashboxId.'/';
-        //   echo $request->accountId.'/';
-        //   echo $request->file.'/';
-        dd($request->transactionDate); 
-        exit();
 
         //insert transaction and Update BANK...
         $rs1 = $this->oTransaction->insertT(
@@ -241,15 +222,15 @@ class TransactionController extends Controller
         // }
     }
 
-       public function edit($sign,$id)
-    {
-       $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
-        if ($sign == '+') {
-            return view('module_administration.transactionsincome.edit', compact('transaction'));
-        } else {
-            return view('module_administration.transactionsexpenses.edit', compact('transaction'));
-        }
-    }
+    //    public function edit($sign,$id)
+    // {
+    //    $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
+    //     if ($sign == '+') {
+    //         return view('module_administration.transactionsincome.edit', compact('transaction'));
+    //     } else {
+    //         return view('module_administration.transactionsexpenses.edit', compact('transaction'));
+    //     }
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -285,13 +266,14 @@ class TransactionController extends Controller
     {
 
         $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
-
+       
+        return $transaction;
         
-        if ($sign == '+') {
-            return view('module_administration.transactionsincome.show', compact('transaction'));
-        } else {
-            return view('module_administration.transactionsexpenses.show', compact('transaction'));
-        }
+        // if ($sign == '+') {
+        //     return view('module_administration.transactionsincome.show', compact('transaction'));
+        // } else {
+        //     return view('module_administration.transactionsexpenses.show', compact('transaction'));
+        // }
 
     }
 
@@ -304,18 +286,19 @@ class TransactionController extends Controller
     public function delete($sign, $id)
     {
          //VALIDAR QUE NO ENTRE SI TIENE FACTURA RELACIONADA EN LA TABLA
-       $result = $this->oTransaction->deleteT($id);
-
-            $notification = array(
-            'message'    => $result['msj'],
-            'alert-type' => $result['alert'],
-             );
-
-        if ($sign == '+') {
-            return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
-        } else {
-            return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
-        }
+       $rs = $this->oTransaction->deleteT($id);
+       
+             $notification = array(
+                'message'    => $rs['msj'],
+                'alert-type' => $rs['alert'],
+            );
+             
+            return $notification;
+        // if ($sign == '+') {
+        //     return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
+        // } else {
+        //     return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
+        // }
 
     }
    /**

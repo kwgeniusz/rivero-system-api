@@ -11,10 +11,10 @@
             <div class="alert alert-danger" v-if="errors.length">
              <h4>Errores:</h4>
              <ul>
-               <li v-for="error in errors">{{ error }}</li>
+               <li v-for="(error,index) in errors"  :key="index">{{ error }}</li>
             </ul>
            </div>
-        <form  class="form" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
+        <form  class="form" ref="formTransactionIncome" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
 
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
@@ -43,6 +43,7 @@
                         <div class="form-group col-lg-10 ">
                             <label for="transactionTypeId">EXPENSES:</label>
                                  <select class="form-control" v-model="transaction.transactionTypeId" id="transactionTypeId">
+                                    <option value=""> </option>
                                     <option v-for="item in transactionTypesList" :key="item.transactionTypeId" :value="item.transactionTypeId">{{item.transactionTypeName}}</option>
                                 </select>
                         </div>
@@ -58,10 +59,16 @@
                   <input type="file" @change="obtenerImagen" name="file">
                </div>
 
+
                <div class="row"></div>
-               <figure>
-                   <img width="400" height="300" :src="imagen" alt="Foto del Producto">
+               <figure v-if="transaction.imagen">
+                   <img width="400" height="300" :src="transaction.imagen" alt="Foto del Producto">
+
+                   <!-- <img v-if="editId > 0"   width="400" height="300" :src="transaction.imagen" alt="Foto del Producto"> -->
+                   <!-- <img v-else width="400" height="300" :src="imagen" alt="Foto del Producto"> -->
+
                </figure>
+
                         <div v-if="editId === 0">
                              <button-form 
                               :buttonType = 1
@@ -97,11 +104,22 @@ import Datepicker from 'vuejs-datepicker';
             })
 
             if (this.editId > 0) {
-                // departments
-                axios.get(`departments/edit/${this.editId}`).then((response) => {
-                    // this.transactionData = response.data
-                    // console.log(this.transactionData)
-                    // this.selectCompany = document.querySelector("#selectCompani").value = this.transactionData[0].companyId
+                // transaction to edit.
+                axios.get(`-/show/${this.editId}`).then((response) => {
+                    this.data = response.data[0]
+
+                    this.transaction.transactionDate = this.data.transactionDate;
+                    this.transaction.description = this.data.description;
+                    this.transaction.reason = this.data.reason;
+                    this.transaction.payMethodId = this.data.payMethodId;
+                    this.transaction.payMethodDetails = this.data.payMethodDetails;
+                    this.transaction.transactionTypeId = this.data.transactionTypeId;
+                    this.transaction.amount = this.data.amount;
+                    this.transaction.cashboxId = this.data.cashboxId;
+                    this.transaction.accountId = this.data.accountId;
+                    this.transaction.imagen = this.raizUrl+this.data.document.docUrl;
+
+                    console.log(this.transaction.imagen)
                     // this.nameCompany = document.querySelector("#department_name").value = this.transactionData[0].departmentName
                     // this.selectDepartmen =document.querySelector("#selectDepartmen").value = this.transactionData[0].parentDepartmentId
                     // this.deparmetIds = this.transactionData[0].departmentId
@@ -114,8 +132,10 @@ import Datepicker from 'vuejs-datepicker';
             return{
                 errors: [],
                 transactionTypesList: [],
-                
+                raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
+
                 imagenMiniatura:'',
+
                 DatePickerFormat: 'MM/dd/yyyy',
                 transaction:  {
                      transactionDate: '',
@@ -130,7 +150,6 @@ import Datepicker from 'vuejs-datepicker';
                      imagen: ''
                 },
 
-                //  date: new Date(2016, 9, 16)
             }
          },
       components: {
@@ -140,16 +159,13 @@ import Datepicker from 'vuejs-datepicker';
             editId:'',
         },
        computed: {
-         imagen(){
-             return this.imagenMiniatura;
-         },
+        //  imagenToShow(){
+        //      return this.imagenMiniatura;
+        //  },
        },
         methods: {
             createUpdateTransaction(){
               this.errors = [];
-
-                //  let mydate = "2018-11-16T22:12:00.000Z"
-
 
                if (!this.transaction.transactionDate) 
                 this.errors.push('Debe escoger una Fecha Para la Transaccion.');
@@ -167,11 +183,11 @@ import Datepicker from 'vuejs-datepicker';
                 this.errors.push('Debe adjuntar una Imagen Obligatoria.');
 
                  let dateFormated = new Date(this.transaction.transactionDate);
-                  dateFormated    = dateFormated.toLocaleDateString().replace(/\//g, "-")// output "16-11-2018"
+                  dateFormated    = dateFormated.toLocaleDateString('en-US')// output "16-11-2018"
+                //   console.log(dateFormated)
 
            if (!this.errors.length) { 
                 if (this.editId === 0) {
-
 
                 let formData = new FormData();
                      formData.append('transactionDate',dateFormated);
@@ -185,9 +201,9 @@ import Datepicker from 'vuejs-datepicker';
                      formData.append('file',this.transaction.imagen);
                      if(this.transaction.payMethodId == 2){
                        formData.append('cashboxId',this.transaction.cashboxId);
-                       formData.append('accountId',null);
+                       formData.append('accountId','');
                      }else{
-                       formData.append('cashboxId',null);
+                       formData.append('cashboxId','');
                        formData.append('accountId',this.transaction.accountId);
                      }
 
@@ -197,7 +213,23 @@ import Datepicker from 'vuejs-datepicker';
                              }
                     })
                     .then((response) => {
-                        console.log(response.message)
+
+                         toastr.success(response.data.message);
+
+                         this.transaction.transactionDate = '';
+                         this.transaction.description = '';
+                         this.transaction.reason = '';
+                         this.transaction.payMethodId = '';
+                         this.transaction.payMethodDetails = '';
+                         this.transaction.transactionTypeId = '';
+                         this.transaction.amount = '';
+                         this.transaction.cashboxId = '';
+                         this.transaction.accountId = '';
+                         this.transaction.imagen = '';
+
+
+                           this.$emit('showlist', 0)
+                        //   console.log(transaction)
                         })
                     .catch(function (response) {
                         alert("Faile post")
@@ -217,15 +249,20 @@ import Datepicker from 'vuejs-datepicker';
             obtenerImagen(e){
                 let file = e.target.files[0];
                 this.transaction.imagen = file;
+                console.log(this.transaction.imagen)
+
                 this.cargarImagen(file);
             },
             cargarImagen(file){
               let reader = new FileReader();
-
+              
+              reader.readAsDataURL(file)
               reader.onload = (e) => {
                 this.imagenMiniatura = e.target.result;
+                 console.log(this.imagenMiniatura)
               }
-              reader.readAsDataURL(file)
+
+
             },
             cancf(n){
                 console.log('vista a mostrar: ' + n)

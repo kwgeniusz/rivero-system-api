@@ -34,8 +34,8 @@ Route::post('transactions/{sign}/filtered', 'Web\TransactionController@index')->
 Route::get('transactionsCreate/{sign}', 'Web\TransactionController@create')->name('transactions.create');
 Route::post('transactions/store', 'Web\TransactionController@store')->name('transactions.store');
 Route::get('transactions/{id}/edit', 'Web\TransactionController@edit')->name('transactions.edit');
-Route::get('transactions/{sign}/{id}/show', 'Web\TransactionController@show')->name('transactions.show');
-Route::delete('transactions/{sign}/{id}/delete', 'Web\TransactionController@delete')->name('transactions.delete');
+Route::get('transactions/{sign}/show/{id}', 'Web\TransactionController@show')->name('transactions.show');
+Route::delete('transactions/{sign}/delete/{id}', 'Web\TransactionController@delete')->name('transactions.delete');
 
 //**************************** CASHBOX ***************************
 Route::resource('cashboxs', 'Web\CashboxController');

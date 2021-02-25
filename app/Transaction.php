@@ -185,7 +185,8 @@ class Transaction extends Model
     //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->where('transactionId', '=', $id)
+        return $this->with('document')
+                      ->where('transactionId', '=', $id)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 
                       ->get();
@@ -217,6 +218,8 @@ class Transaction extends Model
       
         DB::beginTransaction();
         try {
+
+
             //INSERTA UNA NUEVA TRANSACTION
             $transaction                          = new Transaction;
             $transaction->countryId               = $countryId;

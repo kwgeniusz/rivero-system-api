@@ -40,7 +40,7 @@
                                   <td> 
                                  <button @click="toggle(transaction.transactionId)" :class="{ opened: opened.includes(transaction.transactionId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-user" aria-hidden="true"></i></button>  
                                      <div v-if="transaction.transactionable_id == null">
-                                        <button @click="editDataTransaction(index,transaction.transactionId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
+                                        <button @click="editTransaction(index,transaction.transactionId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                         <button @click="deleteTransaction(index,transaction.transactionId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
                                     </div>  
                                   </td>
@@ -52,7 +52,8 @@
                           
                              <div v-if="transaction.document">
                                 <!-- previzualizar la imagen -->
-                                 <img :src="raizUrl+transaction.document.docUrl">
+                                 <img :src="raizUrl+transaction.document.docUrl" width="50%" height="50%">
+                                 <!-- {{raizUrl+transaction.document.docUrl}} -->
                                 <!-- descargar la imagen, -->
                           
                             </div>  
@@ -115,15 +116,15 @@
            this.opened.push(id)
          }
        },
-            editDataTransaction(index, id){
+            editTransaction(index, id){
                 // console.log('index: '+index + ' id: '+ id)
                 this.$emit('editData', id)
             },
             deleteTransaction(index, id){
-                // console.log('index 1: ' + index)
-                if (confirm("Delete?") ){
-                    axios.delete(`departments/${id}`).then(()=>{
-                        this.$emit('delete',index)
+                if (confirm(`Esta Seguro de Eliminar la Transaccion #${++index}?`) ){
+                    axios.delete(`-/delete/${id}`).then((response) => {
+                           toastr.success(response.data.message);
+                           this.$emit('showlist', 0)
                     })
                 }    
             }, 
