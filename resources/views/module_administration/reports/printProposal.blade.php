@@ -422,10 +422,11 @@ Sincerely.
 				<th align="center" >
 				@if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
 					<b>{{$proposal[0]->subcontractor->representative}}</b> <br>
+					{{$proposal[0]->subcontractor->name}} <br>
 				@else
 					<b>{{$proposal[0]->subcontractor->name}}</b> <br>
 				@endif
-					CONSULTING <br>
+					ENGINEERING CONSULTING <br>
 					{{$proposal[0]->subcontractor->mainPhone}}
 				</th>
 		@endif  

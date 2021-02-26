@@ -45,6 +45,7 @@
                  <th>DIRECCION</th>
                  <th>TELEFONO</th>
                  <th>CORREO</th> 
+                 <th>SERVICIO QUE OFRECE</th>
                  <th>TIPO 1099</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
@@ -64,6 +65,7 @@
                    <td>{{$subcontractor->address}}</td>
                    <td>{{$subcontractor->mainPhone}}</td>
                    <td>{{$subcontractor->email}}</td> 
+                   <td>{{$subcontractor->serviceOffered}}</td>
                    <td>{{$subcontractor->typeForm1099}}</td> 
 
                    <td>

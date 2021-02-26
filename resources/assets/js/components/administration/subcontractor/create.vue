@@ -33,7 +33,7 @@
                   <input type="text" class="form-control" id="formName" v-model="formName" placeholder="" autocomplete="off ">
           </div>
 
-         <div class="form-group col-lg-6 " v-if="formSubcontType == 'company'">
+         <div class="form-group col-lg-6 " v-if="formSubcontType == 'COMPANY'">
               <i class="fas fa-user-friends"></i> <label for="formRepresentative">REPRESENTANTE</label>
                   <input type="text" class="form-control" id="formRepresentative" v-model="formRepresentative" placeholder="" autocomplete="off ">
         </div>
@@ -42,6 +42,12 @@
        <div class="form-group col-lg-6 ">
                <i class="fas fa-map-marked-alt"></i> <label for="formAddress">DIRECCION</label>
                   <input type="text" class="form-control" id="formAddress" v-model="formAddress" placeholder="" autocomplete="off ">
+          </div>
+
+
+       <div class="form-group col-lg-6 ">
+               <i class="fas fa-cash"></i> <label for="formServiceOffered">SERVICIO QUE OFRECE</label>
+                  <input type="text" class="form-control" id="formServiceOffered" v-model="formServiceOffered" placeholder="" autocomplete="off ">
           </div>
 
         <div class="row"></div>
@@ -133,7 +139,7 @@ export default {
           return {
             errors: [],
 
-           formSubcontType: 'company', 
+           formSubcontType: 'COMPANY', 
            formName: '',  
            formRepresentative: '',  
            formDNIType: '', 
@@ -141,6 +147,7 @@ export default {
            formMainPhone: '', 
            formSecondaryPhone: '',
            formAddress: '', 
+           formServiceOffered: '',
            formEmail: '',
            formBankName: '',
            formHeadline: '',
@@ -178,7 +185,7 @@ export default {
                if (!this.formName) 
                 this.errors.push('Nombre es requerido.');
 
-            if(this.formSubcontType == 'company'){
+            if(this.formSubcontType == 'COMPANY'){
                if(!this.formRepresentative)
                  this.errors.push('Representante es requerido.');
              }
@@ -203,6 +210,7 @@ export default {
                  mainPhone:      this.formMainPhone, 
                  secondaryPhone: this.formSecondaryPhone,
                  address:        this.formAddress, 
+                 serviceOffered: this.formServiceOffered, 
                  email:          this.formEmail,
                  bankName:       this.formBankName,
                  headline:       this.formHeadline,

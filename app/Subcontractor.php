@@ -90,6 +90,7 @@ class Subcontractor extends Model
         $subcontractor->subcontType         = $data['subcontType'];
         $subcontractor->name                = $data['name'];
         $subcontractor->representative      = $data['representative'];
+        $subcontractor->serviceOffered      = $data['serviceOffered'];
         $subcontractor->DNIType             = $data['DNIType'];
         $subcontractor->DNI                 = $data['DNI'];
         $subcontractor->mainPhone           = $data['mainPhone'];

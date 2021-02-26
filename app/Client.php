@@ -50,10 +50,34 @@ class Client extends Model
     {
         return $this->hasOne('App\ContactType', 'contactTypeId', 'contactTypeId')->withTrashed();
     }
-//--------------------------------------------------------------------
-    /** Accesores  */
-//--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+               /** ACCESORES **/
+   //--------------------------------------------------------------------
+//    public function getTransactionDateAttribute($transactionDate)
+//    {
+//         $oDateHelper = new DateHelper;
+//         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
+//         $newDate    = $oDateHelper->$functionRs($transactionDate);
+//        return $newDate;
+//    }
 
+ //--------------------------------------------------------------------
+               /** MUTADORES **/
+//--------------------------------------------------------------------
+   public function setClientNameAttribute($clientName)
+   {
+    $clientName = strtolower($clientName);
+    $clientName = ucwords($clientName);
+
+     return $this->attributes['clientName'] = ucwords($clientName);
+   }
+   public function setClientAddressAttribute($clientAddress)
+   {
+    $clientAddress = strtolower($clientAddress);
+    $clientAddress = ucwords($clientAddress);
+
+     return $this->attributes['clientAddress'] = ucwords($clientAddress);
+   } 
 //--------------------------------------------------------------------
     /** Query Scope  */
 //--------------------------------------------------------------------

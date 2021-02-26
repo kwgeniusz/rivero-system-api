@@ -22,7 +22,7 @@
                     </div>
 
                         <div class="form-group col-md-9">
-                                <label for="description" class="form-group">DESCRIPCION</label>
+                                <label for="description" class="form-group">REFERENCIA EN BANCO O BENEFICIARIO</label>
                                 <input type="text" v-model="transaction.description" class="form-control" id="description" name="description">
                         </div>
 
@@ -62,7 +62,7 @@
 
                <div class="row"></div>
                <figure v-if="transaction.imagen">
-                   <img width="400" height="300" :src="transaction.imagen" alt="Foto del Producto">
+                   <img width="400" height="300" :src="imagenMiniatura" alt="Foto del Producto">
 
                    <!-- <img v-if="editId > 0"   width="400" height="300" :src="transaction.imagen" alt="Foto del Producto"> -->
                    <!-- <img v-else width="400" height="300" :src="imagen" alt="Foto del Producto"> -->
@@ -118,8 +118,9 @@ import Datepicker from 'vuejs-datepicker';
                     this.transaction.cashboxId = this.data.cashboxId;
                     this.transaction.accountId = this.data.accountId;
                     this.transaction.imagen = this.raizUrl+this.data.document.docUrl;
-
-                    console.log(this.transaction.imagen)
+                    
+                    this.cargarImagen(this.transaction.imagen);
+                    // console.log(this.transaction.imagen)
                     // this.nameCompany = document.querySelector("#department_name").value = this.transactionData[0].departmentName
                     // this.selectDepartmen =document.querySelector("#selectDepartmen").value = this.transactionData[0].parentDepartmentId
                     // this.deparmetIds = this.transactionData[0].departmentId
@@ -133,7 +134,6 @@ import Datepicker from 'vuejs-datepicker';
                 errors: [],
                 transactionTypesList: [],
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
-
                 imagenMiniatura:'',
 
                 DatePickerFormat: 'MM/dd/yyyy',
@@ -159,7 +159,7 @@ import Datepicker from 'vuejs-datepicker';
             editId:'',
         },
        computed: {
-        //  imagenToShow(){
+        //  imagen(){
         //      return this.imagenMiniatura;
         //  },
        },
@@ -249,20 +249,19 @@ import Datepicker from 'vuejs-datepicker';
             obtenerImagen(e){
                 let file = e.target.files[0];
                 this.transaction.imagen = file;
-                console.log(this.transaction.imagen)
+                // console.log(this.transaction.imagen)
 
                 this.cargarImagen(file);
             },
             cargarImagen(file){
               let reader = new FileReader();
-              
-              reader.readAsDataURL(file)
+              console.log(file)
+
+              reader.readAsDataURL(file);
               reader.onload = (e) => {
                 this.imagenMiniatura = e.target.result;
-                 console.log(this.imagenMiniatura)
+                 console.log(this.imagenMiniatura);
               }
-
-
             },
             cancf(n){
                 console.log('vista a mostrar: ' + n)

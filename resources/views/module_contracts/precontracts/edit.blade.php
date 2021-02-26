@@ -2,9 +2,10 @@
 
 @section('content')
 <div class="create">
-  <!-- <form  class="formulario"> -->
+  <div  class="formulario">
+  
     <h3><i class="fas fa-user-tie"></i> Editar Pre-contrato</h3>
-    <div class="boxes formulario">
+    <div class="boxes">
       @if ($errors->any())
         <div class="alert alert-danger">
             <h4>Errores:</h4>
@@ -31,7 +32,7 @@
         <div class="tab-content">  
           @can('BBB') 
             <div role="tabpanel" class="tab-pane active" id="basicInformation">
-              <form class="form" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
+              <form style="width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" class="form" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
                 {{csrf_field()}}
                 {{method_field('PUT')}}
                 {{-- <select-country-office-edit country="{{$precontract[0]->countryId}}" office="{{$precontract[0]->companyId}}"></select-country-office-edit> --}}
@@ -145,8 +146,8 @@
                 prop-building-code-group='{{$precontract[0]->groupId}}' 
                 prop-construction-type='{{$precontract[0]->constructionType}}'>
               </select-building-code> 
+
               <div class="col-lg-12 text-center">
-                <div style="width: 100%; text-align: center;">
                   <button type="submit" class="submit">
                     <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
                   </button>
@@ -155,15 +156,16 @@
                       <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                     </button>
                   </a>
-                </div>
               </div>
+
             </form>
           </div>
         @endcan
-        </div>
+      </div>
+
       </div>
     </div>
-  <!-- </form> -->
+  </div>
 </div>
 @endsection
 

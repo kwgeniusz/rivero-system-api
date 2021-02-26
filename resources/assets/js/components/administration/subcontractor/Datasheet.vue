@@ -12,6 +12,7 @@
                  <th>NOMBRE</th>
                  <th>TIPO</th>
                  <th>REPRESENTANTE</th>
+                 <th>SERVICIO QUE OFRECE</th>
                  <th>DIRECCION</th>
                  <th>TELEFONO</th>
                  <th>EMAIL</th>                 
@@ -24,6 +25,7 @@
                     <td>{{subcont.name}} </td>
                     <td>{{subcont.subcontType}} </td>
                     <td>{{subcont.representative}} </td>
+                    <td>{{subcont.serviceOffered}} </td>
                     <td>{{subcont.address}} </td>
                     <td>{{subcont.mainPhone}} </td>
                     <td>{{subcont.email}} </td>
