@@ -67,7 +67,8 @@ class hrPrinPayroll extends Model
                 AND hrpayroll_history.companyId = $companyId
                 AND hrpayroll_history.year =  $year
                 AND hrpayroll_history.payrollNumber =  $payrollNumber
-            GROUP BY hrpayroll_history.staffCode");
+            GROUP BY hrpayroll_history.staffCode
+            ORDER BY hrpayroll.staffCode ASC");
     }
 
     function detailPayroll($countryId, $companyId, $year, $payrollNumber, $staffCode) {

@@ -100,7 +100,8 @@ class printPrePayrollController extends Controller
                                 AND hrpayroll.year = $year
                                 AND hrpayroll.payrollNumber = $payrollNumber
                                 AND hrpayroll.payrollTypeId =  $payrollTypeId
-                            GROUP BY hrpayroll.staffCode");
+                            GROUP BY hrpayroll.staffCode
+                            ORDER BY hrpayroll.staffCode ASC");
                          
                         //  dd( $res0);
                           // return $res0;
