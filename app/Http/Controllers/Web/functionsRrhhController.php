@@ -29,11 +29,12 @@ class functionsRrhhController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function netSalary($staff)
+    public function netSalary($staff, $countryId, $companyId)
     {
         
         
-        $rs = $this->oStaff->getNetSalary($staff);
+        $rs = $this->oStaff->getNetSalary($staff, $countryId, $companyId);
+        
         $neto = $rs[0][0]->bonos + $rs[0][0]->baseSalary;
 
         // se usaba para calcular el balance. Se va a reemplazar por obtener el historico de prestamo del empleado
