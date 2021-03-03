@@ -3,18 +3,23 @@
 namespace App\Http\Controllers\web;
 
 use App\PerTrans;
+use App\Comment;
 use App\HrTransactionType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PerTransController extends Controller
 {
     private $oPerTrans;
+    private $oComment;
+
     public function __construct()
     {
         // $this->middleware('auth');
-        $this->oPerTrans = new PerTrans;
-        $this->oTType = new HrTransactionType;
+        $this->oPerTrans  = new PerTrans;
+        $this->oTType     = new HrTransactionType;
+        $this->oComment   = new Comment;
   
     }
     /**
@@ -37,19 +42,31 @@ class PerTransController extends Controller
     public function store(Request $request)
     {
         // return $request;
-        $PerTrans = new PerTrans();
-        $PerTrans->countryId = $request->countryId;
-        $PerTrans->companyId = $request->companyId;
-        $PerTrans->staffCode = $request->staffCode;
-        $PerTrans->transactionTypeCode = $request->transactionTypeCode;
-        $PerTrans->quantity = $request->quantity;
-        $PerTrans->amount = $request->amount;
-        $PerTrans->balance = $request->balance;
-        $PerTrans->initialBalance = $request->initialBalance;
-        $PerTrans->cuotas = $request->cuotas;
+        try {
+            $PerTrans = new PerTrans();
+            $PerTrans->countryId = $request->countryId;
+            $PerTrans->companyId = $request->companyId;
+            $PerTrans->staffCode = $request->staffCode;
+            $PerTrans->transactionTypeCode = $request->transactionTypeCode;
+            $PerTrans->quantity = $request->quantity;
+            $PerTrans->amount = $request->amount;
+            $PerTrans->balance = $request->balance;
+            $PerTrans->initialBalance = $request->initialBalance;
+            $PerTrans->cuotas = $request->cuotas;
+            
+            $PerTrans->save();
+
+            $result = $this->oComment->insertC($PerTrans,$request->all());
+
+            return response()->json(['data' =>["message" => 'success',"PerTrans"=> $PerTrans,"result" => $result]],200);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         
-        $PerTrans->save();
-        return $PerTrans;
+        
+        
+        
      
     }
 

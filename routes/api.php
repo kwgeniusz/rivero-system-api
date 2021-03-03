@@ -25,12 +25,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('hr-employees/{country}/{company}', 'Web\HrLoansController@getEmployees');
 
     // prestamos
+    Route::post('perm-trans', 'Web\PerTransController@store');
 });
 
 // Prestamos
 Route::get('hr-history-loans/{staff}', 'Web\HrLoansController@getHistoryLoans');
-Route::get('net-salary/{staff}', 'Web\functionsRrhhController@netSalary');
-Route::post('perm-trans', 'Web\PerTransController@store');
+Route::get('net-salary/{staff}/{countryId}/{companyId}', 'Web\functionsRrhhController@netSalary');
 Route::post('perm-trans-pay', 'Web\HrLoansController@payLoans');
 
 // login
