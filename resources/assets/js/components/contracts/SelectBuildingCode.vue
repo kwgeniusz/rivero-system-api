@@ -12,7 +12,7 @@
         </div>  
 
    <div class="row"></div>
-      <div class="col-xs-6" v-if="firstOption">
+      <div class="col-xs-7" v-if="firstOption">
          <div class="form-group">
             <label for="groupId">GRUPO</label>
             <select v-model="secondOption" class="form-control" name="groupId" id="groupId" required="on">
@@ -20,6 +20,17 @@
             </select>
           </div> 
     </div>
+
+   <div class="row"></div>
+      <div class="form-group col-lg-9">
+            <label for="constructionType">TIPO DE CONSTRUCCION</label>
+            <select class="form-control" name="constructionType" id="constructionType" v-model="propConstructionType" >
+              <option value="TYPE I">TYPE I</option>
+              <option value="TYPE II">TYPE II</option>
+              <option value="TYPE III">TYPE III</option>
+              <option value="TYPE IV">TYPE IV</option>
+            </select>
+  </div>
 <!--
     <div class="row"></div>
       <div class="col-xs-12 col-lg-6" v-if="firstOption">
@@ -31,15 +42,7 @@
     </div>
  -->   
  <!-- {{propConstructionType}} -->
-  <div class="form-group col-lg-9">
-            <label for="constructionType">TIPO DE CONSTRUCCION</label>
-            <select class="form-control" name="constructionType" id="constructionType" v-model="propConstructionType" >
-              <option value="TYPE I">TYPE I</option>
-              <option value="TYPE II">TYPE II</option>
-              <option value="TYPE III">TYPE III</option>
-              <option value="TYPE IV">TYPE IV</option>
-            </select>
-  </div>
+
 
 
 </div>   

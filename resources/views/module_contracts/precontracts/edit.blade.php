@@ -121,7 +121,7 @@
                 </div>
                 <div class="input-label">  
                   <label for="comment"><i class="fas fa-comment-alt"></i> {{__('initial_comment')}}</label>
-                  <textarea name="comment" id="comment" rows="10">"{{$precontract[0]->comment }}"</textarea>
+                  <textarea name="comment" id="comment" rows="10">{{$precontract[0]->comment }}</textarea>
                 </div>
                 <div style="width: 100%; text-align: center;">
                   <button type="submit" class="submit">
@@ -140,6 +140,7 @@
             <form class="form" action="{{Route('precontracts.updateIbc',['id' => $precontract[0]->precontractId])}}" method="POST">
               {{csrf_field()}}
               {{method_field('PUT')}}
+              
               <select-building-code 
                 pref-Url='../../' 
                 prop-building-code='{{$precontract[0]->buildingCodeId}}' 
