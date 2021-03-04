@@ -30,11 +30,11 @@
                         <th>COD. {{__('client')}}</th>
                         <th>{{__('name')}}</th>   
                         <th>{{__('address')}}</th>
-                        <th>BUILDING CODE</th>
-                        {{-- <th>DESCRIPTION</th> --}}
+                        <!-- <th>BUILDING CODE</th> -->
+                        <th>DESCRIPTION</th> 
                         <th>USO</th>
                         <th>TIPO</th>
-                        <th>{{__('status')}}</th>
+                        <!-- <th>{{__('status')}}</th> -->
                         <th>{{__('actions')}}</th>
                  </th>
                 </tr>
@@ -55,11 +55,14 @@
                         {{$contract->city}}
                         {{$contract->state}}
                         {{$contract->zipCode}}   </td>
-                    <td>{{$contract->buildingCode->buildingCodeName}}   </td>
-                    {{-- <td>{{$contract->projectDescription->projectDescriptionName}}   </td> --}}
+                        <td> 
+                     @foreach($contract->invoice as $inv)
+                       - {{$inv->projectDescription->projectDescriptionName}}<br>
+                        @endforeach 
+                        </td> 
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
-                    <td>{{$contract->contractStatusR[0]->contStatusName}}   </td>
+                    <!-- <td>{{$contract->contractStatusR[0]->contStatusName}}   </td> -->
 
 
                    <td>

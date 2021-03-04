@@ -41,10 +41,12 @@
         {{contract[0].state}}
         {{contract[0].zipCode}}
         <br>
+       <b><u>Uso</u></b> <br>{{contract[0].project_use.projectUseName}}<br>
+     <div v-if="contract[0].building_code != null">
        <b><u>IBC</u></b> <br>{{contract[0].building_code.buildingCodeName}}<br>
        <b><u>Grupo</u></b> <br>{{contract[0].building_code_group.groupName}}<br>
-       <b><u>Uso</u></b> <br>{{contract[0].project_use.projectUseName}}<br>
        <b><u>Tipo de Construccion</u></b> <br>{{contract[0].constructionType}}<br><br>
+     </div>
        <b><u>Comentario</u></b>
        </center>
   

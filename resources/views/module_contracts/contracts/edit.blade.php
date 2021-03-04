@@ -168,12 +168,11 @@
               </div>
             @endcan
             @can('BDCA') 
-            
               <div role="tabpanel"  class="tab-pane"  id="IBC">
                 <form  action="{{Route('contracts.updateIbc',['id' => $contract[0]->contractId])}}" method="POST">
-
                   {{csrf_field()}}
                   {{method_field('PUT')}}
+
                   <select-building-code 
                     pref-Url='../../' 
                     prop-building-code='{{$contract[0]->buildingCodeId}}' 

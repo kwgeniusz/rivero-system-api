@@ -83,12 +83,15 @@
                        ( {{$contract->projectName}} )
                       @endif 
                     </td>
-                    <td>{{$contract->buildingCode->buildingCodeName}}   </td>
-                    <!-- <td> 
+                    <!-- <td>@if($contract->buildingCode)
+                    {{$contract->buildingCode->buildingCodeName}} 
+                        @endif
+                      </td> -->
+                    <td> 
                      @foreach($contract->invoice as $inv)
                        - {{$inv->projectDescription->projectDescriptionName}}<br>
                         @endforeach 
-                        </td> -->
+                        </td> 
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
                     <td data-toggle="tooltip" data-placement="top" title="{{$contract->contractStatusR[0]->contStatusName}}"
