@@ -73,7 +73,6 @@
               <div  class="collapse" :id="invoice.invId+'-request'">
 
                 <div class="well" >
-
                 <!-- Using properly a better class for "p" text -->
                   <div class="text-left">
 

@@ -12,11 +12,13 @@ require("cropperjs");
 require("@xkeshi/image-compressor");
 require("vue-upload-component");
 
-window.Vue = require("vue");
+window.Vue    = require("vue");
 window.toastr = require("toastr");
+
 
 import SweetModal from "sweet-modal-vue/src/plugin.js";
 Vue.use(SweetModal);
+
 import Permissions from "./mixins/Permissions";
 Vue.mixin(Permissions);
 // import ProgressBar from 'vue-simple-progress';
@@ -25,6 +27,7 @@ import VueMoment from "vue-moment";
 import moment from "moment-timezone";
 Vue.use(VueMoment, { moment });
 
+Vue.component('pagination', require('laravel-vue-pagination'));
 // import Popover from 'vue-js-popover'
 // Vue.use(Popover)
 
@@ -33,7 +36,6 @@ Vue.use(VueMoment, { moment });
 // Vue.component('vue-phone-number-input', VuePhoneNumberInput);
 // <VuePhoneNumberInput v-model="yourValue" />
 
-// Vue.use(require('vue-moment'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -41,6 +43,23 @@ Vue.use(VueMoment, { moment });
  */
 
 //########### module contracts components #############
+// -----------------> Department <-------------------------//
+Vue.component(
+  "main-client",
+  require("./components/contracts/client/main.vue")
+);
+Vue.component(
+  "table-client",
+  require("./components/contracts/client/table.vue")
+);
+
+Vue.component(
+  "addUp-client",
+  require("./components/contracts/client/addUp.vue")
+);
+
+// ----------------------
+
 Vue.component(
   "comments-contract",
   require("./components/contracts/CommentsOfContract.vue")

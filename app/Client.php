@@ -60,7 +60,6 @@ class Client extends Model
 //         $newDate    = $oDateHelper->$functionRs($transactionDate);
 //        return $newDate;
 //    }
-
  //--------------------------------------------------------------------
                /** MUTADORES **/
 //--------------------------------------------------------------------

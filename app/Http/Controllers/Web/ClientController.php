@@ -30,14 +30,13 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-
       // $clients = $this->oClient->getClientByGroupAndPagination(session('countryId'),session('companyId'),session('parentCompanyId'),$request->filteredOut);
 
-      //   if($request->ajax()) {
-      //        return $clients;
-      //           }
-
          $clientsCompany = $this->oClient->getClientByCompany(session('companyId'),$request->filteredOut);
+         
+         if($request->ajax()) {
+               return $clientsCompany;
+                }
 
         return view('module_contracts.clients.index', compact('clientsCompany'));
     }
