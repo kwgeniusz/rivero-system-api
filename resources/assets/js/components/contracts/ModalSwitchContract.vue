@@ -86,13 +86,13 @@
 
                     <center><b><u>Términos y Condiciones</u></b></center>
                     <br>
-                     <p v-for="(term,index2) in invoice.term">
+                     <p v-for="(term,index2) in invoice.proposal.term">
                            - {{term.termName}}     
                      </p>
 
                     <center><b><u>Alcance</u></b></center>
                     <br>
-                    <p v-for="(scope,index3) in invoice.scope">
+                    <p v-for="(scope,index3) in invoice.proposal.scope">
                              - {{scope.description}}
                      </p>
 
