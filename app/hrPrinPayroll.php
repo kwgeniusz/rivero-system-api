@@ -10,11 +10,15 @@ class hrPrinPayroll extends Model
 {
     
     function getPayrollList(){
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         return DB::select("SELECT hrpayroll_history.*, country.countryName, payroll_type.payrollTypeName, company.companyName
                         FROM `hrpayroll_history`
                         INNER JOIN country ON hrpayroll_history.countryId = country.countryId
                         INNER JOIN company ON hrpayroll_history.companyId = company.companyId
                         INNER JOIN payroll_type ON hrpayroll_history.payrollTypeId = payroll_type.payrollTypeId
+                        WHERE hrpayroll_history.countryId = $countryId
+                            AND hrpayroll_history.companyId = $companyId
                         GROUP BY hrpayroll_history.countryId,hrpayroll_history.companyId,hrpayroll_history.payrollNumber,hrpayroll_history.year
                         ORDER BY hrpayroll_history.companyId, hrpayroll_history.payrollNumber");
     }
@@ -68,7 +72,7 @@ class hrPrinPayroll extends Model
                 AND hrpayroll_history.year =  $year
                 AND hrpayroll_history.payrollNumber =  $payrollNumber
             GROUP BY hrpayroll_history.staffCode
-            ORDER BY hrpayroll.staffCode ASC");
+            ORDER BY hrpayroll_history.staffCode ASC");
     }
 
     function detailPayroll($countryId, $companyId, $year, $payrollNumber, $staffCode) {
