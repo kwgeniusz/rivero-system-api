@@ -242,9 +242,13 @@
 {{$date->format('F jS, Y')}}
 </div>       
 
-<div class="big bold">Mr. {{$client->clientName}}</div>                            
+<div class="big bold">
+
+@if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
+
+</div>                            
 {{$client->clientEmail}}   <br>
-P. {{$client->clientPhone}}    <br>
+P. {{$client->businessPhone}}    <br>
 C. ID: {{$client->clientCode}}   <br>
 
 <br>
@@ -267,12 +271,19 @@ C. ID: {{$client->clientCode}}   <br>
 
 <br>
 <div class="prologue">
-Dear <b>Mr/Mrs. {{$client->clientName}}</b>
+Dear <b>
+@if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
 </div>
 
 <br>
 <div class="just">
-<span class="tab">We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
+<span class="tab">
+@if($proposal[0]->subcontId != null)  
+ JD Rivero & {{$proposal[0]->subcontractor->name}} 
+@else
+We
+@endif 
+are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
 
 </div>
 
@@ -441,7 +452,7 @@ Sincerely.
 <br><br><br><br><br>
 <div  class="bold center">
 ACCEPTED BY:     _____________________________________ <br>
-												Mr. {{$client->clientName}}
+          @if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
 </div>
 
 
