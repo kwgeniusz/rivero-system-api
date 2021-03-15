@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <!-- agregar -->
         <div v-if="formStatus === 1">
             <addUp-transaction-expense

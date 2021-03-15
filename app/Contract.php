@@ -31,13 +31,12 @@ class Contract extends Model
         'contractDate', 'clientId', 'siteAddress', 'projectDescriptionId', 'projectUseId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',
         'initialComment', 'intermediateComment', 'finalComment', 'contractCost',
-        'currencyId', 'contractStatus', 'dateCreated', 'lastUserId',
+        'currencyId', 'contractStatus', 'created_at', 'lastUserId',
     ];
+    
+    protected $appends = ['siteAddress'];
+    protected $dates = ['deleted_at'];
 
-    /*protected $dates = ['contractDate','startDate',
-    'scheduledFinishDate','actualFinishDate','deliveryDate'];
-     */
-     protected $dates = ['deleted_at'];
     //Status Contract
     const VACANT    = '1';
     const STARTED   = '2';
@@ -434,7 +433,7 @@ class Contract extends Model
         $contract->contractCost        = '0.00';
         $contract->currencyId        = $currencyId;
         $contract->contractStatus      = '1';
-        $contract->dateCreated         = date('Y-m-d H:i:s');
+        $contract->created_at         = date('Y-m-d H:i:s');
         $contract->lastUserId          = Auth::user()->userId;
         $contract->save();
             
@@ -488,7 +487,7 @@ class Contract extends Model
         $contract->staff()->attach(
             $staffId,
             [
-                'dateCreated' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
                 'lastUserId'  => Auth::user()->userId,
             ]
         );

@@ -30,11 +30,10 @@
         "toastr": "^2.1.4",
         "vue-chartjs": "^3.5.0",
         "vue-dialog-drag": "^0.1.29",
+        "vue-flatpickr-component": "^8",
         "vue-moment": "^4.1.0",
         "vue-phone-number-input": "^1.1.10",
         "vue-simple-progress": "^1.1.1",
-        "vue-tables-2": "^1.6.25",
-        "vue-upload-component": "^2.8.20",
-        "vuejs-datepicker": "^1.6.2"
+        "vue-upload-component": "^2.8.20"
     }
 }

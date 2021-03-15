@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <!-- agregar -->
         <div v-if="formStatus === 1">
             <addUp-client
@@ -59,15 +59,6 @@
             addFormStatus(){
                 this.formStatus = 1
             },
-            // addTransactionExpense(department){
-            //     // console.log(department)
-            //     // this.clientList.push(department)
-            // },
-            // delDepartment(index){
-            //     // console.log(index)
-            //     this.formStatus = 0;
-            //     this.clientList.splice(index, 1)
-            // },
             editData(id){
                 // console.log('el id es: ' + id)
                 this.editId = id

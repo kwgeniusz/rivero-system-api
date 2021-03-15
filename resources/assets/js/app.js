@@ -15,26 +15,28 @@ require("vue-upload-component");
 window.Vue    = require("vue");
 window.toastr = require("toastr");
 
+import Permissions from "./mixins/Permissions";
+Vue.mixin(Permissions);
 
 import SweetModal from "sweet-modal-vue/src/plugin.js";
 Vue.use(SweetModal);
-
-import Permissions from "./mixins/Permissions";
-Vue.mixin(Permissions);
-// import ProgressBar from 'vue-simple-progress';
 
 import VueMoment from "vue-moment";
 import moment from "moment-timezone";
 Vue.use(VueMoment, { moment });
 
+// import ProgressBar from 'vue-simple-progress';
 Vue.component('pagination', require('laravel-vue-pagination'));
-// import Popover from 'vue-js-popover'
-// Vue.use(Popover)
 
-// import VuePhoneNumberInput from 'vue-phone-number-input';
-// import 'vue-phone-number-input/dist/vue-phone-number-input.css';
-// Vue.component('vue-phone-number-input', VuePhoneNumberInput);
-// <VuePhoneNumberInput v-model="yourValue" />
+import VuePhoneNumberInput from 'vue-phone-number-input';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
+Vue.component('vue-phone-number-input', VuePhoneNumberInput);
+
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+// import {Spanish} from 'flatpickr/dist/l10n/es.js';
+// flatpickr.localize(Spanish); // default locale is now Russian
+Vue.use(flatPickr);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -43,7 +45,7 @@ Vue.component('pagination', require('laravel-vue-pagination'));
  */
 
 //########### module contracts components #############
-// -----------------> Department <-------------------------//
+// -----------------> Client <-------------------------//
 Vue.component(
   "main-client",
   require("./components/contracts/client/main.vue")
@@ -57,7 +59,20 @@ Vue.component(
   "addUp-client",
   require("./components/contracts/client/addUp.vue")
 );
+// -----------------> Client Other Contacts <-------------------------//
+Vue.component(
+  "main-other-contact",
+  require("./components/contracts/client/otherContact/main.vue")
+);
+Vue.component(
+  "table-other-contact",
+  require("./components/contracts/client/otherContact/table.vue")
+);
 
+Vue.component(
+  "addUp-other-contact",
+  require("./components/contracts/client/otherContact/addUp.vue")
+);
 // ----------------------
 
 Vue.component(
@@ -181,6 +196,20 @@ Vue.component(
   require("./components/administration/invoice/InvoiceBtnCollection.vue")
 );
 // Vue.component('subcontractor-datasheet', require('./components/contracts/SubcontractorDatasheet.vue'));
+// --> Transaction Income
+Vue.component(
+  "main-transaction-income",
+  require("./components/administration/transaction/income/main.vue")
+);
+Vue.component(
+  "table-transaction-income",
+  require("./components/administration/transaction/income/table.vue")
+);
+
+Vue.component(
+  "addUp-transaction-income",
+  require("./components/administration/transaction/income/addUp.vue")
+);
 
 // --> Transaction Expense
 Vue.component(

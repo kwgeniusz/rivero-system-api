@@ -20,12 +20,16 @@ class Client extends Model
     protected $primaryKey = 'clientId';
 
     protected $fillable = ['clientId', 'countryId', 'userId', 'clientCode', 'clientName',
-        'clientAddress', 'clientPhone', 'clientEmail', 'dateCreated', 'lastUserId'];
+        'clientAddress', 'clientPhone', 'clientEmail', 'created_at', 'lastUserId'];
 
     protected $dates = ['deleted_at'];
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+    public function otherContact()
+    {
+        return $this->hasMany('App\ClientOtherContact', 'clientId', 'clientId');
+    }
     public function contract()
     {
         return $this->hasMany('App\Contract', 'clientId', 'clientId');
@@ -86,8 +90,8 @@ class Client extends Model
         if ($filteredOut) {
             return $query->where('clientCode', 'LIKE', "%$filteredOut%")
                          ->orWhere('clientName', 'LIKE', "%$filteredOut%")
-                         ->orWhere('clientPhone', 'LIKE', "%$filteredOut%")
-                         ->orWhere('clientEmail', 'LIKE', "%$filteredOut%")
+                         ->orWhere('businessPhone', 'LIKE', "%$filteredOut%")
+                         ->orWhere('mainEmail', 'LIKE', "%$filteredOut%")
                          ->orWhereHas('company', function ($query) use ($filteredOut) {
                               return $query->where('companyName', 'LIKE', "%$filteredOut%");
                           });
@@ -169,12 +173,12 @@ class Client extends Model
     }
 
 
-    public function getClientByCompany($companyId,$filteredOut) {         
-         $rs = $this->with('contactType','company')
+    public function getClientByCompany($companyId,$filteredOut) {  
+               
+         return $this->with('contactType','company','otherContact')
                     ->where('companyId', '=', $companyId)
                     ->filter($filteredOut)
-                    ->paginate(100); 
-        return $rs;
+                    ->get(); 
      }      
   
 //------------------------------------------
@@ -216,12 +220,19 @@ class Client extends Model
         $client->parentCompanyId= $parentCompanyId;
         $client->cltId         = $clientNumber;
         $client->clientCode    = $clientNumberFormat;
+        $client->clientType    = $data['clientType'];
+        $client->companyName   = $data['companyName'];
         $client->clientName    = $data['clientName'];
+        $client->gender        = $data['gender'];
         $client->clientAddress = $data['clientAddress'];
-        $client->contactTypeId = $data['contactTypeId'];
-        $client->clientPhone   = $data['clientPhone'];
-        $client->clientEmail   = $data['clientEmail'];
-        $client->dateCreated   = date('Y-m-d H:i:s');
+        $client->businessPhone = $data['businessPhone'];
+        $client->homePhone   = $data['homePhone'];
+        $client->otherPhone   = $data['otherPhone'];
+        $client->fax          = $data['fax'];
+        $client->mainEmail   = $data['mainEmail'];
+        $client->secondaryEmail   = $data['secondaryEmail'];
+        $client->contactTypeId   = $data['contactTypeId'];
+        $client->created_at   = date('Y-m-d H:i:s');
         $client->lastUserId    = Auth::user()->userId;
         $client->save();
             
@@ -235,9 +246,9 @@ class Client extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'msj' => "Cliente N° $client->clientCode creado exitosamente ",'model'=>$client];
+          return $rs  = ['alert' => 'success', 'message' => "Cliente N° $client->clientCode creado exitosamente ",'model'=>$client];
         } else {
-            return $rs = ['alert' => 'error', 'msj' => $error];
+            return $rs = ['alert' => 'error', 'message' => $error];
         }
 
     }
@@ -249,13 +260,20 @@ class Client extends Model
      DB::beginTransaction();
       try {
 
-        $client = $this->where('clientId', $clientId)->update(array(
-            'clientName'    => $data['clientName'],
-            'clientAddress' => $data['clientAddress'],
-            'contactTypeId' => $data['contactTypeId'],
-            'clientPhone'   => $data['clientPhone'],
-            'clientEmail'   => $data['clientEmail'],
-        ));
+        $client                     = Client::find($clientId);
+        $client->clientType    = $data['clientType'];
+        $client->companyName   = $data['companyName'];
+        $client->clientName    = $data['clientName'];
+        $client->gender        = $data['gender'];
+        $client->clientAddress = $data['clientAddress'];
+        $client->businessPhone = $data['businessPhone'];
+        $client->homePhone     = $data['homePhone'];
+        $client->otherPhone    = $data['otherPhone'];
+        $client->fax           = $data['fax'];
+        $client->mainEmail     = $data['mainEmail'];
+        $client->secondaryEmail   = $data['secondaryEmail'];
+        $client->contactTypeId   = $data['contactTypeId'];
+        $client->save();
 
             $success = true;
             DB::commit();
@@ -267,9 +285,9 @@ class Client extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'msj' => "Cliente Modificado "];
+          return $rs  = ['alert' => 'success', 'message' => "Cliente Modificado "];
         } else {
-            return $rs = ['alert' => 'error', 'msj' => $error];
+            return $rs = ['alert' => 'error', 'message' => $error];
         }
     }
 //------------------------------------------
@@ -288,9 +306,9 @@ class Client extends Model
         }
 
         if ($success) {
-            return $rs = ['alert' => 'info', 'msj' => 'Cliente Eliminado'];
+            return $rs = ['alert' => 'info', 'message' => 'Cliente Eliminado'];
         } else {
-            return $rs = ['alert' => 'error', 'msj' => $error];
+            return $rs = ['alert' => 'error', 'message' => $error];
         }
     }
 //------------------------------------------

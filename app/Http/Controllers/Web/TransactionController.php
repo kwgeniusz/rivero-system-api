@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
-use Carbon;
+use Carbon\Carbon;
+use Auth;
 use App\Helpers\DateHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TransactionRequest;
@@ -11,7 +12,6 @@ use App\Bank;
 use App\Transaction;
 use App\PaymentMethod;
 use App\TransactionType;
-use Auth;
 
 class TransactionController extends Controller
 {
@@ -43,125 +43,125 @@ class TransactionController extends Controller
            return $transactions;
         }
         
-    $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
-    $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
+//     $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
+//     $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
-      $totalTransaction = 0;
-      $totalFee = 0;
-      $totalManual = 0;
+//       $totalTransaction = 0;
+//       $totalFee = 0;
+//       $totalManual = 0;
      
-         foreach ($transactions as $transaction) {
-        if($sign == '+') {
+//          foreach ($transactions as $transaction) {
+//         if($sign == '+') {
 
-            if($transaction->transactionTypeId == $income_invoice[0]->transactionTypeId){
-                if($transaction->transactionable == null){
-                 $totalManual += $transaction->amount;
-                }
-                else{
-                 $totalTransaction += $transaction->amount;
-                }
-            }elseif ($transaction->transactionTypeId == $fee[0]->transactionTypeId) {
-              $totalFee += $transaction->amount;
-            }
-        }else{ //end first if
-             $totalTransaction += $transaction->amount;
-        }//end if
-     } //end foreach
+//             if($transaction->transactionTypeId == $income_invoice[0]->transactionTypeId){
+//                 if($transaction->transactionable == null){
+//                  $totalManual += $transaction->amount;
+//                 }
+//                 else{
+//                  $totalTransaction += $transaction->amount;
+//                 }
+//             }elseif ($transaction->transactionTypeId == $fee[0]->transactionTypeId) {
+//               $totalFee += $transaction->amount;
+//             }
+//         }else{ //end first if
+//              $totalTransaction += $transaction->amount;
+//         }//end if
+//      } //end foreach
 
-    if($request->method() == 'POST') {
-     if($request->date1 || $request->date2 || $request->textToFilter) {
+//     if($request->method() == 'POST') {
+//      if($request->date1 || $request->date2 || $request->textToFilter) {
   
-        //primer filtrado por el select y texto escrito en el formulario.
-       if($request->textToFilter){
-       $transactions = $transactions->filter(function ($transaction) use($request) {
-                      switch ($request->filterBy) {
-                        case 'contractNumber':
-                            if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->transactionable->contract->contractNumber;
-                            else
-                              $valorABuscar = '';
-                          break;
-                        case 'invId':
-                            if($transaction->invoiceId != null)
-                               $valorABuscar = $transaction->transactionable->invId;
-                           else
-                              $valorABuscar = ''; 
-                          break;
-                        case 'clientCode':
-                            if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->transactionable->client->clientCode;
-                             else
-                              $valorABuscar = ''; 
-                          break;
-                        case 'clientName':
-                            if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->transactionable->client->clientName;
-                                else
-                              $valorABuscar = ''; 
-                          break;  
-                        case 'clientPhone':
-                            if($transaction->invoiceId != null)
-                              $valorABuscar =  $transaction->transactionable->client->clientPhone;
-                                else
-                              $valorABuscar = ''; 
-                          break;
-                        case 'amount':
-                               $valorABuscar = $transaction->amount;
-                          break;
-                        case 'transactionType':
-                               $valorABuscar = $transaction->transactionType->transactionTypeName;
-                          break; 
-                         case 'paymentMethod':
-                               $valorABuscar = $transaction->paymentMethod->payMethodName;
-                          break;   
-                        case 'description':
-                               $valorABuscar = $transaction->description;
-                          break; 
-                         case 'reason':
-                               $valorABuscar = $transaction->reason;
-                          break; 
-                        case 'responsable':
-                               $valorABuscar = $transaction->user->fullName;
-                          break;   
-                      }
+//         //primer filtrado por el select y texto escrito en el formulario.
+//        if($request->textToFilter){
+//        $transactions = $transactions->filter(function ($transaction) use($request) {
+//                       switch ($request->filterBy) {
+//                         case 'contractNumber':
+//                             if($transaction->invoiceId != null)
+//                               $valorABuscar =  $transaction->transactionable->contract->contractNumber;
+//                             else
+//                               $valorABuscar = '';
+//                           break;
+//                         case 'invId':
+//                             if($transaction->invoiceId != null)
+//                                $valorABuscar = $transaction->transactionable->invId;
+//                            else
+//                               $valorABuscar = ''; 
+//                           break;
+//                         case 'clientCode':
+//                             if($transaction->invoiceId != null)
+//                               $valorABuscar =  $transaction->transactionable->client->clientCode;
+//                              else
+//                               $valorABuscar = ''; 
+//                           break;
+//                         case 'clientName':
+//                             if($transaction->invoiceId != null)
+//                               $valorABuscar =  $transaction->transactionable->client->clientName;
+//                                 else
+//                               $valorABuscar = ''; 
+//                           break;  
+//                         case 'clientPhone':
+//                             if($transaction->invoiceId != null)
+//                               $valorABuscar =  $transaction->transactionable->client->clientPhone;
+//                                 else
+//                               $valorABuscar = ''; 
+//                           break;
+//                         case 'amount':
+//                                $valorABuscar = $transaction->amount;
+//                           break;
+//                         case 'transactionType':
+//                                $valorABuscar = $transaction->transactionType->transactionTypeName;
+//                           break; 
+//                          case 'paymentMethod':
+//                                $valorABuscar = $transaction->paymentMethod->payMethodName;
+//                           break;   
+//                         case 'description':
+//                                $valorABuscar = $transaction->description;
+//                           break; 
+//                          case 'reason':
+//                                $valorABuscar = $transaction->reason;
+//                           break; 
+//                         case 'responsable':
+//                                $valorABuscar = $transaction->user->fullName;
+//                           break;   
+//                       }
 
-                $coincidencia = stripos($valorABuscar, $request->textToFilter);
+//                 $coincidencia = stripos($valorABuscar, $request->textToFilter);
 
-            if ($coincidencia !== false) { 
-                 return $transaction;
-            } 
+//             if ($coincidencia !== false) { 
+//                  return $transaction;
+//             } 
 
-     });
-  } //fin del primer filtrado
+//      });
+//   } //fin del primer filtrado
 
-    //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
-  if($request->date1 && $request->date2) {
-    $transactions = $transactions->filter(function ($transaction) use($request) {
+//     //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
+//   if($request->date1 && $request->date2) {
+//     $transactions = $transactions->filter(function ($transaction) use($request) {
    
-               $oDateHelper = new DateHelper;
-               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-               $date1                 = $oDateHelper->$functionRs($request->date1);
-               $date2                 = $oDateHelper->$functionRs($request->date2);
-               $transactionDate       = $oDateHelper->$functionRs($transaction->transactionDate);
+//                $oDateHelper = new DateHelper;
+//                $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+//                $date1                 = $oDateHelper->$functionRs($request->date1);
+//                $date2                 = $oDateHelper->$functionRs($request->date2);
+//                $transactionDate       = $oDateHelper->$functionRs($transaction->transactionDate);
 
-              $date_inicio = strtotime($date1);
-              $date_fin    = strtotime($date2);
-              $date_nueva  = strtotime($transactionDate);
+//               $date_inicio = strtotime($date1);
+//               $date_fin    = strtotime($date2);
+//               $date_nueva  = strtotime($transactionDate);
 
-               // esta dentro del rango
-              if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
-                 return $transaction;
-              }
-     });
-    }//fin del segundo filtrado
+//                // esta dentro del rango
+//               if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
+//                  return $transaction;
+//               }
+//      });
+//     }//fin del segundo filtrado
 
-  } //cierre del filtrado general.
-} //cierre de verificacion post
+//   } //cierre del filtrado general.
+// } //cierre de verificacion post
 
         if ($sign == '+') {
-            return view('module_administration.transactionsincome.index', compact('transactions','totalTransaction','totalFee','totalManual'));
+            return view('module_administration.transactionsincome.index');
         } else {
-            return view('module_administration.transactionsexpenses.index', compact('transactions','totalTransaction','totalFee','totalManual'));
+            return view('module_administration.transactionsexpenses.index');
         }
 
     }
@@ -173,10 +173,10 @@ class TransactionController extends Controller
   
     //     if ($sign == '+') {
     //         return view('module_administration.transactionsincome.create', compact('paymentsMethod','transactionType'));
-    //     } else {
+    //     }
+    //         } else {
     //         return view('module_administration.transactionsexpenses.create', compact('paymentsMethod','transactionType'));
     //     }
-
     // }
     /**
      * Store a newly created resource in storage.
@@ -207,30 +207,9 @@ class TransactionController extends Controller
             '',
             Auth::user()->userId,
             $request->file);
-
-        $notification = array(
-            'message'    => $rs1['msj'],
-            'alert-type' => $rs1['alert'],
-        );
          
-        return $notification;
-
-        // if ($request->sign == '+') {
-        //     return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
-        // } else {
-        //     return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
-        // }
+        return $rs1;
     }
-
-    //    public function edit($sign,$id)
-    // {
-    //    $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
-    //     if ($sign == '+') {
-    //         return view('module_administration.transactionsincome.edit', compact('transaction'));
-    //     } else {
-    //         return view('module_administration.transactionsexpenses.edit', compact('transaction'));
-    //     }
-    // }
 
     /**
      * Update the specified resource in storage.
@@ -262,19 +241,10 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($sign, $id)
+    public function show($id)
     {
-
         $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
-       
         return $transaction;
-        
-        // if ($sign == '+') {
-        //     return view('module_administration.transactionsincome.show', compact('transaction'));
-        // } else {
-        //     return view('module_administration.transactionsexpenses.show', compact('transaction'));
-        // }
-
     }
 
     /**
@@ -287,19 +257,7 @@ class TransactionController extends Controller
     {
          //VALIDAR QUE NO ENTRE SI TIENE FACTURA RELACIONADA EN LA TABLA
        $rs = $this->oTransaction->deleteT($id);
-       
-             $notification = array(
-                'message'    => $rs['msj'],
-                'alert-type' => $rs['alert'],
-            );
-             
-            return $notification;
-        // if ($sign == '+') {
-        //     return redirect()->route('transactions.index', ['sign' => '+'])->with($notification);
-        // } else {
-        //     return redirect()->route('transactions.index', ['sign' => '-'])->with($notification);
-        // }
-
+       return $rs;
     }
    /**
      * Display a listing of the resource.

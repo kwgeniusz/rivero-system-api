@@ -18,7 +18,8 @@
 
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
-                         <datepicker :bootstrap-styling="true" :format="DatePickerFormat" v-model="transaction.transactionDate"></datepicker>
+                        <flat-pickr v-model="transaction.transactionDate" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>
+                          {{transaction.transactionDate}}
                     </div>
 
                         <div class="form-group col-md-9">
@@ -92,11 +93,11 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker';
+    import {Spanish} from 'flatpickr/dist/l10n/es.js';
 
     export default {
         mounted() {
-         console.log('Component mounted.');
+         console.log('componente agregar transaccion montado');
 
             axios.get('/transaction-types/-').then(response => {
                 this.transactionTypesList = response.data;
@@ -136,7 +137,14 @@ import Datepicker from 'vuejs-datepicker';
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 imagenMiniatura:'',
 
-                DatePickerFormat: 'MM/dd/yyyy',
+                 configFlatPickr:{
+                     enableTime: true,
+                     time_24hr: false,
+                     altFormat: 'm/d/Y - h:i K',
+                     altInput: true,
+                     dateFormat: 'Y-m-d H:i',
+                     locale: Spanish, // locale for this instance only  
+                 },
                 transaction:  {
                      transactionDate: '',
                      description: '',
@@ -152,9 +160,6 @@ import Datepicker from 'vuejs-datepicker';
 
             }
          },
-      components: {
-            Datepicker
-       },
        props: {
             editId:'',
         },
@@ -182,9 +187,6 @@ import Datepicker from 'vuejs-datepicker';
                  if (!this.transaction.imagen) 
                 this.errors.push('Debe adjuntar una Imagen Obligatoria.');
 
-                 let dateFormated = new Date(this.transaction.transactionDate);
-                  dateFormated    = dateFormated.toLocaleDateString('en-US')// output "16-11-2018"
-                //   console.log(dateFormated)
 
            if (!this.errors.length) { 
                 if (this.editId === 0) {
@@ -276,6 +278,7 @@ import Datepicker from 'vuejs-datepicker';
                 this.transaction.accountId = accountId;
                 this.transaction.cashboxId = cashboxId;
             },
+ 
         }
     }
 

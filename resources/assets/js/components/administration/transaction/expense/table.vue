@@ -1,10 +1,10 @@
 <template>
-       <div class="col-xs-11">
+       <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="table-responsive text-center">
 
                         <table class="table table-striped table-bordered text-center">
-                            <thead>
+                            <thead class="bg-danger">
                               <tr>
                                 <th>#</th>
                                 <th>FECHA</th>
@@ -60,24 +60,41 @@
                         
                              <div v-if="transaction.payable != ''">
                                  <h3><b>Cuentas por Pagar Asociadas:</b></h3>
-                                    <hr>
-                                    <ul v-for="(payable,index) in transaction.payable" :key="payable.payableId">
-                                        {{++index}}) <b>Direccion:</b> 
-                                       {{payable.subcont_inv_detail.invoice.contract.propertyNumber}} 
+
+                                <div class="col-xs-9 col-xs-offset-2">
+                                    <div class="panel panel-default">          
+                                        <div class="table-responsive text-center">
+                                           <table class="table table-striped table-bordered text-center ">
+                                         <thead>
+                                             <tr class="bg-success">
+                                              <th>#</th>
+                                              <th>DIRECCION</th>
+                                              <th>MONTO</th>
+                                              <th>MOTIVO</th>                
+                                             </tr>
+                                         </thead>
+                                       <tbody>
+                                             <tr v-for="(payable,index) in transaction.payable" :key="payable.payableId">
+                                                 <td>{{++index}} </td>
+                                                 <td> {{payable.subcont_inv_detail.invoice.contract.propertyNumber}} 
                                        {{payable.subcont_inv_detail.invoice.contract.streetName}} 
                                        {{payable.subcont_inv_detail.invoice.contract.streetType}} 
                                        {{payable.subcont_inv_detail.invoice.contract.suiteNumber}} 
                                        {{payable.subcont_inv_detail.invoice.contract.city}} 
                                        {{payable.subcont_inv_detail.invoice.contract.state}} 
-                                       {{payable.subcont_inv_detail.invoice.contract.zipCode}}
-                                         <br>
-                                        <b>Monto Pagado:</b> {{payable.pivot.amountPaid}} <br>
-                                        <b>Motivo:</b> {{payable.pivot.reason}}<br>    
-                                      </ul>
-                                    <hr>
-                            </div>  
-                            </td>
-                        </tr> 
+                                       {{payable.subcont_inv_detail.invoice.contract.zipCode}} </td>
+                                                 <td>{{payable.pivot.amountPaid}} </td>
+                                                 <td>{{payable.pivot.reason}} </td>
+                                             </tr>
+                                     </tbody>
+                                    </table>
+                                   </div>
+                               </div>
+                           </div>
+              
+                        </div>  
+                      </td>
+                    </tr> 
 
                          </template>                 
                         </tbody>

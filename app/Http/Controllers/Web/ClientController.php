@@ -45,13 +45,19 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
 
         $clientNumberFormat = $this->oCompanyConfiguration->generateClientNumberFormat(session('companyId'),session('parentCompanyId'));
         $contactTypes       = $this->oContactType->getAllByOffice(session('companyId'));
-
-        return view('module_contracts.clients.create', compact('contactTypes','clientNumberFormat'));
+ 
+        if($request->ajax()) {
+         return [
+                 'clientNumberFormat' => $clientNumberFormat,
+                 'contactTypes' => $contactTypes
+                ];
+            }
+        // return view('module_contracts.clients.create', compact('contactTypes','clientNumberFormat'));
     }
 
     /**
@@ -73,9 +79,8 @@ class ClientController extends Controller
                 return $rs;
             }
 
-        $notification = array('alert-type' => $rs['alert'],'message'=> $rs['msj']);
-
-        return redirect()->route('clients.index')->with($notification);
+        // $notification = array('alert-type' => $rs['alert'],'message'=> $rs['message']);
+        // return redirect()->route('clients.index')->with($notification);
 
     }
 
@@ -85,14 +90,14 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    // public function edit($id)
+    // {
 
-        $client       = $this->oClient->findById($id, session('companyId'));
-        $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
+    //     $client       = $this->oClient->findById($id, session('companyId'));
+    //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
 
-        return view('module_contracts.clients.edit', compact('client','contactTypes'));
-    }
+    //     return view('module_contracts.clients.edit', compact('client','contactTypes'));
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -101,18 +106,21 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClientRequest $request,$clientId)
+    public function update(Request $request,$clientId)
     {
+       
              $rs = $this->oClient->updateClient(
                session('companyId'),
                $clientId,
                $request->all()
               );
 
+              if($request->ajax()){
+                return $rs;
+            }
 
-        $notification = array('alert-type' => $rs['alert'],'message' => $rs['msj']);
-
-        return redirect()->route('clients.index')->with($notification);
+        // $notification = array('alert-type' => $rs['alert'],'message' => $rs['message']);
+        // return redirect()->route('clients.index')->with($notification);
     }
     /**
      * Display the specified resource.
@@ -141,7 +149,7 @@ class ClientController extends Controller
         $result = $this->oClient->deleteClient(session('countryId'),$id);
 
          $notification = array(
-            'message'    => $result['msj'],
+            'message'    => $result['message'],
             'alert-type' => $result['alert'],
         );
         return redirect()->route('clients.index')

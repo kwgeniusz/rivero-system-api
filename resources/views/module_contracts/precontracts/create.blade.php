@@ -33,7 +33,9 @@
                   <input class="input-label flatpickr" id="precontractDate" name="precontractDate" value="{{old('precontractDate')  }}">
                 </div>
 
+                <div class="inputother boxes2">
                 <search-client pref-url='../../' ></search-client>
+                </div>
               
                 <div class="inputother boxes2">
                   <label for="contractType"><i class="fas fa-file-contract"></i> TIPO DE CONTRATO</label>

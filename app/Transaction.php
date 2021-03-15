@@ -2,11 +2,12 @@
 
 namespace App;
 
-
 use DB;
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\TransactionType;
 use App\SaleNote;
+use App\Company;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
@@ -32,6 +33,7 @@ class Transaction extends Model
                'invoiceId',
                'deleted_at'];
 
+    protected $appends = ['transactionDate'];
     //--------------------------------------------------------------------
                /** RELATIONS */
     //--------------------------------------------------------------------
@@ -55,10 +57,10 @@ class Transaction extends Model
     {
         return $this->hasOne('App\Cashbox', 'cashboxId', 'cashboxId');
     }
-     public function invoice()
-    {
-        return $this->belongsTo('App\Invoice', 'invoiceId', 'invoiceId');
-    }
+    //  public function invoice()
+    // {
+    //     return $this->belongsTo('App\Invoice', 'invoiceId', 'invoiceId');
+    // }
     public function transactionable()
     {
         return $this->morphTo();
@@ -80,14 +82,12 @@ class Transaction extends Model
     {
         return decrypt($amount);
     }
-    public function getTransactionDateAttribute($transactionDate)
+    public function getTransactionDateAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($transactionDate);
-        return $newDate;
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['transactionDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
-
     // ------------MUTADORES-----------------//
     public function setAmountAttribute($amount)
     {
@@ -96,11 +96,9 @@ class Transaction extends Model
     }
     public function setTransactionDateAttribute($transactionDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($transactionDate);
-
-        $this->attributes['transactionDate'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $transactionDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['transactionDate'] = $date;
     }
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -146,8 +144,8 @@ class Transaction extends Model
     //------------------------------------
     public function getAllForSign($transactionSign,$countryId,$companyId)
     {
-// ->with('invoiceDetails','note','scope','projectDescription')
-        $result = $this->with('invoice','paymentMethod','transactionType','account.bank','user','invoice.contract','document','payable')
+
+        $result = $this->with('paymentMethod','transactionType','account.bank','transactionable','document','user')
                       ->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 
@@ -262,9 +260,9 @@ class Transaction extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'msj' => 'Transaccion Exitosa','transactionId'=>$transaction->transactionId];
+          return $rs  = ['alert' => 'success', 'message' => 'Transaccion Exitosa','transactionId'=>$transaction->transactionId];
         } else {
-            return $rs = ['alert' => 'error', 'msj' => $error];
+            return $rs = ['alert' => 'error', 'message' => $error];
         }
 
     }
@@ -295,9 +293,9 @@ class Transaction extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'info', 'msj' => 'Transaccion Eliminada'];
+            return $result = ['alert' => 'info', 'message' => 'Transaccion Eliminada'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
     }
     //-----------------------------------------
