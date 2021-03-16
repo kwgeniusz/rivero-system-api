@@ -326,6 +326,7 @@ a, label, span {
 
 .create {
   position: relative;
+  width: 100%;
   padding: 40px;
   display: flex;
   justify-content: center;
@@ -333,6 +334,7 @@ a, label, span {
   background: #dadada;
   border-radius: 20px;
   flex-wrap: wrap;
+  margin: auto;
 }
 
 .formulario {
