@@ -183,37 +183,16 @@ class Transaction extends Model
     //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->with('document')
+        return $this->with('document','account')
                       ->where('transactionId', '=', $id)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 
                       ->get();
     }
 
-    //------------------------------------------
-    //   public function insertC($model,$data)
-    // {
-    //     $comment                      = new Comment;
-    //     $comment->commentContent      = $data['commentContent'];
-    //     $comment->commentDate         = date('Y-m-d H:i:s');
-    //     $comment->commentable_id      = $model->getKey();
-    //     $comment->commentable_type    = get_class($model);
-    //     $comment->userId              = Auth::user()->userId;
-    //     $comment->save();
-
-    //      if ($comment) {
-    //         return $result = ['alert-type' => 'success', 'message' => 'Nuevo Comentario Insertado'];
-    //     } else {
-    //         return $result = ['alert-type' => 'error', 'message' => $error];
-    //     }
-    // }
-
-
     public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '')
     {
-
-        $error = null;
-      
+        $error = null; 
         DB::beginTransaction();
         try {
 
@@ -266,6 +245,69 @@ class Transaction extends Model
         }
 
     }
+ //------------------------------------------
+  public function updateT($transactionId,$data)
+ {
+        $error = null;
+      
+        DB::beginTransaction();
+        try {
+
+            //INSERTA UNA NUEVA TRANSACTION
+            $transaction                          = Transaction::find($transactionId);
+            $transaction->transactionTypeId       = $data['transactionTypeId'];
+            $transaction->description             = $data['description'];
+            $transaction->payMethodId             = $data['payMethodId'];
+            $transaction->payMethodDetails        = $data['payMethodDetails'];
+            $transaction->reason                  = $data['reason'];
+            $transaction->transactionDate         = $data['transactionDate'];
+            $transaction->amount                  = $data['amount'];
+            $transaction->cashboxId               = $data['cashboxId'];
+            $transaction->accountId               = $data['accountId'];
+            $transaction->save();
+            
+            // $photo = $request->file('photo');
+            // $new = rand() . '_' . $bank->getClientOriginalName();
+            // $new = preg_replace("/[^a-zA-Z0-9.]/", "", $new);
+            // $photo->move(public_path('images'), $new);
+            // $validate['photo'] = $new;
+ //   $currentFile = $user->photo
+
+// if($request->photo != $currentPhoto){
+//  $name = nombre del nuevo documento
+ 
+// \Image::make($request->photo)->save(public_path('img/profile/').$name);
+// $request->merge(['photo' => $name]);
+// }
+
+// if(file_exists()){
+//  @unlink($userPhoto);
+// }
+
+            //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
+            //AGREGAR DOCUMENTO SI ES DE EGRESO
+        //   if($sign == '-' && $model == '') {
+        //     $oDocument = new Document;
+        //     $rs2 = $oDocument->insertF($file,'transaction',$transaction->transactionId,'expense');
+        //   }
+   
+            
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+          return $rs  = ['alert' => 'success', 'message' => 'Transaccion Modificada Exitorisamente','transactionId'=>$transaction->transactionId];
+        } else {
+            return $rs = ['alert' => 'error', 'message' => $error];
+        }
+
+    }   
     //------------------------------------------
     public function deleteT($id)
     {      

@@ -171,10 +171,7 @@ Vue.component(
   "form-new-service",
   require("./components/administration/FormNewService.vue")
 );
-Vue.component(
-  "select-bank-cashbox",
-  require("./components/administration/SelectBankOrCashbox.vue")
-);
+
 Vue.component(
   "select-bank-with-account",
   require("./components/administration/SelectBankWithAccount.vue")

@@ -22,7 +22,7 @@
                              <template v-for="(transaction, index) in transactionList">       
                              <tr>
                                 <td >{{index + 1}}</td>
-                                <td class="text-left"> {{transaction.transactionDate}}</td>
+                                <td class="text-left"> {{transaction.transactionDate | moment("MM/DD/YYYY hh:mm A")}}</td>
                                 <td class="text-left"> {{transaction.description}}</td>
                                 <td class="text-left"> {{transaction.payment_method.payMethodName}} {{transaction.payMethodDetails}}</td>
                                 <td class="text-left"> {{transaction.reason}}</td> 

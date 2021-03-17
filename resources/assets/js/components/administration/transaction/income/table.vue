@@ -22,7 +22,7 @@
                              <tr  v-for="(transaction, index) in transactionList" :key="transaction.transactionId">
                                 <td >{{index + 1}}</td>
                                 <td class="text-left"> 
-                                    {{transaction.transactionDate}}
+                                    {{transaction.transactionDate | moment("MM/DD/YYYY hh:mm A")}}
                                     {{transaction.transactionDateLocal}}
                                     </td>
                                 <td class="text-left"> {{transaction.description}} <br>
@@ -69,7 +69,7 @@
     export default {
         mounted() {
             console.log('Component mounted.') 
-            console.log(this.transactionList)
+            // console.log(this.transactionList)
         },
         props: {
             transactionList: {},

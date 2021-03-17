@@ -31,9 +31,13 @@
                                 <label for="reason" class="form-group">MOTIVO</label>
                                 <input type="text" v-model="transaction.reason" class="form-control" id="reason" name="reason">
                         </div>
-
+                      
                         <div class="row"></div>
-                        <select-bank-cashbox @shareData="getValueFromPayMethod" pref-url="../"></select-bank-cashbox>
+                        <select-bank-cashbox v-if="transaction.payMethodId" @shareData="getValueFromPayMethod" 
+                         :prop-paymethod = "transaction.payMethodId"
+                         :prop-bank      = "transaction.bankId"
+                         :prop-account   = "transaction.accountId"
+                         :prop-cashbox   = "transaction.cashboxId"></select-bank-cashbox>
 
                         <div class="form-group col-md-9">
                                 <label for="payMethodDetails" class="form-group">DETALLES DEL METODO</label>
@@ -78,6 +82,7 @@
 </template>
 
 <script>
+    import SelectBankCashbox from '../../SelectBankOrCashbox.vue'
     import {Spanish} from 'flatpickr/dist/l10n/es.js';
 
     export default {
@@ -91,22 +96,22 @@
 
             if (this.editId > 0) {
                 // transaction to edit.
-                axios.get(`/show/${this.editId}`).then((response) => {
-                    this.data = response.data[0]
+                axios.get(`/transactions/${this.editId}`).then((response) => {
+                    let data = response.data[0]
+                    this.transaction.transactionDate = data.transactionDate;
+                    this.transaction.description = data.description;
+                    this.transaction.reason = data.reason;
+                    this.transaction.payMethodId = data.payMethodId;
+                    this.transaction.payMethodDetails = data.payMethodDetails;
+                    this.transaction.transactionTypeId = data.transactionTypeId;
+                    this.transaction.amount = data.amount;
+                    this.transaction.cashboxId = data.cashboxId;
+                    this.transaction.accountId = data.accountId;
+                    this.transaction.bankId = data.account.bankId;
+                });
+            } else{
 
-                    this.transaction.transactionDate = this.data.transactionDate;
-                    this.transaction.description = this.data.description;
-                    this.transaction.reason = this.data.reason;
-                    this.transaction.payMethodId = this.data.payMethodId;
-                    this.transaction.payMethodDetails = this.data.payMethodDetails;
-                    this.transaction.transactionTypeId = this.data.transactionTypeId;
-                    this.transaction.amount = this.data.amount;
-                    this.transaction.cashboxId = this.data.cashboxId;
-                    this.transaction.accountId = this.data.accountId;
-
-                })
-                
-            }      
+            }     
         },
         data(){
             return{
@@ -130,6 +135,7 @@
                      transactionTypeId: '',
                      amount: '',
                      cashboxId: '',
+                     bankId: '',
                      accountId: '',
                      imagen: ''
                 },
@@ -139,6 +145,9 @@
        props: {
             editId:'',
         },
+      components: {
+         SelectBankCashbox
+     },  
         methods: {
             createUpdateTransaction(){
               this.errors = [];
@@ -158,9 +167,8 @@
 
 
            if (!this.errors.length) { 
-                if (this.editId === 0) {
 
-                let formData = new FormData();
+                      let formData = new FormData();
                      formData.append('transactionDate',this.transaction.transactionDate);
                      formData.append('description',this.transaction.description);
                      formData.append('reason',this.transaction.reason);
@@ -169,6 +177,7 @@
                      formData.append('transactionTypeId',this.transaction.transactionTypeId);
                      formData.append('amount',this.transaction.amount);
                      formData.append('sign', '+');
+                     formData.append("_method", "put");
                      if(this.transaction.payMethodId == 2){
                        formData.append('cashboxId',this.transaction.cashboxId);
                        formData.append('accountId','');
@@ -177,6 +186,7 @@
                        formData.append('accountId',this.transaction.accountId);
                      }
 
+                if (this.editId === 0) {
                     axios.post('/transactions', formData)
                     .then((response) => {
                          toastr.success(response.data.message);
@@ -188,7 +198,7 @@
                     });
 
                 }else {
-                    axios.put('/transactions', params)
+                    axios.post(`/transactions/${this.editId}`, formData)
                     .then((response) => {
                         alert('Success')
                         })

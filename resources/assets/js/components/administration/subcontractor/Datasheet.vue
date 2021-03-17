@@ -186,7 +186,6 @@ Total Monto Pendiente:  {{totals.balance}} <br>
 
 
  <script>
-import SelectBankOrCashbox from '../SelectBankOrCashbox.vue'
 
   export default {
      mounted() {

@@ -102,7 +102,7 @@
             }
         },
         props: {
-            clientList: {},
+            clientList: [],
         },  
         computed: {
             searchUser: function () {

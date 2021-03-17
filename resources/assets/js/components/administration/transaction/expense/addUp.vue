@@ -106,7 +106,7 @@
 
             if (this.editId > 0) {
                 // transaction to edit.
-                axios.get(`-/show/${this.editId}`).then((response) => {
+                axios.get(`/transactions/${this.editId}`).then((response) => {
                     this.data = response.data[0]
 
                     this.transaction.transactionDate = this.data.transactionDate;
@@ -209,7 +209,7 @@
                        formData.append('accountId',this.transaction.accountId);
                      }
 
-                    axios.post('/transactions/store', formData, {
+                    axios.post('/transactions', formData, {
                            headers: {
                             'Content-Type': 'multipart/form-data'
                              }

@@ -186,7 +186,11 @@ class TransactionController extends Controller
      */
     public function store(TransactionRequest $request)
     {        
-         if($request->sign == '-'){  
+         if($request->sign == '-'){ 
+            // if (request()->hasFile('photo')) {
+            //     $request->validate([
+            //         'photo' => ['image','mimes:jpg,jpeg','max:100']
+            //     ]);
              $this->validate($request, ['file' => 'required|image']);
          }
 
@@ -218,22 +222,18 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClientRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->oClient->updateClient($id,
-            session('countryId'),
-            $request->clientName,
-            $request->clientAddress,
-            $request->contactTypeId,  
-            $request->clientPhone,
-            $request->clientEmail
-        );
-        $notification = array(
-            'message'    => 'Cliente Modificado Exitosamente',
-            'alert-type' => 'success',
-        );
-        return redirect()->route('clients.index')
-            ->with($notification);
+
+        // dd($request->all());
+        // exit();
+        $rs = $this->oTransaction->updateT(
+            $id,
+            $request->all()
+         );
+
+ 
+        return $rs;
     }
     /**
      * Display the specified resource.
@@ -244,7 +244,7 @@ class TransactionController extends Controller
     public function show($id)
     {
         $transaction = $this->oTransaction->findById($id,session('countryId'),session('companyId'));
-        return $transaction;
+         return $transaction;
     }
 
     /**

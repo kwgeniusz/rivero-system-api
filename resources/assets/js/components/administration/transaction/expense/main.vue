@@ -41,7 +41,7 @@
     export default {
         mounted() {
 
-            axios.get('/transactions/-').then((response) => {
+            axios.get('/transactions/-/index').then((response) => {
                 this.transactionList = response.data
             console.log(this.transactionList)
             })
@@ -85,7 +85,7 @@
             // },
             showlist(n){
                 this.formStatus = 0
-                axios.get('/transactions/-').then((response) => {
+                axios.get('/transactions/-/index').then((response) => {
                     this.transactionList = response.data
                     // console.log(this.transactionList)
                 })

@@ -1,5 +1,9 @@
 <template>
 <div>
+paymethodId:{{payMethodId}}
+bankId:{{bankId}}
+accountId:{{accountId}}
+cashboxId:{{cashboxId}}
           <div class="form-group col-lg-8">
             <label for="payMethodId">METODO DE PAGO</label>
             <select class="form-control" id="payMethodId" name="payMethodId" v-model="payMethodId">
@@ -37,22 +41,28 @@
         
      mounted() {
             console.log('Component SelectBankOrCashbox mounted.')
-            
-               axios.get(this.prefUrl+'receivables-paymentMethod').then(response => {
+                       this.payMethodId = this.propPaymethod;
+                       this.bankId      = this.propBank;
+                       this.accountId   = this.propAccount;
+                       this.cashboxId   = this.propCashbox;
+
+              //  axios.get(this.prefUrl+'receivables-paymentMethod').then(response => {
+               axios.get('/receivables-paymentMethod').then(response => {
                  this.listPaymentMethods = response.data
 
-                       axios.get(this.prefUrl+'banksByOffice').then(response => {
+                      //  axios.get(this.prefUrl+'banksByOffice').then(response => {
+                       axios.get('/banksByOffice').then(response => {
                        this.listBank = response.data
-                       this.bankId = this.listBank[0].bankId;
+                      //  this.bankId = this.listBank[0].bankId;
                        this.getAccount();
 
-                           axios.get(this.prefUrl+'cashboxs').then(response => {
+                          //  axios.get(this.prefUrl+'cashboxs').then(response => {
+                           axios.get('/cashboxs').then(response => {
                             this.cashboxId =  response.data[0].cashboxId
-                               this.payMethodId = 1;
+                              //  this.payMethodId = 1;
                             });
                       }); 
                 });  
- 
            },
      data: function () {
           return {
@@ -68,19 +78,28 @@
           }
     },
     props: {
-           prefUrl: { type: String,default:null},
+          //  prefUrl: { type: String,default:null},
+           propPaymethod: {  type: Number, default: null},
+           propBank: {  type: Number, default: null},
+           propAccount: {  type: Number, default: null},
+           propCashbox: {  type: Number, default: null}
           },
     watch: {
      payMethodId: function () {
+          if(this.payMethodId == 2){
+                this.accountId = '';
+                this.bankId    = '';
+          }
           this.$emit("shareData",this.payMethodId,this.accountId,this.cashboxId);
        }, 
     },
     methods: {
         getAccount: function (){
-         var url = this.prefUrl+'accounts/'+this.bankId;
+        //  var url = this.prefUrl+'accounts/'+this.bankId;
+         var url = '/accounts/'+this.bankId;
             axios.get(url).then(response => {
               this.listAccount = response.data;
-              this.accountId = this.listAccount[0].accountId;
+              // this.accountId = this.listAccount[0].accountId;
             });
             
         },
