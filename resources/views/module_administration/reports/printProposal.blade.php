@@ -247,7 +247,7 @@
 @if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
 
 </div>                            
-{{$client->clientEmail}}   <br>
+{{$client->mainEmail}}   <br>
 P. {{$client->businessPhone}}    <br>
 C. ID: {{$client->clientCode}}   <br>
 
@@ -272,7 +272,9 @@ C. ID: {{$client->clientCode}}   <br>
 <br>
 <div class="prologue">
 Dear <b>
-@if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
+@if($client->gender == 'M') Mr. @else Mrs. @endif 
+
+ {{$client->clientName}}</b>
 </div>
 
 <br>
