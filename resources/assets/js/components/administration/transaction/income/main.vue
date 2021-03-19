@@ -28,7 +28,8 @@
             ></button-form>
 
             <table-transaction-income  
-                :transactionList = transactionList
+                :transactionList  = transactionList
+                :transactionCodes = transactionCodes
                 @editData = "editData"
                 @showlist = "showlist">
             </table-transaction-income>
@@ -42,14 +43,18 @@
         mounted() {
 
             axios.get('/transactions/+/index').then((response) => {
-                this.transactionList = response.data
-            console.log(this.transactionList)
+                // console.log(response.data.fee)
+                this.transactionList = response.data.transaction
+                this.transactionCodes.push(response.data.income_invoice[0])
+                this.transactionCodes.push(response.data.fee[0])
+            console.log(this.transactionCodes)
             })
         
         },
         data() {
             return{
                 transactionList: [],
+                transactionCodes: [],
                 // parents: [],
                 formStatus: 0,
                 editId: '',
@@ -64,16 +69,12 @@
                 this.editId = id
                 this.formStatus = 2
             }, 
-            // carga(){
-            //     XMLHttpRequest.onprogress = function (event) {
-            //     event.loaded;
-            //     event.total;
-            //     };
-            // },
             showlist(n){
                 this.formStatus = 0
                 axios.get('/transactions/+/index').then((response) => {
-                    this.transactionList = response.data
+                    this.transactionList  = response.data.transaction
+                    this.transactionCodes.push(response.data.income_invoice[0])
+                    this.transactionCodes.push(response.data.fee[0])
                 })
             
             

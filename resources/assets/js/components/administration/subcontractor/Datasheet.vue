@@ -70,13 +70,8 @@ Total Monto Pendiente:  {{totals.balance}} <br>
           </label>
             </td>
             <td>
-                {{payable.subcont_inv_detail.invoice.contract.propertyNumber}} 
-                {{payable.subcont_inv_detail.invoice.contract.streetName}} 
-                {{payable.subcont_inv_detail.invoice.contract.streetType}} 
-                {{payable.subcont_inv_detail.invoice.contract.suiteNumber}} 
-                {{payable.subcont_inv_detail.invoice.contract.city}} 
-                {{payable.subcont_inv_detail.invoice.contract.state}} 
-                {{payable.subcont_inv_detail.invoice.contract.zipCode}}
+                {{payable.subcont_inv_detail.invoice.contract.siteAddress}} 
+  
             </td>
             <td>{{payable.subcont_inv_detail.invoice.invId}}</td>
             <td>{{payable.amountDue}}</td>
@@ -295,11 +290,11 @@ Total Monto Pendiente:  {{totals.balance}} <br>
                 accountId:        this.accountId, 
             }).then(response => {
                    if (response.data.alert == "error") {
-                       toastr.error(response.data.msj)
+                       toastr.error(response.data.message)
                          this.btnSubmitForm = true;
                    } else {
                        location.reload();
-                       toastr.success(response.data.msj)
+                       toastr.success(response.data.message)
                    }
   
             })

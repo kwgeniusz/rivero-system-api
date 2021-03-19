@@ -154,7 +154,7 @@ class Payable extends Model
               $payMethodId,
               $payMethodDetails,
               'NINGUNA RAZON',
-              date('m/d/Y'),
+              date('Y-m-d'),
               $amountPaidAcum,
               '-',
               $cashboxId,
@@ -163,7 +163,7 @@ class Payable extends Model
               Auth::user()->userId);
 
               if($rs1['alert'] == 'error') {
-                throw new \Exception($rs1['msj']);
+                throw new \Exception($rs1['message']);
                }; 
           
             //busca datos de la cuota que el usuario escogio 
@@ -214,9 +214,9 @@ class Payable extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'success', 'msj' => 'Pago Realizado Exitosamente'];
+            return $result = ['alert' => 'success', 'message' => 'Pago Realizado Exitosamente'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
 
     }
@@ -234,9 +234,9 @@ class Payable extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'info', 'msj' => 'Cliente Eliminado'];
+            return $result = ['alert' => 'info', 'message' => 'Cliente Eliminado'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => 'No se Puede Eliminar porque este registro tiene relacion con otros datos.'];
+            return $result = ['alert' => 'error', 'message' => 'No se Puede Eliminar porque este registro tiene relacion con otros datos.'];
         }
     }  
 }

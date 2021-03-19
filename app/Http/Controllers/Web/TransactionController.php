@@ -38,10 +38,20 @@ class TransactionController extends Controller
     {
 
     $transactions   = $this->oTransaction->getAllForSign($sign,session('countryId'),session('companyId'));
+    
+    if($request->ajax()) {
+       if ($sign == '+') {
+               $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
+               $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
-        if($request->ajax()) {
-           return $transactions;
+         return ['transaction'    => $transactions, 
+                 'income_invoice' => $income_invoice,
+                 'fee' => $fee];
         }
+       else{
+         return $transactions;
+       }
+    }
         
 //     $income_invoice = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
 //     $fee            = $this->oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
@@ -253,7 +263,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($sign, $id)
+    public function delete($id)
     {
          //VALIDAR QUE NO ENTRE SI TIENE FACTURA RELACIONADA EN LA TABLA
        $rs = $this->oTransaction->deleteT($id);

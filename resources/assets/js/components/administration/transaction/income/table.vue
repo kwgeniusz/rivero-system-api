@@ -1,5 +1,18 @@
 <template>
        <div class="col-xs-12">
+
+<div>
+Total Transacciones: ${{totals.transactions}} <br>
+Manuales: ${{totals.manuales}} <br>
+Fee: ${{totals.fee}} <br>
+Total: ${{totals.netTotal}} <br>
+</div>
+ <ul class="list-group">
+    <li class="list-group-item">
+        <input type="text" placeholder="Escribe una palabra para buscar..." class="form-control" v-model="inputSearch">
+    </li>
+</ul>
+
                 <div class="panel panel-default">
                     <div class="table-responsive text-center">
 
@@ -18,8 +31,8 @@
                                  <th>ACCIONES</th>
                                 </tr>
                             </thead>
-                            <tbody>  
-                             <tr  v-for="(transaction, index) in transactionList" :key="transaction.transactionId">
+                            <tbody v-if="searchData.length > 0">
+                             <tr  v-for="(transaction, index) in searchData" :key="transaction.transactionId">
                                 <td >{{index + 1}}</td>
                                 <td class="text-left"> 
                                     {{transaction.transactionDate | moment("MM/DD/YYYY hh:mm A")}}
@@ -57,8 +70,14 @@
                                 </tr>
                      
                         </tbody>
-                     </table>
-
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="12">
+                                <loading></loading>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
                     </div>
                 </div>
             </div>
@@ -67,17 +86,59 @@
 
 <script>
     export default {
-        mounted() {
+    mounted() {
             console.log('Component mounted.') 
+            console.log(this.transactionCodes)
             // console.log(this.transactionList)
         },
-        props: {
-            transactionList: {},
-        },  
-        data(){
+     data(){
             return{
-               
+                inputSearch: '',
             }
+        },
+        props: {
+            transactionList:  {  type: [Array], default: null},
+            transactionCodes:  {  type: [Array], default: null},
+        },  
+         computed: {
+            searchData: function () {
+                return this.transactionList.filter((transaction) => {
+                  return transaction.description.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                         transaction.reason.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                         transaction.amount.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                         transaction.user.fullName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                         transaction.payment_method.payMethodName.toLowerCase().includes(this.inputSearch.toLowerCase()) 
+                })
+            }, 
+        totals: function (){
+              var totalManual = 0;
+              var totalTransaction = 0;
+              var totalFee = 0;
+              var netTotal = 0;
+
+              var that = this; // Work around!
+                 this.searchData.forEach(function(data){
+                      if(data.transactionTypeId == that.transactionCodes[0].transactionTypeId) {
+                         if(data.transactionable == null){
+                          totalManual = parseFloat(totalManual) + parseFloat(data.amount);
+                          }
+                         else{
+                          totalTransaction = parseFloat(totalTransaction) + parseFloat(data.amount);
+                          }
+                       }else if(data.transactionTypeId == that.transactionCodes[1].transactionTypeId) {
+                          totalFee = parseFloat(totalFee) + parseFloat(data.amount);
+                        }
+                });
+               netTotal = totalTransaction + totalManual + totalFee;
+
+              return {
+              'transactions': totalTransaction.toFixed(2),
+              'manuales': totalManual.toFixed(2),
+              'fee': totalFee.toFixed(2),
+              'netTotal': netTotal.toFixed(2)}
+         
+                // return `Ingresos de Facturas ${suma.toFixed(2)}`;
+            }  
         },
         methods: {
             editTransaction(index, id){
@@ -86,7 +147,7 @@
             },
             deleteTransaction(index, id){
                 if (confirm(`Esta Seguro de Eliminar la Transaccion #${++index}?`) ){
-                    axios.delete(`-/delete/${id}`).then((response) => {
+                    axios.delete(`/transactions/${id}`).then((response) => {
                            toastr.success(response.data.message);
                            this.$emit('showlist', 0)
                     })

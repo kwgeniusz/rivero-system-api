@@ -19,7 +19,7 @@
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
                         <flat-pickr v-model="transaction.transactionDate" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>
-                          {{transaction.transactionDate}}
+                          <!-- {{transaction.transactionDate}} -->
                     </div>
 
                         <div class="form-group col-md-9">
@@ -48,8 +48,8 @@
                         <div class="form-group col-lg-10 ">
                             <label for="transactionTypeId">TIPO DE TRANSACCION:</label>
                                  <select class="form-control" v-model="transaction.transactionTypeId" id="transactionTypeId">
-                                    <option value=""> </option>
-                                    <option v-for="item in transactionTypesList" :key="item.transactionTypeId" :value="item.transactionTypeId">{{item.transactionTypeName}}</option>
+                                    <!-- <option value=""> </option> -->
+                                    <option v-for="(item, index) in transactionTypesList" :key="item.transactionTypeId" :value="item.transactionTypeId" >{{item.transactionTypeName}}</option>
                                 </select>
                         </div>
 
@@ -63,6 +63,7 @@
                              <button-form 
                               :buttonType = 1
                                @cancf = "cancf"
+                                v-if="showSubmitBtn"
                              ></button-form>
 
                             </div>
@@ -98,6 +99,7 @@
                 // transaction to edit.
                 axios.get(`/transactions/${this.editId}`).then((response) => {
                     let data = response.data[0]
+
                     this.transaction.transactionDate = data.transactionDate;
                     this.transaction.description = data.description;
                     this.transaction.reason = data.reason;
@@ -110,13 +112,14 @@
                     this.transaction.bankId = data.account.bankId;
                 });
             } else{
-
+                this.transaction.payMethodId = 1;
             }     
         },
         data(){
             return{
                 errors: [],
                 transactionTypesList: [],
+                showSubmitBtn:true,
 
                  configFlatPickr:{
                     //  enableTime: true,
@@ -155,20 +158,28 @@
                if (!this.transaction.transactionDate) 
                 this.errors.push('Debe escoger una Fecha Para la Transaccion.');
                 if (!this.transaction.description) 
-                this.errors.push('Debe Ingresar Una Descripcion.');
+                this.errors.push('Debe Ingresar una Descripcion.');
                  if (!this.transaction.reason) 
-                this.errors.push('Debe escoger una Razon.');
+                this.errors.push('Debe Escribir un Motivo.');
                  if (!this.transaction.payMethodDetails) 
                 this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
                  if (!this.transaction.transactionTypeId) 
-                this.errors.push('Debe escoger un Expense.');
+                this.errors.push('Debe escoger un Tipo de Transaccion.');
                  if (!this.transaction.amount) 
                 this.errors.push('Debe Ingresar Un Monto.');
 
+                  if(this.transaction.payMethodId != 2){
+
+                     if (!this.transaction.bankId) 
+                        this.errors.push('Debe Escoger un Banco.');
+                     if (!this.transaction.accountId) 
+                        this.errors.push('Debe Escoger una Cuenta.');
+
+                    }
 
            if (!this.errors.length) { 
 
-                      let formData = new FormData();
+                 let formData = new FormData();
                      formData.append('transactionDate',this.transaction.transactionDate);
                      formData.append('description',this.transaction.description);
                      formData.append('reason',this.transaction.reason);
@@ -177,7 +188,6 @@
                      formData.append('transactionTypeId',this.transaction.transactionTypeId);
                      formData.append('amount',this.transaction.amount);
                      formData.append('sign', '+');
-                     formData.append("_method", "put");
                      if(this.transaction.payMethodId == 2){
                        formData.append('cashboxId',this.transaction.cashboxId);
                        formData.append('accountId','');
@@ -187,20 +197,24 @@
                      }
 
                 if (this.editId === 0) {
+                     this.showSubmitBtn =false;
+
                     axios.post('/transactions', formData)
                     .then((response) => {
                          toastr.success(response.data.message);
                            this.$emit('showlist', 0)
-                   
                         })
                     .catch(function (response) {
-                        alert("Faile post")
+                        alert("Error de Servidor")
+                         this.showSubmitBtn =true;
                     });
 
                 }else {
+                    formData.append("_method", "put");
                     axios.post(`/transactions/${this.editId}`, formData)
                     .then((response) => {
-                        alert('Success')
+                        toastr.success(response.data.message);
+                        this.$emit('showlist', 0);
                         })
                     .catch(function (error) {
                         console.log(error);
@@ -212,12 +226,14 @@
                 console.log('vista a mostrar: ' + n)
                 this.$emit('showlist', 0)
             },
-            getValueFromPayMethod(payMethodId,accountId,cashboxId) {
+            getValueFromPayMethod(payMethodId,bankId,accountId,cashboxId) {
                 // console.log('metodo de pago'+payMethodId)
+                // console.log('bank Id'+bankId)
                 // console.log('account Id'+accountId)
                 // console.log('cashbox Id'+cashboxId)
 
                 this.transaction.payMethodId = payMethodId;
+                this.transaction.bankId = bankId;
                 this.transaction.accountId = accountId;
                 this.transaction.cashboxId = cashboxId;
             },

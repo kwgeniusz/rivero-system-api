@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-7 col-md-offset-2">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
 
                 <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Transaccion de Egreso</h4></div>
@@ -19,7 +19,7 @@
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
                         <flat-pickr v-model="transaction.transactionDate" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>
-                          {{transaction.transactionDate}}
+                          <!-- {{transaction.transactionDate}} -->
                     </div>
 
                         <div class="form-group col-md-9">
@@ -33,7 +33,12 @@
                         </div>
 
                         <div class="row"></div>
-                        <select-bank-cashbox @shareData="getValueFromPayMethod" pref-url="../"></select-bank-cashbox>
+                          <select-bank-cashbox v-if="transaction.payMethodId" @shareData="getValueFromPayMethod" 
+                         :prop-paymethod = "transaction.payMethodId"
+                         :prop-bank      = "transaction.bankId"
+                         :prop-account   = "transaction.accountId"
+                         :prop-cashbox   = "transaction.cashboxId"></select-bank-cashbox>
+
 
                         <div class="form-group col-md-9">
                                 <label for="payMethodDetails" class="form-group">DETALLES DEL METODO</label>
@@ -44,7 +49,7 @@
                         <div class="form-group col-lg-10 ">
                             <label for="transactionTypeId">EXPENSES:</label>
                                  <select class="form-control" v-model="transaction.transactionTypeId" id="transactionTypeId">
-                                    <option value=""> </option>
+                                    <!-- <option value=""> </option> -->
                                     <option v-for="item in transactionTypesList" :key="item.transactionTypeId" :value="item.transactionTypeId">{{item.transactionTypeName}}</option>
                                 </select>
                         </div>
@@ -53,27 +58,24 @@
                               <label for="amount">MONTO</label>
                               <input type="number" class="form-control" step="0.01" id="amount" name="amount"  v-model="transaction.amount" >
                         </div>  
-
+    <div v-if="editId === 0">
                <div class="row"></div>
-                  <div class="form-group col-lg-6">
+                <div class="form-group col-lg-6">
                   <label for="file">COMPROBANTE DE EGRESO</label>
                   <input type="file" @change="obtenerImagen" name="file">
                </div>
-
-
                <div class="row"></div>
                <figure v-if="transaction.imagen">
-                   <img width="400" height="300" :src="imagenMiniatura" alt="Foto del Producto">
-
+                <img width="400" height="300" :src="imagenMiniatura" alt="Foto del Producto">
                    <!-- <img v-if="editId > 0"   width="400" height="300" :src="transaction.imagen" alt="Foto del Producto"> -->
                    <!-- <img v-else width="400" height="300" :src="imagen" alt="Foto del Producto"> -->
-
                </figure>
-
+   </div>
                         <div v-if="editId === 0">
                              <button-form 
                               :buttonType = 1
                                @cancf = "cancf"
+                                v-if="showSubmitBtn"
                              ></button-form>
 
                             </div>
@@ -93,6 +95,7 @@
 </template>
 
 <script>
+    import SelectBankCashbox from '../../SelectBankOrCashbox.vue'
     import {Spanish} from 'flatpickr/dist/l10n/es.js';
 
     export default {
@@ -107,42 +110,41 @@
             if (this.editId > 0) {
                 // transaction to edit.
                 axios.get(`/transactions/${this.editId}`).then((response) => {
-                    this.data = response.data[0]
+                    let data = response.data[0]
 
-                    this.transaction.transactionDate = this.data.transactionDate;
-                    this.transaction.description = this.data.description;
-                    this.transaction.reason = this.data.reason;
-                    this.transaction.payMethodId = this.data.payMethodId;
-                    this.transaction.payMethodDetails = this.data.payMethodDetails;
-                    this.transaction.transactionTypeId = this.data.transactionTypeId;
-                    this.transaction.amount = this.data.amount;
-                    this.transaction.cashboxId = this.data.cashboxId;
-                    this.transaction.accountId = this.data.accountId;
-                    this.transaction.imagen = this.raizUrl+this.data.document.docUrl;
+                    this.transaction.transactionDate = data.transactionDate;
+                    this.transaction.description = data.description;
+                    this.transaction.reason = data.reason;
+                    this.transaction.payMethodId = data.payMethodId;
+                    this.transaction.payMethodDetails = data.payMethodDetails;
+                    this.transaction.transactionTypeId = data.transactionTypeId;
+                    this.transaction.amount = data.amount;
+                    this.transaction.cashboxId = data.cashboxId;
+                    this.transaction.accountId = data.accountId;
+                    this.transaction.bankId = data.account.bankId;
+                    this.transaction.imagen = this.raizUrl+data.document.docUrl;
                     
                     this.cargarImagen(this.transaction.imagen);
-                    // console.log(this.transaction.imagen)
-                    // this.nameCompany = document.querySelector("#department_name").value = this.transactionData[0].departmentName
-                    // this.selectDepartmen =document.querySelector("#selectDepartmen").value = this.transactionData[0].parentDepartmentId
-                    // this.deparmetIds = this.transactionData[0].departmentId
-                    // console.log('deparmetIds ' +this.deparmetIds)
-                })
-                
+
+                })  
+            }else{
+                this.transaction.payMethodId = 1;
             }      
         },
         data(){
             return{
                 errors: [],
                 transactionTypesList: [],
+                showSubmitBtn:true,
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 imagenMiniatura:'',
 
                  configFlatPickr:{
-                     enableTime: true,
-                     time_24hr: false,
-                     altFormat: 'm/d/Y - h:i K',
+                    //  enableTime: true,
+                    //  time_24hr: false,
+                     altFormat: 'm/d/Y',
                      altInput: true,
-                     dateFormat: 'Y-m-d H:i',
+                     dateFormat: 'Y-m-d',
                      locale: Spanish, // locale for this instance only  
                  },
                 transaction:  {
@@ -154,6 +156,7 @@
                      transactionTypeId: '',
                      amount: '',
                      cashboxId: '',
+                     bankId: '',
                      accountId: '',
                      imagen: ''
                 },
@@ -163,6 +166,9 @@
        props: {
             editId:'',
         },
+    components: {
+         SelectBankCashbox
+     },          
        computed: {
         //  imagen(){
         //      return this.imagenMiniatura;
@@ -184,15 +190,21 @@
                 this.errors.push('Debe escoger un Expense.');
                  if (!this.transaction.amount) 
                 this.errors.push('Debe Ingresar Un Monto.');
-                 if (!this.transaction.imagen) 
+            
+                 if (!this.transaction.imagen && this.editId === 0) 
                 this.errors.push('Debe adjuntar una Imagen Obligatoria.');
 
+              if(this.transaction.payMethodId != 2){
+                     if (!this.transaction.bankId) 
+                        this.errors.push('Debe Escoger un Banco.');
+                     if (!this.transaction.accountId) 
+                        this.errors.push('Debe Escoger una Cuenta.');
 
+                    }
            if (!this.errors.length) { 
-                if (this.editId === 0) {
-
+               
                 let formData = new FormData();
-                     formData.append('transactionDate',dateFormated);
+                     formData.append('transactionDate',this.transaction.transactionDate);
                      formData.append('description',this.transaction.description);
                      formData.append('reason',this.transaction.reason);
                      formData.append('payMethodId',this.transaction.payMethodId);
@@ -209,38 +221,29 @@
                        formData.append('accountId',this.transaction.accountId);
                      }
 
+                if (this.editId === 0) {
+                     this.showSubmitBtn =false;
+
                     axios.post('/transactions', formData, {
                            headers: {
                             'Content-Type': 'multipart/form-data'
                              }
                     })
                     .then((response) => {
-
                          toastr.success(response.data.message);
-
-                         this.transaction.transactionDate = '';
-                         this.transaction.description = '';
-                         this.transaction.reason = '';
-                         this.transaction.payMethodId = '';
-                         this.transaction.payMethodDetails = '';
-                         this.transaction.transactionTypeId = '';
-                         this.transaction.amount = '';
-                         this.transaction.cashboxId = '';
-                         this.transaction.accountId = '';
-                         this.transaction.imagen = '';
-
-
                            this.$emit('showlist', 0)
-                        //   console.log(transaction)
                         })
                     .catch(function (response) {
                         alert("Faile post")
+                         this.showSubmitBtn =true;
                     });
 
                 }else {
-                    axios.put('/transactions/', params)
+                    formData.append("_method", "put");
+                  axios.post(`/transactions/${this.editId}`, formData)
                     .then((response) => {
-                        alert('Success')
+                         toastr.success(response.data.message);
+                        this.$emit('showlist', 0);
                         })
                     .catch(function (error) {
                         console.log(error);
@@ -269,12 +272,14 @@
                 console.log('vista a mostrar: ' + n)
                 this.$emit('showlist', 0)
             },
-            getValueFromPayMethod(payMethodId,accountId,cashboxId) {
-                // console.log('metodo de pago'+payMethodId)
-                // console.log('account Id'+accountId)
-                // console.log('cashbox Id'+cashboxId)
+             getValueFromPayMethod(payMethodId,bankId,accountId,cashboxId) {
+                console.log('metodo de pago'+payMethodId)
+                console.log('bank Id'+bankId)
+                console.log('account Id'+accountId)
+                console.log('cashbox Id'+cashboxId)
 
                 this.transaction.payMethodId = payMethodId;
+                this.transaction.bankId = bankId;
                 this.transaction.accountId = accountId;
                 this.transaction.cashboxId = cashboxId;
             },

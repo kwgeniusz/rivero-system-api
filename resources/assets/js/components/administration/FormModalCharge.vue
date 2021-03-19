@@ -90,9 +90,10 @@
           </div>
      </div>
 
-         <div class="form-group col-lg-6 col-lg-offset-3">
+         <div class="form-group col-lg-8 col-lg-offset-3">
            <label for="formDatePaid">FECHA DEL COBRO</label>
-            <input class="form-control flatpickr" id="formDatePaid" v-model="formDatePaid">
+           <flat-pickr v-model="formDatePaid" :config="configFlatPickr"  class="form-control" id="formDatePaid"></flat-pickr>
+
           </div>
 
 
@@ -107,6 +108,7 @@
 </template>
 
 <script>
+    import {Spanish} from 'flatpickr/dist/l10n/es.js';
 
     export default {
         
@@ -120,6 +122,15 @@
            listBank: {},
            listAccount: {},
            invId:'',
+
+              configFlatPickr:{
+                    //  enableTime: true,
+                    //  time_24hr: false,
+                     altFormat: 'm/d/Y',
+                     altInput: true,
+                     dateFormat: 'Y-m-d',
+                     locale: Spanish, // locale for this instance only  
+                 },
 
             errors: [],
             formCollectMethod: 1,
@@ -244,11 +255,11 @@
                 datePaid: this.formDatePaid,
             }).then(response => {
                    if (response.data.alert == "error") {
-                       toastr.error(response.data.msj)
+                       toastr.error(response.data.message)
                          this.btnSubmitForm = true;
                    } else {
                        location.reload();
-                       toastr.success(response.data.msj)
+                       toastr.success(response.data.message)
                    }
   
             })

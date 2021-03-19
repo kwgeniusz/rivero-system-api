@@ -389,9 +389,9 @@ foreach ($proposalDetails as $propDetail) {
 
 @if($proposal[0]->term->isNotEmpty())
 	<div class="big bold center">Terms & Conditions</div>
-		 <ul>
+		<ul>
 @foreach($proposal[0]->term as $item)
-		<li>{!! nl2br($item->termName) !!}</li>
+		  <li>{!! nl2br($item->termName) !!}</li>
 @endforeach
 	  </ul>
 @endif

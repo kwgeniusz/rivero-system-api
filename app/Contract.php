@@ -26,7 +26,7 @@ class Contract extends Model
 
     protected $table      = 'contract';
     protected $primaryKey = 'contractId';
-    //protected $dateFormat = 'Y-m-d';
+
     protected $fillable = ['contractId', 'contractType', 'contractNumber', 'countryId', 'companyId',
         'contractDate', 'clientId', 'siteAddress', 'projectDescriptionId', 'projectUseId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',

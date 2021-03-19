@@ -9,9 +9,14 @@ use App\TransactionType;
 use App\SaleNote;
 use App\Company;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
+
+     //traits
+     use SoftDeletes;
+
     public $timestamps = false;
 
     protected $table      = 'transaction';
@@ -34,6 +39,7 @@ class Transaction extends Model
                'deleted_at'];
 
     protected $appends = ['transactionDate'];
+    
     //--------------------------------------------------------------------
                /** RELATIONS */
     //--------------------------------------------------------------------
@@ -145,7 +151,7 @@ class Transaction extends Model
     public function getAllForSign($transactionSign,$countryId,$companyId)
     {
 
-        $result = $this->with('paymentMethod','transactionType','account.bank','transactionable','document','user')
+        $result = $this->with('payable','paymentMethod','transactionType','account.bank','transactionable','document','user')
                       ->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 

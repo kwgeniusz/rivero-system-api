@@ -1,12 +1,12 @@
 <template>
 <div>
-paymethodId:{{payMethodId}}
+<!-- paymethodId:{{payMethodId}}
 bankId:{{bankId}}
 accountId:{{accountId}}
-cashboxId:{{cashboxId}}
+cashboxId:{{cashboxId}} -->
           <div class="form-group col-lg-8">
             <label for="payMethodId">METODO DE PAGO</label>
-            <select class="form-control" id="payMethodId" name="payMethodId" v-model="payMethodId">
+            <select class="form-control"  id="payMethodId" name="payMethodId" v-model="payMethodId" required>
                <option v-for="(item, index) in listPaymentMethods" :value="item.payMethodId">{{item.payMethodName}}</option>
               </select>
            </div>
@@ -19,14 +19,14 @@ cashboxId:{{cashboxId}}
 
            <div class="form-group col-lg-8" v-if="payMethodId != 2">
             <label for="bankId">BANCO</label>
-            <select class="form-control" id="bankId" @change="getAccount()" name="bankId" v-model="bankId">
+            <select class="form-control"  id="bankId" @change="getAccount()" name="bankId" v-model="bankId" required>
                 <option v-for="(item, index) in listBank" :value="item.bankId">{{item.bankName}}</option>
             </select>
           </div>  
 
           <div class="form-group col-lg-8" v-if="payMethodId != 2">
             <label for="accountId">CUENTA DE DESTINO</label>:<br> 
-           <select class="form-control" id="accountId" v-model="accountId" name="accountId">
+           <select class="form-control"  id="accountId" name="accountId" v-model="accountId" required>
              <option v-for="(item, index) in listAccount" :value="item.accountId">{{item.accountCodeId}}</option>
             </select>
           </div> 
@@ -54,7 +54,9 @@ cashboxId:{{cashboxId}}
                        axios.get('/banksByOffice').then(response => {
                        this.listBank = response.data
                       //  this.bankId = this.listBank[0].bankId;
-                       this.getAccount();
+                     if(this.bankId > 0){
+                        this.getAccount();
+                     }  
 
                           //  axios.get(this.prefUrl+'cashboxs').then(response => {
                            axios.get('/cashboxs').then(response => {
@@ -79,19 +81,27 @@ cashboxId:{{cashboxId}}
     },
     props: {
           //  prefUrl: { type: String,default:null},
-           propPaymethod: {  type: Number, default: null},
-           propBank: {  type: Number, default: null},
-           propAccount: {  type: Number, default: null},
-           propCashbox: {  type: Number, default: null}
+           propPaymethod: {  type: [String,Number], default: null},
+           propBank: {  type: [String,Number], default: null},
+           propAccount: {  type: [String,Number], default: null},
+           propCashbox: {  type: [String,Number], default: null}
           },
     watch: {
      payMethodId: function () {
           if(this.payMethodId == 2){
                 this.accountId = '';
                 this.bankId    = '';
+          }else{
+                this.cashboxId = '';
           }
-          this.$emit("shareData",this.payMethodId,this.accountId,this.cashboxId);
+          this.$emit("shareData",this.payMethodId,this.bankId,this.accountId,this.cashboxId);
        }, 
+      bankId: function () {
+          this.$emit("shareData",this.payMethodId,this.bankId,this.accountId,this.cashboxId);
+       },  
+      accountId: function () {
+          this.$emit("shareData",this.payMethodId,this.bankId,this.accountId,this.cashboxId);
+       },   
     },
     methods: {
         getAccount: function (){
