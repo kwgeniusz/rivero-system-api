@@ -31,8 +31,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
       // $clients = $this->oClient->getClientByGroupAndPagination(session('countryId'),session('companyId'),session('parentCompanyId'),$request->filteredOut);
-
-         $clientsCompany = $this->oClient->getClientByCompany(session('companyId'),$request->filteredOut);
+         $clientsCompany = $this->oClient->getClientByCompany(session('companyId'));
          
          if($request->ajax()) {
                return $clientsCompany;
@@ -68,6 +67,13 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
+        // if (Client::where('email', $email)->exists()) {
+        //     // email encontrado
+        //    }
+        //    if (Client::where('email', $email)->exists()) {
+        //     // email encontrado
+        //    }    
+
         $rs = $this->oClient->insertClient(
             session('countryId'),
             session('companyId'),

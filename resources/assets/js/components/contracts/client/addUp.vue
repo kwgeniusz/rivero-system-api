@@ -214,6 +214,7 @@
 
            if (!this.errors.length) { 
                 if (this.editId === 0) {  
+                    // that = this 
                     this.showSubmitBtn =false;
                     
                     axios.post('/clients', this.client).then((response) => {
@@ -229,9 +230,11 @@
                            this.$emit('showlist', 0)
    
                         })
-                    .catch(function (response) {
+                    .catch(function (e) {
+                      // toastr.error(e.data.erros);
                         alert("ERROR EN EL SERVIDOR")
-                        this.showSubmitBtn =true;
+                        // console.log(this)
+                        // this.showSubmitBtn = true;
                     });
 
                 }else {

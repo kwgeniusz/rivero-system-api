@@ -71,13 +71,7 @@
                 <modal-client-details pref-url="/" client-id="{{$contract->client->clientId}}" client-name="{{$contract->client->clientName}}"></modal-client-details>
 
                      </td>  
-                       <td>{{$contract->propertyNumber}}
-                        {{$contract->streetName}}
-                        {{$contract->streetType}}
-                        {{$contract->suiteNumber}}
-                        {{$contract->city}}
-                        {{$contract->state}}
-                        {{$contract->zipCode}}  
+                       <td>{{$contract->siteAddress}}
                         <br> 
                       @if($contract->projectName) 
                        ( {{$contract->projectName}} )

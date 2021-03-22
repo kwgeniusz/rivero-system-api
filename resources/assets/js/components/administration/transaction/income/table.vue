@@ -1,18 +1,28 @@
 <template>
-       <div class="col-xs-12">
+<div>
 
 <div>
-Total Transacciones: ${{totals.transactions}} <br>
-Manuales: ${{totals.manuales}} <br>
-Fee: ${{totals.fee}} <br>
-Total: ${{totals.netTotal}} <br>
-</div>
- <ul class="list-group">
-    <li class="list-group-item">
-        <input type="text" placeholder="Escribe una palabra para buscar..." class="form-control" v-model="inputSearch">
-    </li>
-</ul>
+    <div class="col-xs-4">
+     Total Transacciones: ${{totals.transactions}} <br>
+     Manuales: ${{totals.manuales}} <br>
+     Fee: ${{totals.fee}} <br>
+     Total: ${{totals.netTotal}} <br>
+    </div>   
 
+    <div class="col-xs-4">
+      <ul class="list-group">
+        <li class="list-group-item">
+            <input type="text" placeholder="Buscar" class="form-control" v-model="inputSearch">
+        </li>
+       </ul>
+    </div> 
+   <div class="col-xs-4">
+    
+    </div>
+</div>
+ <br>
+
+      <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="table-responsive text-center">
 
@@ -80,6 +90,8 @@ Total: ${{totals.netTotal}} <br>
                     </table>
                     </div>
                 </div>
+
+            </div>
             </div>
         
 </template>

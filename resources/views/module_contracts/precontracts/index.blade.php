@@ -64,15 +64,10 @@
                      </td>
                     <td>{{$precontract->client->clientCode}}   </td>
                     <td>
-                     <modal-client-details pref-url="/" client-id="{{$precontract->client->clientId}}" client-name="{{$precontract->client->clientName}}"></modal-client-details>
+                     <modal-client-details pref-url="/" client-id="{{$precontract->client->clientId}}" company-name="{{$precontract->client->companyName}}" client-name="{{$precontract->client->clientName}}"></modal-client-details>
                     </td>  
-                    <td >{{$precontract->propertyNumber}}
-                        {{$precontract->streetName}}
-                        {{$precontract->streetType}}
-                        {{$precontract->suiteNumber}}
-                        {{$precontract->city}}
-                        {{$precontract->state}}
-                        {{$precontract->zipCode}} <br>
+                    <td >{{$precontract->siteAddress}}
+                  <br>
                         @if($precontract->projectName) 
                          ( {{$precontract->projectName}} )
                         @endif  </td>

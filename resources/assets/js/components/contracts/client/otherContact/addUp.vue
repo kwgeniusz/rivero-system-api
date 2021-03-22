@@ -50,18 +50,17 @@
         </div>
 
                         <div v-if="editId === 0">
-                             <button-form 
-                              :buttonType = 1
-                               @cancf = "cancf"
-                               v-if="showSubmitBtn"
-                             ></button-form>
+                           <button v-if="showSubmitBtn" type="submit" class="btn btn-success">
+                               <span class="fa fa-check"></span> Guardar
+                          </button>
+
                             </div>
 
                             <div v-if="editId > 0">
-                                <button-form 
-                                    :buttonType = 2
-                                    @cancf = "cancf"
-                                ></button-form>
+                             <button type="submit" class="btn btn-primary">
+                                 <span class="fa fa-check"></span>
+                                  Actualizar
+                            </button>
                             </div>
 
                     </form>
@@ -135,7 +134,9 @@
 
                     axios.post(`/clients/${this.clientId}/other-contacts`, this.otherContact).then((response) => {
                            toastr.success(response.data.message);
-                           this.$emit('showlist', 0)
+                          this.$refs.modalNew.close()
+
+                        //    this.$emit('showlist', 0)
                         })
                     .catch(function (response) {
                         alert("ERROR EN EL SERVIDOR")
@@ -145,7 +146,8 @@
                 }else {
                     axios.put(`/other-contacts/${this.editId}`, this.otherContact).then((response) => {
                           toastr.success(response.data.message);
-                          this.$emit('showlist', 0)
+                          this.$refs.modalNew.close()
+                        //   this.$emit('showlist', 0)
                         })
                     .catch(function (error,response) {
                          toastr.success(response.data.message);

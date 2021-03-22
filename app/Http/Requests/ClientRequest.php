@@ -24,10 +24,11 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'clientName'    => 'required|max:255',
-            'clientAddress' => 'max:255',
+            'clientName'       => 'required|max:255',
+            'clientAddress'    => 'max:255',
             'contactTypeId'    => 'required',
-
+            // 'businessPhone'    => 'unique:client',
+            // 'mainEmail'        => 'unique:client',
         ];
     }
     /**

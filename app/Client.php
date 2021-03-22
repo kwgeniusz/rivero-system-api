@@ -57,6 +57,7 @@ class Client extends Model
     //--------------------------------------------------------------------
                /** ACCESORES **/
    //--------------------------------------------------------------------
+   
 //    public function getTransactionDateAttribute($transactionDate)
 //    {
 //         $oDateHelper = new DateHelper;
@@ -85,18 +86,18 @@ class Client extends Model
     /** Query Scope  */
 //--------------------------------------------------------------------
     //nombre codigo direccion
-    public function scopeFilter($query, $filteredOut)
-    {
-        if ($filteredOut) {
-            return $query->where('clientCode', 'LIKE', "%$filteredOut%")
-                         ->orWhere('clientName', 'LIKE', "%$filteredOut%")
-                         ->orWhere('businessPhone', 'LIKE', "%$filteredOut%")
-                         ->orWhere('mainEmail', 'LIKE', "%$filteredOut%")
-                         ->orWhereHas('company', function ($query) use ($filteredOut) {
-                              return $query->where('companyName', 'LIKE', "%$filteredOut%");
-                          });
-        }
-    }
+    // public function scopeFilter($query, $filteredOut)
+    // {
+    //     if ($filteredOut) {
+    //         return $query->where('clientCode', 'LIKE', "%$filteredOut%")
+    //                      ->orWhere('clientName', 'LIKE', "%$filteredOut%")
+    //                      ->orWhere('businessPhone', 'LIKE', "%$filteredOut%")
+    //                      ->orWhere('mainEmail', 'LIKE', "%$filteredOut%")
+    //                      ->orWhereHas('company', function ($query) use ($filteredOut) {
+    //                           return $query->where('companyName', 'LIKE', "%$filteredOut%");
+    //                       });
+    //     }
+    // }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -173,11 +174,11 @@ class Client extends Model
     }
 
 
-    public function getClientByCompany($companyId,$filteredOut) {  
+    public function getClientByCompany($companyId) {  
                
          return $this->with('contactType','company','otherContact')
                     ->where('companyId', '=', $companyId)
-                    ->filter($filteredOut)
+                    ->orderBy('cltId', 'DESC')
                     ->get(); 
      }      
   

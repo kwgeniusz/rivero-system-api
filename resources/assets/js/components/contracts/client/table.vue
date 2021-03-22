@@ -1,13 +1,16 @@
 <template>
-       <div class="col-xs-12">
-           
-           
+       <div >
+
+
+
+<div class="col-xs-4 col-xs-offset-4">
   <ul class="list-group">
     <li class="list-group-item">
         <input type="text" placeholder="Buscar" class="form-control" v-model="inputSearch">
     </li>
    </ul>
-            <br>
+</div>   
+            <div class="col-xs-12">
                 <div class="panel panel-default">          
 
 <!-- <ul class="nav nav-tabs nav-justified">
@@ -38,13 +41,15 @@
                               <tr>
                                 <th>#</th>
                                 <th>CODIGO</th>
-                                  <th>COMPANIA</th>
-                                  <th>RESPONSABLE / CLIENTE</th>
+                                <th>TIPO</th>
+                                  <th>COMPANIA<br>
+                                   (RESPONSABLE / CLIENTE)
+                                   </th>
                                   <th>GENERO</th>
                                   <th>DIRECCION</th> 
                                   <th>TELEFONO DE NEGOCIO</th> 
-                                  <th>TELEFONO DE CASA</th> 
-                                  <th>CELULAR</th> 
+                                  <!-- <th>TELEFONO DE CASA</th>  -->
+                                  <!-- <th>CELULAR</th>  -->
                                   <th>CORREO</th> 
                                   <th>ACCIONES</th>            
                                </tr>
@@ -54,13 +59,19 @@
                              <tr>
                                 <td >{{index + 1}}</td>
                                 <td class="text-left"> {{client.clientCode}}</td>
-                                <td class="text-left"> {{client.companyName}}</td>
-                                <td class="text-left"> {{client.clientName}}</td>
+                                <td class="text-left"> {{client.clientType}}</td>
+                                <td class="text-left"> 
+                               <modal-client-details pref-url="/" 
+                               :client-id="client.clientId" 
+                               :client-name="client.clientName"
+                               :company-name="client.companyName">
+                               </modal-client-details>
+                                </td>
                                 <td class="text-left"> {{client.gender}}</td> 
                                 <td class="text-left"> {{client.clientAddress}}</td>  
                                 <td class="text-left"> {{client.businessPhone}}</td>
-                                <td class="text-left"> {{client.homePhone}}</td>
-                                <td class="text-left"> {{client.mobilePhone}}</td>
+                                <!-- <td class="text-left"> {{client.homePhone}}</td> -->
+                                <!-- <td class="text-left"> {{client.mobilePhone}}</td> -->
                                 <td class="text-left"> {{client.mainEmail}}</td>
                                 <td> 
                                  <button @click="toggle(client.clientId)" :class="{ opened: opened.includes(client.clientId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>  
@@ -84,6 +95,8 @@
 
                     </div>
                 </div>
+                
+            </div>
             </div>
         
 </template>
@@ -107,10 +120,27 @@
         computed: {
             searchUser: function () {
                 return this.clientList.filter((client) => {
-                  if(client.clientName !== null) 
-                  return client.clientName.toLowerCase().includes(this.inputSearch.toLowerCase())
+
+                  if(client.companyName == null ) 
+                     client.companyName = 'No Info'
+                  if(client.clientName == null ) 
+                     client.clientName = 'No Info'
+                  if(client.clientAddress == null ) 
+                     client.clientAddress = 'No Info'
+                  if(client.businessPhone == null ) 
+                     client.businessPhone = 'No Info'
+                  if(client.mainEmail == null ) 
+                     client.mainEmail = 'No Info'
+                  
+                  // return client.clientName.toLowerCase().includes(this.inputSearch.toLowerCase())
+                   return client.companyName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          client.clientName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          client.clientAddress.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          client.businessPhone.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          client.mainEmail.toLowerCase().includes(this.inputSearch.toLowerCase()) 
+                  
                 })
-            }
+            } //end of the function searchUser
         },
        methods: {
          editData(index, id){
