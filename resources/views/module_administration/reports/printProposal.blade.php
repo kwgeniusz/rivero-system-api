@@ -17,7 +17,7 @@
 		margin: 1.5cm 1.5cm 2.5cm 1.5cm;
 		font-size: 12px;
 		background: white;
-		/* Para rodar todo desde arriba */
+		/* To move everything up there */
 		margin-top: 135px;
 }
 
@@ -77,7 +77,7 @@
 		border-radius: 0px 0px 0px 10px;
 		z-index: 2;
 }
-	 /** Define the footer rules **/
+	 /** Footer rules **/
 		.footer {
 		position: fixed;
 		top: 96%;
@@ -203,6 +203,11 @@
 		margin-left: 40px;
 		}
 
+/* Top margin for table, #TODO have to improve this later on */
+		.ts{
+		margin-top: 5px;
+		}
+
 </style>
 
 
@@ -285,9 +290,8 @@ Dear <b>Mr/Mrs. {{$client->clientName}}</b>
 <div>
 To comply with the scope of work we propose the following deliverables:
 </div>
-<br>
  
- <table style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
+ <table class="ts" style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
 				<thead>
 				<tr class="table-header bold">
 					<th width="5%" align="center">#</th>
