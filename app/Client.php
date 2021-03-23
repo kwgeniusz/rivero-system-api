@@ -85,19 +85,19 @@ class Client extends Model
 //--------------------------------------------------------------------
     /** Query Scope  */
 //--------------------------------------------------------------------
-    //nombre codigo direccion
-    // public function scopeFilter($query, $filteredOut)
-    // {
-    //     if ($filteredOut) {
-    //         return $query->where('clientCode', 'LIKE', "%$filteredOut%")
-    //                      ->orWhere('clientName', 'LIKE', "%$filteredOut%")
-    //                      ->orWhere('businessPhone', 'LIKE', "%$filteredOut%")
-    //                      ->orWhere('mainEmail', 'LIKE', "%$filteredOut%")
-    //                      ->orWhereHas('company', function ($query) use ($filteredOut) {
-    //                           return $query->where('companyName', 'LIKE', "%$filteredOut%");
-    //                       });
-    //     }
-    // }
+    // nombre codigo direccion
+    public function scopeFilter($query, $filteredOut)
+    {
+        if ($filteredOut) {
+            return $query->where('clientCode', 'LIKE', "%$filteredOut%")
+                         ->orWhere('clientName', 'LIKE', "%$filteredOut%")
+                         ->orWhere('businessPhone', 'LIKE', "%$filteredOut%")
+                         ->orWhere('mainEmail', 'LIKE', "%$filteredOut%")
+                         ->orWhereHas('company', function ($query) use ($filteredOut) {
+                              return $query->where('companyName', 'LIKE', "%$filteredOut%");
+                          });
+        }
+    }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
