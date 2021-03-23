@@ -39,7 +39,7 @@
            </div>
 
         <div class="form-group col-lg-12">
-                <label style="color:red">*</label><label for="clientName"><i class="fas fa-user-friends"></i> NOMBRE Y APELLIDO / REPRESENTANTE</label>
+               <label for="clientName"><i class="fas fa-user-friends"></i> NOMBRE Y APELLIDO / REPRESENTANTE</label>
                 <input type="text" class="form-control" v-model="client.clientName" name="clientName" placeholder="">
               </div>
 
@@ -200,8 +200,8 @@
                 if (!this.client.companyName) 
                 this.errors.push('El Nombre de la Compania es obligatorio.');
                }
-                 if (!this.client.clientName) 
-                this.errors.push('El Nombre del Cliente es obligatorio.');
+                //  if (!this.client.clientName) 
+                // this.errors.push('El Nombre del Cliente es obligatorio.');
                  if (!this.client.gender) 
                 this.errors.push('El Genero es obligatorio.');
                  if (!this.client.businessPhone) 

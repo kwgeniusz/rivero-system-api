@@ -59,9 +59,16 @@ class Document extends Model
 //------------------------------------------
     public function insertF($file,$modelType,$modelId,$typeDoc)
     {
+        
      $year = date("Y");
      $companyName = session('companyName');
      $heicRs = preg_match('/.HEIC/', $file->getClientOriginalName());
+
+    //  $image = new \Imagick();
+    //  $image->readImageBlob($file);
+    //  $image->setImageFormat("jpeg");
+    //  $image->setImageCompressionQuality(100);
+    //  $image->writeImage($targetdir.$uid.".jpg"); 
 
         $error = null;
         DB::beginTransaction();

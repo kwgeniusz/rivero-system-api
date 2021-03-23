@@ -101,6 +101,11 @@ class Payable extends Model
 //-------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+  public function findBySubcont($subcontInvDetailId)
+  {
+    return $this->where('subcontInvDetailId', '=', $subcontInvDetailId)
+                ->get();
+  }
     public function getAllBySubcontractor($subcontId)
     {
         //consulta que traer relaciones desde tabla payable hasta contratc, y tiene una comparacion dentro de la relacion
@@ -119,9 +124,9 @@ class Payable extends Model
         $payable                     = new Payable;
         $payable->countryId          = session('countryId');
         $payable->companyId          = session('companyId');
-        $payable->amountDue         = $amountDue;
-        $payable->balance           = $amountDue;
-        $payable->amountPaid           = $amountDue;
+        $payable->amountDue          = $amountDue;
+        $payable->acumAmountPaid     = '0.00';
+        $payable->balance            = $amountDue;  
         $payable->subcontInvDetailId = $subcontInvDetailId;
         $payable->userId             = Auth::user()->userId;
         $payable->save();

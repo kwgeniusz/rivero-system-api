@@ -243,15 +243,21 @@
  </div>
 
 <div class="date bold">
-{{-- July 8th, 2020  --}}
 {{$date->format('F jS, Y')}}
 </div>       
 
 <div class="big bold">
+<b>
+@if($client->clientType == 'COMPANY') 
+  {{$client->companyName}}
+@else 
+  @if($client->gender == 'M') Mr. @else Mrs. @endif {{$client->clientName}}
+@endif
 
-@if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
 
-</div>                            
+</b>
+</div>   
+
 {{$client->mainEmail}}   <br>
 P. {{$client->businessPhone}}    <br>
 C. ID: {{$client->clientCode}}   <br>
@@ -276,10 +282,12 @@ C. ID: {{$client->clientCode}}   <br>
 
 <br>
 <div class="prologue">
-Dear <b>
-@if($client->gender == 'M') Mr. @else Mrs. @endif 
+@if($client->clientType == 'COMPANY' && $client->clientName == '') 
+  Dears <b>{{$client->companyName}}<b/>
+@else 
+  @if($client->gender == 'M')Dear <b>Mr. @else Dear <b>Mrs. @endif  {{$client->clientName}}</b>
+@endif
 
- {{$client->clientName}}</b>
 </div>
 
 <br>

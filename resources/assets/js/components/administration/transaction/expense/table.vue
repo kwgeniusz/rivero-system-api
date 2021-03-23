@@ -57,7 +57,7 @@
                                 </td>      
                                <td class="text-left">{{transaction.user.fullName}}</td>
                                   <td> 
-                                 <button @click="toggle(transaction.transactionId)" :class="{ opened: opened.includes(transaction.transactionId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-user" aria-hidden="true"></i></button>  
+                                 <button @click="toggle(transaction.transactionId)" :class="{ opened: opened.includes(transaction.transactionId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-angle-double-down" aria-hidden="true"></i></button>  
                                      <div v-if="transaction.transactionable_id == null">
                                         <button @click="editTransaction(index,transaction.transactionId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                         <button @click="deleteTransaction(index,transaction.transactionId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
@@ -99,7 +99,7 @@
                                </div>
                            </div>
               
-                        </div>  
+                        </div>
                       </td>
                     </tr> 
 
