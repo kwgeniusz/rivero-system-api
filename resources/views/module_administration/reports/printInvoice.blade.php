@@ -371,7 +371,7 @@ foreach ($invoiceDetails as $invDetail) {
                  <td width="35%">{{$moneySymbol}} {{$payment->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
                  <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$payment->datePaid->format('d-m-Y i')}}</td>
+                 <td width="30%">{{Carbon\Carbon::parse($payment->datePaid)->format('m/d/Y') }}</td>
                  <td width="15%"></td>
                 </tr>
               </table>
