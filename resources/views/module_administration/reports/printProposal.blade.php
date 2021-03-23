@@ -5,8 +5,8 @@
 		font-weight: normal;
 }
 
-		.page-break {
-		page-break-after: always;
+		table {
+		page-break-after: avoid;
 }
 
 		.pagenum:before {
@@ -205,7 +205,7 @@
 
 /* Top margin for table, #TODO have to improve this later on */
 		.ts{
-		margin-top: 5px;
+		margin-top: 10px;
 		}
 
 </style>
