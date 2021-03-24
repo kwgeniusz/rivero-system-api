@@ -90,10 +90,9 @@
           </div>
      </div>
 
-         <div class="form-group col-lg-8 col-lg-offset-3">
+         <div class="form-group col-xs-12 col-md-8 col-md-offset-4">
            <label for="formDatePaid">FECHA DEL COBRO</label>
            <flat-pickr v-model="formDatePaid" :config="configFlatPickr"  class="form-control" id="formDatePaid"></flat-pickr>
-
           </div>
 
 

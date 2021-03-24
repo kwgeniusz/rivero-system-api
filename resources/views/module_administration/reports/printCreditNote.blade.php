@@ -166,7 +166,7 @@ foreach ($creditNoteDetails as $invDetail) {
               <span id="bold">Name:</span> {{$client->clientName}}
             </th>
              <th colspan="1">
-              <span id="bold">Phone:</span> {{$client->clientPhone}}
+              <span id="bold">Phone:</span> {{$client->businessPhone}}
             </th>
        </tr>
       <tr> 
@@ -174,7 +174,7 @@ foreach ($creditNoteDetails as $invDetail) {
               <span id="bold">Billing Address:</span> {{$client->clientAddress}}
             </th>
              <th colspan="1">
-               <span id="bold">E-mail:</span> {{$client->clientEmail}}
+               <span id="bold">E-mail:</span> {{$client->mainEmail}}
             </th>
        </tr>
 </table>

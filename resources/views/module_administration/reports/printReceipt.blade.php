@@ -89,7 +89,7 @@
                Payment date:
             </th>
             <th>
-              {{$receivable->datePaid}}
+              {{Carbon\Carbon::parse($receivable->datePaid)->format('m/d/Y g:i A')}}
             </th>
        </tr>
 

@@ -18,7 +18,7 @@ class Receivable extends Model
     protected $primaryKey = 'receivableId';
     public $timestamps    = false;
 
-    protected $appends = ['amountDue','amountPaid','amountPercentaje'];
+    protected $appends = ['amountDue','amountPaid','amountPercentaje','datePaid'];
 
     /**
      * The attributes that are mass assignable.
@@ -76,9 +76,11 @@ class Receivable extends Model
     }
     public function getDatePaidAttribute()
     {
-        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['datePaid'], 'UTC');
-        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
-        return $date->format('Y-m-d H:i:s');
+        if($this->attributes['datePaid'] != null){
+           $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['datePaid'], 'UTC');
+           $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+           return $date->format('Y-m-d H:i:s');
+        } 
     }
 
 // //------------MUTADORES-----------------//
@@ -488,11 +490,26 @@ class Receivable extends Model
                $oTransactionType = new TransactionType;
                $collection = $oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
                // $fee        = $oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
-
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+',$receivable->cashboxId, $receivable->accountId, $invoice, Auth::user()->userId);
+                   
+               $transactionRs1 = $oTransaction->insertT(
+                   session('countryId'),
+                   session('companyId'),
+                    $collection[0]->transactionTypeId,
+                    $receivable->invoice->contract->contractNumber ,
+                    $receivable->collectMethod,
+                    '',
+                    $paymentNumber,
+                    Carbon::parse($receivable->datePaid)->format('Y-m-d'),
+                    $receivable->amountPaid,
+                    '+',
+                    $receivable->cashboxId,
+                    $receivable->accountId,
+                    $invoice,
+                    Auth::user()->userId
+                   );
 
                     if($transactionRs1['alert'] == 'error') {
-                        throw new \Exception($transactionRs['message']);
+                        throw new \Exception($transactionRs1['message']);
                     };
 
                 //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE (OJO REVISAR )
@@ -539,7 +556,7 @@ class Receivable extends Model
               }
     }//FIN DEL if($status == 4) 
 
-
+            $receivable->datePaid = Carbon::parse($receivable->datePaid)->format('Y-m-d');
             $receivable->save();
             $success = true;
             DB::commit();

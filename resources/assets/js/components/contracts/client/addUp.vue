@@ -231,10 +231,10 @@
    
                         })
                     .catch(function (e) {
-                      // toastr.error(e.data.erros);
+                      toastr.error(e.data.erros);
                         alert("ERROR EN EL SERVIDOR")
                         // console.log(this)
-                        // this.showSubmitBtn = true;
+                        this.showSubmitBtn = true;
                     });
 
                 }else {

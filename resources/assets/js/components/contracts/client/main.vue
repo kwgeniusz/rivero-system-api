@@ -43,7 +43,7 @@
 
             axios.get('/clients').then((response) => {
                 this.clientList = response.data
-            console.log(this.clientList)
+            // console.log(this.clientList)
             })
         
         },
