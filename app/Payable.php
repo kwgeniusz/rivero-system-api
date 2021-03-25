@@ -5,6 +5,7 @@ namespace App;
 use App;
 use DB;
 use Auth;
+use Carbon\Carbon;
 use App\Transaction;
 use App\Helpers\DateHelper;
 
@@ -51,12 +52,13 @@ class Payable extends Model
     {
         return decrypt($this->attributes['balance']);
     }
-    public function getDatePaidAttribute($datePaid)
+    public function getCreatedAtAttribute($created_at)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($datePaid);
-        return $newDate;
+      if($this->attributes['created_at'] != null){
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['created_at'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
+     } 
     }
 
 // //------------MUTADORES-----------------//
@@ -75,13 +77,11 @@ class Payable extends Model
         $balance = number_format((float)$balance, 2, '.', '');
         return $this->attributes['balance'] = encrypt($balance);
     } 
-    public function setDatePaidAttribute($datePaid)
+    public function setCreatedAtAttribute($created_at)
     {
-        $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($datePaid);
-
-        $this->attributes['datePaid'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $created_at, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['created_at'] = $date;
     }
 //--------------------------------------------------------------------
     /** Relations */
@@ -121,6 +121,8 @@ class Payable extends Model
     }
       public function insertP($subcontInvDetailId,$amountDue)
     {
+         date_default_timezone_set(session('companyTimeZone'));
+
         $payable                     = new Payable;
         $payable->countryId          = session('countryId');
         $payable->companyId          = session('companyId');
@@ -128,6 +130,7 @@ class Payable extends Model
         $payable->acumAmountPaid     = '0.00';
         $payable->balance            = $amountDue;  
         $payable->subcontInvDetailId = $subcontInvDetailId;
+        $payable->created_at         = date('Y-m-d');
         $payable->userId             = Auth::user()->userId;
         $payable->save();
         return $payable;

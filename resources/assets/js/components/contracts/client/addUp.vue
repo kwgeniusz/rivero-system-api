@@ -215,7 +215,7 @@
            if (!this.errors.length) { 
                 if (this.editId === 0) {  
                     // that = this 
-                    this.showSubmitBtn =false;
+                    this.showSubmitBtn = false;
                     
                     axios.post('/clients', this.client).then((response) => {
                            toastr.success(response.data.message);
@@ -230,11 +230,12 @@
                            this.$emit('showlist', 0)
    
                         })
-                    .catch(function (e) {
-                      toastr.error(e.data.erros);
-                        alert("ERROR EN EL SERVIDOR")
-                        // console.log(this)
-                        this.showSubmitBtn = true;
+                    .catch((error) => {
+                      
+                      this.errors.push(error.response.data.errors.businessPhone);
+                      this.errors.push(error.response.data.errors.mainEmail);
+                        // alert("ERROR EN EL SERVIDOR")
+                       this.showSubmitBtn = true;
                     });
 
                 }else {

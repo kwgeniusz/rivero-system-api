@@ -54,8 +54,8 @@
                                   <th>ACCIONES</th>            
                                </tr>
                             </thead>
-                            <tbody>
-                             <template v-for="(client, index) in searchUser">       
+                            <tbody v-if="searchData.length > 0">
+                             <template v-for="(client, index) in searchData">       
                              <tr>
                                 <td >{{index + 1}}</td>
                                 <td class="text-left"> {{client.clientCode}}</td>
@@ -91,6 +91,13 @@
 
                          </template>                 
                         </tbody>
+                       <tbody v-else>
+                           <tr>
+                             <td colspan="12">
+                                 <loading></loading>
+                             </td>
+                          </tr>
+                         </tbody>     
                      </table>
 
                     </div>
@@ -118,7 +125,7 @@
             clientList: { type: Array},
         },  
         computed: {
-            searchUser: function () {
+            searchData: function () {
                 return this.clientList.filter((client) => {
 
                   if(client.companyName == null ) 
@@ -140,7 +147,7 @@
                           client.mainEmail.toLowerCase().includes(this.inputSearch.toLowerCase()) 
                   
                 })
-            } //end of the function searchUser
+            } //end of the function searchData
         },
        methods: {
          editData(index, id){
