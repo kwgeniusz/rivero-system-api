@@ -1,8 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-
-<main-transaction-income/>
-
-
+ <main-transaction-income/>
 @endsection

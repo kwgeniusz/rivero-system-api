@@ -75,6 +75,13 @@ class Client extends Model
 
      return $this->attributes['clientName'] = ucwords($clientName);
    }
+   public function setCompanyNameAttribute($companyName)
+   {
+    $companyName = strtolower($companyName);
+    $companyName = ucwords($companyName);
+
+     return $this->attributes['companyName'] = ucwords($companyName);
+   } 
    public function setClientAddressAttribute($clientAddress)
    {
     $clientAddress = strtolower($clientAddress);

@@ -1,7 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-
-<main-transaction-expense/>
-
+  <main-transaction-expense/>
 @endsection

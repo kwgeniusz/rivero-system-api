@@ -1,11 +1,14 @@
 @extends('layouts.master')
 
 @section('content')
-<h3><b>SUBCONTRATISTAS</b></h3>
+
+<main-subcontractor/>
+
+<!-- <h3><b>SUBCONTRATISTAS</b></h3>
     <div class="row">
         <div class="col-xs-12 ">
           <div class="text-center">
-{{-- 
+
    <div class="row ">
       <div class="col-xs-12">
       <form class="form-inline" action="{{Route('subcontractors.index')}}" method="GET">
@@ -77,11 +80,11 @@
                         <span class="fa fa-user" aria-hidden="true"></span>
                     </a> 
                     @endcan
-                   <!--  @can('BAC') 
+                    @can('BAC') 
                        <a href="{{route('subcontractors.show', ['id' => $subcontractor->subcontId])}}" class="btn btn-danger">
                             <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
                         </a>
-                    @endcan     -->
+                    @endcan    
                    </td>
                 </tr>
                 @endforeach
@@ -94,46 +97,8 @@
   
         </div>
         </div>
-    </div>
+    </div> -->
 
 
 
 @endsection
-{{-- <v-client-table :data="{{$subcontractors}}" :columns="['cltId','clientCode','clientName','clientPhone','clientEmail','contactTypeId','actions']" :options="{
-           headings: {
-            cltId: 'ID',
-            clientCode: 'CODIGO',
-            clientName: '{{__('name')}}',
-            clientPhone: '{{__('phone')}}',
-            clientEmail: '{{__('email')}}',
-            contactTypeId: 'CONTACTO',
-            actions: '{{__('actions')}}'
-           },
-            sortable: ['clientName'],
-            filterable: ['clientName'],
-            // EDITABLE TEXT OPTIONS:
-            texts: {
-                count: 'Mostrar del {from} al {to} de {count} registros|{count} registros|One record',
-                first: 'Primero',
-                last: 'Ultimo',
-                filter: 'Filtrado:',
-                filterPlaceholder: 'Buscar',
-                limit: 'Records:',
-                page: 'Pagina:',
-                noResults: 'No Se encontraron Registros',
-                filterBy: 'Filter by {column}',
-                loading: 'Cargando...',
-                defaultOption: 'Select {column}',
-                columns: 'Columns',
-                  limit:'Limites:',
-            },
-        }">
-  <div slot="actions" slot-scope="props">
-     <a :href="'subcontractors/'+props.row.clientId+'/edit'" class="btn btn-primary">
-        <span class="fa fa-edit" aria-hidden="true"></span>  {{__('edit')}}
-      </a>
-    <a :href="'subcontractors/'+props.row.clientId" class="btn btn-danger">
-        <span class="fa fa-times-circle" aria-hidden="true"></span>  {{__('delete')}}
-       </a> 
-  </div>     
-</v-client-table> --}}
