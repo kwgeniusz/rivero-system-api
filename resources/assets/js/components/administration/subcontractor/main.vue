@@ -29,7 +29,6 @@
 
             <table-subcontractor  
                 :subcontractorList  = subcontractorList
-                :transactionCodes = transactionCodes
                 @editData = "editData"
                 @showlist = "showlist">
             </table-subcontractor>
@@ -42,8 +41,9 @@
     export default {
         mounted() {
 
-            axios.get('/transactions/+/index').then((response) => {
-                this.subcontractorList = response.data.transaction
+            axios.get('/subcontractors').then((response) => {
+                // console.log(response.data)
+                this.subcontractorList = response.data
             })
         
         },
@@ -66,8 +66,8 @@
             }, 
             showlist(n){
                 this.formStatus = 0
-                axios.get('/transactions/+/index').then((response) => {
-                    this.subcontractorList  = response.data.transaction
+                axios.get('/subcontractors').then((response) => {
+                    this.subcontractorList  = response.data
                 })
             },
         }

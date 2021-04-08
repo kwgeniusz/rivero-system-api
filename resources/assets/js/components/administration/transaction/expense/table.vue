@@ -64,15 +64,17 @@
                                     </div>  
                                 </td>
                          </tr>
-                         <tr v-if="opened.includes(transaction.transactionId)" >
+                         <!-- style="background:blue"  -->
+                         <tr  v-if="opened.includes(transaction.transactionId)" >
                             <td></td>
                             <td colspan="9">
                              <div v-if="transaction.document">
                                 <!-- previzualizar la imagen -->
-                                 <img :src="raizUrl+transaction.document.docUrl" width="50%" height="50%">
+                                 <iframe v-if="transaction.document.mimeType == 'pdf'" :src="raizUrl+transaction.document.docUrl" frameborder="0" width="100%" height="700px"></iframe>
+                                 <img v-else :src="raizUrl+transaction.document.docUrl" width="50%" height="50%">
                                 <!-- descargar la imagen -->
                              </div>  
-                             <div v-else-if="transaction.payable">
+                             <div v-else-if="transaction.payable != ''">
                                  <h3><b>Cuentas por Pagar Asociadas:</b></h3>
                                 <div class="col-xs-9 col-xs-offset-2">
                                     <div class="panel panel-default">          
@@ -98,7 +100,9 @@
                                    </div>
                                </div>
                            </div>
-              
+                        </div>
+                         <div v-else>
+                           Nothing
                         </div>
                       </td>
                     </tr> 

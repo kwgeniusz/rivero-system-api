@@ -196,12 +196,9 @@ class TransactionController extends Controller
      */
     public function store(TransactionRequest $request)
     {        
-         if($request->sign == '-'){ 
-            // if (request()->hasFile('photo')) {
-            //     $request->validate([
-            //         'photo' => ['image','mimes:jpg,jpeg','max:100']
-            //     ]);
-             $this->validate($request, ['file' => 'required|image']);
+    
+         if($request->file != null){ 
+             $this->validate($request, ['file' => 'mimes:jpeg,jpg,bmp,png,gif,svg,pdf']);
          }
 
         //insert transaction and Update BANK...

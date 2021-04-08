@@ -226,7 +226,7 @@ class Transaction extends Model
             
             //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
             //AGREGAR DOCUMENTO SI ES DE EGRESO
-          if($sign == '-' && $model == '') {
+         if($file != null){ 
             $oDocument = new Document;
             $rs2 = $oDocument->insertF($file,'transaction',$transaction->transactionId,'expense');
           }
@@ -322,8 +322,8 @@ class Transaction extends Model
         try {
             //FALTA QUE CUANDO ELIMINE LA TRANSACION DESCUENTE O SUME DE BANK 
               $transaction   = Transaction::find($id);
-
-            if($transaction->sign == '-') {
+               
+            if($transaction->document != null) {
                 $oDocument = new Document;
                 $rs2 = $oDocument->deleteF($transaction->document->docUrl,$transaction->document->docId);
               }

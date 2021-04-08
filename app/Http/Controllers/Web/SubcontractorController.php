@@ -83,23 +83,21 @@ class SubcontractorController extends Controller
     //  * @param  int  $id
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function update(ClientRequest $request, $id)
-    // {
-    //     $this->oSubcontractor->updateClient($id,
-    //         session('countryId'),
-    //         $request->clientName,
-    //         $request->clientAddress,
-    //         $request->contactTypeId,  
-    //         $request->clientPhone,
-    //         $request->clientEmail
-    //     );
-    //     $notification = array(
-    //         'message'    => 'Cliente Modificado Exitosamente',
-    //         'alert-type' => 'success',
-    //     );
-    //     return redirect()->route('clients.index')
-    //         ->with($notification);
-    // }
+    public function update(Request $request,$subcontractorId)
+    {
+       
+             $rs = $this->oSubcontractor->updateS(
+               $subcontractorId,
+               $request->all()
+              );
+
+              if($request->ajax()){
+                return $rs;
+            }
+
+        // $notification = array('alert-type' => $rs['alert'],'message' => $rs['message']);
+        // return redirect()->route('clients.index')->with($notification);
+    }
     // /**
     //  * Display the specified resource.
     //  *
