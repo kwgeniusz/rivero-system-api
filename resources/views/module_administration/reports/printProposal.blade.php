@@ -5,8 +5,8 @@
 		font-weight: normal;
 }
 
-		.page-break {
-		page-break-after: always;
+		table {
+		page-break-after: avoid;
 }
 
 		.pagenum:before {
@@ -17,7 +17,7 @@
 		margin: 1.5cm 1.5cm 2.5cm 1.5cm;
 		font-size: 12px;
 		background: white;
-		/* Para rodar todo desde arriba */
+		/* To move everything up there */
 		margin-top: 135px;
 }
 
@@ -77,7 +77,7 @@
 		border-radius: 0px 0px 0px 10px;
 		z-index: 2;
 }
-	 /** Define the footer rules **/
+	 /** Footer rules **/
 		.footer {
 		position: fixed;
 		top: 96%;
@@ -203,6 +203,11 @@
 		margin-left: 40px;
 		}
 
+/* Top margin for table, #TODO have to improve this later on */
+		.ts{
+		margin-top: 10px;
+		}
+
 </style>
 
 
@@ -238,13 +243,23 @@
  </div>
 
 <div class="date bold">
-{{-- July 8th, 2020  --}}
 {{$date->format('F jS, Y')}}
 </div>       
 
-<div class="big bold">Mr. {{$client->clientName}}</div>                            
-{{$client->clientEmail}}   <br>
-P. {{$client->clientPhone}}    <br>
+<div class="big bold">
+<b>
+@if($client->clientType == 'COMPANY') 
+  {{$client->companyName}}
+@else 
+  @if($client->gender == 'M') Mr. @else Mrs. @endif {{$client->clientName}}
+@endif
+
+
+</b>
+</div>   
+
+{{$client->mainEmail}}   <br>
+P. {{$client->businessPhone}}    <br>
 C. ID: {{$client->clientCode}}   <br>
 
 <br>
@@ -267,12 +282,23 @@ C. ID: {{$client->clientCode}}   <br>
 
 <br>
 <div class="prologue">
-Dear <b>Mr/Mrs. {{$client->clientName}}</b>
+@if($client->clientType == 'COMPANY' && $client->clientName == '') 
+  Dears <b>{{$client->companyName}}<b/>
+@else 
+  @if($client->gender == 'M')Dear <b>Mr. @else Dear <b>Mrs. @endif  {{$client->clientName}}</b>
+@endif
+
 </div>
 
 <br>
 <div class="just">
-<span class="tab">We are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
+<span class="tab">
+@if($proposal[0]->subcontId != null)  
+ JD Rivero & {{$proposal[0]->subcontractor->name}} 
+@else
+We
+@endif 
+are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
 
 </div>
 
@@ -285,9 +311,8 @@ Dear <b>Mr/Mrs. {{$client->clientName}}</b>
 <div>
 To comply with the scope of work we propose the following deliverables:
 </div>
-<br>
  
- <table style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
+ <table class="ts" style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
 				<thead>
 				<tr class="table-header bold">
 					<th width="5%" align="center">#</th>
@@ -378,9 +403,9 @@ foreach ($proposalDetails as $propDetail) {
 
 @if($proposal[0]->term->isNotEmpty())
 	<div class="big bold center">Terms & Conditions</div>
-		 <ul>
+		<ul>
 @foreach($proposal[0]->term as $item)
-		<li>{!! nl2br($item->termName) !!}</li>
+		  <li>{!! nl2br($item->termName) !!}</li>
 @endforeach
 	  </ul>
 @endif
@@ -441,7 +466,7 @@ Sincerely.
 <br><br><br><br><br>
 <div  class="bold center">
 ACCEPTED BY:     _____________________________________ <br>
-												Mr. {{$client->clientName}}
+          @if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
 </div>
 
 

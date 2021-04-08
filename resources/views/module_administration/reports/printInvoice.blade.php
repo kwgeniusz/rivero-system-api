@@ -217,7 +217,7 @@ foreach ($invoiceDetails as $invDetail) {
               <span id="bold">Name:</span> {{$client->clientName}}
             </th>
              <th colspan="1">
-              <span id="bold">Phone:</span> {{$client->clientPhone}}
+              <span id="bold">Phone:</span> {{$client->businessPhone}}
             </th>
        </tr>
       <tr> 
@@ -225,7 +225,7 @@ foreach ($invoiceDetails as $invDetail) {
               <span id="bold">Billing Address:</span> {{$client->clientAddress}}
             </th>
              <th colspan="1">
-               <span id="bold">E-mail:</span> {{$client->clientEmail}}
+               <span id="bold">E-mail:</span> {{$client->mainEmail}}
             </th>
        </tr>
 </table>
@@ -367,12 +367,11 @@ foreach ($invoiceDetails as $invDetail) {
                 <tr @if($payment->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
                   class="outer" 
                   @endif>
-                 <td width="10%">{{++$acum3}}</td>
-                 <td width="35%">{{$moneySymbol}} {{$payment->amountDue}}</td>
+                 <td width="5%">{{++$acum3}})</td>
+                 <td width="30%">{{$moneySymbol}} {{$payment->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
                  <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$payment->datePaid}}</td>
-                 <td width="15%"></td>
+                 <td width="55%">{{Carbon\Carbon::parse($payment->datePaid)->format('m/d/Y g:i A') }}</td>
                 </tr>
               </table>
 @php

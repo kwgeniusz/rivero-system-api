@@ -5,6 +5,7 @@ namespace App;
 use App;
 use DB;
 use Auth;
+use Carbon\Carbon;
 use App\Transaction;
 use App\Helpers\DateHelper;
 
@@ -51,12 +52,13 @@ class Payable extends Model
     {
         return decrypt($this->attributes['balance']);
     }
-    public function getDatePaidAttribute($datePaid)
+    public function getCreatedAtAttribute($created_at)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($datePaid);
-        return $newDate;
+      if($this->attributes['created_at'] != null){
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['created_at'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
+     } 
     }
 
 // //------------MUTADORES-----------------//
@@ -75,13 +77,11 @@ class Payable extends Model
         $balance = number_format((float)$balance, 2, '.', '');
         return $this->attributes['balance'] = encrypt($balance);
     } 
-    public function setDatePaidAttribute($datePaid)
+    public function setCreatedAtAttribute($created_at)
     {
-        $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($datePaid);
-
-        $this->attributes['datePaid'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $created_at, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['created_at'] = $date;
     }
 //--------------------------------------------------------------------
     /** Relations */
@@ -101,6 +101,11 @@ class Payable extends Model
 //-------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+  public function findBySubcont($subcontInvDetailId)
+  {
+    return $this->where('subcontInvDetailId', '=', $subcontInvDetailId)
+                ->get();
+  }
     public function getAllBySubcontractor($subcontId)
     {
         //consulta que traer relaciones desde tabla payable hasta contratc, y tiene una comparacion dentro de la relacion
@@ -116,13 +121,16 @@ class Payable extends Model
     }
       public function insertP($subcontInvDetailId,$amountDue)
     {
+         date_default_timezone_set(session('companyTimeZone'));
+
         $payable                     = new Payable;
         $payable->countryId          = session('countryId');
         $payable->companyId          = session('companyId');
-        $payable->amountDue         = $amountDue;
-        $payable->balance           = $amountDue;
-        $payable->amountPaid           = $amountDue;
+        $payable->amountDue          = $amountDue;
+        $payable->acumAmountPaid     = '0.00';
+        $payable->balance            = $amountDue;  
         $payable->subcontInvDetailId = $subcontInvDetailId;
+        $payable->created_at         = date('Y-m-d');
         $payable->userId             = Auth::user()->userId;
         $payable->save();
         return $payable;
@@ -154,7 +162,7 @@ class Payable extends Model
               $payMethodId,
               $payMethodDetails,
               'NINGUNA RAZON',
-              date('m/d/Y'),
+              date('Y-m-d'),
               $amountPaidAcum,
               '-',
               $cashboxId,
@@ -163,7 +171,7 @@ class Payable extends Model
               Auth::user()->userId);
 
               if($rs1['alert'] == 'error') {
-                throw new \Exception($rs1['msj']);
+                throw new \Exception($rs1['message']);
                }; 
           
             //busca datos de la cuota que el usuario escogio 
@@ -214,9 +222,9 @@ class Payable extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'success', 'msj' => 'Pago Realizado Exitosamente'];
+            return $result = ['alert' => 'success', 'message' => 'Pago Realizado Exitosamente'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
 
     }
@@ -234,9 +242,9 @@ class Payable extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'info', 'msj' => 'Cliente Eliminado'];
+            return $result = ['alert' => 'info', 'message' => 'Cliente Eliminado'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => 'No se Puede Eliminar porque este registro tiene relacion con otros datos.'];
+            return $result = ['alert' => 'error', 'message' => 'No se Puede Eliminar porque este registro tiene relacion con otros datos.'];
         }
     }  
 }

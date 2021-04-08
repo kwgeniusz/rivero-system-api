@@ -85,10 +85,10 @@
 
      <tr> 
           <th colspan="2">
-               <b>E-mail:</b> {{$client[0]->clientEmail}}
+               <b>E-mail:</b> {{$client[0]->mainEmail}}
             </th>
             <th colspan="1">
-                   <b>Phone:</b> {{$client[0]->clientPhone}}
+                   <b>Phone:</b> {{$client[0]->businessPhone}}
             </th>
        </tr>
 </table>

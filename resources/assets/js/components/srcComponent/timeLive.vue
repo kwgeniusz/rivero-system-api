@@ -1,10 +1,10 @@
 <template class="inline">
-      <div class="col-xs-12 text-right">
+     
     <!-- HORA VENEZUELA -->
-     <b> Venezuela: {{currentTime | moment('timezone', 'America/Caracas', 'hh:mm A')}} /
+     <!-- <b> Venezuela: {{currentTime | moment('timezone', 'America/Caracas', 'hh:mm A')}} / -->
     <!-- HORA DALLAS/HOUSTON -->
-       Dallas: {{currentTime | moment('timezone', 'America/Chicago', 'hh:mm A')}} </b>
-   </div>
+      <b>  Hora Dallas: {{currentTime | moment('timezone', 'America/Chicago', 'hh:mm A')}} </b>
+
 </template>
 
 <script>

@@ -45,7 +45,14 @@
                 @foreach($contracts as $contract)
                 <tr>
                      <td>{{++$acum}} </td>
-                    <td>{{$contract->contractNumber}} </td>
+                    <td>{{$contract->contractNumber}}
+                    @can('BDE')
+                     <comments-contract pref-url="" 
+                     contract-id="{{$contract->contractId}}"
+                      contract-number="{{$contract->contractNumber}}">
+                      </comments-contract>
+                   @endcan
+                     </td>
                     <td>{{$contract->client->clientCode}}</p></td>
                     <td>{{$contract->client->clientName}}   </td>  
                        <td >{{$contract->propertyNumber}}

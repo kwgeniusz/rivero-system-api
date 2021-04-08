@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-xs-12 ">
 
         <h3><b>CREAR SUBCONTRATISTA</b></h3>
@@ -15,5 +15,9 @@
          <subcontractor-create></subcontractor-create>
 
         </div>
-      </div>
+      </div> -->
+@section('content')
+   <main-subcontractor/>
+@endsection
+
 @endsection

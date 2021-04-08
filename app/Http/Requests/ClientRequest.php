@@ -24,10 +24,11 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'clientName'    => 'required|max:255',
-            'clientAddress' => 'max:255',
+            'clientName'       => 'required|max:255',
+            'clientAddress'    => 'max:255',
             'contactTypeId'    => 'required',
-
+            'businessPhone'    => 'unique:client',
+            'mainEmail'        => 'unique:client',
         ];
     }
     /**
@@ -40,6 +41,8 @@ class ClientRequest extends FormRequest
         return [
             'clientName.required' => 'Nombre y Apellido es Requerido',
             'contactTypeId.required' => 'Tipo de Contacto es Requerido, debe configurar esos registros,en la vista anterior.',
+            'businessPhone.unique' => 'Este Telefono De Negocio ya ha sido registrado.',
+            'mainEmail.unique' => 'Este Correo Principal ya ha sido registrado.',
         ];
     }
 }

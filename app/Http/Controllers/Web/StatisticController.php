@@ -26,7 +26,7 @@ class StatisticController extends Controller
     public function numberOfClients()
     {
       $rs = $this->oClient->getClientByCompany(session('companyId'),'');
-           return $rs->total();
+           return count($rs);
     }
     public function numberOfContracts()
     {

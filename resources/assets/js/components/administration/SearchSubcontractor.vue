@@ -49,10 +49,10 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
          FormNewSubcontractor
   },
     methods: {
-       reRender: function() {
-        this.removeSubcontractor();
-        this.$forceUpdate();
-     },
+    //    reRender: function() {
+    //     this.removeSubcontractor();
+    //     this.$forceUpdate();
+    //  },
        searchSubcontract: function() {
            if(this.name == '') {
                  this.list = ''
@@ -77,6 +77,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
             this.btnAdd = false
             
             this.$emit("subcontractorSelected",this.subcontId);
+            
         },
          removeSubcontractor: function (){
             this.subcontId = '';
@@ -88,6 +89,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
             this.btnAdd = true
 
             this.$emit("subcontractorRemoved");   
+            
         },
      }
 }

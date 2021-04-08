@@ -4,6 +4,13 @@
 //****************************CLIENTS***************************//
 Route::resource('clients', 'Web\ClientController');
 Route::resource('contactTypes', 'Web\ContactTypeController');
+//CLIENTS-OTHER CONTACTS
+ Route::get('clients/{id}/other-contacts', 'Web\ClientOtherContactController@index')->name('clientsOtherContact.index');
+ Route::post('clients/{id}/other-contacts', 'Web\ClientOtherContactController@store')->name('clientsOtherContact.store');
+ Route::get('other-contacts/{id}', 'Web\ClientOtherContactController@show')->name('clientsOtherContact.show');
+ Route::put('other-contacts/{id}', 'Web\ClientOtherContactController@update')->name('clientsOtherContact.update');
+ Route::delete('other-contacts/{id}', 'Web\ClientOtherContactController@destroy')->name('clientsOtherContact.destroy');
+
 
 //**************************PRECONTRACTS*************************//
 Route::resource('precontracts', 'Web\PrecontractController', ['parameters' => ['precontracts' => 'id']]);

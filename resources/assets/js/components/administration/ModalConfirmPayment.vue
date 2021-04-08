@@ -57,7 +57,7 @@
 
 
          <div class="form-group col-xs-6 col-xs-offset-3">
-           <label for="formDatePaid">FECHA DEL COBRO</label><br> {{this.receivable.datePaid | moment("MM/DD/YYYY")}}
+           <label for="formDatePaid">FECHA DEL COBRO</label><br> {{this.receivable.datePaid | moment("MM/DD/YYYY - hh:mm A")}}
             <!-- <input class="form-control flatpickr" id="formDatePaid" v-model="formDatePaid"> -->
           </div>
               <div class="row"></div>
@@ -115,12 +115,12 @@
  
            axios.get('../receivables/get/'+this.rId).then(response => {
                  this.receivable        = response.data[0]
-                 console.log(this.receivable)
+                //  console.log(this.receivable)
 
                  this.formCollectMethod = this.receivable.collectMethod
                  this.paymentMethod     = this.receivable.payment_method.payMethodName;
                  this.account           = this.receivable.account.accountCodeId;
-                 this.bank              = this.receivable.bank.bankName;
+                 this.bank              = this.receivable.account.bank.bankName;
                 });
             this.$refs.modal.open()
         },
@@ -133,12 +133,12 @@
                 status: 4
             }).then(response => {
                    if (response.data.alert == "error") {
-                       toastr.error(response.data.msj)
+                       toastr.error(response.data.message)
                               this.btnSuccess = true;
                               this.btnDeclined = true;
                    } else {
                        location.reload();
-                       toastr.success(response.data.msj)
+                       toastr.success(response.data.message)
                    }
   
             })
@@ -152,12 +152,12 @@
                 status: 3
             }).then(response => {
                    if (response.data.alert == "error") {
-                       toastr.error(response.data.msj)
+                       toastr.error(response.data.message)
                               this.btnSuccess = true;
                               this.btnDeclined = true;
                    } else {
                        location.reload();
-                       toastr.success(response.data.msj)
+                       toastr.success(response.data.message)
                    }
   
             })

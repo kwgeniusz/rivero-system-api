@@ -23,7 +23,7 @@ class PaymentProposal extends Model
         'proposalId',
         'amount',
         'paymentDate',
-        'dateCreated',
+        'created_at',
         'lastUserId',
     ];
 
@@ -101,7 +101,7 @@ class PaymentProposal extends Model
             $payment->proposalId   = $proposalId;
             $payment->amount      = $amount;
             $payment->paymentDate      = $paymentDate;
-            $payment->dateCreated = date('Y-m-d H:i:s');
+            $payment->created_at = date('Y-m-d H:i:s');
             $payment->lastUserId  = Auth::user()->userId;
             $payment->save();
 

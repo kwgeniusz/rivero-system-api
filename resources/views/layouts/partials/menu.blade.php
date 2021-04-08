@@ -134,6 +134,29 @@
 @endcan
 @can('E')        
         <li class="treeview">
+          <a href="#"><i class="fa fa-donate"></i> <span>Contabilidad</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Tipo de Cuentas</a></li>
+            <li><a href="#">Clasificacion de Cuentas</a></li>
+            <li><a href="#">Cuentas</a></li>
+            <li><a href="#">Transacciones</a></li>
+            <li><a href="#">Listado del plan de cuentas</a></li>
+            <li><a href="#">Listado de transacciones</a></li>
+            <li><a href="#">Actualizar transacciones</a></li>
+            <hr>
+            <li><a href="#">Balance de Comprobacion</a></li>
+            <li><a href="#">Balance General</a></li>
+            <li><a href="#">Estado de ganancias y perdidas</a></li>
+            <br>
+          </ul>
+        </li>
+@endcan
+@can('E')        
+        <li class="treeview">
           <a href="#"><i class="fa fa-suitcase"></i> <span>{{__('Inventory')}}</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>

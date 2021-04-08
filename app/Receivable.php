@@ -5,6 +5,7 @@ namespace App;
 use App;
 use DB;
 use Auth;
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Transaction;
 use App\TransactionType;
@@ -17,7 +18,7 @@ class Receivable extends Model
     protected $primaryKey = 'receivableId';
     public $timestamps    = false;
 
-    protected $appends = ['amountDue','amountPaid','amountPercentaje'];
+    protected $appends = ['amountDue','amountPaid','amountPercentaje','datePaid'];
 
     /**
      * The attributes that are mass assignable.
@@ -73,12 +74,13 @@ class Receivable extends Model
     {
        return decrypt($this->attributes['balance']);
     }
-    public function getDatePaidAttribute($datePaid)
+    public function getDatePaidAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($datePaid);
-        return $newDate;
+        if($this->attributes['datePaid'] != null){
+           $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['datePaid'], 'UTC');
+           $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+           return $date->format('Y-m-d H:i:s');
+        } 
     }
 
 // //------------MUTADORES-----------------//
@@ -104,11 +106,9 @@ class Receivable extends Model
     } 
     public function setDatePaidAttribute($datePaid)
     {
-        $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($datePaid);
-
-        $this->attributes['datePaid'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $datePaid, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['datePaid'] = $date;
     }
 //--------------------------------------------------------------------
     /** Relations */
@@ -378,7 +378,7 @@ class Receivable extends Model
                $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+',$cashboxId, $accountId, $invoice,$userId);
                
               if($transactionRs1['alert'] == 'error') {
-                throw new \Exception($transactionRs1['msj']);
+                throw new \Exception($transactionRs1['message']);
                };
                //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE
             if ($percent > 0) {
@@ -389,7 +389,7 @@ class Receivable extends Model
                  $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $invoice,$userId);
                
               if($transactionRs2['alert'] == 'error') {
-                throw new \Exception($transactionRs2['msj']);
+                throw new \Exception($transactionRs2['message']);
                };
              } //cierre de if transactionRs2
        }//CIERRE DEL ELSE METODO ES UN PAGO EXITOSO SIN VERIFICACION
@@ -452,9 +452,9 @@ class Receivable extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'success', 'msj' => 'Cobro realizado Con Exito'];
+            return $result = ['alert' => 'success', 'message' => 'Cobro realizado Con Exito'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
 
     }
@@ -490,11 +490,26 @@ class Receivable extends Model
                $oTransactionType = new TransactionType;
                $collection = $oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
                // $fee        = $oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
-
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber, $receivable->datePaid, $receivable->amountPaid,'+',$receivable->cashboxId, $receivable->accountId, $invoice, Auth::user()->userId);
+                   
+               $transactionRs1 = $oTransaction->insertT(
+                   session('countryId'),
+                   session('companyId'),
+                    $collection[0]->transactionTypeId,
+                    $receivable->invoice->contract->contractNumber ,
+                    $receivable->collectMethod,
+                    '',
+                    $paymentNumber,
+                    Carbon::parse($receivable->datePaid)->format('Y-m-d'),
+                    $receivable->amountPaid,
+                    '+',
+                    $receivable->cashboxId,
+                    $receivable->accountId,
+                    $invoice,
+                    Auth::user()->userId
+                   );
 
                     if($transactionRs1['alert'] == 'error') {
-                        throw new \Exception($transactionRs['msj']);
+                        throw new \Exception($transactionRs1['message']);
                     };
 
                 //SI ES UN PAGO EXITOSO SIN VERIFICACION Y EL METODO DE PAGO ES POR TARJETA AGREGAR LA TRANSACCION CONVENIENCE FEE (OJO REVISAR )
@@ -502,7 +517,7 @@ class Receivable extends Model
      //         $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$receivable->collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $receivable->amountPercent,'+',$receivable->cashboxId, $receivable->accountId, $receivable->invoiceId, Auth::user()->userId);
 
      //                 if($transactionRs2['alert'] == 'error') {
-     //                   throw new \Exception($transactionRs['msj']);
+     //                   throw new \Exception($transactionRs['message']);
      //                 };
      //         }
     
@@ -541,7 +556,7 @@ class Receivable extends Model
               }
     }//FIN DEL if($status == 4) 
 
-
+            $receivable->datePaid = Carbon::parse($receivable->datePaid)->format('Y-m-d');
             $receivable->save();
             $success = true;
             DB::commit();
@@ -552,9 +567,9 @@ class Receivable extends Model
         }   
 
         if ($success) {
-            return $result = ['alert' => 'success', 'msj' => 'Operacion Realizada'];
+            return $result = ['alert' => 'success', 'message' => 'Operacion Realizada'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
 
     }   

@@ -138,10 +138,14 @@ class SubcontractorInvDetail extends Model
 
         DB::beginTransaction();
         try {
-            //ELIMINAR DE CUENTAS POR PAGAR
             $oPayable = new Payable;
+            $rs = $oPayable->findBySubcont($subcontInvDetailId);
+         //NO PERMITIR ELIMINAR SI EL ESTADO DEL PAYABLE ES PAGADO O EN PROCESO
+             if($rs[0]->acumAmountPaid <> 0){
+                throw new \Exception('Error:No se puede Eliminar, Esta Cuenta por pagar esta en Proceso o ya fue pagada.');
+               }  
+            //ELIMINAR DE CUENTAS POR PAGAR
             $oPayable->deleteBySubcont($subcontInvDetailId);
-            //NO PERMITIR ELIMINAR SI EL ESTADO DEL PAYABLE ES PAGADO O EN PROCESO
             $register = SubcontractorInvDetail::destroy($subcontInvDetailId);
             
 
