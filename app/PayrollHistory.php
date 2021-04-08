@@ -29,6 +29,7 @@ class PayrollHistory extends Model
                         INNER JOIN company ON hrpayroll.companyId = company.companyId
                         WHERE hrpayroll.countryId = $country
                         AND hrpayroll.companyId = $companyId
+                        AND hrpayroll.display = 1
                         GROUP BY hrpayroll.countryId, hrpayroll.companyId, hrpayroll.payrollNumber,hrpayroll.year
                         ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber");
     }
@@ -105,24 +106,5 @@ class PayrollHistory extends Model
                     AND hrperiod.payrollNumber = $payrollNumber");
     }
 
-    // function insertPayollHistory(){
-    //     $hrpayroll = new PayrollHistory();
-    //     $hrpayroll->countryId = $countryId;
-    //     $hrpayroll->companyId = $companyId;
-    //     $hrpayroll->year = $year;
-    //     $hrpayroll->payrollNumber = $payrollNumber;
-    //     $hrpayroll->payrollName = $payrollName;
-    //     $hrpayroll->staffCode = $staffCode;
-    //     $hrpayroll->staffName = $staffName;
-    //     $hrpayroll->transactionTypeCode = $transactionTypeCode;
-    //     $hrpayroll->isIncome = $isIncome;
-    //     $hrpayroll->hasBalance = $hasBalance;
-    //     $hrpayroll->balance = $balance;
-    //     $hrpayroll->quantity = $quantity;
-    //     $hrpayroll->amount = $amount;
-    //     $hrpayroll->localAmount = $localAmount;
-    //     $hrpayroll->exchangeRate = $exchangeRate;
-    //     $hrpayroll->save();
-    // }
 
 }

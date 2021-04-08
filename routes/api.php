@@ -21,11 +21,26 @@ Route::group(['middleware' => ['auth:api']], function () {
     // obtener compañias (uso global)
     Route::get('country-company', 'Api\CountryCompanyController@contryCompany');
 
+    ######## Combos #######
     // llena el combo para mostrar los empleados (uso global)
     Route::get('hr-employees/{country}/{company}', 'Web\HrLoansController@getEmployees');
 
+    // llenar combo: Tipos de transaccion
+    Route::get('combo-trans-type/{countryId}/{companyId}', 'Web\getCombosRrhhController@comboTransactionType'); 
+
+    ######### Fin Combos #########
+
     // prestamos
     Route::post('perm-trans', 'Web\PerTransController@store');
+    
+    ######### Para reporte por transacciones en nomina ############
+    // reporte por transaccion nomina
+    Route::post('report-by-transaction', 'Web\printPayrollController@reportByTransactionPayrollController');
+    
+    // obtener payrollNumber, utilizado como uno de los parametros para el reporte por transaccion nomina
+    Route::get('get-payroll-number/{countryId}/{companyId}/{dateFrom}/{dateTo}', 'Web\PeriodsController@getPeriodReport');
+
+    ##### FIn Para reporte por transacciones en nomina #########
 });
 
 // Prestamos

@@ -121,6 +121,22 @@ class PeriodsController extends Controller
         return $periods;
     }
 
+    public function getPeriodReport($countryId, $companyId, $periodFrom, $periodTo)
+    {
+        $payrollNumber = DB::table('hrperiod')->select('payrollNumber')
+        ->where('periodFrom' , '>=' , $periodFrom)
+        ->where('periodTo' , '<=' , $periodTo)
+        ->where('countryId' , '=' , $countryId)
+        ->where('companyId' , '=' , $companyId)
+        ->where('updated' , '=' , 1)
+        ->first();
+        // ->collapse();
+
+        // $payrolNumber1 = collect($payrollNumber)->values();
+
+
+        return response()->json(["payrollNumber" =>  $payrollNumber],200);
+    }
 
      // script usado para generar los periodos automaticos.. 
     // actatualmente solo se usa bajo desarrollo para pruebas masivas

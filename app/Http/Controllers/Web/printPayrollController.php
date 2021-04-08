@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\web;
 
-use DB;
+
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\hrPrinPayroll;
 
@@ -17,6 +18,7 @@ class printPayrollController extends Controller
         $this->oGetPayroll = new hrPrinPayroll;
         $this->oHeaderPayroll = new hrPrinPayroll;
         $this->oDetailPayroll = new hrPrinPayroll;
+        $this->oReporteByTransaction = new hrPrinPayroll();
     }
   
     /**
@@ -63,32 +65,14 @@ class printPayrollController extends Controller
     
         return compact('print');
     }
-    // public function getListDetail($countryId, $companyId, $year, $payrollNumber,$staffCode)
-    // {
-    //     $print = DB::select("SELECT country.countryName, company.companyName, hrpayroll.year, hrpayroll.payrollNumber, hrpayroll.payrollName, hrpayroll.staffCode,
-    //                         hrpayroll.staffName, hrpayroll.transactionTypeCode,
-    //                         hrtransaction_type.transactionTypeName, 
-    //                         hrpayroll.isIncome, hrpayroll.quantity, hrpayroll.amount
-    //                 FROM `hrpayroll`
-                    
-    //                 INNER JOIN country ON hrpayroll.countryId = country.countryId
-    //                 INNER JOIN company ON hrpayroll.companyId = company.companyId
-    //                 INNER JOIN `hrtransaction_type` ON `hrpayroll`.`transactionTypeCode` = `hrtransaction_type`.`transactionTypeCode`
-    //                 WHERE hrpayroll.countryId = $countryId 
-    //                     AND hrpayroll.companyId = $companyId
-    //                     AND hrtransaction_type.countryId = $countryId
-    //                     AND hrtransaction_type.companyId = $companyId
-    //                     AND hrpayroll.year = $year
-    //                     AND hrpayroll.payrollNumber = $payrollNumber
-    //                     AND hrpayroll.staffCode = '$staffCode'");
 
-    //     // $countrys   = $this->oCountry->getAll();
-    //     return compact('print');
-    // }
-    
-    
-  
+    public function reportByTransactionPayrollController(Request $request)
+    {
+        // echo $request->payrollNumber;
+        $res0 = $this->oReporteByTransaction->reportByTransactionPayroll($request->countryId, $request->companyId, $request->payrollNumber,$request->transaction, $request->employees);
 
-
+        return response()->json(['data' => $res0],200);
+    }
+   
    
 }

@@ -32,6 +32,7 @@ class printPrePayrollController extends Controller
                             INNER JOIN company ON hrpayroll.companyId = company.companyId
                             WHERE hrpayroll.countryId = $countryId
                             AND hrpayroll.companyId = $companyId
+                            AND hrpayroll.display = 1                            
                             GROUP BY hrpayroll.countryId, hrpayroll.companyId, hrpayroll.payrollNumber,hrpayroll.year
                             ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber
                             ");
@@ -64,6 +65,7 @@ class printPrePayrollController extends Controller
                                         AND hrpayroll.payrollNumber = $payrollNumber
                                         AND hrpayroll.payrollTypeId =  $payrollTypeId
                                         AND hrpayroll.isIncome = 1
+                                        AND hrpayroll.display =  1
                                 ) AS totalasignacion,
                                 (
                                     SELECT SUM(localAmount)  FROM hrpayroll
@@ -73,6 +75,7 @@ class printPrePayrollController extends Controller
                                         AND hrpayroll.payrollNumber = $payrollNumber
                                         AND hrpayroll.payrollTypeId =  $payrollTypeId
                                         AND hrpayroll.isIncome = 1
+                                        AND hrpayroll.display =  1
                                 ) AS totalasignacionLocal,
                                 (
                                     SELECT SUM(amount)  FROM hrpayroll
@@ -82,6 +85,7 @@ class printPrePayrollController extends Controller
                                         AND hrpayroll.payrollNumber = $payrollNumber
                                         AND hrpayroll.payrollTypeId =  $payrollTypeId
                                         AND hrpayroll.isIncome = 0
+                                        AND hrpayroll.display =  1
                                 ) AS totaldeduccion,
                                 (
                                     SELECT SUM(localAmount)  FROM hrpayroll
@@ -91,6 +95,7 @@ class printPrePayrollController extends Controller
                                         AND hrpayroll.payrollNumber = $payrollNumber
                                         AND hrpayroll.payrollTypeId =  $payrollTypeId
                                         AND hrpayroll.isIncome = 0
+                                        AND hrpayroll.display =  1
                                 ) AS totaldeduccionLocal
                             FROM hrpayroll 
                             INNER JOIN country ON hrpayroll.countryId = country.countryId
@@ -100,6 +105,7 @@ class printPrePayrollController extends Controller
                                 AND hrpayroll.year = $year
                                 AND hrpayroll.payrollNumber = $payrollNumber
                                 AND hrpayroll.payrollTypeId =  $payrollTypeId
+                                AND hrpayroll.display =  1
                             GROUP BY hrpayroll.staffCode
                             ORDER BY hrpayroll.staffCode ASC");
                          
@@ -137,6 +143,7 @@ class printPrePayrollController extends Controller
                                             AND hrpayroll.payrollNumber =$payrollNumber
                                                 AND hrpayroll.isIncome = 1
                                                 AND hrpayroll.staffCode = '$res1->staffCode'
+                                                AND hrpayroll.display =  1
                                             ) as asignacion,
                                             (
                                             SELECT SUM(localAmount) FROM hrpayroll
@@ -146,6 +153,7 @@ class printPrePayrollController extends Controller
                                             AND hrpayroll.payrollNumber =$payrollNumber
                                                 AND hrpayroll.isIncome = 1
                                                 AND hrpayroll.staffCode = '$res1->staffCode'
+                                                AND hrpayroll.display =  1
                                             ) as asignacionLocal,
                                             (
                                             SELECT SUM(amount) FROM hrpayroll
@@ -155,6 +163,7 @@ class printPrePayrollController extends Controller
                                             AND hrpayroll.payrollNumber = $payrollNumber
                                                 AND hrpayroll.isIncome = 0
                                                 AND hrpayroll.staffCode = '$res1->staffCode'
+                                                AND hrpayroll.display =  1
                                             ) as deduccion
                                             ,
                                             (
@@ -165,6 +174,7 @@ class printPrePayrollController extends Controller
                                             AND hrpayroll.payrollNumber = $payrollNumber
                                                 AND hrpayroll.isIncome = 0
                                                 AND hrpayroll.staffCode = '$res1->staffCode'
+                                                AND hrpayroll.display =  1
                                             ) as deduccionLocal
                                     FROM `hrpayroll`
                                     INNER JOIN country ON hrpayroll.countryId = country.countryId
@@ -177,6 +187,7 @@ class printPrePayrollController extends Controller
                                         AND hrpayroll.year = $year
                                         AND hrpayroll.payrollNumber = $payrollNumber
                                         AND hrpayroll.staffCode = '$res1->staffCode'
+                                        AND hrpayroll.display = 1
                                     ORDER BY hrpayroll.transactionTypeCode");
                             // return  $print;
         }                    
@@ -202,7 +213,8 @@ class printPrePayrollController extends Controller
                         AND hrtransaction_type.companyId = $companyId
                         AND hrpayroll.year = $year
                         AND hrpayroll.payrollNumber = $payrollNumber
-                        AND hrpayroll.staffCode = '$staffCode'");
+                        AND hrpayroll.staffCode = '$staffCode'
+                        AND hrpayroll.display = 1 ");
 
         // $countrys   = $this->oCountry->getAll();
         return compact('print');

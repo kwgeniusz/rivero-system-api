@@ -38,7 +38,13 @@ class getCombosRrhhController extends Controller
     }
     public function comboTransactionType($country,$company)
     {
-        $tType = $this->oTType->getComboTransactionType($country,$company);
+        $countryId = $country;
+        $companyId = $company;
+        if ($country == 0 OR $company == 0) {
+            $countryId = session('countryId');
+            $companyId = session('companyId');
+        }
+        $tType = $this->oTType->getComboTransactionType($countryId,$companyId);
         return $tType;
     }
     

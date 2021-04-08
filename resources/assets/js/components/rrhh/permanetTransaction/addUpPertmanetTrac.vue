@@ -90,8 +90,8 @@
 <script>
     export default {
         mounted() {
-            let countryId = 2 //temp
-            let companyId = 4 //temp
+            let countryId = 0 //temp
+            let companyId = 0 //temp
             const URL1 = `combo-staff/${countryId}/${companyId}`
             const URL2 = `combo-trans-type/${countryId}/${companyId}`
             // obtiene el personal 

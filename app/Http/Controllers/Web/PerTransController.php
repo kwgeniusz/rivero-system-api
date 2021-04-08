@@ -43,6 +43,7 @@ class PerTransController extends Controller
     {
         // return $request;
         try {
+            $result = '';
             $PerTrans = new PerTrans();
             $PerTrans->countryId = $request->countryId;
             $PerTrans->companyId = $request->companyId;
@@ -56,8 +57,9 @@ class PerTransController extends Controller
             
             $PerTrans->save();
 
-            $result = $this->oComment->insertC($PerTrans,$request->all());
-
+            if ($request->commentContent != null) {
+                $result = $this->oComment->insertC($PerTrans,$request->all());
+            }
             return response()->json(['data' =>["message" => 'success',"PerTrans"=> $PerTrans,"result" => $result]],200);
 
         } catch (\Throwable $th) {
