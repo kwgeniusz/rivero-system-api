@@ -20,6 +20,7 @@ class HrTransactionType extends Model
                 ->select('hrtransaction_type.*')
                 ->where('hrtransaction_type.companyId', '=',$company)
                 ->where('hrtransaction_type.countryId', '=',$country)
+                ->orderBy('transactionTypeCode', 'asc')
                 ->get();
     }
      

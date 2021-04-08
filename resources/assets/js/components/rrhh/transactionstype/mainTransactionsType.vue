@@ -34,6 +34,7 @@
                 :nameField9 = nameField9
                 :nameField10 = nameField10
                 :nameField11 = nameField11
+                :nameField12 = nameField12
                 @showlist = "showlist"
                 @newObj = "newObj"
                
@@ -59,6 +60,7 @@
                 :nameField9 = nameField9
                 :nameField10 = nameField10
                 :nameField11 = nameField11
+                :nameField12 = nameField12
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -100,6 +102,7 @@
                 nameField9: "ACUMULA PARA UTILIDADES?:  ",
                 nameField10: "ACUMULA PARA ANTIGUEDAD?: ",
                 nameField11: "PUEDE SER BLOQUEADO?: ",
+                nameField12: "SE REFLEJA EN NOMINA?: ",
                 
             }
         },

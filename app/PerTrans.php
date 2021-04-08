@@ -46,6 +46,7 @@ class PerTrans extends Model
             ->select('hrstaff.shortName','hrstaff.staffCode','hrstaff.countryId','hrstaff.companyId')
             ->where('hrstaff.countryId', '=', $country)
             ->where('hrstaff.companyId', '=', $company)
+            ->where('hrstaff.status', '=', 'A')
             // ->where('hrstaff.companyId', '=',4)
             ->get();
     }
