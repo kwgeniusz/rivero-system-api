@@ -58,14 +58,14 @@ class Subcontractor extends Model
     {
         return $this->orderBy('subcontId', 'ASC')
                     ->where('countryId','=', $countryId)
-                    ->paginate(300);
+                    ->get();
     }
 
        public function getAllByCompany($companyId)
     {
         return $this->orderBy('subcontId', 'ASC')
                     ->where('companyId','=', $companyId)
-                    ->paginate(300);
+                    ->get();
     } 
 //------------------------------------------
     public function findById($id,$countryId)
@@ -88,15 +88,17 @@ class Subcontractor extends Model
         $subcontractor->countryId           = $countryId;
         $subcontractor->companyId           = $companyId;
         $subcontractor->subcontType         = $data['subcontType'];
-        $subcontractor->name                = $data['name'];
-        $subcontractor->representative      = $data['representative'];
-        $subcontractor->serviceOffered      = $data['serviceOffered'];
-        $subcontractor->DNIType             = $data['DNIType'];
-        $subcontractor->DNI                 = $data['DNI'];
+        $subcontractor->companyName                = $data['companyName'];
+        $subcontractor->subcontractorName      = $data['subcontractorName'];
+        // $subcontractor->serviceOffered      = $data['serviceOffered'];
+        $subcontractor->typeTaxId             = $data['typeTaxId'];
+        $subcontractor->taxId                 = $data['taxId'];
+        $subcontractor->address               = $data['address'];
         $subcontractor->mainPhone           = $data['mainPhone'];
         $subcontractor->secondaryPhone      = $data['secondaryPhone'];
-        $subcontractor->address             = $data['address'];
-        $subcontractor->email               = $data['email'];
+        $subcontractor->mainEmail               = $data['mainEmail'];
+        $subcontractor->secondaryEmail               = $data['secondaryEmail'];
+        $subcontractor->typeForm1099        = $data['typeForm1099'];
         
         $subcontractor->bankName            = $data['bankName'];
         $subcontractor->headline            = $data['headline'];
@@ -104,7 +106,6 @@ class Subcontractor extends Model
         $subcontractor->routingNumber       = $data['routingNumber'];
         $subcontractor->wires               = $data['wires'];
         $subcontractor->zelle               = $data['zelle'];
-        $subcontractor->typeForm1099        = $data['typeForm1099'];
         $subcontractor->save();
             
             $success = true;
@@ -117,23 +118,60 @@ class Subcontractor extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'msj' => "Subcontractista: $subcontractor->name creado exitosamente ",'model'=>$subcontractor];
+          return $rs  = ['alert' => 'success', 'message' => "Subcontractista: $subcontractor->subcontractorName creado exitosamente ",'model'=>$subcontractor];
         } else {
-            return $rs = ['alert' => 'error', 'msj' => $error];
+            return $rs = ['alert' => 'error', 'message' => $error];
         }
     }
 // //------------------------------------------
-//     public function updateClient($clientId, $countryId, $clientName, $clientAddress,$contactTypeId, $clientPhone, $clientEmail)
-//     {
-//         $this->where('clientId', $clientId)->update(array(
-//             'countryId'     => $countryId,
-//             'clientName'    => $clientName,
-//             'clientAddress' => $clientAddress,
-//             'contactTypeId' => $contactTypeId,
-//             'clientPhone'   => $clientPhone,
-//             'clientEmail'   => $clientEmail,
-//         ));
-//     }
+    public function updateS($subcontId, $data)
+    {
+        $error = null;
+
+        DB::beginTransaction();
+         try {
+
+            dd($data);
+            exit();
+            // $msg = json_decode(file_get_contents("php://input"));
+           $subcontractor                   = Subcontractor::find($subcontId);
+        $subcontractor->subcontType         = $data['subcontType'];
+        $subcontractor->companyName         = $data['companyName'];
+        $subcontractor->subcontractorName   = $data['subcontractorName'];
+        // $subcontractor->serviceOffered   = $data['serviceOffered'];
+        $subcontractor->typeTaxId           = $data['typeTaxId'];
+        $subcontractor->taxId               = $data['taxId'];
+        $subcontractor->address             = $data['address'];
+        $subcontractor->mainPhone           = $data['mainPhone'];
+        $subcontractor->secondaryPhone      = $data['secondaryPhone'];
+        $subcontractor->mainEmail           = $data['mainEmail'];
+        $subcontractor->secondaryEmail      = $data['secondaryEmail'];
+        $subcontractor->typeForm1099        = $data['typeForm1099'];
+
+        $subcontractor->bankName            = $data['bankName'];
+        $subcontractor->headline            = $data['headline'];
+        $subcontractor->accountNumber       = $data['accountNumber'];
+        $subcontractor->routingNumber       = $data['routingNumber'];
+        $subcontractor->wires               = $data['wires'];
+        $subcontractor->zelle               = $data['zelle'];
+ 
+        $subcontractor->save();
+   
+               $success = true;
+               DB::commit();
+           } catch (\Exception $e) {
+   
+               $success = false;
+               $error   = $e->getMessage();
+               DB::rollback();
+           }
+   
+           if ($success) {
+             return $rs  = ['alert' => 'success', 'message' => "Subcontratista Modificado "];
+           } else {
+               return $rs = ['alert' => 'error', 'message' => $error];
+           }
+    }
 // //------------------------------------------
 //     public function deleteClient($clientId,$countryId)
 //     {
@@ -150,9 +188,9 @@ class Subcontractor extends Model
 //         }
 
 //         if ($success) {
-//             return $result = ['alert' => 'info', 'msj' => 'Cliente Eliminado'];
+//             return $result = ['alert' => 'info', 'message' => 'Cliente Eliminado'];
 //         } else {
-//             return $result = ['alert' => 'error', 'msj' => 'No se Puede Eliminar porque este registro tiene relacion con otros datos.'];
+//             return $result = ['alert' => 'error', 'message' => 'No se Puede Eliminar porque este registro tiene relacion con otros datos.'];
 //         }
 //     }
 //------------------------------------------

@@ -31,11 +31,12 @@
                               <tr>
                                   <th>#</th> 
                                   <th>TIPO TAX ID</th> 
-                                  <th># TAX ID</th> 
-                                  <th>NOMBRE</th>
+                                  <th>TAX ID</th>
                                   <th>TIPO</th>
-                                  <th>REPRESENTANTE</th>
-                                  <th>DIRECCION</th>
+                                  <th>COMPANIA<br>
+                                   (RESPONSABLE / CLIENTE)
+                                  </th>
+                                  <th>DIRECCION DE FACTURACION</th>
                                   <th>TELEFONO</th>
                                   <th>CORREO</th> 
                                   <th>SERVICIO QUE OFRECE</th>
@@ -46,38 +47,28 @@
                             <tbody v-if="searchData.length > 0">
                              <tr  v-for="(subcontractor, index) in searchData" :key="subcontractor.subcontractorId">
                                 <td >{{index + 1}}</td>
-                                <td class="text-left"> 
-                                    {{subcontractor.subcontractorDate | moment("MM/DD/YYYY hh:mm A")}}
-                                    {{subcontractor.subcontractorDateLocal}}
-                                    </td>
-                                <td class="text-left"> {{subcontractor.description}} <br>
-                                 <!-- <p v-if="subcontractor.subcontractorable != null">
-                                    {{subcontractor.subcontractorable.contract.siteAddress}}
-                                    </p> -->
-                                
+                                <td class="text-left"> {{subcontractor.typeTaxId}}</td>  
+                                <td class="text-left"> {{subcontractor.taxId}} </td>           
+                                <td class="text-left">{{subcontractor.subcontType}}</td>
+                                <td class="text-left">
+                                   <p v-if="subcontractor.companyName != 'No Info'"> 
+                                       {{subcontractor.companyName}}
+                                        </p>
+                                   <p v-if="subcontractor.subcontractorName != 'No Info'">
+                                       ({{subcontractor.subcontractorName}}) 
+                                       </p>
                                 </td>
-                                <td class="text-left"> 
-                                    <p v-if="subcontractor.subcontractorable  != null"> 
-                                    {{subcontractor.subcontractorable.invId}}
-                                    </p> 
-                                </td>
-                                <td class="text-left"> {{subcontractor.reason}}</td>  
-                                <td class="text-left"> {{subcontractor.payment_method.payMethodName}} {{subcontractor.payMethodDetails}}</td>           
-                               <td class="text-left"> {{subcontractor.amount}}</td>   
-                                 <td class="text-left"> 
-                                   <p v-if="subcontractor.cashboxId == null" class="text-left"> 
-                                    {{subcontractor.account.bank.bankName}}<br> {{subcontractor.account.accountCodeId}} 
-                                    </p>
-                                     <p v-else class="text-left"> 
-                                       CASHBOX
-                                     </p>                                          
-                                </td>    
-                               <td class="text-left">{{subcontractor.user.fullName}}</td>
+                                <td class="text-left">{{subcontractor.address}}</td>
+                                <td class="text-left">{{subcontractor.mainPhone}}</td>
+                                <td class="text-left">{{subcontractor.mainEmail}}</td>
+                                <td class="text-left">{{subcontractor.serviceOffered}}</td>
+                                <td class="text-left">{{subcontractor.typeForm1099}}</td>
                                   <td> 
-                                     <div v-if="subcontractor.subcontractorable_id == null">
-                                        <button @click="editSubcontractor(index,subcontractor.subcontractorId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
-                                        <button @click="deleteSubcontractor(index,subcontractor.subcontractorId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
-                                    </div>  
+                      
+                                 <button v-if="$can('BAB')" @click="editSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
+                                 <!-- <button v-if="$can('BAC')"  @click="deleteSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>   -->
+                                 <a v-if="$can('BAB')" :href="'subcontractors/'+subcontractor.subcontId+'/payables'" class="btn btn-sm btn-success" title="Cuentas por Pagar"><span class="fa fa-user" aria-hidden="true"></span></a> 
+                         
                                   </td>
                                 </tr>
                      
@@ -102,7 +93,6 @@
     export default {
     mounted() {
             console.log('Component mounted.') 
-            console.log(this.subcontractorCodes)
             // console.log(this.subcontractorList)
         },
      data(){
@@ -112,51 +102,23 @@
         },
         props: {
             subcontractorList:  {  type: [Array], default: null},
-            subcontractorCodes:  {  type: [Array], default: null},
         },  
          computed: {
             searchData: function () {
                 return this.subcontractorList.filter((subcontractor) => {
-                  return subcontractor.description.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                         subcontractor.reason.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                         subcontractor.amount.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                         subcontractor.user.fullName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                         subcontractor.payment_method.payMethodName.toLowerCase().includes(this.inputSearch.toLowerCase()) 
+                 if(subcontractor.companyName == null ) 
+                     subcontractor.companyName = 'No Info'
+                  if(subcontractor.subcontractorName == null ) 
+                     subcontractor.subcontractorName = 'No Info'
+                 
+                  return subcontractor.companyName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                         subcontractor.subcontractorName.toLowerCase().includes(this.inputSearch.toLowerCase()) 
                 })
             }, 
-        totals: function (){
-              var totalManual = 0;
-              var totalsubcontractor = 0;
-              var totalFee = 0;
-              var netTotal = 0;
-
-              var that = this; // Work around!
-                 this.searchData.forEach(function(data){
-                      if(data.subcontractorTypeId == that.subcontractorCodes[0].subcontractorTypeId) {
-                         if(data.subcontractorable == null){
-                          totalManual = parseFloat(totalManual) + parseFloat(data.amount);
-                          }
-                         else{
-                          totalsubcontractor = parseFloat(totalsubcontractor) + parseFloat(data.amount);
-                          }
-                       }else if(data.subcontractorTypeId == that.subcontractorCodes[1].subcontractorTypeId) {
-                          totalFee = parseFloat(totalFee) + parseFloat(data.amount);
-                        }
-                });
-               netTotal = totalsubcontractor + totalManual + totalFee;
-
-              return {
-              'subcontractors': totalsubcontractor.toFixed(2),
-              'manuales': totalManual.toFixed(2),
-              'fee': totalFee.toFixed(2),
-              'netTotal': netTotal.toFixed(2)}
-         
-                // return `Ingresos de Facturas ${suma.toFixed(2)}`;
-            }  
+        
         },
         methods: {
             editSubcontractor(index, id){
-                // console.log('index: '+index + ' id: '+ id)
                 this.$emit('editData', id)
             },
             deleteSubcontractor(index, id){

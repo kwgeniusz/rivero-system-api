@@ -26,7 +26,7 @@ class TransactionRequest extends FormRequest
         
         return [
             'description' => 'required|max:100',
-            'payMethodDetails' => 'required|max:100',
+            // 'payMethodDetails' => 'required|max:100',
             'reason' => 'required|max:100',
             'transactionDate' => 'required|',
             'amount' => 'required|numeric',

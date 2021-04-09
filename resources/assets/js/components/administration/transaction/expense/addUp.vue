@@ -66,7 +66,7 @@
                </div>
                <div class="row"></div>
                <figure v-if="transaction.imagen">
-                <img width="400" height="300" :src="imagenMiniatura" alt="Foto del Producto">
+                <img width="400" height="300" :src="imagenMiniatura" >
                    <!-- <img v-if="editId > 0"   width="400" height="300" :src="transaction.imagen" alt="Foto del Producto"> -->
                    <!-- <img v-else width="400" height="300" :src="imagen" alt="Foto del Producto"> -->
                </figure>
@@ -184,15 +184,15 @@
                 this.errors.push('Debe Ingresar Una Descripcion.');
                  if (!this.transaction.reason) 
                 this.errors.push('Debe escoger una Razon.');
-                 if (!this.transaction.payMethodDetails) 
-                this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
+                //  if (!this.transaction.payMethodDetails) 
+                // this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
                  if (!this.transaction.transactionTypeId) 
                 this.errors.push('Debe escoger un Expense.');
                  if (!this.transaction.amount) 
                 this.errors.push('Debe Ingresar Un Monto.');
             
-                 if (!this.transaction.imagen && this.editId === 0) 
-                this.errors.push('Debe adjuntar una Imagen Obligatoria.');
+                //  if (!this.transaction.imagen && this.editId === 0) 
+                // this.errors.push('Debe adjuntar una Imagen Obligatoria.');
 
               if(this.transaction.payMethodId != 2){
                      if (!this.transaction.bankId) 
@@ -233,20 +233,25 @@
                          toastr.success(response.data.message);
                            this.$emit('showlist', 0)
                         })
-                    .catch(function (response) {
-                        alert("Faile post")
-                         this.showSubmitBtn =true;
+                    .catch((error) => {
+                      
+                      this.errors.push(error.response.data.errors);
+                        // alert("ERROR EN EL SERVIDOR")
+                       this.showSubmitBtn = true;
                     });
 
                 }else {
                     formData.append("_method", "put");
-                  axios.post(`/transactions/${this.editId}`, formData)
+                   axios.post(`/transactions/${this.editId}`, formData)
                     .then((response) => {
                          toastr.success(response.data.message);
                         this.$emit('showlist', 0);
                         })
-                    .catch(function (error) {
-                        console.log(error);
+                    .catch((error) => {
+                      
+                      this.errors.push(error.response.data.errors.file);
+                        // alert("ERROR EN EL SERVIDOR")
+                       this.showSubmitBtn = true;
                     });
                 }   // else end   
              }  //end if error.length 
