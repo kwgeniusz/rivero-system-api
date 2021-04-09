@@ -134,9 +134,9 @@ class SubcontractorController extends Controller
 //----------------QUERYS ASINCRONIOUS -------------->>>>
     public function getFiltered($name = '')
     {
-        $results = Subcontractor::where('name', 'LIKE', "%$name%")
+        $results = Subcontractor::where('subcontractorName', 'LIKE', "%$name%")
             ->where('countryId', session('countryId'))
-            ->orderBy('name', 'ASC')
+            ->orderBy('subcontractorName', 'ASC')
             ->get();
 
         return json_encode($results);

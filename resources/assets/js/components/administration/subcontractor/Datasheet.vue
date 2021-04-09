@@ -7,28 +7,39 @@
             <table class="table table-striped table-bordered text-center ">
             <thead>
                 <tr class="bg-success">
-                 <th>TIPO DNI</th>
-                 <th>DNI</th>
-                 <th>NOMBRE</th>
+                 <th>#</th>
+                 <th>TIPO TAX ID</th>
+                 <th>TAX ID</th>
                  <th>TIPO</th>
-                 <th>REPRESENTANTE</th>
-                 <th>SERVICIO QUE OFRECE</th>
-                 <th>DIRECCION</th>
+                 <th>COMPANIA
+                   (RESPONSABLE / CLIENTE)
+                 </th>
+                 <th>DIRECCION DE FACTURACION</th>
                  <th>TELEFONO</th>
-                 <th>EMAIL</th>                 
+                 <th>CORREO</th>
+                 <th>SERVICIO QUE OFRECE</th>                
+                 <th>ACCIONES</th>                
                 </tr>
             </thead>
           <tbody>
-                <tr v-for="(subcont,index) in subcontractor">
-                    <td>{{subcont.DNIType}} </td>
-                    <td>{{subcont.DNI}} </td>
-                    <td>{{subcont.name}} </td>
-                    <td>{{subcont.subcontType}} </td>
-                    <td>{{subcont.representative}} </td>
-                    <td>{{subcont.serviceOffered}} </td>
-                    <td>{{subcont.address}} </td>
-                    <td>{{subcont.mainPhone}} </td>
-                    <td>{{subcont.email}} </td>
+                <tr v-for="(subcont,index) in subcontractor" :key="subcontractor.subcontractorId">
+                   <td >{{index + 1}}</td>
+                   <td class="text-left"> {{subcont.typeTaxId}}</td>  
+                   <td class="text-left"> {{subcont.taxId}} </td>           
+                   <td class="text-left">{{subcont.subcontType}}</td>
+                   <td class="text-left">
+                      <p v-if="subcont.companyName != 'No Info'"> 
+                          {{subcont.companyName}}
+                           </p>
+                      <p v-if="subcont.subcontractorName != 'No Info'">
+                          ({{subcont.subcontractorName}}) 
+                          </p>
+                   </td>
+                   <td class="text-left">{{subcont.address}}</td>
+                   <td class="text-left">{{subcont.mainPhone}}</td>
+                   <td class="text-left">{{subcont.mainEmail}}</td>
+                   <td class="text-left">{{subcont.serviceOffered}}</td>
+                   <td class="text-left">{{subcont.typeForm1099}}</td>
                 </tr>
         </tbody>
       </table>
@@ -59,10 +70,12 @@ Total Monto Pendiente:  {{totals.balance}} <br>
                 <th>MONTO CONTRATADO</th>  
                 <th>MONTO PAGADO</th>  
                 <th>PENDIENTE POR PAGAR</th>
+                <!-- <th>SALDO POR PAGAR</th> -->
             </tr>
             </thead>
           <tbody>   
-         <tr v-for="(payable,index) in payables">
+          
+         <tr v-for="(payable,index) in payables" :key="payable.payableId">
             <!-- <td v-if="!showMultiples">{{++index}}</td> -->
             <td >
            <label :for="payable.payableId">
@@ -208,6 +221,7 @@ Total Monto Pendiente:  {{totals.balance}} <br>
              subcontractor: '',
              payables:[],
              checked: [],
+             acum: 0,
 
             listPaymentMethods: {},
             listBank: {},
@@ -245,6 +259,7 @@ Total Monto Pendiente:  {{totals.balance}} <br>
     },   
   },
     methods: {
+  
        getPayables: function () {
          //datos del subcontratista
           axios.get(this.prefUrl+'subcontractors/'+this.subcontractorId).then(response => {

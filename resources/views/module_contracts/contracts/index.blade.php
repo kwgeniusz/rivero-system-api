@@ -52,6 +52,7 @@
                  <th>DESCRIPCION</th>
                  <th>USO</th>
                  <th>TIPO</th>
+                 <th>FECHA DE INICIO</th>
                  <th>{{__('STATUS')}}</th>
                 </tr>
             </thead>
@@ -88,6 +89,7 @@
                         </td> 
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
+                    <td>{{$contract->contractDate}}   </td>
                     <td data-toggle="tooltip" data-placement="top" title="{{$contract->contractStatusR[0]->contStatusName}}"
                    @if($contract->contractStatus == App\Contract::VACANT)
                    style="background-color: #3c8ddc;color:white;" 

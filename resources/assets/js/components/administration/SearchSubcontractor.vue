@@ -6,7 +6,7 @@
       
         <div class="input-group ">
          <input type="hidden" name="subcontId" :value="subcontId">
-         <input class="form-control" @keyup="searchSubcontract()" name="name" v-model="name" autocomplete="off" :disabled="btnRemove">
+         <input class="form-control" @keyup="searchSubcontract()" name="name" v-model="subcontractorName" autocomplete="off" :disabled="btnRemove">
            <span class="input-group-btn">
              <!-- <form-new-subcontractor prefUrl="../../"  v-if="btnAdd" @sendClient="addSubcontractor"/> -->
               <a class="btn btn-primary" v-if="btnAdd"><span class="fa fa-search" aria-hidden="true"></span></a>
@@ -15,7 +15,9 @@
          </div>
 
     <div :class="{ sugerencias: this.style }">
-      <div class="result" v-for="(item, index) in list" @click="addSubcontractor(item)">{{item.name}}</div>
+      <div class="result" v-for="(item, index) in list" @click="addSubcontractor(item)">
+        {{item.companyName}} - ({{item.subcontractorName}})
+      </div>
    </div>
   
     </div>
@@ -35,7 +37,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
      data: function () {
           return {
             subcontId: '',
-            name : '',
+            subcontractorName : '',
             list : '',
             style : '',
             btnAdd: true,
@@ -54,11 +56,11 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
     //     this.$forceUpdate();
     //  },
        searchSubcontract: function() {
-           if(this.name == '') {
+           if(this.subcontractorName == '') {
                  this.list = ''
                  this.style =false
            } else { 
-              var url ='../../subcontractors/'+this.name+'/search';
+              var url ='../../subcontractors/'+this.subcontractorName+'/search';
               axios.get(url).then(response => {
                  this.list = response.data
                  this.style = true
@@ -69,7 +71,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
        addSubcontractor: function (subcontractor){
          // console.log(subcontractor)
             this.subcontId = subcontractor.subcontId;
-            this.name = subcontractor.name;
+            this.subcontractorName = subcontractor.subcontractorName;
 
             this.list = ''
             this.style = false
@@ -81,7 +83,7 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
         },
          removeSubcontractor: function (){
             this.subcontId = '';
-            this.name = '';
+            this.subcontractorName = '';
 
             this.list = ''
             this.style = false
