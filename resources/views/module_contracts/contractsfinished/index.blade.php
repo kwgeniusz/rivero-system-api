@@ -34,9 +34,13 @@
                         <th>{{__('name')}}</th>   
                         <th>{{__('address')}}</th>
                         <!-- <th>BUILDING CODE</th> -->
-                     <th>DESCRIPTION</th> 
+                       <th>DESCRIPTION</th> 
                         <th>USO</th>
                         <th>TIPO</th>
+                        <!-- <th>PREVIOS</th>
+                        <th>PROCESADOS</th>
+                        <th>REVISADOS</th>
+                        <th>LISTOS</th> -->
                         <!-- <th>{{__('status')}}</th> -->
                         <th>{{__('actions')}}</th>
                  </th>
@@ -71,6 +75,7 @@
                         </td> 
                     <td>{{$contract->projectUse->projectUseName}}   </td>
                     <td>{{$contract->contractType}}   </td>
+                    <!-- <td>{{$contract->numberOfDocuments}}   </td> -->
                     <!-- <td>{{$contract->contractStatusR[0]->contStatusName}}  </td> -->
 
 
