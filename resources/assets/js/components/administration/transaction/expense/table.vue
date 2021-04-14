@@ -34,6 +34,7 @@
                                 <th>MONTO</th>
                                 <th>DESTINO</th>
                                 <th>RESPONSABLE</th>
+                                <th>ESTADO</th>
                                 <th>ACCIONES</th>
                                </tr>
                             </thead>
@@ -56,6 +57,7 @@
                                      </p>                                          
                                 </td>      
                                <td class="text-left">{{transaction.user.fullName}}</td>
+                               <td class="text-left">{{transaction.status}}</td>
                                   <td> 
                                  <button @click="toggle(transaction.transactionId)" :class="{ opened: opened.includes(transaction.transactionId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-angle-double-down" aria-hidden="true"></i></button>  
                                      <div v-if="transaction.transactionable_id == null">
@@ -65,9 +67,9 @@
                                 </td>
                          </tr>
                          <!-- style="background:blue"  -->
-                         <tr  v-if="opened.includes(transaction.transactionId)" >
+                         <tr v-if="opened.includes(transaction.transactionId)" >
                             <td></td>
-                            <td colspan="9">
+                            <td style="background:#c6e8f4" colspan="10">
                              <div v-if="transaction.document">
                                 <!-- previzualizar la imagen -->
                                  <iframe v-if="transaction.document.mimeType == 'pdf'" :src="raizUrl+transaction.document.docUrl" frameborder="0" width="100%" height="700px"></iframe>
@@ -83,6 +85,7 @@
                                            <thead>
                                              <tr class="bg-success">
                                               <th>#</th>
+                                              <th># FACTURA</th>
                                               <th>DIRECCION</th>
                                               <th>MONTO</th>
                                               <th>MOTIVO</th>                
@@ -91,7 +94,8 @@
                                        <tbody>
                                              <tr v-for="(payable,index) in transaction.payable" :key="payable.payableId">
                                                  <td>{{++index}} </td>
-                                                 <td> {{payable.subcont_inv_detail.invoice.contract.siteAddress}} </td>
+                                                 <td>{{payable.subcont_inv_detail.invoice.invId}} </td>
+                                                 <td>{{payable.subcont_inv_detail.invoice.contract.siteAddress}} </td>
                                                  <td>{{payable.pivot.amountPaid}} </td>
                                                  <td>{{payable.pivot.reason}} </td>
                                             </tr>
@@ -102,7 +106,7 @@
                            </div>
                         </div>
                          <div v-else>
-                           Nothing
+                           EMPTY
                         </div>
                       </td>
                     </tr> 

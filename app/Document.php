@@ -66,11 +66,11 @@ class Document extends Model
 
     //    dd($file);
     //    exit();
-     $image = new \Imagick();
-     $image->readImageBlob($file);
-     $image->setImageFormat("jpeg");
-     $image->setImageCompressionQuality(100);
-     $image->writeImage($targetdir.$uid.".jpg"); 
+    //  $image = new \Imagick();
+    //  $image->readImageBlob($file);
+    //  $image->setImageFormat("jpeg");
+    //  $image->setImageCompressionQuality(100);
+    //  $image->writeImage($targetdir.$uid.".jpg"); 
 
         $error = null;
         DB::beginTransaction();

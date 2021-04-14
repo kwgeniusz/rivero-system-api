@@ -38,6 +38,7 @@
                  <th>TOTAL</th>
                  <th>BALANCE</th>
                  <th>CUOTAS</th>
+                 <th>REGISTRADA POR</th> 
                  <th>{{__('STATUS')}}</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
@@ -56,6 +57,7 @@
                    <td>{{$invoice->netTotal}}</td>
                    <td>{{$invoice->balanceTotal}}</td>
                    <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->user->fullName}}</td>  
                    <td
                   @if($invoice->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  

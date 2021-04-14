@@ -121,7 +121,7 @@ class Payable extends Model
     }
       public function insertP($subcontInvDetailId,$amountDue)
     {
-         date_default_timezone_set(session('companyTimeZone'));
+        //  date_default_timezone_set(session('companyTimeZone'));
 
         $payable                     = new Payable;
         $payable->countryId          = session('countryId');
@@ -137,7 +137,7 @@ class Payable extends Model
   }
 
   //usado para el cobro de cuotas
-    public function addPay($payables,$payMethodId,$payMethodDetails,$cashboxId,$accountId)
+    public function addPay($payables,$payMethodId,$payMethodDetails,$typeExpense,$cashboxId,$accountId)
     {
         $error   = null;
         DB::beginTransaction();
@@ -151,14 +151,14 @@ class Payable extends Model
             }
   
             $oTransactionType = new TransactionType;
-            $transactionType = $oTransactionType->findByOfficeAndCode(session('companyId'),$subcontractor->typeForm1099);
+            $transactionType = $oTransactionType->findByOfficeAndCode(session('companyId'),$typeExpense);
 
             $oTransaction = new Transaction;
             $rs1 = $oTransaction->insertT(
               session('countryId'),
               session('companyId'),
               $transactionType[0]->transactionTypeId,
-              $subcontractor->name,
+              $subcontractor->subcontractorName,
               $payMethodId,
               $payMethodDetails,
               'NINGUNA RAZON',

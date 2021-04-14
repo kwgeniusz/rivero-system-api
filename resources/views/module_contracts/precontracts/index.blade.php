@@ -51,6 +51,8 @@
                  <th>DESCRIPCION</th>
                  <th>USO</th>
                  <th>TIPO</th>
+                 <th>FECHA DE CREACION</th>
+                 <th>REGISTRADO POR</th>
                  <th>{{__('options')}}</th>
                 </tr>
             </thead>
@@ -87,6 +89,10 @@
                     @endif  
                        </td>     
                     <td >{{$precontract->contractType}}   </td>
+                    <td >{{$precontract->precontractDate}}   </td>
+                    <td >
+                    @if($precontract->user != null){{$precontract->user->fullName}} @endif  
+                     </td>
                     <td>
         @if($precontract->contractId == null)
               @can('BCF')

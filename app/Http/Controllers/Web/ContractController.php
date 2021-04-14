@@ -79,7 +79,7 @@ class ContractController extends Controller
     {
 
        $contractNumberFormat = $this->oCompanyConfiguration->generateContractNumberFormat(session('countryId'),session('companyId'));
-       $currencies   = $this->oCurrency->getAll();
+       $currencies   = $this->oCurrency->getAllDisplay();
 
         return view('module_contracts.contracts.create', compact('currencies','contractNumberFormat'));
     }
@@ -141,7 +141,7 @@ class ContractController extends Controller
          // }
           
         $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
-        $currencies = $this->oCurrency->getAll();
+        $currencies = $this->oCurrency->getAllDisplay();
 
         return view('module_contracts.contracts.edit', compact('contract','currencies','blockEdit'));
     }

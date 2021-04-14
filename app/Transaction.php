@@ -38,7 +38,7 @@ class Transaction extends Model
                'invoiceId',
                'deleted_at'];
 
-    protected $appends = ['transactionDate'];
+    protected $appends = ['transactionDate','status'];
     
     //--------------------------------------------------------------------
                /** RELATIONS */
@@ -94,6 +94,15 @@ class Transaction extends Model
         $date->tz = session('companyTimeZone');   // ... set to the current users timezone
         return $date->format('Y-m-d H:i:s');
     }
+    public function getStatusAttribute()
+    {
+         if($this->document) {
+            return 'PROCESADA';
+         }else{
+             return 'PENDIENTE';
+         }
+
+    } 
     // ------------MUTADORES-----------------//
     public function setAmountAttribute($amount)
     {
@@ -201,7 +210,7 @@ class Transaction extends Model
         $error = null; 
         DB::beginTransaction();
         try {
-
+        
 
             //INSERTA UNA NUEVA TRANSACTION
             $transaction                          = new Transaction;

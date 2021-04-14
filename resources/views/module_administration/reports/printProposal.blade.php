@@ -294,7 +294,7 @@ C. ID: {{$client->clientCode}}   <br>
 <div class="just">
 <span class="tab">
 @if($proposal[0]->subcontId != null)  
- JD Rivero & {{$proposal[0]->subcontractor->name}} 
+ JD Rivero & {{$proposal[0]->subcontractor->companyName}} 
 @else
 We
 @endif 
@@ -446,10 +446,10 @@ Sincerely.
 		@if($proposal[0]->subcontId != null)  
 				<th align="center" >
 				@if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
-					<b>{{$proposal[0]->subcontractor->representative}}</b> <br>
-					{{$proposal[0]->subcontractor->name}} <br>
+					<b>{{$proposal[0]->subcontractor->subcontractorName}}</b> <br>
+					{{$proposal[0]->subcontractor->companyName}} <br>
 				@else
-					<b>{{$proposal[0]->subcontractor->name}}</b> <br>
+					<b>{{$proposal[0]->subcontractor->companyName}}</b> <br>
 				@endif
 					ENGINEERING CONSULTING <br>
 					{{$proposal[0]->subcontractor->mainPhone}}

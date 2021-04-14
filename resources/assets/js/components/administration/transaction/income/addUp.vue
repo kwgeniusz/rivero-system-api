@@ -161,8 +161,8 @@
                 this.errors.push('Debe Ingresar una Descripcion.');
                  if (!this.transaction.reason) 
                 this.errors.push('Debe Escribir un Motivo.');
-                 if (!this.transaction.payMethodDetails) 
-                this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
+                //  if (!this.transaction.payMethodDetails) 
+                // this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
                  if (!this.transaction.transactionTypeId) 
                 this.errors.push('Debe escoger un Tipo de Transaccion.');
                  if (!this.transaction.amount) 
@@ -204,7 +204,7 @@
                          toastr.success(response.data.message);
                            this.$emit('showlist', 0)
                         })
-                    .catch(function (response) {
+                    .catch((response) => {
                         alert("Error de Servidor")
                          this.showSubmitBtn =true;
                     });
@@ -216,7 +216,7 @@
                         toastr.success(response.data.message);
                         this.$emit('showlist', 0);
                         })
-                    .catch(function (error) {
+                    .catch((error) => {
                         console.log(error);
                     });
                 }   // else end   

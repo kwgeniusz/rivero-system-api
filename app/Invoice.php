@@ -3,6 +3,7 @@
 namespace App;
 
 use App;
+use Carbon\Carbon;
 use App\Country;
 use App\Receivable;
 use App\Helpers\DateHelper;
@@ -20,7 +21,7 @@ class Invoice extends Model
     protected $primaryKey = 'invoiceId';
     protected $fillable = ['invoiceId','invId','countryId','companyId','contractId','clientId','invoiceDate','grossTotal','taxPercent','taxAmount','netTotal','invStatusCode'];
 
-     protected $appends = ['grossTotal','taxAmount','netTotal','balanceTotal','shareSucceed'];
+     protected $appends = ['grossTotal','taxAmount','netTotal','balanceTotal','shareSucceed','invoiceDate'];
      protected $dates = ['deleted_at'];
      
     //PARA EVITAR LOS NUMEROS MAGICOS
@@ -96,7 +97,7 @@ class Invoice extends Model
     public function user()
     {
         return $this->belongsTo('App\User', 'userId', 'userId');
-    }
+    } 
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -112,12 +113,11 @@ class Invoice extends Model
     {
           return decrypt($this->attributes['netTotal']);
     }
-    public function getInvoiceDateAttribute($invoiceDate)
+    public function getInvoiceDateAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($invoiceDate);
-        return $newDate;
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['invoiceDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
    public function getPQuantityAttribute()
     {
@@ -179,11 +179,9 @@ class Invoice extends Model
     }
     public function setInvoiceDateAttribute($invoiceDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($invoiceDate);
-
-        $this->attributes['invoiceDate'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $invoiceDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['invoiceDate'] = $date;
     }
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -284,7 +282,7 @@ class Invoice extends Model
         $invoice->netTotal         =  $netTotal;
         $invoice->pCondId          =  $paymentConditionId;
         $invoice->invStatusCode    =  $invStatusCode;
-        $invoice->userId    =  $userId;
+        $invoice->userId           =  $userId;
         $invoice->save();
 
       
