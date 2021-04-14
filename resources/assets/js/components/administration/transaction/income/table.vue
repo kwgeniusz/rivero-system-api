@@ -34,6 +34,7 @@
                                  <th>DESCRIPCION</th>
                                  <th>FACTURA</th>
                                  <th>MOTIVO</th>
+                                <th>REFERENCIA DE TRANSACCION</th>
                                  <th>METODO DE PAGO</th>
                                  <th>MONTO</th>
                                  <th>DESTINO</th>
@@ -60,6 +61,7 @@
                                     </p> 
                                 </td>
                                 <td class="text-left"> {{transaction.reason}}</td>  
+                                <td class="text-left"> {{transaction.reference}}</td>  
                                 <td class="text-left"> {{transaction.payment_method.payMethodName}} {{transaction.payMethodDetails}}</td>           
                                <td class="text-left"> {{transaction.amount}}</td>   
                                  <td class="text-left"> 

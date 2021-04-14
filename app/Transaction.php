@@ -205,13 +205,12 @@ class Transaction extends Model
                       ->get();
     }
 
-    public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '')
+    public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$reference,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '')
     {
         $error = null; 
         DB::beginTransaction();
         try {
-        
-
+    
             //INSERTA UNA NUEVA TRANSACTION
             $transaction                          = new Transaction;
             $transaction->countryId               = $countryId;
@@ -221,6 +220,7 @@ class Transaction extends Model
             $transaction->payMethodId             = $payMethodId;
             $transaction->payMethodDetails        = $payMethodDetails;
             $transaction->reason                  = $reason;
+            $transaction->reference               = $reference;
             $transaction->transactionDate         = $transactionDate;
             $transaction->amount                  = $amount;
             $transaction->sign                    = $sign;

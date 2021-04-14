@@ -30,6 +30,7 @@
                                 <th>REFERENCIA EN BANCO O BENEFICIARIO</th>
                                 <th >METODO DE PAGO</th>
                                 <th>MOTIVO</th>
+                                <th>REFERENCIA DE TRANSACCION</th>
                                 <th>EXPENSES</th>
                                 <th>MONTO</th>
                                 <th>DESTINO</th>
@@ -46,6 +47,7 @@
                                 <td class="text-left"> {{transaction.description}}</td>
                                 <td class="text-left"> {{transaction.payment_method.payMethodName}} {{transaction.payMethodDetails}}</td>
                                 <td class="text-left"> {{transaction.reason}}</td> 
+                                <td class="text-left"> {{transaction.reference}}</td> 
                                 <td class="text-left"> {{transaction.transaction_type.transactionTypeName}}</td>  
                                 <td class="text-left"> {{transaction.amount}}</td>
                                 <td class="text-left"> 
