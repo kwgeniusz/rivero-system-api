@@ -110,19 +110,22 @@ desired effect
 
   //Tooltip Boostrap 3.3
   $(function () { $('[data-toggle="tooltip"]').tooltip()});
-  
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {
+      altInput: true,
       minDate: '1920-01-01',
       locale: 'es',
-      dateFormat: "m/d/Y",
+      altFormat: 'm/d/Y',
+      dateFormat: "Y-m-d",
     });
   @elseif(session('countryId') == '2')
       flatpickr('.flatpickr', {
+      altInput: true,
       minDate: '1920-01-01',
       locale: 'es',
-      dateFormat: "d/m/Y",
+      altFormat: 'd/m/Y',
+      dateFormat: "Y-m-d",
     });
   @endif
 

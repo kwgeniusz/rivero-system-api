@@ -200,7 +200,7 @@ class TransactionController extends Controller
          if($request->file != null){ 
              $this->validate($request, ['file' => 'mimes:jpeg,jpg,bmp,png,gif,svg,pdf']);
          }
-
+  
         //insert transaction and Update BANK...
         $rs1 = $this->oTransaction->insertT(
             session('countryId'),
@@ -210,6 +210,7 @@ class TransactionController extends Controller
             $request->payMethodId,
             $request->payMethodDetails,
             $request->reason,
+            $request->reference,
             $request->transactionDate,
             $request->amount,
             $request->sign,

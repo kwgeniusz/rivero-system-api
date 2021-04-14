@@ -64,11 +64,13 @@ class Document extends Model
      $companyName = session('companyName');
      $heicRs = preg_match('/.HEIC/', $file->getClientOriginalName());
 
-     $image = new \Imagick();
-     $image->readImageBlob($file);
-     $image->setImageFormat("jpeg");
-     $image->setImageCompressionQuality(100);
-     $image->writeImage($targetdir.$uid.".jpg"); 
+    //    dd($file);
+    //    exit();
+    //  $image = new \Imagick();
+    //  $image->readImageBlob($file);
+    //  $image->setImageFormat("jpeg");
+    //  $image->setImageCompressionQuality(100);
+    //  $image->writeImage($targetdir.$uid.".jpg"); 
 
         $error = null;
         DB::beginTransaction();
@@ -107,13 +109,14 @@ class Document extends Model
 
       }
         $doc->docName               = $file->getClientOriginalName();
-        $doc->mimeType              = $file->extension();
         $doc->dateUploaded          = date('Y-m-d H:i:s');
         $doc->docUrl                = $rs;
         if($heicRs == 1){
-         $doc->docNameOriginal       = '.HEIC';
+         $doc->docNameOriginal       =  '1';
+         $doc->mimeType              = '.HEIC';
         }else{
          $doc->docNameOriginal       = $file->hashName();
+         $doc->mimeType              = $file->extension();
        }
         $doc->docType               = $typeDoc;
         $doc->userId                = Auth::user()->userId;

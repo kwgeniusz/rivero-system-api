@@ -32,6 +32,11 @@
                                 <input type="text" v-model="transaction.reason" class="form-control" id="reason" name="reason">
                         </div>
 
+                        <div class="form-group col-md-7">
+                                <label for="reference" class="form-group">REFERENCIA DE TRANSACCION</label>
+                                <input type="text" v-model="transaction.reference" class="form-control" id="reference" name="reference">
+                        </div>
+
                         <div class="row"></div>
                           <select-bank-cashbox v-if="transaction.payMethodId" @shareData="getValueFromPayMethod" 
                          :prop-paymethod = "transaction.payMethodId"
@@ -115,6 +120,7 @@
                     this.transaction.transactionDate = data.transactionDate;
                     this.transaction.description = data.description;
                     this.transaction.reason = data.reason;
+                    this.transaction.reference = data.reference;
                     this.transaction.payMethodId = data.payMethodId;
                     this.transaction.payMethodDetails = data.payMethodDetails;
                     this.transaction.transactionTypeId = data.transactionTypeId;
@@ -151,6 +157,7 @@
                      transactionDate: '',
                      description: '',
                      reason: '',
+                     reference: '',
                      payMethodId: '',
                      payMethodDetails: '',
                      transactionTypeId: '',
@@ -207,6 +214,7 @@
                      formData.append('transactionDate',this.transaction.transactionDate);
                      formData.append('description',this.transaction.description);
                      formData.append('reason',this.transaction.reason);
+                     formData.append('reference',this.transaction.reference);
                      formData.append('payMethodId',this.transaction.payMethodId);
                      formData.append('payMethodDetails',this.transaction.payMethodDetails);
                      formData.append('transactionTypeId',this.transaction.transactionTypeId);

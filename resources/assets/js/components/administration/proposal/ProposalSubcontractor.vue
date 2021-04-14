@@ -5,7 +5,7 @@
     <label for="modelSubcontId">Lista de Subcontractistas:</label>
     <select v-model="modelSubcontId"  class="form-control" name="modelSubcontId" id="modelSubcontId">
         <option value="">N/A</option>
-        <option v-for="(item,index) in subcontractors" :value="item.subcontId" > {{item.name}}</option>
+        <option v-for="(item,index) in subcontractors" :value="item.subcontId" >{{item.companyName}} ({{item.subcontractorName}})</option>
     </select>
       <button class="submit" @click.prevent="addSubcontractor()"> 
         <span class="fa fa-plus" aria-hidden="true"></span> Agregar
@@ -38,8 +38,7 @@ export default {
          getAllSubcontractors: function (){
             let url ='subcontractors';
             axios.get(url).then(response => {
-             this.subcontractors = response.data.data
-             // console.log(this.subcontractors)
+             this.subcontractors = response.data
             });
         },
         addSubcontractor: function() {

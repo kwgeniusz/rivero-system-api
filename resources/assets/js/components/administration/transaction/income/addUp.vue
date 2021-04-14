@@ -31,6 +31,11 @@
                                 <label for="reason" class="form-group">MOTIVO</label>
                                 <input type="text" v-model="transaction.reason" class="form-control" id="reason" name="reason">
                         </div>
+
+                         <div class="form-group col-md-7">
+                                <label for="reference" class="form-group">REFERENCIA DE TRANSACCION</label>
+                                <input type="text" v-model="transaction.reference" class="form-control" id="reference" name="reference">
+                        </div>
                       
                         <div class="row"></div>
                         <select-bank-cashbox v-if="transaction.payMethodId" @shareData="getValueFromPayMethod" 
@@ -103,6 +108,7 @@
                     this.transaction.transactionDate = data.transactionDate;
                     this.transaction.description = data.description;
                     this.transaction.reason = data.reason;
+                    this.transaction.reference = data.reference;
                     this.transaction.payMethodId = data.payMethodId;
                     this.transaction.payMethodDetails = data.payMethodDetails;
                     this.transaction.transactionTypeId = data.transactionTypeId;
@@ -133,6 +139,7 @@
                      transactionDate: '',
                      description: '',
                      reason: '',
+                     reference: '',
                      payMethodId: '',
                      payMethodDetails: '',
                      transactionTypeId: '',
@@ -161,8 +168,8 @@
                 this.errors.push('Debe Ingresar una Descripcion.');
                  if (!this.transaction.reason) 
                 this.errors.push('Debe Escribir un Motivo.');
-                 if (!this.transaction.payMethodDetails) 
-                this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
+                //  if (!this.transaction.payMethodDetails) 
+                // this.errors.push('Debe Escribir un Detalle Para el Metodo de Pago.');
                  if (!this.transaction.transactionTypeId) 
                 this.errors.push('Debe escoger un Tipo de Transaccion.');
                  if (!this.transaction.amount) 
@@ -183,6 +190,7 @@
                      formData.append('transactionDate',this.transaction.transactionDate);
                      formData.append('description',this.transaction.description);
                      formData.append('reason',this.transaction.reason);
+                     formData.append('reference',this.transaction.reference);
                      formData.append('payMethodId',this.transaction.payMethodId);
                      formData.append('payMethodDetails',this.transaction.payMethodDetails);
                      formData.append('transactionTypeId',this.transaction.transactionTypeId);
@@ -204,7 +212,7 @@
                          toastr.success(response.data.message);
                            this.$emit('showlist', 0)
                         })
-                    .catch(function (response) {
+                    .catch((response) => {
                         alert("Error de Servidor")
                          this.showSubmitBtn =true;
                     });
@@ -216,7 +224,7 @@
                         toastr.success(response.data.message);
                         this.$emit('showlist', 0);
                         })
-                    .catch(function (error) {
+                    .catch((error) => {
                         console.log(error);
                     });
                 }   // else end   

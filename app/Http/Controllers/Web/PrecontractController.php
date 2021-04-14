@@ -65,13 +65,14 @@ class PrecontractController extends Controller
 
      $preId = $this->oCompanyConfiguration->retrievePrecontractNumber(session('countryId'),session('companyId'));
      $preId++;
-     $currencies = $this->oCurrency->getAll();
+     $currencies = $this->oCurrency->getAllDisplay();
 
         return view('module_contracts.precontracts.create', compact('currencies','preId'));
     }
 
     public function store(PrecontractRequest $request)
     {
+
         $this->oPrecontract->insertPrecontract(
             session('countryId'),
             session('companyId'),
@@ -114,7 +115,7 @@ class PrecontractController extends Controller
 
         // $clients     = $this->oClient->getAll();
         $precontract  = $this->oPrecontract->FindById($id,session('countryId'),session('companyId'));
-        $currencies = $this->oCurrency->getAll();
+        $currencies = $this->oCurrency->getAllDisplay();
 
 
         return view('module_contracts.precontracts.edit', compact('precontract','currencies'));
@@ -195,7 +196,7 @@ class PrecontractController extends Controller
     public function convertAdd($id)
     {
         $error = null;
-
+   
         DB::beginTransaction();
         try {
       //traer todos los datos del proposal
@@ -208,7 +209,7 @@ class PrecontractController extends Controller
                 $precontract->companyId,
                 $precontract->contractType,
                 $precontract->projectName,
-                date('m/d/Y'),
+                date('Y-m-d'),
                 $precontract->clientId,
                 $precontract->propertyNumber,
                 $precontract->streetName,
@@ -233,14 +234,14 @@ class PrecontractController extends Controller
                   $contract->contractId,
                   $contract->clientId,
                   $proposal[0]->projectDescriptionId,
-                  date('m/d/Y'),
+                  date('Y-m-d'),
                   '0.00',
                   $proposal[0]->taxPercent,
                   '0.00',
                   '0.00',
                   $proposal[0]->pCondId,
                   Invoice::OPEN,
-                  $proposal[0]->userId);
+                  Auth::user()->userId);
 
                foreach ($proposal[0]->proposalDetail as $proposalDetail) {
                       $this->oInvoiceDetail->insert(

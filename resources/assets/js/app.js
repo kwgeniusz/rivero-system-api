@@ -82,7 +82,7 @@ Vue.component("main-subcontractor",require("./components/administration/subcontr
 Vue.component("table-subcontractor",require("./components/administration/subcontractor/table.vue"));
 Vue.component("addUp-subcontractor",require("./components/administration/subcontractor/addUp.vue"));
 
-Vue.component("subcontractor-datasheet",require("./components/administration/subcontractor/datasheet.vue"));
+Vue.component("subcontractor-datasheet",require("./components/administration/subcontractor/Datasheet.vue"));
 // Vue.component("subcontractor-create",require("./components/administration/subcontractor/create.vue"));
 Vue.component("search-subcontractor",require("./components/administration/SearchSubcontractor.vue"));
 

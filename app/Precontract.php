@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Auth;
+use Carbon\Carbon;
 use App\Client;
 use App\Country;
 use App\Company;
@@ -39,12 +41,11 @@ class Precontract extends Model
     {
         return decrypt($precontractCost);
     }
-     public function getPrecontractDateAttribute($precontractDate)
+    public function getPrecontractDateAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($precontractDate);
-        return $newDate;
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['precontractDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
 //------------------------MUTADORES--------------------------------
 
@@ -54,11 +55,9 @@ class Precontract extends Model
     }
     public function setPrecontractDateAttribute($precontractDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($precontractDate);
-
-        $this->attributes['precontractDate'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $precontractDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['precontractDate'] = $date;
     }
 
   //--------------------------------------------------------------------
@@ -124,17 +123,18 @@ class Precontract extends Model
     {
         return $this->hasMany('App\Document', 'precontractId', 'precontractId')->with('user');
     }
-    
     public function projectUse()
     {
         return $this->belongsTo('App\ProjectUse', 'projectUseId');
     }
-
     public function proposal()
     {
         return $this->hasMany('App\Proposal', 'precontractId', 'precontractId');
     }
-
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'userId');
+    } 
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -188,6 +188,7 @@ class Precontract extends Model
         $precontract->comment                = $comment;
         $precontract->precontractCost        = '0.00';
         $precontract->currencyId             = $currencyId;
+        $precontract->userId                    =  Auth::user()->userId;
         $precontract->save();
 
     }

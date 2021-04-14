@@ -32,6 +32,7 @@
                  <th>IMPUESTO</th>
                  <th>TOTAL</th>
                  <th>CUOTAS</th>
+                 <th>REGISTRADO POR</th>
                  <th>{{__('actions')}}</th> 
                  </th>
                 </tr>
@@ -50,6 +51,7 @@
                    <td>{{$proposal->taxAmount}}</td> 
                    <td>{{$proposal->netTotal}}</td> 
                    <td>{{$proposal->pQuantity}}</td> 
+                   <td>{{$proposal->user->fullName}}</td> 
                    <td>
 
 @if($precontract[0]->contractId == null)

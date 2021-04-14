@@ -130,9 +130,9 @@ class Subcontractor extends Model
 
         DB::beginTransaction();
          try {
-
-            dd($data);
-            exit();
+            
+            // dd(json_decode($data));
+            // exit();
             // $msg = json_decode(file_get_contents("php://input"));
            $subcontractor                   = Subcontractor::find($subcontId);
         $subcontractor->subcontType         = $data['subcontType'];

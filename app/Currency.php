@@ -32,9 +32,10 @@ class Currency extends Model
    /**  */
 //--------------------------------------------------------------------  
 
-   public function getAll()
+   public function getAllDisplay()
     {
-        return $this->orderBy('currencyId', 'ASC')
+        return $this->where('displayCurrency', '=', 1)
+                    ->orderBy('currencyId', 'ASC')
                     ->get();
     }
 

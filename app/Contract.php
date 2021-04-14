@@ -5,6 +5,7 @@ namespace App;
 use App;
 use Auth;
 use DB;
+use Carbon\Carbon;
 use App\Client;
 use App\CompanyConfiguration;
 use App\ContractStaff;
@@ -107,10 +108,10 @@ class Contract extends Model
     {
         return $this->hasMany('App\Invoice', 'contractId', 'contractId');
     }
-   public function user()
+    public function user()
     {
-        return $this->hasOne('App\User', 'userId', 'lastUserId');
-    }    
+        return $this->belongsTo('App\User', 'userId', 'userId');
+    } 
    public function contractStatusR()
     {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
          $relation = $this->hasMany('App\ContractStatus', 'contStatusCode','contractStatus');
@@ -139,12 +140,11 @@ class Contract extends Model
     {
         return decrypt($contractCost);
     }
-    public function getContractDateAttribute($contractDate)
+    public function getContractDateAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($contractDate);
-        return $newDate;
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
     // public function getStartDateAttribute($startDate)
     // {
@@ -184,11 +184,9 @@ class Contract extends Model
     }
     public function setContractDateAttribute($contractDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($contractDate);
-
-        $this->attributes['contractDate'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $contractDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['contractDate'] = $date;
     }
     // public function setStartDateAttribute($startDate)
     // {
@@ -434,7 +432,7 @@ class Contract extends Model
         $contract->currencyId        = $currencyId;
         $contract->contractStatus      = '1';
         $contract->created_at         = date('Y-m-d H:i:s');
-        $contract->lastUserId          = Auth::user()->userId;
+        $contract->userId             = Auth::user()->userId;
         $contract->save();
             
 

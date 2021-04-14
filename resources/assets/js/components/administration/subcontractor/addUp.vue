@@ -264,12 +264,14 @@
 
                 }else {
                     formData.append("_method", "put");
+          
                     console.log(formData);
-                    
-                    axios.post(`/subcontractors/${this.editId}`, formData,{ 
-                           headers: {
-                            'Content-Type': 'application/json'
-                             }})
+
+                          let object = {};
+                          formData.forEach((value, key) => object[key] = value);
+                          object = JSON.stringify(object);
+                      
+                    axios.post(`/subcontractors/${this.editId}`, JSON.stringify(formData))
                     .then((response) => {
                         toastr.success(response.data.message);
                         this.$emit('showlist', 0);

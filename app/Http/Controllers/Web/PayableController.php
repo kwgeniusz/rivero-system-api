@@ -27,6 +27,7 @@ class PayableController extends Controller
                         $request->checked,
                         $request->payMethodId,
                         $request->payMethodDetails,
+                        $request->typeExpense,
                         $request->cashboxId,
                         $request->accountId
                        );
