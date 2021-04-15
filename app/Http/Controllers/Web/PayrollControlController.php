@@ -380,6 +380,7 @@ class PayrollControlController extends Controller
             ->where('hrpermanent_transaction.companyId', '=', $companyId)
             ->where('hrpermanent_transaction.staffCode', '=', $staffCode)
             ->where('hrpermanent_transaction.transactionTypeCode', '=', $transactionTypeCode)
+            ->whereNull('hrpermanent_transaction.deleted_at')
             ->get();
             $addTransaction = 0; 
             // dd($rs4);
@@ -445,6 +446,7 @@ class PayrollControlController extends Controller
                     INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
                     WHERE hrtransaction_type.countryId = $countryId
                         AND hrtransaction_type.companyId = $companyId
+                        AND hrpermanent_transaction.deleted_at IS NULL
                         AND hrpermanent_transaction.staffCode = '$staffCode'");
             // $rs6  = $oVariable->joinTransactionType($countryId,$companyId,$staffCode);
             // dd($rs6);
