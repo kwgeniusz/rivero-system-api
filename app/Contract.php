@@ -88,6 +88,10 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Country', 'countryId');
     }
+    public function document()
+    {
+        return $this->hasMany('App\Document', 'contractId', 'contractId')->with('user');
+    }
     public function staff()
     {
         return $this->belongsToMany('App\Staff', 'contract_staff', 'contractId', 'staffId')->withPivot('contractStaffId');
@@ -123,57 +127,33 @@ class Contract extends Model
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-  public function getSiteAddressAttribute()
-{
+    public function getSiteAddressAttribute()
+    {
    return $this->propertyNumber.' '.$this->streetName.' '.$this->streetType.' '.$this->suiteNumber.' '.$this->city.' '.$this->state.' '.$this->zipCode;
-}
-    // public function getContractTypeAttribute($contractType)
-    // {
-    //       if($contractType == 'P')
-    //       {
-    //          return  $contractType = "PROJECT";
-    //       }else{
-    //          return  $contractType = "SERVICE";
-    //       }
-    // }
+   }
     public function getContractCostAttribute($contractCost)
     {
         return decrypt($contractCost);
     }
+    public function getNumberOfDocumentsAttribute()
+    {
+    //      $rs= [];
+    //      $rs = $this->receivable->filter(function ($receivable, $key) {
+    //          return $receivable->recStatusCode != Receivable::SUCCESS;
+    //       });
+    //      $rs = $sharePending->filter(function ($receivable, $key) {
+    //          return $receivable->recStatusCode != Receivable::ANNULLED;
+    //       });
+    //    return $this->document;
+ 
+    } 
     public function getContractDateAttribute()
     {
         $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
         $date->tz = session('companyTimeZone');   // ... set to the current users timezone
         return $date->format('Y-m-d H:i:s');
     }
-    // public function getStartDateAttribute($startDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($startDate);
-    //     return $newDate;
-    // }
-    // public function getScheduledFinishDateAttribute($scheduledFinishDate)
-    // {
-    //     $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
-    //     return $newDate;
-    // }
-    // public function getActualFinishDateAttribute($actualFinishDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($actualFinishDate);
-    //     return $newDate;
-    // }
-    // public function getDeliveryDateAttribute($deliveryDate)
-    // {
-    //       $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($deliveryDate);
-    //     return $newDate;
-    // }
+
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -188,38 +168,6 @@ class Contract extends Model
         $date->setTimezone('UTC');
         $this->attributes['contractDate'] = $date;
     }
-    // public function setStartDateAttribute($startDate)
-    // {
-    //     $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($startDate);
-
-    //     $this->attributes['startDate'] = $newDate;
-    // }
-    // public function setScheduledFinishDateAttribute($scheduledFinishDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
-
-    //     $this->attributes['scheduledFinishDate'] = $newDate;
-    // }
-    // public function setActualFinishDateAttribute($actualFinishDate)
-    // {
-    //     $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($actualFinishDate);
-
-    //     $this->attributes['actualFinishDate'] = $newDate;
-    // }
-    // public function setDeliveryDateAttribute($deliveryDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($deliveryDate);
-
-    //     $this->attributes['deliveryDate'] = $newDate;
-    // }
 //--------------------------------------------------------------------
     /** Query Scope  */
 //--------------------------------------------------------------------
