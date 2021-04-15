@@ -137,15 +137,23 @@ class Contract extends Model
     }
     public function getNumberOfDocumentsAttribute()
     {
-    //      $rs= [];
-    //      $rs = $this->receivable->filter(function ($receivable, $key) {
-    //          return $receivable->recStatusCode != Receivable::SUCCESS;
-    //       });
-    //      $rs = $sharePending->filter(function ($receivable, $key) {
-    //          return $receivable->recStatusCode != Receivable::ANNULLED;
-    //       });
-    //    return $this->document;
- 
+         $previous  = $this->document->filter(function ($doc, $key) {return $doc->docType == 'previous'; });
+         $processed = $this->document->filter(function ($doc, $key) {return $doc->docType == 'processed';});
+         $revised   = $this->document->filter(function ($doc, $key) {return $doc->docType == 'revised';});
+         $ready     = $this->document->filter(function ($doc, $key) {return $doc->docType == 'ready';}); 
+     
+         // count
+        // $previous  = count($previous);
+        // $processed = count($processed);
+        // $revised   = count($revised);
+        // $ready     = count($ready);
+
+          return [ 
+            "previous"  => $previous->count(),
+            "processed" => $processed->count(),
+            "revised"   => $revised->count(),
+            "ready"     => $ready->count(),
+          ];
     } 
     public function getContractDateAttribute()
     {
