@@ -375,7 +375,7 @@ class Receivable extends Model
                $collection = $oTransactionType->findByOfficeAndCode(session('companyId'),'INCOME_INVOICE');
                $fee        = $oTransactionType->findByOfficeAndCode(session('companyId'),'FEE');
 
-               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber, $datePaid, $amountPaid,'+',$cashboxId, $accountId, $invoice,$userId);
+               $transactionRs1 = $oTransaction->insertT(session('countryId'),session('companyId'), $collection[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber,'', $datePaid, $amountPaid,'+',$cashboxId, $accountId, $invoice,$userId);
                
               if($transactionRs1['alert'] == 'error') {
                 throw new \Exception($transactionRs1['message']);
@@ -386,7 +386,7 @@ class Receivable extends Model
                  $receivable->percent =  $percent;
                  $receivable->amountPercentaje =  $amountPercent;
 
-                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $invoice,$userId);
+                 $transactionRs2 = $oTransaction->insertT(session('countryId'),session('companyId'), $fee[0]->transactionTypeId,$receivable->invoice->contract->contractNumber ,$collectMethod,'', $paymentNumber.' - CONVENIENCE FEE','', $datePaid, $amountPercent,'+', $cashboxId, $accountId, $invoice,$userId);
                
               if($transactionRs2['alert'] == 'error') {
                 throw new \Exception($transactionRs2['message']);
@@ -499,6 +499,7 @@ class Receivable extends Model
                     $receivable->collectMethod,
                     '',
                     $paymentNumber,
+                    '',
                     Carbon::parse($receivable->datePaid)->format('Y-m-d'),
                     $receivable->amountPaid,
                     '+',
