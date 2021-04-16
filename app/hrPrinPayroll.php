@@ -143,12 +143,12 @@ class hrPrinPayroll extends Model
                                     ORDER BY hrpayroll_history.transactionTypeCode");
     }
     
-    function reportByTransactionPayroll($countryId, $companyId, $payrollNumber, $oTransaction, $oEmployees){
+    function reportByTransactionPayroll($countryId, $companyId, $payrollNumber, $oTransaction, $oEmployees, $table){
         
         $strTransaction = "WHERE (";
         foreach ($oTransaction as $key => $val) {
             // return $val['code'];
-            $strTransaction  .= ($key > 0) ? ' OR hrpayroll_history.transactionTypeCode = ' . $val['code'] : '' . ' hrpayroll_history.transactionTypeCode = ' . $val['code'];
+            $strTransaction  .= ($key > 0) ? ' OR '. $table .'.transactionTypeCode = ' . $val['code'] : '' . ' '. $table .'.transactionTypeCode = ' . $val['code'];
         }
         
         $strTransactionType = $strTransaction . ')';
@@ -157,7 +157,7 @@ class hrPrinPayroll extends Model
 
         foreach ($oEmployees as $key => $val) {
             // return $val['code'];
-            $strTransaction  .= ($key > 0) ? " OR hrpayroll_history.staffCode = " . "'" . $val['code'] . "'" : '' . ' hrpayroll_history.staffCode = ' . "'" . $val['code'] . "'";
+            $strTransaction  .= ($key > 0) ? " OR $table.staffCode = " . "'" . $val['code'] . "'" : '' . ' '.$table.'.staffCode = ' . "'" . $val['code'] . "'";
         }
         $strTransaction .= ')';
 
@@ -168,11 +168,11 @@ class hrPrinPayroll extends Model
         // $res0 =  DB::select('SELECT * FROM `hrpayroll_history` ' . $strTransaction . ' AND hrpayroll_history.countryId =' . $countryId . ' AND hrpayroll_history.companyId =' . $companyId . ' AND hrpayroll_history.payrollNumber =' .$payrollNumber);
         // return
     
-        $res3 =  DB::select('SELECT *, SUM(`amount`) AS total, SUM(`localAmount`) AS totalLocal FROM `hrpayroll_history`
-            INNER JOIN country ON hrpayroll_history.countryId = country.countryId
-            INNER JOIN company ON hrpayroll_history.companyId = company.companyId
-            INNER JOIN payroll_type ON hrpayroll_history.payrollTypeId = payroll_type.payrollTypeId
-            ' . $strTransaction . ' AND hrpayroll_history.countryId =' . $countryId . ' AND hrpayroll_history.companyId =' . $companyId . ' AND hrpayroll_history.payrollNumber =' .$payrollNumber. ' GROUP BY  hrpayroll_history.`isIncome` ORDER BY hrpayroll_history.`isIncome` DESC');
+        $res3 =  DB::select('SELECT *, SUM(`amount`) AS total, SUM(`localAmount`) AS totalLocal FROM '. $table .'
+            INNER JOIN country ON '. $table .'.countryId = country.countryId
+            INNER JOIN company ON '. $table .'.companyId = company.companyId
+            INNER JOIN payroll_type ON '. $table .'.payrollTypeId = payroll_type.payrollTypeId
+            ' . $strTransaction . ' AND '. $table .'.countryId =' . $countryId . ' AND '. $table .'.companyId =' . $companyId . ' AND '. $table .'.payrollNumber =' .$payrollNumber. ' GROUP BY  '. $table .'.`isIncome` ORDER BY '. $table .'.`isIncome` DESC');
 
         $print = array();
         $totalAsignacion     = 0;
@@ -234,17 +234,17 @@ class hrPrinPayroll extends Model
 
         foreach ($oEmployees as $key => $staffCode) {
             
-            $print[] =  DB::select('SELECT * , ( SELECT SUM(amount) FROM hrpayroll_history ' . $strTransactionType . ' 
-                                    AND hrpayroll_history.countryId =  ' .$countryId. ' AND hrpayroll_history.companyId =  ' .$companyId. ' AND hrpayroll_history.payrollNumber = ' .$payrollNumber. ' 
-                                    AND hrpayroll_history.isIncome = 1 AND hrpayroll_history.staffCode = '. "'" .$staffCode['code'] . "'" . ') as asignacion, 
-                                    ( SELECT SUM(localAmount) FROM hrpayroll_history ' . $strTransactionType . ' AND hrpayroll_history.countryId = ' .$countryId. ' AND hrpayroll_history.companyId = ' .$companyId. ' 
-                                        AND hrpayroll_history.payrollNumber = ' .$payrollNumber. ' AND hrpayroll_history.isIncome = 1 AND hrpayroll_history.staffCode = '. "'" .$staffCode['code'] . "'" . ') as asignacionLocal, 
-                                    ( SELECT SUM(amount) FROM hrpayroll_history ' . $strTransactionType . ' AND hrpayroll_history.countryId = ' .$countryId. ' AND hrpayroll_history.companyId = ' .$companyId. ' AND hrpayroll_history.payrollNumber = ' .$payrollNumber. ' 
-                                        AND hrpayroll_history.isIncome = 0 AND hrpayroll_history.staffCode = '. "'" .$staffCode['code'] . "'" . ') as deduccion,
-                                    ( SELECT SUM(localAmount) FROM hrpayroll_history ' . $strTransactionType . ' AND hrpayroll_history.countryId = ' .$countryId. ' AND hrpayroll_history.companyId = ' .$companyId. '
-                                        AND hrpayroll_history.payrollNumber = ' .$payrollNumber. ' AND hrpayroll_history.isIncome = 0 AND hrpayroll_history.staffCode = '. "'" .$staffCode['code'] . "'" . ') as deduccionLocal 
-                            FROM `hrpayroll_history` ' . $strTransactionType . ' AND hrpayroll_history.countryId =' . $countryId . ' AND hrpayroll_history.companyId =' . $companyId . ' AND hrpayroll_history.payrollNumber =' .$payrollNumber . ' 
-                            AND hrpayroll_history.staffCode = ' . "'". $staffCode['code']. "' ORDER BY hrpayroll_history.transactionTypeCode");
+            $print[] =  DB::select('SELECT * , ( SELECT SUM(amount) FROM '. $table .' ' . $strTransactionType . ' 
+                                    AND '. $table .'.countryId =  ' .$countryId. ' AND '. $table .'.companyId =  ' .$companyId. ' AND '. $table .'.payrollNumber = ' .$payrollNumber. ' 
+                                    AND '. $table .'.isIncome = 1 AND '. $table .'.staffCode = '. "'" .$staffCode['code'] . "'" . ') as asignacion, 
+                                    ( SELECT SUM(localAmount) FROM '. $table .' ' . $strTransactionType . ' AND '. $table .'.countryId = ' .$countryId. ' AND '. $table .'.companyId = ' .$companyId. ' 
+                                        AND '. $table .'.payrollNumber = ' .$payrollNumber. ' AND '. $table .'.isIncome = 1 AND '. $table .'.staffCode = '. "'" .$staffCode['code'] . "'" . ') as asignacionLocal, 
+                                    ( SELECT SUM(amount) FROM '. $table .' ' . $strTransactionType . ' AND '. $table .'.countryId = ' .$countryId. ' AND '. $table .'.companyId = ' .$companyId. ' AND '. $table .'.payrollNumber = ' .$payrollNumber. ' 
+                                        AND '. $table .'.isIncome = 0 AND '. $table .'.staffCode = '. "'" .$staffCode['code'] . "'" . ') as deduccion,
+                                    ( SELECT SUM(localAmount) FROM '. $table .' ' . $strTransactionType . ' AND '. $table .'.countryId = ' .$countryId. ' AND '. $table .'.companyId = ' .$companyId. '
+                                        AND '. $table .'.payrollNumber = ' .$payrollNumber. ' AND '. $table .'.isIncome = 0 AND '. $table .'.staffCode = '. "'" .$staffCode['code'] . "'" . ') as deduccionLocal 
+                            FROM `'. $table .'` ' . $strTransactionType . ' AND '. $table .'.countryId =' . $countryId . ' AND '. $table .'.companyId =' . $companyId . ' AND '. $table .'.payrollNumber =' .$payrollNumber . ' 
+                            AND '. $table .'.staffCode = ' . "'". $staffCode['code']. "' ORDER BY  $table.transactionTypeCode");
         }
 
         // print_r($print);

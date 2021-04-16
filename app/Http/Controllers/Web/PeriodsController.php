@@ -121,14 +121,14 @@ class PeriodsController extends Controller
         return $periods;
     }
 
-    public function getPeriodReport($countryId, $companyId, $periodFrom, $periodTo)
+    public function getPeriodReport($countryId, $companyId, $periodFrom, $periodTo, $updated)
     {
         $payrollNumber = DB::table('hrperiod')->select('payrollNumber')
         ->where('periodFrom' , '>=' , $periodFrom)
         ->where('periodTo' , '<=' , $periodTo)
         ->where('countryId' , '=' , $countryId)
         ->where('companyId' , '=' , $companyId)
-        ->where('updated' , '=' , 1)
+        ->where('updated' , '=' , $updated)
         ->first();
         // ->collapse();
 

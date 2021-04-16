@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('report-by-transaction', 'Web\printPayrollController@reportByTransactionPayrollController');
     
     // obtener payrollNumber, utilizado como uno de los parametros para el reporte por transaccion nomina
-    Route::get('get-payroll-number/{countryId}/{companyId}/{dateFrom}/{dateTo}', 'Web\PeriodsController@getPeriodReport');
+    Route::get('get-payroll-number/{countryId}/{companyId}/{dateFrom}/{dateTo}/{updatePeriod}', 'Web\PeriodsController@getPeriodReport');
 
     ##### FIn Para reporte por transacciones en nomina #########
 });

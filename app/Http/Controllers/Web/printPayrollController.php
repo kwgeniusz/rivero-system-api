@@ -69,7 +69,7 @@ class printPayrollController extends Controller
     public function reportByTransactionPayrollController(Request $request)
     {
         // echo $request->payrollNumber;
-        $res0 = $this->oReporteByTransaction->reportByTransactionPayroll($request->countryId, $request->companyId, $request->payrollNumber,$request->transaction, $request->employees);
+        $res0 = $this->oReporteByTransaction->reportByTransactionPayroll($request->countryId, $request->companyId, $request->payrollNumber,$request->transaction, $request->employees, $request->table);
 
         return response()->json(['data' => $res0],200);
     }
