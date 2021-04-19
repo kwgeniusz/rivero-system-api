@@ -167,13 +167,23 @@ class hrPrinPayroll extends Model
         // detalle del reporte por staff
         // $res0 =  DB::select('SELECT * FROM `hrpayroll_history` ' . $strTransaction . ' AND hrpayroll_history.countryId =' . $countryId . ' AND hrpayroll_history.companyId =' . $companyId . ' AND hrpayroll_history.payrollNumber =' .$payrollNumber);
         // return
-    
+        // echo 'SELECT *, SUM(`amount`) AS total, SUM(`localAmount`) AS totalLocal FROM '. $table .'
+        // INNER JOIN country ON '. $table .'.countryId = country.countryId
+        // INNER JOIN company ON '. $table .'.companyId = company.companyId
+        // INNER JOIN payroll_type ON '. $table .'.payrollTypeId = payroll_type.payrollTypeId
+        // ' . $strTransaction . ' AND '. $table .'.countryId =' . $countryId . ' AND '. $table .'.companyId =' . $companyId . ' AND '. $table .'.payrollNumber =' .$payrollNumber. ' GROUP BY  '. $table .'.`isIncome` ORDER BY '. $table .'.`isIncome` DESC';
+        
+        
         $res3 =  DB::select('SELECT *, SUM(`amount`) AS total, SUM(`localAmount`) AS totalLocal FROM '. $table .'
             INNER JOIN country ON '. $table .'.countryId = country.countryId
             INNER JOIN company ON '. $table .'.companyId = company.companyId
             INNER JOIN payroll_type ON '. $table .'.payrollTypeId = payroll_type.payrollTypeId
             ' . $strTransaction . ' AND '. $table .'.countryId =' . $countryId . ' AND '. $table .'.companyId =' . $companyId . ' AND '. $table .'.payrollNumber =' .$payrollNumber. ' GROUP BY  '. $table .'.`isIncome` ORDER BY '. $table .'.`isIncome` DESC');
-
+        // dd($res3);
+        if (!$res3) {
+           return "empty";
+        }
+        // exit();
         $print = array();
         $totalAsignacion     = 0;
         $totalDeduccion     = 0;

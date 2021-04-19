@@ -169,7 +169,7 @@ class PayrollControlController extends Controller
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
                             WHERE hrpayrollControlId = " . $id);
-
+        // dd($rs0);
         foreach ($rs0 as $rs) {
             $countryId        = $rs->countryId;   
             $companyId        = $rs->companyId;  
@@ -264,12 +264,12 @@ class PayrollControlController extends Controller
                             WHERE hrprocess.countryId = $countryId  and 
                                     hrprocess.companyId = $companyId and 
                                     hrprocess.processCode = $processCode");
-            // return $rs2;
+            // dd($rs2);
             foreach ($rs2 as $rs3) {
                 $transactionTypeCode  = $rs3->transactionTypeCode;     
                 $quantity             = $rs3->quantity;  
                 $amount               = $rs3->amount;  
-
+                
                 $rs0 = DB::select("SELECT * FROM hrtransaction_type 
                         WHERE countryId = $countryId AND  
                         companyId  = $companyId AND 
@@ -277,8 +277,7 @@ class PayrollControlController extends Controller
                 $isSalaryBased        = 0;
                 $isIncome             = 0;
                 $localAmount          = 0;
-
-               
+            
                 
                 foreach($rs0 as $rs) {
                     $transactionTypeName    = $rs->transactionTypeName;
@@ -374,175 +373,180 @@ class PayrollControlController extends Controller
             // PARTE 2.
             // procesar transacciones permanentes
             //   $countryId,$companyId,$staffCode,$transactionTypeCode
-            $rs4  = DB::table('hrpermanent_transaction')
-            ->join('hrtransaction_type', 'hrpermanent_transaction.transactionTypeCode', '=', 'hrtransaction_type.transactionTypeCode')
-            ->where('hrpermanent_transaction.countryId', '=', $countryId)
-            ->where('hrpermanent_transaction.companyId', '=', $companyId)
-            ->where('hrpermanent_transaction.staffCode', '=', $staffCode)
-            ->where('hrpermanent_transaction.transactionTypeCode', '=', $transactionTypeCode)
-            ->whereNull('hrpermanent_transaction.deleted_at')
-            ->get();
-            $addTransaction = 0; 
-            // dd($rs4);
+            // $rs4  = DB::table('hrpermanent_transaction')
+            // ->join('hrtransaction_type', 'hrpermanent_transaction.transactionTypeCode', '=', 'hrtransaction_type.transactionTypeCode')
+            // ->where('hrpermanent_transaction.countryId', '=', $countryId)
+            // ->where('hrpermanent_transaction.companyId', '=', $companyId)
+            // ->where('hrpermanent_transaction.staffCode', '=', $staffCode)
+            // ->where('hrpermanent_transaction.transactionTypeCode', '=', $transactionTypeCode)
+            // ->whereNull('hrpermanent_transaction.deleted_at')
+            // ->get();
+            // $addTransaction = 0; 
+            // // dd($rs4);
             
-            // print_r($rs4);
+            // // print_r($rs4);
             
-            foreach ($rs4 as $rs5) {
-                    $stCode            = $rs5->staffCode;   
-                    $ttCode            = $rs5->transactionTypeCode; 
-                    $tTyName           = $rs5->transactionTypeName; 
-                    $transactionQty    = $rs5->quantity;  
-                    $transactionAmount = $rs5->amount;  
-                    $display           = $rs5->display; 
+            // foreach ($rs4 as $rs5) {
+            //         $stCode            = $rs5->staffCode;   
+            //         $ttCode            = $rs5->transactionTypeCode; 
+            //         $tTyName           = $rs5->transactionTypeName; 
+            //         $transactionQty    = $rs5->quantity;  
+            //         $transactionAmount = $rs5->amount;  
+            //         $display           = $rs5->display; 
 
 
-                    if ($isSalaryBased == 1) {   // transaccion basada en salario
+            //         if ($isSalaryBased == 1) {   // transaccion basada en salario
                 
-                        $amount = $transactionQty * $baseSalary;
-                        $amount = round($amount, 2);
+            //             $amount = $transactionQty * $baseSalary;
+            //             $amount = round($amount, 2);
 
-                    } else {
-                        $amount   =   $transactionQty * $transactionAmount; 
-                        $amount = round($amount, 2);              	
-                    }
+            //         } else {
+            //             $amount   =   $transactionQty * $transactionAmount; 
+            //             $amount = round($amount, 2);              	
+            //         }
                     
-                    // localAmount = amount * exchangeRate
-                    $localAmount = $amount * $exchangeRate;
+            //         // localAmount = amount * exchangeRate
+            //         $localAmount = $amount * $exchangeRate;
 
-                    $hrpayroll = new Payroll();
-                    $hrpayroll->countryId = $countryId;
-                    $hrpayroll->companyId = $companyId;
-                    $hrpayroll->year = $year;
-                    $hrpayroll->payrollNumber = $payrollNumber;
-                    $hrpayroll->payrollTypeId = $payrollTypeId;
-                    $hrpayroll->payrollName = $payrollName;
-                    $hrpayroll->userProcess = $userProcess;
-                    $hrpayroll->staffCode = $staffCode;
-                    $hrpayroll->idDocument = $idDocument;
-                    $hrpayroll->staffName = $staffName;
-                    $hrpayroll->transactionTypeCode = $transactionTypeCode;
-                    $hrpayroll->transactionTypeName = $tTyName;
-                    $hrpayroll->isIncome = $isIncome;
-                    $hrpayroll->quantity = $quantity;
-                    $hrpayroll->amount = $amount;
-                    $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
-                    $hrpayroll->localAmount = $localAmount;
-                    $hrpayroll->exchangeRate = $exchangeRate;
-                    $hrpayroll->display = $display;
-                    $hrpayroll->save();
-                    // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
-                    //     $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );            	 	
+            //         $hrpayroll = new Payroll();
+            //         $hrpayroll->countryId = $countryId;
+            //         $hrpayroll->companyId = $companyId;
+            //         $hrpayroll->year = $year;
+            //         $hrpayroll->payrollNumber = $payrollNumber;
+            //         $hrpayroll->payrollTypeId = $payrollTypeId;
+            //         $hrpayroll->payrollName = $payrollName;
+            //         $hrpayroll->userProcess = $userProcess;
+            //         $hrpayroll->staffCode = $staffCode;
+            //         $hrpayroll->idDocument = $idDocument;
+            //         $hrpayroll->staffName = $staffName;
+            //         $hrpayroll->transactionTypeCode = $transactionTypeCode;
+            //         $hrpayroll->transactionTypeName = $tTyName;
+            //         $hrpayroll->isIncome = $isIncome;
+            //         $hrpayroll->quantity = $quantity;
+            //         $hrpayroll->amount = $amount;
+            //         $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
+            //         $hrpayroll->localAmount = $localAmount;
+            //         $hrpayroll->exchangeRate = $exchangeRate;
+            //         $hrpayroll->display = $display;
+            //         $hrpayroll->save();
+            //         // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
+            //         //     $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );            	 	
 
-            }
+            // }
             // PARTE 3.
             // procesar transacciones variables
 
             // get permanent transactions for this person and transaction code
-            $rs6 = DB::select("SELECT hrpermanent_transaction.hrpermanentTransactionId, hrpermanent_transaction.transactionTypeCode, hrpermanent_transaction.quantity, 
-                            hrpermanent_transaction.amount,hrpermanent_transaction.balance,
-                            hrtransaction_type.isIncome, hrtransaction_type.hasBalance, hrtransaction_type.salaryBased, 
-                            hrtransaction_type.transactionTypeName, hrtransaction_type.display
-                    FROM `hrpermanent_transaction`
-                    INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
-                    WHERE hrtransaction_type.countryId = $countryId
-                        AND hrtransaction_type.companyId = $companyId
-                        AND hrpermanent_transaction.deleted_at IS NULL
-                        AND hrpermanent_transaction.staffCode = '$staffCode'");
-            // $rs6  = $oVariable->joinTransactionType($countryId,$companyId,$staffCode);
-            // dd($rs6);
-            
-            foreach ($rs6 as $rs7) { 
-                $idTransType         = $rs7->hrpermanentTransactionId;
-                $transactionTypeCode = $rs7->transactionTypeCode; 
-                $transactionTypeName = $rs7->transactionTypeName; 
-                $quantity            = $rs7->quantity;  
-                $transAmount         = $rs7->amount;  
-                $transBalance        = $rs7->balance;  
-                $isIncome            = $rs7->isIncome;
-                $transHasBalance     = $rs7->hasBalance;
-                $salaryBased         = $rs7->salaryBased;    
-                $displayPayroll      = $rs7->display;   //indica si la transaccion se debe agragar a reportes de nomina o no 
-                $addTransaction = 0;
+            foreach ( $rs2 as $key => $val) {
+                $transactionTypeCode  = $val->transactionTypeCode;
+               
+                $rs6 = DB::select("SELECT hrpermanent_transaction.hrpermanentTransactionId, hrpermanent_transaction.transactionTypeCode, hrpermanent_transaction.quantity, 
+                                hrpermanent_transaction.amount,hrpermanent_transaction.balance,
+                                hrtransaction_type.isIncome, hrtransaction_type.hasBalance, hrtransaction_type.salaryBased, 
+                                hrtransaction_type.transactionTypeName, hrtransaction_type.display
+                        FROM `hrpermanent_transaction`
+                        INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
+                        WHERE hrtransaction_type.countryId = $countryId
+                            AND hrtransaction_type.companyId = $companyId
+                            AND hrpermanent_transaction.deleted_at IS NULL
+                            AND hrpermanent_transaction.transactionTypeCode = $transactionTypeCode
+                            AND hrpermanent_transaction.staffCode = '$staffCode'");
+                // $rs6  = $oVariable->joinTransactionType($countryId,$companyId,$staffCode);
+                // dd($rs6);
                 
-                //si hasBalance = 1  ? balance = balance - amount (condición: balance debe ser igual o mayor que amount)
-                
-                // dd($transactionTypeCode,$quantity,$transAmount,$isIncome,$salaryBased);
-                if ($salaryBased == 1) { //si es basado en salario se aplica como una deduccion normal, ej: SSO FAOV, etc
-                    $amount   =   $quantity * $baseSalary; 
-                    $amount = round($amount, 2);       	
-                } else {
-                    if ($isIncome == 0) { //si es 0, es una deduccion, si no, es una asignacion
-                        if ($transHasBalance == 1) { //si la deduccion es con saldo, hago el proceso de reduccion del balance en la deduccion
-                            $amount   =   $quantity * $transAmount; 
-                            if ($transBalance <= $amount) { //pregunto, si el balance o saldo de la deduccion es menor o igual, al monto a descontar
-                                // si el monto a descontar es mayor al balance de la transaccion, lo igualo al balance para evitar saldos negativos
-                                $amount = $transBalance;
-                            }
-                            //este proceso se aplica solo cuando se actualiza la prenomina
-                            // echo $transBalance .' - '.  $amount.' ';
-                            $transBalance = $transBalance -  $amount; //se activa solo al actualizar la prenomina
-                            // echo $staffName.' balance: ' . $balance.' => '; 
-                        }else{
-                            $amount   =   $quantity * $transAmount;
-
-                            //este proceso se aplica solo cuando se actualiza la prenomina
-                            $transBalance = $transBalance +  $amount; //se activa solo en actualizacion de nomina
-                            // echo $staffName. ' ahorro sumado en:' . $balance . ' => ';
-                        }
-                    }else { 
-                        // si no, la transaccion permanete es una asignacion
-                        $amount   =   $quantity * $transAmount;  
-                        $amount = round($amount, 2);
-                    }
-                }
-                    
-                if ($amount > 0) {
-                    $addTransaction = 1;    
-                }
-                
-                // check for valid transacction
-                if (($transactionTypeCode == $excTTCode1) or ($transactionTypeCode == $excTTCode2) or 
-                    ($transactionTypeCode == $excTTCode3) )  {
-                    $amount = 0;
-                    $addTransaction = 0;        
-                }
-
-                if ($quantity == 0 or $amount == 0) {
+                foreach ($rs6 as $rs7) { 
+                    $idTransType         = $rs7->hrpermanentTransactionId;
+                    $transactionTypeCode = $rs7->transactionTypeCode; 
+                    $transactionTypeName = $rs7->transactionTypeName; 
+                    $quantity            = $rs7->quantity;  
+                    $transAmount         = $rs7->amount;  
+                    $transBalance        = $rs7->balance;  
+                    $isIncome            = $rs7->isIncome;
+                    $transHasBalance     = $rs7->hasBalance;
+                    $salaryBased         = $rs7->salaryBased;    
+                    $displayPayroll      = $rs7->display;   //indica si la transaccion se debe agragar a reportes de nomina o no 
                     $addTransaction = 0;
-                }
-
-                // localAmount = amount * exchangeRate
-                $localAmount = $amount * $exchangeRate;
-                // insert record in hrpayroll
-                if ($addTransaction == 1) {
-                    $hrpayroll = new Payroll();
-                    $hrpayroll->countryId = $countryId;
-                    $hrpayroll->companyId = $companyId;
-                    $hrpayroll->year = $year;
-                    $hrpayroll->payrollNumber = $payrollNumber;
-                    $hrpayroll->payrollTypeId = $payrollTypeId;
-                    $hrpayroll->payrollName = $payrollName;
-                    $hrpayroll->userProcess = $userProcess;
-                    $hrpayroll->staffCode = $staffCode;
-                    $hrpayroll->idDocument = $idDocument;
-                    $hrpayroll->staffName = $staffName;
-                    $hrpayroll->idTransType = $idTransType;
-                    $hrpayroll->transactionTypeCode = $transactionTypeCode;
-                    $hrpayroll->transactionTypeName = $transactionTypeName;
-                    $hrpayroll->isIncome = $isIncome;
-                    $hrpayroll->hasBalance = $transHasBalance;
-                    $hrpayroll->balance = $transBalance;
-                    $hrpayroll->quantity = $quantity;
-                    $hrpayroll->amount = $amount;
-                    $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
-                    $hrpayroll->localAmount = $localAmount;
-                    $hrpayroll->exchangeRate = $exchangeRate;
-                    $hrpayroll->display = $displayPayroll;
-                    $hrpayroll->save();
-                    // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
-                    // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
-                }
-            } //foreach ($rs4 as $rs5)
+                    
+                    //si hasBalance = 1  ? balance = balance - amount (condición: balance debe ser igual o mayor que amount)
+                    
+                    // dd($transactionTypeCode,$quantity,$transAmount,$isIncome,$salaryBased);
+                    if ($salaryBased == 1) { //si es basado en salario se aplica como una deduccion normal, ej: SSO FAOV, etc
+                        $amount   =   $quantity * $baseSalary; 
+                        $amount = round($amount, 2);       	
+                    } else {
+                        if ($isIncome == 0) { //si es 0, es una deduccion, si no, es una asignacion
+                            if ($transHasBalance == 1) { //si la deduccion es con saldo, hago el proceso de reduccion del balance en la deduccion
+                                $amount   =   $quantity * $transAmount; 
+                                if ($transBalance <= $amount) { //pregunto, si el balance o saldo de la deduccion es menor o igual, al monto a descontar
+                                    // si el monto a descontar es mayor al balance de la transaccion, lo igualo al balance para evitar saldos negativos
+                                    $amount = $transBalance;
+                                }
+                                //este proceso se aplica solo cuando se actualiza la prenomina
+                                // echo $transBalance .' - '.  $amount.' ';
+                                $transBalance = $transBalance -  $amount; //se activa solo al actualizar la prenomina
+                                // echo $staffName.' balance: ' . $balance.' => '; 
+                            }else{
+                                $amount   =   $quantity * $transAmount;
+    
+                                //este proceso se aplica solo cuando se actualiza la prenomina
+                                $transBalance = $transBalance +  $amount; //se activa solo en actualizacion de nomina
+                                // echo $staffName. ' ahorro sumado en:' . $balance . ' => ';
+                            }
+                        }else { 
+                            // si no, la transaccion permanete es una asignacion
+                            $amount   =   $quantity * $transAmount;  
+                            $amount = round($amount, 2);
+                        }
+                    }
+                        
+                    if ($amount > 0) {
+                        $addTransaction = 1;    
+                    }
+                    
+                    // check for valid transacction
+                    if (($transactionTypeCode == $excTTCode1) or ($transactionTypeCode == $excTTCode2) or 
+                        ($transactionTypeCode == $excTTCode3) )  {
+                        $amount = 0;
+                        $addTransaction = 0;        
+                    }
+    
+                    if ($quantity == 0 or $amount == 0) {
+                        $addTransaction = 0;
+                    }
+    
+                    // localAmount = amount * exchangeRate
+                    $localAmount = $amount * $exchangeRate;
+                    // insert record in hrpayroll
+                    if ($addTransaction == 1) {
+                        $hrpayroll = new Payroll();
+                        $hrpayroll->countryId = $countryId;
+                        $hrpayroll->companyId = $companyId;
+                        $hrpayroll->year = $year;
+                        $hrpayroll->payrollNumber = $payrollNumber;
+                        $hrpayroll->payrollTypeId = $payrollTypeId;
+                        $hrpayroll->payrollName = $payrollName;
+                        $hrpayroll->userProcess = $userProcess;
+                        $hrpayroll->staffCode = $staffCode;
+                        $hrpayroll->idDocument = $idDocument;
+                        $hrpayroll->staffName = $staffName;
+                        $hrpayroll->idTransType = $idTransType;
+                        $hrpayroll->transactionTypeCode = $transactionTypeCode;
+                        $hrpayroll->transactionTypeName = $transactionTypeName;
+                        $hrpayroll->isIncome = $isIncome;
+                        $hrpayroll->hasBalance = $transHasBalance;
+                        $hrpayroll->balance = $transBalance;
+                        $hrpayroll->quantity = $quantity;
+                        $hrpayroll->amount = $amount;
+                        $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
+                        $hrpayroll->localAmount = $localAmount;
+                        $hrpayroll->exchangeRate = $exchangeRate;
+                        $hrpayroll->display = $displayPayroll;
+                        $hrpayroll->save();
+                        // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
+                        // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
+                    }
+                } //foreach ($rs4 as $rs5)
+            } //end foreach ( $rs2 as $key => $val)
             
         } /* end foreach ($rs1 as $key => $rs) */
 
