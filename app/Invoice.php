@@ -139,7 +139,7 @@ class Invoice extends Model
      $sharePending = $sharePending->filter(function ($receivable, $key) {
               return $receivable->recStatusCode != Receivable::ANNULLED;
           });
-        return $sharePending;
+        return $sharePending->values();
     } 
    public function getBalanceTotalAttribute()
     {
