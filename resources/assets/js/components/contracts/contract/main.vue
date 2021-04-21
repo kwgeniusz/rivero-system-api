@@ -19,7 +19,7 @@
 
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>CONTRACTOS</b></h3>
+            <h3><b>CONTRATOS</b></h3>
 
             <!-- <button-form
                 @addf = "addFormStatus"
@@ -40,12 +40,10 @@
 <script>
     export default {
         mounted() {
-
             axios.get('/contracts').then((response) => {
                 this.contractList = response.data
             // console.log(this.contractList)
             })
-        
         },
         data() {
             return{

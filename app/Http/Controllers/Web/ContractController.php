@@ -72,6 +72,10 @@ class ContractController extends Controller
             session('companyId')
         );
 
+        if($request->ajax()){
+            return $contracts;
+        }
+
         return view('module_contracts.contracts.index', compact('contracts'));
     }
 

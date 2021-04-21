@@ -286,7 +286,7 @@ class Contract extends Model
 //------------------------------------------
     public function getAllForSevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription','user')
                        ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
                        ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7){
@@ -300,7 +300,7 @@ class Contract extends Model
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)
-                      ->paginate(300);
+                      ->get();
         return $result;
     }
 //------------------------------------------ 

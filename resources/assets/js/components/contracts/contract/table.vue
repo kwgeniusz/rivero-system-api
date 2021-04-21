@@ -1,5 +1,5 @@
 <template>
-       <div >
+   <div>
     <div class="col-xs-4">
     
     </div>   
@@ -48,44 +48,44 @@
                             </thead>
                             <tbody v-if="searchData.length > 0">   
                              <tr v-for="(contract, index) in searchData" :key="contract.contractId">
-                                <!-- <td >{{index + 1}}</td>
+                               <!-- {{contract}} -->
+                                <td >{{index + 1}}</td>
                                 <td class="text-left"> 
                                   <modal-switch-contract 
                                      pref-url="/" 
-                                     contract-id="contract.contractId"
-                                     contract-number="contract.contractNumber">
+                                     :contract-id="contract.contractId"
+                                     :contract-number="contract.contractNumber">
                                   </modal-switch-contract>
 
                                    <comments-contract v-if="$can('BDE')" pref-url=""
-                                    contract-id="contract.contractId"
-                                     contract-number="contract.contractNumber">
+                                     :contract-id="contract.contractId"
+                                     :contract-number="contract.contractNumber">
                                      </comments-contract>
 
                                 </td>
                                 <td class="text-left"> 
-                                    <modal-contract-details pref-url="/" 
-                                    :contract-id="contract.contractId" 
-                                    :contract-name="contract.contractName"
-                                    :company-name="contract.companyName">
-                                    </modal-contract-details>
+                                    <modal-client-details pref-url="/" 
+                                    :client-id="contract.client.clientId" 
+                                    :client-name="contract.client.clientName"
+                                    :company-name="contract.client.companyName">
+                                    </modal-client-details>
                                 </td>
                                 <td class="text-left"> 
                                   {{contract.siteAddress}}
-                                      <br> 
-                                    @if(contract.projectName) 
-                                     ( {{contract.projectName}} )
-                                    @endif 
+                                    <br> 
+                                  <p v-if="contract.projectName">( {{contract.projectName}} ) </p>
                                </td> 
                                 <td class="text-left"> 
-                                  <p v-for="(invoice,index) in contract.invoice" :key="otherContact.otherContactId">
-                                    - {{invoice.projectDescription.projectDescriptionName}}<br>
+                                  <p v-for="(invoice,index) in contract.invoice" :key="invoice.invoiceId">
+                                    - {{invoice.project_description.projectDescriptionName}}<br>
                                   </p>
                                </td>  
-                                 <td>{{contract.projectUse.projectUseName}}   </td>
+                                 <td>{{contract.project_use.projectUseName}}   </td>
                                  <td>{{contract.contractType}}   </td>
                                  <td>{{contract.contractDate}}   </td>
                                  <td>{{contract.user.fullName}}   </td>
-                                  <td data-toggle="tooltip" data-placement="top" title="{{contract.contractStatusR[0].contStatusName}}"
+                                 <td>{{contract.contract_status_r[0].contStatusName}}   </td>
+                         <!-- <td data-toggle="tooltip" data-placement="top" title="{{contract.contractStatusR[0].contStatusName}}"
                                     @if($contract.contractStatus == App\Contract::VACANT)
                                     style="background-color: #3c8ddc;color:white;" 
                                     @elseif($contract.contractStatus == App\Contract::STARTED)
@@ -102,11 +102,12 @@
                                      style="background-color: #5dc1b9; color:white;"    
                                     @endif
                                     >
-                                 </td> 
-                                <td> 
+                                 </td>  -->         
+                                <!-- <td data-toggle="tooltip" data-placement="top" title="{{contract.contractStatusR[0].contStatusName}}"></td>  -->
+                                <!-- <td> 
                                  <button @click="editData(index,contract.contractId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                  <button @click="deleteData(index,contract.contractId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
-                                </td> -->
+                                </td>  -->
                               </tr>               
                         </tbody>
                        <tbody v-else>
@@ -135,8 +136,6 @@
         data(){
             return{
                 inputSearch: '',
-                activeItem: 'home', //para los tags
-                opened: [], //para el toogle
             }
         },
         props: {
@@ -146,24 +145,14 @@
             searchData: function () {
                 return this.contractList.filter((contract) => {
 
-                  // if(contract.companyName == null ) 
-                  //    contract.companyName = 'No Info'
-                  // if(contract.contractName == null ) 
-                  //    contract.contractName = 'No Info'
-                  // if(contract.contractAddress == null ) 
-                  //    contract.contractAddress = 'No Info'
-                  // if(contract.businessPhone == null ) 
-                  //    contract.businessPhone = 'No Info'
-                  // if(contract.mainEmail == null ) 
-                  //    contract.mainEmail = 'No Info'
+                  if(contract.projectName == null ) 
+                     contract.projectName = 'No Info'
                   
-                  // // return contract.contractName.toLowerCase().includes(this.inputSearch.toLowerCase())
-                  //  return contract.companyName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         contract.contractName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         contract.contractAddress.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         contract.businessPhone.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         contract.mainEmail.toLowerCase().includes(this.inputSearch.toLowerCase()) 
-                  
+                  // return contract.contractName.toLowerCase().includes(this.inputSearch.toLowerCase())
+                   return contract.contractNumber.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          contract.client.clientName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          contract.siteAddress.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          contract.projectName.toLowerCase().includes(this.inputSearch.toLowerCase())                  
                 })
             } //end of the function searchData
         },
@@ -171,20 +160,6 @@
          editData(index, id){
                 this.$emit('editData', id)
         },
-        toggle(id) {
-         const index = this.opened.indexOf(id);
-         if (index > -1) {
-           this.opened.splice(index, 1)
-         } else {
-           this.opened.push(id)
-         }
-       }, 
-       isActive (menuItem) {
-        return this.activeItem === menuItem
-       },
-       setActive (menuItem) {
-        this.activeItem = menuItem
-       }
 
       } //end of methods
     }//end of vue instance

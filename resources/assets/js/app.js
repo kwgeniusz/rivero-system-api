@@ -61,6 +61,11 @@ Vue.component("addUp-client",require("./components/contracts/client/addUp.vue"))
 Vue.component("main-other-contact",require("./components/contracts/client/otherContact/main.vue"));
 Vue.component("table-other-contact",require("./components/contracts/client/otherContact/table.vue"));
 Vue.component("addUp-other-contact",require("./components/contracts/client/otherContact/addUp.vue"));
+
+// -----------------> Contract <-------------------------//
+Vue.component("main-contract",require("./components/contracts/contract/main.vue"));
+Vue.component("table-contract",require("./components/contracts/contract/table.vue"));
+// Vue.component("addUp-contract",require("./components/contracts/client/otherContact/addUp.vue"));
 // ------------------------------------------------------------------//
 Vue.component("comments-contract",require("./components/contracts/CommentsOfContract.vue"));
 Vue.component("comments-precontract",require("./components/contracts/CommentsOfPrecontract.vue"));
