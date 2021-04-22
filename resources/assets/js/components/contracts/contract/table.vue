@@ -41,9 +41,15 @@
                                   <th>DESCRIPCION</th>
                                   <th>USO</th>
                                   <th>TIPO</th>
-                                  <th>FECHA DE CREACION</th>
                                   <th>CONVERTIDO POR </th>
-                                  <th>ESTADO</th>          
+                                  <th>ESTADO</th> 
+                                  <th>FECHA DE CREACION</th>
+                                  <th>DIAS DE TRABAJO ESTIMADO</th>
+                                  <th>HORAS DE TRABAJO ESTIMADO</th>
+                                  <th>DIAS CONSECUTIVOS TRANSCURRIDOS</th>
+                                  <th>ALERTA</th>
+                                  <th>DIAS PARA ENTREGAR</th>
+                                  <th>FECHA LIMITE DE ENTREGA</th>
                                </tr>
                             </thead>
                             <tbody v-if="searchData.length > 0">   
@@ -82,27 +88,27 @@
                                </td>  
                                  <td>{{contract.project_use.projectUseName}}   </td>
                                  <td>{{contract.contractType}}   </td>
-                                 <td>{{contract.contractDate}}   </td>
                                  <td>{{contract.user.fullName}}   </td>
-                                 <td>{{contract.contract_status_r[0].contStatusName}}   </td>
-                         <!-- <td data-toggle="tooltip" data-placement="top" title="{{contract.contractStatusR[0].contStatusName}}"
-                                    @if($contract.contractStatus == App\Contract::VACANT)
-                                    style="background-color: #3c8ddc;color:white;" 
-                                    @elseif($contract.contractStatus == App\Contract::STARTED)
-                                     style="background-color: #2ab25b;color:white;" 
-                                     @elseif($contract.contractStatus == App\Contract::READY_BUT_PENDING_PAYABLE)
-                                     style="background-color: #cbb956;color:white;" 
-                                    @elseif($contract.contractStatus == App\Contract::PROCESSING_PERMIT)
-                                     style="background-color: #f39c12;color:white;" 
-                                     @elseif($contract.contractStatus == App\Contract::WAITING_contract)
-                                     style="background-color: red;color:white;"  
-                                    @elseif($contract.contractStatus == App\Contract::DOWNLOADING_FILES)
-                                     style="background-color: #666666; color:white;"    
-                                    @elseif($contract.contractStatus == App\Contract::SENT_TO_OFFICE)
-                                     style="background-color: #5dc1b9; color:white;"    
-                                    @endif
-                                    >
-                                 </td>  -->         
+                                 <td v-if="contract.contractStatus == VACANT" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #3c8ddc;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == STARTED" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #2ab25b;color:white;"> </td>
+                                 <!-- <td v-if="contract.contractStatus == FINISHED" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #2ab25b;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == CANCELLED" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style=""> </td> -->
+                                 <td v-if="contract.contractStatus == READY_BUT_PENDING_PAYABLE" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #cbb956;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == PROCESSING_PERMIT" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #f39c12;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == WAITING_CLIENT" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: red;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == DOWNLOADING_FILES" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #666666;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == SENT_TO_OFFICE" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #5dc1b9;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == IN_PRODUCTION_QUEUE" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #7d2181;color:white;"> </td>
+                                 <td>{{contract.contractDate | moment("MM/DD/YYYY hh:mm A")}}   </td>
+                                 <td> {{contract.estimatedWorkDays}}  </td>
+                                 <td> {{contract.estimatedWorkDays*8}}  </td>
+                                 <td> {{contract.consecutiveDaysElapsed}} </td>
+                                 <td v-if="contract.daysToDelivery < 0 " style="background-color: red;color:white;"> RETRASADO </td>
+                                 <td v-else style="background-color: green; color:white;"> A TIEMPO </td>
+                                 <td> {{contract.daysToDelivery}} </td>
+                                 <td> {{contract.deliveryDate.date | moment("MM/DD/YYYY")}} </td>
+
+
                                 <!-- <td data-toggle="tooltip" data-placement="top" title="{{contract.contractStatusR[0].contStatusName}}"></td>  -->
                                 <!-- <td> 
                                  <button @click="editData(index,contract.contractId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
@@ -129,6 +135,19 @@
 
 <script>
     export default {
+        created(){
+           this.VACANT = 1;
+           this.STARTED = 2;
+           this.FINISHED = 3;
+           this.CANCELLED = 4;
+           this.READY_BUT_PENDING_PAYABLE = 5;
+           this.PROCESSING_PERMIT = 6;
+           this.WAITING_CLIENT = 7;
+           this.DOWNLOADING_FILES = 8;
+           this.SENT_TO_OFFICE = 9;
+           this.IN_PRODUCTION_QUEUE = 10;
+     
+        },
         mounted() {
             console.log('Component mounted.') 
             console.log(this.contractList)

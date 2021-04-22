@@ -2,7 +2,7 @@
 
 @section('content')
 
-<main-contract/>
+ <main-contract/>
 
 @endsection
 
