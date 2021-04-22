@@ -639,8 +639,15 @@
                                 
 
                                 let total = asignacion - deduccion // calculo para el total
-                                // console.log('total: ' + total);
-                                doc.text(`${formatNumber(total, selecCurrency1)}`, 578, n, 'right' );
+                                // console.log('total: ');
+                                // console.log(total);
+                                if ( total < 0 ) {
+                                    doc.text(`( ${formatNumber(total, selecCurrency1)} )`, 578, n, 'right' );
+                                    
+                                } else {
+                                    doc.text(`${formatNumber(total, selecCurrency1)}`, 578, n, 'right' );
+                                    
+                                }
                                 // doc.text(total, 574, n, 'right' );
                                 
                                 doc.setFontType("normal");
