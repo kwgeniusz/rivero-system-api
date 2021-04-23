@@ -16,7 +16,7 @@ A little info about your project and/ or overview that explains what the project
 ## Instalación
 
 * Instalar paquetes de Laravel y de terceros: **"composer install"**
-* Instalar paquetes de NPM y de terceros: **"npm install"**
+* Instalar paquetes de NPM y de terceros: **"yarn"**
 * Solicitar llave de aplicacion al admin del sistema y colocarlo en el archivo **".env"**
 
 ## TODO
