@@ -200,13 +200,13 @@ Vue.component("loading", require("./components/srcComponent/loading.vue"));
 Vue.component("time-live", require("./components/srcComponent/timeLive.vue"));
 
 // Timeframes Crud Component
-Vue.component("time-frame-crud",require("./components/administration/proposal/timeFrame/crud.vue"));
+Vue.component("time-frame-crud",require("./components/administration/proposal/timeFrame/Crud.vue"));
 // Notes Crud Component
-Vue.component("note-crud",require("./components/administration/proposal/note/crud.vue"));
+Vue.component("note-crud",require("./components/administration/proposal/note/Crud.vue"));
 // Terms and conditions Crud Component
-Vue.component("term-crud",require("./components/administration/proposal/term/crud.vue"));
+Vue.component("term-crud",require("./components/administration/proposal/term/Crud.vue"));
 // Time payments Crud Component
-Vue.component("time-payment-crud",require("./components/administration/proposal/timePayment/crud.vue"));
+Vue.component("time-payment-crud",require("./components/administration/proposal/timePayment/Crud.vue"));
 
 const app = new Vue({
   el: "#app",
