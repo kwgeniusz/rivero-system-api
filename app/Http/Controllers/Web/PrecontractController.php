@@ -15,6 +15,7 @@ use App\InvoiceDetail;
 use App\InvoiceNote;
 use App\InvoiceScope;
 use App\PaymentInvoice;
+use App\TimeFrame;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\PrecontractRequest;
@@ -33,6 +34,7 @@ class PrecontractController extends Controller
     private $oInvoiceNote;
     private $oInvoiceScope;
     private $oPaymentInvoice;
+    private $oTimeFrame;
 
 
     public function __construct()
@@ -49,6 +51,7 @@ class PrecontractController extends Controller
         $this->oInvoiceNote           = new InvoiceNote;
         $this->oInvoiceScope           = new InvoiceScope;
         $this->oPaymentInvoice           = new PaymentInvoice;
+        $this->oTimeFrame               = new TimeFrame;
     }
 
     public function index(Request $request)
@@ -199,9 +202,15 @@ class PrecontractController extends Controller
    
         DB::beginTransaction();
         try {
-      //traer todos los datos del proposal
+            
+    //traer todos los datos del proposal
     $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
+    $timeFrame     = $this->oTimeFrame->FindById($proposal[0]->timeFrame[0]->timeId); 
     $precontract  = $proposal[0]->precontract;
+
+
+    // dd($timeFrame[0]->daysRepresented );
+    // exit();
            
             //insertar el nuevo contrato
             $contract = $this->oContract->insertContract(
@@ -223,7 +232,8 @@ class PrecontractController extends Controller
                 $precontract->projectUseId,
                 $precontract->constructionType,
                 $precontract->comment,
-                $precontract->currencyId
+                $precontract->currencyId,
+                $timeFrame[0]->daysRepresented
             );
             // dd($contract);
 

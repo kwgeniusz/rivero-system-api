@@ -5,15 +5,15 @@
       <div v-for="error in errors">- {{ error }}</div>
     </div>
     <div class="input-label" style="display: flex; flex-wrap: wrap;">
-      <div class="inputother" style="display: flex; align-items: center; flex-direction: column;">
+      <!-- <div class="inputother" style="display: flex; align-items: center; flex-direction: column;">
         <div style="width: 48%;">
           <input style="position: relative; max-width: 10%; min-width: 10%;" type="radio" v-model="inputType" value="A" /> PRECARGADOS
         </div>
         <div style="width: 48%;">
           <input style="position: relative; max-width: 10%; min-width: 10%;" type="radio" v-model="inputType" value="B" /> LIBRE
         </div>
-      </div>
-      <div class="inputother" v-if="inputType == 'A'">
+      </div> -->
+      <div class="col-xs-offset-3 inputother"  v-if="timesList == ''">
         <label for="timeId">TIME FRAME</label>
         <select
           v-model="modelTimeId"
@@ -26,7 +26,7 @@
           >
         </select>
       </div>
-      <div class="inputother" v-if="inputType == 'B'">
+      <!-- <div class="inputother" v-if="inputType == 'B'">
       <label for="timeName">TIME FRAME</label>
       <input
         v-model="modelTimeName"
@@ -36,17 +36,18 @@
         name="timeName"
         autocomplete="off"
       />
-    </div>
+    </div> -->
     </div>
     <div style="display: flex; justify-content: center; align-items: flex-start;">
-        <button class="submit buttonmovil" style="margin-top: 0px;" @click.prevent="addRow()">
+        <button v-if="timesList == ''"  class="submit buttonmovil" style="margin-top: 0px;" @click.prevent="addRow()">
           <span class="fa fa-plus" aria-hidden="true"></span> Agregar
         </button>
-        <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/crud-timeframes" role="button">
-          <span class="fa fa-list" aria-hidden="true"></span> Timeframes</a>
+        <!-- <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/crud-timeframes" role="button">
+          <span class="fa fa-list" aria-hidden="true"></span> Timeframes
+          </a>
       <div style="margin-left: 20px;" v-if="inputType == 'A'">
         <form-new-time pref-url="" @timecreated="getAllTimes()"></form-new-time>
-      </div>
+      </div> -->
     </div>
     <div class="input-label">
       <h4><b>Time Frame</b></h4>
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-import formNewTime from "./FormNewTime.vue";
+import formNewTime from "./timeFrame/FormNew.vue";
 
 export default {
   mounted() {
@@ -87,7 +88,7 @@ export default {
       times: {},
       timesList: {},
 
-      inputType: "A",
+      // inputType: "A",
       modelTimeId: "",
       modelTimeName: "",
     };
@@ -123,9 +124,9 @@ export default {
     addRow: function() {
       this.errors = [];
 
-      if (this.inputType == "A") {
+      // if (this.inputType == "A") {
         //VALIDATIONS
-        if (!this.modelTimeId) this.errors.push("Debe Escoger una Nota.");
+        if (!this.modelTimeId) this.errors.push("Debe Escoger un Time Frame.");
 
         if (!this.errors.length) {
           //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
@@ -146,17 +147,17 @@ export default {
             timeName: timeSelected[0].timeName,
           });
         } //end of the errors.length
-      } else {
-        //end of de inputType A
+      // } else {
+      //   //end of de inputType A
 
-        //VALIDATIONS
-        if (!this.modelTimeName) this.errors.push("Debe Escribir un Texto.");
+      //   //VALIDATIONS
+      //   if (!this.modelTimeName) this.errors.push("Debe Escribir un Texto.");
 
-        if (!this.errors.length) {
-          this.timesList.push({ timeId: null, timeName: this.modelTimeName });
-          this.modelTimeName = "";
-        }
-      } //end else
+      //   if (!this.errors.length) {
+      //     this.timesList.push({ timeId: null, timeName: this.modelTimeName });
+      //     this.modelTimeName = "";
+      //   }
+      // } //end else
     }, //End of the function
     deleteTime: function(id) {
       this.timesList.splice(--id, 1);

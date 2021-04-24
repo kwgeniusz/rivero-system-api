@@ -9,12 +9,12 @@
           <form style="width:100%;" @submit.prevent="actualizar(timeframe)" v-if="modoEdicion">
             <div class="input-label boxes2">
               <label for="timeName">Timeframe:</label>
-                <input
-                  type="text"
-                  placeholder="Escriba una descripcion..."
-                  v-model="timeframe.timeName"
-                />
+                <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
             </div>
+              <!-- <div class="input-label boxes2">
+              <label for="timeName">Dias Representados:</label>
+                <input type="number" placeholder="Dias en Numero" v-model="timeframe.timeName"/>
+            </div>  -->
             <div style="width: 100%; text-align: center;">
               <button class="submit" type="submit">Editar</button>
               <button class="submit"  style="background: #d60101;" @click="cancelarEdicion()">
@@ -28,11 +28,8 @@
               <label for="timeName"
                 >Timeframe:</label
               >
-              <input
-                type="text"
-                placeholder="Escriba una descripcion..."
-                v-model="timeframe.timeName"
-              />
+              <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
+              <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
             </div>
             <div style="width: 100%; text-align: center;">
               <button class="submit" type="submit">

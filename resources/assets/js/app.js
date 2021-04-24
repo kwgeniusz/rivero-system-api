@@ -46,6 +46,10 @@ Vue.use(VueFormWizard)
 // Form Validation with Vue
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+
+// Components To Popover
+import Popover from 'vue-js-popover'
+Vue.use(Popover)
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -100,7 +104,7 @@ Vue.component("addUp-transaction-income",require("./components/administration/tr
 Vue.component("main-transaction-expense",require("./components/administration/transaction/expense/main.vue"));
 Vue.component("table-transaction-expense",require("./components/administration/transaction/expense/table.vue"));
 Vue.component("addUp-transaction-expense",require("./components/administration/transaction/expense/addUp.vue"));
-// ------------------------------------------------------------------//
+// ---------------------> Point Sale <----------------------------------------//
 Vue.component("form-modal-charge", require("./components/administration/FormModalCharge.vue"));
 Vue.component("confirm-payment",require("./components/administration/ModalConfirmPayment.vue"));
 Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
@@ -154,12 +158,12 @@ Vue.component("add-up-staff",require("./components/rrhh/staff/addUpStaff.vue"));
 Vue.component("main-payroll-control",require("./components/rrhh/payrollControl/mainPayrollControl.vue"));
 Vue.component("list-payroll-control",require("./components/rrhh/payrollControl/listPayrollControl.vue"));
 Vue.component("add-up-payroll-control",require("./components/rrhh/payrollControl/addUpPayrollControl.vue"));
-// PRINT PRE-PAYROLL
+// --> Print Pre-payroll 
 Vue.component("main-pre-payroll",require("./components/rrhh/printPrePayroll/mainPrintPrePayroll.vue"));
 Vue.component("list-pre-payroll",require("./components/rrhh/printPrePayroll/listPrintPrePayroll.vue"));
 Vue.component("list-pre-payroll-detail",require("./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue"));
 Vue.component("list-pre-payroll-detail-staff",require("./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue"));
-// PRINT PAYROLL
+// --> Print Payroll
 Vue.component("main-payroll",require("./components/rrhh/print-payroll/mainPrintPayroll.vue"));
 Vue.component("list-payroll",require("./components/rrhh/print-payroll/listPrintPayroll.vue"));
 // permanent Transaction
@@ -196,16 +200,13 @@ Vue.component("loading", require("./components/srcComponent/loading.vue"));
 Vue.component("time-live", require("./components/srcComponent/timeLive.vue"));
 
 // Timeframes Crud Component
-Vue.component("time-frame-crud",require("./components/administration/proposal/TimeFrameCrud.vue"));
-
+Vue.component("time-frame-crud",require("./components/administration/proposal/timeFrame/Crud.vue"));
 // Notes Crud Component
-Vue.component("note-crud",require("./components/administration/proposal/NoteCrud.vue"));
-
+Vue.component("note-crud",require("./components/administration/proposal/note/Crud.vue"));
 // Terms and conditions Crud Component
-Vue.component("term-crud",require("./components/administration/proposal/TermCrud.vue"));
-
+Vue.component("term-crud",require("./components/administration/proposal/term/Crud.vue"));
 // Time payments Crud Component
-Vue.component("time-payment-crud",require("./components/administration/proposal/TimePaymentCrud.vue"));
+Vue.component("time-payment-crud",require("./components/administration/proposal/timePayment/Crud.vue"));
 
 const app = new Vue({
   el: "#app",

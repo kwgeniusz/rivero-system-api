@@ -1,7 +1,7 @@
 <template>
    <div>
     <div class="col-xs-4">
-    
+
     </div>   
 
     <div class="col-xs-4">
@@ -11,7 +11,7 @@
         </li>
        </ul>
     </div> 
-
+<!-- <button v-popover:foo>Toggle popover</button> -->
    <div class="col-xs-4">
       <!-- <a href="{{route('reports.contracts')}}" class="btn btn-danger btn-sm text-right">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir contractes de la Corporacion
@@ -39,17 +39,17 @@
                                   <th>CLIENTE</th>   
                                   <th>DIRECCION / NOMBRE DEL PROYECTO</th>
                                   <th>DESCRIPCION</th>
-                                  <th>USO</th>
-                                  <th>TIPO</th>
+                                  <!-- <th>USO</th> -->
+                                  <!-- <th>TIPO</th> -->
                                   <th>CONVERTIDO POR </th>
-                                  <th>ESTADO</th> 
-                                  <th>FECHA DE CREACION</th>
-                                  <th>DIAS DE TRABAJO ESTIMADO</th>
-                                  <th>HORAS DE TRABAJO ESTIMADO</th>
-                                  <th>DIAS CONSECUTIVOS TRANSCURRIDOS</th>
+                                  <th>ESTADO</th>
                                   <th>ALERTA</th>
-                                  <th>DIAS PARA ENTREGAR</th>
-                                  <th>FECHA LIMITE DE ENTREGA</th>
+                                  <th>FECHA DE CREACION</th>
+                                  <!-- <th data-toggle="tooltip" data-placement="top" title="DIAS DE TRABAJO ESTIMADO">D.T.E </th> -->
+                                  <!-- <th data-toggle="tooltip" data-placement="top" title="HORAS DE TRABAJO ESTIMADO">H.T.E</th> -->
+                                  <!-- <th data-toggle="tooltip" data-placement="top" title="DIAS CONSECUTIVOS TRANSCURRIDOS">D.C.T </th> -->
+                                  <!-- <th data-toggle="tooltip" data-placement="top" title="DIAS PARA ENTREGAR">D.P.E </th> -->
+                                  <!-- <th data-toggle="tooltip" data-placement="top" title="FECHA LIMITE DE ENTREGA">F.L.E</th> -->
                                </tr>
                             </thead>
                             <tbody v-if="searchData.length > 0">   
@@ -85,30 +85,38 @@
                                   <p v-for="(invoice,index) in contract.invoice" :key="invoice.invoiceId">
                                     - {{invoice.project_description.projectDescriptionName}}<br>
                                   </p>
+                               <b>USO:</b> {{contract.project_use.projectUseName}}  <br>
+                               <b>TIPO:</b> {{contract.contractType}}   
                                </td>  
-                                 <td>{{contract.project_use.projectUseName}}   </td>
-                                 <td>{{contract.contractType}}   </td>
+
+                                 <!-- <td>{{contract.project_use.projectUseName}}   </td>
+                                 <td>{{contract.contractType}}   </td> -->
                                  <td>{{contract.user.fullName}}   </td>
-                                 <td v-if="contract.contractStatus == VACANT" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #3c8ddc;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == STARTED" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #2ab25b;color:white;"> </td>
-                                 <!-- <td v-if="contract.contractStatus == FINISHED" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #2ab25b;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == CANCELLED" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style=""> </td> -->
-                                 <td v-if="contract.contractStatus == READY_BUT_PENDING_PAYABLE" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #cbb956;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == PROCESSING_PERMIT" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #f39c12;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == WAITING_CLIENT" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: red;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == DOWNLOADING_FILES" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #666666;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == SENT_TO_OFFICE" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #5dc1b9;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == IN_PRODUCTION_QUEUE" data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" style="background-color: #7d2181;color:white;"> </td>
-                                 <td>{{contract.contractDate | moment("MM/DD/YYYY hh:mm A")}}   </td>
-                                 <td> {{contract.estimatedWorkDays}}  </td>
-                                 <td> {{contract.estimatedWorkDays*8}}  </td>
-                                 <td> {{contract.consecutiveDaysElapsed}} </td>
-                                 <td v-if="contract.daysToDelivery < 0 " style="background-color: red;color:white;"> RETRASADO </td>
-                                 <td v-else style="background-color: green; color:white;"> A TIEMPO </td>
-                                 <td> {{contract.daysToDelivery}} </td>
-                                 <td> {{contract.deliveryDate.date | moment("MM/DD/YYYY")}} </td>
-
-
+                                 <!-- data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" -->
+                                 <td v-if="contract.contractStatus == VACANT"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #3c8ddc;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == STARTED"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #2ab25b;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == READY_BUT_PENDING_PAYABLE"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #cbb956;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == PROCESSING_PERMIT"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #f39c12;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == WAITING_CLIENT"  :title="contract.contract_status_r[0].contStatusName" style="background-color: red;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == DOWNLOADING_FILES"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #666666;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == SENT_TO_OFFICE"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #5dc1b9;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == IN_PRODUCTION_QUEUE"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #7d2181;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == SENT_TO_ENGINEER"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #804000 ;color:white;"> </td>
+                                 <td  v-if="contract.daysToDelivery < 0 " style="background-color: red;color:white;" :title="`DIAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays} 
+HORAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays*8}
+DIAS CONSECUTIVOS TRANSCURRIDOS: ${contract.consecutiveDaysElapsed}
+DIAS PARA ENTREGAR: ${contract.daysToDelivery}`">  RETRASADO </td>
+                                 <td  v-else style="background-color: green; color:white;" :title="`DIAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays} 
+HORAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays*8}
+DIAS CONSECUTIVOS TRANSCURRIDOS: ${contract.consecutiveDaysElapsed}
+DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
+                                 <td>{{contract.contractDate | moment("MM/DD/YYYY hh:mm A")}} <br>
+                                 <b>FECHA LIMITE DE ENTREGA:</b>  {{contract.deliveryDate.date | moment("MM/DD/YYYY")}}  </td>
+                                 <!-- <td> {{contract.estimatedWorkDays}}  </td> -->
+                                 <!-- <td> {{contract.estimatedWorkDays*8}}  </td> -->
+                                 <!-- <td> {{contract.consecutiveDaysElapsed}} </td> -->
+                                 <!-- <td> {{contract.daysToDelivery}} </td> -->
+                                 <!-- <td> {{contract.deliveryDate.date | moment("MM/DD/YYYY")}} </td> -->
                                 <!-- <td data-toggle="tooltip" data-placement="top" title="{{contract.contractStatusR[0].contStatusName}}"></td>  -->
                                 <!-- <td> 
                                  <button @click="editData(index,contract.contractId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
@@ -129,8 +137,9 @@
                 </div>
                 
             </div>
+
+         
             </div>
-        
 </template>
 
 <script>
@@ -146,7 +155,8 @@
            this.DOWNLOADING_FILES = 8;
            this.SENT_TO_OFFICE = 9;
            this.IN_PRODUCTION_QUEUE = 10;
-     
+           this.SENT_TO_ENGINEER = 11;
+
         },
         mounted() {
             console.log('Component mounted.') 

@@ -51,7 +51,7 @@
 
 
  <script>
-import formNewTerm from './FormNewTerm.vue'
+import formNewTerm from './term/formNew.vue'
 
 
 export default {

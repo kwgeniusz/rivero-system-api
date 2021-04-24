@@ -49,6 +49,8 @@ class Contract extends Model
     const DOWNLOADING_FILES = '8';
     const SENT_TO_OFFICE = '9';
     const IN_PRODUCTION_QUEUE = '10';
+    const SENT_TO_ENGINEER = '11';
+    
 
 // -VACANTE (VERDE)
 // -INICIADO (AZUL)
@@ -308,19 +310,21 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForSevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$filteredOut,$countryId,$companyId)
+    public function getAllForNineStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9,$filteredOut,$countryId,$companyId)
     {
         $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription','user')
                        ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
                           ->orWhere('contractStatus', $contractStatus4)
                           ->orWhere('contractStatus', $contractStatus5)
                           ->orWhere('contractStatus', $contractStatus6)
-                          ->orWhere('contractStatus', $contractStatus7);
+                          ->orWhere('contractStatus', $contractStatus7)
+                          ->orWhere('contractStatus', $contractStatus8)
+                          ->orWhere('contractStatus', $contractStatus9);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)
@@ -373,7 +377,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $companyId, $contractType,$projectName, $contractDate,
-        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
+        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId,$estimatedWorkDays) {
 
           $oConfiguration = new CompanyConfiguration();
       
@@ -395,6 +399,7 @@ class Contract extends Model
         $contract->streetName          = $streetName;
         $contract->streetType          = $streetType;
         $contract->suiteNumber         = $suiteNumber;
+        $contract->estimatedWorkDays   = $estimatedWorkDays;
         $contract->city                = $city;
         $contract->state               = $state;
         $contract->zipCode             = $zipCode;
