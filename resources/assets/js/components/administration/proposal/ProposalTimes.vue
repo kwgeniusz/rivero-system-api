@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import formNewTime from "./timeFrame/FormNew.vue";
+import formNewTime from "./timeFrame/timeFormNew.vue";
 
 export default {
   mounted() {

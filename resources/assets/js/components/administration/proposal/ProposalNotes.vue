@@ -50,7 +50,7 @@
 
 
  <script>
-import formNewNote from './note/FormNew.vue'
+import formNewNote from './note/noteFormNew.vue'
 
 
 export default {
