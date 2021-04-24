@@ -1,36 +1,36 @@
 <template>
+
   <div class="create">
     <div class="formulario">
       <div>
-        <h3 v-if="modoEdicion">Editar Termino/Condicion</h3>
-        <h3 v-else>Crear Termino/Condicion</h3>
-        <div class="boxes"> 
+        <h3 v-if="modoEdicion">Editar timeframe</h3>
+        <h3 v-else>Crear timeframe</h3>
+        <div class="boxes">
           <!--Formulario para editar-->
-          <form style="width: 100%;" @submit.prevent="actualizar(TyC)" v-if="modoEdicion">
+          <form style="width:100%;" @submit.prevent="actualizar(timeframe)" v-if="modoEdicion">
             <div class="input-label boxes2">
-              <label for="termName">Descripcion:</label>
-                <input
-                  type="text"
-                  placeholder="Escriba una descripcion..."
-                  v-model="TyC.termName"
-                />
+              <label for="timeName">Timeframe:</label>
+                <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
             </div>
+              <!-- <div class="input-label boxes2">
+              <label for="timeName">Dias Representados:</label>
+                <input type="number" placeholder="Dias en Numero" v-model="timeframe.timeName"/>
+            </div>  -->
             <div style="width: 100%; text-align: center;">
               <button class="submit" type="submit">Editar</button>
-              <button class="submit" style="background: #d60101;" @click="cancelarEdicion()">
+              <button class="submit"  style="background: #d60101;" @click="cancelarEdicion()">
                 Cancelar
               </button>
             </div>
           </form>
           <!--Formulario para crear-->
-          <form style="width: 100%" @submit.prevent="crear" v-else>
+          <form style=" width: 100%;" @submit.prevent="crear" v-else>
             <div class="input-label boxes2">
-              <label for="termName">Descripcion:</label>
-              <input
-                type="text"
-                placeholder="Escriba una descripcion..."
-                v-model="TyC.termName"
-              />
+              <label for="timeName"
+                >Timeframe:</label
+              >
+              <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
+              <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
             </div>
             <div style="width: 100%; text-align: center;">
               <button class="submit" type="submit">
@@ -38,7 +38,7 @@
               </button>
             </div>
           </form>
-          <h3 style="width: 100%; margin-bottom: 20px;">Listado de notas</h3>
+          <h3 style="width: 100%; margin-bottom: 20px;">Listado de timeframes</h3>
           <div class="table-responsive" style="width: 100%;">
             <table class="table table-striped table-bordered text-center">
               <thead>
@@ -49,14 +49,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in allterms" :key="index">
+                <tr v-for="(item, index) in alltimeframes" :key="index">
                   <td>{{ index + 1 }}</td>
                   <td>
                     <p class="text-left">
-                      {{ item.termName }}
+                      {{ item.timeName }}
                     </p>
                   </td>
-                  <td style="width: 30%;">
+                  <td>
                     <button
                       class="return"
                       style="padding: 5px 10px;
@@ -82,99 +82,98 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      allterms: [],
-      TyC: {
-        termId: "",
+      alltimeframes: [],
+      timeframe: {
+        timeId: "",
         countryId: "",
         companyId: "",
-        termName: "",
+        timeName: "",
         deleted_at: "",
       },
       modoEdicion: false,
     };
   },
   created() {
-    axios.get("/crud-term").then((res) => {
-      this.allterms = res.data;
+    axios.get("/crud-timeframes").then((res) => {
+      this.alltimeframes = res.data;
     });
   },
   methods: {
     crear() {
-      if (this.TyC.termName.trim() === "") {
+      if (this.timeframe.timeName.trim() === "") {
         alert(
-          "Debes indicar un texto descriptivo para el Termino/Condicion antes de crearlo"
+          "Debes indicar un texto descriptivo para el timeframe antes de crearlo"
         );
         return;
       }
       const params = {
-        countryId: this.TyC.countryId,
-        companyId: this.TyC.companyId,
-        termName: this.TyC.termName,
+        countryId: this.timeframe.countryId,
+        companyId: this.timeframe.companyId,
+        timeName: this.timeframe.timeName,
       };
       axios
-        .post("/crud-term", params)
+        .post("/crud-timeframes", params)
         .then((res) => {
-          this.allterms.unshift(res.data);
+          this.alltimeframes.unshift(res.data);
         })
         .then(() => {
-          this.TyC.countryId = "";
-          this.TyC.companyId = "";
-          this.TyC.termName = "";
+          this.timeframe.countryId = "";
+          this.timeframe.companyId = "";
+          this.timeframe.timeName = "";
         });
     },
     editar(item) {
       this.modoEdicion = true;
-      this.TyC.countryId = item.countryId;
-      this.TyC.companyId = item.companyId;
-      this.TyC.termName = item.termName;
-      this.TyC.termId = item.termId;
+      this.timeframe.countryId = item.countryId;
+      this.timeframe.companyId = item.companyId;
+      this.timeframe.timeName = item.timeName;
+      this.timeframe.timeId = item.timeId;
     },
     cancelarEdicion() {
       this.modoEdicion = false;
-      this.TyC.countryId = "";
-      this.TyC.companyId = "";
-      this.TyC.termName = "";
+      this.timeframe.countryId = "";
+      this.timeframe.companyId = "";
+      this.timeframe.timeName = "";
     },
     actualizar(item) {
       const params = {
         countryId: item.countryId,
         companyId: item.companyId,
-        termName: item.termName,
+        timeName: item.timeName,
       };
 
-      axios.put(`/crud-term/${item.termId}`, params).then((res) => {
+      axios.put(`/crud-timeframes/${item.timeId}`, params).then((res) => {
         this.modoEdicion = false;
 
         //Correccion al error de actualizar listado de datos locales encontrado en el video, solucion
         //sacada de aqui: https://stackoverflow.com/a/35206193
-        const foundIndex = this.allterms.findIndex(
-          (item) => item.termId === res.data.termId
+        const foundIndex = this.alltimeframes.findIndex(
+          (item) => item.timeId === res.data.timeId
         );
-        this.allterms[foundIndex] = res.data;
+        this.alltimeframes[foundIndex] = res.data;
 
-        this.TyC.countryId = "";
-        this.TyC.companyId = "";
-        this.TyC.termName = "";
+        this.timeframe.countryId = "";
+        this.timeframe.companyId = "";
+        this.timeframe.timeName = "";
       });
     },
     eliminar(item, index) {
-      axios.delete(`/crud-term/${item.termId}`).then(() => {
-        this.allterms.splice(index, 1); // https://youtu.be/QW4dMbFxv3c min 49:11
+      axios.delete(`/crud-timeframes/${item.timeId}`).then(() => {
+        this.alltimeframes.splice(index, 1); // https://youtu.be/QW4dMbFxv3c min 49:11
       });
     },
   },
 };
 </script>
-
 <style>
-.create {
+  .create {
   position: relative;
   padding: 40px;
   display: flex;
