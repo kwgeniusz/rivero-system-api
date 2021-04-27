@@ -25,13 +25,24 @@
                         <tr v-for="(perTransact, index) in objPermanentTrans" :key="perTransact.hrpermanentTransactionId">
                             
                             <td >{{index + 1}}</td>
-                            <td class="form-inline">  
+                            <td v-if="perTransact.blocked == 1 " class="form-inline" :style="addBlocked"> 
                                 <p class="text-left">
                                     {{perTransact.staffCode}} 
                                 
                                 </p>
                             </td>
-                            <td>
+                            <td v-else class="form-inline">  
+                                <p class="text-left">
+                                    {{perTransact.staffCode}} 
+                                
+                                </p>
+                            </td>
+                            <td v-if="perTransact.blocked == 1" :style="addBlocked">
+                                <p class="text-left">
+                                    {{perTransact.shortName}}
+                                </p>
+                            </td>
+                            <td v-else>
                                 <p class="text-left">
                                     {{perTransact.shortName}}
                                 </p>
@@ -128,6 +139,16 @@
                 
                 // console.log('enviado')
             }
-        }
+        },
+        computed: {
+            addBlocked: function () {
+                return { 
+                    background: '#FFC5A5', 
+                    
+                    };  
+            },
+            
+            
+        },
     }
 </script>

@@ -53,6 +53,7 @@ class PerTransController extends Controller
             $PerTrans->amount = $request->amount;
             $PerTrans->balance = $request->balance;
             $PerTrans->initialBalance = $request->initialBalance;
+            $PerTrans->blocked = $request->blocked;
             $PerTrans->cuotas = $request->cuotas;
             
             $PerTrans->save();
@@ -85,6 +86,7 @@ class PerTransController extends Controller
         $PerTrans = PerTrans::find($id);
         $PerTrans->quantity = $request->quantity;
         $PerTrans->amount = $request->amount;
+        $PerTrans->blocked = $request->blocked;
         $PerTrans->balance = $request->balance;
         
         $PerTrans->save();

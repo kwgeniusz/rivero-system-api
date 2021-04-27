@@ -60,4 +60,17 @@ class PerTrans extends Model
             ->get();
     }
 
+    function getBlockedTransaction($idCountry, $idCompany, $transactionCode, $staffCode)
+    {
+        return DB::table('hrpermanent_transaction')
+        ->select('blocked')
+        ->where('countryId', '=', $idCountry)
+        ->where('companyId', '=', $idCompany)
+        ->where('transactionTypeCode', '=', $transactionCode)
+        ->where('staffCode', '=', $staffCode)
+        ->where('blocked', '=', 1)
+        ->whereNull('deleted_at')
+        ->get();
+    }
+
 }
