@@ -235,7 +235,7 @@
 					<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
 					<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
 					<div class="text-alt">
-					<p>© Copyright 2020 JD Rivero Global - All rights reserved | Designed by Rivero Visual Group</p>
+					<p>© Copyright 2020 JD Rivero - All rights reserved | Designed by Rivero Visual Group</p>
 					</div>
 				</div>
 				<div class="lower-right">

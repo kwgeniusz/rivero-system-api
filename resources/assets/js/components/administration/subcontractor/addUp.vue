@@ -7,9 +7,9 @@
                 <div v-else class="panel-heading" style="background: #d9edf7"><h4 class="text-uppercase">Actualizar Subcontratista</h4></div>
 
         <div class="panel-body">
-<center>            
- <button  v-on:click="cancf()" type="button"  class="btn btn-warning"><span class="fa fa-hand-point-left"></span> Regresar</button>
-</center>
+         <center>            
+           <button  v-on:click="cancf()" type="button"  class="btn btn-warning"><span class="fa fa-hand-point-left"></span> Regresar</button>
+         </center>
             <div class="alert alert-danger" v-if="errors.length">
              <h4>Errores:</h4>
              <ul>
@@ -32,12 +32,12 @@
         </div>
 
          <div class="form-group col-lg-6 ">
-                <i class="fas fa-id-card-alt"></i> <label for="formDNIType">TIPO DNI</label>
+                <i class="fas fa-id-card-alt"></i> <label for="formDNIType">TIPO TAX ID</label>
                  <input type="text" class="form-control" id="formDNIType" v-model="subcontractor.typeTaxId" placeholder="EIN, ITIN, SSN" autocomplete="off">
           </div>
 
         <div class="form-group col-lg-6 ">
-               <i class="far fa-id-card"></i> <label for="formDNI">DNI</label>
+               <i class="far fa-id-card"></i> <label for="formDNI">TAX ID</label>
                   <input type="text" class="form-control" id="formDNI" v-model="subcontractor.taxId" placeholder="" autocomplete="off ">
           </div>
         <div class="form-group col-lg-6" v-if="subcontractor.subcontType == 'COMPANY'">
@@ -264,14 +264,11 @@
 
                 }else {
                     formData.append("_method", "put");
-          
+
                     console.log(formData);
 
-                          let object = {};
-                          formData.forEach((value, key) => object[key] = value);
-                          object = JSON.stringify(object);
-                      
-                    axios.post(`/subcontractors/${this.editId}`, JSON.stringify(formData))
+                    
+                    axios.post(`/subcontractors/${this.editId}`, formData)
                     .then((response) => {
                         toastr.success(response.data.message);
                         this.$emit('showlist', 0);

@@ -20,7 +20,6 @@ Route::get('precontracts/{id}/details', 'Web\PrecontractController@details')->na
  // ->Precontract Files
 Route::get('precontracts/{id}/files', 'Web\PrecontractFileController@index')->name('precontractsFile.index');
 Route::post('precontracts/{id}/files', 'Web\PrecontractFileController@store')->name('precontractsFile.store');
-
  // ->Precontract Convert to Contract
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAdd')->name('precontracts.convertAgg');
@@ -52,11 +51,13 @@ Route::post('proposals/{id}/notes', 'Web\ProposalNoteController@store')->name('p
 
  // ->Proposal Subcontractor
 Route::put('proposal/{id}/update-subcontractor', 'Web\ProposalController@updateSubcontractor');
+
  // ->Proposal Payments
 Route::get('proposalsPayments/{id}', 'Web\ProposalController@payments')->name('proposals.payments');
 Route::post('proposalsPayments/add', 'Web\ProposalController@paymentsAdd')->name('proposals.paymentsAdd');
 Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@paymentsRemove')->name('proposals.paymentsRemove');
- // ->Proposal Convert
+ 
+// ->Proposal Convert
 Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
 Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
 
