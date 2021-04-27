@@ -50,6 +50,10 @@ Vue.use(Vuelidate)
 // Components To Popover
 import Popover from 'vue-js-popover'
 Vue.use(Popover)
+
+// Components To Vue-audio-recorder
+import AudioRecorder from 'vue-audio-recorder'
+Vue.use(AudioRecorder)
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -104,6 +108,12 @@ Vue.component("addUp-transaction-income",require("./components/administration/tr
 Vue.component("main-transaction-expense",require("./components/administration/transaction/expense/main.vue"));
 Vue.component("table-transaction-expense",require("./components/administration/transaction/expense/table.vue"));
 Vue.component("addUp-transaction-expense",require("./components/administration/transaction/expense/addUp.vue"));
+
+// -----------------> Expense Types <-------------------------//
+Vue.component("main-expense-type",require("./components/administration/transaction/expense/type/main.vue"));
+Vue.component("table-expense-type",require("./components/administration/transaction/expense/type/table.vue"));
+Vue.component("addUp-expense-type",require("./components/administration/transaction/expense/type/addUp.vue"));
+
 // ---------------------> Point Sale <----------------------------------------//
 Vue.component("form-modal-charge", require("./components/administration/FormModalCharge.vue"));
 Vue.component("confirm-payment",require("./components/administration/ModalConfirmPayment.vue"));

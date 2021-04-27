@@ -29,8 +29,7 @@ class TransactionTypeController extends Controller
           if($request->ajax()) {
                return $transactionType;
           }
-
-        return view('module_administration.typesoftransactions.index', compact('transaction'));
+        return view('module_administration.transactions.expenses.types.index', compact('transaction'));
     }
 
     /**
@@ -42,9 +41,17 @@ class TransactionTypeController extends Controller
     public function store(Request $request)
     {
 
-        $this->oTransactionType->insertTT($request->transactionTypeName, $request->sign);
-        return redirect()->route('transactionsTypes.index')
-            ->with('info', 'Tipo de Proyecto Creado');
+       $rs = $this->oTransactionType->insertTT(
+           session('countryId'),
+           session('companyId'),
+           $request->all()
+        );
+
+         if($request->ajax()) {
+           return $rs;
+        }
+
+        // return redirect()->route('transactionsTypes.index')->with('info', 'Tipo de Proyecto Creado');
     }
     /**
      * Show the form for editing the specified resource.
@@ -54,9 +61,9 @@ class TransactionTypeController extends Controller
      */
     public function edit($id)
     {
-
         $transaction = $this->oTransactionType->findById($id);
-        return view('module_administration.typesoftransactions.edit', compact('transaction'));
+
+        // return view('module_administration.typesoftransactions.edit', compact('transaction'));
     }
 
     /**
@@ -68,11 +75,9 @@ class TransactionTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->oTransactionType->updateTT($id,$request->all());
 
-        $this->oTransactionType->updateTT($id, $request->transactionTypeName);
-
-        return redirect()->route('transactionsTypes.index')
-            ->with('info', 'Tipo de Proyecto Actualizado');
+        // return redirect()->route('transactionsTypes.index')->with('info', 'Tipo de Proyecto Actualizado');
     }
     /**
      * Display the specified resource.
@@ -82,9 +87,9 @@ class TransactionTypeController extends Controller
      */
     public function show($id)
     {
-
         $transaction = $this->oTransactionType->findById($id);
-        return view('module_administration.typesoftransactions.show', compact('transaction'));
+
+        // return view('module_administration.typesoftransactions.show', compact('transaction'));
     }
 
     /**
@@ -95,9 +100,8 @@ class TransactionTypeController extends Controller
      */
     public function destroy($id)
     {
-
         $this->oTransactionType->deleteTT($id);
-        return redirect()->route('transactionsTypes.index')
-            ->with('info', 'Tipo de Proyecto Eliminado');
+
+        // return redirect()->route('transactionsTypes.index')->with('info', 'Tipo de Proyecto Eliminado');
     }
 }

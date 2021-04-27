@@ -3,6 +3,7 @@
 namespace App;
 
 use App;
+use DB;
 use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
@@ -77,12 +78,37 @@ public function transaction()
                     ->get(); 
     }
 //------------------------------------------
-   public function insertTT($transactionTypeName,$sign) {
-        
-        $transactionType = new transactionType;
-        $transactionType->transactionTypeName = $transactionTypeName;
-        $transactionType->sign = $sign;
-        $transactionType->save();
+   public function insertTT($countryId, $companyId,$data) 
+   {
+    $error = null;
+
+    DB::beginTransaction();
+     try {
+        // dd($data);
+        // exit();
+         //Insertar 
+           $transactionType = new transactionType;
+           $transactionType->countryId = $countryId;
+           $transactionType->companyId = $companyId;
+           $transactionType->transactionTypeName = $data['transactionTypeName'];
+           $transactionType->sign                = $data['sign'];
+           $transactionType->save();
+           
+           $success = true;
+           DB::commit();
+       } catch (\Exception $e) {
+
+           $success = false;
+           $error   = $e->getMessage();
+           DB::rollback();
+       }
+
+       if ($success) {
+         return $rs  = ['alert' => 'success', 'message' => "Tipo de Expense creado exitosamente"];
+       } else {
+           return $rs = ['alert' => 'error', 'message' => $error];
+       }
+
     }
 //------------------------------------------
     public function updateTT($transactionTypeId,$transactionTypeName) {		

@@ -63,7 +63,9 @@
                                      :contract-number="contract.contractNumber">
                                   </modal-switch-contract>
 
-                                   <comments-contract v-if="$can('BDE')" pref-url=""
+                                   <comments-contract v-if="$can('BDE')" 
+                                     :componentNumber="index"
+                                     pref-url=""
                                      :contract-id="contract.contractId"
                                      :contract-number="contract.contractNumber">
                                      </comments-contract>
@@ -93,15 +95,15 @@
                                  <td>{{contract.contractType}}   </td> -->
                                  <td>{{contract.user.fullName}}   </td>
                                  <!-- data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" -->
-                                 <td v-if="contract.contractStatus == VACANT"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #3c8ddc;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == STARTED"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #2ab25b;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == READY_BUT_PENDING_PAYABLE"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #cbb956;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == PROCESSING_PERMIT"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #f39c12;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == WAITING_CLIENT"  :title="contract.contract_status_r[0].contStatusName" style="background-color: red;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == DOWNLOADING_FILES"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #666666;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == SENT_TO_OFFICE"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #5dc1b9;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == IN_PRODUCTION_QUEUE"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #7d2181;color:white;"> </td>
-                                 <td v-if="contract.contractStatus == SENT_TO_ENGINEER"  :title="contract.contract_status_r[0].contStatusName" style="background-color: #804000 ;color:white;"> </td>
+                                 <td v-if="contract.contractStatus == VACANT"  style="background-color: #3c8ddc;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == STARTED"  style="background-color: #2ab25b;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == READY_BUT_PENDING_PAYABLE"  style="background-color: #cbb956;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == PROCESSING_PERMIT"  style="background-color: #f39c12;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == WAITING_CLIENT"  style="background-color: red;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == DOWNLOADING_FILES"  style="background-color: #666666;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == SENT_TO_OFFICE"  style="background-color: #5dc1b9;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == IN_PRODUCTION_QUEUE"  style="background-color: #7d2181;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == SENT_TO_ENGINEER"  style="background-color: #804000 ;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
                                  <td  v-if="contract.daysToDelivery < 0 " style="background-color: red;color:white;" :title="`DIAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays} 
 HORAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays*8}
 DIAS CONSECUTIVOS TRANSCURRIDOS: ${contract.consecutiveDaysElapsed}
