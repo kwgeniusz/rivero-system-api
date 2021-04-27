@@ -64,7 +64,7 @@ class Proposal extends Model
     }
      public function term()
     {
-      return $this->hasMany('App\ProposalTerm', 'proposalId', 'proposalId')->orderBy('propTermId');
+      return $this->hasMany('App\ProposalTerm', 'proposalId', 'proposalId')->orderBy('termName');
     }
      public function note()
     {
