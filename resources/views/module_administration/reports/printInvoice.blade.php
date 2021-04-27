@@ -82,6 +82,10 @@
             text-decoration: line-through;
         }
 
+        .org {
+          text-align: left;
+        }
+
         #bold {
           font-weight: bold;
         }
@@ -210,21 +214,21 @@ foreach ($invoiceDetails as $invDetail) {
         <th colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center"><span id="bold">CUSTOMER INFORMATION</span></th>
        </tr>
        <tr> 
-            <th colspan="1">
+            <th colspan="1" class="org">
                <span id="bold">ID:</span> {{$client->clientCode}}
             </th>
-            <th colspan="1">
+            <th colspan="1" class="org">
               <span id="bold">Name:</span> {{$client->clientName}}
             </th>
-             <th colspan="1">
+             <th colspan="1" class="org">
               <span id="bold">Phone:</span> {{$client->businessPhone}}
             </th>
        </tr>
       <tr> 
-            <th colspan="2">
+            <th colspan="2" class="org">
               <span id="bold">Billing Address:</span> {{$client->clientAddress}}
             </th>
-             <th colspan="1">
+             <th colspan="1" class="org">
                <span id="bold">E-mail:</span> {{$client->mainEmail}}
             </th>
        </tr>
@@ -236,24 +240,28 @@ foreach ($invoiceDetails as $invDetail) {
         <th id="bold" colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center">PROJECT INFORMATION</th>
        </tr>
         <tr> 
-            <th width="45%" >
+            <th width="33%" class="org">
              <span id="bold">Control Number:</span> {{$invoice[0]->contract->contractNumber}}
             </th>
-            <th width="55%" colspan="2">
+            <th width="55%" colspan="2" class="org">
              <span id="bold">Address:</span> {{$invoice[0]->contract->siteAddress}}
             </th>
             <th> </th>
        </tr>
       <tr> 
-            <th width="15%">
+            <th width="30%" class="org">
              <span id="bold"> Type:</span> {{$invoice[0]->contract->projectUse->projectUseName}} 
             </th>
-            <th width="35%">
+            <th width="30%" class="org">
              <span id="bold"> Description:</span> {{$invoice[0]->projectDescription->projectDescriptionName}}
             </th>
-           <th width="60%"> 
+          
+           <th width="40%" class="org">
+           @if($invoice[0]->contract->projectName)
              <span id="bold">Project Name:</span> {{$invoice[0]->contract->projectName}}
+           @endif
            </th>
+          
        </tr>
 </table>   
        <br>

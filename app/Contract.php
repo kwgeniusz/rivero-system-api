@@ -35,7 +35,7 @@ class Contract extends Model
         'currencyId', 'contractStatus', 'created_at', 'lastUserId',
     ];
     
-    protected $appends = ['siteAddress'];
+    protected $appends = ['siteAddress','contractDate','consecutiveDaysElapsed','daysToDelivery','deliveryDate'];
     protected $dates = ['deleted_at'];
 
     //Status Contract
@@ -48,6 +48,9 @@ class Contract extends Model
     const WAITING_CLIENT = '7';
     const DOWNLOADING_FILES = '8';
     const SENT_TO_OFFICE = '9';
+    const IN_PRODUCTION_QUEUE = '10';
+    const SENT_TO_ENGINEER = '11';
+    
 
 // -VACANTE (VERDE)
 // -INICIADO (AZUL)
@@ -141,12 +144,6 @@ class Contract extends Model
          $processed = $this->document->filter(function ($doc, $key) {return $doc->docType == 'processed';});
          $revised   = $this->document->filter(function ($doc, $key) {return $doc->docType == 'revised';});
          $ready     = $this->document->filter(function ($doc, $key) {return $doc->docType == 'ready';}); 
-     
-         // count
-        // $previous  = count($previous);
-        // $processed = count($processed);
-        // $revised   = count($revised);
-        // $ready     = count($ready);
 
           return [ 
             "previous"  => $previous->count(),
@@ -161,7 +158,36 @@ class Contract extends Model
         $date->tz = session('companyTimeZone');   // ... set to the current users timezone
         return $date->format('Y-m-d H:i:s');
     }
+    public function getConsecutiveDaysElapsedAttribute()
+    {
+         $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
+         $date1->tz = session('companyTimeZone');
+         $date2 = Carbon::now();
+         $date2->tz = session('companyTimeZone');
 
+         $difference = $date1->diffInDays($date2);
+         return $difference;
+    }
+    public function getDaysToDeliveryAttribute()
+    {
+         $rs = $this->attributes['estimatedWorkDays'] - $this->consecutiveDaysElapsed;
+         return $rs;
+    }
+    public function getDeliveryDateAttribute()
+    {
+         $daysToIncrement = $this->attributes['estimatedWorkDays'];
+         $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
+         $date1->tz = session('companyTimeZone');
+         $date1->addDays($daysToIncrement);
+
+         return $date1;
+    }
+    // public function dias(){
+    //     $fecha1 = date_create($this->created_at);
+    //     $fecha2 = date_create($this->canceled_at);
+    //     $dias = date_diff($fecha1, $fecha2)->format('%R%a');
+    //     return $dias;
+    // }
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -284,23 +310,25 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForSevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$filteredOut,$countryId,$companyId)
+    public function getAllForNineStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription','user')
                        ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
                           ->orWhere('contractStatus', $contractStatus4)
                           ->orWhere('contractStatus', $contractStatus5)
                           ->orWhere('contractStatus', $contractStatus6)
-                          ->orWhere('contractStatus', $contractStatus7);
+                          ->orWhere('contractStatus', $contractStatus7)
+                          ->orWhere('contractStatus', $contractStatus8)
+                          ->orWhere('contractStatus', $contractStatus9);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)
-                      ->paginate(300);
+                      ->get();
         return $result;
     }
 //------------------------------------------ 
@@ -349,7 +377,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $companyId, $contractType,$projectName, $contractDate,
-        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
+        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId,$estimatedWorkDays) {
 
           $oConfiguration = new CompanyConfiguration();
       
@@ -371,6 +399,7 @@ class Contract extends Model
         $contract->streetName          = $streetName;
         $contract->streetType          = $streetType;
         $contract->suiteNumber         = $suiteNumber;
+        $contract->estimatedWorkDays   = $estimatedWorkDays;
         $contract->city                = $city;
         $contract->state               = $state;
         $contract->zipCode             = $zipCode;

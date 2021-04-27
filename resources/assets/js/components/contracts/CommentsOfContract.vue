@@ -85,7 +85,7 @@
     },
     props: {
            prefUrl: { type: String},
-           contractId: { type: String, default: null}, 
+           contractId: { type: [String,Number], default: null}, 
            contractNumber: { type: String, default: null}, 
           },
     methods: {

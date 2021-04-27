@@ -34,7 +34,7 @@ class TimeFrame extends Model
     public function getAllByCompany($companyId)
     {
         return $this->where('companyId' , '=' , $companyId)
-          ->orderBy('timeId', 'ASC')
+          ->orderBy('timeName', 'ASC')
           ->get();
     }
 //------------------------------------------
