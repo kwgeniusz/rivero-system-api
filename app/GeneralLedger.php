@@ -21,40 +21,22 @@ class GeneralLedger extends Model
 
     protected $fillable = ['generalLedgerId','countryId' ,'companyId','accountCode','accountName','leftMargin','parentAccountCode','accountClassificationCode', 'accountTypeCode','debit','credit'];
     // protected $dates = ['deleted_at'];
+
+
 //--------------------------------------------------------------------
     /** RELATIONS **/
 //--------------------------------------------------------------------
-    // public function otherContact()
-    // {
-    //     return $this->hasMany('App\ClientOtherContact', 'clientId', 'clientId');
-    // }
-    // public function contract()
-    // {
-    //     return $this->hasMany('App\Contract', 'clientId', 'clientId');
-    // }
-    // public function invoice()
-    // {
-    //     return $this->hasMany('App\Invoice', 'clientId', 'clientId');
-    // }
-    // public function proposal()
-    // {
-    //     return $this->hasMany('App\Proposal', 'clientId', 'clientId');
-    // }
-    // public function country()
-    // {
-    //     return $this->belongsTo('App\Country', 'countryId', 'countryId');
-    // }
-    // public function company()
-    // {
-    //     return $this->hasOne('App\Company', 'companyId', 'companyId');
-    // }
-    //    public function contactType()
-    // {
-    //     return $this->hasOne('App\ContactType', 'contactTypeId', 'contactTypeId')->withTrashed();
-    // }
-    //--------------------------------------------------------------------
-               /** ACCESORES **/
-   //--------------------------------------------------------------------
+    public function accountType()
+    {
+        return $this->hasOne('App\AccountType', 'accountTypeCode', 'accountTypeCode');
+    }
+    public function accountClassification()
+    {
+        return $this->hasOne('App\AccountClassification', 'accountClassificationCode', 'accountClassificationCode');
+    }
+//--------------------------------------------------------------------
+     /** ACCESORES **/
+//--------------------------------------------------------------------
    
 //    public function getTransactionDateAttribute($transactionDate)
 //    {
@@ -73,20 +55,6 @@ class GeneralLedger extends Model
 
 //      return $this->attributes['clientName'] = ucwords($clientName);
 //    }
-//    public function setCompanyNameAttribute($companyName)
-//    {
-//     $companyName = strtolower($companyName);
-//     $companyName = ucwords($companyName);
-
-//      return $this->attributes['companyName'] = ucwords($companyName);
-//    } 
-//    public function setClientAddressAttribute($clientAddress)
-//    {
-//     $clientAddress = strtolower($clientAddress);
-//     $clientAddress = ucwords($clientAddress);
-
-//      return $this->attributes['clientAddress'] = ucwords($clientAddress);
-//    } 
 //--------------------------------------------------------------------
     /** Query Scope  */
 //--------------------------------------------------------------------
@@ -116,13 +84,13 @@ class GeneralLedger extends Model
 
     public function getAllByCompany($companyId) 
     {  
-         return $this->where('companyId', '=', $companyId)
+         return $this->with('accountType','accountClassification')
+                     ->where('companyId', '=', $companyId)
                      ->orderBy('generalLedgerId', 'DESC')
                      ->get(); 
      }      
     public function insertG($countryId, $companyId, $parentCompanyId, $data)
     {
-
           $error = null;
 
      DB::beginTransaction();

@@ -2,106 +2,53 @@
     <div class="row">
       <!-- <sweet-modal ref="modalNew" @close="cancf"> -->
 
-        <div class="col-md-8 col-xs-offset-1">
+        <div class="col-md-6 col-xs-offset-2">
             <div class="panel panel-default">
 
-                <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Cliente</h4></div>
-                <div v-else class="panel-heading" style="background: #d9edf7"><h4 class="text-uppercase">Actualizar Cliente</h4></div>
+            <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Cuenta</h4></div>
+            <div v-else class="panel-heading" style="background: #d9edf7"><h4 class="text-uppercase">Actualizar Cuenta</h4></div>
 
         <div class="panel-body">
             <div class="alert alert-danger" v-if="errors.length">
-             <h4>Errores:</h4>
-             <ul>
-               <li v-for="(error,index) in errors" :key="index">{{ error }}</li>
-            </ul>
+              <h4>Errores:</h4>
+               <ul>
+                 <li v-for="(error,index) in errors" :key="index">{{ error }}</li>
+              </ul>
            </div>
 
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
+        <form  class="form" id="formClient" role="form" @submit.prevent="createUpdateAccount()">
       
-        <form  class="form" id="formClient" role="form" @submit.prevent="createUpdateClient()">
-            
-       <div class="form-group col-lg-12">
-          <label for="clientNumberFormat"><i class="far fa-id-card"></i> CODIGO</label>
-          <input type="text" style="cursor: no-drop" class="form-control" id="clientNumberFormat" v-model="clientNumberFormat" disabled="on">
-        </div>
-
-        <div class="form-group col-lg-12">
-          <label for="clientType"><i class="fas fa-people-arrows"></i>TIPO DE CLIENTE</label>
-          <select @change="client.companyName = ''" class="form-control" v-model="client.clientType" name="clientType" id="clientType">
-                    <option value="INDIVIDUAL">INDIVIDUAL</option>
-                    <option value="COMPANY">COMPANIA</option>
-          </select>
-        </div>
-
-           <div class="form-group col-lg-12" v-if="client.clientType == 'COMPANY'">
-               <label style="color:red">*</label> <label for="companyName"><i class="fas fa-building"></i>NOMBRE DE LA COMPANIA</label>
-                <input  type="text" class="form-control" v-model="client.companyName" name="companyName" placeholder="">
-           </div>
-
-        <div class="form-group col-lg-12">
-               <label for="clientName"><i class="fas fa-user-friends"></i> NOMBRE Y APELLIDO / REPRESENTANTE</label>
+        <div class="form-group col-lg-7">
+               <label for="clientName"><i class="fas fa-user-friends"></i> CODIGO DE CUENTA:</label>
                 <input type="text" class="form-control" v-model="client.clientName" name="clientName" placeholder="">
-              </div>
-
-        <div class="form-group col-lg-12">
-          <label for="gender"><i class="fas fa-venus-mars"></i>GENERO</label>
-          <select class="form-control" v-model="client.gender" name="gender" id="gender">
-                    <option value="M">MASCULINO</option>
-                    <option value="F">FEMENINO</option>
-          </select>
         </div>
 
-        <div class="form-group col-lg-12">
-          <label for="clientAddress"><i class="fas fa-map-marked-alt"></i> DIRECCION</label>
-          <input type="text" class="form-control" v-model="client.clientAddress"  name="clientAddress"  placeholder="5924 Azalea Ln Dallas, TX 75230">
+       <div class="form-group col-lg-10">
+               <label for="clientName"><i class="fas fa-user-friends"></i> NOMBRE DE CUENTA:</label>
+                <input type="text" class="form-control" v-model="client.clientName" name="clientName" placeholder="">
         </div>
 
-        <div class="form-group col-lg-12">
-         <label style="color:red">*</label> <label for="businessPhone"><i class="fas fa-phone-square"></i> TELEFONO DEL NEGOCIO</label>
-          <!-- <input type="text" class="form-control" id="businessPhone" v-model="client.businessPhone"  placeholder="(000) 000 0000"  title="formato: (000) 000 0000"> -->
-           <vue-phone-number-input size="sm" default-country-code="US" v-model="client.businessPhone" required/>
-        </div>
-
-        <div class="form-group col-lg-12">
-          <label for="homePhone"><i class="fas fa-phone-square"></i>TELEFONO DE CASA</label>
-          <!-- <input type="text" class="form-control" id="homePhone" v-model="client.homePhone" placeholder="(000) 000 0000"  title="formato: (000) 000 0000"> -->
-           <vue-phone-number-input size="sm" default-country-code="US" v-model="client.homePhone" />
-        </div>
-
-          <div class="form-group col-lg-12">
-          <label for="mobilePhone"><i class="fas fa-phone-square"></i>CELULAR</label>
-          <!-- <input type="text" class="form-control" id="mobilePhone" v-model="client.mobilePhone" placeholder="(000) 000 0000"  title="formato: (000) 000 0000"> -->
-           <vue-phone-number-input size="sm" default-country-code="US" v-model="client.mobilePhone" />
-        
-        </div>
-
-         <div class="form-group col-lg-12">
-          <label for="otherPhone"><i class="fas fa-phone-square"></i>OTRO TELEFONO</label>
-          <!-- <input type="text" class="form-control" id="otherPhone" v-model="client.otherPhone" placeholder="(000) 000 0000"  title="formato: (000) 000 0000"> -->
-           <vue-phone-number-input size="sm" default-country-code="US" v-model="client.otherPhone" />
-        
-        </div>
-
-          <div class="form-group col-lg-12">
-          <label for="fax"><i class="fas fa-phone-square"></i> FAX</label>
-          <!-- <input type="text" class="form-control" id="fax" v-model="client.fax" placeholder="(000) 000 0000"  title="formato: (000) 000 0000"> -->
-           <vue-phone-number-input size="sm" default-country-code="US" v-model="client.fax" />
-        </div> 
-
-        <div class="form-group col-lg-12">  
-          <label style="color:red">*</label><label for="clientEmail"><i class="fas fa-at"></i>CORREO PRINCIPAL</label>
-          <input type="email" class="form-control" id="clientEmail" v-model="client.mainEmail"  placeholder="CORREO DE CONTACTO">
-        </div>
-    <div class="form-group col-lg-12">  
-          <label for="secondaryEmail"><i class="fas fa-at"></i> CORREO SECUNDARIO</label>
-          <input type="email" class="form-control" id="secondaryEmail" v-model="client.secondayEmail"  placeholder="CORREO DE CONTACTO">
-        </div>
-       <div class="form-group col-lg-12 ">
-              <label for="contactTypeId">¿COMO NOS CONTACTO?</label>
+        <div class="form-group col-lg-12 ">
+              <label for="contactTypeId">CUENTA PADRE:</label>
                    <select class="form-control" v-model="client.contactTypeId" id="contactTypeId">
                       <option v-for="item in contactTypes" :key="item.contactTypeId" :value="item.contactTypeId">{{item.contactTypeName}}</option>
                   </select>
           </div>
+
+         <div class="form-group col-lg-12 ">
+              <label for="contactTypeId">CLASIFICACION:</label>
+                   <select class="form-control" v-model="client.contactTypeId" id="contactTypeId">
+                      <option v-for="item in contactTypes" :key="item.contactTypeId" :value="item.contactTypeId">{{item.contactTypeName}}</option>
+                  </select>
+          </div>  
+
+         <div class="form-group col-lg-12 ">
+              <label for="contactTypeId">TIPO:</label>
+                   <select class="form-control" v-model="client.contactTypeId" id="contactTypeId">
+                      <option v-for="item in contactTypes" :key="item.contactTypeId" :value="item.contactTypeId">{{item.contactTypeName}}</option>
+                  </select>
+          </div>     
                         <div v-if="editId === 0">
                              <button-form 
                               :buttonType = 1
@@ -193,7 +140,7 @@
             editId:'',
         },
       methods: {
-            createUpdateClient(){
+            createUpdateAccount(){
               this.errors = [];
                
                if(this.client.clientType == 'COMPANY') {

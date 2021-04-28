@@ -35,26 +35,26 @@
                             <thead>
                               <tr>
                                 <th>#</th>
+                                <th>CUENTA PADRE</th>
                                 <th>CODIGO DE CUENTA</th>
                                 <th>NOMBRE DE CUENTA</th>
-                                <th>CUENTA PADRE</th>
                                 <th>CLASIFICACION</th>
                                 <th>TIPO</th> 
                                 <th>ACCIONES</th>            
                                </tr>
                             </thead>
                            <tbody v-if="searchData.length > 0">      
-                             <tr v-for="(client, index) in searchData" :key="index">
+                             <tr v-for="(generalLedger, index) in searchData" :key="index">
                                 <td >{{index + 1}}</td>
-                                <td class="text-left"> {{client.clientCode}}</td>
-                                <td class="text-left"> {{client.clientType}}</td>
-                                <td class="text-left"> {{client.gender}}</td> 
-                                <td class="text-left"> {{client.clientAddress}}</td>  
-                                <td class="text-left"> {{client.businessPhone}}</td>
+                                <td class="text-left"> {{generalLedger.parentAccountCode}}</td>
+                                <td class="text-left"> {{generalLedger.accountCode}}</td>
+                                <td class="text-left"> {{generalLedger.accountName}}</td>
+                                <td class="text-left"> {{generalLedger.account_classification.accountClassificationName}}</td>  
+                                <td class="text-left"> {{generalLedger.account_type.accountTypeName}}</td>
                                 <td> 
-                                 <button @click="toggle(client.clientId)" :class="{ opened: opened.includes(client.clientId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>  
-                                 <button @click="editData(index,client.clientId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
-                                 <!-- <button @click="deleteData(index,client.clientId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  -->
+                                 <!-- <button @click="toggle(generalLedger.generalLedgerId)" :class="{ opened: opened.includes(generalLedger.generalLedgerId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>   -->
+                                 <button @click="editData(index,generalLedger.generalLedgerId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
+                                 <button @click="deleteData(index,generalLedger.generalLedgerId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
                                 </td>
                               </tr>                
                           </tbody>
@@ -79,7 +79,7 @@
     export default {
         mounted() {
             console.log('Component mounted.') 
-            // console.log(this.clientList)
+            // console.log(this.generalLedger)
         },
         data(){
             return{
@@ -87,11 +87,11 @@
             }
         },
         props: {
-            clientList: { type: Array},
+            generalLedgerList: { type: Array},
         },  
         computed: {
             searchData: function () {
-                return this.clientList.filter((client) => {
+                return this.generalLedgerList.filter((client) => {
 
                   if(client.companyName == null ) 
                      client.companyName = 'No Info'
@@ -118,14 +118,14 @@
          editData(index, id){
                 this.$emit('editData', id)
             },
-      //  deleteData(index, id){
-      //           if (confirm(`Esta Seguro de Eliminar la Transaccion #${++index}?`) ){
-      //               axios.delete(`-/delete/${id}`).then((response) => {
-      //                      toastr.success(response.data.message);
-      //                      this.$emit('showlist', 0)
-      //               })
-      //           }    
-      //       }, 
+       deleteData(index, id){
+                if (confirm(`Esta Seguro de Eliminar la Transaccion #${++index}?`) ){
+                    axios.delete(`-/delete/${id}`).then((response) => {
+                           toastr.success(response.data.message);
+                           this.$emit('showlist', 0)
+                    })
+                }    
+            }, 
   
       } //end of methods
     }//end of vue instance
