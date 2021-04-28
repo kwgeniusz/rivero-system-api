@@ -140,7 +140,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Tipo de Cuentas</a></li>
+            <li><a href="/general-ledger">Tipo de Cuentas</a></li>
             <li><a href="#">Clasificacion de Cuentas</a></li>
             <li><a href="#">Cuentas</a></li>
             <li><a href="#">Transacciones</a></li>
