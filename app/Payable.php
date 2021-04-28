@@ -161,7 +161,8 @@ class Payable extends Model
               $subcontractor->subcontractorName,
               $payMethodId,
               $payMethodDetails,
-              'NINGUNA RAZON',
+              'PAGO A SUBCONTRATISTA',
+              'N/A',
               date('Y-m-d'),
               $amountPaidAcum,
               '-',
@@ -207,7 +208,8 @@ class Payable extends Model
                $transaction  = Transaction::findOrfail($rs1['transactionId']);
 
                $transaction->payable()->attach($payable->payableId, 
-                ['amountPaid' => number_format((float)$item['amountPaid'], 2, '.', ''),
+                [
+                'amountPaid' => number_format((float)$item['amountPaid'], 2, '.', ''),
                 'reason'      => $item['reason']
                 ]);
 

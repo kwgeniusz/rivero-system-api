@@ -78,7 +78,7 @@ class Service extends Model
         $service->cost1           = $cost1;
         $service->cost2           = $cost2;
         $service->created_at     = date('Y-m-d H:i:s');
-        // $service->lastUserId      = Auth::user()->userId;
+        $service->userId      = Auth::user()->userId;
         $service->save();
     }
 //------------------------------------------

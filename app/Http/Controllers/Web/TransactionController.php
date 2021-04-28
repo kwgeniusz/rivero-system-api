@@ -169,9 +169,9 @@ class TransactionController extends Controller
 // } //cierre de verificacion post
 
         if ($sign == '+') {
-            return view('module_administration.transactionsincome.index');
+            return view('module_administration.transactions.incomes.index');
         } else {
-            return view('module_administration.transactionsexpenses.index');
+            return view('module_administration.transactions.expenses.index');
         }
 
     }
@@ -182,10 +182,10 @@ class TransactionController extends Controller
     //     $paymentsMethod   = $this->oPaymentMethod->getAll();
   
     //     if ($sign == '+') {
-    //         return view('module_administration.transactionsincome.create', compact('paymentsMethod','transactionType'));
+    //         return view('module_administration.transactions.incomes.create', compact('paymentsMethod','transactionType'));
     //     }
     //         } else {
-    //         return view('module_administration.transactionsexpenses.create', compact('paymentsMethod','transactionType'));
+    //         return view('module_administration.transactions.expenses.create', compact('paymentsMethod','transactionType'));
     //     }
     // }
     /**

@@ -197,7 +197,7 @@ class Contract extends Model
         return $this->attributes['contractCost'] = encrypt($contractCost);
     }
     public function setContractDateAttribute($contractDate)
-    {
+    {  
         $date = Carbon::createFromFormat('Y-m-d', $contractDate, session('companyTimeZone'));
         $date->setTimezone('UTC');
         $this->attributes['contractDate'] = $date;
@@ -428,10 +428,12 @@ class Contract extends Model
     public function updateContract($contractId,$data) {
         
         $contract                        = Contract::find($contractId);
-
+ 
+            //    dd($contract->contractDate);
+            //    exit(); Carbon::createFromFormat('Y-m-d H:i:s', $request->date)->format('d-m-Y')
         $contract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $contract->contractType;
         $contract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $contract->projectName;
-        $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : $contract->contractDate;
+        $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : Carbon::createFromFormat('Y-m-d H:i:s', $contract->contractDate)->format('Y-m-d');
         $contract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $contract->clientId;
         $contract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $contract->propertyNumber;
         $contract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $contract->streetName;

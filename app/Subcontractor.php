@@ -134,7 +134,7 @@ class Subcontractor extends Model
             // dd(json_decode($data));
             // exit();
             // $msg = json_decode(file_get_contents("php://input"));
-           $subcontractor                   = Subcontractor::find($subcontId);
+        $subcontractor                      = Subcontractor::find($subcontId);
         $subcontractor->subcontType         = $data['subcontType'];
         $subcontractor->companyName         = $data['companyName'];
         $subcontractor->subcontractorName   = $data['subcontractorName'];

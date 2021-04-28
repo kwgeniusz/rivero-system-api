@@ -16,6 +16,17 @@
        </ul>
     </div> 
    <div class="col-xs-4">
+          <!-- <a href="{{route('reports.clients')}}" class="btn btn-danger btn-sm text-right">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Clientes de la Corporacion
+           </a> -->
+        <div class="dropdown">
+          <button  class="btn btn-info btn-sm" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Opciones<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dLabel">
+            <li><a v-if="$can('FE')" href="/transaction-types/-/index">Tipos de Expenses</a></li>
+          </ul>
+        </div>
     </div>
     
 </div>

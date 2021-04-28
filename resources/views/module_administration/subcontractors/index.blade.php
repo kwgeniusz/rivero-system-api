@@ -1,8 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-
-<main-subcontractor/>
-
-
+ <main-subcontractor/>
 @endsection
