@@ -137,7 +137,7 @@ class Payable extends Model
   }
 
   //usado para el cobro de cuotas
-    public function addPay($payables,$payMethodId,$payMethodDetails,$typeExpense,$cashboxId,$accountId)
+    public function addPay($payables,$reference,$payMethodId,$payMethodDetails,$typeExpense,$cashboxId,$accountId)
     {
         $error   = null;
         DB::beginTransaction();
@@ -158,11 +158,11 @@ class Payable extends Model
               session('countryId'),
               session('companyId'),
               $transactionType[0]->transactionTypeId,
-              $subcontractor->subcontractorName,
+              $subcontractor->companyName.'('.$subcontractor->subcontractorName.')',
               $payMethodId,
               $payMethodDetails,
               'PAGO A SUBCONTRATISTA',
-              'N/A',
+              $reference,
               date('Y-m-d'),
               $amountPaidAcum,
               '-',

@@ -25,7 +25,7 @@
             <select v-model="modelServiceId" class="form-control" @change="selectService(modelServiceId)" name="serviceId" id="serviceId">
                 <option :class="{ bold: item.hasCost == 'Y' ? true : false }" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}}
                 </option>
-                  }
+                  
             </select>
           </div>
           <div v-if="hasCost" class="inputother boxes2">
@@ -51,7 +51,7 @@
             <button class="submit buttonmovil" @click.prevent="addRow()" style="margin-right: 20px;"> 
               <span class="fa fa-plus" aria-hidden="true"></span> Agregar Renglon
             </button>
-            <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
+            <!-- <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service> -->
           </div>
         </form>
         <div class="table-responsive tableother">

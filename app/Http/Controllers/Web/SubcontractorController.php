@@ -135,8 +135,9 @@ class SubcontractorController extends Controller
     public function getFiltered($name = '')
     {
         $results = Subcontractor::where('subcontractorName', 'LIKE', "%$name%")
+            ->where('companyId', session('companyId'))
             ->orWhere('companyName', 'LIKE', "%$name%")
-            ->where('countryId', session('countryId'))
+            ->where('companyId', session('companyId'))
             ->orderBy('subcontractorName', 'ASC')
             ->get();
 

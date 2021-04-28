@@ -61,8 +61,11 @@ class TransactionTypeController extends Controller
      */
     public function edit($id)
     {
-        $transaction = $this->oTransactionType->findById($id);
-
+        $rs = $transaction = $this->oTransactionType->findById($id);
+       
+        if($request->ajax()) {
+            return $rs;
+           }
         // return view('module_administration.typesoftransactions.edit', compact('transaction'));
     }
 
@@ -75,8 +78,11 @@ class TransactionTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->oTransactionType->updateTT($id,$request->all());
+        $rs = $this->oTransactionType->updateTT($id,$request->all());
 
+          if($request->ajax()) {
+             return $rs;
+            }
         // return redirect()->route('transactionsTypes.index')->with('info', 'Tipo de Proyecto Actualizado');
     }
     /**
@@ -85,10 +91,13 @@ class TransactionTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
         $transaction = $this->oTransactionType->findById($id);
 
+          if($request->ajax()) {
+           return $transaction;
+        }
         // return view('module_administration.typesoftransactions.show', compact('transaction'));
     }
 
@@ -98,10 +107,13 @@ class TransactionTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request, $id)
     {
-        $this->oTransactionType->deleteTT($id);
-
+       $rs = $this->oTransactionType->deleteTT($id);
+          
+        if($request->ajax()) {
+         return $rs;
+        }
         // return redirect()->route('transactionsTypes.index')->with('info', 'Tipo de Proyecto Eliminado');
     }
 }

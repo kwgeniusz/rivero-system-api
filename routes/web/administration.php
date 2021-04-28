@@ -53,15 +53,9 @@ Route::get('accounts/{bankId}', 'Web\AccountController@index');
 Route::get('transaction-types/{sign}/index', 'Web\TransactionTypeController@index')->name('transactionTypes.index');
 Route::post('transaction-types', 'Web\TransactionTypeController@store')->name('transactionTypes.store');
 Route::get('transaction-types/{id}', 'Web\TransactionTypeController@show')->name('transactionTypes.show');
-Route::put('transactions-types/{id}', 'Web\TransactionController@update')->name('transactionTypes.update');
+Route::put('transactions-types/{id}', 'Web\TransactionTypeController@update')->name('transactionTypes.update');
 Route::delete('transaction-types/{id}', 'Web\TransactionTypeController@delete')->name('transactionTypes.delete');
 
-
-// Route::get('transactions/{sign}/index', 'Web\TransactionController@index')->name('transactions.index');
-// Route::post('transactions', 'Web\TransactionController@store')->name('transactions.store');
-// Route::get('transactions/{id}', 'Web\TransactionController@show')->name('transactions.show');
-// Route::put('transactions/{id}', 'Web\TransactionController@update')->name('transactions.update');
-// Route::delete('transactions/{id}', 'Web\TransactionController@delete')->name('transactions.delete');
 //******************************SUBCONTRACTORS***********************************
 Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);
 Route::get('subcontractors/{subcontName}/search', 'Web\SubcontractorController@getFiltered')->name('subcontractors.search');
