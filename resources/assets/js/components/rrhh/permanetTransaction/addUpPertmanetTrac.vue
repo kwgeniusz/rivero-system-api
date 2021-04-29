@@ -46,6 +46,14 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-3">
+                                    <label for="quantity" class="form-group" v-text="nameField12"> </label>
+                                    <input type="checkbox" v-model="blocked" />
+                                    <!-- <input type="number" step="0.0001" v-model="quantity" @keyup="getCuotas()" class="form-control" autocomplete="off" id="quantity" v-bind:placeholder="'0.5000'" required="required"><a href="#" data-toggle="tooltip" title="Ej: 1.0000 para pagar el monto total cada quincena , 0.5000 pagara la mitad del monto cada quincena"><i class="glyphicon glyphicon-exclamation-sign"></i></a> -->
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-3">
                                     <label for="netSalary" class="form-group" v-text="nameField9"> </label><br>
                                     <input type="text"  v-model="netSalary" class="form-control" id="netSalary" autocomplete="off" readonly="readonly">
                                 </div>
@@ -90,8 +98,8 @@
 <script>
     export default {
         mounted() {
-            let countryId = 2 //temp
-            let companyId = 4 //temp
+            let countryId = 0 //temp
+            let companyId = 0 //temp
             const URL1 = `combo-staff/${countryId}/${companyId}`
             const URL2 = `combo-trans-type/${countryId}/${companyId}`
             // obtiene el personal 
@@ -120,6 +128,7 @@
                 this.balance = document.querySelector("#balance").value = this.objEdit.balance
                 this.initialBalance = document.querySelector("#initialBalance").value = this.objEdit.initialBalance
                 this.cde = document.querySelector("#cde").value = this.objEdit.cde
+                this.blocked = this.objEdit.blocked
                 // console.log(this.selectStaff)
                 this.getCuotaUpdate(this.quantity, this.amount, this.balance)
             }
@@ -140,6 +149,7 @@
                 cuotas:'',
                 initialBalance:'',
                 netSalary:0,
+                blocked:0,
                 cde:0
             }
         },
@@ -200,6 +210,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField12:{
+                type: String,
+                default: 'Bloquear Transaccion'
+            },
             objEdit:{}
             
         },
@@ -215,6 +229,7 @@
                         countryId: parseInt(countryId), //country id
                         companyId: parseInt(companyId), //company id
                         staffCode: this.selectStaff, //codigo
+                        blocked: this.blocked, 
                         transactionTypeCode: this.transactionTypeCode,
                         quantity: parseFloat(this.quantity),
                         amount: parseFloat(this.amount),
@@ -246,6 +261,7 @@
                         quantity: parseFloat(this.quantity),
                         amount: parseFloat(this.amount),
                         balance: parseFloat(this.balance),
+                        blocked: this.blocked, 
                     }
                     
 

@@ -8,17 +8,11 @@
 
 
 <!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
-
+<!-- VENTANA MODAL PRINCIPAL PARA MOSTRAR LOS COMENTARIOS -->
  <sweet-modal ref="modal" width="90%">
     <h4 class="bg-warning text-principal"> 
     <b><i class="fa fa-comments"></i> Comentarios del Contrato {{contractNumber}}<br> 
-    {{contract.propertyNumber}} 
-    {{contract.streetName}} 
-    {{contract.streetType}} 
-    {{contract.suiteNumber}} 
-    {{contract.city}} 
-    {{contract.state}} 
-    {{contract.zipCode}}</b></h4>
+    {{contract.siteAddress}} </b></h4>
 
      <a @click="addComment()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
      </a>
@@ -26,20 +20,30 @@
         <div class="row comment" v-for="comment in commentsList">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}})</p>
-            <p class="text-left">{{comment.commentContent}}</p>
+            <p class="text-left" v-html="nl2br(comment.commentContent,false) "></p>
           </div>
         </div>
 
         <div class="row comment">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
-            <p class="text-left">{{contract.initialComment}}</p>
+            <p class="text-left" v-html="nl2br(contract.initialComment,false) "></p>
           </div>
         </div>
    </sweet-modal>
 
-
+<!-- VENTANA MODAL SECUNDARIA PARA AGREGAR COMENTARIOS SEA POR AUDIO O TEXTO -->
 <sweet-modal ref="nestedChild">
+
+ <!-- <audio-recorder upload-url="some url" :attempts="3" :time="2"/> -->
+<center>
+   <div class="switch-field ">
+      <input type="radio" :id="`switch_left_${componentNumber}`" :name="`radio_option_${componentNumber}`" value="yes" checked/>
+      <label :for="`switch_left_${componentNumber}`">Texto</label>
+      <input type="radio" :id="`switch_right_${componentNumber}`" :name="`radio_option_${componentNumber}`" value="no" />
+      <label :for="`switch_right_${componentNumber}`">Audio</label>
+    </div>
+</center>
 
          <div class="alert alert-danger" v-if="errors.length">
             <h4>Errores:</h4>
@@ -56,17 +60,14 @@
               </div>
               <input class="btn btn-primary" type="submit" value="Agregar" v-if="btnSubmitForm">
               <br>
-
         </div>
     </form>
-
 </sweet-modal>
 
 </div>   
 </template>
 
 <script>
-
     export default {
         
      mounted() {
@@ -84,8 +85,9 @@
           }
     },
     props: {
+           componentNumber: { type: Number},
            prefUrl: { type: String},
-           contractId: { type: String, default: null}, 
+           contractId: { type: [String,Number], default: null}, 
            contractNumber: { type: String, default: null}, 
           },
     methods: {
@@ -129,7 +131,6 @@
               // console.log(response)
 
                toastr.info(response.data.message)
-
                this.formCommentContent = "";
                this.getAllComments();
 
@@ -141,7 +142,14 @@
                this.btnSubmitForm = true;
               })
            }//end if error.length
-       }
+       },
+       nl2br: function(str, is_xhtml) {
+        if (typeof str === 'undefined' || str === null) {
+              return '';
+         }
+      var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+      return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+      },
      }
 }
 

@@ -53,6 +53,7 @@ class PayableTransactionController extends Controller
 
         $payable  = Payable::findOrfail($request->payableId);
 
+        
         //insert transaction and Update Bank...
         $result = $this->oTransaction->insertT(
             session('countryId'),

@@ -5,9 +5,11 @@
 
   <div class="col-xs-3 text-left">
     <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
-    <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
     <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
     <h4 class="text-warning text-left">Collections: ${{$totalCollections}}</h4>
+    <h4 class="text-left">Total Notas de Credito: ${{$totalCreditNote}} (-)</h4>
+    <h4 class="text-left">Total Notas de Debito: ${{$totalDebitNote}} (+)</h4>
+        <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
   </div>
 
 <div class="col-xs-6 text-center">
@@ -71,6 +73,7 @@
                  <th>TOTAL</th>
                  <th>BALANCE</th>
                  <th>CUOTAS</th>
+                 <th>REGISTRADA POR</th> 
                  <th>{{__('STATUS')}}</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
@@ -100,6 +103,7 @@
                     
                    </td>
                    <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->user->fullName}}</td>  
                    <td
                   @if($invoice->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  
@@ -112,72 +116,6 @@
                   @endif
                    >{{$invoice->invoiceStatus[0]->invStatusName}}</td> 
                    <td>
- {{--  <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Opciones
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li> 
-       @if($invoice->netTotal > 0) 
-                @can('BEE') 
-                  <a href="{{route('invoices.payments', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Cuotas">
-                        <span class="fa fa-dollar-sign" aria-hidden="true"></span> 
-                    </a> 
-                 @endcan  
-               @endif 
-   </li>
-    <li>
-       @can('BED') 
-                   <a href="{{route('invoices.subcontractors', ['id' => $invoice->invoiceId])}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Subcontratistas">
-                        <span class="fa fa-user" aria-hidden="true"></span> 
-                    </a>   
-        @endcan    
-    </li>
-  @if($invoice->invStatusCode == App\Invoice::OPEN )
-    <li>
-      @can('BEC')
-         <a href="{{route('invoicesDetails.index', ['btnReturn' => 'mod_adm','id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
-                        <span class="fa fa-book" aria-hidden="true"></span> 
-         </a>
-      @endcan  
-    </li>
-    <li>
-      @can('BEA') 
-      <a href="{{route('invoices.edit', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{__('edit')}}">
-                        <span class="fa fa-edit" aria-hidden="true"></span> 
-       </a>  
-      @endcan 
-    </li>
-     <li>
-       <btn-invoice-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-cancel>
-    </li>
-   <li>
-       @can('BEB')
-          <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
-                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
-           </a>
-      @endif  
-    </li>
-    @if($invoice->invStatusCode == App\Invoice::CLOSED )
-     <li>
-          <a href="{{route('saleNotes.getByInvoice', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
-                 <span class="fa fa-briefcase" aria-hidden="true"></span> 
-                </a>
-
-    </li>
-    <li>    
-     <btn-invoice-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-collection>
-    </li>
-   @endif 
-
-  @endif
-    <li role="separator" class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-    <li></li>
-  </ul>
-</div> --}}
-
 
           {{-- @if($invoice->netTotal > 0)  --}}
                    @can('BEE') 

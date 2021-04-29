@@ -23,10 +23,11 @@ class StatisticController extends Controller
         $this->oInvoice          = new Invoice;
     }
 
-    public function numberOfClients()
+    public function numberOfClients(Request $request)
     {
+
       $rs = $this->oClient->getClientByCompany(session('companyId'),'');
-           return $rs->total();
+           return count($rs);
     }
     public function numberOfContracts()
     {
@@ -43,8 +44,12 @@ class StatisticController extends Controller
         );
            return count($rs);
     }
-    public function numberOfContractsFinished()
+    public function numberOfContractsFinished(Request $request)
     {
+        //   if($request->){
+
+        //   }
+
         $rs = $this->oContract->getAllForStatus(Contract::FINISHED,'',session('countryId'),session('companyId'));
            return count($rs);
     }

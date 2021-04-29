@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Auth;
+use Carbon\Carbon;
 use App\Client;
 use App\Country;
 use App\Company;
@@ -39,12 +41,11 @@ class Precontract extends Model
     {
         return decrypt($precontractCost);
     }
-     public function getPrecontractDateAttribute($precontractDate)
+    public function getPrecontractDateAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($precontractDate);
-        return $newDate;
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['precontractDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
 //------------------------MUTADORES--------------------------------
 
@@ -54,11 +55,9 @@ class Precontract extends Model
     }
     public function setPrecontractDateAttribute($precontractDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($precontractDate);
-
-        $this->attributes['precontractDate'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $precontractDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['precontractDate'] = $date;
     }
 
   //--------------------------------------------------------------------
@@ -124,17 +123,18 @@ class Precontract extends Model
     {
         return $this->hasMany('App\Document', 'precontractId', 'precontractId')->with('user');
     }
-    
     public function projectUse()
     {
         return $this->belongsTo('App\ProjectUse', 'projectUseId');
     }
-
     public function proposal()
     {
         return $this->hasMany('App\Proposal', 'precontractId', 'precontractId');
     }
-
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'userId');
+    } 
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -159,7 +159,7 @@ class Precontract extends Model
                      ->get();
     }
 //------------------------------------------
-    public function insertPrecontract($countryId, $companyId, $contractType,$projectName,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode, $buildingCodeId,$groupId, $projectUseId,$constructionType, $comment, $currencyId) {
+    public function insertPrecontract($countryId, $companyId, $contractType,$projectName,$precontractDate, $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$projectUseId, $comment, $currencyId) {
         
         $oConfiguration = new CompanyConfiguration();
         $preId = $oConfiguration->retrievePrecontractNumber($countryId, $companyId);
@@ -181,14 +181,14 @@ class Precontract extends Model
         $precontract->city                   = $city;
         $precontract->state                  = $state;
         $precontract->zipCode                = $zipCode;
-        $precontract->buildingCodeId         = $buildingCodeId;
-        $precontract->groupId                = $groupId;
+        // $precontract->buildingCodeId         = $buildingCodeId;
+        // $precontract->groupId                = $groupId;
         $precontract->projectUseId           = $projectUseId;
-        $precontract->constructionType       = $constructionType;
-        // $precontract->projectDescriptionId   = $projectDescriptionId;
+        // $precontract->constructionType       = $constructionType;
         $precontract->comment                = $comment;
         $precontract->precontractCost        = '0.00';
         $precontract->currencyId             = $currencyId;
+        $precontract->userId                    =  Auth::user()->userId;
         $precontract->save();
 
     }
@@ -197,19 +197,19 @@ class Precontract extends Model
         
     
         
-        $precontract                        = precontract::find($precontractId);
-
-        $precontract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $precontract->contractType;
-        $precontract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $precontract->projectName;
-        $precontract->precontractDate       = !empty($data['precontractDate']) ? $data['precontractDate'] : $precontract->precontractDate;
-        $precontract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $precontract->clientId;
-        $precontract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $precontract->propertyNumber;
-        $precontract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $precontract->streetName;
-        $precontract->streetType            = !empty($data['streetType']) ? $data['streetType'] : $precontract->streetType;
-        $precontract->suiteNumber           = !empty($data['suiteNumber']) ? $data['suiteNumber'] : $precontract->suiteNumber;
-        $precontract->city                  = !empty($data['city']) ? $data['city'] : $precontract->city;
-        $precontract->state                 = !empty($data['state']) ? $data['state'] : $precontract->state;
-        $precontract->zipCode               = !empty($data['zipCode']) ? $data['zipCode'] : $precontract->zipCode;
+        $precontract                         = precontract::find($precontractId);
+ 
+        $precontract->contractType           = !empty($data['contractType']) ? $data['contractType'] : $precontract->contractType;
+        $precontract->projectName            = !empty($data['projectName']) ? $data['projectName'] : $precontract->projectName;
+        $precontract->precontractDate        = !empty($data['precontractDate']) ? $data['precontractDate'] : $precontract->precontractDate;
+        $precontract->clientId               = !empty($data['clientId']) ? $data['clientId'] : $precontract->clientId;
+        $precontract->propertyNumber         = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $precontract->propertyNumber;
+        $precontract->streetName             = !empty($data['streetName']) ? $data['streetName'] : $precontract->streetName;
+        $precontract->streetType             = !empty($data['streetType']) ? $data['streetType'] : $precontract->streetType;
+        $precontract->suiteNumber            = !empty($data['suiteNumber']) ? $data['suiteNumber'] : $precontract->suiteNumber;
+        $precontract->city                   = !empty($data['city']) ? $data['city'] : $precontract->city;
+        $precontract->state                  = !empty($data['state']) ? $data['state'] : $precontract->state;
+        $precontract->zipCode                = !empty($data['zipCode']) ? $data['zipCode'] : $precontract->zipCode;
         $precontract->buildingCodeId         = !empty($data['buildingCodeId']) ? $data['buildingCodeId'] : $precontract->buildingCodeId;
         $precontract->groupId                = !empty($data['groupId']) ? $data['groupId'] : $precontract->groupId;
         $precontract->projectUseId           = !empty($data['projectUseId']) ? $data['projectUseId'] : $precontract->projectUseId;

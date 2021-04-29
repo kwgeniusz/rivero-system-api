@@ -67,7 +67,7 @@
 
          <th width="20%" align="left"> 
           <br><br>
-          <img src="img/logo_jd.jpg" alt="test alt attribute" width="140px" height="120px"/>
+          <img src="img/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
 
         <th width="57%">
@@ -100,7 +100,7 @@
               <span id="bold">Name:</span> {{$receivable[0]->client->clientName}}
             </th>
              <th colspan="1">
-              <span id="bold">Phone:</span> {{$receivable[0]->client->clientPhone}}
+              <span id="bold">Phone:</span> {{$receivable[0]->client->businessPhone}}
             </th>
        </tr>
       <tr> 
@@ -108,7 +108,7 @@
               <span id="bold">Billing Address:</span> {{$receivable[0]->client->clientAddress}}
             </th>
              <th colspan="1">
-               <span id="bold">E-mail:</span> {{$receivable[0]->client->clientEmail}}
+               <span id="bold">E-mail:</span> {{$receivable[0]->client->mainPhone}}
             </th>
        </tr>
 </table>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\hrStaff;
 use App\PayrollHistory;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PayrollHistoryController extends Controller
@@ -29,6 +30,7 @@ class PayrollHistoryController extends Controller
         $this->oDelPrePayroll = new PayrollHistory();
         $this->oDelPayrollControl = new PayrollHistory();
         $this->oUpdatePirod = new PayrollHistory();
+        
     }
     /**
      * Display a listing of the resource.
@@ -37,7 +39,9 @@ class PayrollHistoryController extends Controller
      */
     public function index()
     {
-        $payrollHistory = $this->oPayRoll->listPayRollHistory();
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        $payrollHistory = $this->oPayRoll->listPayRollHistory($countryId, $companyId);
 
       
         return compact('payrollHistory');
@@ -90,6 +94,7 @@ class PayrollHistoryController extends Controller
                 $staffName              = $rs->staffName;
                 $idTransType            = $rs->idTransType;
                 $transactionTypeCode    = $rs->transactionTypeCode;
+                $transactionTypeName    = $rs->transactionTypeName;
                 $isIncome               = $rs->isIncome;
                 $hasBalance             = $rs->hasBalance;
                 $balance                = floatval($rs->balance);
@@ -98,6 +103,7 @@ class PayrollHistoryController extends Controller
                 $localCurrency          = $rs->localCurrency;                
                 $localAmount            = floatval($rs->localAmount);
                 $exchangeRate           = floatval($rs->exchangeRate);
+                $display                = $rs->display;
     
                 // parte 2.1
                 // verificar las transacciones con saldo en la tabla permanet transaction para actualizar el balance
@@ -123,6 +129,7 @@ class PayrollHistoryController extends Controller
                 $hrpayroll->staffName           = $staffName;
                 $hrpayroll->idTransType         = $idTransType;
                 $hrpayroll->transactionTypeCode = $transactionTypeCode;
+                $hrpayroll->transactionTypeName = $transactionTypeName;
                 $hrpayroll->isIncome            = $isIncome;
                 $hrpayroll->hasBalance          = $hasBalance;
                 $hrpayroll->balance             = $balance;
@@ -131,6 +138,7 @@ class PayrollHistoryController extends Controller
                 $hrpayroll->localCurrency       = $localCurrency;
                 $hrpayroll->localAmount         = $localAmount;
                 $hrpayroll->exchangeRate        = $exchangeRate;
+                $hrpayroll->display             = $display;
                 $hrpayroll->save();
             }
             
@@ -152,5 +160,7 @@ class PayrollHistoryController extends Controller
         }
         
     }
+
+    
 
 }

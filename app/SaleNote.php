@@ -70,6 +70,11 @@ use Illuminate\Database\Eloquent\Model;
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+    public function findAllByType($noteType)
+   {
+    return $this->where('noteType', $noteType)
+                ->get();
+   }
     public function getAllByType($invoiceId,$noteType)
     {
         return $this->where('invoiceId', $invoiceId)

@@ -7,7 +7,6 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
@@ -15,7 +14,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-
    <!-- {{-- <link href="https://vjs.zencdn.net/7.6.0/video-js.css" rel="stylesheet"> --}} -->
   <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
 
@@ -23,7 +21,6 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 <script type="text/javascript">
@@ -33,6 +30,10 @@
   @else
     window.userPermissions = [];
   @endauth
+//pasar el pais y oficina
+    window.globalCountryId = {{session('countryId')}};
+    window.globalCompanyId  = {{session('companyId')}};
+    window.globalCompanyTimeZone  = "{{session('companyTimeZone')}}";
 </script>
 </head>
 <!--
@@ -83,9 +84,6 @@ desired effect
   </div>
   <!-- /.content-wrapper -->
 
-
-
-
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->
@@ -110,19 +108,23 @@ desired effect
  <script>
 
   //Tooltip Boostrap 3.3
-  $(function () { $('[data-toggle="tooltip"]').tooltip()})
+  $(function () { $('[data-toggle="tooltip"]').tooltip()});
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {
+      altInput: true,
       minDate: '1920-01-01',
       locale: 'es',
-      dateFormat: "m/d/Y",
+      altFormat: 'm/d/Y',
+      dateFormat: "Y-m-d",
     });
   @elseif(session('countryId') == '2')
       flatpickr('.flatpickr', {
+      altInput: true,
       minDate: '1920-01-01',
       locale: 'es',
-      dateFormat: "d/m/Y",
+      altFormat: 'd/m/Y',
+      dateFormat: "Y-m-d",
     });
   @endif
 

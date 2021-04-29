@@ -42,7 +42,7 @@
  
       <tr> 
          <th width="20%" align="left"> 
-          <img src="img/logo_jd.jpg" alt="test alt attribute" width="140px" height="120px"/>
+          <img src="img/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
         <th width="60%">
              <div style="text-align:center">
@@ -85,10 +85,10 @@
 
      <tr> 
           <th colspan="2">
-               <b>E-mail:</b> {{$client[0]->clientEmail}}
+               <b>E-mail:</b> {{$client[0]->mainEmail}}
             </th>
             <th colspan="1">
-                   <b>Phone:</b> {{$client[0]->clientPhone}}
+                   <b>Phone:</b> {{$client[0]->businessPhone}}
             </th>
        </tr>
 </table>

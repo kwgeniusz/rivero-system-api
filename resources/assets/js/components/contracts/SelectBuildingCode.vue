@@ -12,7 +12,7 @@
         </div>  
 
    <div class="row"></div>
-      <div class="col-xs-6" v-if="firstOption">
+      <div class="col-xs-7" v-if="firstOption">
          <div class="form-group">
             <label for="groupId">GRUPO</label>
             <select v-model="secondOption" class="form-control" name="groupId" id="groupId" required="on">
@@ -20,18 +20,9 @@
             </select>
           </div> 
     </div>
-<!--
-    <div class="row"></div>
-      <div class="col-xs-12 col-lg-6" v-if="firstOption">
-         <div class="form-group">
-            <label for="projectUseId">USO DEL PROYECTO</label>:
-            <input v-model="thirdOption" type="hidden" name="projectUseId">
-                                                         {{list3[0].projectUseName}}
-          </div>       
-    </div>
- -->   
- <!-- {{propConstructionType}} -->
-  <div class="form-group col-lg-9">
+
+   <div class="row"></div>
+      <div class="form-group col-lg-9">
             <label for="constructionType">TIPO DE CONSTRUCCION</label>
             <select class="form-control" name="constructionType" id="constructionType" v-model="propConstructionType" >
               <option value="TYPE I">TYPE I</option>
@@ -40,6 +31,18 @@
               <option value="TYPE IV">TYPE IV</option>
             </select>
   </div>
+<!--
+    <div class="row"></div>
+      <div class="col-xs-12 col-lg-6" v-if="firstOption">
+         <div class="form-group">
+            <label for="projectUseId">USO DEL PROYECTO</label>:
+            <input v-model="thirdOption" type="hidden" name="projectUseId">
+                                                         {{list3[0].projectUseName}} 
+          </div>       
+    </div>
+ -->   
+ <!-- {{propConstructionType}} -->
+
 
 
 </div>   
@@ -57,17 +60,17 @@
           return {
            firstOption: null,
            secondOption: this.propBuildingCodeGroup,
-           thirdOption: this.propProjectUse,
+          //  thirdOption: this.propProjectUse,
            list: {},
            list2: {},
-           list3: {},
+          //  list3: {},
           }
     },
       props: {
            prefUrl: { type: String},
            propBuildingCode: { type: String, default: null}, 
            propBuildingCodeGroup: { type: String, default: null}, 
-           propProjectUse: { type: String, default: null}, 
+          //  propProjectUse: { type: String, default: null}, 
            propConstructionType: { type: String, default: null}, 
     },
     watch: {
@@ -85,16 +88,16 @@
         let projectUseSelected = this.list.filter(filtrarPorID);
 
           let url2 =this.prefUrl+'buildingCode/'+this.firstOption+'/groups';
-          let url3 =this.prefUrl+'projectUses/'+projectUseSelected[0].projectUseId;
+          // let url3 =this.prefUrl+'projectUses/'+projectUseSelected[0].projectUseId;
 
             axios.get(url2).then(response => {
              this.list2 = response.data
 
-                     axios.get(url3).then(response => {
+                  //    axios.get(url3).then(response => {
                       this.list3 = response.data
                       this.thirdOption=this.list3[0].projectUseId;
-                      // alert(this.thirdOption)
-                   });
+                  //     // alert(this.thirdOption)
+                  //  });
                 
             });
         }, 

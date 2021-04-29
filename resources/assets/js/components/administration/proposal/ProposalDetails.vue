@@ -1,11 +1,13 @@
 
 <template> 
+
+
   <div class="create" v-if="proposal != ''">
     <div class="formulario">
       <div class="boxes">
         <div class="inputother boxes2">
           <h4><b>Propuesta N°:</b> {{proposal[0].propId}}</h4>
-          <h4><b>Fecha:</b> {{proposal[0].proposalDate | moment("MM/DD/YYYY") }}</h4>
+          <h4><b>Fecha:</b> {{proposal[0].proposalDate | moment("MM/DD/YYYY hh:mm A") }}</h4>
           <h4><b>Vendedor:</b> {{proposal[0].user.fullName }}</h4>
           <a :href="'reportsProposal?id='+proposal[0].proposalId" class="submit" style="width: 100%; text-align: center;" data-toggle="tooltip" data-placement="top" title="Imprimir">
             <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
@@ -23,7 +25,7 @@
             <select v-model="modelServiceId" class="form-control" @change="selectService(modelServiceId)" name="serviceId" id="serviceId">
                 <option :class="{ bold: item.hasCost == 'Y' ? true : false }" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}}
                 </option>
-                  }
+                  
             </select>
           </div>
           <div v-if="hasCost" class="inputother boxes2">
@@ -49,7 +51,7 @@
             <button class="submit buttonmovil" @click.prevent="addRow()" style="margin-right: 20px;"> 
               <span class="fa fa-plus" aria-hidden="true"></span> Agregar Renglon
             </button>
-            <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service>
+            <!-- <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service> -->
           </div>
         </form>
         <div class="table-responsive tableother">

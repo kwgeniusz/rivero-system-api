@@ -3,7 +3,6 @@
 namespace App;
 
 use Auth;
-use App\Comment;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
@@ -24,6 +23,10 @@ class Comment extends Model
      public function user()
     {
         return $this->hasOne('App\User', 'userId', 'userId');
+    }
+
+    function PerTransaction() {
+        return $this->hasOne(User::class, 'userId','userId');
     }
 //--------------------------------------------------------------------
     /** Function of Models */

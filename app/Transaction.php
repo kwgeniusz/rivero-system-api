@@ -2,15 +2,21 @@
 
 namespace App;
 
-
 use DB;
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\TransactionType;
 use App\SaleNote;
+use App\Company;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
+
+     //traits
+     use SoftDeletes;
+
     public $timestamps = false;
 
     protected $table      = 'transaction';
@@ -32,6 +38,8 @@ class Transaction extends Model
                'invoiceId',
                'deleted_at'];
 
+    protected $appends = ['transactionDate','status'];
+    
     //--------------------------------------------------------------------
                /** RELATIONS */
     //--------------------------------------------------------------------
@@ -55,10 +63,10 @@ class Transaction extends Model
     {
         return $this->hasOne('App\Cashbox', 'cashboxId', 'cashboxId');
     }
-     public function invoice()
-    {
-        return $this->belongsTo('App\Invoice', 'invoiceId', 'invoiceId');
-    }
+    //  public function invoice()
+    // {
+    //     return $this->belongsTo('App\Invoice', 'invoiceId', 'invoiceId');
+    // }
     public function transactionable()
     {
         return $this->morphTo();
@@ -80,14 +88,21 @@ class Transaction extends Model
     {
         return decrypt($amount);
     }
-    public function getTransactionDateAttribute($transactionDate)
+    public function getTransactionDateAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($transactionDate);
-        return $newDate;
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['transactionDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
+    public function getStatusAttribute()
+    {
+         if($this->document) {
+            return 'PROCESADA';
+         }else{
+             return 'PENDIENTE';
+         }
 
+    } 
     // ------------MUTADORES-----------------//
     public function setAmountAttribute($amount)
     {
@@ -96,11 +111,9 @@ class Transaction extends Model
     }
     public function setTransactionDateAttribute($transactionDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($transactionDate);
-
-        $this->attributes['transactionDate'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $transactionDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['transactionDate'] = $date;
     }
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -146,8 +159,8 @@ class Transaction extends Model
     //------------------------------------
     public function getAllForSign($transactionSign,$countryId,$companyId)
     {
-// ->with('invoiceDetails','note','scope','projectDescription')
-        $result = $this->with('invoice','paymentMethod','transactionType','account.bank','user','invoice.contract','document','payable')
+
+        $result = $this->with('payable','paymentMethod','transactionType','account.bank','transactionable','document','user')
                       ->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 
@@ -185,38 +198,19 @@ class Transaction extends Model
     //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->where('transactionId', '=', $id)
+        return $this->with('document','account')
+                      ->where('transactionId', '=', $id)
                       ->where('countryId', $countryId)
                       ->where('companyId', $companyId) 
                       ->get();
     }
 
-    //------------------------------------------
-    //   public function insertC($model,$data)
-    // {
-    //     $comment                      = new Comment;
-    //     $comment->commentContent      = $data['commentContent'];
-    //     $comment->commentDate         = date('Y-m-d H:i:s');
-    //     $comment->commentable_id      = $model->getKey();
-    //     $comment->commentable_type    = get_class($model);
-    //     $comment->userId              = Auth::user()->userId;
-    //     $comment->save();
-
-    //      if ($comment) {
-    //         return $result = ['alert-type' => 'success', 'message' => 'Nuevo Comentario Insertado'];
-    //     } else {
-    //         return $result = ['alert-type' => 'error', 'message' => $error];
-    //     }
-    // }
-
-
-    public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '')
+    public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$reference,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '')
     {
-
-        $error = null;
-
+        $error = null; 
         DB::beginTransaction();
         try {
+    
             //INSERTA UNA NUEVA TRANSACTION
             $transaction                          = new Transaction;
             $transaction->countryId               = $countryId;
@@ -226,6 +220,7 @@ class Transaction extends Model
             $transaction->payMethodId             = $payMethodId;
             $transaction->payMethodDetails        = $payMethodDetails;
             $transaction->reason                  = $reason;
+            $transaction->reference               = $reference;
             $transaction->transactionDate         = $transactionDate;
             $transaction->amount                  = $amount;
             $transaction->sign                    = $sign;
@@ -240,7 +235,7 @@ class Transaction extends Model
             
             //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
             //AGREGAR DOCUMENTO SI ES DE EGRESO
-          if($sign == '-' && $model == '') {
+         if($file != null){ 
             $oDocument = new Document;
             $rs2 = $oDocument->insertF($file,'transaction',$transaction->transactionId,'expense');
           }
@@ -259,12 +254,75 @@ class Transaction extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'msj' => 'Transaccion Exitosa','transactionId'=>$transaction->transactionId];
+          return $rs  = ['alert' => 'success', 'message' => 'Transaccion Exitosa','transactionId'=>$transaction->transactionId];
         } else {
-            return $rs = ['alert' => 'error', 'msj' => $error];
+            return $rs = ['alert' => 'error', 'message' => $error];
         }
 
     }
+ //------------------------------------------
+  public function updateT($transactionId,$data)
+ {
+        $error = null;
+      
+        DB::beginTransaction();
+        try {
+
+            //INSERTA UNA NUEVA TRANSACTION
+            $transaction                          = Transaction::find($transactionId);
+            $transaction->transactionTypeId       = $data['transactionTypeId'];
+            $transaction->description             = $data['description'];
+            $transaction->payMethodId             = $data['payMethodId'];
+            $transaction->payMethodDetails        = $data['payMethodDetails'];
+            $transaction->reason                  = $data['reason'];
+            $transaction->transactionDate         = $data['transactionDate'];
+            $transaction->amount                  = $data['amount'];
+            $transaction->cashboxId               = $data['cashboxId'];
+            $transaction->accountId               = $data['accountId'];
+            $transaction->save();
+            
+            // $photo = $request->file('photo');
+            // $new = rand() . '_' . $bank->getClientOriginalName();
+            // $new = preg_replace("/[^a-zA-Z0-9.]/", "", $new);
+            // $photo->move(public_path('images'), $new);
+            // $validate['photo'] = $new;
+ //   $currentFile = $user->photo
+
+// if($request->photo != $currentPhoto){
+//  $name = nombre del nuevo documento
+ 
+// \Image::make($request->photo)->save(public_path('img/profile/').$name);
+// $request->merge(['photo' => $name]);
+// }
+
+// if(file_exists()){
+//  @unlink($userPhoto);
+// }
+
+            //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
+            //AGREGAR DOCUMENTO SI ES DE EGRESO
+        //   if($sign == '-' && $model == '') {
+        //     $oDocument = new Document;
+        //     $rs2 = $oDocument->insertF($file,'transaction',$transaction->transactionId,'expense');
+        //   }
+   
+            
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+          return $rs  = ['alert' => 'success', 'message' => 'Transaccion Modificada Exitorisamente','transactionId'=>$transaction->transactionId];
+        } else {
+            return $rs = ['alert' => 'error', 'message' => $error];
+        }
+
+    }   
     //------------------------------------------
     public function deleteT($id)
     {      
@@ -273,8 +331,8 @@ class Transaction extends Model
         try {
             //FALTA QUE CUANDO ELIMINE LA TRANSACION DESCUENTE O SUME DE BANK 
               $transaction   = Transaction::find($id);
-
-            if($transaction->sign == '-') {
+               
+            if($transaction->document != null) {
                 $oDocument = new Document;
                 $rs2 = $oDocument->deleteF($transaction->document->docUrl,$transaction->document->docId);
               }
@@ -292,9 +350,9 @@ class Transaction extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'info', 'msj' => 'Transaccion Eliminada'];
+            return $result = ['alert' => 'info', 'message' => 'Transaccion Eliminada'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
     }
     //-----------------------------------------

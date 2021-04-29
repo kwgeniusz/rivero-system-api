@@ -17,7 +17,7 @@ class PayrollHistory extends Model
     
 
 
-    function listPayRollHistory( $country = 2, $companyId = 4 ){
+    function listPayRollHistory( $country, $companyId ){
         return DB::select("SELECT hrpayroll.countryId, country.countryName, 
                             hrpayroll.companyId, company.companyName, 
                             hrpayroll.year, hrpayroll.payrollNumber, hrpayroll.payrollName, hrpayroll.payrollTypeId,
@@ -27,6 +27,9 @@ class PayrollHistory extends Model
                         FROM `hrpayroll`
                         INNER JOIN country ON hrpayroll.countryId = country.countryId
                         INNER JOIN company ON hrpayroll.companyId = company.companyId
+                        WHERE hrpayroll.countryId = $country
+                        AND hrpayroll.companyId = $companyId
+                        AND hrpayroll.display = 1
                         GROUP BY hrpayroll.countryId, hrpayroll.companyId, hrpayroll.payrollNumber,hrpayroll.year
                         ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber");
     }
@@ -103,24 +106,5 @@ class PayrollHistory extends Model
                     AND hrperiod.payrollNumber = $payrollNumber");
     }
 
-    // function insertPayollHistory(){
-    //     $hrpayroll = new PayrollHistory();
-    //     $hrpayroll->countryId = $countryId;
-    //     $hrpayroll->companyId = $companyId;
-    //     $hrpayroll->year = $year;
-    //     $hrpayroll->payrollNumber = $payrollNumber;
-    //     $hrpayroll->payrollName = $payrollName;
-    //     $hrpayroll->staffCode = $staffCode;
-    //     $hrpayroll->staffName = $staffName;
-    //     $hrpayroll->transactionTypeCode = $transactionTypeCode;
-    //     $hrpayroll->isIncome = $isIncome;
-    //     $hrpayroll->hasBalance = $hasBalance;
-    //     $hrpayroll->balance = $balance;
-    //     $hrpayroll->quantity = $quantity;
-    //     $hrpayroll->amount = $amount;
-    //     $hrpayroll->localAmount = $localAmount;
-    //     $hrpayroll->exchangeRate = $exchangeRate;
-    //     $hrpayroll->save();
-    // }
 
 }

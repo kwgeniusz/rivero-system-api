@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use App;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +20,7 @@ class Proposal extends Model
     protected $primaryKey = 'proposalId';
     protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
 
-     protected $appends = ['grossTotal','taxAmount','netTotal','pQuantity'];
+     protected $appends = ['grossTotal','taxAmount','netTotal','pQuantity','proposalDate'];
      protected $dates = ['deleted_at'];
  
 //--------------------------------------------------------------------
@@ -63,7 +64,7 @@ class Proposal extends Model
     }
      public function term()
     {
-      return $this->hasMany('App\ProposalTerm', 'proposalId', 'proposalId')->orderBy('propTermId');
+      return $this->hasMany('App\ProposalTerm', 'proposalId', 'proposalId')->orderBy('termName');
     }
      public function note()
     {
@@ -102,15 +103,15 @@ class Proposal extends Model
     }
     public function getProposalDateAttribute($proposalDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($proposalDate);
-        return $newDate;
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['proposalDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
      public function getPQuantityAttribute()
     {
           return $this->paymentProposal->count();
     }  
+    
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------
@@ -119,21 +120,19 @@ class Proposal extends Model
     {
         return $this->attributes['grossTotal'] = encrypt($grossTotal);
     }
-        public function setTaxAmountAttribute($taxAmount)
+     public function setTaxAmountAttribute($taxAmount)
     {
         return $this->attributes['taxAmount'] = encrypt($taxAmount);
     }
-        public function setNetTotalAttribute($netTotal)
+    public function setNetTotalAttribute($netTotal)
     {
         return $this->attributes['netTotal'] = encrypt($netTotal);
     }
-    public function setProposalDateAttribute($proposalDate)
+     public function setProposalDateAttribute($proposalDate)
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($proposalDate);
-
-        $this->attributes['proposalDate'] = $newDate;
+        $date = Carbon::createFromFormat('Y-m-d', $proposalDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['proposalDate'] = $date;
     }
    
 

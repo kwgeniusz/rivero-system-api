@@ -5,6 +5,7 @@ namespace App;
 use App;
 use Auth;
 use DB;
+use Carbon\Carbon;
 use App\Client;
 use App\CompanyConfiguration;
 use App\ContractStaff;
@@ -26,18 +27,17 @@ class Contract extends Model
 
     protected $table      = 'contract';
     protected $primaryKey = 'contractId';
-    //protected $dateFormat = 'Y-m-d';
+
     protected $fillable = ['contractId', 'contractType', 'contractNumber', 'countryId', 'companyId',
         'contractDate', 'clientId', 'siteAddress', 'projectDescriptionId', 'projectUseId', 'registryNumber',
         'startDate', 'scheduledFinishDate', 'actualFinishDate', 'deliveryDate',
         'initialComment', 'intermediateComment', 'finalComment', 'contractCost',
-        'currencyId', 'contractStatus', 'dateCreated', 'lastUserId',
+        'currencyId', 'contractStatus', 'created_at', 'lastUserId',
     ];
+    
+    protected $appends = ['siteAddress','contractDate','consecutiveDaysElapsed','daysToDelivery','deliveryDate'];
+    protected $dates = ['deleted_at'];
 
-    /*protected $dates = ['contractDate','startDate',
-    'scheduledFinishDate','actualFinishDate','deliveryDate'];
-     */
-     protected $dates = ['deleted_at'];
     //Status Contract
     const VACANT    = '1';
     const STARTED   = '2';
@@ -48,6 +48,9 @@ class Contract extends Model
     const WAITING_CLIENT = '7';
     const DOWNLOADING_FILES = '8';
     const SENT_TO_OFFICE = '9';
+    const IN_PRODUCTION_QUEUE = '10';
+    const SENT_TO_ENGINEER = '11';
+    
 
 // -VACANTE (VERDE)
 // -INICIADO (AZUL)
@@ -88,6 +91,10 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Country', 'countryId');
     }
+    public function document()
+    {
+        return $this->hasMany('App\Document', 'contractId', 'contractId')->with('user');
+    }
     public function staff()
     {
         return $this->belongsToMany('App\Staff', 'contract_staff', 'contractId', 'staffId')->withPivot('contractStaffId');
@@ -108,10 +115,10 @@ class Contract extends Model
     {
         return $this->hasMany('App\Invoice', 'contractId', 'contractId');
     }
-   public function user()
+    public function user()
     {
-        return $this->hasOne('App\User', 'userId', 'lastUserId');
-    }    
+        return $this->belongsTo('App\User', 'userId', 'userId');
+    } 
    public function contractStatusR()
     {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
          $relation = $this->hasMany('App\ContractStatus', 'contStatusCode','contractStatus');
@@ -123,57 +130,63 @@ class Contract extends Model
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-  public function getSiteAddressAttribute()
-{
+    public function getSiteAddressAttribute()
+    {
    return $this->propertyNumber.' '.$this->streetName.' '.$this->streetType.' '.$this->suiteNumber.' '.$this->city.' '.$this->state.' '.$this->zipCode;
-}
-    // public function getContractTypeAttribute($contractType)
-    // {
-    //       if($contractType == 'P')
-    //       {
-    //          return  $contractType = "PROJECT";
-    //       }else{
-    //          return  $contractType = "SERVICE";
-    //       }
-    // }
+   }
     public function getContractCostAttribute($contractCost)
     {
         return decrypt($contractCost);
     }
-    public function getContractDateAttribute($contractDate)
+    public function getNumberOfDocumentsAttribute()
     {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-         $newDate    = $oDateHelper->$functionRs($contractDate);
-        return $newDate;
+         $previous  = $this->document->filter(function ($doc, $key) {return $doc->docType == 'previous'; });
+         $processed = $this->document->filter(function ($doc, $key) {return $doc->docType == 'processed';});
+         $revised   = $this->document->filter(function ($doc, $key) {return $doc->docType == 'revised';});
+         $ready     = $this->document->filter(function ($doc, $key) {return $doc->docType == 'ready';}); 
+
+          return [ 
+            "previous"  => $previous->count(),
+            "processed" => $processed->count(),
+            "revised"   => $revised->count(),
+            "ready"     => $ready->count(),
+          ];
+    } 
+    public function getContractDateAttribute()
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
+        $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+        return $date->format('Y-m-d H:i:s');
     }
-    // public function getStartDateAttribute($startDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($startDate);
-    //     return $newDate;
-    // }
-    // public function getScheduledFinishDateAttribute($scheduledFinishDate)
-    // {
-    //     $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
-    //     return $newDate;
-    // }
-    // public function getActualFinishDateAttribute($actualFinishDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($actualFinishDate);
-    //     return $newDate;
-    // }
-    // public function getDeliveryDateAttribute($deliveryDate)
-    // {
-    //       $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Accesor');
-    //      $newDate    = $oDateHelper->$functionRs($deliveryDate);
-    //     return $newDate;
+    public function getConsecutiveDaysElapsedAttribute()
+    {
+         $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
+         $date1->tz = session('companyTimeZone');
+         $date2 = Carbon::now();
+         $date2->tz = session('companyTimeZone');
+
+         $difference = $date1->diffInDays($date2);
+         return $difference;
+    }
+    public function getDaysToDeliveryAttribute()
+    {
+         $rs = $this->attributes['estimatedWorkDays'] - $this->consecutiveDaysElapsed;
+         return $rs;
+    }
+    public function getDeliveryDateAttribute()
+    {
+         $daysToIncrement = $this->attributes['estimatedWorkDays'];
+         $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
+         $date1->tz = session('companyTimeZone');
+         $date1->addDays($daysToIncrement);
+
+         return $date1;
+    }
+    // public function dias(){
+    //     $fecha1 = date_create($this->created_at);
+    //     $fecha2 = date_create($this->canceled_at);
+    //     $dias = date_diff($fecha1, $fecha2)->format('%R%a');
+    //     return $dias;
     // }
 //--------------------------------------------------------------------
     /** Mutadores  */
@@ -184,45 +197,11 @@ class Contract extends Model
         return $this->attributes['contractCost'] = encrypt($contractCost);
     }
     public function setContractDateAttribute($contractDate)
-    {
-         $oDateHelper = new DateHelper;
-         $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-         $newDate    = $oDateHelper->$functionRs($contractDate);
-
-        $this->attributes['contractDate'] = $newDate;
+    {  
+        $date = Carbon::createFromFormat('Y-m-d', $contractDate, session('companyTimeZone'));
+        $date->setTimezone('UTC');
+        $this->attributes['contractDate'] = $date;
     }
-    // public function setStartDateAttribute($startDate)
-    // {
-    //     $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($startDate);
-
-    //     $this->attributes['startDate'] = $newDate;
-    // }
-    // public function setScheduledFinishDateAttribute($scheduledFinishDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($scheduledFinishDate);
-
-    //     $this->attributes['scheduledFinishDate'] = $newDate;
-    // }
-    // public function setActualFinishDateAttribute($actualFinishDate)
-    // {
-    //     $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($actualFinishDate);
-
-    //     $this->attributes['actualFinishDate'] = $newDate;
-    // }
-    // public function setDeliveryDateAttribute($deliveryDate)
-    // {
-    //      $oDateHelper = new DateHelper;
-    //      $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-    //      $newDate    = $oDateHelper->$functionRs($deliveryDate);
-
-    //     $this->attributes['deliveryDate'] = $newDate;
-    // }
 //--------------------------------------------------------------------
     /** Query Scope  */
 //--------------------------------------------------------------------
@@ -331,23 +310,25 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForSevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$filteredOut,$countryId,$companyId)
+    public function getAllForNineStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9,$filteredOut,$countryId,$companyId)
     {
-        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription','user')
                        ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
                           ->orWhere('contractStatus', $contractStatus4)
                           ->orWhere('contractStatus', $contractStatus5)
                           ->orWhere('contractStatus', $contractStatus6)
-                          ->orWhere('contractStatus', $contractStatus7);
+                          ->orWhere('contractStatus', $contractStatus7)
+                          ->orWhere('contractStatus', $contractStatus8)
+                          ->orWhere('contractStatus', $contractStatus9);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)
-                      ->paginate(300);
+                      ->get();
         return $result;
     }
 //------------------------------------------ 
@@ -396,7 +377,7 @@ class Contract extends Model
     }
 //------------------------------------------
     public function insertContract($countryId, $companyId, $contractType,$projectName, $contractDate,
-        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId) {
+        $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId,$estimatedWorkDays) {
 
           $oConfiguration = new CompanyConfiguration();
       
@@ -418,6 +399,7 @@ class Contract extends Model
         $contract->streetName          = $streetName;
         $contract->streetType          = $streetType;
         $contract->suiteNumber         = $suiteNumber;
+        $contract->estimatedWorkDays   = $estimatedWorkDays;
         $contract->city                = $city;
         $contract->state               = $state;
         $contract->zipCode             = $zipCode;
@@ -434,8 +416,8 @@ class Contract extends Model
         $contract->contractCost        = '0.00';
         $contract->currencyId        = $currencyId;
         $contract->contractStatus      = '1';
-        $contract->dateCreated         = date('Y-m-d H:i:s');
-        $contract->lastUserId          = Auth::user()->userId;
+        $contract->created_at         = date('Y-m-d H:i:s');
+        $contract->userId             = Auth::user()->userId;
         $contract->save();
             
 
@@ -446,10 +428,12 @@ class Contract extends Model
     public function updateContract($contractId,$data) {
         
         $contract                        = Contract::find($contractId);
-
+ 
+            //    dd($contract->contractDate);
+            //    exit(); Carbon::createFromFormat('Y-m-d H:i:s', $request->date)->format('d-m-Y')
         $contract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $contract->contractType;
         $contract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $contract->projectName;
-        $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : $contract->contractDate;
+        $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : Carbon::createFromFormat('Y-m-d H:i:s', $contract->contractDate)->format('Y-m-d');
         $contract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $contract->clientId;
         $contract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $contract->propertyNumber;
         $contract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $contract->streetName;
@@ -488,7 +472,7 @@ class Contract extends Model
         $contract->staff()->attach(
             $staffId,
             [
-                'dateCreated' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
                 'lastUserId'  => Auth::user()->userId,
             ]
         );

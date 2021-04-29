@@ -78,6 +78,11 @@
                                     <input type="checkbox" id="accSeniority" v-model="accSeniority" value="1">
                                    
                                 </div>
+                                <div class="form-group col-md-7 form-inline">
+                                    <label for="display" class="form-group" v-text="nameField12"></label>
+                                    <input type="checkbox" id="display" v-model="display" value="1">
+                                   
+                                </div>
                             </div>
                             
                             <div v-if="editId === 0">
@@ -145,6 +150,7 @@
                 this.accChristmas = document.querySelector("#accChristmas").value = this.objEdit.accChristmas
                 this.accSeniority = document.querySelector("#accSeniority").value = this.objEdit.accSeniority
                 this.blockSS = document.querySelector("#blockSS").value = this.objEdit.blockSS
+                this.display = this.objEdit.display
                
             }
             
@@ -166,6 +172,7 @@
                 accChristmas: 0,
                 accSeniority: 0,
                 blockSS: 0,
+                display: 0,
             }
         },
         props:{
@@ -225,6 +232,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField12:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -245,6 +256,7 @@
                         accChristmas: this.accChristmas,
                         accSeniority: this.accSeniority,
                         blockSS: this.blockSS,
+                        display: this.display,
                         
                     }
 
@@ -281,6 +293,7 @@
                         accChristmas: this.accChristmas,
                         accSeniority: this.accSeniority,
                         blockSS: this.blockSS,
+                        display: this.display,
                     }
                     // document.querySelector("#newUpForm").reset()
     // console.log(params)

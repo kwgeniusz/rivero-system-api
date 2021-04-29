@@ -26,11 +26,10 @@ class ContractRequest extends FormRequest
         return [
             'contractDate'        => 'required',
             'clientId'            => 'required',
-            'buildingCodeId' => 'required',
-            'groupId'  => 'required',
+            // 'buildingCodeId' => 'required',
+            // 'groupId'  => 'required',
             'projectUseId' => 'required',
-            'constructionType' => 'required',
-            // 'projectDescriptionId' => 'required'
+            // 'constructionType' => 'required',
         ];
     }
 }

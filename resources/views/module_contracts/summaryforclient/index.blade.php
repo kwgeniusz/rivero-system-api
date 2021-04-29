@@ -16,7 +16,7 @@
             @endforeach
         </select>
         <br> -->
-          <div class="col-xs-12 col-xs-offset-2">
+          <div class="col-xs-8 col-xs-offset-2">
             <search-client pref-url='./'></search-client>
           </div> 
 

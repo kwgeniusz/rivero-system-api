@@ -46,6 +46,7 @@ class PerTrans extends Model
             ->select('hrstaff.shortName','hrstaff.staffCode','hrstaff.countryId','hrstaff.companyId')
             ->where('hrstaff.countryId', '=', $country)
             ->where('hrstaff.companyId', '=', $company)
+            ->where('hrstaff.status', '=', 'A')
             // ->where('hrstaff.companyId', '=',4)
             ->get();
     }
@@ -57,6 +58,19 @@ class PerTrans extends Model
             ->where('hrpermanent_transaction.transactionTypeCode', '=', 2004)
             ->whereNull('deleted_at')
             ->get();
+    }
+
+    function getBlockedTransaction($idCountry, $idCompany, $transactionCode, $staffCode)
+    {
+        return DB::table('hrpermanent_transaction')
+        ->select('blocked')
+        ->where('countryId', '=', $idCountry)
+        ->where('companyId', '=', $idCompany)
+        ->where('transactionTypeCode', '=', $transactionCode)
+        ->where('staffCode', '=', $staffCode)
+        ->where('blocked', '=', 1)
+        ->whereNull('deleted_at')
+        ->get();
     }
 
 }

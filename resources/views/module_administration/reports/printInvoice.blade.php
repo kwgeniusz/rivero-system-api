@@ -82,6 +82,10 @@
             text-decoration: line-through;
         }
 
+        .org {
+          text-align: left;
+        }
+
         #bold {
           font-weight: bold;
         }
@@ -165,7 +169,7 @@ foreach ($invoiceDetails as $invDetail) {
  
        <tr> 
          <th width="20%" align="center"> 
-          <img src="img/logo_jd.jpg" alt="test alt attribute" width="140px" height="120px"/>
+          <img src="img/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
         <th width="48%">
              <div style="text-align:center">
@@ -210,22 +214,26 @@ foreach ($invoiceDetails as $invDetail) {
         <th colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center"><span id="bold">CUSTOMER INFORMATION</span></th>
        </tr>
        <tr> 
-            <th colspan="1">
+            <th colspan="1" class="org">
                <span id="bold">ID:</span> {{$client->clientCode}}
             </th>
-            <th colspan="1">
+            <th colspan="1" class="org">
+            @if($client->clientType == 'COMPANY') 
+              <span id="bold">Name:</span> {{$client->companyName}}
+            @else  
               <span id="bold">Name:</span> {{$client->clientName}}
+            @endif  
             </th>
-             <th colspan="1">
-              <span id="bold">Phone:</span> {{$client->clientPhone}}
+             <th colspan="1" class="org">
+              <span id="bold">Phone:</span> {{$client->businessPhone}}
             </th>
        </tr>
       <tr> 
-            <th colspan="2">
+            <th colspan="2" class="org">
               <span id="bold">Billing Address:</span> {{$client->clientAddress}}
             </th>
-             <th colspan="1">
-               <span id="bold">E-mail:</span> {{$client->clientEmail}}
+             <th colspan="1" class="org">
+               <span id="bold">E-mail:</span> {{$client->mainEmail}}
             </th>
        </tr>
 </table>
@@ -236,28 +244,31 @@ foreach ($invoiceDetails as $invDetail) {
         <th id="bold" colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center">PROJECT INFORMATION</th>
        </tr>
         <tr> 
-            <th width="45%" >
+            <th width="33%" class="org">
              <span id="bold">Control Number:</span> {{$invoice[0]->contract->contractNumber}}
             </th>
-            <th width="55%" colspan="2">
+            <th width="55%" colspan="2" class="org">
              <span id="bold">Address:</span> {{$invoice[0]->contract->siteAddress}}
             </th>
             <th> </th>
        </tr>
       <tr> 
-            <th width="15%">
+            <th width="30%" class="org">
              <span id="bold"> Type:</span> {{$invoice[0]->contract->projectUse->projectUseName}} 
             </th>
-            <th width="35%">
+            <th width="30%" class="org">
              <span id="bold"> Description:</span> {{$invoice[0]->projectDescription->projectDescriptionName}}
             </th>
-           <th width="60%"> 
+          
+           <th width="40%" class="org">
+           @if($invoice[0]->contract->projectName)
              <span id="bold">Project Name:</span> {{$invoice[0]->contract->projectName}}
+           @endif
            </th>
+          
        </tr>
 </table>   
-       <br>
-
+ 
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>
         <tr id="bold" style="background-color:#f2edd1; font-size:17px;" align="center">
@@ -367,12 +378,11 @@ foreach ($invoiceDetails as $invDetail) {
                 <tr @if($payment->receivableStatus[0]->recStatusCode == App\Receivable::ANNULLED)
                   class="outer" 
                   @endif>
-                 <td width="10%">{{++$acum3}}</td>
-                 <td width="35%">{{$moneySymbol}} {{$payment->amountDue}}</td>
+                 <td width="5%">{{++$acum3}})</td>
+                 <td width="30%">{{$moneySymbol}} {{$payment->amountDue}}</td>
                  <td width="35%">{{$paymentMethod}}</td>
                  <td width="20%">{{$recStatusName}}</td>
-                 <td width="30%">{{$payment->datePaid}}</td>
-                 <td width="15%"></td>
+                 <td width="55%">{{Carbon\Carbon::parse($payment->datePaid)->format('m/d/Y g:i A') }}</td>
                 </tr>
               </table>
 @php

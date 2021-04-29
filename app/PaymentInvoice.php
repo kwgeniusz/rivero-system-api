@@ -24,7 +24,7 @@ class PaymentInvoice extends Model
         'invoiceId',
         'amount',
         'paymentDate',
-        'dateCreated',
+        'created_at',
         'lastUserId',
     ];
 
@@ -118,7 +118,7 @@ class PaymentInvoice extends Model
             //INSERTA PAGO
             $payment->amount      = $amount;
             $payment->paymentDate = $paymentDate;
-            $payment->dateCreated = date('Y-m-d H:i:s');
+            $payment->created_at = date('Y-m-d H:i:s');
             $payment->lastUserId  = Auth::user()->userId;
             $payment->save();
 

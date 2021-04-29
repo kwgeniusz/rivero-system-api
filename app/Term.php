@@ -29,7 +29,9 @@ class Term extends Model
 //--------------------------------------------------------------------
      public function findById($id)
     {
-        return $this->where('termId', '=', $id)->get();
+        return $this->where('termId', '=', $id)
+                    ->orderBy('termId', 'ASC')
+                    ->get();
     }
     public function getAllByCompany($companyId)
     {

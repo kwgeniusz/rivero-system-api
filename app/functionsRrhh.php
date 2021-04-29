@@ -8,25 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class functionsRrhh extends Model
 {
    
-    function getNetSalary($staff){
+    function getNetSalary($staff, $countryId, $companyId){
         // calcula el salario neto del empleado
-        $countryId = session('countryId');
-        $companyId = session('companyId');
-        $neto[] = DB::select("SELECT SUM(hrpermanent_transaction.amount) AS bonos , hrstaff.baseSalary
-                    FROM hrpermanent_transaction
-                    INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
-                    INNER JOIN hrstaff ON hrpermanent_transaction.staffCode = hrstaff.staffCode
-                WHERE hrpermanent_transaction.staffCode = '$staff'
-                AND hrtransaction_type.isIncome = 1
-                AND hrtransaction_type.countryId = 2
-                AND hrtransaction_type.companyId = 4");
 
-        // decrepitado (se usaba para traer el bono de alimentacion y asignarlo al neto)
-        // $neto[] = DB::select("SELECT hrprocess_detail.transactionTypeCode, hrprocess_detail.amount FROM `hrprocess` 
-        //                         INNER JOIN hrprocess_detail ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId
-        //                     WHERE hrprocess.`countryId`= $countryId 
-        //                     AND hrprocess.`companyId` = $companyId 
-        //                     AND hrprocess_detail.amount <> 0");        
+        $neto[] = DB::select("SELECT SUM(hrpermanent_transaction.amount) AS bonos, hrstaff.baseSalary
+                                FROM hrpermanent_transaction
+                                    INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
+                                    INNER JOIN hrstaff ON hrpermanent_transaction.staffCode = hrstaff.staffCode
+                                WHERE hrpermanent_transaction.staffCode = '$staff'
+                                AND (hrpermanent_transaction.transactionTypeCode = 1003
+                                    OR hrpermanent_transaction.transactionTypeCode = 1002 
+                                    OR hrpermanent_transaction.transactionTypeCode = 1007)
+                                AND hrpermanent_transaction.blocked = 0
+                                AND hrtransaction_type.countryId = $countryId
+                                AND hrtransaction_type.companyId = $companyId");
+      
     return $neto;
     }
 

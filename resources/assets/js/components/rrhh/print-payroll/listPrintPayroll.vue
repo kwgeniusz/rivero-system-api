@@ -499,7 +499,7 @@
                                         doc.setFont("helvetica")
                                         doc.setFontType("bold");
                                         doc.setFontSize(14);
-                                        doc.text( 'PRE-NOMINA DE PAGO', 220, 40 );
+                                        doc.text( 'NOMINA DE PAGO', 220, 40 );
                                         // doc.setFontType("courier");
                                         
                                         
@@ -563,7 +563,7 @@
                                         doc.text( `Generado Por:`, 435, 70 );
                                         doc.text( `Pagina:`, 435, 60 );
                                         doc.setFontType("normal");
-                                        doc.text( `${page}/${numPage}`, 465, 70 );
+                                        doc.text( `${page}/${numPage}`, 465, 60 );
                                         doc.text( userProcess, 489, 70 );
                                         doc.text( dataTime, 462, 80 );
                                         doc.text( period, 468, 90);
@@ -639,8 +639,15 @@
                                 
 
                                 let total = asignacion - deduccion // calculo para el total
-                                // console.log('total: ' + total);
-                                doc.text(`${formatNumber(total, selecCurrency1)}`, 578, n, 'right' );
+                                // console.log('total: ');
+                                // console.log(total);
+                                if ( total < 0 ) {
+                                    doc.text(`( ${formatNumber(total, selecCurrency1)} )`, 578, n, 'right' );
+                                    
+                                } else {
+                                    doc.text(`${formatNumber(total, selecCurrency1)}`, 578, n, 'right' );
+                                    
+                                }
                                 // doc.text(total, 574, n, 'right' );
                                 
                                 doc.setFontType("normal");

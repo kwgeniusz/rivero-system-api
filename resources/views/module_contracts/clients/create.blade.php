@@ -3,7 +3,6 @@
 @section('content')
 <div class="create">
   <form  class="formulario" action="{{Route('clients.store')}}" method="POST">
-    <div>
     <h3><i class="fas fa-user-tie"></i> {{__('new_client')}}</h3>
       <div class="boxes">
         @if ($errors->any())
@@ -53,8 +52,10 @@
           <label for="clientEmail"><i class="fas fa-at"></i> {{__('email')}}</label>
           <input type="email" class="input-label" id="clientEmail" name="clientEmail" value="{{ old('username') }}" placeholder="CORREO DE CONTACTO">
         </div>
+
       </div>
     </div>
+
     <div style="width: 100%; text-align: center;">
       <button type="submit" class="submit">
         <span class="fa fa-check" aria-hidden="true"></span>  {{__('save')}}
@@ -62,6 +63,7 @@
       <a href="{{route('clients.index')}}" class="return">
           <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
       </a>
+
     </div>
   </form>
 </div>

@@ -2,6 +2,7 @@
   @section('content')
     <div class="create">
       <div class="formulario">
+
         <h3><i class="fas fa-file-signature"></i> {{__('edit_contract')}}</h3>
         <div class="boxes">
           @if ($errors->any())
@@ -26,8 +27,9 @@
             </ul>
             <br>
             <!-- Tab panes -->
+            <div class="tab-content">  
             @can('BDC') 
-              <div role="tabpanel" style="width: 100%;" id="basicInformation">
+              <div role="tabpanel" class="tab-pane active"  style="width: 100%;" id="basicInformation">
                 <form style="width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" action="{{Route('contracts.update',['id' => $contract[0]->contractId])}}" method="POST">
                   {{csrf_field()}}
                   {{method_field('PUT')}}
@@ -166,10 +168,11 @@
               </div>
             @endcan
             @can('BDCA') 
-              <div role="tabpanel" style="width: 100%;" id="IBC">
-                <form style="width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" action="{{Route('contracts.updateIbc',['id' => $contract[0]->contractId])}}" method="POST">
+              <div role="tabpanel"  class="tab-pane"  id="IBC">
+                <form  action="{{Route('contracts.updateIbc',['id' => $contract[0]->contractId])}}" method="POST">
                   {{csrf_field()}}
                   {{method_field('PUT')}}
+
                   <select-building-code 
                     pref-Url='../../' 
                     prop-building-code='{{$contract[0]->buildingCodeId}}' 
@@ -177,7 +180,8 @@
                     prop-project-use='{{$contract[0]->projectUseId}}'
                     prop-construction-type='{{$contract[0]->constructionType}}'>
                   </select-building-code> 
-                  <div style="width: 100%; text-align: center;">
+
+                  <div class="col-lg-12 text-center">
                     <button type="submit" class="submit">
                       <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
                     </button>
@@ -185,9 +189,12 @@
                       <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                     </a>
                   </div>
+                  
                 </form>
               </div>
             @endcan
+          </div>
+
           </div> 
         </div>
       </div>

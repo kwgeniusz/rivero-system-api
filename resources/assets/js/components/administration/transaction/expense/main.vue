@@ -1,9 +1,8 @@
 <template>
-    <div class="container">
+    <div class="">
         <!-- agregar -->
         <div v-if="formStatus === 1">
             <addUp-transaction-expense
-                @new = "addTransactionExpense"
                 @showlist = "showlist"
                 :editId=0
             > </addUp-transaction-expense> 
@@ -12,7 +11,6 @@
         <!-- Vista actualizar -->
         <div v-if="formStatus === 2">
             <addUp-transaction-expense
-                @new = "addTransactionExpense"
                 @showlist = "showlist"
                 :editId=editId                
             > </addUp-transaction-expense> 
@@ -32,7 +30,7 @@
             <table-transaction-expense  
                 :transactionList = transactionList
                 @editData = "editData"
-                @delete = "delDepartment">
+                @showlist = "showlist">
             </table-transaction-expense>
         </div>  
 
@@ -43,7 +41,7 @@
     export default {
         mounted() {
 
-            axios.get('/transactions/-').then((response) => {
+            axios.get('/transactions/-/index').then((response) => {
                 this.transactionList = response.data
             console.log(this.transactionList)
             })
@@ -55,41 +53,39 @@
                 // parents: [],
                 formStatus: 0,
                 editId: '',
-                nameField1: 'EMPRESA',
-                nameField2: 'DEPARTAMENTO',
-                nameField3: 'DEPARTAMENTO PADRE',
             }
         },
         methods: {
             addFormStatus(){
                 this.formStatus = 1
             },
-            addTransactionExpense(department){
-                // console.log(department)
-                // this.transactionList.push(department)
-            },
-            delDepartment(index){
-                // console.log(index)
-                this.transactionList.splice(index, 1)
-            },
-            upDepartment( company){
-                // console.log(company)
-                // this.transactionList[company[0]] = company[1]
-            },
-            carga(){
-                XMLHttpRequest.onprogress = function (event) {
-                event.loaded;
-                event.total;
-                };
-            },
+            // addTransactionExpense(department){
+            //     // console.log(department)
+            //     // this.transactionList.push(department)
+            // },
+            // delDepartment(index){
+            //     // console.log(index)
+            //     this.formStatus = 0;
+            //     this.transactionList.splice(index, 1)
+            // },
             editData(id){
                 // console.log('el id es: ' + id)
                 this.editId = id
                 this.formStatus = 2
+            }, 
+            upDepartment( company){
+                // console.log(company)
+                // this.transactionList[company[0]] = company[1]
             },
+            // carga(){
+            //     XMLHttpRequest.onprogress = function (event) {
+            //     event.loaded;
+            //     event.total;
+            //     };
+            // },
             showlist(n){
                 this.formStatus = 0
-                axios.get('/transactions/-').then((response) => {
+                axios.get('/transactions/-/index').then((response) => {
                     this.transactionList = response.data
                     // console.log(this.transactionList)
                 })

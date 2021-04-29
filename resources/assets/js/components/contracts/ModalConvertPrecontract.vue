@@ -103,7 +103,7 @@
                        toastr.error(response.data.message)
                          this.btnSubmit = true;
                    } else {
-                       window.location.href = './contracts'
+                      //  window.location.href = './contracts'
                        toastr.success('Conversion exitosa, Sera redirigido a la lista de contratos.')
                    }
             })

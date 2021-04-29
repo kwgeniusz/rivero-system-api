@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
-
 use Auth;
 use App;
+use Illuminate\Http\Request;
+use App\Http\Requests\PaymentRequest;
 use App\Http\Controllers\Controller;
 use App\Helpers\DateHelper;
-use Illuminate\Http\Request;
 use App\Invoice;
 use App\Proposal;
 use App\Receivable;
@@ -17,7 +17,7 @@ use App\InvoiceDetail;
 use App\PaymentInvoice;
 use App\PaymentCondition;
 use App\ProjectDescription;
-use App\Http\Requests\PaymentRequest;
+use App\SaleNote;
 
 
 class InvoiceController extends Controller
@@ -35,6 +35,7 @@ class InvoiceController extends Controller
         $this->oPaymentInvoice        = new PaymentInvoice;
         $this->oPaymentCondition      = new PaymentCondition;
         $this->oProjectDescription    = new Projectdescription;
+        $this->oSaleNote              = new SaleNote;
     }
 
     public function index(Request $request)
@@ -167,13 +168,15 @@ class InvoiceController extends Controller
      public function getAllInvoices(Request $request)
     {
        $totalMontoFacturas = 0;
-       $totalCobrado = 0;
        $totalPorCobrar = 0;
        $totalCollections = 0;
+       $totalDebitNote = 0;
+       $totalCreditNote = 0;
+       $totalCobrado = 0;
 
      $invoices = $this->oInvoice->getAllByFourStatus(Invoice::OPEN,Invoice::CLOSED,Invoice::PAID,Invoice::COLLECTION,session('companyId'));
 
-         foreach ($invoices as $invoice) {
+     foreach ($invoices as $invoice) {
            // $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
            // $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
 
@@ -184,7 +187,9 @@ class InvoiceController extends Controller
           }else{
             $totalPorCobrar     +=  $invoice->balanceTotal;
            }
-        }
+        }    
+     $totalDebitNote  =  $this->oSaleNote->findAllByType('debit')->sum('netTotal');
+     $totalCreditNote =  $this->oSaleNote->findAllByType('credit')->sum('netTotal');
 
    if($request->method() == 'POST') {
        if($request->date1 || $request->date2 || $request->textToFilter) {
@@ -246,7 +251,7 @@ class InvoiceController extends Controller
   } //cierre del filtrado general.
  }//cierre de request->post
 
-        return view('module_administration.invoices.index', compact('invoices','totalMontoFacturas','totalCobrado','totalCollections','totalPorCobrar'));
+        return view('module_administration.invoices.index', compact('invoices','totalMontoFacturas','totalCobrado','totalCollections','totalPorCobrar','totalDebitNote','totalCreditNote'));
     }
 
 

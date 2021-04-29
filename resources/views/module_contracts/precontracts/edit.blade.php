@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="create">
-  <form  class="formulario" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
+  <div  class="formulario">
+  
     <h3><i class="fas fa-user-tie"></i> Editar Pre-contrato</h3>
     <div class="boxes">
       @if ($errors->any())
@@ -15,6 +16,7 @@
             </ul>
         </div>
       @endif
+
       <div class="panel-body" style="width: 100%;">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -27,9 +29,10 @@
         </ul>
         <br>
         <!-- Tab panes -->
+        <div class="tab-content">  
           @can('BBB') 
-            <div role="tabpanel" style="width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" id="basicInformation">
-              <form class="form" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
+            <div role="tabpanel" class="tab-pane active" id="basicInformation">
+              <form style="width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" class="form" action="{{Route('precontracts.update',['id' => $precontract[0]->precontractId])}}" method="POST">
                 {{csrf_field()}}
                 {{method_field('PUT')}}
                 {{-- <select-country-office-edit country="{{$precontract[0]->countryId}}" office="{{$precontract[0]->companyId}}"></select-country-office-edit> --}}
@@ -118,7 +121,7 @@
                 </div>
                 <div class="input-label">  
                   <label for="comment"><i class="fas fa-comment-alt"></i> {{__('initial_comment')}}</label>
-                  <textarea name="comment" id="comment" rows="10">"{{$precontract[0]->comment }}"</textarea>
+                  <textarea name="comment" id="comment" rows="10">{{$precontract[0]->comment }}</textarea>
                 </div>
                 <div style="width: 100%; text-align: center;">
                   <button type="submit" class="submit">
@@ -137,15 +140,15 @@
             <form class="form" action="{{Route('precontracts.updateIbc',['id' => $precontract[0]->precontractId])}}" method="POST">
               {{csrf_field()}}
               {{method_field('PUT')}}
+              
               <select-building-code 
                 pref-Url='../../' 
                 prop-building-code='{{$precontract[0]->buildingCodeId}}' 
                 prop-building-code-group='{{$precontract[0]->groupId}}' 
-                prop-project-use='{{$precontract[0]->projectUseId}}'
                 prop-construction-type='{{$precontract[0]->constructionType}}'>
               </select-building-code> 
+
               <div class="col-lg-12 text-center">
-                <div style="width: 100%; text-align: center;">
                   <button type="submit" class="submit">
                     <span class="fa fa-check" aria-hidden="true"></span>  {{__('update')}}
                   </button>
@@ -154,13 +157,15 @@
                       <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                     </button>
                   </a>
-                </div>
               </div>
+
             </form>
           </div>
         @endcan
       </div>
+
+      </div>
     </div>
-  </form>
+  </div>
 </div>
 @endsection

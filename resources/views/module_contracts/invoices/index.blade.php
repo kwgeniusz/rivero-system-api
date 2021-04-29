@@ -38,6 +38,7 @@
                  <th>TOTAL</th>
                  <th>BALANCE</th>
                  <th>CUOTAS</th>
+                 <th>REGISTRADA POR</th> 
                  <th>{{__('STATUS')}}</th> 
                  <th>{{__('actions')}}</th> 
                  </th>
@@ -56,6 +57,7 @@
                    <td>{{$invoice->netTotal}}</td>
                    <td>{{$invoice->balanceTotal}}</td>
                    <td>{{$invoice->shareSucceed->count()}}/{{$invoice->pQuantity}}</td>  
+                   <td>{{$invoice->user->fullName}}</td>  
                    <td
                   @if($invoice->invStatusCode == App\Invoice::OPEN )
                       style="background-color: #2ab25b;color:white"  
@@ -78,7 +80,11 @@
                     </a> 
                     @endcan    
                   @endif  
-
+                  @can('BEB')       
+                <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
+                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
+                    </a>
+                 @endcan
           @if($invoice->invStatusCode == App\Invoice::OPEN )
             @if($contract[0]->contractStatus <> App\Contract::FINISHED && $contract[0]->contractStatus <> App\Contract::CANCELLED)
                  @can('BEC')    
@@ -91,6 +97,8 @@
                         <span class="fa fa-edit" aria-hidden="true"></span> 
                     </a>  
                   @endcan  
+
+                  <invoice-btn-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-btn-cancel>
               @endif  
           @endif 
 
@@ -100,11 +108,6 @@
                 </a>
                 @endif
 
-                 @can('BEB')       
-                <a href="{{route('reports.invoice', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Ver">
-                     <span class="fa fa-file-pdf" aria-hidden="true"></span> 
-                    </a>
-                 @endcan
             {{--       <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Anular">
                         <span class="fa fa-times-circle" aria-hidden="true"></span> 
                     </a> --}}

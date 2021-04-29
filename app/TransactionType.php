@@ -3,6 +3,7 @@
 namespace App;
 
 use App;
+use DB;
 use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
@@ -77,22 +78,85 @@ public function transaction()
                     ->get(); 
     }
 //------------------------------------------
-   public function insertTT($transactionTypeName,$sign) {
-        
-        $transactionType = new transactionType;
-        $transactionType->transactionTypeName = $transactionTypeName;
-        $transactionType->sign = $sign;
-        $transactionType->save();
+   public function insertTT($countryId, $companyId,$data) 
+   {
+    $error = null;
+
+    DB::beginTransaction();
+     try {
+         //INSERTAR
+           $transactionType = new transactionType;
+           $transactionType->countryId = $countryId;
+           $transactionType->companyId = $companyId;
+           $transactionType->transactionTypeName = $data['transactionTypeName'];
+           $transactionType->sign                = $data['sign'];
+           $transactionType->save();
+           
+           $success = true;
+           DB::commit();
+       } catch (\Exception $e) {
+
+           $success = false;
+           $error   = $e->getMessage();
+           DB::rollback();
+       }
+
+       if ($success) {
+         return $rs  = ['alert' => 'success', 'message' => "Tipo de Expense creado exitosamente"];
+       } else {
+           return $rs = ['alert' => 'error', 'message' => $error];
+       }
+
     }
 //------------------------------------------
-    public function updateTT($transactionTypeId,$transactionTypeName) {		
-        $this->where('transactionTypeId', $transactionTypeId)->update(array(
-              'transactionTypeName'  => $transactionTypeName
-        ));	
+    public function updateTT($transactionTypeId,$data) 
+    {		
+        $error = null;
+
+     DB::beginTransaction();
+      try {
+
+        $TT                       = TransactionType::find($transactionTypeId);
+        $TT->transactionTypeName  = $data['transactionTypeName'];
+        $TT->save();
+
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+
+            $success = false;
+            $error   = $e->getMessage();
+            DB::rollback();
+        }
+
+        if ($success) {
+          return $rs  = ['alert' => 'success', 'message' => "Tipo de Expense Modificado "];
+        } else {
+            return $rs = ['alert' => 'error', 'message' => $error];
+        }
+
+        // $this->where('transactionTypeId', $transactionTypeId)->update(array(
+        //       'transactionTypeName'  => $transactionTypeName
+        // ));	
+
      }
 //------------------------------------------
      public function deleteTT($transactionTypeId) {		
-        return $this->where('transactionTypeId', '=', $transactionTypeId)->delete(); 	
+
+        try {
+            $this->where('transactionTypeId', '=', $transactionTypeId)->delete();
+                 
+              $success = true;
+          } catch (\Exception $e) {
+              $error   = $e->getMessage();
+              $success = false;
+          }
+  
+          if ($success) {
+              return $rs = ['alert' => 'info', 'message' => 'Tipo de Expense Eliminado'];
+          } else {
+              return $rs = ['alert' => 'error', 'message' => $error];
+          }
      }	
 //------------------------------------------
 }

@@ -7,14 +7,17 @@
         <div class="input-group">
          <input type="hidden" name="clientId" :value="clientId">
          <input class="form-control" @keyup="searchClient()" name="clientName" v-model="clientName" autocomplete="off" :disabled="btnRemove">
+          
            <span class="input-group-btn">
-             <form-new-client :prefUrl="prefUrl"  v-if="btnAgg" @sendClient="aggClient"/>
+             <a class="btn btn-success" v-if="btnAdd" @click="showModal=true"><span class="fa fa-plus" aria-hidden="true"></span></a>
+             <!-- <addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/> -->
+
              <a class="btn btn-danger" @click="removeClient()" v-if="btnRemove"><span class="fa fa-times-circle" aria-hidden="true"></span></a>
           </span>
          </div>
 
        <div :class="{ sugerencias: this.style }">
-         <div class="result" v-for="(item, index) in list" @click="aggClient(item.clientId,item.clientCode,item.clientName,item.clientAddress)"> {{item.clientCode}} - {{item.clientName }}</div>
+         <div class="result" v-for="(item, index) in list" @click="addClient(item.clientId,item.clientCode,item.clientName,item.clientAddress)"> {{item.clientCode}} - {{item.clientName }}</div>
       </div>
   
     </div>
@@ -31,7 +34,6 @@
 
 <script>
 
-import FormNewClient from './FormNewClient.vue'
 
     export default {
         
@@ -42,7 +44,7 @@ import FormNewClient from './FormNewClient.vue'
               this.clientId = this.cId
               this.clientName = this.cName
               this.btnRemove = true
-              this.btnAgg = false
+              this.btnAdd = false
             }
            if(this.cAddress){
             this.clientAddress = this.cAddress
@@ -56,8 +58,9 @@ import FormNewClient from './FormNewClient.vue'
             clientAddress:'',
             list : '',
             style : '',
-            btnAgg: true,
+            btnAdd: true,
             btnRemove: false,
+            showModal:false,
 
             // switch: 'N',
           }
@@ -68,9 +71,7 @@ import FormNewClient from './FormNewClient.vue'
            cName: { type: String, default: ''},
            cAddress: { type: String, default: ''}
     },
-     components: {
-         FormNewClient
-  },
+
     methods: {
        searchClient: function() {
            if(this.clientName == '') {
@@ -86,7 +87,7 @@ import FormNewClient from './FormNewClient.vue'
               }
           
          },
-       aggClient: function (id,clientCode,name,address){
+       addClient: function (id,clientCode,name,address){
          // console.log(id,name,address)
             this.clientId = id;
             this.clientName = clientCode+'-'+name;
@@ -94,7 +95,7 @@ import FormNewClient from './FormNewClient.vue'
             this.list = ''
             this.style = false
             this.btnRemove = true
-            this.btnAgg = false
+            this.btnAdd = false
            
         },
          removeClient: function (){
@@ -104,7 +105,7 @@ import FormNewClient from './FormNewClient.vue'
             this.list = ''
             this.style = false
             this.btnRemove = false
-            this.btnAgg = true
+            this.btnAdd = true
            
         },
      }

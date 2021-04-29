@@ -2,7 +2,7 @@
 
 namespace App;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 class HrTransactionType extends Model
@@ -20,6 +20,7 @@ class HrTransactionType extends Model
                 ->select('hrtransaction_type.*')
                 ->where('hrtransaction_type.companyId', '=',$company)
                 ->where('hrtransaction_type.countryId', '=',$country)
+                ->orderBy('transactionTypeCode', 'asc')
                 ->get();
     }
      

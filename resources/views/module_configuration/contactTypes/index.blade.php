@@ -5,10 +5,9 @@
 <div class="text-center">
 
 <div class="panel-body">
-
         <div class="row ">
           <div class="col-xs-12">
-
+     
       <form class="form-inline" action="{{Route('contactTypes.store')}}" method="POST">
       {{csrf_field()}}
 
@@ -19,6 +18,9 @@
            <button type="submit" class="btn btn-success">
                 <span class="fa fa-plus" aria-hidden="true"></span> {{__('add')}}
             </button>
+            <a href="{{route('clients.index')}}" class="btn btn-warning">
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+              </a>
         </form>
       </div>
     </div>
@@ -52,10 +54,6 @@
                 @endforeach
                 </tbody>
             </table>
-
-     <a href="{{route('clients.index')}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
         </div>
     </div>
 </div>

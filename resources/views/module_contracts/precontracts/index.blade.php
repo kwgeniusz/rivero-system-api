@@ -4,8 +4,6 @@
 
 
   <h3><b>PRE-CONTRATOS</b></h3>
-
-
    <div class="row ">
       <div class="col-xs-12 text-center">
       <form class="form-inline" action="{{Route('precontracts.index')}}" method="GET">
@@ -47,12 +45,14 @@
                  <th>#</th>
                  <th>N° PRECONTRATO</th>
                  <th>COD. {{__('client')}}</th>
-                 <th>{{__('name')}}</th>   
+                 <th>CLIENTE</th>   
                  <th>{{__('address')}}  / NOMBRE DEL PROYECTO</th>
-                 <th>BUILDING CODE</th>
+                 <!-- <th>BUILDING CODE</th> -->
                  <th>DESCRIPCION</th>
                  <th>USO</th>
                  <th>TIPO</th>
+                 <th>FECHA DE CREACION</th>
+                 <th>REGISTRADO POR</th>
                  <th>{{__('options')}}</th>
                 </tr>
             </thead>
@@ -65,34 +65,34 @@
                       <comments-precontract pref-url="" precontract-id="{{$precontract->precontractId}}"/>
                      </td>
                     <td>{{$precontract->client->clientCode}}   </td>
-                    <td>{{$precontract->client->clientName}}   </td>  
-                    <td >{{$precontract->propertyNumber}}
-                        {{$precontract->streetName}}
-                        {{$precontract->streetType}}
-                        {{$precontract->suiteNumber}}
-                        {{$precontract->city}}
-                        {{$precontract->state}}
-                        {{$precontract->zipCode}} <br>
+                    <td>
+                     <modal-client-details pref-url="/" client-id="{{$precontract->client->clientId}}" company-name="{{$precontract->client->companyName}}" client-name="{{$precontract->client->clientName}}"></modal-client-details>
+                    </td>  
+                    <td >{{$precontract->siteAddress}}
+                  <br>
                         @if($precontract->projectName) 
                          ( {{$precontract->projectName}} )
                         @endif  </td>
-                <td>
+                <!-- <td>
                 @if($precontract->buildingCodeId)      
                  {{$precontract->buildingCode->buildingCodeName}}  
                 @endif 
-                </td>
+                </td> -->
                     <td >
                        @foreach($precontract->proposal as $pd)
                        - {{$pd->projectDescription->projectDescriptionName}}<br>
                         @endforeach
                      </td>     
                     <td >
-                     @if($precontract->projectUseId) 
+                      @if($precontract->projectUseId) 
                       {{$precontract->projectUse->projectUseName}} 
-                    @endif 
-                      </td>
-    
+                    @endif  
+                       </td>     
                     <td >{{$precontract->contractType}}   </td>
+                    <td >{{$precontract->precontractDate}}   </td>
+                    <td >
+                    @if($precontract->user != null){{$precontract->user->fullName}} @endif  
+                     </td>
                     <td>
         @if($precontract->contractId == null)
               @can('BCF')

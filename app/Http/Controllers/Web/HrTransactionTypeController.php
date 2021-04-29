@@ -58,6 +58,7 @@ class HrTransactionTypeController extends Controller
         $hrtransType->accTax = $request->accTax;
         $hrtransType->accChristmas = $request->accChristmas;
         $hrtransType->accSeniority = $request->accSeniority;
+        $hrtransType->display = $request->display;
         
         $hrtransType->save();
         return $hrtransType;
@@ -85,6 +86,7 @@ class HrTransactionTypeController extends Controller
         $hrtransType->accTax = $request->accTax;
         $hrtransType->accChristmas = $request->accChristmas;
         $hrtransType->accSeniority = $request->accSeniority;
+        $hrtransType->display = $request->display;
         
         $hrtransType->save();
         return $hrtransType;

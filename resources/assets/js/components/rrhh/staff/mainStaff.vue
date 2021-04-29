@@ -12,6 +12,7 @@
 
                 <list-staff
                     :objStaff = objStaff
+                    :vacio = vacio
                     :namePanelList = namePanelList
                     @indexEdit = "indexEdit"
                     @delrow = "delrow"
@@ -99,23 +100,13 @@
 
 <script>
     export default {
-        mounted() {
-            
-            axios.get('staff/list/').then( response => {
-                // console.log(response)
-                this.objStaff = response.data.hrstaff
-                // console.log(this.objStaff)
-                // debugger
-            })
-
-           
-            console.log('Component mounted.')
-        },
+        
         data(){
             return{
                 objStaff:[],
                 objEdit:[],
                 formStatus: 0,
+                vacio: 0,
                 namePanelList: "PERSONAL",
                 namePanel: "AGREGAR PERSONAL",
                 namePanel2: "EDITAR PERSONAL",
@@ -146,6 +137,23 @@
                 nameField25: "APLICAR SSO, FAOV (ej: Personas de 3ra edad)",
                 
             }
+        },
+        mounted() {
+            
+            axios.get('staff/list/').then( response => {
+                // console.log(response)
+                let res = response.data.hrstaff
+                // console.log(res)
+                if (res.length === 0) {
+                    this.vacio = 1
+                } else {
+                    this.objStaff = res
+                }
+                
+                // console.log(this.objStaff)
+                // debugger
+            })
+
         },
         methods: {
             addFormStatus(){

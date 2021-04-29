@@ -5,7 +5,7 @@ namespace App\Http\Controllers\web;
 use App\Periods;
 use App\Country;
 use App\Company;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,6 +26,8 @@ class PeriodsController extends Controller
      */
     public function index()
     {
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $periods = DB::select("SELECT  hrperiod.periodId, hrperiod.`countryId`, hrperiod.`companyId`, hrperiod.`year`,
                         hrperiod.`payrollTypeId`, hrperiod.`payrollNumber`,hrperiod.`periodName`, hrperiod.`periodFrom`, hrperiod.`periodTo`, hrperiod.`updated`,
                         country.countryId, country.countryName,
@@ -35,7 +37,9 @@ class PeriodsController extends Controller
                         `hrperiod`
                     INNER JOIN country ON hrperiod.countryId = country.countryId
                     INNER JOIN company ON hrperiod.companyId = company.companyId
-                    INNER JOIN payroll_type ON hrperiod.payrollTypeId = payroll_type.payrollTypeId");
+                    INNER JOIN payroll_type ON hrperiod.payrollTypeId = payroll_type.payrollTypeId
+                    WHERE hrperiod.countryId = $countryId
+                    AND hrperiod.companyId = $companyId");
 
         $companys =  Company::select('companyShortName', 'companyId')->get();
        
@@ -116,6 +120,26 @@ class PeriodsController extends Controller
         $periods->save();
         return $periods;
     }
+
+    public function getPeriodReport($countryId, $companyId, $periodFrom, $periodTo, $updated)
+    {
+        $payrollNumber = DB::table('hrperiod')->select('payrollNumber')
+        ->where('periodFrom' , '>=' , $periodFrom)
+        ->where('periodTo' , '<=' , $periodTo)
+        ->where('countryId' , '=' , $countryId)
+        ->where('companyId' , '=' , $companyId)
+        ->where('updated' , '=' , $updated)
+        ->first();
+        // ->collapse();
+
+        // $payrolNumber1 = collect($payrollNumber)->values();
+
+
+        return response()->json(["payrollNumber" =>  $payrollNumber],200);
+    }
+
+     // script usado para generar los periodos automaticos.. 
+    // actatualmente solo se usa bajo desarrollo para pruebas masivas
     function generatePeriods($year,$month){
         // echo $year.$month;
         $year;

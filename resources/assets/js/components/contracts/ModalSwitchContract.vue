@@ -12,13 +12,7 @@
 <div class="bg-primary hover round glow" role="button" data-toggle="collapse" :href="'#'+contractNumber" aria-expanded="false" style="" >
   <i class="fa fa-chevron-circle-down"></i> Contrato {{this.contractNumber}}<br>
    <span v-if="contract != null">
-        {{contract[0].propertyNumber}}
-        {{contract[0].streetName}}
-        {{contract[0].streetType}}
-        {{contract[0].suiteNumber}}
-        {{contract[0].city}}
-        {{contract[0].state}}
-        {{contract[0].zipCode}}
+        {{contract[0].siteAddress}}
    </span>
 </div>
 <!-- collapse -->
@@ -33,18 +27,14 @@
        <!-- <b><u>Cliente:</u></b> <br>{{contract[0].client.clientName}}<br> -->
        <b><u>Tipo de Contrato</u></b> <br>{{contract[0].contractType}}<br>
        <b><u>Direccion:</u></b> <br>
-        {{contract[0].propertyNumber}}
-        {{contract[0].streetName}}
-        {{contract[0].streetType}}<br>
-        {{contract[0].suiteNumber}}
-        {{contract[0].city}}
-        {{contract[0].state}}
-        {{contract[0].zipCode}}
+        {{contract[0].siteAddress}}
         <br>
+       <b><u>Uso</u></b> <br>{{contract[0].project_use.projectUseName}}<br>
+     <div v-if="contract[0].building_code != null">
        <b><u>IBC</u></b> <br>{{contract[0].building_code.buildingCodeName}}<br>
        <b><u>Grupo</u></b> <br>{{contract[0].building_code_group.groupName}}<br>
-       <b><u>Uso</u></b> <br>{{contract[0].project_use.projectUseName}}<br>
        <b><u>Tipo de Construccion</u></b> <br>{{contract[0].constructionType}}<br><br>
+     </div>
        <b><u>Comentario</u></b>
        </center>
   
@@ -62,16 +52,15 @@
 <!-- collapse -->
 <div v-if="contract != null" class="collapse" :id="contractNumber+'-scope'">
   <div class="well">
-     <div v-for="(invoice,index) in invoicesList" >
-
+     <div v-if="invoice.invStatusCode != 4" v-for="(invoice,index) in invoicesList" >
+   <!-- {{invoice.invStatusCode}} -->
              <div class="bg-info" role="button" data-toggle="collapse" :href="'#'+invoice.invId+'-request'" aria-expanded="false" style="" >
-                         <b>Solicitud #{{++index}} {{invoice.project_description.projectDescriptionName}}</b>
+                         <b>Solicitud #{{++index}} {{invoice.project_description.projectDescriptionName}} ({{invoice.invoice_status[0].invStatusName}})</b>
               </div>
                  <!-- collapse -->
               <div  class="collapse" :id="invoice.invId+'-request'">
 
                 <div class="well" >
-
                 <!-- Using properly a better class for "p" text -->
                   <div class="text-left">
 
@@ -148,7 +137,7 @@
            },
       props: {
            prefUrl: { type: String},
-           contractId: { type: String, default: null}, 
+           contractId: { type: [String,Number], default: null}, 
            contractNumber: { type: String, default: null}, 
     },
      data: function () {
@@ -172,6 +161,13 @@
 
             this.$refs.mainModal.open()
         },
+             nl2br: function(str, is_xhtml) {
+        if (typeof str === 'undefined' || str === null) {
+              return '';
+         }
+      var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+      return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    },
 
       } //FIN DE METHODS
      }

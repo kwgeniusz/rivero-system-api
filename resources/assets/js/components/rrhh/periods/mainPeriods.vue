@@ -15,6 +15,7 @@
                     :namePanelList = namePanelList
                     @indexEdit = "indexEdit"
                     @delrow = "delrow"
+                    :vacio = vacio
                 >
                 </list-periods>
             </div>
@@ -67,19 +68,25 @@
     export default {
         mounted() {
             axios.get('periods/list').then( response => {
-                this.objPeriods = response.data.periods
-                // console.log(this.objPeriods)
-                // debugger
+                let res = response.data.periods
+                
+                console.log(res)
+                if (res.length === 0) {
+                    this.vacio = 1
+                } else {
+                    this.objPeriods = res
+                }
             })
 
            
-            console.log('Component mounted.')
+           
         },
         data(){
             return{
                 objPeriods:[],
                 objEdit:[],
                 formStatus: 0,
+                vacio: 0,
                 namePanelList: "PERÍODOS",
                 namePanel: "AGREGAR PERÍODO",
                 namePanel2: "EDITAR PERÍODO",

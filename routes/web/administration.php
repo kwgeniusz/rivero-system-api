@@ -29,14 +29,11 @@ Route::post('filteredInvoices', 'Web\InvoiceController@getAllInvoices')->name('i
 // Route::put('invoicesCollections', 'Web\InvoiceController@invoicesCollections')->name('invoices.close');
 
 //**************************** TRANSACTIONS ***************************
-Route::get('transactions/{sign}', 'Web\TransactionController@index')->name('transactions.index');
-Route::post('transactions/{sign}/filtered', 'Web\TransactionController@index')->name('transactions.filtered');
-Route::get('transactionsCreate/{sign}', 'Web\TransactionController@create')->name('transactions.create');
-Route::post('transactions/store', 'Web\TransactionController@store')->name('transactions.store');
-Route::get('transactions/{id}/edit', 'Web\TransactionController@edit')->name('transactions.edit');
-Route::get('transactions/{sign}/{id}/show', 'Web\TransactionController@show')->name('transactions.show');
-Route::delete('transactions/{sign}/{id}/delete', 'Web\TransactionController@delete')->name('transactions.delete');
-
+Route::get('transactions/{sign}/index', 'Web\TransactionController@index')->name('transactions.index');
+Route::post('transactions', 'Web\TransactionController@store')->name('transactions.store');
+Route::get('transactions/{id}', 'Web\TransactionController@show')->name('transactions.show');
+Route::put('transactions/{id}', 'Web\TransactionController@update')->name('transactions.update');
+Route::delete('transactions/{id}', 'Web\TransactionController@delete')->name('transactions.delete');
 //**************************** CASHBOX ***************************
 Route::resource('cashboxs', 'Web\CashboxController');
 Route::get('cashboxTransactions', 'Web\CashboxController@transactions')->name('cashbox.transactions');
@@ -51,14 +48,13 @@ Route::get('banksByOffice', 'Web\BankController@getAllByOffice');///axios
 //**************************** ACCOUNTS ***************************
 Route::get('accounts/{bankId}', 'Web\AccountController@index');
 
-//****************************TYPES OF TRANSACTIONS ***************************
+//**************************** TYPES OF TRANSACTIONS ***************************
 // Route::resource('transactionsTypes', 'Web\TransactionTypeController', ['parameters' => ['transaction-types' => 'id']] );
-Route::get('transaction-types/{sign}', 'Web\TransactionTypeController@index')->name('transactionsTypes.index');
-// Route::get('transaction-types/{sign}/create', 'Web\TransactionController@create')->name('transaction-types.create');
-// Route::post('transaction-types/store', 'Web\TransactionController@store')->name('transaction-types.store');
-// Route::get('transaction-types/{id}/edit', 'Web\TransactionController@edit')->name('transaction-types.edit');
-// Route::get('transaction-types/{sign}/{id}/show', 'Web\TransactionController@show')->name('transaction-types.show');
-// Route::delete('transaction-types/{sign}/{id}/delete', 'Web\TransactionController@delete')->name('transactions.delete');
+Route::get('transaction-types/{sign}/index', 'Web\TransactionTypeController@index')->name('transactionTypes.index');
+Route::post('transaction-types', 'Web\TransactionTypeController@store')->name('transactionTypes.store');
+Route::get('transaction-types/{id}', 'Web\TransactionTypeController@show')->name('transactionTypes.show');
+Route::put('transactions-types/{id}', 'Web\TransactionTypeController@update')->name('transactionTypes.update');
+Route::delete('transaction-types/{id}', 'Web\TransactionTypeController@delete')->name('transactionTypes.delete');
 
 //******************************SUBCONTRACTORS***********************************
 Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);
@@ -74,8 +70,6 @@ Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorPayableControll
 
 //**************************** PAYABLES ******************************
 Route::post('payables/pay', 'Web\PayableController@pay')->name('payables.pay');
-
-
 
 //**************************** RECEIVABLES ***************************
 Route::get('receivables', 'Web\ReceivableController@index')->name('receivables.index');

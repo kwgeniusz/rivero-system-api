@@ -59,7 +59,7 @@ class ContractController extends Controller
         
         $filteredOut = $request->filteredOut;
         //GET LIST CONTRACTS FOR STATUS VACANT AND STARTED
-        $contracts = $this->oContract->getAllForSevenStatus(
+        $contracts = $this->oContract->getAllForNineStatus(
             Contract::VACANT, 
             Contract::STARTED,
             Contract::READY_BUT_PENDING_PAYABLE,
@@ -67,10 +67,16 @@ class ContractController extends Controller
             Contract::WAITING_CLIENT,
             Contract::DOWNLOADING_FILES,
             Contract::SENT_TO_OFFICE,
+            Contract::IN_PRODUCTION_QUEUE,
+            Contract::SENT_TO_ENGINEER,
             $filteredOut,
             session('countryId'),
             session('companyId')
         );
+
+        if($request->ajax()){
+            return $contracts;
+        }
 
         return view('module_contracts.contracts.index', compact('contracts'));
     }
@@ -79,7 +85,7 @@ class ContractController extends Controller
     {
 
        $contractNumberFormat = $this->oCompanyConfiguration->generateContractNumberFormat(session('countryId'),session('companyId'));
-       $currencies   = $this->oCurrency->getAll();
+       $currencies   = $this->oCurrency->getAllDisplay();
 
         return view('module_contracts.contracts.create', compact('currencies','contractNumberFormat'));
     }
@@ -141,7 +147,7 @@ class ContractController extends Controller
          // }
           
         $contract = $this->oContract->FindById($id,session('countryId'),session('companyId'));
-        $currencies = $this->oCurrency->getAll();
+        $currencies = $this->oCurrency->getAllDisplay();
 
         return view('module_contracts.contracts.edit', compact('contract','currencies','blockEdit'));
     }
