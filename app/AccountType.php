@@ -26,14 +26,13 @@ class AccountType extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    //  public function findById($id)
-    // {
-    //     return $this->where('buildingCodeId', '=', $id)->get();
-    // }
-    // public function getAll()
-    // {
-    //     return $this->orderBy('buildingCodeId', 'ASC')
-    //                 ->get();
-    // }
+    public function getAllByLanguage($language)
+{
+     //se trae las condiciones de pago por el lenguaje que esta en la tabla pais
+    return $this->where('language' , '=' , $language)
+      ->orderBy('accountTypeId', 'ASC')
+      ->get();
+
+}
 
 }

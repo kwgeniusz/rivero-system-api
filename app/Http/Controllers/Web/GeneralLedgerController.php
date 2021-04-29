@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 // use App\Bank;
 use App\GeneralLedger;
+use App\AccountType;
+use App\AccountClassification;
 use App\Helpers\DateHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,14 +14,15 @@ use Auth;
 class GeneralLedgerController extends Controller
 {
     private $oGeneralLedger;
-    // private $oCompanyConfiguration;
+    private $oAccountType;
+    private $oAccountClassification;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oGeneralLedger = new GeneralLedger;
-        // $this->oContactType = new ContactType;
-        // $this->oCompanyConfiguration = new CompanyConfiguration();
+        $this->oGeneralLedger        = new GeneralLedger;
+        $this->oAccountType          = new AccountType;
+        $this->oAccountClassification = new AccountClassification;
     }
     /**
      * Display a listing of the resource.
@@ -44,16 +47,17 @@ class GeneralLedgerController extends Controller
      */
     public function create(Request $request)
     {
-
-        // $clientNumberFormat = $this->oCompanyConfiguration->generateClientNumberFormat(session('companyId'),session('parentCompanyId'));
-        // $contactTypes       = $this->oContactType->getAllByOffice(session('companyId'));
- 
-        // if($request->ajax()) {
-        //  return [
-        //          'clientNumberFormat' => $clientNumberFormat,
-        //          'contactTypes' => $contactTypes
-        //         ];
-        //     }
+        $chartOfAccount              = $this->oGeneralLedger->getAllByCompany(session('companyId'));
+        $accountTypeList             = $this->oAccountType->getAllByLanguage(session('countryLanguage'));
+        $accountClassificationList   = $this->oAccountClassification->getAllByLanguage(session('countryLanguage'));
+        
+        if($request->ajax()) {
+         return [
+                 'chartOfAccount'            => $chartOfAccount,
+                 'accountTypeList'           => $accountTypeList,
+                 'accountClassificationList' => $accountClassificationList
+                ];
+        }
         // return view('module_contracts.clients.create', compact('contactTypes','clientNumberFormat'));
     }
 

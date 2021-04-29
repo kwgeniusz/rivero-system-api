@@ -42,7 +42,7 @@
         mounted() {
             axios.get('/general-ledger').then((response) => {
                 this.generalLedgerList = response.data
-                console.log(this.generalLedgerList)
+                // console.log(this.generalLedgerList)
             })
         },
         data() {
