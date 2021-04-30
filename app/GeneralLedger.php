@@ -89,39 +89,25 @@ class GeneralLedger extends Model
                      ->orderBy('accountCode', 'DESC')
                      ->get(); 
      }      
-    public function insertG($countryId, $companyId, $parentCompanyId, $data)
+    public function insertG($countryId, $companyId, $data)
     {
           $error = null;
 
      DB::beginTransaction();
       try {
-          //bloquear multiple 
-      $oConfiguration     = new CompanyConfiguration();
-      $clientNumber       = $oConfiguration->retrieveClientNumber($companyId,$parentCompanyId);
-      $clientNumberFormat = $oConfiguration->generateClientNumberFormat($companyId,$parentCompanyId);
-                            $oConfiguration->increaseClientNumber($companyId,$parentCompanyId);
-
-        $client                     = new Client;
-        $client->countryId          = $countryId;
-        $client->companyId          = $companyId;
-        $client->parentCompanyId    = $parentCompanyId;
-        $client->cltId              = $clientNumber;
-        $client->clientCode         = $clientNumberFormat;
-        $client->clientType         = $data['clientType'];
-        $client->companyName        = $data['companyName'];
-        $client->clientName         = $data['clientName'];
-        $client->gender             = $data['gender'];
-        $client->clientAddress      = $data['clientAddress'];
-        $client->businessPhone      = $data['businessPhone'];
-        $client->homePhone          = $data['homePhone'];
-        $client->otherPhone         = $data['otherPhone'];
-        $client->fax                = $data['fax'];
-        $client->mainEmail          = $data['mainEmail'];
-        $client->secondaryEmail     = $data['secondaryEmail'];
-        $client->contactTypeId      = $data['contactTypeId'];
-        $client->created_at         = date('Y-m-d H:i:s');
-        $client->lastUserId         = Auth::user()->userId;
-        $client->save();
+   
+        $generalLedger                          = new GeneralLedger;
+        $generalLedger->countryId               = $countryId;
+        $generalLedger->companyId               = $companyId;
+        $generalLedger->accountCode             = $data['accountCode'];
+        $generalLedger->accountName             = $data['accountName'];
+        $generalLedger->leftMargin              = $data['leftMargin'];
+        $generalLedger->parentAccountCode       = $data['parentAccountCode'];
+        $generalLedger->accountClassification   = $data['accountClassification'];
+        $generalLedger->accountTypeCode         = $data['accountTypeCode'];
+        $generalLedger->debit                   = $data['debit'];
+        $generalLedger->credit                  = $data['credit'];
+        $generalLedger->save();
             
             $success = true;
             DB::commit();
@@ -133,7 +119,7 @@ class GeneralLedger extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Cliente N° $client->clientCode creado exitosamente ",'model'=>$client];
+          return $rs  = ['alert' => 'success', 'message' => "Cuenta Creada Exitosamente."];
         } else {
             return $rs = ['alert' => 'error', 'message' => $error];
         }
