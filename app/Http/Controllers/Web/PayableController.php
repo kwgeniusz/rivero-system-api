@@ -25,6 +25,7 @@ class PayableController extends Controller
       {
             $rs = $this->oPayable->addPay(
                         $request->checked,
+                        $request->reference,
                         $request->payMethodId,
                         $request->payMethodDetails,
                         $request->typeExpense,

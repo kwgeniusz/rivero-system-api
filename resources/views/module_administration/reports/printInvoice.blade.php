@@ -218,7 +218,11 @@ foreach ($invoiceDetails as $invDetail) {
                <span id="bold">ID:</span> {{$client->clientCode}}
             </th>
             <th colspan="1" class="org">
+            @if($client->clientType == 'COMPANY') 
+              <span id="bold">Name:</span> {{$client->companyName}}
+            @else  
               <span id="bold">Name:</span> {{$client->clientName}}
+            @endif  
             </th>
              <th colspan="1" class="org">
               <span id="bold">Phone:</span> {{$client->businessPhone}}
@@ -264,8 +268,7 @@ foreach ($invoiceDetails as $invDetail) {
           
        </tr>
 </table>   
-       <br>
-
+ 
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>
         <tr id="bold" style="background-color:#f2edd1; font-size:17px;" align="center">

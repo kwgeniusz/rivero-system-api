@@ -42,6 +42,7 @@
                    <td class="text-left">{{subcont.typeForm1099}}</td>
                 </tr>
         </tbody>
+    
       </table>
      </div>
 
@@ -75,7 +76,7 @@
                 <!-- <th>SALDO POR PAGAR</th> -->
             </tr>
             </thead>
-          <tbody>   
+          <tbody v-if="payables.length > 0">   
           
          <tr v-for="(payable,index) in payables" :key="payable.payableId">
             <!-- <td v-if="!showMultiples">{{++index}}</td> -->
@@ -97,6 +98,13 @@
   
          </tr>
          </tbody>
+            <tbody v-else>
+                        <tr>
+                            <td colspan="12">
+                                <loading></loading>
+                            </td>
+                        </tr>
+            </tbody> 
         </table>
   </div>
 
@@ -146,29 +154,34 @@
          </tbody>
     </table>
 
-        <div class="col-xs-offset-1 col-xs-10 text-center">
+        <div class=" col-xs-10 text-center">
+          
+             <div class="form-group col-lg-11 col-lg-offset-1">
+               <label for="reference">REFERENCIA DE TRANSACCION:</label>
+               <input type="text" class="form-control" id="reference" v-model="formReference" >
+            </div>
 
-          <div class="form-group col-lg-offset-1 col-lg-10">
+          <div class="form-group col-lg-offset-1 col-lg-11">
             <label for="payMethodId">METODO DE PAGO</label>
             <select class="form-control" id="payMethodId" name="payMethodId" v-model="payMethodId">
                <option v-for="(item, index) in listPaymentMethods" :value="item.payMethodId">{{item.payMethodName}}</option>
               </select>
            </div>
           
-          <div class="form-group col-lg-offset-1 col-lg-10" v-if="payMethodId == 2">
+          <div class="form-group col-lg-offset-1 col-lg-11" v-if="payMethodId == 2">
             <label for="cashboxId">DESTINO:</label>
              <div> CAJA </div>
              <input type="hidden" name="cashboxId" :value="cashboxId">
           </div>  
 
-           <div class="form-group col-lg-offset-1 col-lg-10" v-if="payMethodId != 2">
+           <div class="form-group col-lg-offset-1 col-lg-11" v-if="payMethodId != 2">
             <label for="bankId">BANCO</label>
             <select class="form-control" id="bankId" @change="getAccount()" name="bankId" v-model="bankId">
                 <option v-for="(item, index) in listBank" :value="item.bankId">{{item.bankName}}</option>
             </select>
           </div>  
 
-          <div class="form-group col-lg-offset-1 col-lg-10" v-if="payMethodId != 2">
+          <div class="form-group col-lg-offset-1 col-lg-11" v-if="payMethodId != 2">
             <label for="accountId">CUENTA DE DESTINO</label>:<br> 
            <select class="form-control" id="accountId" v-model="accountId" name="accountId">
              <option v-for="(item, index) in listAccount" :value="item.accountId">{{item.accountCodeId}}</option>
@@ -236,8 +249,9 @@
             listAccount: {},
 
             errors: [],
+            formReference: '',
             payMethodId: 1,
-            formPayMethodDetails:'',
+            formPayMethodDetails: '',
             formTypeExpense:'SUPPLIES',
             bankId: '',
             cashboxId: '',
@@ -308,6 +322,7 @@
 
             axios.post('/payables/pay',{
                 checked :         this.checked,
+                reference:        this.formReference,
                 payMethodId:      this.payMethodId, 
                 payMethodDetails: this.formPayMethodDetails,
                 typeExpense:      this.formTypeExpense,

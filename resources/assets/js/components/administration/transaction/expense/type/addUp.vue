@@ -56,7 +56,8 @@
                 // transaction to edit.
                 axios.get(`/transaction-types/${this.editId}`).then((response) => {
                     let data = response.data[0]
-                    this.transactionType.name = data.transactionName;
+                    console.log(data)
+                    this.transactionType.name = data.transactionTypeName;
                 })  
             }    
         },

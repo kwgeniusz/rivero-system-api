@@ -69,7 +69,7 @@
      <label for="formConcept" class="col-sm-2 control-label">CONCEPTO</label>
        <div class="col-sm-10">
             <select v-model="formConcept" class="form-control" id="formConcept">
-                  <option value="1">Anulación de Factura</option>
+                  <!-- <option value="1">Anulación de Factura</option> -->
                   <!-- <option value="2">Descuento</option> -->
                   <option value="3">Devolución parcial</option>
             </select>

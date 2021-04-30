@@ -60,7 +60,9 @@ Vue.use(AudioRecorder)
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-//########### Module Contracts Components #############
+//###################################################
+//           Module Contracts Components
+//###################################################
 // -----------------> Client <-------------------------//
 Vue.component("main-client",require("./components/contracts/client/main.vue"));
 Vue.component("table-client",require("./components/contracts/client/table.vue"));
@@ -89,14 +91,14 @@ Vue.component("service-templates",require("./components/contracts/ServiceTemplat
 Vue.component("grid-files-precontract",require("./components/contracts/documents/precontracts/GridFiles.vue"));
 Vue.component("grid-files",require("./components/contracts/documents/GridFiles.vue"));
 
-//########### Module Administration Components #############
+//###################################################
+//           Module Administration Components
+//###################################################
 // -----------------> Subcontractors <-------------------------//
 Vue.component("main-subcontractor",require("./components/administration/subcontractor/main.vue"));
 Vue.component("table-subcontractor",require("./components/administration/subcontractor/table.vue"));
 Vue.component("addUp-subcontractor",require("./components/administration/subcontractor/addUp.vue"));
-
-Vue.component("subcontractor-datasheet",require("./components/administration/subcontractor/Datasheet.vue"));
-// Vue.component("subcontractor-create",require("./components/administration/subcontractor/create.vue"));
+Vue.component("subcontractor-datasheet",require("./components/administration/subcontractor/Datasheet.vue")); 
 Vue.component("search-subcontractor",require("./components/administration/SearchSubcontractor.vue"));
 
 // -----------------> Transacion Income <-------------------------//
@@ -117,54 +119,66 @@ Vue.component("addUp-expense-type",require("./components/administration/transact
 // ---------------------> Point Sale <----------------------------------------//
 Vue.component("form-modal-charge", require("./components/administration/FormModalCharge.vue"));
 Vue.component("confirm-payment",require("./components/administration/ModalConfirmPayment.vue"));
-Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
-Vue.component("credit-note",require("./components/administration/invoice/saleNote/CreditNote.vue"));
-Vue.component("debit-note",require("./components/administration/invoice/saleNote/DebitNote.vue"));
 
+Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
 Vue.component("modal-transaction-details",require("./components/administration/ModalTransactionDetails.vue"));
-// Vue.component('form-new-note', require('./components/administration/proposal/FormNewNote.vue'));
 Vue.component("form-new-service",require("./components/administration/FormNewService.vue"));
 Vue.component("select-bank-with-account",require("./components/administration/SelectBankWithAccount.vue"));
+
+// ---------------------> Invoices <----------------------------------------//
 Vue.component("invoice-details",require("./components/administration/invoice/InvoiceDetails.vue"));
 Vue.component("invoice-subcontractors",require("./components/administration//invoice/InvoiceSubcontractors.vue"));
 Vue.component("invoice-btn-cancel",require("./components/administration/invoice/InvoiceBtnCancel.vue"));
 Vue.component("invoice-btn-collection",require("./components/administration/invoice/InvoiceBtnCollection.vue"));
 
-//########### Module Human Resource Components #############
-// --> Department
+// ---------------------> Sales Notes <----------------------------------------//
+Vue.component("credit-note",require("./components/administration/invoice/saleNote/CreditNote.vue"));
+Vue.component("debit-note",require("./components/administration/invoice/saleNote/DebitNote.vue"));
+
+//###################################################
+//           Module Accounting Components
+//###################################################
+Vue.component("main-general-ledger",require("./components/accounting/generalLedger/main.vue"));
+Vue.component("table-general-ledger",require("./components/accounting/generalLedger/table.vue"));
+Vue.component("addUp-general-ledger",require("./components/accounting/generalLedger/addUp.vue"));
+
+ 
+//###################################################
+//           Module Human Resource Components
+//###################################################
+// ---------------------> Deparment <-----------------------------//
 Vue.component("rrhh-departments",require("./components/rrhh/department/rrhhDepartments.vue"));
 Vue.component("rrhh-table-departments",require("./components/rrhh/department/rrhhTableDepartaments.vue"));
 Vue.component("add-Departements",require("./components/rrhh/department/addDepartements.vue"));
 Vue.component("add-Departements",require("./components/rrhh/department/addDepartements.vue"));
-// --> payroll type
+// ---------------------> Payroll Type <---------------------------//
 Vue.component("mainpayroll-type",require("./components/rrhh/payrolltype/mainPayrollType.vue"));
 Vue.component("listpayroll-type",require("./components/rrhh/payrolltype/listPayrollType.vue"));
 Vue.component("AddUp-Payroll-Type",require("./components/rrhh/payrolltype/AddUpPayrollType.vue"));
-// --> position
+// ---------------------> Position <------------------------------//
 Vue.component("main-position",require("./components/rrhh/position/mainPosition.vue"));
 Vue.component("list-position",require("./components/rrhh/position/listPosition.vue"));
 Vue.component("add-position",require("./components/rrhh/position/addPosition.vue"));
-//--> Transactions Type
+// ---------------------> Transaction Type <----------------------//
 Vue.component("main-transactions-type",require("./components/rrhh/transactionstype/mainTransactionsType.vue"));
-Vue.component("list-transaction-type",require("./components/rrhh/transactionstype/listTransactionType.vue")
-);
+Vue.component("list-transaction-type",require("./components/rrhh/transactionstype/listTransactionType.vue"));
 Vue.component("addUp-transactions-type",require("./components/rrhh/transactionstype/addUpTransactionsType.vue"));
-//--> periods
+// ---------------------> Periods <----------------------//
 Vue.component("main-periods",require("./components/rrhh/periods/mainPeriods.vue"));
 Vue.component("list-periods",require("./components/rrhh/periods/listPeriods.vue"));
 Vue.component("addUp-periods",require("./components/rrhh/periods/addUpPeriods.vue"));
-//--> process
+// ---------------------> Process <----------------------//
 Vue.component("main-process",require("./components/rrhh/process/mainProcess.vue"));
 Vue.component("list-process",require("./components/rrhh/process/listProcess.vue"));
 Vue.component("addUp-process",require("./components/rrhh/process/addUpProcess.vue"));
-//--> --> process-Detail
+// ---------------------> Process Details <----------------------//
 Vue.component("list-process-detail",require("./components/rrhh/process/processDetail/listProcessDetail.vue"));
 Vue.component("add-up-process-detail",require("./components/rrhh/process/processDetail/addUpProcessDetail.vue"));
-// --> Staff
+// ---------------------> Staff <----------------------//
 Vue.component("main-staff", require("./components/rrhh/staff/mainStaff.vue"));
 Vue.component("list-staff", require("./components/rrhh/staff/listStaff.vue"));
 Vue.component("add-up-staff",require("./components/rrhh/staff/addUpStaff.vue"));
-// --> payrollControll
+// ---------------------> Payroll Control <----------------------//
 Vue.component("main-payroll-control",require("./components/rrhh/payrollControl/mainPayrollControl.vue"));
 Vue.component("list-payroll-control",require("./components/rrhh/payrollControl/listPayrollControl.vue"));
 Vue.component("add-up-payroll-control",require("./components/rrhh/payrollControl/addUpPayrollControl.vue"));
@@ -190,7 +204,10 @@ Vue.component("list-paycheck",require("./components/rrhh/paycheck/listPaycheck.v
 Vue.component("add-up-paycheck",require("./components/rrhh/paycheck/addUpPaycheck.vue"));
 Vue.component("list-recipt-detail",require("./components/rrhh/paycheck/paycheckDetail/listReciptDetail.vue"));
 
-//########### Dashboard Counters #############
+
+//###################################################
+//           Module Statistic Components
+//###################################################
 // --> Front Page
 Vue.component("client-counter",require("./components/srcComponent/ClientCounter.vue"));
 Vue.component("contract-counter",require("./components/srcComponent/ContractCounter.vue"));
@@ -198,25 +215,20 @@ Vue.component("invoice-counter",require("./components/srcComponent/InvoiceCounte
 Vue.component("contract-chart",require("./components/srcComponent/ContractChart.vue"));
 Vue.component("contract-status-chart",require("./components/srcComponent/ContractStatusChart.vue"));
 
-//############ Configuration company components ##############
+//###################################################
+//           Module Configuration Components
+//###################################################
 Vue.component("main-company",require("./components/configuration/company/mainCompany.vue"));
 Vue.component("panel-heading-add",require("./components/configuration/company/panelHeadingAdd.vue"));
 Vue.component("panel-heading-update",require("./components/configuration/company/panelHeadingUpdate.vue"));
 Vue.component("list-company",require("./components/configuration/company/listCompany.vue"));
 
-// ########### srcComponent
+//###################################################
+//            Sources Components
+//###################################################
 Vue.component("button-form",require("./components/srcComponent/buttonForm.vue"));
 Vue.component("loading", require("./components/srcComponent/loading.vue"));
 Vue.component("time-live", require("./components/srcComponent/timeLive.vue"));
-
-// Timeframes Crud Component
-Vue.component("time-frame-crud",require("./components/administration/proposal/timeFrame/timeFrameCrud.vue"));
-// Notes Crud Component
-Vue.component("note-crud",require("./components/administration/proposal/note/noteCrud.vue"));
-// Terms and conditions Crud Component
-Vue.component("term-crud",require("./components/administration/proposal/term/termCrud.vue"));
-// Time payments Crud Component
-Vue.component("time-payment-crud",require("./components/administration/proposal/timePayment/timePayCrud.vue"));
 
 const app = new Vue({
   el: "#app",

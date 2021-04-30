@@ -1,11 +1,11 @@
 <template>
-    <div class="">
+    <div class="">  
         <!-- agregar -->
         <div v-if="formStatus === 1">
             <addUp-expense-type
                 @showlist = "showlist"
                 :editId=0
-            > </addUp-expense-type> 
+              ></addUp-expense-type> 
         </div>
 
         <!-- Vista actualizar -->
@@ -20,13 +20,17 @@
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
             <h3><b>TIPOS DE EXPENSES</b></h3>
-
+           <center>
+             <a class=" btn btn-warning" href="/transactions/-/index" type="button">
+              <span class="fa fa-hand-point-left"></span> Regresar
+             </a>
+            </center>
             <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
             ></button-form>
-
+ 
             <table-expense-type  
                 :transactionTypeList = transactionTypeList
                 @editData = "editData"
