@@ -179,7 +179,9 @@ class Contract extends Model
          $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
          $date1->tz = session('companyTimeZone');
          $date1->addDays($daysToIncrement);
-
+           
+         dd($date1);
+         exit();
          return $date1;
     }
     // public function dias(){
