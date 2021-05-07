@@ -9,7 +9,7 @@
 
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()"  id="newUpForm" >
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="selectCountry" class="form-group" v-text="nameField8"></label>
                                     <select class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" required="required">
@@ -30,7 +30,7 @@
                                     </select>
                                     
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row">
                                 <div class="form-group col-md-5">
                                     <label for="departmentId" class="form-group" v-text="nameField10"></label>
@@ -105,13 +105,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-2">
-                                    <label for="staffCode" class="form-group" v-text="nameField7"></label>
-                                    <input type="text" v-model="staffCode" class="form-control" id="staffCode" v-bind:placeholder="nameField7" required="required">
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="employmentDate" class="form-group" v-text="nameField19"></label>
                                     <input type="date" v-model="employmentDate" class="form-control" id="employmentDate" required="required">
@@ -129,10 +122,10 @@
                                 <div class="form-group col-md-4">
                                     <label for="probationPeriod" class="form-group" v-text="nameField20"></label><br>
                                     <label>
-                                        <input type="radio" v-model="probationPeriod" value="1"  checked id="probationPeriod" >Si
+                                        <input type="radio" v-model="probationPeriod" value="1" >Si
                                     </label>
                                     <label>
-                                        <input type="radio" v-model="probationPeriod" value="0" id="probationPeriod">No
+                                        <input type="radio" v-model="probationPeriod" value="0">No
                                     </label>
                                 </div>
                                 <div class="form-group col-md-4">
@@ -167,10 +160,10 @@
                                 <div class="form-group col-md-12">
                                     <label for="stopSS" class="form-group" v-text="nameField24"></label><br>
                                     <label>
-                                        <input type="radio" v-model="stopSS" value="0"  checked id="stopSS" >Si
+                                        <input type="radio" v-model="stopSS" value="0" >Si
                                     </label>
                                     <label>
-                                        <input type="radio" v-model="stopSS" value="1" id="stopSS">No
+                                        <input type="radio" v-model="stopSS" value="1">No
                                     </label>
                                 </div>
                                 
@@ -202,10 +195,10 @@
                                 <div class="form-group col-md-12">
                                     <label for="blockSS" class="form-group" v-text="nameField25"></label><br>
                                     <label>
-                                        <input type="radio" v-model="blockSS" value="0"  checked id="blockSS" >Si
+                                        <input type="radio" v-model="blockSS" value="0" >Si
                                     </label>
                                     <label>
-                                        <input type="radio" v-model="blockSS" value="1" id="blockSS">No
+                                        <input type="radio" v-model="blockSS" value="1">No
                                     </label>
                                 </div>
                                 <div class="form-group col-md-4">
@@ -245,14 +238,26 @@
     export default {
         mounted() {
 
-            axios.get('staff/list/combox/').then(res => {
-                // const eeeee = res.data
-                this.selectCountrys = res.data.countrys.map(item => {
-                    return {id: item.countryId, vText: item.countryName}
-                    
-                })
-                
+            axios.get(`staff/list/comboxDepartment/0`).then( response => {
+                this.selectDepartments = response.data.departments
+                console.log(this.selectDepartments)
             })
+
+            axios.get(`staff/list/positions`).then(res => {
+                this.selectPosition = res.data.map(item => {
+                    return {id: item.positionCode, vText: item.positionName, baseSalary: item.baseSalary }
+                })
+            console.log(this.selectPosition)
+            })
+
+            axios.get(`/staff/list/typepayroll/0`).then(res => {
+                this.selectPayrollType = res.data.map(item => {
+                    return {id: item.payrollTypeId, vText: item.payrollTypeName}
+                })
+                console.log(this.selectPayrollType)
+            })
+
+            
             // Obtener tipo de moneda
             axios.get('hrposition/').then(response => {
                 this.selectCurrency = response.data.currencies.map(item => {
@@ -264,58 +269,55 @@
            
 
             if (this.editId > 0) {
-                this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
-                    this.selectCompanys = res.data.map(item => {
-                        return {id: item.companyId, vText: item.companyName}
-                    })
-                    this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId
-                })
+                // this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
+                // axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
+                //     this.selectCompanys = res.data.map(item => {
+                //         return {id: item.companyId, vText: item.companyName}
+                //     })
+                //     this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId
+                // })
                 
                 axios.get(`/staff/list/comboxDepartment/${this.objEdit.companyId}`).then( response => {
                     this.selectDepartments = response.data.departments
-                    this.departmentId = document.querySelector("#departmentId").value = this.objEdit.departmentId
+                    this.departmentId = this.objEdit.departmentId
                 })
 
                 axios.get(`/staff/list/typepayroll/${this.objEdit.countryId}`).then(res => {
                     this.selectPayrollType = res.data.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                     })
-                    this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
+                    this.payrollTypeId = this.objEdit.payrollTypeId
                     console.log(this.objEdit)
                 })
                 axios.get(`/staff/list/positions`).then(res => {
                     this.selectPosition = res.data.map(item => {
                         return {id: item.positionCode, vText: item.positionName, baseSalary: item.baseSalary }
                     })
-                    this.positionCode = document.querySelector("#positionCode").value = this.objEdit.positionCode
+                    this.positionCode =  this.objEdit.positionCode
                 })
                 
-                this.shortName = document.querySelector("#shortName").value = this.objEdit.shortName
-                this.firstName = document.querySelector("#firstName").value = this.objEdit.firstName
-                this.lastName = document.querySelector("#lastName").value = this.objEdit.lastName
-                this.idDocument = document.querySelector("#idDocument").value = this.objEdit.idDocument
-                this.passportNumber = document.querySelector("#passportNumber").value = this.objEdit.passportNumber
-                this.legalNumber = document.querySelector("#legalNumber").value = this.objEdit.legalNumber
-                this.staffCode = document.querySelector("#staffCode").value = this.objEdit.staffCode
-                this.employmentDate = document.querySelector("#employmentDate").value = this.objEdit.employmentDate
-                this.baseSalary = document.querySelector("#baseSalary").value = this.objEdit.baseSalary
-                this.baseCurrencyId = document.querySelector("#baseCurrencyId").value = this.objEdit.baseCurrencyId
-                this.localSalary = document.querySelector("#localSalary").value = this.objEdit.localSalary
-                this.probationSalary = document.querySelector("#probationSalary").value = this.objEdit.probationSalary
-                this.localCurrencyId = document.querySelector("#localCurrencyId").value = this.objEdit.localCurrencyId
-                this.localDailySalary = document.querySelector("#localDailySalary").value = this.objEdit.localDailySalary
-                this.probationPeriod = document.querySelector("#probationPeriod").value = this.objEdit.probationPeriod
-                this.probationPeriodEnd = document.querySelector("#probationPeriodEnd").value = this.objEdit.probationPeriodEnd
-                this.stopSS = document.querySelector("#stopSS").value = this.objEdit.stopSS
-                this.blockSS = document.querySelector("#blockSS").value = this.objEdit.blockSS
-                this.status = document.querySelector("#status").value = this.objEdit.status
+                this.shortName      = this.objEdit.shortName
+                this.firstName      = this.objEdit.firstName
+                this.lastName       = this.objEdit.lastName
+                this.idDocument     = this.objEdit.idDocument
+                this.passportNumber = this.objEdit.passportNumber
+                this.legalNumber    = this.objEdit.legalNumber
+                this.employmentDate = this.objEdit.employmentDate
+                this.baseSalary     = this.objEdit.baseSalary
+                this.baseCurrencyId = this.objEdit.baseCurrencyId
+                this.localSalary    = this.objEdit.localSalary
+                this.probationSalary = this.objEdit.probationSalary
+                this.localCurrencyId = this.objEdit.localCurrencyId
+                this.localDailySalary = this.objEdit.localDailySalary
+                this.probationPeriod = this.objEdit.probationPeriod
+                this.probationPeriodEnd = this.objEdit.probationPeriodEnd
+                this.stopSS         = this.objEdit.stopSS
+                this.blockSS        = this.objEdit.blockSS
+                this.status         = this.objEdit.status
                
             }
         
            
-                // console.log(this.lastNames)
-            console.log('Component mounted.')
         },
         data(){
             return{
@@ -329,7 +331,6 @@
                 lastNames: '',
                 passportNumber: 0,
                 legalNumber: 0,
-                staffCode: '',
                 positionCode: '',
                 status: 'A',
                 baseSalary: 0,
@@ -347,8 +348,8 @@
                 probationPeriodEnd: '',
                 stopSS: 0,
                 blockSS: 0,
-                selectCountrys:{},
-                selectCompanys:{},
+                // selectCountrys:{},
+                // selectCompanys:{},
                 selectDepartments:{},
                 selectPayrollType:{},
                 selectPosition:{},
@@ -486,7 +487,6 @@
                         lastName: this.lastName,
                         passportNumber: this.passportNumber,
                         legalNumber: this.legalNumber,
-                        staffCode: this.staffCode,
                         departmentId: this.departmentId,
                         payrollTypeId: this.payrollTypeId,
                         positionCode: this.positionCode,
@@ -533,7 +533,6 @@
                         lastName: this.lastName,
                         passportNumber: this.passportNumber,
                         legalNumber: this.legalNumber,
-                        staffCode: this.staffCode,
                         departmentId: this.departmentId,
                         payrollTypeId: this.payrollTypeId,
                         positionCode: this.positionCode,
@@ -610,15 +609,10 @@
                 
                 })
                 axios.get(`staff/list/positions`).then(res => {
-                // const eeeee = res.data
-                
-                    // console.log(res)
                     this.selectPosition = res.data.map(item => {
                         return {id: item.positionCode, vText: item.positionName, baseSalary: item.baseSalary }
-                        
                     })
-                // console.log(eeeee)
-                // debugger
+                console.log(this.selectPosition)
                 })
             },
             positionSalary(event){
