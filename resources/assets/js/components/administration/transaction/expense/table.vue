@@ -1,7 +1,7 @@
 <template>
-   <div>
-
 <div>
+        <modal-advanced-search :showModal="true"/>
+  <div>
     <div class="col-xs-4">
       Subcontratistas: ${{totals.subcontractors}} <br>
       Manuales: ${{totals.manuales}} <br>
@@ -14,7 +14,8 @@
             <input type="text" placeholder="Buscar" class="form-control" v-model="inputSearch">
         </li>
        </ul>
-    </div> 
+    </div>
+    
    <div class="col-xs-4">
           <!-- <a href="{{route('reports.clients')}}" class="btn btn-danger btn-sm text-right">
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Clientes de la Corporacion
@@ -24,12 +25,15 @@
             Opciones<span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dLabel">
-            <li><a v-if="$can('FE')" href="/transaction-types/-/index">Tipos de Expenses</a></li>
+            <li><a v-if="$can('FE')" href="/transaction-types/-/index">Lista de Tipos de Expenses</a></li>
+            <li><a @click="showModalSearch()">Busqueda Avanzada</a></li>
+            <a class="btn btn-success" v-if="btnAdd" @click="showModal=true"><span class="fa fa-plus" aria-hidden="true"></span></a>
+             <addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/>
           </ul>
         </div>
     </div>
-    
-</div>
+ </div>
+
        <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="table-responsive text-center">
@@ -126,7 +130,6 @@
 
                          </template> 
                          </tbody>
-                         
                          <tbody v-else>
                            <tr>
                              <td colspan="12">
@@ -138,30 +141,34 @@
 
                     </div>
                 </div>
-
+ 
             </div>
             </div>
-        
 </template>
 
 <script>
+    import {Spanish} from 'flatpickr/dist/l10n/es.js';
+    import ModalAdvancedSearch from '../ModalAdvancedSearch.vue'
+
     export default {
-        mounted() {
+      mounted() {
             console.log('Component mounted.') 
         },
-        data(){
+      data(){
             return{
                 inputSearch: '',
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 opened: [],
             }
         },
-        props: {
-            transactionList: {},
-            // parents:{},
+      props: {
+         transactionList: {},
         },  
-     computed: {
-            searchData: function () {
+       components: {
+         ModalAdvancedSearch,
+       },      
+       computed: {
+        searchData: function () {
                 return this.transactionList.filter((transaction) => {
                   return transaction.description.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                          transaction.reason.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
@@ -187,38 +194,41 @@
                 });
                netTotal =  totalManual + totalSubcontractor;
 
-              return {
-              'subcontractors': totalSubcontractor.toFixed(2),
-              'manuales': totalManual.toFixed(2),
-              'netTotal': netTotal.toFixed(2)
-
-              }
-         
-                // return `Ingresos de Facturas ${suma.toFixed(2)}`;
+               return {
+                'subcontractors': totalSubcontractor.toFixed(2),
+                'manuales': totalManual.toFixed(2),
+                'netTotal': netTotal.toFixed(2)
+               }
             }  
         },   
         methods: {
-          toggle(id) {
-         const index = this.opened.indexOf(id);
-         if (index > -1) {
-           this.opened.splice(index, 1)
-         } else {
-           this.opened.push(id)
-         }
-       },
-            editTransaction(index, id){
+          editTransaction(index, id){
                 // console.log('index: '+index + ' id: '+ id)
                 this.$emit('editData', id)
-            },
-            deleteTransaction(index, id){
+          },
+          deleteTransaction(index, id){
                 if (confirm(`Esta Seguro de Eliminar la Transaccion #${++index}?`) ){
                      axios.delete(`/transactions/${id}`).then((response) => {
                            toastr.success(response.data.message);
                            this.$emit('showlist', 0)
                     })
                 }    
-            }, 
-        }
-    }
+         },
+         showModalSearch(){
+      
+          },  
+         search(){
+               alert(this.searcher.date1)
+          },
+         toggle(id) {
+           const index = this.opened.indexOf(id);
+           if (index > -1) {
+            this.opened.splice(index, 1)
+           } else {
+            this.opened.push(id)
+           }
+         },  
+      }//end of methods
+    } //end of export
 
 </script>

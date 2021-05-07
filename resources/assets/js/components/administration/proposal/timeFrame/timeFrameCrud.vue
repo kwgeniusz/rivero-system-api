@@ -12,10 +12,10 @@
               <label for="timeName">Timeframe:</label>
                 <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
             </div>
-              <!-- <div class="input-label boxes2">
+              <div class="input-label boxes2">
               <label for="timeName">Dias Representados:</label>
-                <input type="number" placeholder="Dias en Numero" v-model="timeframe.timeName"/>
-            </div>  -->
+                <input type="number" placeholder="Dias en Numero" v-model="timeframe.daysRepresented"/>
+            </div> 
             <div style="width: 100%; text-align: center;">
               <button class="submit" type="submit">Editar</button>
               <button class="submit"  style="background: #d60101;" @click="cancelarEdicion()">
@@ -30,7 +30,10 @@
                 >Timeframe:</label
               >
               <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
-              <input type="text" placeholder="Escriba una descripcion..." v-model="timeframe.timeName"/>
+             <div class="input-label boxes2">
+              <label for="timeName">Dias Representados:</label>
+                <input type="number" placeholder="Dias en Numero" v-model="timeframe.daysRepresented"/>
+            </div> 
             </div>
             <div style="width: 100%; text-align: center;">
               <button class="submit" type="submit">
@@ -45,16 +48,15 @@
                 <tr>
                   <th>#</th>
                   <th>Descripcion</th>
+                  <th>Dias Representados</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in alltimeframes" :key="index">
                   <td>{{ index + 1 }}</td>
-                  <td>
-                    <p class="text-left">
-                      {{ item.timeName }}
-                    </p>
+                  <td><p class="text-left">{{ item.timeName }}</p>
+                  <td><p class="text-center">{{ item.daysRepresented }}</p>
                   </td>
                   <td>
                     <button
@@ -95,6 +97,7 @@ export default {
         countryId: "",
         companyId: "",
         timeName: "",
+        daysRepresented: "",
         deleted_at: "",
       },
       modoEdicion: false,
@@ -108,25 +111,26 @@ export default {
   methods: {
     crear() {
       if (this.timeframe.timeName.trim() === "") {
-        alert(
-          "Debes indicar un texto descriptivo para el timeframe antes de crearlo"
-        );
+        alert("Debes indicar un texto descriptivo para el timeframe antes de crearlo");
         return;
       }
+      if (this.timeframe.daysRepresented.trim() === "") {
+        alert("Debes indicar un numero para los dias representados");
+        return;
+      } 
       const params = {
-        countryId: this.timeframe.countryId,
-        companyId: this.timeframe.companyId,
-        timeName: this.timeframe.timeName,
+        countryId:       this.timeframe.countryId,
+        companyId:       this.timeframe.companyId,
+        timeName:        this.timeframe.timeName,
+        daysRepresented: this.timeframe.daysRepresented,
       };
-      axios
-        .post("/crud-timeframes", params)
-        .then((res) => {
+      axios.post("/crud-timeframes", params).then((res) => {
           this.alltimeframes.unshift(res.data);
-        })
-        .then(() => {
+        }).then(() => {
           this.timeframe.countryId = "";
           this.timeframe.companyId = "";
           this.timeframe.timeName = "";
+          this.timeframe.daysRepresented = "";
         });
     },
     editar(item) {
@@ -134,6 +138,7 @@ export default {
       this.timeframe.countryId = item.countryId;
       this.timeframe.companyId = item.companyId;
       this.timeframe.timeName = item.timeName;
+      this.timeframe.daysRepresented = item.daysRepresented;
       this.timeframe.timeId = item.timeId;
     },
     cancelarEdicion() {
@@ -141,12 +146,14 @@ export default {
       this.timeframe.countryId = "";
       this.timeframe.companyId = "";
       this.timeframe.timeName = "";
+      this.timeframe.daysRepresented = "";
     },
     actualizar(item) {
       const params = {
         countryId: item.countryId,
         companyId: item.companyId,
         timeName: item.timeName,
+        daysRepresented: item.daysRepresented,
       };
 
       axios.put(`/crud-timeframes/${item.timeId}`, params).then((res) => {
@@ -162,6 +169,7 @@ export default {
         this.timeframe.countryId = "";
         this.timeframe.companyId = "";
         this.timeframe.timeName = "";
+        this.timeframe.daysRepresented = "";
       });
     },
     eliminar(item, index) {

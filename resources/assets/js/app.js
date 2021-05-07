@@ -54,6 +54,8 @@ Vue.use(Popover)
 // Components To Vue-audio-recorder
 import AudioRecorder from 'vue-audio-recorder'
 Vue.use(AudioRecorder)
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -67,6 +69,7 @@ Vue.use(AudioRecorder)
 Vue.component("main-client",require("./components/contracts/client/main.vue"));
 Vue.component("table-client",require("./components/contracts/client/table.vue"));
 Vue.component("addUp-client",require("./components/contracts/client/addUp.vue"));
+
 // -----------------> Client Other Contacts <-------------------------//
 Vue.component("main-other-contact",require("./components/contracts/client/otherContact/main.vue"));
 Vue.component("table-other-contact",require("./components/contracts/client/otherContact/table.vue"));
@@ -76,6 +79,7 @@ Vue.component("addUp-other-contact",require("./components/contracts/client/other
 Vue.component("main-contract",require("./components/contracts/contract/main.vue"));
 Vue.component("table-contract",require("./components/contracts/contract/table.vue"));
 // Vue.component("addUp-contract",require("./components/contracts/client/otherContact/addUp.vue"));
+
 // ------------------------------------------------------------------//
 Vue.component("comments-contract",require("./components/contracts/CommentsOfContract.vue"));
 Vue.component("comments-precontract",require("./components/contracts/CommentsOfPrecontract.vue"));
@@ -91,6 +95,11 @@ Vue.component("service-templates",require("./components/contracts/ServiceTemplat
 Vue.component("grid-files-precontract",require("./components/contracts/documents/precontracts/GridFiles.vue"));
 Vue.component("grid-files",require("./components/contracts/documents/GridFiles.vue"));
 
+// -----------------> Time Frames <-------------------------//
+Vue.component("time-frame-crud",require("./components/administration/proposal/timeFrame/timeFrameCrud.vue"));
+Vue.component("term-crud",require("./components/administration/proposal/term/termCrud.vue"));
+Vue.component("note-crud",require("./components/administration/proposal/note/noteCrud.vue"));
+// Vue.component("table-contract",require("./components/contracts/contract/table.vue"));
 //###################################################
 //           Module Administration Components
 //###################################################

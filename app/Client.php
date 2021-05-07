@@ -108,43 +108,42 @@ class Client extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-      function getClientByGroupAndPagination($countryId,$companyId,$parentCompanyId,$filteredOut) {
-     //  Cuando parentCompanyId es mayor que cero  
-     if ($parentCompanyId > 0 ) {
-        $rs = $this->with('contactType','company')
-                   ->where( function($query) use($countryId,$companyId,$parentCompanyId)  {
-                       $query->where('countryId', '=', $countryId)           
-                             ->where('parentCompanyId', '>', 0)
-                             ->where('parentCompanyId', '=', $parentCompanyId); 
-                     })->orWhere( function($query) use($countryId,$companyId,$parentCompanyId)  {
-                       $query->where('countryId', '=', $countryId)           
-                             ->where('parentCompanyId', '=', 0)
-                             ->where('companyId', '=', $parentCompanyId); 
-                     })->filter($filteredOut)
-                     ->orderBy('cltId', 'ASC')
-                     ->paginate(100); 
-     } else {
-     //  Cuando parentCompanyId es igual a cero 
-         $rs = $this->with('contactType','company')
-                    ->where( function($query) use($countryId,$companyId,$parentCompanyId)  {
-                       $query->where('countryId', '=', $countryId)            
-                             ->where('parentCompanyId', '>', 0)
-                             ->where('parentCompanyId', '=', $companyId); 
-                     })->orWhere( function($query) use($countryId,$companyId,$parentCompanyId)  {
-                       $query->where('countryId', '=', $countryId)           
-                             ->where('parentCompanyId', '=', 0)
-                             ->where('companyId', '=', $companyId); 
-                     })->filter($filteredOut)
-                     ->orderBy('cltId', 'ASC')
-                     ->paginate(100); 
-     }      
-     return $rs;
-  }  
+//       function getClientByGroupAndPagination($countryId,$companyId,$parentCompanyId,$filteredOut) {
+//      //  Cuando parentCompanyId es mayor que cero  
+//      if ($parentCompanyId > 0 ) {
+//         $rs = $this->with('contactType','company','otherContact')
+//                    ->where( function($query) use($countryId,$companyId,$parentCompanyId)  {
+//                        $query->where('countryId', '=', $countryId)           
+//                              ->where('parentCompanyId', '>', 0)
+//                              ->where('parentCompanyId', '=', $parentCompanyId); 
+//                      })->orWhere( function($query) use($countryId,$companyId,$parentCompanyId)  {
+//                        $query->where('countryId', '=', $countryId)           
+//                              ->where('parentCompanyId', '=', 0)
+//                              ->where('companyId', '=', $parentCompanyId); 
+//                      })->filter($filteredOut)
+//                      ->orderBy('cltId', 'ASC')
+//                      ->paginate(100); 
+//      } else {
+//      //  Cuando parentCompanyId es igual a cero 
+//          $rs = $this->with('contactType','company','otherContact')
+//                     ->where( function($query) use($countryId,$companyId,$parentCompanyId)  {
+//                        $query->where('countryId', '=', $countryId)            
+//                              ->where('parentCompanyId', '>', 0)
+//                              ->where('parentCompanyId', '=', $companyId); 
+//                      })->orWhere( function($query) use($countryId,$companyId,$parentCompanyId)  {
+//                        $query->where('countryId', '=', $countryId)           
+//                              ->where('parentCompanyId', '=', 0)
+//                              ->where('companyId', '=', $companyId); 
+//                      })->filter($filteredOut)
+//                      ->orderBy('cltId', 'ASC')
+//                      ->paginate(100); 
+//      }      
+//      return $rs;
+//   }  
     function getClientByGroup($countryId,$companyId,$parentCompanyId,$filteredOut) {         
-        
-     //  Cuando parentCompanyId es mayor que cero  
+     //  Cuando parentCompanyId es mayor que cero  (COMPANIA HIJA)
      if ($parentCompanyId > 0 ) {
-        $rs = $this->with('contactType','company')
+        $rs = $this->with('contactType','company','otherContact')
                    ->where( function($query) use($countryId,$companyId,$parentCompanyId)  {
                        $query->where('countryId', '=', $countryId)           
                              ->where('parentCompanyId', '>', 0)
@@ -156,8 +155,8 @@ class Client extends Model
                      })->filter($filteredOut)
                      ->get(); 
      } else {
-     //  Cuando parentCompanyId es igual a cero 
-         $rs = $this->with('contactType','company')
+     //  Cuando parentCompanyId es igual a cero (CORPORACION)
+         $rs = $this->with('contactType','company','otherContact')
                     ->where( function($query) use($countryId,$companyId,$parentCompanyId)  {
                        $query->where('countryId', '=', $countryId)            
                              ->where('parentCompanyId', '>', 0)

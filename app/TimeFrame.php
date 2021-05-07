@@ -13,7 +13,7 @@ class TimeFrame extends Model
 
     protected $table      = 'time_frame';
     protected $primaryKey = 'timeId';
-    protected $fillable = ['timeId','countryId','companyId','timeName','deleted_at'];
+    protected $fillable = ['timeId','countryId','companyId','timeName','daysRepresented','deleted_at'];
 
     protected $dates = ['deleted_at'];
 
@@ -38,12 +38,13 @@ class TimeFrame extends Model
           ->get();
     }
 //------------------------------------------
-    public function insertT($countryId,$companyId,$timeName)
+    public function insertT($countryId,$companyId,$timeName,$daysRepresented)
     {
         $time                  = new TimeFrame;
         $time->countryId       = $countryId;
         $time->companyId       = $companyId;
         $time->timeName        = $timeName;
+        $time->daysRepresented        = $daysRepresented;
         $time->save();
     }
 

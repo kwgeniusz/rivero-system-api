@@ -176,11 +176,11 @@ class Contract extends Model
     public function getProductionDeliveryDateAttribute()
     {
          $daysToIncrement = $this->attributes['estimatedWorkDays'];
-        //  $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
-        //  $date1->tz = session('companyTimeZone');
-        //  $date1->addDays($daysToIncrement);
-
-         return $daysToIncrement;
+         $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
+         $date1->tz = session('companyTimeZone');
+         $date1->addDays($daysToIncrement);
+                  
+         return $date1;
     }
     // public function dias(){
     //     $fecha1 = date_create($this->created_at);
