@@ -31,15 +31,15 @@ class ClientController extends Controller
     public function index(Request $request)
     {
        if(session('parentCompanyId') == 0) {
-       $clients = $this->oClient->getClientByGroup(session('countryId'),session('companyId'),session('parentCompanyId'),'');
+        $clients = $this->oClient->getClientByGroup(session('countryId'),session('companyId'),session('parentCompanyId'),'');
        }else{ 
-       $clients = $this->oClient->getClientByCompany(session('companyId'));
+        $clients = $this->oClient->getClientByCompany(session('companyId'));
        }
-         if($request->ajax()) {
+        if($request->ajax()) {
                return $clients;
-                }
+        }
 
-        return view('module_contracts.clients.index', compact('clientsCompany'));
+        return view('module_contracts.clients.index', compact('clients'));
     }
     /**
      * Show the form for creating a new resource.
