@@ -1,7 +1,7 @@
 <template>
        <div >
     <div class="col-xs-4">
-    
+      
     </div>   
 
     <div class="col-xs-4">
@@ -28,30 +28,7 @@
     </div>
 
             <div class="col-xs-12">
-                <div class="panel panel-default">          
-
-<!-- <ul class="nav nav-tabs nav-justified">
-      <li class="nav-item">
-        <a class="nav-link" @click.prevent="setActive('home')" :class="{ active: isActive('home') }" href="#home">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" @click.prevent="setActive('profile')" :class="{ active: isActive('profile') }" href="#profile">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" @click.prevent="setActive('contact')" :class="{ active: isActive('contact') }" href="#contact">Contact</a>
-      </li>
-    </ul>
-    <div class="tab-content py-3" id="myTabContent">
-      <div class="tab-pane " :class="{ 'active': isActive('home') }" id="home">Home content</div>
-      <div class="tab-pane " :class="{ 'active': isActive('profile') }" id="profile">Profile content</div>
-      <div class="tab-pane " :class="{ 'active': isActive('contact') }" id="contact">Contact content</div>
-    </div> -->
-    <!-- <ul>
-    <li v-for="client in clientList" :key="client.id">{{ client.clientName }}</li>
-</ul>
-
-<pagination :data="laravelData" @pagination-change-page="getResults"></pagination> -->
-
+                <div class="panel panel-default">         
                     <div class="table-responsive text-center">
                         <table class="table table-striped table-bordered text-center">
                             <thead>
@@ -74,15 +51,15 @@
                             <tbody v-if="searchData.length > 0">
                              <template v-for="(client, index) in searchData">       
                              <tr>
-                                <td >{{index + 1}}</td>
+                                <td >{{index + 1}} </td>
                                 <td class="text-left"> {{client.clientCode}}</td>
                                 <td class="text-left"> {{client.clientType}}</td>
                                 <td class="text-left"> 
-                               <modal-client-details pref-url="/" 
-                               :client-id="client.clientId" 
-                               :client-name="client.clientName"
-                               :company-name="client.companyName">
-                               </modal-client-details>
+                                  <modal-client-details pref-url="/" 
+                                  :client-id="client.clientId" 
+                                  :client-name="client.clientName"
+                                  :company-name="client.companyName">
+                                  </modal-client-details>
                                 </td>
                                 <td class="text-left"> {{client.gender}}</td> 
                                 <td class="text-left"> {{client.clientAddress}}</td>  
@@ -90,7 +67,7 @@
                                 <!-- <td class="text-left"> {{client.homePhone}}</td> -->
                                 <!-- <td class="text-left"> {{client.mobilePhone}}</td> -->
                                 <td class="text-left"> {{client.mainEmail}}</td>
-                                <td> 
+                                <td v-if="client.companyId == companyId"> 
                                  <button @click="toggle(client.clientId)" :class="{ opened: opened.includes(client.clientId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>  
                                  <button @click="editData(index,client.clientId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                  <!-- <button @click="deleteData(index,client.clientId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  -->
@@ -129,6 +106,7 @@
     export default {
         mounted() {
             console.log('Component mounted.') 
+      
             // console.log(this.clientList)
         },
         data(){
@@ -136,6 +114,7 @@
                 inputSearch: '',
                 activeItem: 'home', //para los tags
                 opened: [], //para el toogle
+                companyId: window.globalCompanyId
             }
         },
         props: {

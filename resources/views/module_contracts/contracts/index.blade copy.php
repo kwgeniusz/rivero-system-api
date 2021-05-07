@@ -3,7 +3,6 @@
 @section('content')
 <main-contract/>
 
-
   <h3><b>{{__('contracts')}}</b></h3>
  <div class="row ">
       <div class="col-xs-12 text-center">
