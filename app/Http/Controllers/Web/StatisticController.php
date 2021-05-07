@@ -25,8 +25,11 @@ class StatisticController extends Controller
 
     public function numberOfClients(Request $request)
     {
-
-      $rs = $this->oClient->getClientByCompany(session('companyId'),'');
+        if(session('parentCompanyId') == 0) {
+            $rs = $this->oClient->getClientByGroup(session('countryId'),session('companyId'),session('parentCompanyId'),'');
+        }else{ 
+            $rs = $this->oClient->getClientByCompany(session('companyId'));
+         }
            return count($rs);
     }
     public function numberOfContracts()
@@ -46,10 +49,6 @@ class StatisticController extends Controller
     }
     public function numberOfContractsFinished(Request $request)
     {
-        //   if($request->){
-
-        //   }
-
         $rs = $this->oContract->getAllForStatus(Contract::FINISHED,'',session('countryId'),session('companyId'));
            return count($rs);
     }

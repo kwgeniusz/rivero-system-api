@@ -1,8 +1,8 @@
 <template>
     <div class="row">
-      <!-- <sweet-modal ref="modalNew" @close="cancf"> -->
+      <sweet-modal ref="modalNew" @close="cancf">
 
-        <div class="col-md-8 col-xs-offset-1">
+        <div class="col-xs-12">
             <div class="panel panel-default">
 
                 <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Cliente</h4></div>
@@ -122,7 +122,7 @@
             </div>
         </div>
 
-   <!-- </sweet-modal>      -->
+   </sweet-modal>     
 
     </div>
 </template>
@@ -131,7 +131,7 @@
     export default {
         mounted() {
          console.log('Component mounted.');
-              // this.$refs.modalNew.open()
+              this.$refs.modalNew.open()
         
 
           axios.get('/clients/create').then((response) => {
@@ -189,7 +189,7 @@
             }
          },
       props: {
-            // modal:false,
+            modal:false,
             editId:'',
         },
       methods: {
@@ -226,8 +226,8 @@
                            this.client.clientName,
                            this.client.clientAddress);
 
-                          //  this.cancf()
-                           this.$emit('showlist', 0)
+                           this.cancf()
+                          //  this.$emit('showlist', 0)
    
                         })
                     .catch((error) => {

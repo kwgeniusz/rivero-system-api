@@ -228,7 +228,7 @@ class Transaction extends Model
             $transaction->accountId               = $accountId;
             if($model != ''){
              $transaction->transactionable_id      = $model->getKey();
-             $transaction->transactionable_type    = get_class($model);
+              $transaction->transactionable_type    = get_class($model);
             }
             $transaction->userId                   = $userId;
             $transaction->save();

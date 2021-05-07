@@ -10,7 +10,7 @@
           
            <span class="input-group-btn">
              <a class="btn btn-success" v-if="btnAdd" @click="showModal=true"><span class="fa fa-plus" aria-hidden="true"></span></a>
-             <!-- <addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/> -->
+             <addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/>
 
              <a class="btn btn-danger" @click="removeClient()" v-if="btnRemove"><span class="fa fa-times-circle" aria-hidden="true"></span></a>
           </span>

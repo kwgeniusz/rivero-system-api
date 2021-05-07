@@ -30,6 +30,7 @@ class TimeFrameControllerCrud extends Controller
         $timeframe = new TimeFrame();
 
         $timeframe->timeName = $request->timeName;
+        $timeframe->daysRepresented = $request->daysRepresented;
         $timeframe->countryId = session('countryId');
         $timeframe->companyId = session('companyId');
 
@@ -43,6 +44,7 @@ class TimeFrameControllerCrud extends Controller
         $timeframe = TimeFrame::findOrFail($id);
 
         $timeframe->timeName = $request->timeName;
+        $timeframe->daysRepresented = $request->daysRepresented;
 
         $timeframe->save();
 

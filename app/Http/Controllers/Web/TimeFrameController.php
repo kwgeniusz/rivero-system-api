@@ -39,7 +39,8 @@ class TimeFrameController extends Controller
          $this->oTimeFrame->insertT(
             session('countryId'),
             session('companyId'),
-            $request->timeName
+            $request->timeName,
+            $request->daysRepresented
         );
 
         $notification = array(
@@ -74,7 +75,8 @@ class TimeFrameController extends Controller
     {
         $this->oTimeFrame->updateN(
             $request->timeId,
-            $request->frameName
+            $request->frameName,
+            $request->daysRepresented
         );
 
         $notification = array(
