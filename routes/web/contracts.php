@@ -62,13 +62,13 @@ Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposal
 Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
 
 // ->Time Frames
-Route::resource('crud-timeframes', 'Web\TimeFrameControllerCrud');
+Route::resource('timeframes', 'Web\TimeFrameController');
 // ->Notes
-Route::resource('crud-notes', 'Web\NoteControllerCrud');
+Route::resource('notes', 'Web\NoteController');
 // ->Terms & Conditions
-Route::resource('crud-term', 'Web\TermControllerCrud');
+Route::resource('terms', 'Web\TermController');
 // -> Time Payments
-Route::resource('crud-timepayments', 'Web\TimePaymentControllerCrud');
+Route::resource('timepayments', 'Web\TimePaymentController');
 //*******************************CONTRACT**************************************//
 Route::resource('contracts', 'Web\ContractController', ['except' => ['create']]);
 Route::put('contracts/{id}/update-ibc', 'Web\ContractController@updateIbc')->name('contracts.updateIbc');
