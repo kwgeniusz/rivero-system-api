@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\web;
 
+use App\Company;
 use App\hrStaff;
 use App\PayRollType;
 use App\HrPosition;
-use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class HrStaffController extends Controller
 {
@@ -56,6 +57,7 @@ class HrStaffController extends Controller
      * funcion para ortener los valores de los comboBox
      */
     public function comboBoxMult(){
+        
         $countrys = DB::table('country')->select('countryId', 'countryName')->get();
         $companys = DB::table('company')->select('companyId', 'companyName')->get();
         $hrpositions = DB::table('hrposition')
@@ -66,17 +68,21 @@ class HrStaffController extends Controller
         return compact('countrys','companys','hrpositions','currencys');
     }
     public function comboBoxDeparmet($id){
+        $companyId = session('companyId');
+        $idVal = ($id == 0) ? $companyId : $id;
         $departments = DB::select("SELECT department.departmentId, department.departmentName, department.companyId 
             FROM `department`
-            WHERE department.companyId = $id");
+            WHERE department.companyId = $idVal");
 
         return compact('departments');
     }
 
     public function comboTypePayroll($idCountry)
     {
+        $countryId = session('countryId');
+        $idVal = ($idCountry == 0) ? $countryId : $idCountry;
         return PayRollType::orderBy('payrollTypeName', 'ASC')
-        ->where('countryId', '=', $idCountry)
+        ->where('countryId', '=', $idVal)
         ->get();
     }
     public function comboPositions()
@@ -96,18 +102,27 @@ class HrStaffController extends Controller
 
     public function store(Request $request)
     {
-        // return $request;
+        // return Auth::user()->serie;
+
+        $userSerie = Company::where('companyId',session('companyId'))->first();
+        
+        $numberMax = hrStaff::where('companyId',session('companyId'))
+                            ->where('countryId',session('countryId'))
+                            ->max('number');
+        $number = $numberMax + 1;
+        $padded = str_pad($number, 6, "0", STR_PAD_LEFT);
+        $codigo = "$userSerie->serie-$padded";
 
         $staff = new hrStaff();
-        $staff->countryId = $request->countryId;
-        $staff->companyId = $request->companyId;
+        $staff->countryId = session('countryId');
+        $staff->companyId = session('companyId');
         $staff->shortName = $request->shortName;
         $staff->firstName = $request->firstName;
         $staff->idDocument = $request->idDocument;
         $staff->lastName = $request->lastName;
         $staff->passportNumber = $request->passportNumber;
         $staff->legalNumber = $request->legalNumber;
-        $staff->staffCode = $request->staffCode;
+        $staff->staffCode = $codigo;
         $staff->departmentId = $request->departmentId;
         $staff->payrollTypeId = $request->payrollTypeId;
         $staff->positionCode = $request->positionCode;
@@ -126,6 +141,7 @@ class HrStaffController extends Controller
         $staff->stopSS = $request->stopSS;
         $staff->blockSS = $request->blockSS;
         $staff->status = $request->status;
+        $staff->number = $number;
        
         $staff->save();
         return $staff;
@@ -142,15 +158,14 @@ class HrStaffController extends Controller
     {
         
         $staff = hrStaff::findOrFail($id);
-        $staff->countryId = $request->countryId;
-        $staff->companyId = $request->companyId;
+        $staff->countryId = session('countryId');
+        $staff->companyId = session('companyId');
         $staff->shortName = $request->shortName;
         $staff->firstName = $request->firstName;
         $staff->idDocument = $request->idDocument;
         $staff->lastName = $request->lastName;
         $staff->passportNumber = $request->passportNumber;
         $staff->legalNumber = $request->legalNumber;
-        $staff->staffCode = $request->staffCode;
         $staff->departmentId = $request->departmentId;
         $staff->payrollTypeId = $request->payrollTypeId;
         $staff->positionCode = $request->positionCode;
