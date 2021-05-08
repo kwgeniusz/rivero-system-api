@@ -28,7 +28,7 @@
       <button class="submit buttonmovil" style="margin-top: 0px" @click.prevent="addRow()"> 
         <span class="fa fa-plus" aria-hidden="true"></span> Agregar
       </button>
-      <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/crud-notes" role="button">
+      <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/notes" role="button">
           <span class="fa fa-list" aria-hidden="true"></span> Notas</a>
       <div style="margin-left: 20px;" v-if="inputType == 'A'">
         <form-new-note pref-url='' @notecreated='getAllNotes()'></form-new-note> 

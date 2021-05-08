@@ -113,7 +113,7 @@ HORAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays*8}
 DIAS CONSECUTIVOS TRANSCURRIDOS: ${contract.consecutiveDaysElapsed}
 DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
                                  <td>{{contract.contractDate | moment("MM/DD/YYYY hh:mm A")}} <br>
-                                 <b>FECHA LIMITE DE ENTREGA:</b>  {{contract.deliveryDate}}  </td>
+                                 <b>FECHA LIMITE DE ENTREGA:</b>  {{contract.productionDeliveryDate}}  </td>
                                  <!-- <td> {{contract.estimatedWorkDays}}  </td> -->
                                  <!-- <td> {{contract.estimatedWorkDays*8}}  </td> -->
                                  <!-- <td> {{contract.consecutiveDaysElapsed}} </td> -->

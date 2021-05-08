@@ -1,7 +1,4 @@
-
 <template> 
-
-
   <div class="create" v-if="proposal != ''">
     <div class="formulario">
       <div class="boxes">
@@ -13,8 +10,10 @@
             <span class="fa fa-file-pdf" aria-hidden="true"></span> Previzualizar Propuesta
           </a>
         </div>
+
         <proposal-subcontractor :proposal="proposal[0]" ref="proposalSubcontractor"/>
         <proposal-scopes :proposal-id="proposal[0].proposalId" ref="proposalScopes"/>
+        
         <form class="input-label" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
           <div class="alert alert-danger" v-if="errors.length">
             <h4>Errores:</h4>

@@ -173,9 +173,9 @@
             },
             indexEdit(index){
                 this.formStatus = 2
-                // console.log('recibido')
+                // console.log(this.objStaff)
                 this.objEdit = this.objStaff[index]
-                // console.log( this.objEdit)
+                console.log( this.objEdit)
             },
             delrow(indexId){
                 // console.log(indexId)

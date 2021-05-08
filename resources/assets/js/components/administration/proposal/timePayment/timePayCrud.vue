@@ -123,7 +123,7 @@ export default {
     };
   },
   created() {
-    axios.get("/crud-timepayments").then((res) => {
+    axios.get("/timepayments").then((res) => {
       this.alltimepayments = res.data;
     });
   },
@@ -141,7 +141,7 @@ export default {
         timeName: this.timepayment.timeName,
       };
       axios
-        .post("/crud-timepayments", params)
+        .post("/timepayments", params)
         .then((res) => {
           this.alltimepayments.unshift(res.data);
         })
@@ -172,7 +172,7 @@ export default {
       };
 
       axios
-        .put(`/crud-timepayments/${item.timePaymentId}`, params)
+        .put(`/timepayments/${item.timePaymentId}`, params)
         .then((res) => {
           this.modoEdicion = false;
 
@@ -189,7 +189,7 @@ export default {
         });
     },
     eliminar(item, index) {
-      axios.delete(`/crud-timepayments/${item.timePaymentId}`).then(() => {
+      axios.delete(`/timepayments/${item.timePaymentId}`).then(() => {
         this.alltimepayments.splice(index, 1); // https://youtu.be/QW4dMbFxv3c min 49:11
       });
     },

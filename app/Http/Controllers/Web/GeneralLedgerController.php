@@ -67,18 +67,18 @@ class GeneralLedgerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClientRequest $request)
+    public function store(Request $request)
     {
-        // $rs = $this->oGeneralLedger->insertG(
-        //     session('countryId'),
-        //     session('companyId'),
-        //     session('parentCompanyId'),
-        //     $request->all()
-        // );
+        $rs = $this->oGeneralLedger->insertG(
+            session('countryId'),
+            session('companyId'),
+            session('parentCompanyId'),
+            $request->all()
+        );
 
-        // if($request->ajax()){
-        //         return $rs;
-        //     }
+        if($request->ajax()){
+                return $rs;
+            }
     }
 
     /**

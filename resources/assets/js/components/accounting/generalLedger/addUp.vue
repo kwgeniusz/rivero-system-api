@@ -2,7 +2,7 @@
     <div class="row">
       <!-- <sweet-modal ref="modalNew" @close="cancf"> -->
 
-        <div class="col-md-6 col-xs-offset-2">
+        <div class="col-md-6 col-md-offset-2 col-xs-12">
             <div class="panel panel-default">
 
             <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Cuenta</h4></div>
@@ -17,7 +17,7 @@
            </div>
 
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
-        <form  class="form" id="formClient" role="form" @submit.prevent="createUpdateAccount()">
+        <form  class="form" id="formgeneralLedger" role="form" @submit.prevent="createUpdateAccount()">
       
         <div class="form-group col-lg-7">
                <label for="accountCode"> CODIGO DE CUENTA:</label>
@@ -134,35 +134,33 @@
               this.errors = [];
 
                  if (!this.generalLedger.accountCode) 
-                this.errors.push('El Nombre del generalLedgere es obligatorio.');
+                this.errors.push('Codigo de la Cuenta es Requerido.');
                  if (!this.generalLedger.accountName) 
-                this.errors.push('El Genero es obligatorio.');
-                 if (!this.generalLedger.parentAccountCode) 
-                this.errors.push('El Telefono para Negocios es obligatorio.');
+                this.errors.push('Nombre de la Cuenta es Requerido.');
+                //  if (!this.generalLedger.parentAccountCode) 
+                // this.errors.push('El Telefono para Negocios es obligatorio.');
                 if (!this.generalLedger.accountClassificationCode) 
-                this.errors.push('Debe ingresar el email principal.');
+                this.errors.push('La Clasificacion de la Cuenta es obligatoria.');
                 if (!this.generalLedger.accountTypeCode) 
-                this.errors.push('Debe escoger el metodo con el que se contacto al cliente.');
+                this.errors.push('El tipo de Cuenta es Obligatorio.');
 
 
            if (!this.errors.length) { 
                 if (this.editId === 0) {  
                     this.showSubmitBtn = false;
                     
-                    axios.post('/clients', this.client).then((response) => {
+                    axios.post('/general-ledger', this.generalLedger).then((response) => {
                            toastr.success(response.data.message);
                           //  this.cancf()
                            this.$emit('showlist', 0)
-                    })
-                    .catch((error) => {
-                      this.errors.push(error.response.data.errors.businessPhone);
-                      this.errors.push(error.response.data.errors.mainEmail);
-
+                    }).catch((error) => {
+                    //   this.errors.push(error.response.data.errors.businessPhone);
+                    //   this.errors.push(error.response.data.errors.mainEmail);
                       this.showSubmitBtn = true;
                     });
 
                 }else {
-                    axios.put(`/clients/${this.editId}`, this.client).then((response) => {
+                    axios.put(`/general-ledger/${this.editId}`, this.generalLedger).then((response) => {
                           toastr.success(response.data.message);
                           this.$emit('showlist', 0)
                         })

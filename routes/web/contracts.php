@@ -22,7 +22,7 @@ Route::get('precontracts/{id}/files', 'Web\PrecontractFileController@index')->na
 Route::post('precontracts/{id}/files', 'Web\PrecontractFileController@store')->name('precontractsFile.store');
  // ->Precontract Convert to Contract
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
-Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAdd')->name('precontracts.convertAgg');
+Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAdd')->name('precontracts.convertAdd');
  // ->Precontract Comments
 Route::get('precontracts/{id}/comments', 'Web\PrecontractCommentController@index')->name('precontractsComment.index');
 Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@store')->name('precontractsComment.store');
@@ -38,12 +38,12 @@ Route::post('proposals/{id}/scopes', 'Web\ProposalScopeController@store')->name(
  //->Proposal Time Frames
 Route::get('proposals/{id}/time-frames', 'Web\ProposalTimeFrameController@index')->name('proposalsTimeFrames.index');
 Route::post('proposals/{id}/time-frames', 'Web\ProposalTimeFrameController@store')->name('proposalsTimeFrames.store');
-Route::resource('time-frames', 'Web\TimeFrameController', ['parameters' => ['time-frames' => 'id']]);
+// Route::resource('time-frames', 'Web\TimeFrameController', ['parameters' => ['time-frames' => 'id']]);
 
  //->Proposal Terms and Conditions
 Route::get('proposals/{id}/terms', 'Web\ProposalTermController@index')->name('proposalsTerms.index');
 Route::post('proposals/{id}/terms', 'Web\ProposalTermController@store')->name('proposalsTerms.store');
-Route::resource('terms', 'Web\TermController', ['parameters' => ['terms' => 'id']]);
+// Route::resource('terms', 'Web\TermController', ['parameters' => ['terms' => 'id']]);
 
  //->Proposal Notes
 Route::get('proposals/{id}/notes', 'Web\ProposalNoteController@index')->name('proposalsNotes.index');
@@ -61,6 +61,14 @@ Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@
 Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
 Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
 
+// ->Time Frames
+Route::resource('timeframes', 'Web\TimeFrameController');
+// ->Notes
+Route::resource('notes', 'Web\NoteController');
+// ->Terms & Conditions
+Route::resource('terms', 'Web\TermController');
+// -> Time Payments
+Route::resource('timepayments', 'Web\TimePaymentController');
 //*******************************CONTRACT**************************************//
 Route::resource('contracts', 'Web\ContractController', ['except' => ['create']]);
 Route::put('contracts/{id}/update-ibc', 'Web\ContractController@updateIbc')->name('contracts.updateIbc');

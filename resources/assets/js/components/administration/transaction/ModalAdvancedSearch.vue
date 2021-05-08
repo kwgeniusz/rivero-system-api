@@ -1,5 +1,25 @@
 <template>
-    <div class="row">
+ <!-- <div class="col-xs-8 col-xs-offset-3">
+        <div class="form-group col-md-5">
+          <label for="transactionDate">DESDE:</label>  
+          <flat-pickr v-model="searcher.date1" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>
+        </div>
+
+        <div class="form-group col-md-5">
+          <label for="transactionDate">HASTA:</label>  
+          <flat-pickr v-model="searcher.date2" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>
+        </div>  
+   </div>
+
+  <div class="col-xs-8 col-xs-offset-3">
+     <button type="submit" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Buscar">
+         
+    </button>
+  </div> -->
+<!-- COMIENZA CODIGO DE LA VENTANA MODAL PARA CREAR AL CLIENTE-->
+ <!-- <a @click="openModal()"><span class="fa fa-plus" aria-hidden="true"></span> Crear Servicio</a> -->
+
+ <div class="row">
       <sweet-modal ref="modalNew" @close="cancf">
 
         <div class="col-xs-12">
@@ -123,139 +143,100 @@
         </div>
 
    </sweet-modal>     
+</div>   
 
-    </div>
 </template>
-
 <script>
+
     export default {
-        mounted() {
-         console.log('Component mounted.');
-              this.$refs.modalNew.open()
         
-
-          axios.get('/clients/create').then((response) => {
-              if (this.editId === 0) {
-                this.clientNumberFormat= response.data.clientNumberFormat;
-                }
-                  this.contactTypes= response.data.contactTypes;
-            }); //end of create clients
-
-            if (this.editId > 0) {
-                // transaction to edit.
-                axios.get(`/clients/${this.editId}`).then((response) => {
-                    this.data = response.data[0]
-
-                    this.clientNumberFormat   = this.data.clientCode;
-                    this.client.clientType    = this.data.clientType;
-                    this.client.companyName   = this.data.companyName;
-                    this.client.clientName    = this.data.clientName;
-                    this.client.gender        = this.data.gender;
-                    this.client.clientAddress = this.data.clientAddress;
-                    this.client.businessPhone = this.data.businessPhone;
-                    this.client.homePhone     = this.data.homePhone;
-                    this.client.mobilePhone   = this.data.mobilePhone;
-                    this.client.otherPhone    = this.data.otherPhone;
-                    this.client.fax           = this.data.fax;
-                    this.client.mainEmail     = this.data.mainEmail;
-                    this.client.secondaryEmail = this.data.secondaryEmail;
-                    this.client.contactTypeId = this.data.contactTypeId;
-                });       
-            } 
-        },
-        data(){
-            return{
-                errors: [],
-                showSubmitBtn:true,
-                clientNumberFormat:'',
-                contactTypes:'',
-
-                client:  {                    
-                     clientType: 'INDIVIDUAL',
-                     companyName: '',
-                     clientName: '',
-                     gender: 'M',
-                     clientAddress: '',
-                     businessPhone: '',
-                     homePhone: '',
-                     mobilePhone: '',
-                     otherPhone: '',
-                     fax: '',
-                     mainEmail: '',
-                     secondaryEmail: '',
-                     contactTypeId: '',
-                },
-
-            }
-         },
-      props: {
-            modal:false,
-            editId:'',
-        },
-      methods: {
-            createUpdateClient(){
+    mounted() {
+            console.log('Component FormNewService mounted.')
+            console.log(this.showModal)
+      },
+    data: function () {
+          return {
+            errors: [],
+            hasCost:'',
+            serviceName:'',
+            cost1:'',
+            cost2:'',
+            btnSubmitForm: false,
+          }
+    },
+    props: {
+       showModal: { type: Boolean},
+    },
+    watch: {
+      showModal: function (value) {
+        // console.log(value)
+        // console.log(this.showModal)
+        //  if(this.showModal){
+           this.openModal();
+        //  }
+       },
+      
+    }, 
+    methods: {
+       openModal: function (){
+          this.$refs.modalNewService.open()
               this.errors = [];
-               
-               if(this.client.clientType == 'COMPANY') {
-                if (!this.client.companyName) 
-                this.errors.push('El Nombre de la Compania es obligatorio.');
-               }
-                //  if (!this.client.clientName) 
-                // this.errors.push('El Nombre del Cliente es obligatorio.');
-                 if (!this.client.gender) 
-                this.errors.push('El Genero es obligatorio.');
-                 if (!this.client.businessPhone) 
-                this.errors.push('El Telefono para Negocios es obligatorio.');
-                if (!this.client.mainEmail) 
-                this.errors.push('Debe ingresar el email principal.');
-                if (!this.client.contactTypeId) 
-                this.errors.push('Debe escoger el metodo con el que se contacto al cliente.');
+              this.hasCost = 'N';
+              this.serviceName = '';
+              this.cost1 = '';
+              this.cost2 = '';
+              this.btnSubmitForm = true;
+        },
+       createService: function() {
+          this.errors = [];
+       //VALIDATIONS
+      if (!this.serviceName) {
+               this.errors.push('Nombre del Servicio Es Requerido');
+             }
+      if(this.hasCost === 'Y') { 
+            if (!this.cost1) {
+               this.errors.push('Debe ingresar Costo para la Unidad 1');
+             }
+             if (!this.cost2) {
+               this.errors.push('Debe ingresar Costo para la Unidad 2');
+             }
+      }
+          if (!this.errors.length) { 
+            this.btnSubmitForm = false;
+            let url =this.prefUrl+'services';
+            axios.post(url,{
+            serviceName: this.serviceName,
+            hasCost: this.hasCost,
+            cost1: this.cost1,
+            cost2: this.cost2,
+            }).then(response => {
+          console.log(response);
+              this.$emit("servicecreated");
+               toastr.info("Servicio Nuevo Insertado")
+               this.errors = [];
+               this.serviceName = '';
+               this.hasCost = '';
+               this.cost1 = '';
+               this.cost2 = '';
+               this.btnSubmitForm = true;
+               this.$refs.modalNewService.close();
+            }).catch(e => {
+               toastr.error("Error de Servidor:"+ e)
+               this.btnSubmitForm = true;
+              })
+           }
 
-
-           if (!this.errors.length) { 
-                if (this.editId === 0) {  
-                    // that = this 
-                    this.showSubmitBtn = false;
-                    
-                    axios.post('/clients', this.client).then((response) => {
-                           toastr.success(response.data.message);
-
-                           this.$emit("sendClient",
-                           this.client.clientId, 
-                           this.clientNumberFormat,
-                           this.client.clientName,
-                           this.client.clientAddress);
-
-                           this.cancf()
-                          //  this.$emit('showlist', 0)
-   
-                        })
-                    .catch((error) => {
-                      
-                      this.errors.push(error.response.data.errors.businessPhone);
-                      this.errors.push(error.response.data.errors.mainEmail);
-                        // alert("ERROR EN EL SERVIDOR")
-                       this.showSubmitBtn = true;
-                    });
-
-                }else {
-                    axios.put(`/clients/${this.editId}`, this.client).then((response) => {
-                          toastr.success(response.data.message);
-                         this.$emit('showlist', 0)
-
-                        })
-                    .catch(function (error,response) {
-                         toastr.success(response.data.message);
-                    });
-                }   // else end   
-              }  //end if error.length 
-            },
-            cancf(n){
-                // console.log('vista a mostrar: ' + n)
-                this.$emit('showlist', 0)
-                this.$emit('close') 
-            },
-        }
-    }
-
+         },
+     }
+}
 </script>
+<style>
+  .margindivw {
+    margin-top: 40px
+  }
+  @media (max-width: 500px) {
+    .margindivw {
+      margin-top: 35px;
+    }
+  }
+</style>

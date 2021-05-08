@@ -35,7 +35,7 @@ class Contract extends Model
         'currencyId', 'contractStatus', 'created_at', 'lastUserId',
     ];
     
-    protected $appends = ['siteAddress','contractDate','consecutiveDaysElapsed','daysToDelivery','deliveryDate'];
+    protected $appends = ['siteAddress','contractDate','consecutiveDaysElapsed','daysToDelivery','productionDeliveryDate'];
     protected $dates = ['deleted_at'];
 
     //Status Contract
@@ -173,13 +173,13 @@ class Contract extends Model
          $rs = $this->attributes['estimatedWorkDays'] - $this->consecutiveDaysElapsed;
          return $rs;
     }
-    public function getDeliveryDateAttribute()
+    public function getProductionDeliveryDateAttribute()
     {
          $daysToIncrement = $this->attributes['estimatedWorkDays'];
          $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['contractDate'], 'UTC');
          $date1->tz = session('companyTimeZone');
          $date1->addDays($daysToIncrement);
-
+                  
          return $date1;
     }
     // public function dias(){

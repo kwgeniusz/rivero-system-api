@@ -11,17 +11,24 @@ class functionsRrhh extends Model
     function getNetSalary($staff, $countryId, $companyId){
         // calcula el salario neto del empleado
 
-        $neto[] = DB::select("SELECT SUM(hrpermanent_transaction.amount) AS bonos, hrstaff.baseSalary
-                                FROM hrpermanent_transaction
-                                    INNER JOIN hrtransaction_type ON hrpermanent_transaction.transactionTypeCode = hrtransaction_type.transactionTypeCode
-                                    INNER JOIN hrstaff ON hrpermanent_transaction.staffCode = hrstaff.staffCode
-                                WHERE hrpermanent_transaction.staffCode = '$staff'
-                                AND (hrpermanent_transaction.transactionTypeCode = 1003
-                                    OR hrpermanent_transaction.transactionTypeCode = 1002 
-                                    OR hrpermanent_transaction.transactionTypeCode = 1007)
-                                AND hrpermanent_transaction.blocked = 0
-                                AND hrtransaction_type.countryId = $countryId
-                                AND hrtransaction_type.companyId = $companyId");
+        $neto[] = DB::select("SELECT    ( 
+                                            SELECT SUM(hrpermanent_transaction.amount)
+                                            FROM hrpermanent_transaction
+                                            WHERE (
+                                                    hrpermanent_transaction.transactionTypeCode = 1003
+                                                    OR hrpermanent_transaction.transactionTypeCode = 1002 
+                                                    OR hrpermanent_transaction.transactionTypeCode = 1007 
+                                                    OR hrpermanent_transaction.transactionTypeCode = 1012
+                                                )
+                                                AND hrpermanent_transaction.blocked = 0
+                                                AND hrpermanent_transaction.countryId = $countryId
+                                                AND hrpermanent_transaction.companyId = $companyId
+                                                AND	hrpermanent_transaction.staffCode = '$staff'	
+                                        ) AS bonos, hrstaff.baseSalary
+                                FROM hrstaff
+                                WHERE hrstaff.staffCode = '$staff'
+                                AND hrstaff.countryId = $countryId
+                                AND hrstaff.companyId = $companyId");
       
     return $neto;
     }

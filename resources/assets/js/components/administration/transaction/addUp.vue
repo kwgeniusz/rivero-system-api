@@ -130,67 +130,22 @@
 <script>
     export default {
         mounted() {
-         console.log('Component mounted.');
               this.$refs.modalNew.open()
-        
-
-          axios.get('/clients/create').then((response) => {
-              if (this.editId === 0) {
-                this.clientNumberFormat= response.data.clientNumberFormat;
-                }
-                  this.contactTypes= response.data.contactTypes;
-            }); //end of create clients
-
-            if (this.editId > 0) {
-                // transaction to edit.
-                axios.get(`/clients/${this.editId}`).then((response) => {
-                    this.data = response.data[0]
-
-                    this.clientNumberFormat   = this.data.clientCode;
-                    this.client.clientType    = this.data.clientType;
-                    this.client.companyName   = this.data.companyName;
-                    this.client.clientName    = this.data.clientName;
-                    this.client.gender        = this.data.gender;
-                    this.client.clientAddress = this.data.clientAddress;
-                    this.client.businessPhone = this.data.businessPhone;
-                    this.client.homePhone     = this.data.homePhone;
-                    this.client.mobilePhone   = this.data.mobilePhone;
-                    this.client.otherPhone    = this.data.otherPhone;
-                    this.client.fax           = this.data.fax;
-                    this.client.mainEmail     = this.data.mainEmail;
-                    this.client.secondaryEmail = this.data.secondaryEmail;
-                    this.client.contactTypeId = this.data.contactTypeId;
-                });       
-            } 
         },
         data(){
             return{
                 errors: [],
                 showSubmitBtn:true,
-                clientNumberFormat:'',
-                contactTypes:'',
 
-                client:  {                    
-                     clientType: 'INDIVIDUAL',
-                     companyName: '',
-                     clientName: '',
-                     gender: 'M',
-                     clientAddress: '',
-                     businessPhone: '',
-                     homePhone: '',
-                     mobilePhone: '',
-                     otherPhone: '',
-                     fax: '',
-                     mainEmail: '',
-                     secondaryEmail: '',
-                     contactTypeId: '',
+                searcher:  {                    
+                     date1: 'INDIVIDUAL',
+                     date2: '',
                 },
 
             }
          },
       props: {
             modal:false,
-            editId:'',
         },
       methods: {
             createUpdateClient(){
