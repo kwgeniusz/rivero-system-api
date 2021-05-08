@@ -26,9 +26,10 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dLabel">
             <li><a v-if="$can('FE')" href="/transaction-types/-/index">Lista de Tipos de Expenses</a></li>
-            <li><a @click="showModalSearch()">Busqueda Avanzada</a></li>
-            <a class="btn btn-success" v-if="btnAdd" @click="showModal=true"><span class="fa fa-plus" aria-hidden="true"></span></a>
+            <li><addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/></li>
+              <a class="btn btn-success" v-if="btnAdd" @click="showModal=true"><span class="fa fa-plus" aria-hidden="true"></span></a>
              <addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/>
+               
           </ul>
         </div>
     </div>
@@ -159,6 +160,8 @@
                 inputSearch: '',
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 opened: [],
+
+                showModal:'',
             }
         },
       props: {

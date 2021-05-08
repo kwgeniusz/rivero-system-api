@@ -99,6 +99,7 @@ Vue.component("grid-files",require("./components/contracts/documents/GridFiles.v
 Vue.component("time-frame-crud",require("./components/administration/proposal/timeFrame/timeFrameCrud.vue"));
 Vue.component("term-crud",require("./components/administration/proposal/term/termCrud.vue"));
 Vue.component("note-crud",require("./components/administration/proposal/note/noteCrud.vue"));
+Vue.component("time-payment-crud",require("./components/administration/proposal/timePayment/timePayCrud.vue"));
 // Vue.component("table-contract",require("./components/contracts/contract/table.vue"));
 //###################################################
 //           Module Administration Components

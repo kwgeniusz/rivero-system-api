@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\TimePayment;
 use Illuminate\Http\Request;
 
-class TimePaymentControllerCrud extends Controller
+class TimePaymentController extends Controller
 {
     private $oTimePayment;
 
