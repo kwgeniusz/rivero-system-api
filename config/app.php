@@ -179,6 +179,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // agregado por elisnar para generacion de codigo de barra
+        Milon\Barcode\BarcodeServiceProvider::class,
+
     ],
 
     /*
@@ -229,6 +232,8 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'AdminLTE'     => Acacha\AdminLTETemplateLaravel\Facades\AdminLTE::class,
         'PDF'          => Barryvdh\DomPDF\Facade::class,
+        'DNS1D'        => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D'        => Milon\Barcode\Facades\DNS2DFacade::class
         
     ],
 

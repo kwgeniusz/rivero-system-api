@@ -5,15 +5,15 @@ namespace App;
 use App\Contract;
 use App\Company;
 use App\Position;
-use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Staff extends Model
 {
     public $timestamps = false;
 
-    protected $table      = 'staff';
-    protected $primaryKey = 'staffId';
+    protected $table      = 'hrstaff';
+    protected $primaryKey = 'hrstaffId';
 
     protected $fillable = [
         'staffId',
