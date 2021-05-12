@@ -17,11 +17,22 @@
        </ul>
     </div> 
    <div class="col-xs-4">
-    
-    </div>
+         <div class="dropdown">
+          <button  class="btn btn-info btn-sm" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Opciones<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dLabel">
+            <li><a href="#" @click="showModal=true"> Busqueda Avanzada</a></li>
+          </ul>
+        </div>
+   </div>
 </div>
  <br>
-
+ <modal-advanced-search v-if="showModal" sign="+" @close="showModal = false" @filteredTransactions="changeTransactions"/>
+   
+   <div class="col-xs-12 text-center" v-if="datesToShow">
+      <h2> Desde:{{datesToShow[0]| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow[1]| moment("MM/DD/YYYY")}} </h2>
+   </div> 
       <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="table-responsive text-center">
@@ -99,24 +110,39 @@
 </template>
 
 <script>
+
+    import ModalAdvancedSearch from '../ModalAdvancedSearch.vue'
+
     export default {
     mounted() {
             console.log('Component mounted.') 
-            console.log(this.transactionCodes)
+            // console.log(this.transactionCodes)
             // console.log(this.transactionList)
         },
      data(){
             return{
                 inputSearch: '',
+            
+                showModal: false,
+                mutaTransaction: this.transactionList,
+                datesToShow: ''
             }
         },
         props: {
             transactionList:  {  type: [Array], default: null},
             transactionCodes:  {  type: [Array], default: null},
         },  
+      watch:{
+         transactionList: function transactionList(data){
+            this.mutaTransaction = data;
+         }
+       } ,
+      components: {
+         ModalAdvancedSearch,
+       },        
          computed: {
             searchData: function () {
-                return this.transactionList.filter((transaction) => {
+                return this.mutaTransaction.filter((transaction) => {
                   return transaction.description.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                          transaction.reason.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                          transaction.amount.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
@@ -167,6 +193,10 @@
                     })
                 }    
             }, 
+            changeTransactions(data,searched){
+               this.mutaTransaction = data;
+               this.datesToShow =  [searched.date1,searched.date2];
+          }, 
         }
     }
 

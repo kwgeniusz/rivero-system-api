@@ -272,12 +272,22 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function allTransactions()
-    // {
-    //     $transactions = $this->oTransaction->getAll(session('countryId'),session('companyId'));
+    public function searchBetweenDates(Request $request,$sign)
+    {
+        $rs = Transaction::with('payable','paymentMethod','transactionType','account.bank','transactionable','document','user')
+                         ->where('transactionDate', '>=', $request->date1)
+                         ->where('transactionDate', '<=', $request->date2)
+                         ->where('sign', '=', $sign)
+                         ->orderBy('transactionDate', 'DESC')
+                         ->get();
+                         
+            if($rs->isEmpty()) {
+                $returnData = array('alert' => 'error', 'message' => 'No existen Registros para Este Rango de Fecha, escoja otro.');
+                return \Response::json($returnData, 500);
+            }
 
-    //     return view('module_administration.transactions.index', compact('transactions'));
-    // }
+        return $rs;
+    }
  
 
 }

@@ -41,7 +41,7 @@
 
         <tr> 
          <th width="20%" align="left"> 
-          <br><br>
+          <br>
           <img src="img/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
 
@@ -63,6 +63,7 @@
             </tr>
          </table>     
       </th>
+
     </tr>
 
 </table>

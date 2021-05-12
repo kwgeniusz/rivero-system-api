@@ -332,5 +332,25 @@ public function printPaymentRequest(Request $request)
       return PDF::loadView('module_administration.reports.printDebitNote', $data)->stream('DebitNote.pdf');
 
    } //end printInvoice
+
+   public function printExpenses(Request $request)
+   {
+      $pdf         = app('dompdf.wrapper');
+      $date        = Carbon::now();
+      $company     = DB::table('company')->where('companyId', session('companyId'))->get();
+       
+       
+      $data = [
+       'date'         => $date,
+       'company'      => $company,
+       'transactions' => $request->transactions,
+       'dateRange'    => $request->dateRange,
+       'pdf'          => $pdf,
+        ];
+
+      return PDF::loadView('module_administration.reports.printExpenses', $data)->stream('Expenses.pdf');
+   }  
+
+
 }//end class
 
