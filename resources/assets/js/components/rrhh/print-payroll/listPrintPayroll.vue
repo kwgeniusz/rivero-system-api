@@ -386,7 +386,7 @@
                         doc.setFontSize(8);
                         doc.setFontType("bold");
                         doc.text( 'CODIGO', 30, 130 );
-                        doc.text( 'NOMBRE', 74, 130 );
+                        doc.text( 'NOMBRE', 76, 130 );
                         doc.text( 'CONCEPTO', 195, 130 );
                         doc.text( 'CANTIDAD', 315, 130 );
                         doc.text( 'ASIGNACION', 385, 130 );
@@ -448,7 +448,7 @@
                                         // doc.line(30, n - 10, 580, n - 10);
                                         // doc.text(`n es: ${n}`, 150, n);
                                         doc.text(element2.staffCode, 30, n );
-                                        doc.text( element2.staffName, 74, n );
+                                        doc.text( element2.staffName, 76, n );
                                         name = false
                                         doc.setFontType("normal");
                                     }
@@ -581,7 +581,7 @@
                                         doc.setFontSize(8);
                                         doc.setFontType("bold");
                                         doc.text( 'CODIGO', 30, 130 );
-                                        doc.text( 'NOMBRE', 74, 130 );
+                                        doc.text( 'NOMBRE', 76, 130 );
                                         doc.text( 'CONCEPTO', 195, 130 );
                                         doc.text( 'CANTIDAD', 315, 130 );
                                         doc.text( 'ASIGNACION', 385, 130 );

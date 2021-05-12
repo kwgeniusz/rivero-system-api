@@ -52,4 +52,5 @@ Route::post('perm-trans-pay', 'Web\HrLoansController@payLoans');
 Route::post('login', 'Api\AuthController@login');
 Route::post('register', 'Api\AuthController@register');
 
-
+// barCode
+Route::get('barcode-create/{staff}', 'Api\BarcodeController@barcodeCreate');
