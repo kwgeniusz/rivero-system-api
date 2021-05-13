@@ -92,7 +92,8 @@ class GeneralLedger extends Model
     public function insertG($countryId, $companyId, $data)
     {
           $error = null;
-
+      dd($data);
+      exit();
      DB::beginTransaction();
       try {
    
@@ -103,7 +104,7 @@ class GeneralLedger extends Model
         $generalLedger->accountName             = $data['accountName'];
         $generalLedger->leftMargin              = $data['leftMargin'];
         $generalLedger->parentAccountCode       = $data['parentAccountCode'];
-        $generalLedger->accountClassification   = $data['accountClassification'];
+        $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode         = $data['accountTypeCode'];
         $generalLedger->debit                   = $data['debit'];
         $generalLedger->credit                  = $data['credit'];

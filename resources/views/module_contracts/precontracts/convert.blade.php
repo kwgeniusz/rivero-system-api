@@ -7,7 +7,7 @@
     <div class="panel-heading text-center"> <h3><b>¿Esta Seguro de Convertir este Precontrato a Contrato?</b></h3></div>
     <div class="panel-body">
 
-      <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('precontracts.convertAgg',['id' => $proposal[0]->proposalId])}}" method="POST">
+      <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('precontracts.convertAdd',['id' => $proposal[0]->proposalId])}}" method="POST">
         {{csrf_field()}}
         <div class="form-group">
           <label class="col-lg-5 control-label">PRECONTRACTO ID</label>
