@@ -36,7 +36,7 @@
 
 <table cellspacing="0" cellpadding="1px" border="">
        <tr >
-        <th style="background-color:#efcb44;font-size:18px;color:white" colspan="3" align="center"><b>INCOME TRANSACTIONS</b></th>
+        <th style="background-color:#efcb44;font-size:18px;color:white" colspan="3" align="center"><b>EXPENSES TRANSACTIONS</b></th>
        </tr>
 
         <tr> 
@@ -65,12 +65,16 @@
       </th>
 
     </tr>
+@if($dateRange != '')
+  <div  align="center" >
+     <h2>From: {{$dateRange[0]}} - To: {{$dateRange[1]}}</h2>
+  </div>
+@endif
 
 </table>
-<br>
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
      <thead>
-    <tr style="background-color:#f2edd1; color:black; font-size:12px;" id="bold" align="center">
+    <tr style="background-color:#f2edd1; color:black; font-size:10px;" id="bold" align="center">
         <th>#</th>
         <th>FECHA</th>
         <th>REFERENCIA EN BANCO O BENEFICIARIO</th>
@@ -82,31 +86,36 @@
         <th>DESTINO</th>
     </tr>
      </thead>
-     
 @php
-       $acum = 0 ;
- //// inicio del ciclo de impresion
+
+    $acum = 0 ;
+    $background = '';
+// Inicio del ciclo de impresion
 foreach ($transactions as $transaction) {
             $acum = $acum + 1;
             if($acum % 2 != 0) { $background = "#fbfbfb";} else { $background = "#f2edd1";}
 @endphp
-        <tr style="background-color:{{$background}}">
+        <tr style="background-color:{{$background}};  font-size:8px;" >
          <td align="center">{{$acum}}</td>
          <td align="center">{{$transaction['transactionDate'] }}</td>
-         <td align="left">  {{$transaction['description'] }}</td>
-         <!-- <td align="center">{{$transaction['payment_method'] }}</td> -->
+         <td align="center">{{$transaction['description'] }}</td>
+         <td align="center">{{$transaction['payment_method']['payMethodName'] }}</td>
          <td align="center">{{$transaction['reason'] }}</td>
-         <td align="right"> {{$transaction['reference'] }}</td>
-         <!-- <td align="right"> {{$transaction['transactionType'] }} </td> -->
-         <td align="right"> {{$transaction['amount'] }}</td>
+         <td align="center">{{$transaction['reference'] }}</td>
+         <td align="center">{{$transaction['transaction_type']['transactionTypeName'] }}</td>
+         <td align="center">{{$transaction['amount'] }}</td>
+         @if($transaction['cashboxId'] == null)
+         <td align="center">{{$transaction['account']['bank']['bankName'] }} <br> {{$transaction['account']['accountCodeId'] }}</td>
+         @else
+           CASHBOX
+         @endif
         </tr>
 @php
- }// FIN DE FOREACH DE RENGLONES
+ } // Fin de Foreach de arreglos
 @endphp
  </table>
  
 
- / imprimir footer de factura
 <script type="text/php">
     if ( isset($pdf) ) {
         $pdf->page_script('

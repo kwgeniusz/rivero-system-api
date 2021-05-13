@@ -339,7 +339,26 @@ public function printPaymentRequest(Request $request)
       $date        = Carbon::now();
       $company     = DB::table('company')->where('companyId', session('companyId'))->get();
        
+ 
+      $data = [
+       'date'         => $date,
+       'company'      => $company,
+       'transactions' => $request->transactions,
+       'dateRange'    => $request->dateRange,
+       'pdf'          => $pdf,
+        ];
+      //   dd($data);
+      //   exit();
+        
+      return PDF::loadView('module_administration.reports.printExpenses', $data)->stream('Expenses.pdf');
+   }  
+   public function printIncomes(Request $request)
+   {
+      $pdf         = app('dompdf.wrapper');
+      $date        = Carbon::now();
+      $company     = DB::table('company')->where('companyId', session('companyId'))->get();
        
+ 
       $data = [
        'date'         => $date,
        'company'      => $company,
@@ -348,9 +367,8 @@ public function printPaymentRequest(Request $request)
        'pdf'          => $pdf,
         ];
 
-      return PDF::loadView('module_administration.reports.printExpenses', $data)->stream('Expenses.pdf');
+      return PDF::loadView('module_administration.reports.printIncomes', $data)->stream('Incomes.pdf');
    }  
-
 
 }//end class
 

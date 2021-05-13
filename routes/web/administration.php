@@ -36,7 +36,6 @@ Route::put('transactions/{id}', 'Web\TransactionController@update')->name('trans
 Route::delete('transactions/{id}', 'Web\TransactionController@delete')->name('transactions.delete');
 Route::post('transactions/{sign}/search-between-dates', 'Web\TransactionController@searchBetweenDates')->name('transactions.searchBetweenDates');
 
-
 //**************************** CASHBOX ***************************
 Route::resource('cashboxs', 'Web\CashboxController');
 Route::get('cashboxTransactions', 'Web\CashboxController@transactions')->name('cashbox.transactions');
