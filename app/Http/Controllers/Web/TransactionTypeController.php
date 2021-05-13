@@ -29,7 +29,7 @@ class TransactionTypeController extends Controller
           if($request->ajax()) {
                return $transactionType;
           }
-        return view('module_administration.transactions.expenses.types.index', compact('transaction'));
+        return view('module_administration.transactions.expenses.types.index', compact('transactionType'));
     }
 
     /**
