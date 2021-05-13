@@ -69,10 +69,10 @@ class GeneralLedgerController extends Controller
      */
     public function store(Request $request)
     {
+ 
         $rs = $this->oGeneralLedger->insertG(
             session('countryId'),
             session('companyId'),
-            session('parentCompanyId'),
             $request->all()
         );
 
@@ -142,12 +142,14 @@ class GeneralLedgerController extends Controller
      */
     public function destroy($id)
     {
-        // $result = $this->oGeneralLedger->deleteG(session('countryId'),$id);
+        $result = $this->oGeneralLedger->deleteG(session('countryId'),$id);
 
-        //  $notification = array(
-        //     'message'    => $result['message'],
-        //     'alert-type' => $result['alert'],
-        // );
+         $notification = array(
+            'message'    => $result['message'],
+            'alert-type' => $result['alert'],
+        );
+        
+        return $notification;
         // return redirect()->route('clients.index')->with($notification);
     }
 

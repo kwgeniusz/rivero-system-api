@@ -7,12 +7,12 @@ namespace App;
 use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GeneralLedger extends Model
 {
    //traits
-    //   use SoftDeletes;
+      use SoftDeletes;
       
     public $timestamps = false;
 
@@ -92,8 +92,7 @@ class GeneralLedger extends Model
     public function insertG($countryId, $companyId, $data)
     {
           $error = null;
-      dd($data);
-      exit();
+    
      DB::beginTransaction();
       try {
    
@@ -106,8 +105,6 @@ class GeneralLedger extends Model
         $generalLedger->parentAccountCode       = $data['parentAccountCode'];
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode         = $data['accountTypeCode'];
-        $generalLedger->debit                   = $data['debit'];
-        $generalLedger->credit                  = $data['credit'];
         $generalLedger->save();
             
             $success = true;
@@ -165,11 +162,11 @@ class GeneralLedger extends Model
         }
     }
 //------------------------------------------
-    public function deleteG($companyId,$clientId)
+    public function deleteG($companyId,$generalLedgerId)
     {
         try {
           $this->where('companyId', '=', $companyId)
-               ->where('clientId', '=', $clientId)
+               ->where('generalLedgerId', '=', $generalLedgerId)
                ->delete();
                
             $success = true;
@@ -179,7 +176,7 @@ class GeneralLedger extends Model
         }
 
         if ($success) {
-            return $rs = ['alert' => 'info', 'message' => 'Cliente Eliminado'];
+            return $rs = ['alert' => 'info', 'message' => 'Cuenta Eliminada'];
         } else {
             return $rs = ['alert' => 'error', 'message' => $error];
         }

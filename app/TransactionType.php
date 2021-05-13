@@ -6,9 +6,12 @@ use App;
 use DB;
 use App\Transaction;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TransactionType extends Model
 {
+    use SoftDeletes;
+
     public  $timestamps = false;
 
     protected $table ='transaction_type';
