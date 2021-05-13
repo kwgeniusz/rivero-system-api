@@ -30,7 +30,7 @@
         </div>
     </div>
 
-   <div class="btn-group"> 
+   <div v-if="datesToShow" class="btn-group"> 
         <div v-if="!loading" class="dropdown">
          <button  class="btn btn-warning btn-sm dropdown-toggle" id="drop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Exportar<span class="caret"></span>
@@ -190,7 +190,7 @@
             }
         },
       props: {
-         transactionList: {},
+         transactionList: [],
         }, 
       watch:{
          transactionList: function transactionList(data){
