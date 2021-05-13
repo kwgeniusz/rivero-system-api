@@ -31,7 +31,7 @@ class GeneralLedgerController extends Controller
      */
     public function index(Request $request)
     {
-      // $clients = $this->oGeneralLedger->getClientByGroupAndPagination(session('countryId'),session('companyId'),session('parentCompanyId'),$request->filteredOut);
+     //$clients = $this->oGeneralLedger->getClientByGroupAndPagination(session('countryId'),session('companyId'),session('parentCompanyId'),$request->filteredOut);
          $generalLedgers = $this->oGeneralLedger->getAllByCompany(session('companyId'));
          
          if($request->ajax()) {

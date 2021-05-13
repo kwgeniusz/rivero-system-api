@@ -304,7 +304,8 @@ class PrecontractController extends Controller
             'message'    => $result['msj'],
             'alert-type' => $result['alert'],
         );
-
+// dd($notification);
+// exit();
         return redirect()->route('contracts.index')
             ->with($notification);
 
