@@ -119,8 +119,8 @@
                 this.$emit('editData', id)
             },
        deleteData(index, id){
-                if (confirm(`Esta Seguro de Eliminar la Transaccion #${++index}?`) ){
-                    axios.delete(`-/delete/${id}`).then((response) => {
+                if (confirm(`Esta Seguro de Eliminar la Cuenta #${++index}?`) ){
+                    axios.delete(`/general-ledger/${id}`).then((response) => {
                            toastr.success(response.data.message);
                            this.$emit('showlist', 0)
                     })

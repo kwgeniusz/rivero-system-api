@@ -190,7 +190,7 @@
             }
         },
       props: {
-         transactionList: [],
+         transactionList: { type: Array},
         }, 
       watch:{
          transactionList: function transactionList(data){

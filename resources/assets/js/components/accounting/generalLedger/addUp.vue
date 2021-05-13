@@ -37,7 +37,7 @@
         <div class="form-group col-lg-12 ">
               <label for="parentAccountCode">CUENTA PADRE:</label>
                    <select class="form-control" v-model="generalLedger.parentAccountCode" id="parentAccountCode">
-                      <option v-for="item in chartOfAccount" :key="item.generalLedgerId" :value="item.generalLedgerId">{{item.accountCode}} - {{item.accountName}}</option>
+                      <option v-for="item in chartOfAccount" :key="item.generalLedgerId" :value="item.accountCode">{{item.accountCode}} - {{item.accountName}}</option>
                   </select>
           </div>
 
