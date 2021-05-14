@@ -138,7 +138,7 @@ class ClientController extends Controller
      */
     public function show(Request $request,$id)
     {
-        $client = $this->oClient->findById($id,session('companyId'));
+        $client = $this->oClient->findById($id);
 
            if($request->ajax()){
               return $client;
