@@ -216,13 +216,12 @@
 	<div class="header"></div>
 
 	<div class="upper-right"></div>
-	 <div class="logo"><img src="img/logos/jd.png"></img></div>
-				<img class="wm-one" src="img/logos/1.png"></img>
-				<img class="wm-two" src="img/logos/2.png"></img>
+	 <div class="logo"><img src="img/logos/jd/jd.png"></img></div>
+				<img class="wm-one" src="img/logos/jd/1.png"></img>
+				<img class="wm-two" src="img/logos/jd/2.png"></img>
 </div>
 
 <div class="footer">
-
 				<div class="pagination">
 				<p>Page <span class="pagenum"></span></p>
 				</div>

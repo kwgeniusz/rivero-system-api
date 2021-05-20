@@ -115,7 +115,7 @@ foreach ($creditNoteDetails as $invDetail) {
  
        <tr> 
          <th width="20%" align="center"> 
-          <img src="img/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
+          <img src="img/logos/jd/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
         <th width="55%">
              <div style="text-align:center">
