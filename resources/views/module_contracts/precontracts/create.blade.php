@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="create">
-    <form class="formulario" action="{{Route('precontracts.store')}}" method="POST">
+    <form class="formulario form-prevent-multiple-submits" action="{{Route('precontracts.store')}}" method="POST">
     {{csrf_field()}}
 
     <h3><i class="fas fa-user-tie"></i> Editar Pre-contrato</h3>
@@ -101,7 +101,7 @@
                   <textarea name="comment" id="comment" rows="10">{{old('comment') }}</textarea>
                 </div>
                 <div style="width: 100%; text-align: center;">
-                  <button type="submit" class="submit">
+                  <button type="submit" class="submit button-prevent-multiple-submits">
                   <span class="fa fa-check" aria-hidden="true"></span>  Crear
                   </button>
                   <a class="return" href="{{route('precontracts.index')}}">

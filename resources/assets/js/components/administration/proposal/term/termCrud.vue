@@ -39,7 +39,7 @@
               </button>
             </div>
           </form>
-          <h3 style="width: 100%; margin-bottom: 20px;">Listado de notas</h3>
+          <h3 style="width: 100%; margin-bottom: 20px;">Listado de Terminos y Condiciones</h3>
           <div class="table-responsive" style="width: 100%;">
             <table class="table table-striped table-bordered text-center">
               <thead>

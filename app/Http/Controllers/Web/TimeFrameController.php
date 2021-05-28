@@ -22,7 +22,7 @@ class TimeFrameController extends Controller
             return $timeframes;
         }
 
-        return view('module_contracts.timeframes.index')->with(['timeframes' => $timeframes]);
+        return view('module_contracts.proposals.timeframes.index')->with(['timeframes' => $timeframes]);
     }
 
     public function store(Request $request)

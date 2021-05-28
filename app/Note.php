@@ -36,7 +36,7 @@ class Note extends Model
     public function getAllByOffice($companyId)
     {
         return $this->where('companyId' , '=' , $companyId)
-          ->orderBy('noteId', 'ASC')
+          ->orderBy('noteName', 'ASC')
           ->get();
     }
 //------------------------------------------

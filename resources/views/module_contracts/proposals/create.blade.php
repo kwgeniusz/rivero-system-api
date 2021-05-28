@@ -2,11 +2,10 @@
 
 @section('content')
 <div class="create">
-  <form  class="formulario" action="{{Route('proposals.store')}}" method="POST">
+  <form  class="formulario form-prevent-multiple-submits" action="{{Route('proposals.store')}}" method="POST">
     <div>
       <h3><i class="fas fa-book"></i> Nueva Propuesta: N° {{$propId}}</h3>
-      <div class="boxes">
-        @if ($errors->any())
+      @if ($errors->any())
           <div class="alert alert-danger">
               <h4>Errores:</h4>
               <ul>
@@ -16,6 +15,7 @@
               </ul>
           </div>
         @endif
+      <div class="boxes">
         {{csrf_field()}}
         @if($modelRs[0]->getTable() == 'pre_contract')
         <input type="hidden" name="modelId" value="{{$modelRs[0]->precontractId}}">
@@ -58,7 +58,7 @@
       </div>
     </div>
     <div style="width: 100%; text-align: center;">
-      <button type="submit" class="submit">
+      <button type="submit" class="submit button-prevent-multiple-submits">
         <span class="fa fa-check" aria-hidden="true"></span>  {{__('submit')}}
       </button>
       <a href="{{URL::previous()}}" class="return">
