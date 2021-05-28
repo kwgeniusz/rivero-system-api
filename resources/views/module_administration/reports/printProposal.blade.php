@@ -450,7 +450,8 @@ Sincerely.
 				@else
 					<b>{{$proposal[0]->subcontractor->companyName}}</b> <br>
 				@endif
-					ENGINEERING CONSULTING <br>
+				    <!-- ENGINEERING CONSULTING <br> -->
+					{{$proposal[0]->subcontractor->serviceOffered}}<br>
 					{{$proposal[0]->subcontractor->mainPhone}}
 				</th>
 		@endif  

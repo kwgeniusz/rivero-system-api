@@ -201,7 +201,7 @@ class Precontract extends Model
  
         $precontract->contractType           = !empty($data['contractType']) ? $data['contractType'] : $precontract->contractType;
         $precontract->projectName            = !empty($data['projectName']) ? $data['projectName'] : $precontract->projectName;
-        $precontract->precontractDate        = !empty($data['precontractDate']) ? $data['precontractDate'] : $precontract->precontractDate;
+        // $precontract->precontractDate        = !empty($data['precontractDate']) ? $data['precontractDate'] : $precontract->precontractDate;
         $precontract->clientId               = !empty($data['clientId']) ? $data['clientId'] : $precontract->clientId;
         $precontract->propertyNumber         = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $precontract->propertyNumber;
         $precontract->streetName             = !empty($data['streetName']) ? $data['streetName'] : $precontract->streetName;
@@ -217,6 +217,7 @@ class Precontract extends Model
         // $precontract->projectDescriptionId             = !empty($data['projectDescriptionId']) ? $data['contractType'] : $precontract->projectDescriptionId;
         $precontract->comment                   = !empty($data['comment']) ? $data['comment'] : $precontract->comment;
         $precontract->currencyId              = !empty($data['currencyId']) ? $data['currencyId'] : $precontract->currencyId;
+        $precontract->updated_at              =  date('Y-m-d H:i:s');
 
         $precontract->save();
 

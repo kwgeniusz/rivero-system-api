@@ -98,6 +98,7 @@ class Subcontractor extends Model
         $subcontractor->secondaryPhone      = $data['secondaryPhone'];
         $subcontractor->mainEmail               = $data['mainEmail'];
         $subcontractor->secondaryEmail               = $data['secondaryEmail'];
+        $subcontractor->serviceOffered               = $data['serviceOffered'];
         $subcontractor->typeForm1099        = $data['typeForm1099'];
         
         $subcontractor->bankName            = $data['bankName'];
@@ -138,7 +139,6 @@ class Subcontractor extends Model
         $subcontractor->subcontType         = $data['subcontType'];
         $subcontractor->companyName         = $data['companyName'];
         $subcontractor->subcontractorName   = $data['subcontractorName'];
-        // $subcontractor->serviceOffered   = $data['serviceOffered'];
         $subcontractor->typeTaxId           = $data['typeTaxId'];
         $subcontractor->taxId               = $data['taxId'];
         $subcontractor->address             = $data['address'];
@@ -146,6 +146,7 @@ class Subcontractor extends Model
         $subcontractor->secondaryPhone      = $data['secondaryPhone'];
         $subcontractor->mainEmail           = $data['mainEmail'];
         $subcontractor->secondaryEmail      = $data['secondaryEmail'];
+        $subcontractor->serviceOffered      = $data['serviceOffered'];
         $subcontractor->typeForm1099        = $data['typeForm1099'];
 
         $subcontractor->bankName            = $data['bankName'];
