@@ -457,7 +457,7 @@ Sincerely.
 		@endif  
 				<th align="center">
 					 <b>{{$proposal[0]->user->fullName}}</b><br>
-					 {{$company[0]->companyName}} <br> REPRESENTATIVE
+					 {{$company[0]->companyName}} <br> Representative
 					 {{-- (214) 718 6256 <br> --}}
 				</th>
 			 </tr>
@@ -465,7 +465,7 @@ Sincerely.
 
 <br><br><br><br><br>
 <div  class="bold center">
-ACCEPTED BY:     _____________________________________ <br>
+Accepted By:     _____________________________________ <br>
           @if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
 </div>
 
