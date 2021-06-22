@@ -244,12 +244,12 @@ class Transaction extends Model
               $transaction->transactionable_type    = get_class($model);
             }
             $transaction->userId                   = $userId;
-            //  if(session('companyId') == 8){
+             if(session('companyId') == 8){
               $transaction->contractId = $contractId;
               $transaction->costCategoryId = $costCategoryId;
               $transaction->costSubcategoryId = $costSubcategoryId;
               $transaction->costSubcategoryDetailId = $costSubcategoryDetailId;
-            //  }
+             }
             $transaction->save();
             
             //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.
