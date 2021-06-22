@@ -29,7 +29,7 @@
         </div>
     </div>
 
-       <div v-if="datesToShow" class="btn-group"> 
+       <div  class="btn-group"> 
         <div v-if="!loading" class="dropdown">
          <button  class="btn btn-warning btn-sm dropdown-toggle" id="drop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Exportar<span class="caret"></span>
@@ -49,10 +49,17 @@
 </div>
 
  <br>
-  <modal-advanced-search v-if="showModal" sign="+" @close="showModal = false" @filteredTransactions="changeTransactions"/>
+  <modal-advanced-search v-if="showModal" 
+   sign="+" 
+  @close="showModal = false" 
+  @filteredTransactions="changeTransactions"/>
    
-   <div class="col-xs-12 text-center" v-if="datesToShow">
-      <h2> Desde:{{datesToShow[0]| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow[1]| moment("MM/DD/YYYY")}} </h2>
+   <!-- {{datesToShow}} -->
+   <div class="col-xs-12 text-center" v-if="datesToShow.date1">
+      <h2> Desde: {{datesToShow.date1| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow.date2 | moment("MM/DD/YYYY")}} </h2>
+   </div> 
+   <div class="col-xs-12 text-center" v-if="datesToShow.year">
+      <h2> Año: {{datesToShow.year}}</h2>
    </div> 
 
       <div class="col-xs-12">
@@ -96,7 +103,7 @@
                                 <td class="text-left"> {{transaction.reason}}</td>  
                                 <td class="text-left"> {{transaction.reference}}</td>  
                                 <td class="text-left"> {{transaction.payment_method.payMethodName}} {{transaction.payMethodDetails}}</td>           
-                               <td class="text-left"> {{transaction.amount}}</td>   
+                                <td class="text-left"> {{transaction.amount}}</td>   
                                  <td class="text-left"> 
                                    <p v-if="transaction.cashboxId == null" class="text-left"> 
                                     {{transaction.account.bank.bankName}}<br> {{transaction.account.accountCodeId}} 
@@ -138,8 +145,6 @@
     export default {
     mounted() {
             console.log('Component mounted.') 
-            // console.log(this.transactionCodes)
-            // console.log(this.transactionList)
         },
      data(){
             return{
@@ -147,23 +152,27 @@
             
                 showModal: false,
                 mutaTransaction: this.transactionList,
-                datesToShow: '',
+                datesToShow:  {                    
+                     date1: '',
+                     date2: '',
+                     year:  ''
+                     },
                 loading: false
 
             }
         },
         props: {
             transactionList:  {  type: [Array], default: null},
+            transactionYear:  {  type: [String], default: null},
             transactionCodes:  {  type: [Array], default: null},
         },  
       watch:{
          transactionList: function transactionList(data){
             this.mutaTransaction = data;
+            this.datesToShow.year = this.transactionYear;
+
          }
-       } ,
-      components: {
-         ModalAdvancedSearch,
-       },        
+       } ,       
          computed: {
             searchData: function () {
                 return this.mutaTransaction.filter((transaction) => {
@@ -174,7 +183,7 @@
                          transaction.payment_method.payMethodName.toLowerCase().includes(this.inputSearch.toLowerCase()) 
                 })
             }, 
-        totals: function (){
+           totals: function (){
               var totalManual = 0;
               var totalTransaction = 0;
               var totalFee = 0;
@@ -204,9 +213,11 @@
                 // return `Ingresos de Facturas ${suma.toFixed(2)}`;
             }  
         },
+        components: {
+         ModalAdvancedSearch,
+       },   
         methods: {
           editTransaction(index, id){
-                // console.log('index: '+index + ' id: '+ id)
                 this.$emit('editData', id)
             },
           deleteTransaction(index, id){
@@ -219,20 +230,19 @@
             }, 
           changeTransactions(data,searched){
                this.mutaTransaction = data;
-               this.datesToShow =  [searched.date1,searched.date2];
+               this.datesToShow =  searched;
           }, 
           printPDF(){
             this.loading = true;
 
            axios.post('/reports/incomes',{transactions: this.mutaTransaction, dateRange: this.datesToShow},{
             responseType: 'blob',
-            
-             onDownloadProgress: (progressEvent) => {
-              console.log(progressEvent.total)
+            onDownloadProgress: (progressEvent) => {
+               console.log(progressEvent.total)
                this.percentCompleted = Math.round((progressEvent.loaded * 100) );
               // console.log(percentCompleted)
               }
-           }).then((response) => {
+             }).then((response) => {
                   this.loading = false; 
                   
                   const url  = window.URL.createObjectURL(new Blob([response.data]));
@@ -241,6 +251,9 @@
                   link.setAttribute('download', 'Incomes.pdf'); //or any other extension
                   document.body.appendChild(link);
                   link.click();
+            }).catch((error)=>{
+                  alert(error)
+                  this.loading = false; 
             })
          }  //end of printPDF 
       }//end of methods

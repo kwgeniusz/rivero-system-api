@@ -59,6 +59,10 @@ class Contract extends Model
 // -LISTO PERO PENDIENTE POR PAGAR(AMARILLO)
 // -EN PROCESAMIENTO DE PERMISO (ANARANJADO)
 // -ESPERANDO POR EL CLIENT (ROJO)
+// -DESCARGANDO ARCHIVOS
+// -ENVIADO A LA OFICINA 
+// -EN COLA DE PRODUCCION 
+// -ENVIADO AL INGENIERO
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------

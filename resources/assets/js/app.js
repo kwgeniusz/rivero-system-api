@@ -55,6 +55,14 @@ Vue.use(Popover)
 import AudioRecorder from 'vue-audio-recorder'
 Vue.use(AudioRecorder)
 
+import VueTabs from 'vue-nav-tabs'
+import 'vue-nav-tabs/themes/vue-tabs.css'
+Vue.use(VueTabs)
+
+import vSelect from 'vue-select'
+Vue.component('v-select', vSelect)
+import 'vue-select/dist/vue-select.css';
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -104,12 +112,23 @@ Vue.component("time-payment-crud",require("./components/administration/proposal/
 //###################################################
 //           Module Administration Components
 //###################################################
+// -----------------> Receivables <-------------------------//
+Vue.component("tab-receivables",require("./components/administration/receivables/tab.vue"));
+Vue.component("receivables-from-clients",require("./components/administration/receivables/client/table.vue"));
+// Vue.component("receivables-from-clients-details",require("./components/administration/receivables/client/details.vue"));
+// Vue.component("receivables-from-employees",require("./components/administration/receivables/employee/main.vue"));
+// Vue.component("receivables-from-partners",require("./components/administration/receivables/partner/main.vue"));
+
+// -----------------> Payables <-------------------------//
+Vue.component("tab-payables",require("./components/administration/payables/tab.vue"));
+Vue.component("datasheet-subcontractor",require("./components/administration/payables/subcontractor/datasheet.vue")); 
+
 // -----------------> Subcontractors <-------------------------//
-Vue.component("main-subcontractor",require("./components/administration/subcontractor/main.vue"));
-Vue.component("table-subcontractor",require("./components/administration/subcontractor/table.vue"));
-Vue.component("addUp-subcontractor",require("./components/administration/subcontractor/addUp.vue"));
-Vue.component("subcontractor-datasheet",require("./components/administration/subcontractor/Datasheet.vue")); 
-Vue.component("search-subcontractor",require("./components/administration/SearchSubcontractor.vue"));
+Vue.component("main-subcontractor",require("./components/administration/payables/subcontractor/main.vue"));
+Vue.component("table-subcontractor",require("./components/administration/payables/subcontractor/table.vue"));
+Vue.component("addUp-subcontractor",require("./components/administration/payables/subcontractor/addUp.vue"));
+Vue.component("datasheet-subcontractor",require("./components/administration/payables/subcontractor/datasheet.vue")); 
+// Vue.component("search-subcontractor",require("./components/administration/payables/searchSubcontractor.vue"));
 
 // -----------------> Transacion Income <-------------------------//
 Vue.component("main-transaction-income",require("./components/administration/transaction/income/main.vue"));

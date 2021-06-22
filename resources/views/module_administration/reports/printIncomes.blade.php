@@ -65,10 +65,14 @@
       </th>
 
     </tr>
-@if($dateRange != '')
+@if($dateRange['date1'] != '')
   <div  align="center" >
-     <h2>From: {{$dateRange[0]}} - To: {{$dateRange[1]}}</h2>
+     <h2>From: {{$dateRange['date1']}} - To: {{$dateRange['date2']}}</h2>
   </div>
+@elseif($dateRange['year'] != '')
+<div align="center" >
+     <h2>Year: {{$dateRange['year'] }}</h2>
+</div>
 @endif
 
 </table>

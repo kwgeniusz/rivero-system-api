@@ -94,7 +94,7 @@
                 <input            
                   {{ $user->permissions->contains($permission->id) ? 'checked' : '' }} 
                   @if($user->roles->count() > 0)
-                  {{ $user->roles[0]->permissions->contains($permission->id) ? 'disabled' : '' }} 
+                    {{ $user->roles[0]->permissions->contains($permission->id) ? 'disabled' : '' }} 
                   @endif
                         type="checkbox" 
                         id="permission_{{$permission->id}}" 

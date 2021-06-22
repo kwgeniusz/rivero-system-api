@@ -123,6 +123,18 @@ class Transaction extends Model
         return $this->orderBy('transactionDate', 'ASC')->get();
     }
   //----------------------------------------------------------------------
+
+    public function getAllByYear($sign,$year)
+    {
+        return $this->with('payable','paymentMethod','transactionType','account.bank','transactionable','document','user')
+        ->whereYear('transactionDate', $year)
+        ->where('sign', '=', $sign)
+        ->where('companyId', '=', session('companyId'))
+        ->orderBy('transactionDate', 'DESC')
+        ->get();
+
+    } 
+  //----------------------------------------------------------------------
        public function getAllByInvoice($invoiceId,$countryId,$companyId)
     { 
         //OJO DEBE LLEVARSE POR SIGNOS 
@@ -137,29 +149,9 @@ class Transaction extends Model
 
         return $result;
     }
-     public function getAllWithSaleNotesByInvoice($invoiceId,$countryId,$companyId)
-    { 
-       $notes = SaleNote::select('salId as id','dateNote as transactionDate','netTotal as amount','noteType as reason')
-           ->where('invoiceId',$invoiceId);
-
-
-      $transactions = Transaction::select('transactionId as id','transactionDate','amount','reason')
-        ->join('transaction_type', 'transaction_type.transactionTypeId', '=', 'transaction.transactionTypeId')
-        ->where('transaction_type.transactionTypeCode', 'INCOME_INVOICE')
-        ->where('transaction.countryId', $countryId) 
-        ->where('transaction.companyId',$companyId)
-        ->where('transaction.transactionable_type','App\Invoice')
-        ->where('transaction.transactionable_id',$invoiceId)
-         ->union($notes)
-         ->orderBy('transactionDate', 'ASC')
-         ->get();
-
-        return $transactions;
-    }
-    //------------------------------------
+  //----------------------------------------------------------------------
     public function getAllForSign($transactionSign,$countryId,$companyId)
     {
-
         $result = $this->with('payable','paymentMethod','transactionType','account.bank','transactionable','document','user')
                       ->where('sign', $transactionSign)
                       ->where('countryId', $countryId)
@@ -194,6 +186,27 @@ class Transaction extends Model
             ->get();
 
         return $result;
+    } 
+    //------------------------------------------
+
+     public function getAllWithSaleNotesByInvoice($invoiceId,$countryId,$companyId)
+    { 
+       $notes = SaleNote::select('salId as id','dateNote as transactionDate','netTotal as amount','noteType as reason')
+           ->where('invoiceId',$invoiceId);
+
+
+      $transactions = Transaction::select('transactionId as id','transactionDate','amount','reason')
+        ->join('transaction_type', 'transaction_type.transactionTypeId', '=', 'transaction.transactionTypeId')
+        ->where('transaction_type.transactionTypeCode', 'INCOME_INVOICE')
+        ->where('transaction.countryId', $countryId) 
+        ->where('transaction.companyId',$companyId)
+        ->where('transaction.transactionable_type','App\Invoice')
+        ->where('transaction.transactionable_id',$invoiceId)
+         ->union($notes)
+         ->orderBy('transactionDate', 'ASC')
+         ->get();
+
+        return $transactions;
     }
     //------------------------------------------
     public function findById($id,$countryId,$companyId)
@@ -204,8 +217,8 @@ class Transaction extends Model
                       ->where('companyId', $companyId) 
                       ->get();
     }
-
-    public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$reference,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '')
+    //------------------------------------------
+    public function insertT($countryId,$companyId,$transactionTypeId,$description,$payMethodId,$payMethodDetails,$reason,$reference,$transactionDate,$amount,$sign,$cashboxId = '',$accountId = '',$model = '', $userId,$file = '',$contractId =null,$costCategoryId=null,$costSubcategoryId=null,$costSubcategoryDetailId=null)
     {
         $error = null; 
         DB::beginTransaction();
@@ -227,10 +240,16 @@ class Transaction extends Model
             $transaction->cashboxId               = $cashboxId;
             $transaction->accountId               = $accountId;
             if($model != ''){
-             $transaction->transactionable_id      = $model->getKey();
+              $transaction->transactionable_id      = $model->getKey();
               $transaction->transactionable_type    = get_class($model);
             }
             $transaction->userId                   = $userId;
+            //  if(session('companyId') == 8){
+              $transaction->contractId = $contractId;
+              $transaction->costCategoryId = $costCategoryId;
+              $transaction->costSubcategoryId = $costSubcategoryId;
+              $transaction->costSubcategoryDetailId = $costSubcategoryDetailId;
+            //  }
             $transaction->save();
             
             //SI ES UNA TRANSACCION DE EGRESO DEBO AGREGAR EL docId he insertarlo.

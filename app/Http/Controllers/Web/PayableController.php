@@ -20,7 +20,10 @@ class PayableController extends Controller
         $this->oPaymentMethod = new PaymentMethod;
     }
 
-
+   public function index(Request $request)
+    {
+        return view('module_administration.payables.index');
+    }
      public function pay(Request $request)
       {
             $rs = $this->oPayable->addPay(
@@ -37,18 +40,6 @@ class PayableController extends Controller
         // return view('module_administration.payables.index', compact('payables'));
       }
 
-    // public function index(Request $request)
-    // {
-    //         $payables = '';
-    //         $payables = $this->oPayable->clientsPending(session('companyId'));
-
-    //         $payables->map(function($payable){
-    //                   $paymentsMissing = $this->oPayable->getAllByClient($payable->clientId);
-    //                   $payable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
-    //          });
-
-    //     return view('module_administration.payables.index', compact('payables'));
-    // }
     // public function details($clientId)
     // {
     //     $payable           = $this->oPayable->clientPendingInfo($clientId);

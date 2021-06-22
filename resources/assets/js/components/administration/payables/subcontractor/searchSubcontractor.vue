@@ -1,6 +1,6 @@
 <template>
 <div>
-<!-- INPUT BUSCADOR DE SUBCONTRACTOR AJAX-->
+<!-- INPUT BUSCADOR DE CLIENTES AJAX-->
     <div class="form-group col-xs-12">
         <label for="name">SUBCONTRATISTA</label>
       
@@ -27,7 +27,7 @@
 
 <script>
 
-// import FormNewSubcontractor from './formNewSubcontractor.vue'
+// import FormNewSubcontractor from './FormNewSubcontractor.vue'
 
     export default {
         
@@ -47,9 +47,9 @@
      props: {
            // prefUrl: { type: String},
     },
-     components: {
-         FormNewSubcontractor
-  },
+  //    components: {
+  //        FormNewSubcontractor
+  // },
     methods: {
     //    reRender: function() {
     //     this.removeSubcontractor();
@@ -98,5 +98,5 @@
 </script>
 
 <style lang="scss">
-// @import '../sass/app.scss'
+@import '../../../../../sass/app.scss'
 </style>

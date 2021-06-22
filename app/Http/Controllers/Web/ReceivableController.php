@@ -16,20 +16,23 @@ class ReceivableController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oReceivable = new Receivable;
+        $this->oReceivable    = new Receivable;
         $this->oPaymentMethod = new PaymentMethod;
     }
     public function index(Request $request)
     {
             $receivables = '';
             $receivables = $this->oReceivable->clientsPending(session('companyId'));
-
             $receivables->map(function($receivable){
                       $paymentsMissing = $this->oReceivable->getAllByClient($receivable->clientId);
                       $receivable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
              });
+
+            if($request->ajax()) {
+                 return $receivables;
+            }
        
-        return view('module_administration.receivables.index', compact('receivables'));
+        return view('module_administration.receivables.index');
     }
     public function details($clientId)
     {

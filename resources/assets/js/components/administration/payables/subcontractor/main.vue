@@ -19,7 +19,7 @@
 
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>SUBCONTRATISTAS</b></h3>
+            <!-- <h3><b>SUBCONTRATISTAS</b></h3> -->
 
             <button-form
                 @addf = "addFormStatus"
