@@ -9,28 +9,6 @@
 
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()"  id="newUpForm" >
-                            <!-- <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="selectCountry" class="form-group" v-text="nameField8"></label>
-                                    <select class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" required="required">
-                                        <option></option>
-                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-5">
-                                    <label for="selectCompany" class="form-group" v-text="nameField9"></label>
-                                    <select class="form-control" v-model="selectCompany" id="selectCompany"  @change="change($event)" required="required">
-                                        <option></option>
-                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                    
-                                </div>
-                            </div> -->
                             <div class="row">
                                 <div class="form-group col-md-5">
                                     <label for="departmentId" class="form-group" v-text="nameField10"></label>
@@ -111,6 +89,20 @@
                                     
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="birthdayDate" class="form-group" v-text="nameField26"></label>
+                                    <input type="date" v-model="birthdayDate" class="form-control" id="birthdayDate" required="required">
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="childrenCount" class="form-group" v-text="nameField27"></label>
+                                    <input type="number" v-model="childrenCount" class="form-control" id="childrenCount" required="required">
+                                    
+                                </div>
+                            </div>
                             <hr>
                             <div class="row">
                                 <div class="form-group col-sm-5 col-sm-offset-4">
@@ -169,7 +161,6 @@
                                 
                             </div>
                             <div class="row">
-                           
                                 <div class="form-group col-md-4">
                                     <label for="localSalary" class="form-group" v-text="nameField15"></label>
                                     <input type="text" v-model="localSalary" class="form-control" id="localSalary" v-bind:placeholder="nameField15" >
@@ -269,6 +260,7 @@
            
 
             if (this.editId > 0) {
+                console.log(this.objEdit);
                 // this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
                 // axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
                 //     this.selectCompanys = res.data.map(item => {
@@ -296,24 +288,26 @@
                     this.positionCode =  this.objEdit.positionCode
                 })
                 
-                this.shortName      = this.objEdit.shortName
-                this.firstName      = this.objEdit.firstName
-                this.lastName       = this.objEdit.lastName
-                this.idDocument     = this.objEdit.idDocument
-                this.passportNumber = this.objEdit.passportNumber
-                this.legalNumber    = this.objEdit.legalNumber
-                this.employmentDate = this.objEdit.employmentDate
-                this.baseSalary     = this.objEdit.baseSalary
-                this.baseCurrencyId = this.objEdit.baseCurrencyId
-                this.localSalary    = this.objEdit.localSalary
-                this.probationSalary = this.objEdit.probationSalary
-                this.localCurrencyId = this.objEdit.localCurrencyId
-                this.localDailySalary = this.objEdit.localDailySalary
-                this.probationPeriod = this.objEdit.probationPeriod
-                this.probationPeriodEnd = this.objEdit.probationPeriodEnd
-                this.stopSS         = this.objEdit.stopSS
-                this.blockSS        = this.objEdit.blockSS
-                this.status         = this.objEdit.status
+                this.shortName           = this.objEdit.shortName
+                this.firstName           = this.objEdit.firstName
+                this.lastName            = this.objEdit.lastName
+                this.idDocument          = this.objEdit.idDocument
+                this.passportNumber      = this.objEdit.passportNumber
+                this.legalNumber         = this.objEdit.legalNumber
+                this.employmentDate      = this.objEdit.employmentDate
+                this.baseSalary          = this.objEdit.baseSalary
+                this.baseCurrencyId      = this.objEdit.baseCurrencyId
+                this.localSalary         = this.objEdit.localSalary
+                this.probationSalary     = this.objEdit.probationSalary
+                this.localCurrencyId     = this.objEdit.localCurrencyId
+                this.localDailySalary    = this.objEdit.localDailySalary
+                this.probationPeriod     = this.objEdit.probationPeriod
+                this.probationPeriodEnd  = this.objEdit.probationPeriodEnd
+                this.stopSS              = this.objEdit.stopSS
+                this.blockSS             = this.objEdit.blockSS
+                this.status              = this.objEdit.status
+                this.birthdayDate        = this.objEdit.birthdayDate
+                this.childrenCount       = this.objEdit.childrenCount
                
             }
         
@@ -348,8 +342,8 @@
                 probationPeriodEnd: '',
                 stopSS: 0,
                 blockSS: 0,
-                // selectCountrys:{},
-                // selectCompanys:{},
+                birthdayDate:'',
+                childrenCount:0,
                 selectDepartments:{},
                 selectPayrollType:{},
                 selectPosition:{},
@@ -469,6 +463,14 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField26:{
+                type: String,
+                default: 'Name Defauld'
+            },
+            nameField27:{
+                type: String,
+                default: 'Name Defauld'
+            },
             objEdit:{}
             
         },
@@ -500,11 +502,13 @@
                         excTranTypeCode2: this.excTranTypeCode2,
                         excTranTypeCode3: this.excTranTypeCode3,
                         employmentDate: this.employmentDate,
+                        birthdayDate: this.birthdayDate,
+                        childrenCount: this.childrenCount,
                         probationPeriod: this.probationPeriod,
                         probationPeriodEnd: this.probationPeriodEnd,
                         stopSS: this.stopSS,
                         blockSS: this.blockSS,
-                        status: this.status,
+                        status: this.status
                         
                     }
                     axios.post(`staff/post`,params)
@@ -546,18 +550,20 @@
                         excTranTypeCode2: this.excTranTypeCode2,
                         excTranTypeCode3: this.excTranTypeCode3,
                         employmentDate: this.employmentDate,
+                        birthdayDate: this.birthdayDate,
+                        childrenCount: this.childrenCount,
                         probationPeriod: this.probationPeriod,
                         probationPeriodEnd: this.probationPeriodEnd,
                         stopSS: this.stopSS,
                         blockSS: this.blockSS,
-                        status: this.status,
+                        status: this.status
                     }
                     
 
                     let url = `staff/put/${this.objEdit.hrstaffId}`
                     axios.put(url,params)
                         .then((response) => {
-                            // console.log(response);
+                            console.log(response);
                             if (response.statusText == "OK") {
                                 alert("Success")
                             } else {
