@@ -139,11 +139,14 @@ Vue.component("addUp-transaction-income",require("./components/administration/tr
 Vue.component("main-transaction-expense",require("./components/administration/transaction/expense/main.vue"));
 Vue.component("table-transaction-expense",require("./components/administration/transaction/expense/table.vue"));
 Vue.component("addUp-transaction-expense",require("./components/administration/transaction/expense/addUp.vue"));
-
 // -----------------> Expense Types <-------------------------//
 Vue.component("main-expense-type",require("./components/administration/transaction/expense/type/main.vue"));
 Vue.component("table-expense-type",require("./components/administration/transaction/expense/type/table.vue"));
 Vue.component("addUp-expense-type",require("./components/administration/transaction/expense/type/addUp.vue"));
+// -----------------> Cost Category <-------------------------//
+Vue.component("main-cost-category",require("./components/administration/transaction/expense/costCategory/main.vue"));
+Vue.component("table-cost-category",require("./components/administration/transaction/expense/costCategory/table.vue"));
+Vue.component("addUp-cost-category",require("./components/administration/transaction/expense/costCategory/addUp.vue"));
 
 // ---------------------> Point Sale <----------------------------------------//
 Vue.component("form-modal-charge", require("./components/administration/FormModalCharge.vue"));

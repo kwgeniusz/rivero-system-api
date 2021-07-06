@@ -26,7 +26,7 @@ class CostCategoryController extends Controller
                 return $costCategories;
             }
             
-        // return view('module_administration.CostCategorys.index', compact('CostCategorys'));
+        return view('module_administration.transactions.expenses.costCategory.index', compact('costCategories'));
     }
 
     public function subcategories(Request $request)
