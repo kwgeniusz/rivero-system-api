@@ -17,7 +17,8 @@ class hrStaff extends Model
     protected $fillable = ['countryId', 'companyId', 'shortName', 'firstName', 'idDocument', 'lastName',
     'passportNumber', 'legalNumber','staffCode', 'departmentId', 'payrollTypeId', 'positionCode', 'employmentDate', 'probationPeriod', 'probationPeriodEnd',
     'baseSalary', 'probationSalary', 'baseCurrencyId',
-    'localSalary', 'localCurrencyId', 'localDailySalary', 'stopSS', 'blockSS', 'excTranTypeCode1', 'excTranTypeCode2', 'excTranTypeCode3', 'status', 'deleted_at'];
+    'localSalary', 'localCurrencyId', 'localDailySalary', 'stopSS', 'blockSS', 'excTranTypeCode1', 'excTranTypeCode2', 'excTranTypeCode3',
+    'birthdayDate', 'childrenCount', 'status', 'deleted_at'];
     
    function getComboStaff(){
         return DB::table('hrstaff')

@@ -81,8 +81,7 @@ class TransactionController extends Controller
 
 
          //aplica para gecontrac
-        // if(session('companyId') == 8){
-            
+        if(session('companyId') == 8){
             $subcontractor = Subcontractor::find($request->subcontId);
 
             $rs1 = $this->oTransaction->insertT(
@@ -106,26 +105,26 @@ class TransactionController extends Controller
                 $request->costCategoryId,
                 $request->costSubcategoryId,
                 $request->costSubcategoryDetailId);
-        // }else{
+        }else{
         // //insert transaction and Update BANK...
-        // $rs1 = $this->oTransaction->insertT(
-        //     session('countryId'),
-        //     session('companyId'),
-        //     $request->transactionTypeId,
-        //     $request->description,
-        //     $request->payMethodId,
-        //     $request->payMethodDetails,
-        //     $request->reason,
-        //     $request->reference,
-        //     $request->transactionDate,
-        //     $request->amount,
-        //     $request->sign,
-        //     $request->cashboxId,
-        //     $request->accountId,
-        //     '',
-        //     Auth::user()->userId,
-        //     $request->file);
-        // }
+        $rs1 = $this->oTransaction->insertT(
+            session('countryId'),
+            session('companyId'),
+            $request->transactionTypeId,
+            $request->description,
+            $request->payMethodId,
+            $request->payMethodDetails,
+            $request->reason,
+            $request->reference,
+            $request->transactionDate,
+            $request->amount,
+            $request->sign,
+            $request->cashboxId,
+            $request->accountId,
+            '',
+            Auth::user()->userId,
+            $request->file);
+        }
 
         return $rs1;
     }

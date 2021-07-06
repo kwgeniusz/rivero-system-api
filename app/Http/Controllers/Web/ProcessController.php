@@ -83,6 +83,7 @@ class ProcessController extends Controller
         $processDetail->transactionTypeCode = $request->transactionTypeCode;
         $processDetail->quantity = $request->quantity;
         $processDetail->amount = $request->amount;
+        $processDetail->params = $request->params;
         $processDetail->save();
         return $processDetail;
     }
@@ -113,6 +114,7 @@ class ProcessController extends Controller
         $processDetail->transactionTypeCode = $request->transactionTypeCode;
         $processDetail->quantity = $request->quantity;
         $processDetail->amount = $request->amount;
+        $processDetail->params = $request->params;
         
         $processDetail->save();
         return $processDetail;

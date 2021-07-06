@@ -16,6 +16,7 @@
                                     <input disabled="disabled" type="text" v-model="objProcessDetails.processName" class="form-control" id="amount" v-bind:placeholder="nameField1" required="required">
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="form-group col-md-5 ">
                                     <label for="selecTrType" class="form-group" v-text="nameField2"></label>
@@ -24,6 +25,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="quantity" class="form-group" v-text="nameField3"></label>
@@ -31,12 +33,22 @@
                                 </div>
                                 
                             </div>
+
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="amount" class="form-group" v-text="nameField4"></label>
                                     <input type="text" v-model="amount" class="form-control" id="amount" v-bind:placeholder="nameField4">
                                 </div>
-                                
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="amount" class="form-group" v-text="nameField5"></label>
+                                    <select class="form-control" v-model="params" id="selecTrType" required="required">
+                                        <option :value="0">Sin Parametros</option>
+                                        <option :value="1">Parametro Hijos</option>
+                                    </select>
+                                </div>
                             </div>
                             
                             <div v-if="editId === 0">
@@ -69,7 +81,7 @@
             // console.log(this.objProcessDetails)
             axios.get(`process-detail-ttype/${this.objProcessDetails.companyId}`).then(res => {
                 
-                // console.log(res.data.hrTType)
+                console.log(res.data.hrTType)
                 this.selecTrTypes = res.data.hrTType
                     
                 })
@@ -78,14 +90,12 @@
                 // debugger
             
             
-           
-
             if (this.editId > 0) {
-                this.selecTrType = document.querySelector("#selecTrType").value = this.objEditDetail.transactionTypeCode
-                this.quantity = document.querySelector("#quantity").value = this.objEditDetail.quantity
-                this.amount = document.querySelector("#amount").value = this.objEditDetail.amount
+                this.selecTrType = this.objEditDetail.transactionTypeCode
+                this.quantity =  this.objEditDetail.quantity
+                this.amount = this.objEditDetail.amount
+                this.params = this.objEditDetail.params
                 // this.processName = document.querySelector("#processName").value = this.objEditDetail.processName
-               
             }
             
             console.log('Component mounted.')
@@ -96,6 +106,7 @@
                 quantity: '',
                 amount: '',
                 processName: '',
+                params:0,
                 selecTrTypes:{},
                 selectCompanys:{},
                 selectPayrollType:{},
@@ -132,7 +143,7 @@
             },
             nameField5:{
                 type: String,
-                default: ''
+                default: 'PARAMETRO'
             },
             nameField6:{
                 type: String,
@@ -161,13 +172,13 @@
                         transactionTypeCode: this.selecTrType,
                         quantity: this.quantity,
                         amount: this.amount,
+                        params: parseInt(this.params),
                         
                     }
 
                     // console.log(params)
-                    // debugger
-                    
-    
+                    // return
+
                     axios.post('process-detail/post',params)
                         .then((response) => {
                             // console.log(response)
@@ -189,6 +200,7 @@
                         transactionTypeCode: this.selecTrType,
                         quantity: this.quantity,
                         amount: this.amount,
+                        params: parseInt(this.params),
                     }
                     
 

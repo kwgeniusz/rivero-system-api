@@ -16,13 +16,13 @@ class PayrollControlController extends Controller
 {
     
     private $oCurrency;
-    private $oTransBlocked;
+    private $oParamsTransaction;
     
 
     public function __construct()
     {
         $this->oCurrency = new Currency; 
-        $this->oTransBlocked = new PerTrans; 
+        $this->oParamsTransaction = new PerTrans; 
     }
     /**
      * Display a listing of the resource.
@@ -44,7 +44,6 @@ class PayrollControlController extends Controller
                     AND hrpayroll_control.companyId = $companyId
                     ORDER BY hrpayroll_control.companyId");
 
-      
         return compact('payrollControl');
     }
     
@@ -157,17 +156,17 @@ class PayrollControlController extends Controller
   
         // PARTE 1. 
     /*
-       1. leer tabla hrprepayroll_control.
-       2. leer tabla hrstaff
-       2. Por cada registro de hrstaff  
-          2.1 leer hrprocess_detail
-          2.2 calcular transacciones
-          2.3 guardar registro calculado en hrpayroll
+        1. leer tabla hrprepayroll_control.
+        2. leer tabla hrstaff
+        2. Por cada registro de hrstaff  
+            2.1 leer hrprocess_detail
+            2.2 calcular transacciones
+            2.3 guardar registro calculado en hrpayroll
     */
         // get currency 
         $oExchangeRate = $this->oCurrency->getExchangeRate();
         $exchangeRate = floatval($oExchangeRate[0]->exchangeRate); //convierto el string a numeros reales
-       
+
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
                             WHERE hrpayrollControlId = " . $id);
@@ -189,7 +188,7 @@ class PayrollControlController extends Controller
                                 AND hrpayroll.companyId = $companyId 
                                 AND hrpayroll.year = $year
                                 AND hrpayroll.payrollNumber = $payrollNumber ");
-        // si los datos ya existen, los elimino para psoteriormente agregar los nuevos datos
+        // si los datos ya existen, los elimino para posteriormente agregar los nuevos datos
         if ($rsDel0[0]->cant > 0) {
             // dd($rsDel0[0]->cant);
             DB::table('hrpayroll')
@@ -203,15 +202,13 @@ class PayrollControlController extends Controller
 
 
         // get data from table hrstaff
-        $rs1  = DB::select("SELECT hrstaff.staffCode, hrstaff.idDocument, hrstaff.shortName, hrstaff.baseSalary, hrstaff.probationPeriod, hrstaff.employmentDate,
-        hrstaff.probationPeriodEnd, hrstaff.stopSS, hrstaff.blockSS, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3,
-        hrstaff.probationSalary
+        $rs1  = DB::select("SELECT hrstaff.*
         FROM hrstaff 
             INNER JOIN hrposition ON hrstaff.positionCode = hrposition.positionCode
             WHERE hrstaff.countryId = $countryId 
                 AND hrstaff.companyId  = $companyId 
-                  AND hrstaff.payrollTypeId = $payrollTypeId
-                  AND hrstaff.status = 'A'");
+                    AND hrstaff.payrollTypeId = $payrollTypeId
+                    AND hrstaff.status = 'A'");
         // dd($rs1);
 
         foreach ($rs1 as $key => $rs) {
@@ -272,10 +269,11 @@ class PayrollControlController extends Controller
                 $transactionTypeCode  = $rs3->transactionTypeCode;     
                 $quantity             = $rs3->quantity;  
                 $amount               = $rs3->amount;  
+                $params               = $rs3->params;  
 
-                $TransBlocked = $this->oTransBlocked->getBlockedTransaction($countryId, $companyId, $transactionTypeCode, $staffCode);
+                //obtengo los datos para Verificar si el usuario tiene alguna transaccion bloqueada
+                $TransBlocked = $this->oParamsTransaction->getBlockedTransaction($countryId, $companyId, $transactionTypeCode, $staffCode);
                 
-                //Verifico si el usuario tiene alguna transaccion bloqueada
                 $Blocked = 0;
                 $TransBlocked = collect($TransBlocked);
                 
@@ -305,7 +303,8 @@ class PayrollControlController extends Controller
                     // print_r($rs0);
                     // return $rs0;
                     $addTransaction = 0;         // add transaction control
-                    if ($isSalaryBased == 1) {   // transaccion basada en salario
+                    // Si la transaccion es basada en salario
+                    if ($isSalaryBased == 1) {  
                         
                         // verifico si el parametro que viene es una deducciones como SSO, FAOV, etc.
                         if ($isSalaryBased == 1 && $isIncome == 0) {
@@ -338,7 +337,7 @@ class PayrollControlController extends Controller
                     } else { 
                         if ($quantity > 0 and $amount > 0) {
                             $addTransaction = 1; 
-                            } 
+                        } 
                             
                     }
                     
@@ -352,6 +351,28 @@ class PayrollControlController extends Controller
                     if ($quantity == 0 or $amount == 0) {
                         $addTransaction = 0;
                     }
+
+                    /******** zona de parametrizacion de campo params de la tabla hrprocess_detail *********/
+
+                    // Parametro para transacciones que hagan referencia a hijos del personal
+                    // params = 1: El valor 1 es para verificacion de cantidad de hijos
+                    if ($params == 1) { 
+                        // obtengo los datos para verificar la cantidad de hijos
+                        $childrenCount = $this->oParamsTransaction->getChildrenCount($countryId, $companyId, $staffCode);
+
+                        $childrenCount = collect($childrenCount); //lo convierto a coleccion para poder manipularlo
+                        
+                        if (!$childrenCount->isEmpty()) {
+                            $childrenCount = $childrenCount->first(); //obtengo la cantidad de hijos en la primera posicion
+                            $quantity = $childrenCount->childrenCount; //asigno la cantidad de hijos a una variable
+                            $amount = $amount * $quantity; // hago la operacion entre el monto de la transaccion '*' cantidad de hijos
+                            $amount = round($amount, 2); //redondeo a 2 dijitos
+
+                            if ($amount > 0) {
+                                $addTransaction = 1;             
+                            }
+                        }
+                    } 
     
                     // insert record in hrpayroll
                     if ($addTransaction == 1) {
@@ -452,7 +473,7 @@ class PayrollControlController extends Controller
 
             // }
             // PARTE 3.
-            // procesar transacciones variables
+            // procesar transacciones permanentes
 
             // get permanent transactions for this person and transaction code
             foreach ( $rs2 as $key => $val) {
@@ -472,9 +493,9 @@ class PayrollControlController extends Controller
                 // $rs6  = $oVariable->joinTransactionType($countryId,$companyId,$staffCode);
                 // dd($rs6);
             
-                $TransBlocked = $this->oTransBlocked->getBlockedTransaction($countryId, $companyId, $transactionTypeCode, $staffCode);
+                //obtengo los datos para Verificar si el usuario tiene alguna transaccion bloqueada
+                $TransBlocked = $this->oParamsTransaction->getBlockedTransaction($countryId, $companyId, $transactionTypeCode, $staffCode);
                 
-                //Verifico si el usuario tiene alguna transaccion bloqueada
                 // echo isset($TransBlocked[0]->blocked). ' - '
                 $Blocked = 0;
                 $TransBlocked = collect($TransBlocked);

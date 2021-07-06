@@ -38,6 +38,7 @@
                             <th>NOMBRE</th>
                             <th>CANTIDAD</th>
                             <th>MONTO</th>
+                            <th>PARAMETRO</th>
                             <th>ACCIONES</th>
                         </tr>
                     </thead>
@@ -58,6 +59,14 @@
                             <td>
                                 <p class="text-right">
                                     {{Process.amount}}
+                                </p>
+                            </td>
+                            <td>
+                                <p v-if="Process.params > 0">
+                                    {{Process.params | params}}
+                                </p>
+                                <p v-else >
+                                    Sin Parametros
                                 </p>
                             </td>
                             <td> 
@@ -143,6 +152,13 @@
                 
                 // console.log('enviado')
             }
+        },
+        filters: {
+            params: function (value) {
+                if (value = 1 ) return 'Parametro hijos'
+                
+            }
         }
+        
     }
 </script>
