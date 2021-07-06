@@ -26,15 +26,16 @@ class BarcodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function barcodeCreate($code)
+    public function barcodeCreate($staffCode)
     {
         $Barcode = new DNS1D;
-        $staff = Staff::where('staffCode','=',$code)->first();
+        $staff = Staff::where('staffCode','=',$staffCode)->first();
 
         if (empty($staff)) {
             return 'No se encontraron datos';
         }
         // $user = '994049JD-000002';
+        // $user = 'eyJpdiI6Ik9cL0tcL0V5YXczSVUzaGJnanA3dXgrQT09IiwidmFsdWUiOiJRc3JSOENvaGQzcjBXcmZYS1JhTW9qcCtXZFhRUUxHZXRFYWZ0cTRibXFFPSIsIm1hYyI6IjIzNzk2YTc4Nzg1ZDJlZTZlZDdiYjVjZDQ5ZWNlYzI5ZjA5ZTA4MzZkZTQzNDc0MTc1ZTM2MmNiMmQwY2U0NDAifQ==';
         $numberRand = rand(100000,1000000);
         $barcode = $numberRand . $staff->staffCode;
         // echo $barcode.'   -==-';
@@ -42,9 +43,11 @@ class BarcodeController extends Controller
         // while (!$success) {
         //     Staff::where('barcode',Hash::check($id2, 'barcode'));
         // }
-        $barcodEncrypted = encrypt($barcode);
+        // $barcodEncrypted1 = Hash::make($barcode);
+        // $barcodEncrypted = encrypt($barcode);
         
         // $decrypted = decrypt($staff->barcode);
+        // $decrypted = $staff->barcode;
         // if($user == $decrypted) {
         //     return 'correcto';
         // }else {
@@ -53,11 +56,14 @@ class BarcodeController extends Controller
         // // $decIdHash =  Hash::check($idHash, $id);
         // return $correct;
         // echo $barcode;
+        // Staff::where('hrstaffId', $staff->hrstaffId)
+        //     ->update(['barcode' => $barcodEncrypted1]);
         Staff::where('hrstaffId', $staff->hrstaffId)
-            ->update(['barcode' => $barcodEncrypted]);
+            ->update(['barcode' => $barcode]);
 
         return $Barcode->getBarcodePNG($barcode, 'C128');
-        // return DNS2D::getBarcodeSVG($barcode, 'QRCODE');
+        // return $Barcode->getBarcodePNG($barcodEncrypted1, 'C128');
+        // return DNS2D::getBarcodePNG($barcode, 'QRCODE');
         // return $Barcode->getBarcodePNG($barcode, 'C128');
         //  return DNS1D::getBarcodePNGPath($barcode, 'C128');
           
@@ -80,9 +86,10 @@ class BarcodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function barcodeShow($barcode)
     {
-        //
+        $staff = Staff::where('barcode','=',$barcode)->first();
+        return response()->json($staff, 200);
     }
 
     /**

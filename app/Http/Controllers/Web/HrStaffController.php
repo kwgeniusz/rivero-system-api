@@ -22,18 +22,9 @@ class HrStaffController extends Controller
     {
         $countryId = session('countryId');
         $companyId = session('companyId');
-        $hrstaff = DB::select("SELECT country.countryId, country.countryName,company.companyId, company.companyName, company.companyShortName,
-                                department.departmentId, department.departmentName, hrstaff.payrollTypeId, payroll_type.payrollTypeName,
-                                hrposition.positionCode,hrposition.positionName,
-                                hrstaff.hrstaffId, hrstaff.countryId, hrstaff.companyId, hrstaff.staffCode, hrstaff.firstName, 
-                                hrstaff.lastName,
-                                hrstaff.shortName,
-                                hrstaff.idDocument, hrstaff.passportNumber, hrstaff.legalNumber, hrstaff.departmentId, 
-                                hrstaff.employmentDate, hrstaff.probationPeriod, hrstaff.probationPeriodEnd,
-                                hrstaff.baseSalary,hrstaff.probationSalary, hrstaff.baseCurrencyId, currencyStaff1.currencyName, currencyStaff1.currencySymbol, 
-                                hrstaff.localSalary, hrstaff.localCurrencyId, currencyStaff2.currencyName, currencyStaff2.currencySymbol, 
-                                hrstaff.localDailySalary, hrstaff.excTranTypeCode1, hrstaff.excTranTypeCode2, hrstaff.excTranTypeCode3, hrstaff.stopSS, hrstaff.blockSS, hrstaff.status,
-                                hrstaff.deleted_at
+        $hrstaff = DB::select("SELECT hrstaff.*,country.countryId, country.countryName,company.companyId, company.companyName, company.companyShortName,
+                                department.departmentId, department.departmentName, payroll_type.payrollTypeName,
+                                hrposition.positionCode,hrposition.positionName
                             FROM `hrstaff` 
                             INNER JOIN country ON hrstaff.countryId = country.countryId
                             INNER JOIN company ON hrstaff.companyId = company.companyId
@@ -102,7 +93,7 @@ class HrStaffController extends Controller
 
     public function store(Request $request)
     {
-        // return Auth::user()->serie;
+        // return $request;
 
         $userSerie = Company::where('companyId',session('companyId'))->first();
         
@@ -127,6 +118,8 @@ class HrStaffController extends Controller
         $staff->payrollTypeId = $request->payrollTypeId;
         $staff->positionCode = $request->positionCode;
         $staff->employmentDate = $request->employmentDate;
+        $staff->birthdayDate = $request->birthdayDate;
+        $staff->childrenCount = (int)$request->childrenCount;
         $staff->probationPeriod = (int)$request->probationPeriod;
         $staff->probationPeriodEnd = $request->probationPeriodEnd;
         $staff->baseSalary = (float)$request->baseSalary;
@@ -142,7 +135,6 @@ class HrStaffController extends Controller
         $staff->blockSS = $request->blockSS;
         $staff->status = $request->status;
         $staff->number = $number;
-       
         $staff->save();
         return $staff;
     }
@@ -156,7 +148,7 @@ class HrStaffController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+    
         $staff = hrStaff::findOrFail($id);
         $staff->countryId = session('countryId');
         $staff->companyId = session('companyId');
@@ -170,6 +162,8 @@ class HrStaffController extends Controller
         $staff->payrollTypeId = $request->payrollTypeId;
         $staff->positionCode = $request->positionCode;
         $staff->employmentDate = $request->employmentDate;
+        $staff->birthdayDate = $request->birthdayDate;
+        $staff->childrenCount = (int)$request->childrenCount;
         $staff->probationPeriod = (int)$request->probationPeriod;
         $staff->probationPeriodEnd = $request->probationPeriodEnd;
         $staff->baseSalary = (float)$request->baseSalary;
@@ -184,8 +178,6 @@ class HrStaffController extends Controller
         $staff->stopSS = $request->stopSS;
         $staff->blockSS = $request->blockSS;
         $staff->status = $request->status;
-   
-        
         $staff->save();
         return $staff;
     }

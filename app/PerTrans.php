@@ -10,7 +10,7 @@ class PerTrans extends Model
 {
    //traits
     //   use SoftDeletes;
-      
+
     public $timestamps = false;
 
     protected $table      = 'hrpermanent_transaction';
@@ -28,8 +28,8 @@ class PerTrans extends Model
         ->join('company', 'hrpermanent_transaction.companyId', '=', 'company.companyId')
         ->join('hrtransaction_type', function ($join){
             $join->on('hrpermanent_transaction.transactionTypeCode', '=', 'hrtransaction_type.transactionTypeCode')
-                 ->where('hrtransaction_type.companyId', '=', session('companyId'))
-                 ->where('hrtransaction_type.countryId', '=', session('countryId'));
+                ->where('hrtransaction_type.companyId', '=', session('companyId'))
+                ->where('hrtransaction_type.countryId', '=', session('countryId'));
         })
         ->select('hrpermanent_transaction.*', 'hrstaff.shortName','company.companyShortName','country.countryName','hrtransaction_type.transactionTypeName')
         ->whereNull('hrpermanent_transaction.deleted_at')
@@ -69,6 +69,16 @@ class PerTrans extends Model
         ->where('transactionTypeCode', '=', $transactionCode)
         ->where('staffCode', '=', $staffCode)
         ->where('blocked', '=', 1)
+        ->whereNull('deleted_at')
+        ->get();
+    }
+    function getChildrenCount($idCountry, $idCompany, $staffCode)
+    {
+        return DB::table('hrstaff')
+        ->select('childrenCount')
+        ->where('countryId', '=', $idCountry)
+        ->where('companyId', '=', $idCompany)
+        ->where('staffCode', '=', $staffCode)
         ->whereNull('deleted_at')
         ->get();
     }
