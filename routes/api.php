@@ -54,3 +54,4 @@ Route::post('register', 'Api\AuthController@register');
 
 // barCode
 Route::get('barcode-create/{staff}', 'Api\BarcodeController@barcodeCreate');
+Route::get('barcode/{barcode}', 'Api\BarcodeController@barcodeShow');

@@ -13,6 +13,7 @@ yarn-error.log
 .env
 .history/
 /public/js/*
+/public/js/app.js
 /public/css/*
 /public/fonts/*
 yarn.lock

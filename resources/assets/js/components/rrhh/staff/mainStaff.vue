@@ -49,9 +49,10 @@
                 :nameField23 = nameField23
                 :nameField24 = nameField24
                 :nameField25 = nameField25
+                :nameField26 = nameField26
+                :nameField27 = nameField27
                 @showlist = "showlist"
                 @newObj = "newObj"
-               
             >
             </add-up-staff>
         </div>
@@ -88,6 +89,8 @@
                 :nameField23 = nameField23
                 :nameField24 = nameField24
                 :nameField25 = nameField25
+                :nameField26 = nameField26
+                :nameField27 = nameField27
                 :objEdit = objEdit
                 :editId = 1
             >
@@ -135,6 +138,8 @@
                 nameField23: "SALARIO P. PRUEBA",
                 nameField24: "APLICAR DEDUCCIONES (ej: Personar nuevas)",
                 nameField25: "APLICAR SSO, FAOV (ej: Personas de 3ra edad)",
+                nameField26: "FECHA DE NACIMIENTO DEL EMPLEADO",
+                nameField27: "CANTIDAD DE HIJOS MENORES A 17",
                 
             }
         },
