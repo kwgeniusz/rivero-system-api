@@ -34,6 +34,7 @@ cashboxId:{{cashboxId}} -->
 
                axios.get('/cost-categories').then(response => {
                  this.costCategoryList = response.data 
+                 console.log(this.costCategoryList)
                 });  
      },
      data: function () {

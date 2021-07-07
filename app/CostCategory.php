@@ -16,6 +16,7 @@ class CostCategory extends Model
     protected $primaryKey = 'costCategoryId';
     protected $fillable   = ['costCategoryId', 'serviceName', 'hasCost', 'unit1','unit2','cost1','cost2','variableName'];
 
+    // protected $appends = ['costSubcategory'];
     protected $dates = ['deleted_at'];
 
     // protected $appends = ['cost1','cost2'];
@@ -48,16 +49,22 @@ class CostCategory extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
-    // public function costSubcategory()
-    // {
-    //     return $this->hasMany('App\CostCategory', 'costCategoryId', 'parentCostCategoryId');
-    // }
+
+    public function costSubcategory()
+    {
+        return $this->hasMany('App\CostCategory', 'parentCostCategoryId', 'costCategoryId');
+    }
+    public function allCostSubcategory()
+    {
+        return $this->costSubcategory()->with('allCostSubcategory');
+    } 
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function getAll()
    {
        return $this->where('parentCostCategoryId' , '=' , 0)
+                   ->with('costSubcategory')
                    ->orderBy('costCategoryCode', 'ASC')
                    ->get();
     }

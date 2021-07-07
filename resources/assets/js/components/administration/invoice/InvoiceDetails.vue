@@ -329,6 +329,7 @@ export default {
 
              let myObj = this.itemList.find(el => el.invDetailId == item.invDetailId);
               myObj.amount = parseFloat(amountRs).toFixed(2);
+              console.log(myObj);
         }, 
        deleteRow: function(id) {
             //borrar valor que encuentre del arreglo
