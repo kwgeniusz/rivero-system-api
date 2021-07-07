@@ -107,7 +107,7 @@
         mounted() {
          console.log('componente agregar transaccion montado');
 
-            axios.get('/transaction-types/-').then(response => {
+            axios.get('/transaction-types/-/index').then(response => {
                 this.transactionTypesList = response.data;
                // console.log(this.transactionTypesList)
             })

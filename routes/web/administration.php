@@ -34,6 +34,8 @@ Route::post('transactions', 'Web\TransactionController@store')->name('transactio
 Route::get('transactions/{id}', 'Web\TransactionController@show')->name('transactions.show');
 Route::put('transactions/{id}', 'Web\TransactionController@update')->name('transactions.update');
 Route::delete('transactions/{id}', 'Web\TransactionController@delete')->name('transactions.delete');
+Route::post('transactions/{sign}/search-between-dates', 'Web\TransactionController@searchBetweenDates')->name('transactions.searchBetweenDates');
+
 //**************************** CASHBOX ***************************
 Route::resource('cashboxs', 'Web\CashboxController');
 Route::get('cashboxTransactions', 'Web\CashboxController@transactions')->name('cashbox.transactions');
@@ -55,6 +57,7 @@ Route::post('transaction-types', 'Web\TransactionTypeController@store')->name('t
 Route::get('transaction-types/{id}', 'Web\TransactionTypeController@show')->name('transactionTypes.show');
 Route::put('transactions-types/{id}', 'Web\TransactionTypeController@update')->name('transactionTypes.update');
 Route::delete('transaction-types/{id}', 'Web\TransactionTypeController@delete')->name('transactionTypes.delete');
+
 
 //******************************SUBCONTRACTORS***********************************
 Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);

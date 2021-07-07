@@ -100,6 +100,7 @@
        openMainModal: function (){
           axios.get('clients/'+this.clientId).then(response => {
                  this.client = response.data
+                 console.log(this.client)
 
             });
             // console.log(this.client)

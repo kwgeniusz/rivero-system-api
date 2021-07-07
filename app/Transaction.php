@@ -45,7 +45,7 @@ class Transaction extends Model
     //--------------------------------------------------------------------
     public function transactionType()
     {
-        return $this->belongsTo('App\TransactionType', 'transactionTypeId', 'transactionTypeId');
+        return $this->belongsTo('App\TransactionType', 'transactionTypeId', 'transactionTypeId')->withTrashed();
     }
     public function document()
     {

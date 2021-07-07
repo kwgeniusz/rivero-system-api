@@ -1,11 +1,11 @@
 <template>
 <div>
-        <modal-advanced-search :showModal="true"/>
-  <div>
+<!-- {{this.mutaTransaction[0]}} -->
+  <div class="col-xs-12">
     <div class="col-xs-4">
-      Subcontratistas: ${{totals.subcontractors}} <br>
-      Manuales: ${{totals.manuales}} <br>
-      Total: ${{totals.netTotal}} <br>
+        Subcontratistas: ${{totals.subcontractors}} <br>
+        Manuales: ${{totals.manuales}} <br>
+        Total: ${{totals.netTotal}} <br>
     </div>   
 
     <div class="col-xs-4">
@@ -17,23 +17,44 @@
     </div>
     
    <div class="col-xs-4">
-          <!-- <a href="{{route('reports.clients')}}" class="btn btn-danger btn-sm text-right">
-                     <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Clientes de la Corporacion
-           </a> -->
+
+    <div class="btn-group"> 
         <div class="dropdown">
-          <button  class="btn btn-info btn-sm" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button  class="btn btn-info btn-sm dropdown-toggle" id="drop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Opciones<span class="caret"></span>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dLabel">
+          <ul class="dropdown-menu" aria-labelledby="drop1">
             <li><a v-if="$can('FE')" href="/transaction-types/-/index">Lista de Tipos de Expenses</a></li>
-            <li><addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/></li>
-              <a class="btn btn-success" v-if="btnAdd" @click="showModal=true"><span class="fa fa-plus" aria-hidden="true"></span></a>
-             <addUp-client v-if="showModal" @close="showModal = false" :editId=0 @sendClient="addClient"/>
-               
+            <li><a href="#" @click="showModal=true"> Busqueda Avanzada</a></li>
           </ul>
         </div>
     </div>
+
+   <div v-if="datesToShow" class="btn-group"> 
+        <div v-if="!loading" class="dropdown">
+         <button  class="btn btn-warning btn-sm dropdown-toggle" id="drop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Exportar<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="drop2">
+            <li><a href="#" @click="printPDF()"> PDF</a></li>
+            <!-- <li><a href="#"> EXCEL</a></li> -->
+          </ul>
+      </div>  
+       <div v-else>
+         <loading/><br>
+           DESCARGANDO...
+      </div>
+     </div>  
+
+    </div>
+
  </div>
+
+   <modal-advanced-search v-if="showModal" sign="-" @close="showModal = false" @filteredTransactions="changeTransactions"/>
+   
+   <div class="col-xs-12 text-center" v-if="datesToShow">
+      <h2> Desde:{{datesToShow[0]| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow[1]| moment("MM/DD/YYYY")}} </h2>
+   </div> 
 
        <div class="col-xs-12">
                 <div class="panel panel-default">
@@ -148,7 +169,7 @@
 </template>
 
 <script>
-    import {Spanish} from 'flatpickr/dist/l10n/es.js';
+
     import ModalAdvancedSearch from '../ModalAdvancedSearch.vue'
 
     export default {
@@ -160,23 +181,35 @@
                 inputSearch: '',
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 opened: [],
-
-                showModal:'',
+            
+                showModal: false,
+                mutaTransaction: this.transactionList,
+                datesToShow: '',
+                percentCompleted:0,
+                loading: false
             }
         },
       props: {
-         transactionList: {},
-        },  
-       components: {
+         transactionList: { type: Array},
+        }, 
+      watch:{
+         transactionList: function transactionList(data){
+            this.mutaTransaction = data;
+         },
+         percentCompleted: function percentCompleted(data){
+           console.log(data)
+         }
+      } ,
+      components: {
          ModalAdvancedSearch,
        },      
        computed: {
         searchData: function () {
-                return this.transactionList.filter((transaction) => {
+                return this.mutaTransaction.filter((transaction) => {
                   return transaction.description.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                          transaction.reason.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                          transaction.amount.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                         transaction.user.fullName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                         transaction.user.fullName.toLowerCase().includes(this.inputSearch.toLowerCase()) 
                          transaction.payment_method.payMethodName.toLowerCase().includes(this.inputSearch.toLowerCase()) 
                 })
             }, 
@@ -216,12 +249,10 @@
                            this.$emit('showlist', 0)
                     })
                 }    
-         },
-         showModalSearch(){
-      
-          },  
-         search(){
-               alert(this.searcher.date1)
+         }, 
+         changeTransactions(data,searched){
+               this.mutaTransaction = data;
+               this.datesToShow =  [searched.date1,searched.date2];
           },
          toggle(id) {
            const index = this.opened.indexOf(id);
@@ -230,7 +261,29 @@
            } else {
             this.opened.push(id)
            }
-         },  
+         },
+         printPDF(){
+            this.loading = true;
+
+           axios.post('/reports/expenses',{transactions: this.mutaTransaction, dateRange: this.datesToShow},{
+            responseType: 'blob',
+            
+             onDownloadProgress: (progressEvent) => {
+              console.log(progressEvent.total)
+               this.percentCompleted = Math.round((progressEvent.loaded * 100) );
+              // console.log(percentCompleted)
+              }
+           }).then((response) => {
+                  this.loading = false; 
+                  
+                  const url  = window.URL.createObjectURL(new Blob([response.data]));
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.setAttribute('download', 'Expenses.pdf'); //or any other extension
+                  document.body.appendChild(link);
+                  link.click();
+            })
+         }  //end of printPDF
       }//end of methods
     } //end of export
 

@@ -29,10 +29,15 @@
                 <input type="text" class="form-control" v-model="generalLedger.accountName" name="accountName" placeholder="">
         </div>
 
+        <div class="form-group col-lg-10">
+               <label for="leftMargin"> MARGEN IZQUIERDO:</label>
+                <input type="number" class="form-control" v-model="generalLedger.leftMargin" name="leftMargin" placeholder="">
+        </div>
+
         <div class="form-group col-lg-12 ">
               <label for="parentAccountCode">CUENTA PADRE:</label>
                    <select class="form-control" v-model="generalLedger.parentAccountCode" id="parentAccountCode">
-                      <option v-for="item in chartOfAccount" :key="item.generalLedgerId" :value="item.generalLedgerId">{{item.accountCode}} - {{item.accountName}}</option>
+                      <option v-for="item in chartOfAccount" :key="item.generalLedgerId" :value="item.accountCode ">{{item.accountCode}} - {{item.accountName}}</option>
                   </select>
           </div>
 
@@ -119,6 +124,7 @@
                 generalLedger:  {                    
                    accountCode:'',
                    accountName:'',
+                   leftMargin:'',
                    parentAccountCode:'',
                    accountClassificationCode:'',
                    accountTypeCode:'',
@@ -137,8 +143,8 @@
                 this.errors.push('Codigo de la Cuenta es Requerido.');
                  if (!this.generalLedger.accountName) 
                 this.errors.push('Nombre de la Cuenta es Requerido.');
-                //  if (!this.generalLedger.parentAccountCode) 
-                // this.errors.push('El Telefono para Negocios es obligatorio.');
+                 if (!this.generalLedger.leftMargin) 
+                this.errors.push('Ingrese un Valor numerico para el Margen.');
                 if (!this.generalLedger.accountClassificationCode) 
                 this.errors.push('La Clasificacion de la Cuenta es obligatoria.');
                 if (!this.generalLedger.accountTypeCode) 

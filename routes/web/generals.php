@@ -84,14 +84,5 @@ Route::get('reportsReceivables', 'Report\Pdf\AdministrationControllerPDF@printRe
 Route::get('reports/credit-note', 'Report\Pdf\AdministrationControllerPDF@printCreditNote')->name('reports.credit-note');
 Route::get('reports/debit-note', 'Report\Pdf\AdministrationControllerPDF@printDebitNote')->name('reports.debit-note');
 
-//-----------------------------ADMINISTRATION--------------------------------------------------//
-// Route::get('transactions-summary', function () {return view('module_administration.reportincomeexpenses.index');})->name('transactions.incomeexpenses');
-// Route::post('transactions-summary', 'Web\ReportController@transactionsSummary')->name('reports.incomeexpenses');
-// Route::get('transactions-income', function () {return view('module_administration.reportincome.index');})->name('transactions.income');
-// Route::post('transactions-income', 'Web\ReportController@transactionSummaryForSign')->name('reports.income');
-// Route::get('transactionsexpenses', function () {return view('module_administration.reportexpenses.index');})->name('transactions.expenses');
-// Route::post('transactionsexpenses', 'Web\ReportController@transactionSummaryForSign')->name('reports.expenses');
-// Route::get('collection-report', 'Web\ReceivableController@reportCollections')->name('collections.index');
-// Route::post('collection-report', 'Web\ReportController@collections')->name('collections.result');
-
-
+Route::post('reports/expenses', 'Report\Pdf\AdministrationControllerPDF@printExpenses')->name('reports.expenses');
+Route::post('reports/incomes',  'Report\Pdf\AdministrationControllerPDF@printIncomes')->name('reports.incomes');

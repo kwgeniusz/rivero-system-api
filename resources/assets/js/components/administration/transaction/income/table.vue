@@ -17,10 +17,43 @@
        </ul>
     </div> 
    <div class="col-xs-4">
-    
+
+       <div class="btn-group"> 
+         <div class="dropdown">
+          <button  class="btn btn-info btn-sm" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Opciones<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dLabel">
+            <li><a href="#" @click="showModal=true"> Busqueda Avanzada</a></li>
+          </ul>
+        </div>
     </div>
+
+       <div v-if="datesToShow" class="btn-group"> 
+        <div v-if="!loading" class="dropdown">
+         <button  class="btn btn-warning btn-sm dropdown-toggle" id="drop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Exportar<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="drop2">
+            <li><a href="#" @click="printPDF()"> PDF</a></li>
+            <!-- <li><a href="#"> EXCEL</a></li> -->
+          </ul>
+      </div>  
+       <div v-else>
+         <loading/><br>
+           DESCARGANDO...
+      </div>
+     </div>  
+
+   </div>
 </div>
+
  <br>
+  <modal-advanced-search v-if="showModal" sign="+" @close="showModal = false" @filteredTransactions="changeTransactions"/>
+   
+   <div class="col-xs-12 text-center" v-if="datesToShow">
+      <h2> Desde:{{datesToShow[0]| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow[1]| moment("MM/DD/YYYY")}} </h2>
+   </div> 
 
       <div class="col-xs-12">
                 <div class="panel panel-default">
@@ -99,24 +132,41 @@
 </template>
 
 <script>
+
+    import ModalAdvancedSearch from '../ModalAdvancedSearch.vue'
+
     export default {
     mounted() {
             console.log('Component mounted.') 
-            console.log(this.transactionCodes)
+            // console.log(this.transactionCodes)
             // console.log(this.transactionList)
         },
      data(){
             return{
                 inputSearch: '',
+            
+                showModal: false,
+                mutaTransaction: this.transactionList,
+                datesToShow: '',
+                loading: false
+
             }
         },
         props: {
             transactionList:  {  type: [Array], default: null},
             transactionCodes:  {  type: [Array], default: null},
         },  
+      watch:{
+         transactionList: function transactionList(data){
+            this.mutaTransaction = data;
+         }
+       } ,
+      components: {
+         ModalAdvancedSearch,
+       },        
          computed: {
             searchData: function () {
-                return this.transactionList.filter((transaction) => {
+                return this.mutaTransaction.filter((transaction) => {
                   return transaction.description.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                          transaction.reason.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                          transaction.amount.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
@@ -155,11 +205,11 @@
             }  
         },
         methods: {
-            editTransaction(index, id){
+          editTransaction(index, id){
                 // console.log('index: '+index + ' id: '+ id)
                 this.$emit('editData', id)
             },
-            deleteTransaction(index, id){
+          deleteTransaction(index, id){
                 if (confirm(`Esta Seguro de Eliminar la Transaccion #${++index}?`) ){
                     axios.delete(`/transactions/${id}`).then((response) => {
                            toastr.success(response.data.message);
@@ -167,7 +217,33 @@
                     })
                 }    
             }, 
-        }
+          changeTransactions(data,searched){
+               this.mutaTransaction = data;
+               this.datesToShow =  [searched.date1,searched.date2];
+          }, 
+          printPDF(){
+            this.loading = true;
+
+           axios.post('/reports/incomes',{transactions: this.mutaTransaction, dateRange: this.datesToShow},{
+            responseType: 'blob',
+            
+             onDownloadProgress: (progressEvent) => {
+              console.log(progressEvent.total)
+               this.percentCompleted = Math.round((progressEvent.loaded * 100) );
+              // console.log(percentCompleted)
+              }
+           }).then((response) => {
+                  this.loading = false; 
+                  
+                  const url  = window.URL.createObjectURL(new Blob([response.data]));
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.setAttribute('download', 'Incomes.pdf'); //or any other extension
+                  document.body.appendChild(link);
+                  link.click();
+            })
+         }  //end of printPDF 
+      }//end of methods
     }
 
 </script>

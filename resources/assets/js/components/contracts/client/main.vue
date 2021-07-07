@@ -68,12 +68,6 @@
                 // console.log(company)
                 // this.clientList[company[0]] = company[1]
             },
-            // carga(){
-            //     XMLHttpRequest.onprogress = function (event) {
-            //     event.loaded;
-            //     event.total;
-            //     };
-            // },
             showlist(n){
                 this.formStatus = 0
                 axios.get('/clients').then((response) => {

@@ -171,11 +171,10 @@ class Client extends Model
      return $rs;
   }
 //------------------------------------------
-    public function findById($id,$companyId)
+    public function findById($id)
     {
         return $this->with('contract','invoice','proposal')
                     ->where('clientId', '=', $id)
-                    ->where('companyId','=', $companyId)
                     ->get();
     }
 

@@ -59,30 +59,11 @@
             addFormStatus(){
                 this.formStatus = 1
             },
-            // addTransactionExpense(department){
-            //     // console.log(department)
-            //     // this.transactionList.push(department)
-            // },
-            // delDepartment(index){
-            //     // console.log(index)
-            //     this.formStatus = 0;
-            //     this.transactionList.splice(index, 1)
-            // },
             editData(id){
                 // console.log('el id es: ' + id)
                 this.editId = id
                 this.formStatus = 2
             }, 
-            upDepartment( company){
-                // console.log(company)
-                // this.transactionList[company[0]] = company[1]
-            },
-            // carga(){
-            //     XMLHttpRequest.onprogress = function (event) {
-            //     event.loaded;
-            //     event.total;
-            //     };
-            // },
             showlist(n){
                 this.formStatus = 0
                 axios.get('/transactions/-/index').then((response) => {
