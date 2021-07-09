@@ -64,7 +64,7 @@ class CostCategory extends Model
     public function getAll()
    {
        return $this->where('parentCostCategoryId' , '=' , 0)
-                   ->with('costSubcategory')
+                   ->with('allCostSubcategory')
                    ->orderBy('costCategoryCode', 'ASC')
                    ->get();
     }
