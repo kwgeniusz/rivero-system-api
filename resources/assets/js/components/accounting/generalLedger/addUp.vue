@@ -18,7 +18,20 @@
 
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
         <form  class="form" id="formgeneralLedger" role="form" @submit.prevent="createUpdateAccount()">
-      
+
+      <div class="form-group col-lg-12 ">
+            <label for="selectAccountType">TIPO DE CUENTA:</label>        
+            <select class="form-control" v-model="selectAccountType" id="selectAccountType">
+               <option value="FATHER">PADRE</option>
+               <option value="DAUGHTER">HIJA</option>
+            </select> 
+          </div> 
+
+         <div class="form-group col-lg-12" v-if="selectAccountType == 'DAUGHTER'">
+              <label for="parentAccountCode">CUENTA PADRE:</label>
+                     <v-select :options="chartOfAccount" v-model="generalLedger.parentAccountCode" :reduce="chartOfAccount => chartOfAccount.accountCode" label="item_data" /> 
+          </div>
+
         <div class="form-group col-lg-7">
                <label for="accountCode"> CODIGO DE CUENTA:</label>
                 <input type="text" class="form-control" v-model="generalLedger.accountCode" name="accountCode" placeholder="">
@@ -34,26 +47,16 @@
                 <input type="number" class="form-control" v-model="generalLedger.leftMargin" name="leftMargin" placeholder="">
         </div>
 
-        <div class="form-group col-lg-12 ">
-              <label for="parentAccountCode">CUENTA PADRE:</label>
-                   <select class="form-control" v-model="generalLedger.parentAccountCode" id="parentAccountCode">
-                      <option v-for="item in chartOfAccount" :key="item.generalLedgerId" :value="item.accountCode ">{{item.accountCode}} - {{item.accountName}}</option>
-                  </select>
-          </div>
-
          <div class="form-group col-lg-12 ">
               <label for="accountClassificationCode">CLASIFICACION:</label>
-                   <select class="form-control" v-model="generalLedger.accountClassificationCode" id="accountClassificationCode">
-                      <option v-for="item in accountClassificationList" :key="item.accountClassificationCode" :value="item.accountClassificationCode">{{item.accountClassificationName}}</option>
-                  </select>
+                 <v-select :options="accountClassificationList" v-model="generalLedger.accountClassificationCode" :reduce="accountClassificationList => accountClassificationList.accountClassificationCode" label="accountClassificationName" /> 
           </div>  
 
          <div class="form-group col-lg-12 ">
               <label for="accountTypeCode">TIPO:</label>
-                   <select class="form-control" v-model="generalLedger.accountTypeCode" id="accountTypeCode">
-                      <option v-for="item in accountTypeList" :key="item.accountTypeCode" :value="item.accountTypeCode">{{item.accountTypeName}}</option>
-                  </select>
-          </div>     
+              <v-select :options="accountTypeList" v-model="generalLedger.accountTypeCode" :reduce="accountTypeList => accountTypeList.accountTypeCode" label="accountTypeName" />
+          </div>    
+
                         <div v-if="editId === 0">
                              <button-form 
                               :buttonType = 1
@@ -86,6 +89,10 @@
           axios.get('/general-ledger/create').then((response) => {
               console.log(response.data)
                   this.chartOfAccount            = response.data.chartOfAccount;
+                  this.chartOfAccount.map(function (x){
+                       return x.item_data = `${x.accountCode} - (${x.accountName})`;
+                 });
+
                   this.accountTypeList           = response.data.accountTypeList;
                   this.accountClassificationList = response.data.accountClassificationList;
             }); //end of create clients
@@ -93,22 +100,15 @@
             if (this.editId > 0) {
                 // transaction to edit.
                 axios.get(`/general-ledger/${this.editId}`).then((response) => {
-                    // this.data = response.data[0]
+                    this.data = response.data[0]
+                    console.log(this.data)
 
-                    // this.clientNumberFormat   = this.data.clientCode;
-                    // this.client.clientType    = this.data.clientType;
-                    // this.client.companyName   = this.data.companyName;
-                    // this.client.clientName    = this.data.clientName;
-                    // this.client.gender        = this.data.gender;
-                    // this.client.clientAddress = this.data.clientAddress;
-                    // this.client.businessPhone = this.data.businessPhone;
-                    // this.client.homePhone     = this.data.homePhone;
-                    // this.client.mobilePhone   = this.data.mobilePhone;
-                    // this.client.otherPhone    = this.data.otherPhone;
-                    // this.client.fax           = this.data.fax;
-                    // this.client.mainEmail     = this.data.mainEmail;
-                    // this.client.secondaryEmail = this.data.secondaryEmail;
-                    // this.client.contactTypeId = this.data.contactTypeId;
+                    this.generalLedger.accountCode         = this.data.accountCode;
+                    this.generalLedger.accountName         = this.data.accountName;
+                    this.generalLedger.leftMargin                 = this.data.leftMargin;
+                    this.generalLedger.parentAccountCode          = this.data.parentAccountCode;
+                    this.generalLedger.accountClassificationCode  = this.data.accountClassificationCode;
+                    this.generalLedger.accountTypeCode            = this.data.accountTypeCode;
                 });       
             } 
         },
@@ -116,10 +116,11 @@
             return{
                 errors: [],
                 showSubmitBtn:true,
+                selectAccountType: 'DAUGHTER',
 
-                chartOfAccount:'',
-                accountTypeList:'',
-                accountClassificationList:'',
+                chartOfAccount: [],
+                accountTypeList: [],
+                accountClassificationList:[],
 
                 generalLedger:  {                    
                    accountCode:'',
@@ -139,6 +140,11 @@
             createUpdateAccount(){
               this.errors = [];
 
+                 if (this.selectAccountType=='DAUGHTER'){
+                    if (!this.generalLedger.parentAccountCode) 
+                     this.errors.push('Cuenta Padre requerida.');
+                 }
+
                  if (!this.generalLedger.accountCode) 
                 this.errors.push('Codigo de la Cuenta es Requerido.');
                  if (!this.generalLedger.accountName) 
@@ -149,7 +155,6 @@
                 this.errors.push('La Clasificacion de la Cuenta es obligatoria.');
                 if (!this.generalLedger.accountTypeCode) 
                 this.errors.push('El tipo de Cuenta es Obligatorio.');
-
 
            if (!this.errors.length) { 
                 if (this.editId === 0) {  

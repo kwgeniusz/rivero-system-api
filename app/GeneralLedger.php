@@ -34,6 +34,14 @@ class GeneralLedger extends Model
     {
         return $this->hasOne('App\AccountClassification', 'accountClassificationCode', 'accountClassificationCode');
     }
+    public function daughterAccount()
+    {
+        return $this->hasMany('App\GeneralLedger', 'parentAccountCode', 'accountCode');
+    }
+    public function allDaughterAccount()
+    {
+        return $this->daughterAccount()->with('allDaughterAccount');
+    } 
 //--------------------------------------------------------------------
      /** ACCESORES **/
 //--------------------------------------------------------------------
@@ -46,7 +54,7 @@ class GeneralLedger extends Model
 //        return $newDate;
 //    }
  //--------------------------------------------------------------------
-               /** MUTADORES **/
+     /** MUTADORES **/
 //--------------------------------------------------------------------
 //    public function setClientNameAttribute($clientName)
 //    {
@@ -76,9 +84,8 @@ class GeneralLedger extends Model
 //--------------------------------------------------------------------
     public function findById($id,$companyId)
     {
-        return $this->with('contract','invoice','proposal')
-                    ->where('clientId', '=', $id)
-                    // ->where('companyId','=', $companyId)
+        return $this->where('generalLedgerId', '=', $id)
+                    ->where('companyId','=', $companyId)
                     ->get();
     }
 
@@ -124,28 +131,22 @@ class GeneralLedger extends Model
 
     }
 //------------------------------------------
-    public function updateG($companyId,$clientId ,$data)
+    public function updateG($companyId,$generalLedgerId ,$data)
     {
           $error = null;
 
      DB::beginTransaction();
       try {
 
-        $client                     = Client::find($clientId);
-        $client->clientType    = $data['clientType'];
-        $client->companyName   = $data['companyName'];
-        $client->clientName    = $data['clientName'];
-        $client->gender        = $data['gender'];
-        $client->clientAddress = $data['clientAddress'];
-        $client->businessPhone = $data['businessPhone'];
-        $client->homePhone     = $data['homePhone'];
-        $client->otherPhone    = $data['otherPhone'];
-        $client->fax           = $data['fax'];
-        $client->mainEmail     = $data['mainEmail'];
-        $client->secondaryEmail   = $data['secondaryEmail'];
-        $client->contactTypeId   = $data['contactTypeId'];
-        $client->save();
-
+        $generalLedger                          = GeneralLedger::find($generalLedgerId);
+        $generalLedger->accountCode                 = $data['accountCode'];
+        $generalLedger->accountName                 = $data['accountName'];
+        $generalLedger->leftMargin                  = $data['leftMargin'];
+        $generalLedger->parentAccountCode           = $data['parentAccountCode'];
+        $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
+        $generalLedger->accountTypeCode             = $data['accountTypeCode'];
+        $generalLedger->save();
+        
             $success = true;
             DB::commit();
         } catch (\Exception $e) {
@@ -156,7 +157,7 @@ class GeneralLedger extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Cliente Modificado "];
+          return $rs  = ['alert' => 'success', 'message' => "Cuenta Modificada"];
         } else {
             return $rs = ['alert' => 'error', 'message' => $error];
         }

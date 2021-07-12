@@ -11,9 +11,10 @@
                                </tr>
                             </thead>
                      <tbody v-if="costCategoryList.length > 0">
-                      <template v-for="(transaction, index1) in costCategoryList">      
+                      <template v-for="(transaction, index1) in costCategoryList">   
                         <tr :key="index1" >     
                                 <td class="text-left" @click="toggle(transaction.costCategoryId)" :class="{ opened: opened.includes(transaction.costCategoryId) }" > 
+                                   <!-- <b>({{++index1}}) {{transaction.categoryName}}</b> -->
                                    <b>({{transaction.costCategoryCode}}) {{transaction.categoryName}}</b>
                                 </td>
                                 <td> 
@@ -23,13 +24,13 @@
                                 </td>
                          </tr>
                          <tr v-if="opened.includes(transaction.costCategoryId)" >
-                            <!-- <td></td> -->
                             <td colspan="2">
 <div v-for="(subcategory,index2) in transaction.all_cost_subcategory" :key="subcategory.costCategoryId">        
  <div class="bg-primary hover round glow text-left" role="button">
     <b data-toggle="collapse" aria-expanded="false" :href="'#'+subcategory.costCategoryId+'-scope'"> 
 
        <i class="fa fa-chevron-circle-down"></i>({{subcategory.costCategoryCode}}) - {{subcategory.categoryName}} 
+       <!-- <i class="fa fa-chevron-circle-down"></i>({{index1+'.'+ ++index2}}) - {{subcategory.categoryName}}  -->
        <a @click="editTransactionType(index,transaction.costCategoryId)"  title="Editar"><i class="fa fa-edit"></i></a>  
        <a @click="deleteTransactionType(index,transaction.costCategoryId)"  title="Eliminar"><i class="fa fa-times-circle"></i></a> 
     </b>
@@ -40,7 +41,8 @@
      <div v-for="(subcategory2,index3) in subcategory.all_cost_subcategory" >
             <!-- collapse -->
              <div class="text-left" role="button" data-toggle="collapse" :href="'#'+subcategory2.costCategoryId+'-request'" aria-expanded="false" style="" >
-                    <b>({{subcategory2.costCategoryCode}}) - {{subcategory2.categoryName}}</b>
+                    <b>({{ subcategory2.costCategoryCode }}) - {{subcategory2.categoryName}}</b>
+                    <!-- <b>({{ index1+'.'+index2 +'.'+ ++index3 }}) - {{subcategory2.categoryName}}</b> -->
               </div>
                  <!-- collapse -->
               <div  class="collapse" :id="subcategory2.costCategoryId+'-request'">

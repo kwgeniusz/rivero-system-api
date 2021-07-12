@@ -26,10 +26,10 @@ class AccountType extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAllByLanguage($language)
+    public function getAllByCountry($countryId)
 {
      //se trae las condiciones de pago por el lenguaje que esta en la tabla pais
-    return $this->where('language' , '=' , $language)
+    return $this->where('countryId' , '=' , $countryId)
       ->orderBy('accountTypeId', 'ASC')
       ->get();
 

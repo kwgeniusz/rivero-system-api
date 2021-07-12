@@ -48,8 +48,8 @@ class GeneralLedgerController extends Controller
     public function create(Request $request)
     {
         $chartOfAccount              = $this->oGeneralLedger->getAllByCompany(session('companyId'));
-        $accountTypeList             = $this->oAccountType->getAllByLanguage(session('countryLanguage'));
-        $accountClassificationList   = $this->oAccountClassification->getAllByLanguage(session('countryLanguage'));
+        $accountTypeList             = $this->oAccountType->getAllByCountry(session('countryId'));
+        $accountClassificationList   = $this->oAccountClassification->getAllByCountry(session('countryId'));
         
         if($request->ajax()) {
          return [
@@ -105,15 +105,15 @@ class GeneralLedgerController extends Controller
      */
     public function update(Request $request,$clientId)
     {
-            //  $rs = $this->oGeneralLedger->updateG(
-            //    session('companyId'),
-            //    $clientId,
-            //    $request->all()
-            //   );
+             $rs = $this->oGeneralLedger->updateG(
+               session('companyId'),
+               $clientId,
+               $request->all()
+              );
 
-            //   if($request->ajax()){
-            //     return $rs;
-            // }
+              if($request->ajax()){
+                return $rs;
+            }
 
         // $notification = array('alert-type' => $rs['alert'],'message' => $rs['message']);
         // return redirect()->route('clients.index')->with($notification);
@@ -126,11 +126,11 @@ class GeneralLedgerController extends Controller
      */
     public function show(Request $request,$id)
     {
-        // $client = $this->oGeneralLedger->findById($id,session('companyId'));
+        $generalLedgers = $this->oGeneralLedger->findById($id,session('companyId'));
 
-        //    if($request->ajax()){
-        //       return $client;
-        //     }
+           if($request->ajax()){
+              return $generalLedgers;
+            }
         // return view('module_contracts.clients.show', compact('client'));
     }
 
@@ -142,11 +142,11 @@ class GeneralLedgerController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->oGeneralLedger->deleteG(session('countryId'),$id);
-
+        $rs = $this->oGeneralLedger->deleteG(session('companyId'),$id);
+          
          $notification = array(
-            'message'    => $result['message'],
-            'alert-type' => $result['alert'],
+            'message'    => $rs['message'],
+            'alert-type' => $rs['alert'],
         );
         
         return $notification;
