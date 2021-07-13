@@ -208,7 +208,10 @@ class PrecontractController extends Controller
     $timeFrame     = $this->oTimeFrame->FindById($proposal[0]->timeFrame[0]->timeId); 
     $precontract  = $proposal[0]->precontract;
 
-
+     if($precontract->contractId != null ){
+        throw new \Exception('Error: Ya este precontrato fue convertido');
+     }
+     
     // dd($timeFrame[0]->daysRepresented );
     // exit();
            

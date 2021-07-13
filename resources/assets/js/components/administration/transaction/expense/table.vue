@@ -25,7 +25,7 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="drop1">
             <li><a v-if="$can('FE')" href="/transaction-types/-/index">Lista de Tipos de Expenses</a></li>
-            <li><a href="/cost-categories"> Categoria de Costos </a></li>
+            <li><a v-if="companyId == 8" href="/cost-categories"> Categoria de Costos </a></li>
             <li><a href="#" @click="showModal=true"> Busqueda Avanzada</a></li>
           </ul>
         </div>
@@ -183,6 +183,7 @@
         },
       data(){
             return{
+                companyId: window.globalCompanyId,
                 inputSearch: '',
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 opened: [],

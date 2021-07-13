@@ -271,6 +271,10 @@ class ProposalController extends Controller
       //traer todos los datos del proposal
     $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
   
+    if($proposal->invoiceId != null ){
+      throw new \Exception('Error: Ya este precontrato fue convertido');
+   }
+
         //insertar el nuevo Invoice
             $invoice  = $this->oInvoice->insertInv(
                   $proposal[0]->countryId,

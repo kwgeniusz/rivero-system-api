@@ -6,17 +6,17 @@ accountId:{{accountId}}
 cashboxId:{{cashboxId}} -->
          <div class="form-group col-md-9">
             <label for="description" class="form-group">CATEGORIAS DE COSTOS</label>
-            <v-select :options="costCategoryList" @input="getSubcategories()"   v-model="costCategoryId" :reduce="costCategoryList => costCategoryList.costCategoryId" label="categoryName"/>
+            <v-select :options="costCategoryList" @input="getSubcategories()"   v-model="costCategoryId" :reduce="costCategoryList => costCategoryList.costCategoryId" label="item_data"/>
          </div>
 
            <div class="form-group col-lg-8" v-if="costCategoryId">
             <label for="bankId">SUBCATEGORIA DE COSTO</label>
-            <v-select :options="costSubcategoryList" @input="getSubcategoriesDetail()" v-model="costSubcategoryId" :reduce="costSubcategoryList => costSubcategoryList.costCategoryId" label="categoryName"/>
+            <v-select :options="costSubcategoryList" @input="getSubcategoriesDetail()" v-model="costSubcategoryId" :reduce="costSubcategoryList => costSubcategoryList.costCategoryId" label="item_data"/>
           </div>  
 
           <div class="form-group col-lg-8" v-if="costSubcategoryId">
             <label for="accountId">DETALLE DE SUBCATEGORIA</label>:<br> 
-             <v-select :options="costSubcatDetailList" v-model="costSubcategoryDetailId" :reduce="costSubcatDetailList => costSubcatDetailList.costCategoryId" label="categoryName"/>
+             <v-select :options="costSubcatDetailList" v-model="costSubcategoryDetailId" :reduce="costSubcatDetailList => costSubcatDetailList.costCategoryId" label="item_data"/>
           </div> 
 
 </div>   
@@ -34,8 +34,10 @@ cashboxId:{{cashboxId}} -->
 
                axios.get('/cost-categories').then(response => {
                  this.costCategoryList = response.data 
-                 console.log(this.costCategoryList)
-                });  
+                 this.costCategoryList.map(function (x){
+                           return x.item_data = `${x.costCategoryCode} - (${x.categoryName})`;
+                 });
+                });  //end axios
      },
      data: function () {
           return {
@@ -63,7 +65,6 @@ cashboxId:{{cashboxId}} -->
        }, 
       costSubcategoryId: function () {
           this.costSubcategoryDetailId = '';
-
           this.$emit("shareData",this.costCategoryId,this.costSubcategoryId,this.costSubcategoryDetailId);
        },  
       costSubcategoryDetailId: function () {
@@ -75,14 +76,18 @@ cashboxId:{{cashboxId}} -->
          var url = `/cost-categories/${this.costCategoryId}/subcategories`;
             axios.get(url).then(response => {
               this.costSubcategoryList = response.data;
-              // this.accountId = this.costSubcategoryList[0].accountId;
+              this.costSubcategoryList.map(function (x){
+                           return x.item_data = `${x.costCategoryCode} - (${x.categoryName})`;
+                 });
             });
         },
         getSubcategoriesDetail: function (){
          var url = `/cost-categories/${this.costSubcategoryId}/subcategories`;
             axios.get(url).then(response => {
               this.costSubcatDetailList = response.data;
-
+              this.costSubcatDetailList.map(function (x){
+                           return x.item_data = `${x.costCategoryCode} - (${x.categoryName})`;
+                 });
             });
         },
 
