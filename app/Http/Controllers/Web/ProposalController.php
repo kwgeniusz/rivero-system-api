@@ -268,12 +268,13 @@ class ProposalController extends Controller
 
         DB::beginTransaction();
         try {
-      //traer todos los datos del proposal
-    $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
-  
-    if($proposal->invoiceId != null ){
-      throw new \Exception('Error: Ya este precontrato fue convertido');
-   }
+             //traer todos los datos del proposal
+             $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
+
+          
+           if($proposal[0]->invoiceId != null ){
+               throw new \Exception('Error: Ya este precontrato fue convertido');
+            }
 
         //insertar el nuevo Invoice
             $invoice  = $this->oInvoice->insertInv(
@@ -290,9 +291,9 @@ class ProposalController extends Controller
                   $proposal[0]->pCondId,
                   Invoice::OPEN,
                   $proposal[0]->userId);
-             // dd($invoice);
+            //  dd($invoice);
              // dd($proposal[0]->proposalDetail);
-             //      exit();
+                  // exit();
                foreach ($proposal[0]->proposalDetail as $proposalDetail) {
                       $this->oInvoiceDetail->insert(
                        $invoice->invoiceId,
