@@ -16,7 +16,7 @@
            </div>
 
         <form  class="form" ref="formTransactionIncome" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
-<!-- {{transaction}} -->
+{{transaction}}
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
                         <flat-pickr v-model="transaction.transactionDate" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>
@@ -47,7 +47,9 @@
                                 <v-select :options="contractsList" v-model="transaction.contractId" :reduce="contractsList => contractsList.contractId" label="item_data" />
                           </div>
 
+                          <!-- {{transaction}} -->
 
+                          <!-- {{transaction.costSubcategoryDetailId}} -->
                         <select-cost-category v-if="transactionMode =='contract'" @shareData="getValuesFromChild"
                          :prop-cost-category-id             = "transaction.costCategoryId"
                          :prop-cost-subcategory-id          = "transaction.costSubcategoryId"

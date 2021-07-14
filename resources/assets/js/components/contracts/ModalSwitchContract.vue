@@ -65,23 +65,30 @@
                   <div class="text-left">
 
                   <!-- Centering the text with just a "center" tag-->
+                  <div>
                     <center><b><u>Requerimientos</u></b></center>
                     <br>
                      <p v-for="(invoiceDetail,index1) in invoice.invoice_details">
                            - {{invoiceDetail.serviceName}}      
                      </p>
+                  </div>
 
+                  <div v-if="invoice.proposal">
                     <center><b><u>Términos y Condiciones</u></b></center>
                     <br>
                      <p v-for="(term,index2) in invoice.proposal.term">
                            - {{term.termName}}     
                      </p>
+                  </div>
 
+      
+                  <div v-if="invoice.proposal">
                     <center><b><u>Alcance</u></b></center>
                     <br>
                     <p v-for="(scope,index3) in invoice.proposal.scope">
                              - {{scope.description}}
                      </p>
+                  </div>
 
                        </div>
                      </div>    

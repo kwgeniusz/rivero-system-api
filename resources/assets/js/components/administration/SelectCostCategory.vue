@@ -1,9 +1,8 @@
 <template>
 <div>
-<!-- paymethodId:{{payMethodId}}
-bankId:{{bankId}}
-accountId:{{accountId}}
-cashboxId:{{cashboxId}} -->
+<!-- paymethodId:{{propCostCategoryId}}
+bankId:{{propCostSubcategoryId}}
+accountId:{{propCostSubcategoryDetailId}} -->
          <div class="form-group col-md-9">
             <label for="description" class="form-group">CATEGORIAS DE COSTOS</label>
             <v-select :options="costCategoryList" @input="getSubcategories()"   v-model="costCategoryId" :reduce="costCategoryList => costCategoryList.costCategoryId" label="item_data"/>
@@ -28,15 +27,17 @@ cashboxId:{{cashboxId}} -->
         
      mounted() {
             console.log('Component SelectCostCategory mounted.')
-                       this.costCategoryId          = this.propCostCategoryId;
-                       this.costSubcategoryId       = this.propCostSubcategoryId;
-                       this.costSubcategoryDetailId = this.propCostSubcategoryDetailId;
 
                axios.get('/cost-categories').then(response => {
                  this.costCategoryList = response.data 
                  this.costCategoryList.map(function (x){
                            return x.item_data = `${x.costCategoryCode} - (${x.categoryName})`;
                  });
+
+                       this.costCategoryId          = this.propCostCategoryId;
+                       this.costSubcategoryId       = this.propCostSubcategoryId;
+                       this.costSubcategoryDetailId = this.propCostSubcategoryDetailId;
+                   console.log(this.propCostCategoryId)
                 });  //end axios
      },
      data: function () {

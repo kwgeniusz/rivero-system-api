@@ -30,10 +30,10 @@
 
             <div class="col-xs-12">
                 <div class="panel panel-default">          
-                    <div class="table-responsive text-center">
-                        <table class="table table-striped table-bordered text-center">
-                            <thead>
-                              <tr>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="text-center">
+                              <tr class="text-center">
                                 <th>#</th>
                                 <th>CUENTA PADRE</th>
                                 <th>CODIGO DE CUENTA</th>

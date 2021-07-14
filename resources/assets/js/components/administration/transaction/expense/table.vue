@@ -76,6 +76,7 @@
                                 <th>EXPENSES</th>
                                 <th>MONTO</th>
                                 <th>DESTINO</th>
+                                <th v-if="companyId == 8">CATEGORIA DE COSTOS</th>
                                 <th>RESPONSABLE</th>
                                 <th>ESTADO</th>
                                 <th>ACCIONES</th>
@@ -100,6 +101,13 @@
                                        CASHBOX
                                      </p>                                          
                                 </td>      
+                               <td class="text-left" v-if="companyId == 8">
+                                 <div v-if="transaction.cost_category != null">
+                                 ({{transaction.cost_category.costCategoryCode}} - {{transaction.cost_category.categoryName}})<br>
+                                 ({{transaction.cost_subcategory.costCategoryCode}} - {{transaction.cost_category.categoryName}})<br>
+                                 ({{transaction.cost_subcategory_detail.costCategoryCode}} - {{transaction.cost_category.categoryName}})
+                                 </div>
+                               </td>
                                <td class="text-left">{{transaction.user.fullName}}</td>
                                <td class="text-left">{{transaction.status}}</td>
                                   <td> 

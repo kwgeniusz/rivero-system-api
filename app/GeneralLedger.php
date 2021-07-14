@@ -93,7 +93,7 @@ class GeneralLedger extends Model
     {  
          return $this->with('accountType','accountClassification')
                      ->where('companyId', '=', $companyId)
-                     ->orderBy('accountCode', 'DESC')
+                     ->orderBy('accountCode', 'ASC')
                      ->get(); 
      }      
     public function insertG($countryId, $companyId, $data)

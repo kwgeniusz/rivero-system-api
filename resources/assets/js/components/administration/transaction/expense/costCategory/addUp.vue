@@ -3,8 +3,8 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
 
-                <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Tipo de Expense</h4></div>
-                <div v-else class="panel-heading" style="background: #d9edf7"><h4 class="text-uppercase">Actualizar Tipo de Expense</h4></div>
+                <div v-if="editId === 0" class="panel-heading" style="background: #dff0d8"><h4 class="text-uppercase">Agregar Categoria de Costo</h4></div>
+                <div v-else class="panel-heading" style="background: #d9edf7"><h4 class="text-uppercase">Actualizar Categoria de Costo</h4></div>
 
         <div class="panel-body">
 

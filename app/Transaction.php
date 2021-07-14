@@ -81,6 +81,19 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\User', 'userId', 'userId');
     }
+
+    public function costCategory()
+    {
+        return $this->hasOne('App\CostCategory', 'costCategoryId', 'costCategoryId');
+    }
+    public function costSubcategory()
+    {
+        return $this->hasOne('App\CostCategory', 'costCategoryId', 'costSubcategoryId');
+    }
+    public function costSubcategoryDetail()
+    {
+        return $this->hasOne('App\CostCategory', 'costCategoryId', 'costSubcategoryDetailId');
+    }
     //--------------------------------------------------------------------
                /** ACCESORES **/
    //--------------------------------------------------------------------
@@ -126,7 +139,7 @@ class Transaction extends Model
 
     public function getAllByYear($sign,$year)
     {
-        return $this->with('payable','paymentMethod','transactionType','account.bank','transactionable','document','user')
+    return $this->with('payable','paymentMethod','transactionType','account.bank','transactionable','document','user','costCategory','costSubcategory','costSubcategoryDetail')
         ->whereYear('transactionDate', $year)
         ->where('sign', '=', $sign)
         ->where('companyId', '=', session('companyId'))
