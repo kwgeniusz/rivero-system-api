@@ -10,18 +10,38 @@
 
             <div class="alert alert-danger" v-if="errors.length">
              <h4>Errores:</h4>
-             <ul>
-               <li v-for="(error,index) in errors"  :key="index">{{ error }}</li>
-            </ul>
+              <ul>
+                 <li v-for="(error,index) in errors"  :key="index">{{ error }}</li>
+             </ul>
            </div>
 
-        <form  class="form"  id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
+        <form  class="form"  id="formTransaction" role="form" @submit.prevent="createUpdateCategory()">
 
-                        <div class="form-group col-md-9">
-                                <label for="name" class="form-group">NOMBRE DEL TIPO DE EXPENSE</label>
-                                <input type="text" v-model="transactionType.name" class="form-control" id="name" name="name">
+                       <div class="form-group col-md-9">
+                          <label for="level" class="form-group">CATEGORIAS DE COSTOS</label>
+                            <select v-model="costCategory.level" class="form-control" name="level" id="level">
+                             <option value="1">1</option>
+                             <option value="2">2</option>
+                             <option value="3">3</option>
+                            </select>
+                       </div>
+                        
+                        <div class="form-group col-md-9" v-if="costCategory.level == 2 || costCategory.level == 3">
+                          <label for="description" class="form-group">CATEGORIAS DE COSTOS</label>
+                           <v-select :options="costCategoryList" @input="getSubcategories()"   v-model="costCategory.costCategoryId" :reduce="costCategoryList => costCategoryList.costCategoryId" label="item_data"/>
+                       </div>
+
+                       <div class="form-group col-lg-8" v-if="costCategory.level == 3">
+                        <label for="bankId">SUBCATEGORIA DE COSTO</label>
+                        <v-select :options="costSubcategoryList" @input="getSubcategoriesDetail()" v-model="costCategory.costSubcategoryId" :reduce="costSubcategoryList => costSubcategoryList.costCategoryId" label="item_data"/>
+                      </div>  
+            
+
+                       <div class="form-group col-md-9">
+                                <label for="name" class="form-group">NOMBRE DE LA CATEGORIA:</label>
+                                <input type="text" v-model="costCategory.categoryName" class="form-control" id="name" name="name">
                         </div>
-
+                   
                         <div v-if="editId === 0">
                              <button-form 
                               :buttonType = 1
@@ -67,7 +87,7 @@
                 transactionTypesList: [],
                 showSubmitBtn:true,
 
-                transactionType:  {
+                costCategory:  {
                     //  code: '',
                      name: '',
                 },
@@ -78,7 +98,7 @@
             editId:'',
         },        
         methods: {
-            createUpdateTransaction(){
+            createUpdateCategory(){
               this.errors = [];
 
                 if (!this.transactionType.name) 
