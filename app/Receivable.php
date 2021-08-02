@@ -58,19 +58,19 @@ class Receivable extends Model
     const CREDIT_CARD    = '10';
 
 //------------ACCESORES-----------------//
-    public function getAmountDueAttribute($amountDue)
+    public function getAmountDueAttribute($value)
     {
        return decrypt($this->attributes['amountDue']);
     }
-    public function getAmountPaidAttribute($amountPaid)
+    public function getAmountPaidAttribute()
     {
         return decrypt($this->attributes['amountPaid']);
     }
-    public function getAmountPercentajeAttribute($amountPercentaje)
+    public function getAmountPercentajeAttribute()
     {
        return decrypt($this->attributes['amountPercentaje']);
     }
-    public function getBalanceAttribute($balance)
+    public function getBalanceAttribute()
     {
        return decrypt($this->attributes['balance']);
     }
@@ -82,8 +82,7 @@ class Receivable extends Model
            return $date->format('Y-m-d H:i:s');
         } 
     }
-
-// //------------MUTADORES-----------------//
+  //------------MUTADORES-----------------//
     public function setAmountDueAttribute($amountDue)
     { 
         $amountDue = number_format((float)$amountDue, 2, '.', '');

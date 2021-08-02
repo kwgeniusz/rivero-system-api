@@ -42,7 +42,7 @@
         <tr> 
          <th width="20%" align="left"> 
           <br>
-          <img src="img/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
+          <img src="img/logos/jd/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
 
         <th width="55%">
@@ -65,12 +65,15 @@
       </th>
 
     </tr>
-@if($dateRange != '')
+@if($dateRange['date1'] != '')
   <div  align="center" >
-     <h2>From: {{$dateRange[0]}} - To: {{$dateRange[1]}}</h2>
+     <h2>From: {{$dateRange['date1']}} - To: {{$dateRange['date2']}}</h2>
   </div>
+@elseif($dateRange['year'] != '')
+<div align="center" >
+     <h2>Year: {{$dateRange['year'] }}</h2>
+</div>
 @endif
-
 </table>
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px" border="0">
      <thead>

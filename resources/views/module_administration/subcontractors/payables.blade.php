@@ -8,7 +8,7 @@
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
        </a>
 </center>
-              <subcontractor-datasheet pref-url="../../" subcontractor-id="{{$subcontId}}"></subcontractor-datasheet>
+              <datasheet-subcontractor pref-url="../../" subcontractor-id="{{$subcontId}}"/>
         </div>
       </div>
 

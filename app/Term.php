@@ -36,7 +36,7 @@ class Term extends Model
     public function getAllByCompany($companyId)
     {
         return $this->where('companyId' , '=' , $companyId)
-          ->orderBy('termId', 'ASC')
+          ->orderBy('termName', 'ASC')
           ->get();
     }
 //------------------------------------------

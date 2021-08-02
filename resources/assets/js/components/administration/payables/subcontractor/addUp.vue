@@ -78,7 +78,10 @@
                 <i class="fas fa-at"></i> <label for="formEmail">CORREO SECUNDARIO</label>
                   <input type="email" class="form-control" id="formEmail" v-model="subcontractor.secondaryEmail" placeholder="" autocomplete="off ">
         </div>
-
+       <div class="form-group col-lg-6 ">
+               <i class="fas fa-map-marked-alt"></i> <label for="formServiceOffered">SERVICIO OFRECIDO</label>
+                  <input type="text" class="form-control" id="formServiceOffered" v-model="subcontractor.serviceOffered" placeholder="" autocomplete="off ">
+          </div>
          <div class="form-group col-lg-12 ">
                 <label for="typeForm1099">TIPO DE FORM 1099</label>
                 <select class="form-control" id="typeForm1099" v-model="subcontractor.typeForm1099">
@@ -156,6 +159,7 @@
                     this.subcontractor.secondaryPhone = data.secondaryPhone;
                     this.subcontractor.mainEmail = data.mainEmail;
                     this.subcontractor.secondaryEmail = data.secondaryEmail;
+                    this.subcontractor.serviceOffered = data.serviceOffered;
                     this.subcontractor.typeForm1099 = data.typeForm1099;
 
                     this.subcontractor.bankName = data.bankName;
@@ -188,6 +192,7 @@
                     secondaryPhone: '',
                     mainEmail: '',
                     secondaryEmail: '',
+                    serviceOffered: '',
                     typeForm1099: '1099_MISC',
 
                     bankName: '',
@@ -239,6 +244,7 @@
                      formData.append('secondaryPhone',this.subcontractor.secondaryPhone);
                      formData.append('mainEmail', this.subcontractor.mainEmail);
                      formData.append('secondaryEmail', this.subcontractor.secondaryEmail);
+                     formData.append('serviceOffered', this.subcontractor.serviceOffered);
                      formData.append('typeForm1099', this.subcontractor.typeForm1099);
 
                      formData.append('bankName', this.subcontractor.bankName);

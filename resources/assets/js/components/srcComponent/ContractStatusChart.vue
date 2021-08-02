@@ -12,11 +12,19 @@ export default {
     chartdata: {
         hoverBackgroundColor: "red",
         hoverBorderWidth: 10,
-        labels: ["Vacantes", "Iniciados","Listo Pero Pendiente por Pago","Procesamiento de Permiso","Esperando por Cliente","Descargando Archivos","Enviado A Oficina de ventas"],
+        labels: ["Vacantes", 
+        "Iniciados",
+        "Listo Pero Pendiente por Pago",
+        "Procesamiento de Permiso",
+        "Esperando por Cliente",
+        "Descargando Archivos",
+        "Enviado A Oficina de ventas",
+        "En Cola de Produccion","Enviado al Ingeniero"
+        ],
         datasets: [
           {
             label: "Cantidad",
-            backgroundColor: ["#3c8ddc","#2ab25b","#cbb956","#f39c12","red","#666666","#5dc1b9"],
+            backgroundColor: ["#3c8ddc","#2ab25b","#cbb956","#f39c12","red","#666666","#5dc1b9","#7d2181","#804000"],
             data: []
         }
       ]
@@ -48,9 +56,11 @@ export default {
              this.chartdata.datasets[0].data.push(this.result.waitingClient)
              this.chartdata.datasets[0].data.push(this.result.downloadingFiles)
              this.chartdata.datasets[0].data.push(this.result.sentToOffice)
+             this.chartdata.datasets[0].data.push(this.result.inProductionQueue)
+             this.chartdata.datasets[0].data.push(this.result.sentToEngineer)
   
               // console.log(this.chartdata.datasets[0].data);
-                  this.renderChart(this.chartdata, this.options)
+             this.renderChart(this.chartdata, this.options)
 
             });
         },

@@ -14,19 +14,51 @@
                <li v-for="(error,index) in errors"  :key="index">{{ error }}</li>
             </ul>
            </div>
-        <form  class="form" ref="formTransactionIncome" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
 
+        <form  class="form" ref="formTransactionIncome" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
+<!-- {{transaction}} -->
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
                         <flat-pickr v-model="transaction.transactionDate" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>
-                          <!-- {{transaction.transactionDate}} -->
                     </div>
+
+                <div class="form-group col-md-5" v-if="companyId == 8">   
+                   <div class="switch-field">
+                   		<input type="radio" id="radio-one" v-model="transactionMode" value="office" checked/>
+                   		<label for="radio-one">De Oficina</label>
+                   		<input type="radio" id="radio-two" v-model="transactionMode" value="contract" />
+                   		<label for="radio-two">De Contrato</label>
+                   	</div>
+                </div>
+  
 
                         <div class="form-group col-md-9">
                                 <label for="description" class="form-group">REFERENCIA EN BANCO O BENEFICIARIO</label>
                                 <input type="text" v-model="transaction.description" class="form-control" id="description" name="description">
                         </div>
 
+                         <div class="form-group col-md-9" v-if="transactionMode == 'contract'">
+                                <label for="description" class="form-group">SUBCONTRATISTA</label>
+                                <v-select :options="subcontractorsList" v-model="transaction.subcontId" :reduce="subcontractorsList => subcontractorsList.subcontId" label="item_data" />
+                          </div>
+                        <!-- {{transaction.contractId}} -->
+                          <div class="form-group col-md-9" v-if="transactionMode == 'contract'">
+                                <label for="description" class="form-group">CONTRATO</label>
+                                <v-select :options="contractsList" v-model="transaction.contractId" :reduce="contractsList => contractsList.contractId" label="item_data" />
+                          </div>
+
+
+                        <select-cost-category v-if="transactionMode =='contract'" @shareData="getValuesFromChild"
+                         :prop-cost-category-id             = "transaction.costCategoryId"
+                         :prop-cost-subcategory-id          = "transaction.costSubcategoryId"
+                         :prop-cost-subcategory-detail-id   = "transaction.costSubcategoryDetailId"
+                        />
+
+                         <!-- <div class="form-group col-md-9" v-if="transactionMode == 'contract'">
+                                <label for="description" class="form-group">CATEGORIAS DE COSTOS</label>
+                                <v-select :options="costCatList1" v-model="transaction.transactionTypeId" :reduce="costCatList1 => costCatList1.costCategoryId" label="categoryName" />
+                          </div> -->
+                          
                         <div class="form-group col-md-7">
                                 <label for="reason" class="form-group">MOTIVO</label>
                                 <input type="text" v-model="transaction.reason" class="form-control" id="reason" name="reason">
@@ -49,14 +81,15 @@
                                 <label for="payMethodDetails" class="form-group">DETALLES DEL METODO</label>
                                 <input type="text" v-model="transaction.payMethodDetails" class="form-control" id="payMethodDetails" name="payMethodDetails">
                         </div>
-                          
-                          <div class="row"></div>
+                           
+
+                        <div class="row"></div>
                         <div class="form-group col-lg-10 ">
                             <label for="transactionTypeId">EXPENSES:</label>
-                                 <select class="form-control" v-model="transaction.transactionTypeId" id="transactionTypeId">
-                                    <!-- <option value=""> </option> -->
-                                    <option v-for="item in transactionTypesList" :key="item.transactionTypeId" :value="item.transactionTypeId">{{item.transactionTypeName}}</option>
-                                </select>
+                              <v-select :options="transactionTypesList" v-model="transaction.transactionTypeId" :reduce="transactionTypesList => transactionTypesList.transactionTypeId" label="transactionTypeName" />
+                              <!-- <select class="form-control" v-model="transaction.transactionTypeId" id="transactionTypeId">
+                                 <option v-for="item in transactionTypesList" :key="item.transactionTypeId" :value="item.transactionTypeId">{{item.transactionTypeName}}</option>
+                             </select> -->
                         </div>
 
                          <div class="form-group col-md-5">
@@ -101,6 +134,7 @@
 
 <script>
     import SelectBankCashbox from '../../SelectBankOrCashbox.vue'
+    import SelectCostCategory from '../../SelectCostCategory.vue'
     import {Spanish} from 'flatpickr/dist/l10n/es.js';
 
     export default {
@@ -109,14 +143,29 @@
 
             axios.get('/transaction-types/-/index').then(response => {
                 this.transactionTypesList = response.data;
-               // console.log(this.transactionTypesList)
+            })
+            axios.get('/subcontractors').then(response => {
+                this.subcontractorsList = response.data;
+                this.subcontractorsList.map(function (x){
+                          if(x.subcontType == 'COMPANY'){
+                           return x.item_data = `${x.companyName} - (${x.subcontractorName})`;
+                           }else{
+                           return x.item_data = x.subcontractorName;
+                           }
+                 });
+            })
+              axios.get('/contracts').then(response => {
+                this.contractsList = response.data;
+                this.contractsList.map(function (x){
+                       return x.item_data = `${x.contractNumber} - (${x.siteAddress})`;
+                 });
             })
 
             if (this.editId > 0) {
                 // transaction to edit.
                 axios.get(`/transactions/${this.editId}`).then((response) => {
                     let data = response.data[0]
-
+            
                     this.transaction.transactionDate = data.transactionDate;
                     this.transaction.description = data.description;
                     this.transaction.reason = data.reason;
@@ -129,7 +178,13 @@
                     this.transaction.accountId = data.accountId;
                     this.transaction.bankId = data.account.bankId;
                     this.transaction.imagen = this.raizUrl+data.document.docUrl;
-                    
+                    //gecontrac
+                    // this.transaction.subcontId               = data.subcontId;
+                    this.transaction.contractId              = data.contractId;
+                    this.transaction.costCategoryId          = data.costCategoryId,
+                    this.transaction.costSubcategoryId       = data.costSubcategoryId,
+                    this.transaction.costSubcategoryDetailId = data.costSubcategoryDetailId,
+                
                     this.cargarImagen(this.transaction.imagen);
 
                 })  
@@ -139,20 +194,25 @@
         },
         data(){
             return{
-                errors: [],
+                companyId: window.globalCompanyId,
                 transactionTypesList: [],
+                subcontractorsList: [],
+                contractsList: [],
+
+                transactionMode: 'office',
+                errors: [],
                 showSubmitBtn:true,
+
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 imagenMiniatura:'',
 
                  configFlatPickr:{
-                    //  enableTime: true,
-                    //  time_24hr: false,
                      altFormat: 'm/d/Y',
                      altInput: true,
                      dateFormat: 'Y-m-d',
                      locale: Spanish, // locale for this instance only  
                  },
+
                 transaction:  {
                      transactionDate: '',
                      description: '',
@@ -165,7 +225,14 @@
                      cashboxId: '',
                      bankId: '',
                      accountId: '',
-                     imagen: ''
+                     imagen: '',
+
+                      //values to Gecontrac
+                     subcontId: '',
+                     contractId: '',
+                     costCategoryId: '',
+                     costSubcategoryId: '',
+                     costSubcategoryDetailId: '',
                 },
 
             }
@@ -173,9 +240,10 @@
        props: {
             editId:'',
         },
-    components: {
-         SelectBankCashbox
-     },          
+       components: {
+             SelectBankCashbox,
+             SelectCostCategory
+        },          
        computed: {
         //  imagen(){
         //      return this.imagenMiniatura;
@@ -206,8 +274,20 @@
                         this.errors.push('Debe Escoger un Banco.');
                      if (!this.transaction.accountId) 
                         this.errors.push('Debe Escoger una Cuenta.');
+               }
+               if(this.transactionMode == 'contract'){
+                     if (!this.transaction.subcontId) 
+                        this.errors.push('Debe Escoger un Subcontratista.');
+                     if (!this.transaction.contractId) 
+                        this.errors.push('Debe Escoger un Contrato.');
+                     if (!this.transaction.costCategoryId) 
+                        this.errors.push('Debe Escoger una Categoria de Costo.');
+                     if (!this.transaction.costSubcategoryId) 
+                        this.errors.push('Debe Escoger una Subcategoria de Costo.');
+                      if (!this.transaction.costSubcategoryDetailId) 
+                        this.errors.push('Debe Escoger un Detalle de la Subcategoria.');   
+                }
 
-                    }
            if (!this.errors.length) { 
                
                 let formData = new FormData();
@@ -228,6 +308,12 @@
                        formData.append('cashboxId','');
                        formData.append('accountId',this.transaction.accountId);
                      }
+                     formData.append('subcontId',this.transaction.subcontId);
+                     formData.append('contractId',this.transaction.contractId);
+                     formData.append('costCategoryId',this.transaction.costCategoryId);
+                     formData.append('costSubcategoryId',this.transaction.costSubcategoryId);
+                     formData.append('costSubcategoryDetailId',this.transaction.costSubcategoryDetailId);
+
 
                 if (this.editId === 0) {
                      this.showSubmitBtn =false;
@@ -286,17 +372,25 @@
                 this.$emit('showlist', 0)
             },
              getValueFromPayMethod(payMethodId,bankId,accountId,cashboxId) {
-                console.log('metodo de pago'+payMethodId)
-                console.log('bank Id'+bankId)
-                console.log('account Id'+accountId)
-                console.log('cashbox Id'+cashboxId)
+                // console.log('metodo de pago'+payMethodId)
+                // console.log('bank Id'+bankId)
+                // console.log('account Id'+accountId)
+                // console.log('cashbox Id'+cashboxId)
 
                 this.transaction.payMethodId = payMethodId;
                 this.transaction.bankId = bankId;
                 this.transaction.accountId = accountId;
                 this.transaction.cashboxId = cashboxId;
             },
- 
+           getValuesFromChild(costCategoryId,costSubcategoryId,costSubcategoryDetailId) {
+                // console.log('metodo de pago'+costCategoryId)
+                // console.log('bank Id'+costSubcategoryId)
+                // console.log('account Id'+costSubcategoryDetailId)
+
+                this.transaction.costCategoryId = costCategoryId;
+                this.transaction.costSubcategoryId = costSubcategoryId;
+                this.transaction.costSubcategoryDetailId = costSubcategoryDetailId;
+            },
         }
     }
 

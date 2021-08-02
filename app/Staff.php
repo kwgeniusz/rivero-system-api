@@ -12,8 +12,8 @@ class Staff extends Model
 {
     public $timestamps = false;
 
-    protected $table      = 'hrstaff';
-    protected $primaryKey = 'hrstaffId';
+    protected $table      = 'staff';
+    protected $primaryKey = 'staffId';
 
     protected $fillable = [
         'staffId',

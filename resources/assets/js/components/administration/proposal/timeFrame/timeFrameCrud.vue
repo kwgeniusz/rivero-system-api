@@ -3,8 +3,8 @@
   <div class="create">
     <div class="formulario">
       <div>
-        <h3 v-if="modoEdicion">Editar timeframe</h3>
-        <h3 v-else>Crear timeframe</h3>
+        <h3 v-if="modoEdicion">Editar Timeframe</h3>
+        <h3 v-else>Crear Timeframe</h3>
         <div class="boxes">
           <!--Formulario para editar-->
           <form style="width:100%;" @submit.prevent="actualizar(timeframe)" v-if="modoEdicion">
@@ -41,7 +41,7 @@
               </button>
             </div>
           </form>
-          <h3 style="width: 100%; margin-bottom: 20px;">Listado de timeframes</h3>
+          <h3 style="width: 100%; margin-bottom: 20px;">Listado de Timeframes</h3>
           <div class="table-responsive" style="width: 100%;">
             <table class="table table-striped table-bordered text-center">
               <thead>

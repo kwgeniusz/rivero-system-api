@@ -35,6 +35,7 @@ Route::get('transactions/{id}', 'Web\TransactionController@show')->name('transac
 Route::put('transactions/{id}', 'Web\TransactionController@update')->name('transactions.update');
 Route::delete('transactions/{id}', 'Web\TransactionController@delete')->name('transactions.delete');
 Route::post('transactions/{sign}/search-between-dates', 'Web\TransactionController@searchBetweenDates')->name('transactions.searchBetweenDates');
+Route::post('transactions/{sign}/search-by-year', 'Web\TransactionController@searchByYear')->name('transactions.searchByYear');
 
 //**************************** CASHBOX ***************************
 Route::resource('cashboxs', 'Web\CashboxController');
@@ -72,12 +73,19 @@ Route::post('subcontractors/add/invDetail', 'Web\SubcontractorPayableController@
 Route::post('subcontractors/remove/invDetail', 'Web\SubcontractorPayableController@removeSubcontInvDetail');
 
 //**************************** PAYABLES ******************************
+Route::get('payables', 'Web\PayableController@index')->name('payables.index');
 Route::post('payables/pay', 'Web\PayableController@pay')->name('payables.pay');
 
 //**************************** RECEIVABLES ***************************
 Route::get('receivables', 'Web\ReceivableController@index')->name('receivables.index');
 Route::get('receivables/{clientId}', 'Web\ReceivableController@details')->name('receivables.details');
+
 Route::get('receivables-paymentMethod', 'Web\ReceivableController@paymentMethod')->name('receivables.paymentMethod');
 Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId')->name('receivables.getForId');
+
 Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');
 Route::post('receivablesConfirmPayment', 'Web\ReceivableController@confirmPayment')->name('receivables.confirmPayment');
+
+//**************************** PAYABLES ******************************
+Route::get('cost-categories', 'Web\CostCategoryController@index')->name('costCategories.index');
+Route::get('cost-categories/{id}/subcategories', 'Web\CostCategoryController@subcategories')->name('costCategories.subcategories');

@@ -52,9 +52,13 @@
 
    <modal-advanced-search v-if="showModal" sign="-" @close="showModal = false" @filteredTransactions="changeTransactions"/>
    
-   <div class="col-xs-12 text-center" v-if="datesToShow">
-      <h2> Desde:{{datesToShow[0]| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow[1]| moment("MM/DD/YYYY")}} </h2>
+    <div class="col-xs-12 text-center" v-if="datesToShow.date1">
+      <h2> Desde: {{datesToShow.date1| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow.date2 | moment("MM/DD/YYYY")}} </h2>
    </div> 
+   <div class="col-xs-12 text-center" v-if="datesToShow.year">
+      <h2> Año: {{datesToShow.year}}</h2>
+   </div> 
+
 
        <div class="col-xs-12">
                 <div class="panel panel-default">
@@ -99,7 +103,7 @@
                                <td class="text-left">{{transaction.status}}</td>
                                   <td> 
                                  <button @click="toggle(transaction.transactionId)" :class="{ opened: opened.includes(transaction.transactionId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-angle-double-down" aria-hidden="true"></i></button>  
-                                     <div v-if="transaction.transactionable_id == null">
+                                     <div v-if="transaction.transactionable_id == null || transaction.transactionable_id != null && transaction.contractId ">
                                         <button @click="editTransaction(index,transaction.transactionId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                         <button @click="deleteTransaction(index,transaction.transactionId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
                                     </div>  
@@ -181,20 +185,26 @@
                 inputSearch: '',
                 raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 opened: [],
-            
+                
                 showModal: false,
                 mutaTransaction: this.transactionList,
-                datesToShow: '',
+                datesToShow:  {                    
+                     date1: '',
+                     date2: '',
+                     year:  ''
+                     },
+                loading: false,
                 percentCompleted:0,
-                loading: false
             }
         },
       props: {
          transactionList: { type: Array},
+         transactionYear: { type: String},
         }, 
       watch:{
          transactionList: function transactionList(data){
             this.mutaTransaction = data;
+            this.datesToShow.year = this.transactionYear;
          },
          percentCompleted: function percentCompleted(data){
            console.log(data)
@@ -252,7 +262,7 @@
          }, 
          changeTransactions(data,searched){
                this.mutaTransaction = data;
-               this.datesToShow =  [searched.date1,searched.date2];
+              this.datesToShow =  searched;
           },
          toggle(id) {
            const index = this.opened.indexOf(id);
@@ -282,6 +292,9 @@
                   link.setAttribute('download', 'Expenses.pdf'); //or any other extension
                   document.body.appendChild(link);
                   link.click();
+            }).catch((error)=>{
+                  alert(error)
+                  this.loading = false; 
             })
          }  //end of printPDF
       }//end of methods

@@ -3,8 +3,8 @@
   <div class="create">
     <div class="formulario">
       <div>
-        <h3 v-if="modoEdicion">Editar nota</h3>
-        <h3 v-else>Crear nota</h3>
+        <h3 v-if="modoEdicion">Editar Nota</h3>
+        <h3 v-else>Crear Nota</h3>
         <div class="boxes">
           <!--Formulario para editar-->
           <form style="width: 100%;" @submit.prevent="actualizar(note)" v-if="modoEdicion">
@@ -39,7 +39,7 @@
               </button>
             </div>
           </form>
-          <h3 style="width: 100%;">Listado de notas</h3>
+          <h3 style="width: 100%;">Listado de Notas</h3>
           <div class="table-responsive" style="width: 100%;">
             <table class="table table-striped table-bordered text-center">
               <thead>

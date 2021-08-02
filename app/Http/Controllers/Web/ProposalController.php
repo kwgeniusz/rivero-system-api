@@ -278,7 +278,7 @@ class ProposalController extends Controller
                   $proposal[0]->contractId,
                   $proposal[0]->clientId,
                   $proposal[0]->projectDescriptionId,
-                  date('m/d/Y'),
+                  date('Y-m-d'),
                   '0.00',
                   $proposal[0]->taxPercent,
                   '0.00',

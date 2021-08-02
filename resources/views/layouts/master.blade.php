@@ -34,7 +34,7 @@
 //pasar el pais y oficina
     window.globalCountryId = {{session('countryId')}};
     window.globalCompanyId  = {{session('companyId')}};
-    window.globalCompanyTimeZone  = "{{session('companyTimeZone')}}";
+    window.globalCompanyTimeZone  = {{session('companyTimeZone')}};
 </script>
 </head>
 <!--

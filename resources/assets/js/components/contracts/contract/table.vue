@@ -52,6 +52,7 @@
                                   <!-- <th data-toggle="tooltip" data-placement="top" title="FECHA LIMITE DE ENTREGA">F.L.E</th> -->
                                </tr>
                             </thead>
+                            <!-- {{searchData.contract_status_r}} -->
                             <tbody v-if="searchData.length > 0">   
                              <tr v-for="(contract, index) in searchData" :key="contract.contractId">
                                <!-- {{contract}} -->
@@ -94,6 +95,7 @@
                                  <!-- <td>{{contract.project_use.projectUseName}}   </td>
                                  <td>{{contract.contractType}}   </td> -->
                                  <td>{{contract.user.fullName}}   </td>
+                                
                                  <!-- data-toggle="tooltip" data-placement="top" :title="contract.contract_status_r[0].contStatusName" -->
                                  <td v-if="contract.contractStatus == VACANT"  style="background-color: #3c8ddc;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
                                  <td v-if="contract.contractStatus == STARTED"  style="background-color: #2ab25b;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
@@ -162,7 +164,7 @@ DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
         },
         mounted() {
             console.log('Component mounted.') 
-            console.log(this.contractList)
+            // console.log(this.contractList)
         },
         data(){
             return{
@@ -175,7 +177,7 @@ DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
         computed: {
             searchData: function () {
                 return this.contractList.filter((contract) => {
-
+                  // console.log(contract.contract_status_r[0].contStatusName)
                   if(contract.projectName == null ) 
                      contract.projectName = 'No Info'
                   
@@ -183,7 +185,10 @@ DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
                    return contract.contractNumber.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                           contract.client.clientName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
                           contract.siteAddress.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                          contract.projectName.toLowerCase().includes(this.inputSearch.toLowerCase())                  
+                          contract.contract_status_r[0].contStatusName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                          contract.projectName.toLowerCase().includes(this.inputSearch.toLowerCase())  
+                          
+                          
                 })
             } //end of the function searchData
         },

@@ -29,6 +29,7 @@
 
             <table-transaction-income  
                 :transactionList  = transactionList
+                :transactionYear = transactionYear
                 :transactionCodes = transactionCodes
                 @editData = "editData"
                 @showlist = "showlist">
@@ -43,18 +44,19 @@
         mounted() {
 
             axios.get('/transactions/+/index').then((response) => {
-                // console.log(response.data.fee)
                 this.transactionList = response.data.transaction
+                this.transactionYear = response.data.year
                 this.transactionCodes.push(response.data.income_invoice[0])
                 this.transactionCodes.push(response.data.fee[0])
-            console.log(this.transactionCodes)
             })
         
         },
         data() {
             return{
                 transactionList: [],
+                transactionYear:'',
                 transactionCodes: [],
+
                 // parents: [],
                 formStatus: 0,
                 editId: '',
@@ -73,6 +75,7 @@
                 this.formStatus = 0
                 axios.get('/transactions/+/index').then((response) => {
                     this.transactionList  = response.data.transaction
+                    this.transactionYear  = response.data.year
                     this.transactionCodes.push(response.data.income_invoice[0])
                     this.transactionCodes.push(response.data.fee[0])
                 })

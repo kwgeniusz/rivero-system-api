@@ -27,7 +27,7 @@
 
 <script>
 
-import FormNewSubcontractor from './FormNewSubcontractor.vue'
+// import FormNewSubcontractor from './FormNewSubcontractor.vue'
 
     export default {
         
@@ -47,9 +47,9 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
      props: {
            // prefUrl: { type: String},
     },
-     components: {
-         FormNewSubcontractor
-  },
+  //    components: {
+  //        FormNewSubcontractor
+  // },
     methods: {
     //    reRender: function() {
     //     this.removeSubcontractor();
@@ -98,5 +98,5 @@ import FormNewSubcontractor from './FormNewSubcontractor.vue'
 </script>
 
 <style lang="scss">
-@import '../../../sass/app.scss'
+@import '../../../../../sass/app.scss'
 </style>

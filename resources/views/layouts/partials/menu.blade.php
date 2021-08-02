@@ -69,14 +69,14 @@
           </a>
           <ul class="treeview-menu">
      {{-- @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan --}}
-     @can('BA') <li><a href="{{route('subcontractors.index')}}">Subcontratistas   </a></li> @endcan
+     <!-- @can('BA') <li><a href="{{route('subcontractors.index')}}">Subcontratistas   </a></li> @endcan -->
      @can('CA') <li><a href="{{route('invoices.all')}}">Facturas</a></li> @endcan
      {{-- @can('CB') <li><a href="{{route('proposals.all')}}">Propuestas</a></li> @endcan --}}
      @can('CC') <li><a href="{{route('cashbox.transactions')}}">Caja</a></li> @endcan
      @can('CD') <li><a href="{{route('banks.transactions')}}">Bancos</a></li> @endcan
      @can('CE') <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li> @endcan
      @can('CF') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
-     @can('CG') <li><a href="#">Cuentas Por Pagar</a></li> @endcan
+     @can('CG') <li><a href="{{route('payables.index')}}">   Cuentas Por Pagar</a></li> @endcan
      @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
 
 <hr>

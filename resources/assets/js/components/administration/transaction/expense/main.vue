@@ -29,6 +29,7 @@
 
             <table-transaction-expense  
                 :transactionList = transactionList
+                :transactionYear = transactionYear
                 @editData = "editData"
                 @showlist = "showlist">
             </table-transaction-expense>
@@ -42,7 +43,8 @@
         mounted() {
 
             axios.get('/transactions/-/index').then((response) => {
-                this.transactionList = response.data
+                this.transactionList = response.data.transaction
+                this.transactionYear = response.data.year
             console.log(this.transactionList)
             })
         
@@ -67,7 +69,8 @@
             showlist(n){
                 this.formStatus = 0
                 axios.get('/transactions/-/index').then((response) => {
-                    this.transactionList = response.data
+                   this.transactionList = response.data.transaction
+                   this.transactionYear = response.data.year
                     // console.log(this.transactionList)
                 })
             

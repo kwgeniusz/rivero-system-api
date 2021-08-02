@@ -56,7 +56,6 @@
                 <div class="inputother boxes2">
                   <label for="contractType"><i class="fas fa-file-contract"></i> TIPO DE CONTRATO</label>
                   <select name="contractType" id="contractType">
-                    @foreach($currencies as $currency)
                       @if ('P' == $precontract[0]->contractType)
                         <option value="P" selected>P</option>
                         <option value="S" >S</option>
@@ -64,7 +63,6 @@
                         <option value="P">P</option>
                         <option value="S" selected>S</option>
                       @endif
-                    @endforeach
                   </select>
                 </div>
                 <!--input Address-->      

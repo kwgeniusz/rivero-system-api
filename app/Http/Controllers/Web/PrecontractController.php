@@ -236,7 +236,7 @@ class PrecontractController extends Controller
                 $timeFrame[0]->daysRepresented
             );
             // dd($contract);
-
+            // exit();
         //insertar el nuevo Invoice
             $invoice  = $this->oInvoice->insertInv(
                   $contract->countryId,

@@ -59,6 +59,10 @@ class Contract extends Model
 // -LISTO PERO PENDIENTE POR PAGAR(AMARILLO)
 // -EN PROCESAMIENTO DE PERMISO (ANARANJADO)
 // -ESPERANDO POR EL CLIENT (ROJO)
+// -DESCARGANDO ARCHIVOS
+// -ENVIADO A LA OFICINA 
+// -EN COLA DE PRODUCCION 
+// -ENVIADO AL INGENIERO
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -433,7 +437,7 @@ class Contract extends Model
             //    exit(); Carbon::createFromFormat('Y-m-d H:i:s', $request->date)->format('d-m-Y')
         $contract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $contract->contractType;
         $contract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $contract->projectName;
-        $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : Carbon::createFromFormat('Y-m-d H:i:s', $contract->contractDate)->format('Y-m-d');
+        // $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : Carbon::createFromFormat('Y-m-d H:i:s', $contract->contractDate)->format('Y-m-d');
         $contract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $contract->clientId;
         $contract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $contract->propertyNumber;
         $contract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $contract->streetName;
@@ -449,6 +453,7 @@ class Contract extends Model
      // $contract->projectDescriptionId  = !empty($data['projectDescriptionId']) ? $data['contractType'] : $contract->projectDescriptionId;
         $contract->initialComment         = !empty($data['initialComment']) ? $data['initialComment'] : $contract->initialComment;
         $contract->currencyId             = !empty($data['currencyId']) ? $data['currencyId'] : $contract->currencyId;
+        $contract->updated_at             = date('Y-m-d H:i:s');
 
         $contract->save();
     }

@@ -73,7 +73,7 @@ class StatisticController extends Controller
     {
 
          //por compañia, reporte general desde la creacion de la empresa.
-    $vacant = $this->oContract->getAllForStatus(Contract::VACANT,'',session('countryId'),session('companyId'));
+    $vacant   = $this->oContract->getAllForStatus(Contract::VACANT,'',session('countryId'),session('companyId'));
     $started = $this->oContract->getAllForStatus(Contract::STARTED,'',session('countryId'),session('companyId'));
     $finished = $this->oContract->getAllForStatus(Contract::FINISHED,'',session('countryId'),session('companyId'));
     $cancelled = $this->oContract->getAllForStatus(Contract::CANCELLED,'',session('countryId'),session('companyId'));
@@ -82,6 +82,8 @@ class StatisticController extends Controller
     $waitingClient = $this->oContract->getAllForStatus(Contract::WAITING_CLIENT,'',session('countryId'),session('companyId'));
     $downloadingFiles = $this->oContract->getAllForStatus(Contract::DOWNLOADING_FILES,'',session('countryId'),session('companyId'));
     $sentToOffice = $this->oContract->getAllForStatus(Contract::SENT_TO_OFFICE,'',session('countryId'),session('companyId'));
+    $inProductionQueue = $this->oContract->getAllForStatus(Contract::IN_PRODUCTION_QUEUE,'',session('countryId'),session('companyId'));
+    $sentToEngineer = $this->oContract->getAllForStatus(Contract::SENT_TO_ENGINEER,'',session('countryId'),session('companyId'));
 
 
         return ['vacant'                  => $vacant->count(),
@@ -92,7 +94,10 @@ class StatisticController extends Controller
                 'processingPermit'        => $processingPermit->count(),
                 'waitingClient'           => $waitingClient->count(),
                 'downloadingFiles'        => $downloadingFiles->count(),
-                'sentToOffice'            => $sentToOffice->count()];
+                'sentToOffice'            => $sentToOffice->count(),
+                'inProductionQueue'       => $inProductionQueue->count(),
+                'sentToEngineer'          => $sentToEngineer->count()
+               ];
     }
     // public function numberOfContractsResidential()
     // {

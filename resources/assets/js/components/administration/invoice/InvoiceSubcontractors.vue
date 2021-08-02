@@ -127,7 +127,7 @@
 
 
 <script>
-import SearchSubcontractor from '../SearchSubcontractor.vue';
+import searchSubcontractor from '../payables/subcontractor/searchSubcontractor.vue';
 
 export default {
         
@@ -157,7 +157,7 @@ export default {
      invoiceId: { type: String},
     },
   components: {
-     SearchSubcontractor
+     searchSubcontractor
   },  
   computed: {
       sumTotal: function () {
