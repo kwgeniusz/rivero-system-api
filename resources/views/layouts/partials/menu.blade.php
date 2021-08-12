@@ -140,10 +140,11 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/general-ledger">Tipo de Cuentas</a></li>
+            <li><a href="#">Tipo de Cuentas</a></li>
             <li><a href="#">Clasificacion de Cuentas</a></li>
-            <li><a href="#">Cuentas</a></li>
-            <li><a href="#">Transacciones</a></li>
+            <li><a href="/accounting/general-ledgers">Plan de Cuentas</a></li>
+            <li><a href="/accounting/transactions">Asientos Contables</a></li>
+            <!-- <li><a href="#">Actualizar Asiento</a></li> -->
             <li><a href="#">Listado del plan de cuentas</a></li>
             <li><a href="#">Listado de transacciones</a></li>
             <li><a href="#">Actualizar transacciones</a></li>

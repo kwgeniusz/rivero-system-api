@@ -2,18 +2,18 @@
     <div class="">
     <!-- agregar -->
         <div v-if="formStatus === 1">
-            <addUp-general-ledger
+            <accounting-addUp-general-ledger
                 @showlist = "showlist"
                 :editId=0
-            > </addUp-general-ledger> 
+            > </accounting-addUp-general-ledger> 
         </div>
 
     <!-- Vista actualizar -->
         <div v-if="formStatus === 2">
-            <addUp-general-ledger
+            <accounting-addUp-general-ledger
                 @showlist = "showlist"
                 :editId=editId                
-            > </addUp-general-ledger> 
+            > </accounting-addUp-general-ledger> 
         </div>
 
     <!-- botones y listado -->
@@ -26,11 +26,11 @@
                 :btn4 = 0
             ></button-form>
 
-            <table-general-ledger  
+            <accounting-table-general-ledger  
                 :generalLedgerList = generalLedgerList
                 @editData = "editData"
                 @showlist = "showlist">
-            </table-general-ledger>
+            </accounting-table-general-ledger>
 
         </div>  
 
@@ -40,7 +40,7 @@
 <script>
     export default {
         mounted() {
-            axios.get('/general-ledger').then((response) => {
+            axios.get('/accounting/general-ledgers').then((response) => {
                 this.generalLedgerList = response.data
                 // console.log(this.generalLedgerList)
             })
@@ -64,7 +64,7 @@
             }, 
             showlist(n){
                 this.formStatus = 0
-                axios.get('/general-ledger').then((response) => {
+                axios.get('/accounting/general-ledgers').then((response) => {
                     this.generalLedgerList = response.data
                     // console.log(this.generalLedgerList)
                 })

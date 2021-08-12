@@ -16,7 +16,7 @@
            </div>
 
         <form  class="form" ref="formTransactionIncome" id="formTransaction" role="form" @submit.prevent="createUpdateTransaction()">
-{{transaction}}
+<!-- {{transaction}} -->
                    <div class="form-group col-md-7">
                          <label for="transactionDate">FECHA:</label>  
                         <flat-pickr v-model="transaction.transactionDate" :config="configFlatPickr"  class="form-control" id="transactionDate"></flat-pickr>

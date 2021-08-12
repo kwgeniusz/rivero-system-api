@@ -86,7 +86,7 @@
     export default {
         mounted() {
             //obtengo los datos para llenar las listas de selects
-          axios.get('/general-ledger/create').then((response) => {
+          axios.get('/accounting/general-ledger/create').then((response) => {
               console.log(response.data)
                   this.chartOfAccount            = response.data.chartOfAccount;
                   this.chartOfAccount.map(function (x){
@@ -99,7 +99,7 @@
 
             if (this.editId > 0) {
                 // transaction to edit.
-                axios.get(`/general-ledger/${this.editId}`).then((response) => {
+                axios.get(`/accounting/general-ledger/${this.editId}`).then((response) => {
                     this.data = response.data[0]
                     console.log(this.data)
 
@@ -160,7 +160,7 @@
                 if (this.editId === 0) {  
                     this.showSubmitBtn = false;
                     
-                    axios.post('/general-ledger', this.generalLedger).then((response) => {
+                    axios.post('/accounting/general-ledgers', this.generalLedger).then((response) => {
                            toastr.success(response.data.message);
                           //  this.cancf()
                            this.$emit('showlist', 0)
@@ -171,7 +171,7 @@
                     });
 
                 }else {
-                    axios.put(`/general-ledger/${this.editId}`, this.generalLedger).then((response) => {
+                    axios.put(`/accounting/general-ledgers/${this.editId}`, this.generalLedger).then((response) => {
                           toastr.success(response.data.message);
                           this.$emit('showlist', 0)
                         })

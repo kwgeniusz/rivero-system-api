@@ -6,7 +6,7 @@
 }
 
 		table {
-		page-break-after: avoid;
+		page-break-after: auto ;
 }
 
 		.pagenum:before {

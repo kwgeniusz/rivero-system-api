@@ -120,7 +120,7 @@
             },
        deleteData(index, id){
                 if (confirm(`Esta Seguro de Eliminar la Cuenta #${++index}?`) ){
-                    axios.delete(`/general-ledger/${id}`).then((response) => {
+                    axios.delete(`/accounting/general-ledgers/${id}`).then((response) => {
                            toastr.success(response.data.message);
                            this.$emit('showlist', 0)
                     })

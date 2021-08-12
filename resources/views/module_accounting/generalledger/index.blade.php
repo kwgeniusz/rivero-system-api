@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-  <main-general-ledger/>
+  <accounting-main-general-ledger/>
 @endsection

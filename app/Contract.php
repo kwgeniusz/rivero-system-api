@@ -435,25 +435,25 @@ class Contract extends Model
  
             //    dd($contract->contractDate);
             //    exit(); Carbon::createFromFormat('Y-m-d H:i:s', $request->date)->format('d-m-Y')
-        $contract->contractType          = !empty($data['contractType']) ? $data['contractType'] : $contract->contractType;
-        $contract->projectName           = !empty($data['projectName']) ? $data['projectName'] : $contract->projectName;
-        // $contract->contractDate          = !empty($data['contractDate']) ? $data['contractDate'] : Carbon::createFromFormat('Y-m-d H:i:s', $contract->contractDate)->format('Y-m-d');
-        $contract->clientId              = !empty($data['clientId']) ? $data['clientId'] : $contract->clientId;
-        $contract->propertyNumber        = !empty($data['propertyNumber']) ? $data['propertyNumber'] : $contract->propertyNumber;
-        $contract->streetName            = !empty($data['streetName']) ? $data['streetName'] : $contract->streetName;
-        $contract->streetType            = !empty($data['streetType']) ? $data['streetType'] : $contract->streetType;
-        $contract->suiteNumber           = !empty($data['suiteNumber']) ? $data['suiteNumber'] : $contract->suiteNumber;
-        $contract->city                  = !empty($data['city']) ? $data['city'] : $contract->city;
-        $contract->state                 = !empty($data['state']) ? $data['state'] : $contract->state;
-        $contract->zipCode               = !empty($data['zipCode']) ? $data['zipCode'] : $contract->zipCode;
-        $contract->buildingCodeId         = !empty($data['buildingCodeId']) ? $data['buildingCodeId'] : $contract->buildingCodeId;
-        $contract->groupId                = !empty($data['groupId']) ? $data['groupId'] : $contract->groupId;
-        $contract->projectUseId           = !empty($data['projectUseId']) ? $data['projectUseId'] : $contract->projectUseId;
-        $contract->constructionType       = !empty($data['constructionType']) ? $data['constructionType'] : $contract->constructionType;
-     // $contract->projectDescriptionId  = !empty($data['projectDescriptionId']) ? $data['contractType'] : $contract->projectDescriptionId;
-        $contract->initialComment         = !empty($data['initialComment']) ? $data['initialComment'] : $contract->initialComment;
-        $contract->currencyId             = !empty($data['currencyId']) ? $data['currencyId'] : $contract->currencyId;
-        $contract->updated_at             = date('Y-m-d H:i:s');
+        $contract->contractType          =  $data['contractType'] ;
+        $contract->projectName           =  $data['projectName'] ;
+        // $contract->contractDate          =  $data['contractDate'] : Carbon::createFromFormat('Y-m-d H:i:s', $contract->contractDate)->format('Y-m-d');
+        $contract->clientId              =  $data['clientId'];;
+        $contract->propertyNumber        =  $data['propertyNumber'] ;
+        $contract->streetName            =  $data['streetName'] ;
+        $contract->streetType            =  $data['streetType'] ;
+        $contract->suiteNumber           =  $data['suiteNumber'] ;
+        $contract->city                  =  $data['city'] ;
+        $contract->state                 =  $data['state'] ;
+        $contract->zipCode               =  $data['zipCode'] ;
+        $contract->buildingCodeId         =  $data['buildingCodeId'] ;
+        $contract->groupId                =  $data['groupId'] ;
+        $contract->projectUseId           =  $data['projectUseId'] ;
+        $contract->constructionType       =  $data['constructionType'] ;
+     // $contract->projectDescriptionId  =  $data['contractType'] ;
+        $contract->initialComment         =  $data['initialComment'] ;
+        $contract->currencyId             =  $data['currencyId'] ;
+        // $contract->updated_at             = date('Y-m-d H:i:s');
 
         $contract->save();
     }
