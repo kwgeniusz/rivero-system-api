@@ -4,6 +4,7 @@ namespace App\Models\Accounting;
 
 use Auth;
 use DB;
+use App\Models\Accounting\GeneralLedgerBalance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -193,14 +194,12 @@ class GeneralLedger extends Model
 //------------------------------------------
 function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month)
 {
-
-  
     DB::beginTransaction();
     try {    
-  // obtener $accountCode
-  $accountCode = '';
-  $query  = $this->find($generalLedgerId);
-//   $query =  "SELECT * FROM acc_general_ledger WHERE generalLedgerId = $generalLedgerId";
+    // obtener $accountCode
+    $accountCode = '';
+    $query  = $this->find($generalLedgerId);
+     //   $query =  "SELECT * FROM acc_general_ledger WHERE generalLedgerId = $generalLedgerId";
 
       $accountCode = $query->accountCode;
       if (empty($query->parentAccountCode)) {
@@ -208,19 +207,16 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
       } else {
          $parentAccountCode = $query->parentAccountCode;
       }
-
-    //   dd($query->accountCode);
   // actualizar saldo en cascada
   $loop = 1;
   // inicio del loop
   while($loop == 1) {
-    // echo "VALORES:$generalLedgerId.$year.$month.$debit.$credit";
-
      // actualizar el saldo de cuenta con $generalLedgerId
-     $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit);
+     $oGeneralLedgerBalance = new GeneralLedgerBalance;
+     $rs = $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit);
 
-        dd($oGeneralLedgerBalance);
-        exit();
+        dd($rs);
+        // exit();
       // siguiente nivel arriba
       $generalLedgerId = 0;
 
@@ -230,8 +226,7 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
                      ->where('accountCode','=',$parentAccountCode)
                      ->get();
                      
-        //   dd($query);
-        //   exit();           
+        //   dd($query);        
                 //      "SELECT * FROM acc_general_ledger 
                 //    WHERE countryId         = $countryId and  
                 //          companyId         = $companyId and 
@@ -253,7 +248,7 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
       }
 
     }//end of the loop
-    // $success = true;
+            $success = true;
         } catch (\Exception $e) {
             $error   = $e->getMessage();
             $success = false;
@@ -266,112 +261,4 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
         }
   }//end of the function
 //------------------------------------------
-function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
-{
-  // obtener $saldos actuales
-           
-    DB::beginTransaction();
-    try {   
-
-        // dd($generalLedgerId);
-        // exit();
-        $query = $this->where('generalLedgerId', '=', $generalLedgerId)
-                   ->where('year','=',$year)
-                   ->get();
-
-//   $query =  "SELECT * FROM acc_general_ledger_balance 
-//                     WHERE generalLedgerId = $generalLedgerId and
-//                           year            = $year";
-
-dd($query);
-  foreach($query as $rs){
-      $debit01        = $rs->debit01;
-      $credit01       = $rs->credit01;
-      $debit02        = $rs->debit02;
-      $credit02       = $rs->credit02;
-      $debit03        = $rs->debit03;
-      $credit03       = $rs->credit03;
-      $debit04        = $rs->debit04;
-      $credit04       = $rs->credit04;
-// hasta el mes 12
-  }
-  switch ($month) { 
-
-      case 1:
-         $debit01   =  $debit01 + $debit;
-         $credit01  =  $credit01 + $credit;
-      break;
-
-      case 2:
-         $debit02   =  $debit02 + $debit;
-         $credit02  =  $credit02 + $credit;
-      break;
-
-      case 3:
-         $debit03   =  $debit03 + $debit;
-         $credit03  =  $credit03 + $credit;
-      break;
-
-      case 4:
-         $debit04   =  $debit04 + $debit;
-         $credit04  =  $credit04 + $credit;
-      break;
-
-      case 5:
-         $debit05   =  $debit05 + $debit;
-         $credit05  =  $credit05 + $credit;
-      break;
-         case 6:
-         $debit06   =  $debit06 + $debit;
-         $credit06  =  $credit06 + $credit;
-      break;
-         case 7:
-         $debit07   =  $debit07 + $debit;
-         $credit07  =  $credit07 + $credit;
-      break;
-         case 8:
-        $debit08   =  $debit08 + $debit;
-        $credit08  =  $credit08 + $credit;
-      break;
-        case 9:
-         $debit09   =  $debit09 + $debit;
-         $credit09  =  $credit09 + $credit;
-      break;
-         case 10:
-        $debit10   =  $debit10 + $debit;
-        $credit10  =  $credit10 + $credit;
-      break;
-        case 11:
-         $debit11   =  $debit11 + $debit;
-         $credit11  =  $credit11 + $credit;
-      break;
-         case 12:
-        $debit12   =  $debit12 + $debit;
-        $credit12  =  $credit12 + $credit;
-      break;
-    // hasta el mes 12
-  }
-  //Actualizar saldos en tabl acc_general_ledger_balance
-  $query =  "UPDATE acc_general_ledger_balance 
-                    SET 
-                    WHERE generalLedgerId = $generalLedgerId and
-                          year            = $year";
-
-$success = true;
-DB::commit();
-} catch (\Exception $e) {
-$error   = $e->getMessage();
-$success = false;
-DB::rollback();
-}
-
-if ($success) {
-return $result = ['alert-type' => 'success', 'message' => 'Operacion Realizada'];
-} else {
-return $result = ['alert-type' => 'error', 'message' => $error];
-}
-
-
-
- }//end function
 }//end of the class

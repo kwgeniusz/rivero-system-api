@@ -6,7 +6,9 @@
 }
 
 		table {
-		page-break-after: auto ;
+			page-break-inside: auto;
+             page-break-after: auto;
+            page-break-before: auto;
 }
 
 		.pagenum:before {

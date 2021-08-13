@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class GeneralLedgerBalance extends Model
 {
    //traits
-      use SoftDeletes;
+    use SoftDeletes;
       
     public $timestamps = false;
 
@@ -20,29 +20,25 @@ class GeneralLedgerBalance extends Model
     protected $fillable = ['generalLedgerBalanceId','generalLedgerId','year','currencyId','initialDebit','initialCredit','debit01','credit01','debit02','credit02','debit03','credit03','debit04','credit04','debit05','credit05','debit06','credit06','debit07','credit07','debit08','credit08','debit09','credit09','debit10','credit10','debit11','credit11','debit12','credit12'];
     // protected $dates = ['deleted_at'];
 
-    // Type Of Account
-    const TOTAL          = '1';
-    const TRANSACTION    = '2';
-
 //--------------------------------------------------------------------
     /** RELATIONS **/
 //--------------------------------------------------------------------
-    public function accountType()
-    {
-        return $this->hasOne(AccountType::class, 'accountTypeCode', 'accountTypeCode');
-    }
-    public function accountClassification()
-    {
-        return $this->hasOne(AccountClassification::class, 'accountClassificationCode', 'accountClassificationCode');
-    }
-    public function daughterAccount()
-    {
-        return $this->hasMany(GeneralLedger::class, 'parentAccountCode', 'accountCode');
-    }
-    public function allDaughterAccount()
-    {
-        return $this->daughterAccount()->with('allDaughterAccount');
-    } 
+    // public function accountType()
+    // {
+    //     return $this->hasOne(AccountType::class, 'accountTypeCode', 'accountTypeCode');
+    // }
+    // public function accountClassification()
+    // {
+    //     return $this->hasOne(AccountClassification::class, 'accountClassificationCode', 'accountClassificationCode');
+    // }
+    // public function daughterAccount()
+    // {
+    //     return $this->hasMany(GeneralLedger::class, 'parentAccountCode', 'accountCode');
+    // }
+    // public function allDaughterAccount()
+    // {
+    //     return $this->daughterAccount()->with('allDaughterAccount');
+    // } 
 //--------------------------------------------------------------------
      /** ACCESORES **/
 //--------------------------------------------------------------------
@@ -83,240 +79,66 @@ class GeneralLedgerBalance extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function findById($id)
-    {
-        return $this->where('generalLedgerId', '=', $id)
-                    ->get();
-    }
-
-    public function getAllByCompany($companyId) 
-    {  
-         return $this->with('accountType','accountClassification')
-                     ->where('companyId', '=', $companyId)
-                     ->orderBy('accountCode', 'ASC')
-                     ->get(); 
-     }      
-     public function getAllByType($companyId,$accountTypeCode) 
-     {  
-          return $this->with('accountType','accountClassification')
-                      ->where('companyId', '=', $companyId)
-                      ->where('accountTypeCode', '=', $accountTypeCode)
-                      ->orderBy('accountCode', 'ASC')
-                      ->get(); 
-      }      
-    public function insertG($countryId, $companyId, $data)
-    {
-          $error = null;
-    
-     DB::beginTransaction();
-      try {
-   
-        $generalLedger                          = new GeneralLedger;
-        $generalLedger->countryId               = $countryId;
-        $generalLedger->companyId               = $companyId;
-        $generalLedger->accountCode             = $data['accountCode'];
-        $generalLedger->accountName             = $data['accountName'];
-        $generalLedger->leftMargin              = $data['leftMargin'];
-        $generalLedger->parentAccountCode       = $data['parentAccountCode'];
-        $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
-        $generalLedger->accountTypeCode         = $data['accountTypeCode'];
-        $generalLedger->save();
-            
-            $success = true;
-            DB::commit();
-        } catch (\Exception $e) {
-
-            $success = false;
-            $error   = $e->getMessage();
-            DB::rollback();
-        }
-
-        if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Cuenta Creada Exitosamente."];
-        } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
-        }
-
-    }
-//------------------------------------------
-    public function updateG($companyId,$generalLedgerId ,$data)
-    {
-          $error = null;
-
-     DB::beginTransaction();
-      try {
-
-        $generalLedger                          = GeneralLedger::find($generalLedgerId);
-        $generalLedger->accountCode                 = $data['accountCode'];
-        $generalLedger->accountName                 = $data['accountName'];
-        $generalLedger->leftMargin                  = $data['leftMargin'];
-        $generalLedger->parentAccountCode           = $data['parentAccountCode'];
-        $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
-        $generalLedger->accountTypeCode             = $data['accountTypeCode'];
-        $generalLedger->save();
-        
-            $success = true;
-            DB::commit();
-        } catch (\Exception $e) {
-
-            $success = false;
-            $error   = $e->getMessage();
-            DB::rollback();
-        }
-
-        if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Cuenta Modificada"];
-        } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
-        }
-    }
-//------------------------------------------
-    public function deleteG($companyId,$generalLedgerId)
-    {
-        try {
-          $this->where('companyId', '=', $companyId)
-               ->where('generalLedgerId', '=', $generalLedgerId)
-               ->delete();
-               
-            $success = true;
-        } catch (\Exception $e) {
-            $error   = $e->getMessage();
-            $success = false;
-        }
-
-        if ($success) {
-            return $rs = ['alert' => 'info', 'message' => 'Cuenta Eliminada'];
-        } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
-        }
-    }
-//------------------------------------------
-function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month)
-{
-
-  
-    DB::beginTransaction();
-    try {    
-  // obtener $accountCode
-  $accountCode = '';
-  $query  = $this->find($generalLedgerId);
-//   $query =  "SELECT * FROM acc_general_ledger WHERE generalLedgerId = $generalLedgerId";
-
-      $accountCode = $query->accountCode;
-      if (empty($query->parentAccountCode)) {
-         $parentAccountCode = "";
-      } else {
-         $parentAccountCode = $query->parentAccountCode;
-      }
-
-    //   dd($query->accountCode);
-  // actualizar saldo en cascada
-  $loop = 1;
-  // inicio del loop
-  while($loop == 1) {
-    // echo "VALORES:$generalLedgerId.$year.$month.$debit.$credit";
-
-     // actualizar el saldo de cuenta con $generalLedgerId
-     $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit);
-
-        dd($oGeneralLedgerBalance);
-        exit();
-      // siguiente nivel arriba
-      $generalLedgerId = 0;
-
-      $query =  $this->where('countryId','=', $generalLedgerId)
-                     ->where('countryId','=',$countryId)
-                     ->where('countryId','=',$companyId)
-                     ->where('accountCode','=',$parentAccountCode)
-                     ->get();
-                     
-        //   dd($query);
-        //   exit();           
-                //      "SELECT * FROM acc_general_ledger 
-                //    WHERE countryId         = $countryId and  
-                //          companyId         = $companyId and 
-                //          accountCode       = $parentAccountCode";
-
-      foreach($query as $rs){
-          $generalLedgerId    = $rs->generalLedgerId;
-          $accountCode        = $rs->accountCode;
-          if (empty($rs->parentAccountCode)) {
-             $parentAccountCode = "";
-          } else {
-             $parentAccountCode  = $rs->parentAccountCode;
-          }
-      }
-
-      // condicion de salida del ciclo while
-      if ($generalLedgerId == 0 ) {
-         $loop = 0;
-      }
-
-    }//end of the loop
-    // $success = true;
-        } catch (\Exception $e) {
-            $error   = $e->getMessage();
-            $success = false;
-        }
-
-        if ($success) {
-            return $rs = ['alert' => 'info', 'message' => 'Cuenta Eliminada'];
-        } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
-        }
-  }//end of the function
-//------------------------------------------
 function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
 {
   // obtener $saldos actuales
            
     DB::beginTransaction();
     try {   
-
-        // dd($generalLedgerId);
-        // exit();
         $query = $this->where('generalLedgerId', '=', $generalLedgerId)
-                   ->where('year','=',$year)
-                   ->get();
+                      ->where('year','=',$year)
+                      ->get();
 
 //   $query =  "SELECT * FROM acc_general_ledger_balance 
 //                     WHERE generalLedgerId = $generalLedgerId and
 //                           year            = $year";
 
-dd($query);
-  foreach($query as $rs){
-      $debit01        = $rs->debit01;
-      $credit01       = $rs->credit01;
-      $debit02        = $rs->debit02;
-      $credit02       = $rs->credit02;
-      $debit03        = $rs->debit03;
-      $credit03       = $rs->credit03;
-      $debit04        = $rs->debit04;
-      $credit04       = $rs->credit04;
+//   foreach($query as $rs){
+    // dd($query);
+      $debit01        = $query->debit01;
+      $credit01       = $query->credit01;
+      $debit02        = $query->debit02;
+      $credit02       = $query->credit02;
+      $debit03        = $query->debit03;
+      $credit03       = $query->credit03;
+      $debit04        = $query->debit04;
+      $credit04       = $query->credit04;
+      $debit05        = $query->debit05;
+      $credit05       = $query->credit05;
+      $debit06        = $query->debit06;
+      $credit06       = $query->credit06;
+      $debit07        = $query->debit07;
+      $credit07       = $query->credit07;
+      $debit08        = $query->debit08;
+      $credit08       = $query->credit08;
+      $debit09        = $query->debit09;
+      $credit09       = $query->credit09;
+      $debit10        = $query->debit10;
+      $credit10       = $query->credit10;
+      $debit11        = $query->debit11;
+      $credit11       = $query->credit11;
+      $debit12        = $query->debit12;
+      $credit12       = $query->credit12;
 // hasta el mes 12
-  }
-  switch ($month) { 
+//   }
 
+  switch ($month) { 
       case 1:
          $debit01   =  $debit01 + $debit;
          $credit01  =  $credit01 + $credit;
       break;
-
       case 2:
          $debit02   =  $debit02 + $debit;
          $credit02  =  $credit02 + $credit;
       break;
-
       case 3:
          $debit03   =  $debit03 + $debit;
          $credit03  =  $credit03 + $credit;
       break;
-
       case 4:
          $debit04   =  $debit04 + $debit;
          $credit04  =  $credit04 + $credit;
       break;
-
       case 5:
          $debit05   =  $debit05 + $debit;
          $credit05  =  $credit05 + $credit;
@@ -352,26 +174,52 @@ dd($query);
     // hasta el mes 12
   }
   //Actualizar saldos en tabl acc_general_ledger_balance
-  $query =  "UPDATE acc_general_ledger_balance 
-                    SET 
-                    WHERE generalLedgerId = $generalLedgerId and
-                          year            = $year";
+        $query->debit01 = $debit01;
+        $query->credit01 = $credit01;
+        $query->debit02 = $debit02;
+        $query->credit02 = $credit02;
+        $query->debit03 = $debit03;
+        $query->credit03 = $credit03;
+        $query->debit04 = $debit04;
+        $query->credit04 = $credit04;
+        $query->debit05 = $debit05;
+        $query->credit05 = $credit05;
+        $query->debit06 = $debit06;
+        $query->credit06 = $credit06;
+        $query->debit07 = $debit07;
+        $query->credit07 = $credit07;
+        $query->debit08 = $debit08;
+        $query->credit08 = $credit08;
+        $query->debit09 = $debit09;
+        $query->credit09 = $credit09;
+        $query->debit10 = $debit10;
+        $query->credit10 = $credit10;
+        $query->debit11 = $debit11;
+        $query->credit11 = $credit11;
+        $query->debit12 = $debit12;
+        $query->credit12 = $credit12;
+        $query->save();
+// = $flight   $query =  "UPDATE acc_general_ledger_balance 
+//                     SET 
+//                     WHERE generalLedgerId = $generalLedgerId and
+//                           year            = $year";
 
-$success = true;
-DB::commit();
-} catch (\Exception $e) {
-$error   = $e->getMessage();
-$success = false;
-DB::rollback();
-}
+      $success = true;
+      DB::commit();
+    } catch (\Exception $e) {
+      $error   = $e->getMessage();
+      $success = false;
+      DB::rollback();
+    }
 
-if ($success) {
-return $result = ['alert-type' => 'success', 'message' => 'Operacion Realizada'];
-} else {
-return $result = ['alert-type' => 'error', 'message' => $error];
-}
+    if ($success) {
+    return $result = ['alert-type' => 'success', 'message' => 'Operacion Realizada'];
+    } else {
+    return $result = ['alert-type' => 'error', 'message' => $error];
+    }
 
 
 
  }//end function
+
 }//end of the class

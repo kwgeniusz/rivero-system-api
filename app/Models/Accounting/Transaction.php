@@ -212,14 +212,13 @@ class Transaction extends Model
     try {
       // Actualizar transacciones contables
       // 1. Leer las transacciones que no han sido actualizadas
-          $companyId = session('companyId');
-          $status    = 1; //actualizados
+          $companyId        = session('companyId');
+          $statusUpdated    = 1; //actualizados
+          $statusNotUpdated = 0; //No actualizados
 
-      $rs =  $this->getAllByBalanceUpdated($companyId,0);
-        // dd($rs);
-        // exit();
-
-        foreach ($rs as $item) {
+      $rs =  $this->getAllByBalanceUpdated($companyId,$statusNotUpdated);
+    // dd($rs);
+     foreach ($rs as $item) {
           $transactionId            = $item->transactionId;
           $companyId                = $item->companyId;
           $countryId                = $item->countryId;
@@ -231,21 +230,16 @@ class Transaction extends Model
           
         //   $year  = getYear($transactionDate);
         //   $month = getMonth($transactionDate);
-          $year = 2020;
+          $year = 2021;
           $month = 1;
            
         // Ejecutar funcion de actualizacion en el libro mayor - general_ledger
-
-        // dd("Resultados: $countryId.$companyId.$generalLedgerId.$debit.$credit.$year.$month");
-        // exit();
         $oGeneralLedger = new GeneralLedger;
         $oGeneralLedger->cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month);
         
-
         // Marcar como "actualizado" el registro de trasacciones contable (MODELO) (SET balanceUpdated = 1)
          $this->setBalanceUpdated($transactionId,$status);  
-
-        }//foreach end
+       }//foreach end
 
           $success = true;
           DB::commit();
@@ -257,9 +251,9 @@ class Transaction extends Model
   
       if ($success) {
         return $result = ['alert-type' => 'success', 'message' => 'Operacion Realizada'];
-    } else {
+     }else {
         return $result = ['alert-type' => 'error', 'message' => $error];
-    }
+     }
 
   } 
 
