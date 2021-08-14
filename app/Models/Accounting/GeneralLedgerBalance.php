@@ -89,38 +89,34 @@ function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
                       ->where('year','=',$year)
                       ->get();
 
-//   $query =  "SELECT * FROM acc_general_ledger_balance 
-//                     WHERE generalLedgerId = $generalLedgerId and
-//                           year            = $year";
-
-//   foreach($query as $rs){
-    // dd($query);
-      $debit01        = $query->debit01;
-      $credit01       = $query->credit01;
-      $debit02        = $query->debit02;
-      $credit02       = $query->credit02;
-      $debit03        = $query->debit03;
-      $credit03       = $query->credit03;
-      $debit04        = $query->debit04;
-      $credit04       = $query->credit04;
-      $debit05        = $query->debit05;
-      $credit05       = $query->credit05;
-      $debit06        = $query->debit06;
-      $credit06       = $query->credit06;
-      $debit07        = $query->debit07;
-      $credit07       = $query->credit07;
-      $debit08        = $query->debit08;
-      $credit08       = $query->credit08;
-      $debit09        = $query->debit09;
-      $credit09       = $query->credit09;
-      $debit10        = $query->debit10;
-      $credit10       = $query->credit10;
-      $debit11        = $query->debit11;
-      $credit11       = $query->credit11;
-      $debit12        = $query->debit12;
-      $credit12       = $query->credit12;
+  foreach($query as $rs){
+   //  dd($rs->debit01);
+      $debit01        = $rs->debit01;
+      $credit01       = $rs->credit01;
+      $debit02        = $rs->debit02;
+      $credit02       = $rs->credit02;
+      $debit03        = $rs->debit03;
+      $credit03       = $rs->credit03;
+      $debit04        = $rs->debit04;
+      $credit04       = $rs->credit04;
+      $debit05        = $rs->debit05;
+      $credit05       = $rs->credit05;
+      $debit06        = $rs->debit06;
+      $credit06       = $rs->credit06;
+      $debit07        = $rs->debit07;
+      $credit07       = $rs->credit07;
+      $debit08        = $rs->debit08;
+      $credit08       = $rs->credit08;
+      $debit09        = $rs->debit09;
+      $credit09       = $rs->credit09;
+      $debit10        = $rs->debit10;
+      $credit10       = $rs->credit10;
+      $debit11        = $rs->debit11;
+      $credit11       = $rs->credit11;
+      $debit12        = $rs->debit12;
+      $credit12       = $rs->credit12;
 // hasta el mes 12
-//   }
+  }
 
   switch ($month) { 
       case 1:
@@ -174,35 +170,36 @@ function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
     // hasta el mes 12
   }
   //Actualizar saldos en tabl acc_general_ledger_balance
-        $query->debit01 = $debit01;
-        $query->credit01 = $credit01;
-        $query->debit02 = $debit02;
-        $query->credit02 = $credit02;
-        $query->debit03 = $debit03;
-        $query->credit03 = $credit03;
-        $query->debit04 = $debit04;
-        $query->credit04 = $credit04;
-        $query->debit05 = $debit05;
-        $query->credit05 = $credit05;
-        $query->debit06 = $debit06;
-        $query->credit06 = $credit06;
-        $query->debit07 = $debit07;
-        $query->credit07 = $credit07;
-        $query->debit08 = $debit08;
-        $query->credit08 = $credit08;
-        $query->debit09 = $debit09;
-        $query->credit09 = $credit09;
-        $query->debit10 = $debit10;
-        $query->credit10 = $credit10;
-        $query->debit11 = $debit11;
-        $query->credit11 = $credit11;
-        $query->debit12 = $debit12;
-        $query->credit12 = $credit12;
-        $query->save();
-// = $flight   $query =  "UPDATE acc_general_ledger_balance 
-//                     SET 
-//                     WHERE generalLedgerId = $generalLedgerId and
-//                           year            = $year";
+  foreach($query as $rs){
+        $rs->debit01 = $debit01;
+        $rs->credit01 = $credit01;
+        $rs->debit02 = $debit02;
+        $rs->credit02 = $credit02;
+        $rs->debit03 = $debit03;
+        $rs->credit03 = $credit03;
+        $rs->debit04 = $debit04;
+        $rs->credit04 = $credit04;
+        $rs->debit05 = $debit05;
+        $rs->credit05 = $credit05;
+        $rs->debit06 = $debit06;
+        $rs->credit06 = $credit06;
+        $rs->debit07 = $debit07;
+        $rs->credit07 = $credit07;
+        $rs->debit08 = $debit08;
+        $rs->credit08 = $credit08;
+        $rs->debit09 = $debit09;
+        $rs->credit09 = $credit09;
+        $rs->debit10 = $debit10;
+        $rs->credit10 = $credit10;
+        $rs->debit11 = $debit11;
+        $rs->credit11 = $credit11;
+        $rs->debit12 = $debit12;
+        $rs->credit12 = $credit12;
+        $rs->save();
+  }
+
+       
+
 
       $success = true;
       DB::commit();
@@ -213,9 +210,9 @@ function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
     }
 
     if ($success) {
-    return $result = ['alert-type' => 'success', 'message' => 'Operacion Realizada'];
+      return $result = ['alert-type' => 'success', 'message' => 'Mes Actualizado del Libro Mayor'];
     } else {
-    return $result = ['alert-type' => 'error', 'message' => $error];
+      return $result = ['alert-type' => 'error', 'message' => $error];
     }
 
 

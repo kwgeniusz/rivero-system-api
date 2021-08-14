@@ -151,15 +151,11 @@ class TransactionController extends Controller
      */
    public function updateBalance() {
 
-
     $rs = $this->oTransaction->updateBalance();
 
-
-       $notification = array(
-        'message'    => $rs['message'],
-        'alert-type' => $rs['alert-type'],
-    );
+    $notification = array('message'    => $rs['message'],'alert-type' => $rs['alert-type']);
     
+    return $notification;
    }//end function
 
 }//class end

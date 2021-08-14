@@ -200,7 +200,7 @@ class Transaction extends Model
            }
 
            if ($success) {
-             return $rs  = ['alert' => 'success', 'message' => "Transaccion Modificada"];
+             return $rs  = ['alert' => 'success', 'message' => "Transaccion Actualizada"];
            } else {
                return $rs = ['alert' => 'error', 'message' => $error];
            }
@@ -235,10 +235,11 @@ class Transaction extends Model
            
         // Ejecutar funcion de actualizacion en el libro mayor - general_ledger
         $oGeneralLedger = new GeneralLedger;
-        $oGeneralLedger->cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month);
-        
+        $rs = $oGeneralLedger->cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month);
+        // dd($rs);
         // Marcar como "actualizado" el registro de trasacciones contable (MODELO) (SET balanceUpdated = 1)
-         $this->setBalanceUpdated($transactionId,$status);  
+         $rs = $this->setBalanceUpdated($transactionId,$statusUpdated);  
+        //  dd($rs);
        }//foreach end
 
           $success = true;

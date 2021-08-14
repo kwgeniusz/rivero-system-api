@@ -215,23 +215,14 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
      $oGeneralLedgerBalance = new GeneralLedgerBalance;
      $rs = $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit);
 
-        dd($rs);
-        // exit();
       // siguiente nivel arriba
       $generalLedgerId = 0;
 
-      $query =  $this->where('countryId','=', $generalLedgerId)
-                     ->where('countryId','=',$countryId)
-                     ->where('countryId','=',$companyId)
+      $query =  $this->where('countryId','=',$countryId)
+                     ->where('companyId','=',$companyId)
                      ->where('accountCode','=',$parentAccountCode)
                      ->get();
-                     
-        //   dd($query);        
-                //      "SELECT * FROM acc_general_ledger 
-                //    WHERE countryId         = $countryId and  
-                //          companyId         = $companyId and 
-                //          accountCode       = $parentAccountCode";
-
+                  
       foreach($query as $rs){
           $generalLedgerId    = $rs->generalLedgerId;
           $accountCode        = $rs->accountCode;
@@ -249,13 +240,15 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
 
     }//end of the loop
             $success = true;
+            DB::commit();
         } catch (\Exception $e) {
             $error   = $e->getMessage();
             $success = false;
+            DB::rollback();
         }
 
         if ($success) {
-            return $rs = ['alert' => 'info', 'message' => 'Cuenta Eliminada'];
+            return $rs = ['alert' => 'info', 'message' => 'Actualizacion en cascada Exitosa'];
         } else {
             return $rs = ['alert' => 'error', 'message' => $error];
         }
