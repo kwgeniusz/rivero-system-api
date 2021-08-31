@@ -168,7 +168,7 @@ class ContractController extends Controller
 
     public function updateIbc(Request $request, $id)
     {
-        $this->oContract->updateContract(
+        $this->oContract->updateContractIbc(
             $id,
             $request->all()
         );
