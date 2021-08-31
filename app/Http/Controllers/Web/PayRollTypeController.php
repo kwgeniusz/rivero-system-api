@@ -7,7 +7,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PayRollTypeController extends Controller
+class PayrollTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,10 @@ class PayRollTypeController extends Controller
      */
     public function index()
     {
+        $countryId = session('countryId');
         return DB::select("SELECT * FROM payroll_type
-                    INNER JOIN country ON payroll_type.countryId = country.countryId");
+                    INNER JOIN country ON payroll_type.countryId = country.countryId
+                    WHERE payroll_type.countryId = $countryId");
     }
     
 
@@ -30,11 +32,9 @@ class PayRollTypeController extends Controller
     {
 
         return DB::select("SELECT company.companyId, company.companyName, company.companyShortName, company.companyNumbrer,  company.countryId,company.officeId,
-                                    company.companyAddress, country.countryId, country.countryName, office.officeId, office.officeName 
+                                    company.companyAddress, country.countryId, country.countryName
                             FROM `company` 
                             INNER JOIN `country` ON company.countryId = country.countryId
-
-                            INNER JOIN `office` on company.officeId = office.officeId
                             WHERE company.companyId = $id");
         
     }
@@ -49,7 +49,7 @@ class PayRollTypeController extends Controller
     {
         // return $request;
         $payrollType = new PayRollType();
-        $payrollType->countryId = $request->countryId;
+        $payrollType->countryId = session('countryId');
         $payrollType->payrollTypeName = $request->payrollTypeName;
         $payrollType->payrollTypeDescription = $request->payrollTypeDescription;
         

@@ -53,12 +53,12 @@ class PeriodsController extends Controller
     
     /** FUNCION PARA OBTENER TIPO DE NOMINA */
     
-    function getPayrollType($idcountry)
+    function getPayrollType()
     {
+        $countryId = session('countryId');
         $payrollType = DB::table('payroll_type')->select('payrollTypeId', 'payrollTypeName')
-                        ->where('countryId','=', $idcountry)
-                        ->get();
-
+            ->where('countryId','=', $countryId)
+            ->get();
         return $payrollType;
     }
 
@@ -83,8 +83,8 @@ class PeriodsController extends Controller
     {
         // return $request;
         $periods = new Periods();
-        $periods->countryId = $request->countryId;
-        $periods->companyId = $request->companyId;
+        $periods->countryId = session('countryId');
+        $periods->companyId = session('companyId');
         $periods->year = $request->year;
         $periods->payrollTypeId = $request->payrollTypeId;
         $periods->payrollNumber = $request->payrollNumber;
