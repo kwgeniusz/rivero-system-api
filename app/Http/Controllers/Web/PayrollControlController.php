@@ -153,7 +153,6 @@ class PayrollControlController extends Controller
     $quantity   = 1;
     $amount   =  0; 
     $userProcess = Auth::user()->fullName;
-  
         // PARTE 1. 
     /*
         1. leer tabla hrprepayroll_control.
@@ -170,7 +169,7 @@ class PayrollControlController extends Controller
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
                             WHERE hrpayrollControlId = " . $id);
-        // dd($rs0);
+        dd($rs0);
         foreach ($rs0 as $rs) {
             $countryId        = $rs->countryId;   
             $companyId        = $rs->companyId;  
@@ -269,7 +268,7 @@ class PayrollControlController extends Controller
                 $transactionTypeCode  = $rs3->transactionTypeCode;     
                 $quantity             = $rs3->quantity;  
                 $amount               = $rs3->amount;  
-                $params               = $rs3->params;  
+                $params               = $rs3->params;  //asigno a una variable si la transaccion tiene parametros
 
                 //obtengo los datos para Verificar si el usuario tiene alguna transaccion bloqueada
                 $TransBlocked = $this->oParamsTransaction->getBlockedTransaction($countryId, $companyId, $transactionTypeCode, $staffCode);

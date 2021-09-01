@@ -20,10 +20,10 @@ Route::get('payrolltype/', function () {
     return view('rrhh.payroll_type.index');
 })->name('payroll_type.index');
 
-Route::get('payrolltypes/', 'Web\PayRollTypeController@index');
-Route::post('payrolltypes/post', 'Web\PayRollTypeController@store');
-Route::put('payrolltypes/put/{id}', 'Web\PayRollTypeController@update');
-Route::delete('payrolltypes/delete/{id}', 'Web\PayRollTypeController@destroy');
+Route::get('payrolltypes/', 'Web\PayrollTypeController@index');
+Route::post('payrolltypes/post', 'Web\PayrollTypeController@store');
+Route::put('payrolltypes/put/{id}', 'Web\PayrollTypeController@update');
+Route::delete('payrolltypes/delete/{id}', 'Web\PayrollTypeController@destroy');
 
 // position
 Route::get('charges/', function () {
@@ -48,7 +48,7 @@ Route::get('periods/', function () {
     return view('rrhh.periods.index');
 })->name('periods.index'); 
 Route::get('periods/list/', 'Web\PeriodsController@index');
-Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
+// Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
 Route::get('periods/list/{year}/{month}', 'Web\PeriodsController@generatePeriods');
 Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PeriodsController@getPayrollNumber');
 Route::post('periods/post', 'Web\PeriodsController@store');

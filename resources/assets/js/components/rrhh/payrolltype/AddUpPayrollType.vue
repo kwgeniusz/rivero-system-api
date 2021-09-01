@@ -9,14 +9,6 @@
 
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newPayrollType()"  id="form-payroll-type" >
-                    
-                            <div class="form-group col-md-7">
-                                <label for="selectCountry" class="form-group" v-text="nameField1"></label>
-                                <select class="form-control" v-model="selectCountry" id="selectCountry" required="required">
-                                    <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                    
-                                </select>
-                            </div>
                             <div class="form-group col-md-8">
                                 <label for="payrollTypeName" class="form-group" v-text="nameField2"></label>
                                 <input type="text" v-model="payrollTypeName" class="form-control" id="payrollTypeName" v-bind:placeholder="nameField2" required="required">
@@ -52,13 +44,6 @@
 <script>
     export default {
         mounted() {
-
-            axios.get('companys/contrys').then(res => {
-                this.selectCountrys = res.data.map(item => {
-                    return {id: item.countryId, vText: item.countryName}
-                    
-                })
-            })
             if (this.editId > 0) {
                 this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
                 this.payrollTypeName = document.querySelector("#payrollTypeName").value = this.objEdit.payrollTypeName
@@ -72,7 +57,6 @@
                 selectCountry:'',
                 payrollTypeName:'',
                 payrollTypeDescription:'',
-                selectCountrys:{}
             }
         },
         props:{
@@ -109,7 +93,6 @@
                 if (this.editId === 0) {
                     
                     const params = {
-                        countryId: this.selectCountry,
                         payrollTypeName: this.payrollTypeName,
                         payrollTypeDescription: this.payrollTypeDescription,
                     }
@@ -130,7 +113,6 @@
                         });
                 }else{
                     const params = {    
-                        countryId: this.selectCountry,
                         payrollTypeName: this.payrollTypeName,
                         payrollTypeDescription: this.payrollTypeDescription,
                     }

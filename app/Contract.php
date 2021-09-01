@@ -432,7 +432,7 @@ class Contract extends Model
     public function updateContract($contractId,$data) {
         
         $contract                        = Contract::find($contractId);
- 
+        
             //    dd($contract->contractDate);
             //    exit(); Carbon::createFromFormat('Y-m-d H:i:s', $request->date)->format('d-m-Y')
         $contract->contractType          =  $data['contractType'] ;
@@ -446,13 +446,21 @@ class Contract extends Model
         $contract->city                  =  $data['city'] ;
         $contract->state                 =  $data['state'] ;
         $contract->zipCode               =  $data['zipCode'] ;
-        $contract->buildingCodeId         =  $data['buildingCodeId'] ;
-        $contract->groupId                =  $data['groupId'] ;
         $contract->projectUseId           =  $data['projectUseId'] ;
-        $contract->constructionType       =  $data['constructionType'] ;
      // $contract->projectDescriptionId  =  $data['contractType'] ;
         $contract->initialComment         =  $data['initialComment'] ;
         $contract->currencyId             =  $data['currencyId'] ;
+        // $contract->updated_at             = date('Y-m-d H:i:s');
+
+        $contract->save();
+    }
+    public function updateContractIbc($contractId,$data) {
+        
+        $contract                        = Contract::find($contractId);
+        
+        $contract->buildingCodeId         =  $data['buildingCodeId'];
+        $contract->groupId                =  $data['groupId'];
+        $contract->constructionType       =  $data['constructionType'];
         // $contract->updated_at             = date('Y-m-d H:i:s');
 
         $contract->save();

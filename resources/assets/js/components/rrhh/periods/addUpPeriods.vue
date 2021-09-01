@@ -9,38 +9,10 @@
 
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()" autocomplete="off" id="newUpForm" >
-                            
-                            <div class="row">
-                                <div class="form-group col-md-6 ">
-                                    <label for="selectCountry" class="form-group" v-text="nameField1"></label>
-                                    <select v-if="editId === 0" class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" autocomplete="off" required="required">
-                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                    <select v-else class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" disabled="disabled" autocomplete="off" required="required">
-                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                </div>
-                            
-                                <div class="form-group col-md-7 ">
-                                    <label for="companyId" class="form-group" v-text="nameField2"></label>
-                                    <select  v-if="editId === 0" class="form-control" v-model="companyId" id="companyId" @change="payrollType()" disabled="disabled" autocomplete="off" required="required">
-                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                    <select v-else class="form-control" v-model="companyId" id="companyId" @change="payrollType()" disabled="disabled" autocomplete="off" required="required">
-                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                
-                                </div>
-                            </div>
-                            
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="payrollTypeId" class="form-group" v-text="nameField3"></label>
-                                    <select v-if="editId === 0" class="form-control" v-model="payrollTypeId" @change="payrollType()" id="payrollTypeId" autocomplete="off"  disabled="disabled" required="required">
+                                    <select v-if="editId === 0" class="form-control" v-model="payrollTypeId" @change="payrollType()" id="payrollTypeId" autocomplete="off"  required="required">
                                         <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -53,7 +25,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4"> 
                                     <label for="year" class="form-group" v-text="nameField5"> </label> 
-                                       
+
                                     <select v-if="editId === 0" class="form-control" v-model="year" id="year" disabled="disabled" autocomplete="off" required="required">
                                         <option v-for=" n  in 5" :key="n" :value="n + years">{{n + years}}</option>
                                         
@@ -87,7 +59,7 @@
                             
                                     <label for="periodFrom" class="form-group" v-text="nameField6"></label>
                                     <input type="date" v-model="periodFrom" class="form-control" id="periodFrom" v-bind:placeholder="nameField6" autocomplete="off" required="required">
-                                   
+                                
                                 </div>
                             </div>
                             <div class="row">
@@ -123,64 +95,34 @@
 <script>
     export default {
         mounted() {
-            // const numero = document.querySelector("#payrollNumber")
-            // numero.addEventListener("keyup", (event) => {
-            // // console.log(numero.value)
-            // // if (numero.value  === 0) {
-            // //     numero.value = 1
-            // // console.log('numero 1')
-            // // }
-            // numero.value = numero.value.replace(/\D/g, "")
-            //     .replace(/([0-9])$/, '$1')
-               
-            // })
-            axios.get('periods/list/').then(res => {
-                // const eeeee = res.data
-                this.selectCountrys = res.data.countrys.map(item => {
-                    return {id: item.countryId, vText: item.countryName}
-                    
-                })
-                
-                // this.selectPayrollType = res.data.payrollType.map( item => {
-                //     return {id: item.payrollTypeId, vText: item.payrollTypeName}
-                // })
-                // console.log(this.selectPayrollType)
-                // debugger
-            })
-            
-           
+            this.getPayrollType()
 
             if (this.editId > 0) {
-                this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                 axios.get('periods/list/').then(res => {
-                // const eeeee = res.data
+                this.selectCountry = this.objEdit.countryId
+                axios.get('periods/list/').then(res => {
                     this.selectCompanys = res.data.companys.map(item => {
                         return {id: item.companyId, vText: item.companyShortName}
                     })
-                   this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId 
+                    this.companyId =  this.objEdit.companyId 
 
                     this.selectPayrollType = res.data.payrollType.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                     })
-                   this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
+                    this.payrollTypeId = this.objEdit.payrollTypeId
                 })  
 
 
                 
                 
-                this.periodName = document.querySelector("#periodName").value = this.objEdit.periodName
-                this.payrollNumber = document.querySelector("#payrollNumber").value = this.objEdit.payrollNumber
-                this.year = document.querySelector("#year").value = this.objEdit.year
-                this.periodFrom = document.querySelector("#periodFrom").value = this.objEdit.periodFrom
-                this.periodTo = document.querySelector("#periodTo").value = this.objEdit.periodTo
-               
+                this.periodName = this.objEdit.periodName
+                this.payrollNumber = this.objEdit.payrollNumber
+                this.year = this.objEdit.year
+                this.periodFrom = this.objEdit.periodFrom
+                this.periodTo = this.objEdit.periodTo
             }
             
             const year = new Date()
             this.years= year.getFullYear() - 3
-           
-                // console.log(this.years)
-            console.log('Component mounted.')
         },
         data(){
             return{
@@ -194,8 +136,8 @@
                 periodFrom: '',
                 periodTo: '',
                 payrollNumber: '',
-                selectCountrys:{},
-                selectCompanys:{},
+                // selectCountrys:{},
+                // selectCompanys:{},
                 selectPayrollType:{},
             }
         },
@@ -345,6 +287,24 @@
                     this.payrollNumber = document.querySelector("#payrollNumber").value = ''
                 })
             },
+            getPayrollType(){
+                axios.get(`payrolltypes/`)
+                    .then(res => {
+                        this.selectPayrollType = res.data.map( item => {
+                            return {id: item.payrollTypeId, vText: item.payrollTypeName}
+                        })
+                        console.log(this.selectPayrollType)
+                    })
+                // const payrollTypeId = document.querySelector("#payrollTypeId")
+                // const year = document.querySelector("#year")
+                //     payrollTypeId.disabled = false
+
+                // if (payrollTypeId.value !== "") {
+                //     year.disabled = false
+                // }
+                // this.payrollNumber = ''
+                
+            },
             payrollType(){
                 
                 const payrollTypeId = document.querySelector("#payrollTypeId")
@@ -355,7 +315,7 @@
                     year.disabled = false
                 }
                 this.payrollNumber = document.querySelector("#payrollNumber").value = ''
-               
+                
             },
             getPayrollNumber(){
 
@@ -375,7 +335,7 @@
                         if (res.data[0].payrollNumber === null || res.data[0].payrollNumber ==="") {
                             // console.log('entr0o')
                             let num = res.data[0].payrollNumber + 1
-                           
+                            
                             this.payrollNumber = parseInt(num)
                         }else{
                             
@@ -386,7 +346,6 @@
                 }else{
                     alert('Debe seleccionar pais, compañia, tipo de nomina y año')
                 }
-     
             }
         },
         computed: {

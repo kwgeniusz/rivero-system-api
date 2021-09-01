@@ -56,7 +56,7 @@
   @can('BG') <li><a href="{{route('contracts.cancelled')}}">{{__('contracts_cancelled')}}</a></li> @endcan
             <hr>
   @can('BH')<li><a href="{{route('reports.summaryContractForCompany')}}">{{__('contract_summary')}}</a></li>@endcan
-   <br>    
+  <br>    
           </ul>
         </li>
 @endcan
@@ -68,27 +68,27 @@
               </span>
           </a>
           <ul class="treeview-menu">
-     {{-- @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan --}}
-     <!-- @can('BA') <li><a href="{{route('subcontractors.index')}}">Subcontratistas   </a></li> @endcan -->
-     @can('CA') <li><a href="{{route('invoices.all')}}">Facturas</a></li> @endcan
-     {{-- @can('CB') <li><a href="{{route('proposals.all')}}">Propuestas</a></li> @endcan --}}
-     @can('CC') <li><a href="{{route('cashbox.transactions')}}">Caja</a></li> @endcan
-     @can('CD') <li><a href="{{route('banks.transactions')}}">Bancos</a></li> @endcan
-     @can('CE') <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li> @endcan
-     @can('CF') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
-     @can('CG') <li><a href="{{route('payables.index')}}">   Cuentas Por Pagar</a></li> @endcan
-     @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
+      {{-- @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan --}}
+      <!-- @can('BA') <li><a href="{{route('subcontractors.index')}}">Subcontratistas   </a></li> @endcan -->
+      @can('CA') <li><a href="{{route('invoices.all')}}">Facturas</a></li> @endcan
+      {{-- @can('CB') <li><a href="{{route('proposals.all')}}">Propuestas</a></li> @endcan --}}
+      @can('CC') <li><a href="{{route('cashbox.transactions')}}">Caja</a></li> @endcan
+      @can('CD') <li><a href="{{route('banks.transactions')}}">Bancos</a></li> @endcan
+      @can('CE') <li><a href="{{route('transactions.index',['sign' => '+'])}}">{{__('income_transactions')}}</a></li> @endcan
+      @can('CF') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
+      @can('CG') <li><a href="{{route('payables.index')}}">   Cuentas Por Pagar</a></li> @endcan
+      @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
 
 <hr>
-   @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li>
-   @endcan   
-     {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
-     {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
-               {{--   <hr>
-     @can('CG') <li><a href="{{route('transactions.incomeexpenses')}}">{{__('income_and_expenses_report')}}</a></li> @endcan
-     @can('CH') <li><a href="{{route('transactions.income')}}">{{__('income_report')}}</a></li> @endcan
-     @can('CI') <li><a href="{{route('transactions.expenses')}}">{{__('expense_report')}}</a></li> @endcan
-     @can('CJ')  <li><a href="{{route('collections.index')}}">Reporte de Cobranzas</a></li> @endcan --}}
+    @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li>
+    @endcan   
+      {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
+      {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
+                {{--   <hr>
+      @can('CG') <li><a href="{{route('transactions.incomeexpenses')}}">{{__('income_and_expenses_report')}}</a></li> @endcan
+      @can('CH') <li><a href="{{route('transactions.income')}}">{{__('income_report')}}</a></li> @endcan
+      @can('CI') <li><a href="{{route('transactions.expenses')}}">{{__('expense_report')}}</a></li> @endcan
+      @can('CJ')  <li><a href="{{route('collections.index')}}">Reporte de Cobranzas</a></li> @endcan --}}
               <br>
           </ul>
         </li>
@@ -109,6 +109,17 @@
               <li><a href="{{route('process.index')}}">Tipos de Procesos</a></li>
               <li><a href="{{route('staff.index')}}">{{__('personnel')}}</a></li>
               <li><a href="#">Cambios Generales de Salarios</a></li>
+              <hr>
+              
+              <li><a href=" ">Transacciones Permanentes</a></li>
+              <li><a href=" ">Carlcular Pre-vacaciones</a></li>
+              <li><a href=" ">Imprimir Pre-vacaciones</a></li>
+              <li><a href=" ">Actualizar Vacaciones</a></li>
+              <li><a href=" ">Imprimir Vacaciones</a></li>
+              <li><a href="#">Generar Asientos Contables</a></li>
+              {{-- <li><a href="#">{{__('update_payroll')}}</a></li>
+              <li><a href="#">{{__('calculate_payroll')}}</a></li>
+              <li><a href="#">{{__('calculate_special_payroll')}}</a></li> --}}
               <hr>
               <li><a href="#">Transacciones Fijas</a></li>
               <li><a href="#">Transacciones Variables</a></li>
