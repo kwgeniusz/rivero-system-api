@@ -212,6 +212,9 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
   // inicio del loop
   while($loop == 1) {
      // actualizar el saldo de cuenta con $generalLedgerId
+     $oGeneralLedger = new GeneralLedger;
+     $rs = $oGeneralLedger->updateBalance($generalLedgerId,$debit,$credit);
+     // actualizar el saldo de cuenta con $generalLedgerId
      $oGeneralLedgerBalance = new GeneralLedgerBalance;
      $rs = $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit);
 
@@ -253,5 +256,34 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
             return $rs = ['alert' => 'error', 'message' => $error];
         }
   }//end of the function
+
+
+  function updateBalance($generalLedgerId,$debit,$credit)
+{
+  // obtener $saldos actuales
+    DB::beginTransaction();
+    try {   
+        $query = $this->where('generalLedgerId', '=', $generalLedgerId)->get();
+
+  //Actualizar saldos en tabl acc_general_ledger_balance
+  foreach($query as $rs){
+        $rs->debit  = $rs->debit + $debit;
+        $rs->credit = $rs->credit + $credit;
+        $rs->save();
+  }
+         $success = true;
+         DB::commit();
+    } catch (\Exception $e) {
+        $error   = $e->getMessage();
+        $success = false;
+        DB::rollback();
+    }
+
+    if ($success) {
+      return $result = ['alert-type' => 'success', 'message' => 'Balance de la cuenta actualizado.'];
+    } else {
+      return $result = ['alert-type' => 'error', 'message' => $error];
+    }
+ }//end function
 //------------------------------------------
 }//end of the class

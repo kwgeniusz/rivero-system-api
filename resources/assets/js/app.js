@@ -170,10 +170,14 @@ Vue.component("debit-note",require("./components/administration/invoice/saleNote
 //###################################################
 //           Module Accounting Components
 //###################################################
+// ---------------------> Transaction Header <-----------------------------//
+Vue.component("accounting-main-transaction-header",require("./components/accounting/transactionHeader/main.vue"));
+Vue.component("accounting-table-transaction-header",require("./components/accounting/transactionHeader/table.vue"));
+Vue.component("accounting-addUp-transaction-header",require("./components/accounting/transactionHeader/addUp.vue"));
 // ---------------------> Transaction <-----------------------------//
-Vue.component("accounting-main-transaction",require("./components/accounting/transaction/main.vue"));
-Vue.component("accounting-table-transaction",require("./components/accounting/transaction/table.vue"));
-Vue.component("accounting-addUp-transaction",require("./components/accounting/transaction/addUp.vue"));
+Vue.component("accounting-main-transaction",require("./components/accounting/transactionHeader/transaction/main.vue"));
+Vue.component("accounting-table-transaction",require("./components/accounting/transactionHeader/transaction/table.vue"));
+Vue.component("accounting-addUp-transaction",require("./components/accounting/transactionHeader/transaction/addUp.vue"));
 // ---------------------> General Ledger <-----------------------------//
 Vue.component("accounting-main-general-ledger",require("./components/accounting/generalLedger/main.vue"));
 Vue.component("accounting-table-general-ledger",require("./components/accounting/generalLedger/table.vue"));

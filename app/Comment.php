@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,7 @@ class Comment extends Model
 
     protected $table      = 'comment';
     protected $primaryKey = 'commentId';
+    protected $appends = ['commentDate'];
     protected $fillable   = ['commentId','commentContent', 'commentDate', 'contractId','userId'];
 
 //--------------------------------------------------------------------
@@ -28,6 +30,25 @@ class Comment extends Model
     function PerTransaction() {
         return $this->hasOne(User::class, 'userId','userId');
     }
+
+//--------------------------------------------------------------------
+    /** Accesores  */
+//--------------------------------------------------------------------
+public function getCommentDateAttribute()
+{
+    $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['commentDate'], 'UTC');
+    $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+    return $date->format('Y-m-d H:i:s');
+}    
+//--------------------------------------------------------------------
+    /** Mutadores  */
+//--------------------------------------------------------------------
+public function setCommentDateAttribute($commentDate)
+{  
+    $date = Carbon::createFromFormat('Y-m-d', $commentDate, session('companyTimeZone'));
+    $date->setTimezone('UTC');
+    $this->attributes['commentDate'] = $date;
+}    
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
@@ -60,7 +81,7 @@ class Comment extends Model
     {
         $comment                      = new Comment;
         $comment->commentContent      = $data['commentContent'];
-        $comment->commentDate         = date('Y-m-d H:i:s');
+        $comment->commentDate         = date('Y-m-d');
         $comment->commentable_id      = $model->getKey();
         $comment->commentable_type    = get_class($model);
         $comment->userId              = Auth::user()->userId;

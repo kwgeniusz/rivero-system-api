@@ -19,14 +19,14 @@
 
         <div class="row comment" v-for="comment in commentsList">
           <div class="col-xs-12">
-            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A')}})</p>
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('MM/DD/YYYY - hh:mm A')}})</p>
             <p class="text-left" v-html="nl2br(comment.commentContent,false) "></p>
           </div>
         </div>
 
         <div class="row comment">
           <div class="col-xs-12">
-            <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('timezone', 'America/Chicago','MM/DD/YYYY - hh:mm A') }})</p>
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('MM/DD/YYYY - hh:mm A') }})</p>
             <p class="text-left" v-html="nl2br(contract.initialComment,false) "></p>
           </div>
         </div>
@@ -71,7 +71,7 @@
     export default {
         
      mounted() {
-          this.$moment.tz.setDefault('UTC')
+          // this.$moment.tz.setDefault('UTC')
            },
      data: function () {
           return {
