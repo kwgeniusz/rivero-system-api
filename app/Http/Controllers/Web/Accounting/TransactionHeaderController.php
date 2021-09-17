@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Accounting;
 
 use Auth; 
+use Carbon\Carbon;
 use App\Models\Accounting\TransactionHeader;
 use App\Models\Accounting\GeneralLedger;
 use App\Http\Controllers\Controller;
@@ -26,11 +27,17 @@ class TransactionHeaderController extends Controller
      */
     public function index(Request $request)
     {
-        $headers = $this->oHeader->getAllByCompany(session('companyId'));
+
+      $dateNow = Carbon::now(session('companyTimeZone'));
+      $year    = $dateNow->format('Y');
+
+    //    $transactions   = $this->oTransaction->getAllByYear($sign,$year);
+       $headers        = $this->oHeader->getAllByYear($year);
          
         if($request->ajax()) {
-              return $headers;
-               }
+              return ['headers'    => $headers, 
+                      'year'           => $year];
+         }
 
         return view('module_accounting.transaction_header.index');
     }
@@ -113,15 +120,15 @@ class TransactionHeaderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show(Request $request,$id)
-    // {
-    //     $headers = $this->oHeader->findById($id,session('companyId'));
+    public function show(Request $request,$id)
+    {
+        $header = $this->oHeader->findById($id,session('companyId'));
 
-    //        if($request->ajax()){
-    //           return $headers;
-    //         }
-    //     // return view('module_contracts.clients.show', compact('client'));
-    // }
+           if($request->ajax()){
+              return $header;
+            }
+        // return view('module_contracts.clients.show', compact('client'));
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -141,7 +148,30 @@ class TransactionHeaderController extends Controller
     //     return $notification;
     //     // return redirect()->route('clients.index')->with($notification);
     // }
-  
+    public function updateBalance() {
 
+        $rs = $this->oHeader->updateBalance();
+    
+        $notification = array('message'    => $rs['message'],'alert-type' => $rs['alert-type']);
+        
+        return $notification;
+       }//end function
+
+       public function searchBetweenDates(Request $request)
+       {
+           $rs = TransactionHeader::with('transaction')
+                            ->where('entryDate', '>=', $request->date1)
+                            ->where('entryDate', '<=', $request->date2)
+                            ->where('companyId', '=', session('companyId'))
+                            ->orderBy('entryDate', 'DESC')
+                            ->get();
+                            
+               if($rs->isEmpty()) {
+                   $returnData = array('alert' => 'error', 'message' => 'No existen Registros para Este Rango de Fecha, escoja otro.');
+                   return \Response::json($returnData, 500);
+               }
+   
+           return $rs;
+       }
 }//class end
 
