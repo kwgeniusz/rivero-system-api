@@ -130,11 +130,11 @@ foreach ($debitNoteDetails as $invDetail) {
         <table>       
           <tr>
               <td id="bold">Debit Note Number:
-              {{$creditNote[0]->salId}}</td>
+              {{$debitNote[0]->salId}}</td>
             </tr>
             <tr>
               <td id="bold">Date:
-              {{$creditNote[0]->dateNote}}</td>
+              {{$debitNote[0]->dateNote}}</td>
             </tr>
             <tr>
               <td id="bold">Page: {{$page}}/{{$pageTotal}}</td>
@@ -145,7 +145,7 @@ foreach ($debitNoteDetails as $invDetail) {
               <td> </td>
             </tr>
             <tr>
-              <td id="bold">Apply To: Invoice #{{$creditNote[0]->invoice->invId}}</td>
+              <td id="bold">Apply To: Invoice #{{$debitNote[0]->invoice->invId}}</td>
             </tr>
          </table>     
         </th>
@@ -306,7 +306,7 @@ foreach ($debitNoteDetails as $invDetail) {
 </table>
 
 <br>
- <p style="color:red;"> Note: {{$creditNote[0]->reference}} </p> 
+ <p style="color:red;"> Note: {{$debitNote[0]->reference}} </p> 
 
 
 <footer>
