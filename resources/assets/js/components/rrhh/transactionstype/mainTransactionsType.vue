@@ -8,7 +8,7 @@
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
-                 ></button-form>
+                ></button-form>
 
                 <list-transaction-type
                     :objHrTansType = objHrTansType
@@ -37,7 +37,6 @@
                 :nameField12 = nameField12
                 @showlist = "showlist"
                 @newObj = "newObj"
-               
             >
             </addUp-transactions-type>
         </div>
@@ -68,7 +67,6 @@
         </div>
 
     </div>
-   
 </template>
 
 <script>
@@ -80,7 +78,7 @@
                 // debugger
             })
 
-           
+            
             console.log('Component mounted.')
         },
         data(){

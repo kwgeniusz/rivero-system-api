@@ -12,6 +12,7 @@
                             <th>Nombre del tipo de nomina</th>
                             <th>Descripcion del tipo de nomina</th>
                             <th>Pais</th>
+                            <th>Categoria</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -36,7 +37,11 @@
                                     {{payrollType.countryName}}
                                 </p>
                             </td>
-                            
+                            <td>
+                                <p class="text-left">
+                                    {{payrollType.payrollCategory}}
+                                </p>
+                            </td>
                             <td> 
                                 <button v-on:click="editPayrollType(index, payrollType.payrollTypeId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                 <button v-on:click="deletePayrollType(index,payrollType.payrollTypeId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  

@@ -25,6 +25,7 @@ class hrStaff extends Model
                 ->select('hrstaff.shortName','hrstaff.staffCode','hrstaff.countryId','hrstaff.companyId')
                 ->where('hrstaff.countryId', '=',session('countryId'))
                 ->where('hrstaff.companyId', '=',session('companyId'))
+                ->where('hrstaff.status', '=', 'A')
                 // ->where('hrstaff.companyId', '=',4)
                 ->get();
     }

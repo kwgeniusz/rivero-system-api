@@ -27,30 +27,33 @@ class PeriodsController extends Controller
     public function index()
     {
         $countryId = session('countryId');
-        $companyId = session('companyId');
-        $periods = DB::select("SELECT  hrperiod.periodId, hrperiod.`countryId`, hrperiod.`companyId`, hrperiod.`year`,
-                        hrperiod.`payrollTypeId`, hrperiod.`payrollNumber`,hrperiod.`periodName`, hrperiod.`periodFrom`, hrperiod.`periodTo`, hrperiod.`updated`,
-                        country.countryId, country.countryName,
-                        company.companyId, company.companyShortName,
-                        payroll_type.payrollTypeId, payroll_type.payrollTypeName
-                    FROM
-                        `hrperiod`
-                    INNER JOIN country ON hrperiod.countryId = country.countryId
-                    INNER JOIN company ON hrperiod.companyId = company.companyId
-                    INNER JOIN payroll_type ON hrperiod.payrollTypeId = payroll_type.payrollTypeId
-                    WHERE hrperiod.countryId = $countryId
-                    AND hrperiod.companyId = $companyId");
-
         $companys =  Company::select('companyShortName', 'companyId')->get();
-       
         $countrys = DB::table('country')->select('countryId', 'countryName')->get();
-        $payrollType = DB::table('payroll_type')->select('payrollTypeId', 'payrollTypeName')->get();
-       
+        $payrollType = DB::table('payroll_type')->select('payrollTypeId', 'payrollTypeName')
+            ->where('countryId','=', $countryId)
+            ->get();
+    
         // $countrys   = $this->oCountry->getAll();
-        return compact('countrys','periods', 'companys', 'payrollType');
+        return compact('countrys', 'companys', 'payrollType');
     }
     
-    
+    function getPeriodos($date){
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        $periods = DB::select("SELECT  hrperiod.*,
+                country.countryId, country.countryName,
+                company.companyId, company.companyShortName,
+                payroll_type.payrollTypeId, payroll_type.payrollTypeName
+            FROM
+                `hrperiod`
+            INNER JOIN country ON hrperiod.countryId = country.countryId
+            INNER JOIN company ON hrperiod.companyId = company.companyId
+            INNER JOIN payroll_type ON hrperiod.payrollTypeId = payroll_type.payrollTypeId
+            WHERE hrperiod.countryId = $countryId
+            AND hrperiod.companyId = $companyId
+            AND hrperiod.year = $date");
+            return compact('periods');
+    }
     /** FUNCION PARA OBTENER TIPO DE NOMINA */
     
     function getPayrollType()
@@ -62,13 +65,15 @@ class PeriodsController extends Controller
         return $payrollType;
     }
 
-    function getPayrollNumber($country, $company, $payrollType, $year)
-    {
+    function getPayrollNumber($country = 0, $company = 0, $payrollType, $year)
+    { 
+        $countryId = intval($country);
+        $companyId = intval($company);
         // return $country . ' ' . $company. ' '. $payrollType .' '. $year;
-
+        $countryId == 0 ? $countryId = session('countryId') : $countryId; 
+        $companyId == 0 ? $companyId = session('companyId') : $companyId; 
         $payrollTypeMax = DB::select("SELECT MAX(`payrollNumber`) AS payrollNumber FROM `hrperiod` 
-                            WHERE `countryId`= $country AND `companyId`= $company AND `year`= $year AND`payrollTypeId` = $payrollType");
-
+            WHERE `countryId`= $countryId AND `companyId`= $companyId AND `year`= $year AND `payrollTypeId` = $payrollType");
         return $payrollTypeMax;
     }
 
@@ -92,6 +97,12 @@ class PeriodsController extends Controller
         $periods->periodFrom = $request->periodFrom;
         $periods->periodTo = $request->periodTo;
         $periods->updated = $request->updated;
+        $periods->holiday1 =$request->holiday1;
+        $periods->holiday2 =$request->holiday2;
+        $periods->holiday3 =$request->holiday3;
+        $periods->holiday4 =$request->holiday4;
+        $periods->holiday5 =$request->holiday5;
+        $periods->payrollCategory =$request->payrollCategory;
         $periods->save();
         return $periods;
     }
@@ -107,8 +118,8 @@ class PeriodsController extends Controller
     {
         
         $periods = Periods::find($id);
-        $periods->countryId = $request->countryId;
-        $periods->companyId = $request->companyId;
+        $periods->countryId = session('countryId');
+        $periods->companyId = session('companyId');
         $periods->year = $request->year;
         $periods->payrollTypeId = $request->payrollTypeId;
         $periods->payrollNumber = $request->payrollNumber;
@@ -116,7 +127,12 @@ class PeriodsController extends Controller
         $periods->periodFrom = $request->periodFrom;
         $periods->periodTo = $request->periodTo;
         $periods->updated = $request->updated;
-        
+        $periods->holiday1 =$request->holiday1;
+        $periods->holiday2 =$request->holiday2;
+        $periods->holiday3 =$request->holiday3;
+        $periods->holiday4 =$request->holiday4;
+        $periods->holiday5 =$request->holiday5;
+        $periods->payrollCategory =$request->payrollCategory;
         $periods->save();
         return $periods;
     }
@@ -136,6 +152,25 @@ class PeriodsController extends Controller
 
 
         return response()->json(["payrollNumber" =>  $payrollNumber],200);
+    }
+    public function getPeriodVacation($periodFrom, $periodTo)
+    {
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        $payrollNumber = DB::table('hrperiod')->select('*')
+        ->where('periodFrom' , '>=' , $periodFrom)
+        ->where('periodTo' , '<=' , $periodTo)
+        ->where('countryId' , '=' , $countryId)
+        ->where('companyId' , '=' , $companyId)
+        ->where('updated' , '=' , 1)
+        ->where('payrollCategory' , '=' , 'vacation')
+        ->first();
+
+        if (empty($payrollNumber)) {
+            return response()->json([], 204);
+        }
+
+        return response()->json($payrollNumber, 200);
     }
 
      // script usado para generar los periodos automaticos.. 
@@ -165,7 +200,6 @@ class PeriodsController extends Controller
             $fromPrimeraQuincena  = date('Y-m-d', strtotime("{$yearMonth}"));
             $toPrimeraQuincena     = date('Y-m-d', strtotime("{$yearMonth} + 14 day"));
             // echo '1era Quincena '.$monthName[$month-1];
-            
             
             // para segunda quincena
             $fromSegundaQuincena     = date('Y-m-d', strtotime("{$yearMonth} + 15 day"));
@@ -201,6 +235,7 @@ class PeriodsController extends Controller
             // echo $ToPrimeraQuincena ."<br>";
             // echo $segundaQuincena ."<br>";
             $month = $month + 1;
+            
         }
         // echo date('M', strtotime("{$yearMonth} + 14 day"));;
         return 'success';

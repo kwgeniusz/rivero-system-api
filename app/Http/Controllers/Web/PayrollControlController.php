@@ -42,6 +42,7 @@ class PayrollControlController extends Controller
                     INNER JOIN payroll_type ON hrpayroll_control.payrollTypeId = payroll_type.payrollTypeId
                     WHERE hrpayroll_control.countryId = $countryId
                     AND hrpayroll_control.companyId = $companyId
+                    AND hrpayroll_control.payrollCategory = 'payroll'
                     ORDER BY hrpayroll_control.companyId");
 
         return compact('payrollControl');
@@ -59,22 +60,58 @@ class PayrollControlController extends Controller
         return $payrollType;
     }
 
-    function getPayrollNumber($country, $company, $payrollType, $year)
+    function getPayrollNumber($payrollType, $year, $countryId="", $companyId="")
     {
-        // return $country . ' ' . $company. ' '. $payrollType .' '. $year;
+        if ($countryId=="" && $companyId=="") {
+            $countryId = session('countryId');
+            $companyId = session('companyId');
+        }else {
+            $countryId;
+            $companyId;
+        }
 
-        $payrollTypeMax = DB::select("SELECT hrperiod.payrollNumber, hrperiod.periodName FROM `hrperiod` 
-                            WHERE `countryId`= $country AND `companyId`= $company AND `year`= $year
-                            AND`payrollTypeId` = $payrollType AND`updated` = 0");
+        $payrollTypeMax = DB::select("SELECT * FROM `hrperiod` 
+            WHERE `countryId`= $countryId 
+            AND `companyId`= $companyId 
+            AND `year`= $year
+            AND `payrollTypeId` = $payrollType 
+            AND`payrollCategory` = 'payroll'
+            AND `updated` = 0");
 
         return $payrollTypeMax;
     }
-    function getPorcess($country, $company)
+    function getPayrollNumberVacation($payrollType, $year, $countryId="", $companyId="")
     {
-        // return $country . ' ' . $company. ' '. $payrollType .' '. $year;
+        if ($countryId=="" && $companyId=="") {
+            $countryId = session('countryId');
+            $companyId = session('companyId');
+        }else {
+            $countryId;
+            $companyId;
+        }
 
+        $payrollTypeMax = DB::select("SELECT * FROM `hrperiod` 
+            WHERE `countryId`= $countryId 
+                AND `companyId`= $companyId 
+                AND `year`= $year
+                AND `payrollTypeId` = $payrollType 
+                AND `payrollCategory` = 'vacation' 
+                AND `updated` = 0");
+
+        return $payrollTypeMax;
+    }
+
+    function getPorcess($countryId=0, $companyId=0)
+    {
+        if ($countryId==0 && $companyId == 0) {
+            $countryId = session('countryId');
+            $companyId = session('companyId');
+        }else {
+            $countryId;
+            $companyId;
+        }
         $process = DB::select("SELECT hrprocess.processCode, hrprocess.processName   FROM `hrprocess`  
-                            WHERE `countryId`= $country AND `companyId`= $company");
+            WHERE `countryId`= $countryId AND `companyId`= $companyId");
 
         return $process;
     }
@@ -88,15 +125,17 @@ class PayrollControlController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $hrpayrollControl = new PayrollControl();
-        $hrpayrollControl->countryId = $request->countryId;
-        $hrpayrollControl->companyId = $request->companyId;
+        $hrpayrollControl->countryId = $countryId;
+        $hrpayrollControl->companyId = $companyId;
         $hrpayrollControl->payrollTypeId = $request->payrollTypeId;
         $hrpayrollControl->year = $request->year;
         $hrpayrollControl->payrollNumber = $request->payrollNumber;
         $hrpayrollControl->payrollName = $request->payrollName;
         $hrpayrollControl->processCode = $request->processCode;
+        $hrpayrollControl->payrollCategory = 'payroll';
         $hrpayrollControl->save();
         return $hrpayrollControl;
     }
@@ -134,7 +173,6 @@ class PayrollControlController extends Controller
      */
     public function destroy($id)
     {
-        // return 'entro '.$id;
         $hrpayrollControl = PayrollControl::find($id);
         $hrpayrollControl->delete();
     
@@ -144,9 +182,7 @@ class PayrollControlController extends Controller
     ##########################
 
     public function processPrePayroll($id)
-    {
-        
-    
+    {    
     $transactionTypeCode = 0;
     $processCode = 0;
     $isIncome  = 1;
@@ -168,8 +204,8 @@ class PayrollControlController extends Controller
 
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
-                            WHERE hrpayrollControlId = " . $id);
-        dd($rs0);
+            WHERE hrpayrollControlId = " . $id);
+        
         foreach ($rs0 as $rs) {
             $countryId        = $rs->countryId;   
             $companyId        = $rs->companyId;  
@@ -300,7 +336,6 @@ class PayrollControlController extends Controller
                         $displayPayroll       = $rs->display; 
                     } 
                     // print_r($rs0);
-                    // return $rs0;
                     $addTransaction = 0;         // add transaction control
                     // Si la transaccion es basada en salario
                     if ($isSalaryBased == 1) {  

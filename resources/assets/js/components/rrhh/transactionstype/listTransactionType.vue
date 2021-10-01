@@ -87,7 +87,6 @@
                 
                 // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
                 // de esta manera no tengo que buscar los datos en la DB nuevamente
-              
                 this.$emit("indexEdit",index)
             },
             deleterow(index, id){

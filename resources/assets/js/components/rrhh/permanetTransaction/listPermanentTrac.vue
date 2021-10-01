@@ -25,7 +25,7 @@
                         <tr v-for="(perTransact, index) in objPermanentTrans" :key="perTransact.hrpermanentTransactionId">
                             
                             <td >{{index + 1}}</td>
-                            <td v-if="perTransact.blocked == 1 " class="form-inline" :style="addBlocked"> 
+                            <td v-if="perTransact.blocked > 0" class="form-inline" :style="addBlocked"> 
                                 <p class="text-left">
                                     {{perTransact.staffCode}} 
                                 
@@ -37,7 +37,7 @@
                                 
                                 </p>
                             </td>
-                            <td v-if="perTransact.blocked == 1" :style="addBlocked">
+                            <td v-if="perTransact.blocked > 0" :style="addBlocked">
                                 <p class="text-left">
                                     {{perTransact.shortName}}
                                 </p>

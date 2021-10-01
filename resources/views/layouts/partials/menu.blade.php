@@ -110,18 +110,9 @@
               <li><a href="{{route('staff.index')}}">{{__('personnel')}}</a></li>
               <li><a href="#">Cambios Generales de Salarios</a></li>
               <hr>
+              <li><a href="{{route('pre-vacations.index')}}">Vacaciones</a></li>
               
-              <li><a href=" ">Transacciones Permanentes</a></li>
-              <li><a href=" ">Carlcular Pre-vacaciones</a></li>
-              <li><a href=" ">Imprimir Pre-vacaciones</a></li>
-              <li><a href=" ">Actualizar Vacaciones</a></li>
-              <li><a href=" ">Imprimir Vacaciones</a></li>
-              <li><a href="#">Generar Asientos Contables</a></li>
-              {{-- <li><a href="#">{{__('update_payroll')}}</a></li>
-              <li><a href="#">{{__('calculate_payroll')}}</a></li>
-              <li><a href="#">{{__('calculate_special_payroll')}}</a></li> --}}
               <hr>
-              <li><a href="#">Transacciones Fijas</a></li>
               <li><a href="#">Transacciones Variables</a></li>
               <li><a href="{{route('permanent-trans.index')}}">Transacciones Permanentes</a></li>
               <li><a href="{{route('payrollcontrol.index')}}">Carlcular Pre-nomina</a></li>

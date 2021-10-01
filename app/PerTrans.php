@@ -68,7 +68,7 @@ class PerTrans extends Model
         ->where('companyId', '=', $idCompany)
         ->where('transactionTypeCode', '=', $transactionCode)
         ->where('staffCode', '=', $staffCode)
-        ->where('blocked', '=', 1)
+        ->where('blocked', '>', 0)
         ->whereNull('deleted_at')
         ->get();
     }

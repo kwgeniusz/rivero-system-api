@@ -3,19 +3,18 @@
     <div>
             <!-- botones y listado -->
             <div v-if="formStatus === 0">
-                 <h3><b>PERIODOS</b></h3>
+                <h3><b>PERIODOS</b></h3>
                 <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
-                 ></button-form>
+                ></button-form>
 
                 <list-periods
                     :objPeriods = objPeriods
                     :namePanelList = namePanelList
                     @indexEdit = "indexEdit"
                     @delrow = "delrow"
-                    :vacio = vacio
                 >
                 </list-periods>
             </div>
@@ -34,7 +33,6 @@
                 :nameField8 = nameField8
                 @showlist = "showlist"
                 @newObj = "newObj"
-               
             >
             </addUp-periods>
         </div>
@@ -61,32 +59,19 @@
         </div>
 
     </div>
-   
+
 </template>
 
 <script>
     export default {
         mounted() {
-            axios.get('periods/list').then( response => {
-                let res = response.data.periods
-                
-                console.log(res)
-                if (res.length === 0) {
-                    this.vacio = 1
-                } else {
-                    this.objPeriods = res
-                }
-            })
-
-           
-           
+            
         },
         data(){
             return{
                 objPeriods:[],
                 objEdit:[],
                 formStatus: 0,
-                vacio: 0,
                 namePanelList: "PERÍODOS",
                 namePanel: "AGREGAR PERÍODO",
                 namePanel2: "EDITAR PERÍODO",
@@ -116,11 +101,11 @@
                 console.log(payrollType)
                 this.objPeriods.push(payrollType)
             },
-            indexEdit(index){
+            indexEdit(obj){
                 this.formStatus = 2
-                // console.log('recibido')
-                this.objEdit = this.objPeriods[index]
-                // console.log( this.objEdit)
+                let index = obj[0]
+                let obj2 = obj[1]
+                this.objEdit = obj2[index]
             },
             delrow(indexId){
                 // console.log(indexId)

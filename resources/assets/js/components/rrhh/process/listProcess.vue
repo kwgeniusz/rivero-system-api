@@ -84,14 +84,12 @@
                 
                 const objEditProcessDetail = this.objProcess[index]
                 // console.log(id)
-              
                 this.$emit("processDetail", objEditProcessDetail)
             },
             editRow(index, id){
                 
                 // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
                 // de esta manera no tengo que buscar los datos en la DB nuevamente
-              
                 this.$emit("indexEdit",index)
             },
             deleterow(index, id){

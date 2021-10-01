@@ -6,7 +6,6 @@
                     <div v-if="editId === 0" class="panel-heading" :style="addSuccess"><h4 class="text-uppercase">{{namePanel}}</h4></div>
                     <div v-else class="panel-heading" :style="ediPrimary"><h4 class="text-uppercase">{{namePanel2}}</h4></div>
                     <!-- <div class="panel-heading">Agregar tipo de nomina</div> -->
-
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newPayrollType()"  id="form-payroll-type" >
                             <div class="form-group col-md-8">
@@ -17,21 +16,17 @@
                                 <label for="payrollTypeDescription" class="form-group" v-text="nameField3"></label><br>
                                 <textarea class="form-control" rows="1" v-model="payrollTypeDescription" id="payrollTypeDescription" required="required"></textarea>
                             </div>
-                            
                             <div v-if="editId === 0">
                                 <button-form 
                                     :buttonType = 1
                                     @cancf = "cancf"
                                 ></button-form>
-
                             </div>
-
                             <div v-if="editId > 0">
                                 <button-form 
                                     :buttonType = 2
                                     @cancf = "cancf"
                                 ></button-form>
-
                             </div>
                         </form>
                     </div>
@@ -45,18 +40,18 @@
     export default {
         mounted() {
             if (this.editId > 0) {
-                this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                this.payrollTypeName = document.querySelector("#payrollTypeName").value = this.objEdit.payrollTypeName
-                this.payrollTypeDescription = document.querySelector("#payrollTypeDescription").value = this.objEdit.payrollTypeDescription
+                this.payrollTypeName = this.objEdit.payrollTypeName
+                this.payrollTypeDescription = this.objEdit.payrollTypeDescription
+                this.payrollCategory = this.objEdit.payrollCategory
             }
             
             console.log('Component mounted.')
         },
         data(){
             return{
-                selectCountry:'',
                 payrollTypeName:'',
                 payrollTypeDescription:'',
+                payrollCategory:'payroll',
             }
         },
         props:{
@@ -84,6 +79,10 @@
                 type: String,
                 default: 'Name Defauld'
             },
+            nameField4:{
+                type: String,
+                default: 'Usado Para calcular'
+            },
             objEdit:{}
             
         },
@@ -95,8 +94,9 @@
                     const params = {
                         payrollTypeName: this.payrollTypeName,
                         payrollTypeDescription: this.payrollTypeDescription,
+                        payrollCategory: this.payrollCategory,
                     }
-                    document.querySelector("#form-payroll-type").reset()
+                    // document.querySelector("#form-payroll-type").reset()
     
                     axios.post('payrolltypes/post',params)
                         .then((response) => {
@@ -115,6 +115,7 @@
                     const params = {    
                         payrollTypeName: this.payrollTypeName,
                         payrollTypeDescription: this.payrollTypeDescription,
+                        payrollCategory: this.payrollCategory,
                     }
                     // document.querySelector("#form-payroll-type").reset()
 

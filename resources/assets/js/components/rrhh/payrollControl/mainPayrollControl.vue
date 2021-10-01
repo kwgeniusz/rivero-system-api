@@ -3,12 +3,12 @@
     <div>
             <!-- botones y listado -->
             <div v-if="formStatus === 0">
-                 <h3><b>CALCULAR PRE-NOMINA</b></h3>
+                <h3><b>CALCULAR PRE-NOMINA</b></h3>
                 <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
-                 ></button-form>
+                ></button-form>
 
                 <list-payroll-control
                     :objPayrollCOntrol = objPayrollCOntrol
@@ -34,7 +34,6 @@
                 :nameField8 = nameField8
                 @showlist = "showlist"
                 @newObj = "newObj"
-               
             >
             </add-up-payroll-control>
         </div>
@@ -61,7 +60,6 @@
         </div>
 
     </div>
-   
 </template>
 
 <script>
@@ -74,8 +72,6 @@
                 // console.log(this.objPayrollCOntrol)
                 // debugger
             })
-
-           
             console.log('Component mounted.')
         },
         data(){

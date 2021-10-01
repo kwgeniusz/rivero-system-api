@@ -1,9 +1,7 @@
 <template>
-
     <div class="col-md-12">
         <div class="panel panel-default">
             <!-- <div class="panel-heading"><h4>{{namePanelList}}</h4></div> -->
-
             <div class="table-responsive text-center">
                 <table class="table table-striped table-bordered text-center">
                     <thead>
@@ -18,7 +16,6 @@
                         </tr>
                     </thead>
                     <tbody v-if="objPayrollCOntrol.length > 0">
-    
                         <tr v-for="(payrollcontro, index) in objPayrollCOntrol" :key="payrollcontro.hrpayrollControlId">
                             <td >{{index + 1}}</td>
                             <td class="form-inline">
@@ -47,7 +44,7 @@
                             <td>
                                 <!-- <loading v-if="loading == 1"></loading> -->
                                 <button v-if="loading == 0" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
-                                <button v-else disabled="disabled" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
+                                <button v-else disabled="disabled" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
                                 <button v-on:click="deleterow(index, payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> Eliminar</button>  
                             </td>
                         </tr>
@@ -102,9 +99,7 @@
                             alert('Error al calcular')
                             this.loading = 0
                         }
-
                 })
-              
                 // this.$emit("indexEdit",index)
             },
             deleterow(index, id){

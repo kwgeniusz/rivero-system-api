@@ -26,9 +26,13 @@ class HrTransactionTypeController extends Controller
      */
     public function index()
     {
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $hrtransaction_type = DB::select("SELECT * FROM `hrtransaction_type`
         INNER JOIN country ON hrtransaction_type.countryId = country.countryId
         INNER JOIN company ON hrtransaction_type.companyId = company.companyId
+        WHERE hrtransaction_type.countryId = $countryId
+        AND hrtransaction_type.companyId = $companyId
         ORDER BY hrtransaction_type.countryId, hrtransaction_type.companyId, hrtransaction_type.transactionTypeCode ASC");
 
         $companys =  Company::orderBy('companyName', 'ASC')->get();
@@ -45,10 +49,11 @@ class HrTransactionTypeController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $hrtransType = new HrTransactionType();
-        $hrtransType->countryId = $request->countryId;
-        $hrtransType->companyId = $request->companyId;
+        $hrtransType->countryId = $countryId;
+        $hrtransType->companyId = $companyId;
         $hrtransType->transactionTypeCode = $request->transactionTypeCode;
         $hrtransType->transactionTypeName = $request->transactionTypeName;
         $hrtransType->salaryBased = $request->salaryBased;
@@ -73,10 +78,11 @@ class HrTransactionTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $hrtransType = HrTransactionType::find($id);
-        $hrtransType->countryId = $request->countryId;
-        $hrtransType->companyId = $request->companyId;
+        $hrtransType->countryId = $countryId;
+        $hrtransType->companyId = $companyId;
         $hrtransType->transactionTypeCode = $request->transactionTypeCode;
         $hrtransType->transactionTypeName = $request->transactionTypeName;
         $hrtransType->salaryBased = $request->salaryBased;

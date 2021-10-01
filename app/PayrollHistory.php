@@ -12,8 +12,8 @@ class PayrollHistory extends Model
     protected $primaryKey = 'hrpayrollHistoryId';
 
     protected $fillable = ['countryId', 'companyId', 'year', 'payrollNumber', 'payrollTypeId', 'userProcess', 'payrollName','staffCode', 'idDocument',
-                         'staffName', 'transactionTypeCode', 'isIncome', 'hasBalance', 'balance', 'quantity', 
-                         'amount', 'localCurrency','localAmount', 'exchangeRate'];
+        'staffName', 'transactionTypeCode', 'isIncome', 'hasBalance', 'balance', 'quantity', 
+        'amount', 'localCurrency','localAmount', 'exchangeRate'];
     
 
 
@@ -30,6 +30,7 @@ class PayrollHistory extends Model
                         WHERE hrpayroll.countryId = $country
                         AND hrpayroll.companyId = $companyId
                         AND hrpayroll.display = 1
+                        AND hrpayroll.payrollCategory = 'payroll'
                         GROUP BY hrpayroll.countryId, hrpayroll.companyId, hrpayroll.payrollNumber,hrpayroll.year
                         ORDER BY hrpayroll.companyId, hrpayroll.payrollNumber");
     }
@@ -39,7 +40,8 @@ class PayrollHistory extends Model
                             WHERE countryId = $countryId 
                             AND companyId = $companyId 
                             AND year = $year 
-                            AND payrollNumber = $payrollNumber");
+                            AND payrollNumber = $payrollNumber
+                            AND payrollCategory = 'payroll'");
     }
     function getStaff($countryId, $companyId, $payrollTypeId){
         return DB::select("SELECT hrstaff.hrstaffId, hrstaff.staffCode, hrstaff.shortName, hrstaff.baseSalary, hrstaff.probationPeriod, hrstaff.employmentDate,
@@ -52,9 +54,17 @@ class PayrollHistory extends Model
                                     AND hrstaff.payrollTypeId = $payrollTypeId
                                     AND hrstaff.status = 'A'");
     }
+    function getTransactionBlocked($staffCode){
+        return DB::table('hrpermanent_transaction')
+        ->select('hrpermanent_transaction.*')
+        ->where('hrpermanent_transaction.staffCode', '=', $staffCode)
+        ->where('hrpermanent_transaction.blocked', '>', 0)
+        ->whereNull('deleted_at')
+        ->get();
+    }
     function delPermanentTracsaction($idTransType){
         $hoy = date("Y-m-d H:i:s");
-       
+    
         DB::update("UPDATE `hrpermanent_transaction` SET `deleted_at`= '$hoy', `balance` = 0
             WHERE hrpermanent_transaction.hrpermanentTransactionId = $idTransType");
     }
@@ -76,6 +86,12 @@ class PayrollHistory extends Model
         // DB::update("UPDATE `hrpermanent_transaction` SET `balance`= $balance, `cuotas`= $cuota
         // WHERE `staffCode`= '$staffCode'
         // AND `transactionTypeCode` = $transactionTypeCode");
+    }
+    function updatePermanentTracsactionBlocked($id, $num){
+        
+        DB::update("UPDATE `hrpermanent_transaction` SET `blocked`= $num
+            WHERE `hrpermanentTransactionId` = $id");
+
     }
 
     function delPrePayroll($countryId, $companyId, $year, $payrollNumber){
