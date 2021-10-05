@@ -135,10 +135,10 @@
        </tr>
 </table>
 
-<br><br>
+<!-- <br><br>
 <div align="center">
 <b>NOTE:</b> If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
-</div>
+</div> -->
 
 <footer>
 © Copyright 2020 JD Rivero Global - All rights reserved <br>

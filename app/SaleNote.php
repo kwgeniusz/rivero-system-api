@@ -220,7 +220,7 @@ use Illuminate\Database\Eloquent\Model;
                 $saleNote->salId = $salId;
                 $saleNote->save();
             
-                   if($data['formConcept'] == SaleNote::APPEND_SERVICES){
+                   if($data['formConcept'] == SaleNote::DEBIT_APPEND_SERVICES){
                      //agregar servicio 
                              $oSaleNoteDetail = new SaleNoteDetail;
                             foreach ($data['itemList'] as $key => $item) {

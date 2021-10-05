@@ -121,7 +121,7 @@ class Contract extends Model
     }
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId', 'userId');
+        return $this->belongsTo('App\User', 'userId', 'userId')->withTrashed();
     } 
    public function contractStatusR()
     {    //aqui debo meter esta linea en una variable y hacerle un where para filtrarlo por idioma
@@ -280,7 +280,7 @@ class Contract extends Model
                           });
         }
     }
- 
+ withTrashed()
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
