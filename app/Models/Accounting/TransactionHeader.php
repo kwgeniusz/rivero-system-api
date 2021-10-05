@@ -4,7 +4,9 @@ namespace App\Models\Accounting;
 
 use Auth;
 use DB;
+use App\Models\Accounting\GeneralLedger;
 use App\Models\Accounting\Transaction;
+use App\CompanyConfiguration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,7 +29,7 @@ class TransactionHeader extends Model
 //--------------------------------------------------------------------
     public function transaction()
     {
-        return $this->hasOne(Transaction::class, 'transactionId', 'transactionId');
+        return $this->hasMany(Transaction::class, 'headerId', 'headerId')->with('generalLedger')->orderBy('transactionId','ASC');
     }
 //--------------------------------------------------------------------
      /** ACCESORES **/
@@ -54,17 +56,35 @@ class TransactionHeader extends Model
 //--------------------------------------------------------------------
     public function findById($id,$companyId)
     {
-        return $this->where('headerId', '=', $id)
+        return $this->with('transaction.generalLedger')
+                    ->where('headerId', '=', $id)
                     ->where('companyId','=', $companyId)
                     ->get();
     }
-
+    
+    public function getAllByYear($year)
+    {
+       return $this->with('transaction.generalLedger')
+                   ->where('companyId', '=', session('companyId'))
+                   ->whereYear('entryDate', $year)
+                   ->orderBy('entryDate', 'ASC')
+                   ->get();
+     } 
     public function getAllByCompany($companyId) 
     {  
          return $this->where('companyId', '=', $companyId)
                      ->orderBy('headerId', 'ASC')
                      ->get(); 
      }      
+
+    public function getAllByEntryUpdated($companyId,$status) 
+     {  
+          return $this->with('transaction')
+                      ->where('companyId', '=', $companyId)
+                      ->where('entryUpdated', '=', $status)
+                      ->orderBy('headerId', 'ASC')
+                      ->get(); 
+      } 
     public function insertHeaderWithTransactions($countryId, $companyId, $data)
     {
           $error = null;
@@ -72,18 +92,25 @@ class TransactionHeader extends Model
      DB::beginTransaction();
       try {
     
+        $oConfiguration = new CompanyConfiguration();
+                       $oConfiguration->increaseEntryNumber($countryId, $companyId);
+        $entryNumber = $oConfiguration->retrieveEntryNumber($countryId, $companyId);
+ 
         $header                           = new TransactionHeader;
         $header->countryId                = $countryId;
         $header->companyId                = $companyId;
-        $header->entryNumber              = 0;
+        $header->entryNumber              = $entryNumber;
         $header->entryDate                = $data[0]['date'];
         $header->entryDescription         = $data[0]['description'];
-        $header->totalDebit               = 0;
-        $header->totalCredit              = 0;
         $header->validation               = 0;
         $header->entryUpdated             = 0;
+        $header->source                   = 'ACCOUNTING';
+        $header->totalDebit               = 0;
+        $header->totalCredit              = 0;
         $header->save();
 
+        $acumDebit = 0;
+        $acumCredit = 0;
         foreach ($data[1] as $key => $transactionData) {
             $transaction                           = new Transaction;
             $transaction->countryId                = $countryId;
@@ -96,15 +123,20 @@ class TransactionHeader extends Model
              if($transactionData['type'] == 'debit'){ 
               $transaction->debit                    = $transactionData['amount'];
               $transaction->credit                   = 0;
+              $acumDebit += $transactionData['amount'];
              }else{
               $transaction->debit                    = 0;
               $transaction->credit                   = $transactionData['amount']; 
+              $acumCredit += $transactionData['amount'];
              }
-             $transaction->balanceUpdated           = 0;
+            //  $transaction->balanceUpdated           = 0;
              $transaction->userId                   = 0;
              $transaction->save();
         }
-            
+            $header->totalDebit               = $acumDebit;
+            $header->totalCredit              = $acumCredit;
+            $header->save();
+
             $success = true;
             DB::commit();
         } catch (\Exception $e) {
@@ -175,5 +207,62 @@ class TransactionHeader extends Model
         }
     }
 //------------------------------------------
+  public function updateBalance() {
+    
+    DB::beginTransaction();
+    try {
+      // Actualizar transacciones contables
+      // 1. Leer las transacciones que no han sido actualizadas
+          $companyId        = session('companyId');
+          $statusUpdated    = 1; //actualizados
+          $statusNotUpdated = 0; //No actualizados
 
+      $headers =  $this->getAllByEntryUpdated($companyId,$statusNotUpdated);
+   
+     foreach ($headers as $header) {
+
+        $header                          = TransactionHeader::find($header->headerId);
+
+        foreach ($header->transaction as $transaction) {
+          $transactionId            = $transaction->transactionId;
+          $companyId                = $transaction->companyId;
+          $countryId                = $transaction->countryId;
+          $generalLedgerId          = $transaction->generalLedgerId;
+          $debit                    = $transaction->debit;
+          $credit                   = $transaction->credit;
+          $transactionDate          = $transaction->transactionDate;
+          
+        //   $year  = getYear($transactionDate);
+        //   $month = getMonth($transactionDate);
+          $year = 2021;
+          $month = 1;
+           
+        // Ejecutar funcion de actualizacion en el libro mayor - general_ledger
+        $oGeneralLedger = new GeneralLedger;
+        $rs = $oGeneralLedger->cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month);
+        // Marcar como "actualizado" el registro de trasacciones contable (MODELO) (SET balanceUpdated = 1)
+        //  $rs = $this->setBalanceUpdated($transactionId,$statusUpdated);  
+
+     }//end first foreach
+
+        //se ha actualizado el encabezado de las transacciones
+         $header->entryUpdated       = 1;
+         $header->save();
+    }//end second foreach
+
+          $success = true;
+          DB::commit();
+      } catch (\Exception $e) {
+          $error   = $e->getMessage();
+          $success = false;
+          DB::rollback();
+      }
+  
+      if ($success) {
+        return $result = ['alert-type' => 'success', 'message' => 'Operacion Realizada'];
+     }else {
+        return $result = ['alert-type' => 'error', 'message' => $error];
+     }
+
+  } 
 }//end of the class

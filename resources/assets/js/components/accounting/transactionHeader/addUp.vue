@@ -19,15 +19,23 @@
         
         <div class="form-group col-lg-6">
               <label style="color:red">*</label> <label for="date">FECHA:</label>
-             <flat-pickr v-model="entry.date" :config="configFlatPickr"  class="form-control" id="formDatePaid"></flat-pickr>
+             <p v-if="displayMode">{{entry.date}}</p>  
+             <flat-pickr v-else v-model="entry.date" :config="configFlatPickr"  class="form-control" id="formDatePaid"></flat-pickr>
         </div>
         <div class="form-group col-lg-6">
               <label style="color:red">*</label> <label for="description">DESCRIPCION:</label>
-                <input type="text" class="form-control" v-model="entry.description" name="description" placeholder="">
+                <p v-if="displayMode">{{entry.description}}</p> 
+                <input v-else type="text" class="form-control" v-model="entry.description" name="description" placeholder="">     
         </div>
 
+         <div class="text-center" v-if="!displayMode">
+            <a @click="addRow()" class="btn btn-sm btn-info">
+                Agregar Fila<i ></i>
+            </a> 
+         </div>
+         <br>
 <div class="col-xs-12">
-       <div class="table-responsive tableother">
+       <div class="tableother">
           <table class="table table-bordered text-center">
             <thead class="bg-info"> 
               <tr>  
@@ -37,39 +45,39 @@
                 <th>REFERENCIA</th>
                 <th>TIPO</th>
                 <th>MONTO</th>
-                <th>ACCION</th>
+                <th v-if="!displayMode">ACCION</th>
               </tr>
             </thead>
             <tbody>   
               <tr v-for="(item,index) in itemList" :key="index">
                 <td>{{++index}}</td>
-                <td>
-                  <v-select v-if="editMode" :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/>
-                  <p v-else>{{item.generalLedgerId}}</p> 
+                <td class="col-xs-4">
+                  <p v-if="displayMode">{{item.accountName}}</p> 
+                  <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/>
                 </td>
                 <td>
-                  <input v-if="editMode" type="text" class="form-control" v-model="item.description">
-                  <p v-else>{{item.description}}</p> 
+                  <p v-if="displayMode">{{item.description}}</p> 
+                  <input v-else type="text" class="form-control" v-model="item.description">
                 </td>
                 <td>
-                  <input v-if="editMode" type="text" class="form-control" v-model="item.reference">
-                  <p v-else>{{item.reference}}</p> 
+                  <p v-if="displayMode">{{item.reference}}</p> 
+                  <input v-else type="text" class="form-control" v-model="item.reference">
                 </td>
                 <td>
-                  <select v-if="editMode" class="form-control" v-model="item.type">
+                  <p v-if="displayMode">{{item.type}}</p>  
+                  <select v-else class="form-control" v-model="item.type">
                     <option value="debit">D</option>
                     <option value="credit">C</option>
                   </select>
-                  <p v-else>{{item.type}}</p> 
                 </td>
                 <td>
-                  <input v-if="editMode" type="number" step=".00" class="form-control" v-model="item.amount">
-                  <p v-else>{{item.amount}}</p> 
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step=".00" class="form-control" v-model="item.amount">
                 </td>
-                <td> 
-                  <a @click="addRow()" class="btn btn-sm btn-success">
+                <td v-if="!displayMode"> 
+                  <!-- <a @click="addRow()" class="btn btn-sm btn-success">
                     <i class="glyphicon glyphicon-ok"></i>
-                  </a> 
+                  </a>  -->
                   <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                     <span class="fa fa-times-circle" aria-hidden="true"></span> 
                   </a>
@@ -79,22 +87,18 @@
           </table>
         </div>
 
-    <div v-if="editId === 0">
-       <button-form 
-        :buttonType = 1
-         @cancf = "cancf"
-         v-if="showSubmitBtn"
-       ></button-form>
+
+    <div v-if="editId === 0" class="text-center">
+        <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> Guardar</button>
+        <button @click="cancf" type="button"  class="btn btn-warning"><span class="fa fa-hand-point-left"></span> Regresar</button>
       </div>
 
-     <div v-if="editId > 0">
-         <button-form 
-             :buttonType = 2
-             @cancf = "cancf"
-         ></button-form>
+     <div v-if="editId > 0" class="text-center">
+        <button type="submit" class="btn btn-primary"><span class="fa fa-check"></span> Actualizar</button>
+        <button @click="cancf" type="button"  class="btn btn-warning"><span class="fa fa-hand-point-left"></span> Regresar</button>
      </div>
 </div>
-            {{itemList}}
+            <!-- {{itemList}} -->
 
                     </form>
                 </div>
@@ -111,7 +115,6 @@
         mounted() {
          //obtengo los datos para llenar las listas de selects
           axios.get('/accounting/transaction-headers/create').then((response) => {
-            //   console.log(response.data)
                   this.chartOfAccount = response.data;
                   this.chartOfAccount.map(function (x){
                        return x.item_data = `${x.accountCode} - (${x.accountName})`;
@@ -120,16 +123,34 @@
 
             if (this.editId > 0) {
                 // transaction to edit.
+                this.itemList = [];
                 axios.get(`/accounting/transaction-headers/${this.editId}`).then((response) => {
                     this.data = response.data[0]
 
-                    this.transaction.transactionNumber      = this.data.transactionNumber;
-                    this.transaction.generalLedgerId        = this.data.generalLedgerId;
-                    this.transaction.transactionDate        = this.data.transactionDate;
-                    this.transaction.description            = this.data.description;
-                    this.transaction.reference              = this.data.reference;
-                    this.transaction.debit                  = this.data.debit;
-                    this.transaction.credit                 = this.data.credit;
+                    if(this.data.entryUpdated == 1){this.displayMode == false; }
+
+                    this.entry.date                      = this.data.entryDate;
+                    this.entry.description               = this.data.entryDescription;
+
+                    for (var i=0; i<this.data.transaction.length; i++) { 
+                      let transaction = this.data.transaction[i];
+                        
+                        if(transaction.debit > 0){
+                          transaction.type   = 'debit';
+                          transaction.amount = transaction.debit;
+                        }else if(transaction.credit > 0) {
+                          transaction.type   = 'credit';
+                          transaction.amount = transaction.credit;
+                        }
+                       this.itemList.push({
+                                     generalLedgerId: transaction.generalLedgerId,
+                                     description:transaction.transactionDescription,
+                                     reference: transaction.transactionReference,
+                                     type: transaction.type,
+                                     amount: transaction.amount,
+                                     accountName: transaction.general_ledger.accountName,
+                                   });
+                         }
 
                 });       
             } 
@@ -137,8 +158,8 @@
         data(){
             return{
                 errors: [],
-                editMode: true,
-                showSubmitBtn:true,
+                displayMode: false,
+                showSubmitBtn: true,
                 configFlatPickr:{
                      altFormat: 'm/d/Y',
                      altInput: true,
@@ -193,7 +214,21 @@
                 this.errors.push('Fecha del Encabezado es Requerido.');
                  if (!this.entry.description) 
                 this.errors.push('Descripcion del Encabezado es Requerido.');
-               
+                
+                // console.log(JSON.stringify(this.itemList))
+
+                //  let error ='';
+                 this.itemList.map(item => {
+                
+                      if (!item.generalLedgerId) 
+                        this.errors.push('Debe escoger una cuenta contable es Requerido.');
+                      if (!item.description) 
+                        this.errors.push('Descripcion del Asiento es Requerido.');
+                     if (!item.reference) 
+                        this.errors.push('Referencia del Asiento es Requerido.');
+                      if (item.amount == 0) 
+                        this.errors.push('El campo monto debe ser mayor a cero');
+                 });
                
 
            if (!this.errors.length) { 
@@ -210,7 +245,7 @@
                     });
 
                 }else {
-                    axios.put(`/accounting/transactions/${this.editId}`, this.transaction).then((response) => {
+                    axios.put(`/accounting/transactions/${this.editId}`,  [this.entry,this.itemList]).then((response) => {
                           toastr.success(response.data.message);
                           this.$emit('showlist', 0)
                         })

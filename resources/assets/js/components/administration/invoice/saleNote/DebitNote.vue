@@ -69,7 +69,7 @@
 			 <div class="col-sm-10">
 						<select v-model="formConcept" class="form-control" id="formConcept">
 									<option value="1">Anexar Servicios</option>
-									<!-- <option value="2">Retraso en Pago</option> -->
+									<option value="2">Cobrar Comision</option>
 						</select>
 				</div>
 		</div>
@@ -85,7 +85,7 @@
 
  <br>
 
-<!-- OPCION 1 - ANULACION -->
+<!-- OPCION 1 - ANEXAR SERVICIO -->
 <div v-if="formConcept == 1">
 
 	<div class="form-group">
@@ -181,16 +181,22 @@
            <label>TOTAL NETO: {{noteNetTotal}}</label>
 			 </div>
 </div>
-<!-- FIN DE LA OPCION 1 -->
+<!-- ////////////////////////////// -->
 
-<!-- OPCION 3 - DEVOLUCION PARCIAL -->
-<!-- FIN DE LA DEVOLUCION PARCIAL -->
+<!-- OPCION 2 - COMISIONES -->
+<div v-if="formConcept == 2">
+	<div class="form-group">
+         <label for="formAmount" class="col-sm-2 control-label">MONTO DE LA NOTA</label>
+		 <div class="col-sm-7">
+           <input v-model="formAmount" type="number" class="form-control" id="formAmount" name="formAmount" autocomplete="off">
+		</div>
+	</div>
+</div>
+<!--//////////////////////////////// -->
 	
 		<div class="text-center col-xs-12">
-			<a class="btn btn-success" @click="createNote()" v-if="btnSubmitForm">Crear</a>
-			    <a @click.prevent="itemList = []"  class="btn btn-danger btn-sm">
-            <span class="fa fa-recycle" aria-hidden="true"></span>  Vaciar
-          </a>  
+			    <a class="btn btn-success" @click="createNote()" v-if="btnSubmitForm">Crear</a>
+			    <a v-if="formConcept == 1" @click.prevent="itemList = []"  class="btn btn-danger btn-sm"><span class="fa fa-recycle" aria-hidden="true"></span>  Vaciar </a>  
 		</div>
 
 </form>
@@ -223,11 +229,13 @@
 						formConcept: 1,
 						formReference: '',
 						formService: '',
-						formPercent: 0,
+						formPercent:0,
+						formAmount: 0,
 						hasCost: false,
-            modelQuantity: '',
-            modelUnit: '',
-            modelUnitCost: '',
+						
+						 modelQuantity: '',
+                         modelUnit: '',
+                         modelUnitCost: '',
 						
 						services: {},
 						itemList: [],
@@ -328,29 +336,35 @@
 			 moveUp: function(rowIndex) {
              --rowIndex;
              this.itemList.splice(rowIndex - 1, 0, this.itemList.splice(rowIndex, 1)[0]);
-           },
-       moveDown: function(rowIndex) {
+            },
+             moveDown: function(rowIndex) {
              --rowIndex;
              this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
-        },
+            },
 	   
 			 createNote: function() {
 					this.errors = [];
 
-	 //--------------VALIDATIONS-------------------//
+					   //--------------VALIDATIONS-------------------//
+			     	if (!this.formConcept) 
+						 this.errors.push('Campo Concepto Es Requerido');
 					if (!this.formReference) 
-							 this.errors.push('Campo Referencia es Requerido');
+						 this.errors.push('Campo Referencia es Requerido');
 
-					if (!this.formConcept) 
-							 this.errors.push('Campo Concepto Es Requerido');
-	 //-------------------------------
+                	 //-------------------------------
 		 let netTotalSelected = 0;
 
-				 if(this.formConcept == 1){
+				if(this.formConcept == 1){
 					 if (!Array.isArray(this.itemList) || !this.itemList.length) {
 							 this.errors.push('Necesitas Agregar Items a la Nota');
-				     }
+				       }
 					netTotalSelected = this.noteNetTotal;
+				}
+				if(this.formConcept == 2){
+                  if (!this.formAmount) 
+						 this.errors.push('Campo Monto de la Nota es Requerido');
+
+                    netTotalSelected = this.formAmount;
 				}
 						 
 				if (!this.errors.length) { 
@@ -363,9 +377,11 @@
 							noteType:      this.noteType,
 							formConcept:   this.formConcept,
 							formReference: this.formReference,
-              formPercent:   this.formPercent,
+							formPercent: this.formPercent,
+		
 							itemList:      this.itemList,
 							netTotal:      netTotalSelected,
+
 						}).then(response => {
 							 toastr.info(response.data.message)
 							 this.findInvoice();

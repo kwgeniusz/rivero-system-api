@@ -79,6 +79,9 @@ class GeneralLedgerBalance extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+
+
+
 function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
 {
   // obtener $saldos actuales
@@ -198,9 +201,6 @@ function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
         $rs->save();
   }
 
-       
-
-
       $success = true;
       DB::commit();
     } catch (\Exception $e) {
@@ -214,8 +214,6 @@ function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
     } else {
       return $result = ['alert-type' => 'error', 'message' => $error];
     }
-
-
 
  }//end function
 
