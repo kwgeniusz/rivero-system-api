@@ -11,7 +11,14 @@ class AccountClassification extends Model
     protected $table      = 'acc_account_classification';
     protected $primaryKey = 'accountClassificationId';
     protected $fillable = ['accountClassificationId','countryId','accountClassificationCode','accountClassificationName'];
-
+   
+   //Account Classification Codes
+   const ASSETS    = '1';
+   const LIABILITIES   = '2';
+   const STOCKHOLDERS  = '3';
+   const INCOME = '4';
+   const EXPENSES = '5';
+   const TAXES = '6';
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------

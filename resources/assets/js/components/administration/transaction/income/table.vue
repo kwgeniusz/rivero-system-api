@@ -170,7 +170,6 @@
          transactionList: function transactionList(data){
             this.mutaTransaction = data;
             this.datesToShow.year = this.transactionYear;
-
          }
        } ,       
          computed: {
