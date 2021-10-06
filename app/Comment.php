@@ -24,7 +24,7 @@ class Comment extends Model
     }
      public function user()
     {
-        return $this->hasOne('App\User', 'userId', 'userId');
+        return $this->hasOne('App\User', 'userId', 'userId')->withTrashed();
     }
 
     function PerTransaction() {
