@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class PayRollType extends Model
@@ -13,6 +13,12 @@ class PayRollType extends Model
 
     protected $fillable = ['countryId', 'payrollTypeName', 'payrollTypeDescription'];
     
-
+    function getPayrollType(){
+        $countryId = session('countryId');
+        $listPayrollType = DB::table('payroll_type')
+            ->where('payroll_type.countryId', '=', $countryId)
+            ->get();
+        return $listPayrollType;
+    }
 
 }

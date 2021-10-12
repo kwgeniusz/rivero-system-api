@@ -14,6 +14,14 @@ class PayrollTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private $oPayrollType;
+    
+
+    public function __construct()
+    {
+        $this->oListPayrollType        = new PayRollType; 
+    }
+    
     public function index()
     {
         $countryId = session('countryId');
@@ -23,6 +31,10 @@ class PayrollTypeController extends Controller
     }
     
 
+    public function combGetPayrollType()
+    {
+        return $this->oListPayrollType->getPayrollType();
+    }
     public function combOffice($id)
     {
         return Office::where('countryId', $id)->get();
@@ -32,10 +44,10 @@ class PayrollTypeController extends Controller
     {
 
         return DB::select("SELECT company.companyId, company.companyName, company.companyShortName, company.companyNumbrer,  company.countryId,company.officeId,
-                                    company.companyAddress, country.countryId, country.countryName
-                            FROM `company` 
-                            INNER JOIN `country` ON company.countryId = country.countryId
-                            WHERE company.companyId = $id");
+                company.companyAddress, country.countryId, country.countryName
+            FROM `company` 
+            INNER JOIN `country` ON company.countryId = country.countryId
+            WHERE company.companyId = $id");
         
     }
 
@@ -47,12 +59,11 @@ class PayrollTypeController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        $countryId = session('countryId');
         $payrollType = new PayRollType();
-        $payrollType->countryId = session('countryId');
+        $payrollType->countryId = $countryId;
         $payrollType->payrollTypeName = $request->payrollTypeName;
         $payrollType->payrollTypeDescription = $request->payrollTypeDescription;
-        
         $payrollType->save();
         return $payrollType;
     }
@@ -66,13 +77,13 @@ class PayrollTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $countryId = session('countryId');
         $payrollType = PayRollType::find($id);
-        $payrollType->countryId = $request->countryId;
+        $payrollType->countryId = $countryId;
         $payrollType->payrollTypeName = $request->payrollTypeName;
         $payrollType->payrollTypeDescription = $request->payrollTypeDescription;
         $payrollType->save();
-        return $payrollType;;
+        return $payrollType;
     }
 
     /**

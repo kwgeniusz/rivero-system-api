@@ -20,7 +20,7 @@ class printPayrollController extends Controller
         $this->oDetailPayroll = new hrPrinPayroll;
         $this->oReporteByTransaction = new hrPrinPayroll();
     }
-  
+
     /**
      * Display a listing of the resource.
      *
@@ -32,12 +32,12 @@ class printPayrollController extends Controller
         return $this->oGetPayroll->getPayrollList();
     }
     
-    public function getPayrollShow($countryId, $companyId, $year, $payrollNumber, $payrollTypeId)
+    public function getPayrollShow($countryId, $companyId, $year, $payrollNumber, $payrollTypeId, $payrollCategory="payroll")
     {
 
         // obtiener informacion para los encabezados 
-        $res0 = $this->oHeaderPayroll->headerPayroll($countryId, $companyId, $year, $payrollNumber, $payrollTypeId);
- 
+        $res0 = $this->oHeaderPayroll->headerPayroll($countryId, $companyId, $year, $payrollNumber, $payrollTypeId, $payrollCategory="payroll");
+        // dd($res0);
         $print = array();
         $print[0]  = $res0[0]->payrollName;
         $print[1]  = $res0[0]->countryName;
@@ -66,6 +66,77 @@ class printPayrollController extends Controller
         return compact('print');
     }
 
+    // imprimir todas las vacaciones de un periodo
+    public function getVacationShow($year, $payrollNumber, $payrollTypeId, $payrollCategory)
+    {
+
+        // obtiener informacion para los encabezados 
+        $res0 = $this->oHeaderPayroll->headerPayrollVacation($year, $payrollNumber, $payrollTypeId, $payrollCategory);
+
+        $print = array();
+        $print[0]  = $res0[0]->payrollName;
+        $print[1]  = $res0[0]->countryName;
+        $print[2]  = $res0[0]->companyShortName;
+        $print[3]  = $res0[0]->logo;
+        $print[4]  = $res0[0]->payrollTypeName;
+        $print[5]  = $res0[0]->totalasignacion;
+        $print[6]  = $res0[0]->totaldeduccion;
+        $print[7]  = $res0[0]->companyAddress;
+        $print[8]  = $res0[0]->companyNumber;
+        $print[9]  = $res0[0]->companyId;
+        $print[10] = $res0[0]->color;
+        $print[11] = $res0[0]->totalasignacionLocal;
+        $print[12] = $res0[0]->totaldeduccionLocal;
+        $print[13] = $res0[0]->userProcess;
+
+        // Obtener los detalles de las vacaciones
+        foreach($res0 as $res1){
+            
+            $print[] = $this->oDetailPayroll->detailPayrollVacation($year, $payrollNumber, $res1->staffCode, $payrollCategory);
+                            // return  $print;
+        }                    
+        //  dd($print);
+        // return $print;
+    
+        return compact('print');
+    }
+    // imprimir las vacaciones de un empleado
+    public function getVacationEmployees($year, $payrollNumber, $payrollTypeId, $payrollCategory, $staffCode)
+    {
+
+        // obtiener informacion para los encabezados 
+        $res0 = $this->oHeaderPayroll->headerPayrollVacationStaff($year, $payrollNumber, $payrollTypeId, $payrollCategory, $staffCode);
+        if (empty($res0)) {
+            return response()->json([], 204);
+        }
+        $print = array();
+        $print[0]  = $res0[0]->payrollName;
+        $print[1]  = $res0[0]->countryName;
+        $print[2]  = $res0[0]->companyShortName;
+        $print[3]  = $res0[0]->logo;
+        $print[4]  = $res0[0]->payrollTypeName;
+        $print[5]  = $res0[0]->totalasignacion;
+        $print[6]  = $res0[0]->totaldeduccion;
+        $print[7]  = $res0[0]->companyAddress;
+        $print[8]  = $res0[0]->companyNumber;
+        $print[9]  = $res0[0]->companyId;
+        $print[10] = $res0[0]->color;
+        $print[11] = $res0[0]->totalasignacionLocal;
+        $print[12] = $res0[0]->totaldeduccionLocal;
+        $print[13] = $res0[0]->userProcess;
+        
+        // Obtener los detalles de las vacaciones
+        foreach($res0 as $res1){
+            
+            $print[] = $this->oDetailPayroll->detailPayrollVacation($year, $payrollNumber, $staffCode, $payrollCategory);
+            // return  $print;
+        }                    
+        //  dd($print);
+        // return $print;
+    
+        return compact('print');
+    }
+
     public function reportByTransactionPayrollController(Request $request)
     {
         // echo $request->payrollNumber;
@@ -73,6 +144,4 @@ class printPayrollController extends Controller
 
         return response()->json(['data' => $res0],200);
     }
-   
-   
 }

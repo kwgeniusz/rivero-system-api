@@ -324,7 +324,6 @@
             },
             changeCompany(event){
                 let cb = event.target.value
-                const payrollTypeId = document.querySelector("#payrollTypeId")
                 const companyId = document.querySelector("#companyId")
                     companyId.disabled = false
                 

@@ -21,12 +21,21 @@
                                         
                                     </select>
                                 </div>
+                                <div class="form-group col-md-4">
+                                    <label for="payrollCategory" class="form-group" >&nbsp;</label>
+                                    <select class="form-control" v-model="payrollCategory" id="payrollCategory" autocomplete="off"  required="required">
+                                        <option value="payroll">Nomia</option>
+                                        <option value="vacation">Vacaciones</option>
+                                        <option value="christmas">Navidades</option>
+                                    </select>
+                                    
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4"> 
                                     <label for="year" class="form-group" v-text="nameField5"> </label> 
 
-                                    <select v-if="editId === 0" class="form-control" v-model="year" id="year" disabled="disabled" autocomplete="off" required="required">
+                                    <select v-if="editId === 0" class="form-control" v-model="year" id="year" autocomplete="off" required="required">
                                         <option v-for=" n  in 5" :key="n" :value="n + years">{{n + years}}</option>
                                         
                                     </select>
@@ -61,12 +70,32 @@
                                     <input type="date" v-model="periodFrom" class="form-control" id="periodFrom" v-bind:placeholder="nameField6" autocomplete="off" required="required">
                                 
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="periodTo" class="form-group" v-text="nameField7"></label>
                                     <input type="date" v-model="periodTo" class="form-control" id="periodTo" v-bind:placeholder="nameField7" autocomplete="off" required="required">
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="periodTo" class="form-group" v-text="'Ingrese los dias feriados, entre las dos fechas del periodo'"></label>
+                                    
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <input type="number" v-model="holiday1" class="form-control" id="holiday1" v-bind:placeholder="'Feriado 1'" >
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <input type="number" v-model="holiday2" class="form-control" id="holiday2" v-bind:placeholder="'Feriado 2'" >
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <input type="number" v-model="holiday3" class="form-control" id="holiday3" v-bind:placeholder="'Feriado 3'" >
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <input type="number" v-model="holiday4" class="form-control" id="holiday4" v-bind:placeholder="'Feriado 4'" >
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <input type="number" v-model="holiday5" class="form-control" id="holiday5" v-bind:placeholder="'Feriado 5'" >
+                                </div>
+                                
                             </div>
                             
                             <div v-if="editId === 0">
@@ -98,27 +127,24 @@
             this.getPayrollType()
 
             if (this.editId > 0) {
-                this.selectCountry = this.objEdit.countryId
                 axios.get('periods/list/').then(res => {
-                    this.selectCompanys = res.data.companys.map(item => {
-                        return {id: item.companyId, vText: item.companyShortName}
-                    })
-                    this.companyId =  this.objEdit.companyId 
 
                     this.selectPayrollType = res.data.payrollType.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                     })
                     this.payrollTypeId = this.objEdit.payrollTypeId
                 })  
-
-
-                
-                
                 this.periodName = this.objEdit.periodName
                 this.payrollNumber = this.objEdit.payrollNumber
                 this.year = this.objEdit.year
                 this.periodFrom = this.objEdit.periodFrom
+                this.payrollCategory = this.objEdit.payrollCategory
                 this.periodTo = this.objEdit.periodTo
+                this.holiday1 = this.objEdit.holiday1
+                this.holiday2 = this.objEdit.holiday2
+                this.holiday3 = this.objEdit.holiday3
+                this.holiday4 = this.objEdit.holiday4
+                this.holiday5 = this.objEdit.holiday5
             }
             
             const year = new Date()
@@ -126,8 +152,6 @@
         },
         data(){
             return{
-                selectCountry:'',
-                companyId: '',
                 payrollTypeId: '',
                 periodName: '',
                 year: '',
@@ -135,9 +159,13 @@
                 updated: 0,
                 periodFrom: '',
                 periodTo: '',
+                payrollCategory:'payroll',
                 payrollNumber: '',
-                // selectCountrys:{},
-                // selectCompanys:{},
+                holiday1:'',
+                holiday2:'',
+                holiday3:'',
+                holiday4:'',
+                holiday5:'',
                 selectPayrollType:{},
             }
         },
@@ -195,15 +223,19 @@
                 if (this.editId === 0) {
                     
                     const params = {
-                        countryId: this.selectCountry,
-                        companyId: this.companyId,
                         payrollTypeId: this.payrollTypeId,
                         periodName: this.periodName,
                         payrollNumber: this.payrollNumber,
                         year: this.year,
                         updated: this.updated,
                         periodFrom: this.periodFrom,
+                        payrollCategory: this.payrollCategory,
                         periodTo: this.periodTo,
+                        holiday1: this.holiday1,
+                        holiday2: this.holiday2,
+                        holiday3: this.holiday3,
+                        holiday4: this.holiday4,
+                        holiday5: this.holiday5,
                         
                     }
 
@@ -228,17 +260,20 @@
                         });
                 }else{
                     const params = {    
-                        countryId: this.selectCountry,
-                        companyId: this.companyId,
                         payrollTypeId: this.payrollTypeId,
                         periodName: this.periodName,
                         payrollNumber: this.payrollNumber,
                         year: this.year,
                         updated: this.updated,
                         periodFrom: this.periodFrom,
+                        payrollCategory: this.payrollCategory,
                         periodTo: this.periodTo,
+                        holiday1: this.holiday1,
+                        holiday2: this.holiday2,
+                        holiday3: this.holiday3,
+                        holiday4: this.holiday4,
+                        holiday5: this.holiday5,
                     }
-                   
 
                     let url = `periods/put/${this.objEdit.periodId}`
                     axios.put(url,params)
@@ -261,32 +296,6 @@
                 this.$emit('showlist', 0)
                 
             },
-            changeCompany(event){
-                let cb = event.target.value
-                const payrollTypeId = document.querySelector("#payrollTypeId")
-                const companyId = document.querySelector("#companyId")
-                    companyId.disabled = false
-                
-                
-                axios.get(`companys/contrys/${cb}`).then(res => {
-                // const eeeee = res.data
-                
-                    // console.log(res)
-                    this.selectCompanys = res.data.map(item => {
-                        return {id: item.companyId, vText: item.companyName}
-                        
-                    })
-                    this.payrollNumber = document.querySelector("#payrollNumber").value = ''
-                })
-
-                axios.get(`periods/list/${cb}`).then(res => {
-
-                    this.selectPayrollType = res.data.map( item => {
-                        return {id: item.payrollTypeId, vText: item.payrollTypeName}
-                    })
-                    this.payrollNumber = document.querySelector("#payrollNumber").value = ''
-                })
-            },
             getPayrollType(){
                 axios.get(`payrolltypes/`)
                     .then(res => {
@@ -295,15 +304,6 @@
                         })
                         console.log(this.selectPayrollType)
                     })
-                // const payrollTypeId = document.querySelector("#payrollTypeId")
-                // const year = document.querySelector("#year")
-                //     payrollTypeId.disabled = false
-
-                // if (payrollTypeId.value !== "") {
-                //     year.disabled = false
-                // }
-                // this.payrollNumber = ''
-                
             },
             payrollType(){
                 
@@ -318,20 +318,9 @@
                 
             },
             getPayrollNumber(){
-
-                const selectCountry = document.querySelector("#selectCountry").value
-                const companyId = document.querySelector("#companyId").value
-                const payrollType = document.querySelector("#payrollTypeId").value
-                const year = document.querySelector("#year").value
-                this.payrollNumber = document.querySelector("#payrollNumber").value
-                
-
-                // console.log(payrollNumber)
-                
-                if (selectCountry !== "" && companyId !== "" && payrollType !== "" && year !== "") {
-                    // payrollNumber.disabled = false
-                    axios.get(`periods/payrollNumber/${selectCountry}/${companyId}/${payrollType}/${year}`).then(res => {
-                        // console.log(res)
+                if (this.payrollType !== "" && this.year !== "") {
+                    
+                    axios.get(`periods/payrollNumber/${0}/${0}/${this.payrollTypeId}/${this.year}`).then(res => {
                         if (res.data[0].payrollNumber === null || res.data[0].payrollNumber ==="") {
                             // console.log('entr0o')
                             let num = res.data[0].payrollNumber + 1
@@ -344,7 +333,7 @@
                         }
                     })
                 }else{
-                    alert('Debe seleccionar pais, compañia, tipo de nomina y año')
+                    alert('Debe seleccionar tipo de nomina y año')
                 }
             }
         },

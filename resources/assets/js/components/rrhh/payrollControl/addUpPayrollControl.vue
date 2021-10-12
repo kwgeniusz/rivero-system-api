@@ -9,47 +9,15 @@
 
                     <div class="panel-body">
                         <form  class="form" role="form" v-on:submit.prevent="newUpForm()" autocomplete="off" id="newUpForm" >
-                            
-                            <div class="row">
-                                <div class="form-group col-md-6 ">
-                                    <label for="selectCountry" class="form-group" v-text="nameField1"></label>
-                                    <select v-if="editId === 0" class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" autocomplete="off" required="required">
-                                        <option  value=""> </option>
-                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                    <select v-else class="form-control" v-model="selectCountry" id="selectCountry" @change="changeCompany($event)" disabled="disabled" autocomplete="off" required="required">
-                                        <option  value=""> </option>
-                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                </div>
-                            
-                                <div class="form-group col-md-7 ">
-                                    <label for="companyId" class="form-group" v-text="nameField2"></label>
-                                    <select  v-if="editId === 0" class="form-control" v-model="companyId" id="companyId" @change="payrollType()" disabled="disabled" autocomplete="off" required="required">
-                                        <option  value=""> </option>
-                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                    <select v-else class="form-control" v-model="companyId" id="companyId" @change="payrollType()" disabled="disabled" autocomplete="off" required="required">
-                                        <option  value=""> </option>
-                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                
-                                </div>
-                            </div>
-                            
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="payrollTypeId" class="form-group" v-text="nameField3"></label>
-                                    <select v-if="editId === 0" class="form-control" v-model="payrollTypeId" @change="payrollType()" id="payrollTypeId" autocomplete="off"  disabled="disabled" required="required">
+                                    <select v-if="editId === 0" class="form-control" v-model="payrollTypeId" id="payrollTypeId" autocomplete="off"  required="required">
                                         <option  value=""> </option>
                                         <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
-                                    <select v-else class="form-control" v-model="payrollTypeId" id="payrollTypeId" @change="payrollType()" disabled="disabled" autocomplete="off" required="required">
+                                    <select v-else class="form-control" v-model="payrollTypeId" id="payrollTypeId" disabled="disabled" autocomplete="off" required="required">
                                         <option v-for="item in selectPayrollType" :key="item.id" :value="item.id">{{item.vText}}</option>
                                         
                                     </select>
@@ -59,7 +27,7 @@
                                 <div class="form-group col-md-8 form-inline"> 
                                     <label for="year" class="form-group" v-text="nameField5"> </label> 
                                     <div class="form-inline">
-                                        <select v-if="editId === 0" class="form-control" v-model="year" id="year"  disabled="disabled" autocomplete="off" required="required">
+                                        <select v-if="editId === 0" class="form-control" v-model="year" id="year"  autocomplete="off" required="required">
                                             <option  value=""> </option>
                                             <option v-for=" n  in 5" :key="n" :value="n + years">{{n + years}}</option>
                                             
@@ -79,7 +47,6 @@
                                         <option v-for="item in selectPayrollNumber" :key="item.id" :value="item.id+'-'+item.vText">{{item.vText}}</option>
                                         
                                     </select>
-                                   
                                 </div>
                             </div>
                             <div class="row">
@@ -121,71 +88,31 @@
 <script>
     export default {
         mounted() {
-            // const numero = document.querySelector("#payrollNumber")
-            // numero.addEventListener("keyup", (event) => {
-            // // console.log(numero.value)
-            // // if (numero.value  === 0) {
-            // //     numero.value = 1
-            // // console.log('numero 1')
-            // // }
-            // numero.value = numero.value.replace(/\D/g, "")
-            //     .replace(/([0-9])$/, '$1')
-               
-            // })
-            axios.get('periods/list/').then(res => {
-                // const eeeee = res.data
-                this.selectCountrys = res.data.countrys.map(item => {
-                    return {id: item.countryId, vText: item.countryName}
-                    
-                })
-                
-                // this.selectPayrollType = res.data.payrollType.map( item => {
-                //     return {id: item.payrollTypeId, vText: item.payrollTypeName}
-                // })
-                // console.log(this.selectPayrollType)
-                // debugger
-            })
-            
-           
-
+            this.getPayrollType()
             if (this.editId > 0) {
-                this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                 axios.get('periods/list/').then(res => {
+                axios.get('periods/list/').then(res => {
                 // const eeeee = res.data
                     this.selectCompanys = res.data.companys.map(item => {
                         return {id: item.companyId, vText: item.companyShortName}
                     })
-                   this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId 
+                    this.companyId = this.objEdit.companyId 
 
                     this.selectPayrollType = res.data.payrollType.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                     })
-                   this.payrollTypeId = document.querySelector("#payrollTypeId").value = this.objEdit.payrollTypeId
+                    this.payrollTypeId = this.objEdit.payrollTypeId
                 })  
-
-            
-                
-                
-                this.periodName = document.querySelector("#periodName").value = this.objEdit.periodName
-                this.payrollNumber = document.querySelector("#payrollNumber").value = this.objEdit.payrollNumber
-                this.year = document.querySelector("#year").value = this.objEdit.year
-                this.periodFrom = document.querySelector("#periodFrom").value = this.objEdit.periodFrom
-                this.periodTo = document.querySelector("#periodTo").value = this.objEdit.periodTo
-               
+                this.periodName = this.objEdit.periodName
+                this.payrollNumber = this.objEdit.payrollNumber
+                this.year = this.objEdit.year
+                this.periodFrom = this.objEdit.periodFrom
+                this.periodTo = this.objEdit.periodTo
             }
-
-
-            
             const year = new Date()
             this.years= year.getFullYear() - 3
-           
-                // console.log(this.years)
-            console.log('Component mounted.')
         },
         data(){
             return{
-                selectCountry:'',
-                companyId: '',
                 payrollTypeId: '',
                 periodName: '',
                 year: '',
@@ -194,8 +121,6 @@
                 selectProcessCode: {},
                 payrollNumber: '',
                 thereIs: false,
-                selectCountrys:{},
-                selectCompanys:{},
                 selectPayrollType:{},
                 selectPayrollNumber:{},
             }
@@ -299,8 +224,6 @@
                         periodFrom: this.periodFrom,
                         periodTo: this.periodTo,
                     }
-                   
-
                     let url = `periods/put/${this.objEdit.periodId}`
                     axios.put(url,params)
                         .then((response) => {
@@ -322,106 +245,44 @@
                 this.$emit('showlist', 0)
                 
             },
-            changeCompany(event){
-                let cb = event.target.value
-                const payrollTypeId = document.querySelector("#payrollTypeId")
-                const companyId = document.querySelector("#companyId")
-                    companyId.disabled = false
-                
-                
-                axios.get(`companys/contrys/${cb}`).then(res => {
-                // const eeeee = res.data
-                
-                    // console.log(res)
-                    this.selectCompanys = res.data.map(item => {
-                        return {id: item.companyId, vText: item.companyName}
-                        
-                    })
-                    this.payrollNumber = document.querySelector("#payrollNumber").value = ''
-                })
-
-                axios.get(`periods/list/${cb}`).then(res => {
-
+            getPayrollType(){
+                axios.get(`payrolltypes/list`).then(res => {
+                    console.log(res)
                     this.selectPayrollType = res.data.map( item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
                     })
-                    this.payrollNumber = document.querySelector("#payrollNumber").value = ''
                 })
             },
-            payrollType(){
-                
-                const payrollTypeId = document.querySelector("#payrollTypeId")
-                const year = document.querySelector("#year")
-                const selectCountry = document.querySelector("#selectCountry").value
-                const companyId = document.querySelector("#companyId").value
-                    payrollTypeId.disabled = false
-
-                if (payrollTypeId.value !== "") {
-                    year.disabled = false
-                }
-                this.payrollNumber = document.querySelector("#payrollNumber").value = ''
-        
-                //obtener proceso
-                axios.get(`payrollcontrol/process/${selectCountry}/${companyId}`).then(res => {
-                        console.log(res.data)
-                        // return
+            getPayrollNumber(){
+                if (this.payrollTypeId !== "" && this.year !== "") {
+                    axios.get(`payrollcontrol/payrollNumber/${this.payrollTypeId}/${this.year}`).then(res => {
                         if (res.data.length > 0) {
-                            // console.log('entr0o')
-                //             processCode: '',
-                // selectProcessCode:
+                            payrollNumber.disabled = false
+                            this.selectPayrollNumber = res.data.map(item =>{
+                                return {id: item.payrollNumber, vText: item.periodName}
+                            })
+                        }else{
+                            alert('No hay registros')
+                            payrollNumber.disabled = true
+                        }
+                    })
+                    //obtener proceso
+                    axios.get(`payrollcontrol/process/${0}/${0}`).then(res => {
+                        console.log(res.data)
+                        if (res.data.length > 0) {
                             processCode.disabled = false
                             this.selectProcessCode = res.data.map(item =>{
                                 return {id: item.processCode, vText: item.processName}
                             })
                             this.thereIs = true
-                            
-                            // let num = res.data[0].payrollNumber + 1
-                           
-                            // this.payrollNumber = parseInt(num)
                         }else{
                             this.thereIs = false
                             processCode.disabled = true
-
-                        }
-                    })
-                
-            },
-            getPayrollNumber(){
-
-                const selectCountry = document.querySelector("#selectCountry").value
-                const companyId = document.querySelector("#companyId").value
-                const payrollType = document.querySelector("#payrollTypeId").value
-                const year = document.querySelector("#year").value
-                const payrollNumber = document.querySelector("#payrollNumber")
-                // this.payrollNumber = document.querySelector("#payrollNumber").value
-                
-
-                // console.log(payrollNumber)
-                
-                if (selectCountry !== "" && companyId !== "" && payrollType !== "" && year !== "") {
-                    // payrollNumber.disabled = false
-                    axios.get(`payrollcontrol/payrollNumber/${selectCountry}/${companyId}/${payrollType}/${year}`).then(res => {
-                        // console.log(res.data)
-                        // return
-                        if (res.data.length > 0) {
-                            // console.log('entr0o')
-                            payrollNumber.disabled = false
-                            this.selectPayrollNumber = res.data.map(item =>{
-                                return {id: item.payrollNumber, vText: item.periodName}
-                            })
-                            // let num = res.data[0].payrollNumber + 1
-                           
-                            // this.payrollNumber = parseInt(num)
-                        }else{
-                            alert('No hay registros')
-                            payrollNumber.disabled = true
-
                         }
                     })
                 }else{
                     alert('Debe seleccionar pais, compañia, tipo de nomina y año')
                 }
-     
             }
         },
         computed: {

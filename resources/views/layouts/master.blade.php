@@ -89,12 +89,23 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-        <strong>USUARIO: </strong>{{Auth::user()->fullName}} |
+      @if (isset(Auth::user()->fullName))
+        <strong>USUARIO: </strong>{{Auth::user()->fullName}} 
         <strong>PAIS: </strong>{{session('countryName')}} |
         <strong>COMPAÑIA: </strong>{{session('companyName')}}
+      @else
+        @php
+          header("Location: " . URL::to('/login'), true, 302);
+          exit();
+        @endphp
+      @endif
+        
     </div>
     <!-- Default to the left -->
+    @if (isset(Auth::user()->fullName))
     <strong>Copyright &copy; 2020 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
+      
+    @endif
   </footer>
 
 

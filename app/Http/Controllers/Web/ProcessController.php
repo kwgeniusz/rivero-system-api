@@ -26,17 +26,14 @@ class ProcessController extends Controller
      */
     public function index()
     {
+        $countryId = session('countryId');
+        $companyId = session('companyId');
         $process = DB::select("SELECT * FROM `hrprocess`
             INNER JOIN country ON hrprocess.countryId = country.countryId
-            INNER JOIN company ON hrprocess.companyId = company.companyId");
-            // LEFT JOIN hrprocess_detail ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId
-            // INNER JOIN hrtransaction_type ON hrprocess_detail.transactionTypeCode = hrtransaction_type.transactionTypeCode");
-
-        // $companys =  Company::orderBy('companyName', 'ASC')->get();
-        // $companys = DB::table('company')->select('companyId', 'companyName', 'companyShortName')->get();
-        // $countrys = DB::table('country')->select('countryId', 'countryName')->get();
-        // $payrollType = DB::table('payroll_type')->select('payrollTypeId', 'payrollTypeName')->get();
-        // $countrys   = $this->oCountry->getAll();
+            INNER JOIN company ON hrprocess.companyId = company.companyId
+            WHERE hrprocess.countryId = $countryId
+            AND hrprocess.companyId = $companyId");
+            
         return compact('process');
     }
     public function processDetail($id)
@@ -44,16 +41,15 @@ class ProcessController extends Controller
         $processDetail = DB::select("SELECT * FROM hrprocess
         LEFT JOIN hrprocess_detail ON hrprocess.hrprocessId = hrprocess_detail.hrprocessId
         INNER JOIN hrtransaction_type ON hrprocess_detail.transactionTypeCode = hrtransaction_type.transactionTypeCode
-             WHERE hrtransaction_type.companyId = hrprocess.companyId AND  hrprocess.hrprocessId =" . $id);
-           
+            WHERE hrtransaction_type.companyId = hrprocess.companyId AND  hrprocess.hrprocessId =" . $id);
         return compact('processDetail');
     }
     public function processTransactionType($idCompany)
     {
         $hrTType = DB::table('hrtransaction_type')->select('transactionTypeCode', 'transactionTypeName')
-                        ->where('companyId', '=', $idCompany)
-                        ->get();
-           
+            ->where('companyId', '=', $idCompany)
+            ->orderBy('transactionTypeCode')
+            ->get();
         return compact('hrTType');
     }
     
@@ -68,10 +64,13 @@ class ProcessController extends Controller
     {
         // return $request;
         $process = new Process();
-        $process->countryId = $request->countryId;
-        $process->companyId = $request->companyId;
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        $process->countryId = $countryId;
+        $process->companyId = $companyId;
         $process->processCode = $request->processCode;
         $process->processName = $request->processName;
+        $process->payrollCategory = $request->payrollCategory;
         $process->save();
         return $process;
     }
@@ -99,10 +98,9 @@ class ProcessController extends Controller
     {
         
         $process = Process::find($id);
-        $process->countryId = $request->countryId;
-        $process->companyId = $request->companyId;
         // $process->processCode = $request->processCode;
         $process->processName = $request->processName;
+        $process->payrollCategory = $request->payrollCategory;
         
         $process->save();
         return $process;
