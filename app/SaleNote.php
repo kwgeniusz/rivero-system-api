@@ -27,12 +27,14 @@ use Illuminate\Database\Eloquent\Model;
      
 //PARA EVITAR LOS NUMEROS MAGICOS
     const CREDIT = 'credit';
-      const CANCELLATION   = 1;
-      const DISCOUNT       = 2;
-      const PARTIAL_REFUND = 3;
+      const CREDIT_CANCELLATION    = 1;
+      const CREDIT_DISCOUNT        = 2;
+      const CREDIT_PARTIAL_REFUND  = 3;
     //------------------------
     const DEBIT  = 'debit';
-      const APPEND_SERVICES = 1;
+      const DEBIT_APPEND_SERVICES = 1;
+      const DEBIT_COMMISSIONS     = 2;
+
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -156,11 +158,11 @@ use Illuminate\Database\Eloquent\Model;
                   //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
        
                  
-             foreach ($invoice->sharePending as $key => $sharePending) {
-                $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$sharePending->invoiceId);   
-                            //  $sharePending->recStatusCode = Receivable::ANNULLED;                     
+                    foreach ($invoice->sharePending as $key => $sharePending) {
+                     $oPaymentInvoice->removePayment($sharePending->paymentInvoiceId,$sharePending->invoiceId);   
+                               //  $sharePending->recStatusCode = Receivable::ANNULLED;                     
                             //  $sharePending->save();
-              };
+                     };
 
 
                    }elseif($data['formConcept'] == SaleNote::DISCOUNT) {
@@ -182,7 +184,7 @@ use Illuminate\Database\Eloquent\Model;
                     //verificar si casualmente los articulos pagados hace que el saldo de la factura llege a cero.
                       $rs = 0;
                       $rs = $invoice->balanceTotal - $data['netTotal'];
-                    //verificar si casualmente los articulos pagados hace que el saldo de la factura llege a cero.
+        
                      if($rs == 0){
                        $oInvoice = new Invoice;
                        $oInvoice->changeStatus($data['invoiceId'], Invoice::PAID);
@@ -206,9 +208,8 @@ use Illuminate\Database\Eloquent\Model;
                             //  $sharePending->recStatusCode = Receivable::ANNULLED;                     
                             //  $sharePending->save();
                        };
-                 
-                   }
-                  
+                }
+//=========================DEBIT NOTE=================================  
             }elseif ($data['noteType'] == 'debit') {      
                    //NUMERACION DE LA NOTA DE DEBITO
                 $oConfiguration = new CompanyConfiguration();
@@ -219,9 +220,7 @@ use Illuminate\Database\Eloquent\Model;
                 $saleNote->salId = $salId;
                 $saleNote->save();
             
-            // dd($saleNote->salNoteId);
-            // exit();
-                   if($data['formConcept'] == SaleNote::APPEND_SERVICES){
+                   if($data['formConcept'] == SaleNote::DEBIT_APPEND_SERVICES){
                      //agregar servicio 
                              $oSaleNoteDetail = new SaleNoteDetail;
                             foreach ($data['itemList'] as $key => $item) {
@@ -234,16 +233,11 @@ use Illuminate\Database\Eloquent\Model;
                                               $item['unitCost'],
                                               $item['quantity'],
                                               $item['amount']);
-                                 }
-
-                  //las cuentas por cobrar quedan sin efecto cambiando su estado a anuladas (color gris)
-                    //  foreach ($invoice->sharePending as $key => $sharePending) {
-                    //          $sharePending->recStatusCode = Receivable::ANNULLED;                     
-                    //          $sharePending->save();
-                    //    };
-       
+                                }
+                   if($data['formConcept'] == SaleNote::COMMISSIONS){
+                          
                    }   
-
+                }
             }//end debitnote
 
         

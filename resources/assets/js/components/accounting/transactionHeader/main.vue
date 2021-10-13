@@ -18,7 +18,7 @@
 
     <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>MAESTRO ASIENTOS CONTABLES</b></h3>
+            <h3><b>ASIENTOS CONTABLES</b></h3>
 
             <button-form
                 @addf = "addFormStatus"
@@ -28,6 +28,7 @@
 
             <accounting-table-transaction-header  
                 :headerList = headerList
+                :headerYear = year
                 @editData = "editData"
                 @showlist = "showlist">
             </accounting-table-transaction-header>
@@ -41,13 +42,15 @@
     export default {
         mounted() {
             axios.get('/accounting/transaction-headers').then((response) => {
-                this.headerList = response.data
+                this.headerList = response.data.headers
+                this.year = response.data.year
                 // console.log(this.headerList)
             })
         },
         data() {
             return{
                 headerList: [],
+                year: '',
                 // parents: [],
                 formStatus: 0,
                 editId: '',
@@ -65,7 +68,8 @@
             showlist(n){
                 this.formStatus = 0
                 axios.get('/accounting/transaction-headers').then((response) => {
-                    this.headerList = response.data
+                    this.headerList = response.data.headers
+                    this.year = response.data.year
                     // console.log(this.headerList)
                 })
             

@@ -153,6 +153,7 @@
             <hr>
             <li><a href="#">Balance de Comprobacion</a></li>
             <li><a href="#">Balance General</a></li>
+            <li><a href="/reports/acc-general-ledger">Libro Mayor</a></li>
             <li><a href="#">Estado de ganancias y perdidas</a></li>
             <br>
           </ul>

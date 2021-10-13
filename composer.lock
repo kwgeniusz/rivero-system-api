@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "080f6fa94fc18d92ff189f42f54cc342",
+    "content-hash": "4e826ac02013b1321c7aee0ffc21a2fb",
     "packages": [
         {
             "name": "aferrandini/phpqrcode",
@@ -54,6 +54,44 @@
             },
             "abandoned": "endroid/qr-code",
             "time": "2013-07-08T09:39:08+00:00"
+        },
+        {
+            "name": "askedio/laravel-soft-cascade",
+            "version": "5.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Askedio/laravel-soft-cascade.git",
+                "reference": "fcbc4f279ee3100f8ee51bef05c0f6c8a17ac82f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Askedio/laravel-soft-cascade/zipball/fcbc4f279ee3100f8ee51bef05c0f6c8a17ac82f",
+                "reference": "fcbc4f279ee3100f8ee51bef05c0f6c8a17ac82f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "codacy/coverage": "dev-master",
+                "laravel/framework": "5.5.*",
+                "laravel/laravel": "5.5.*",
+                "laravel/lumen-framework": "5.5.*",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Askedio\\SoftCascade\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Soft Delete & Restore Cascader",
+            "support": {
+                "issues": "https://github.com/Askedio/laravel-soft-cascade/issues",
+                "source": "https://github.com/Askedio/laravel-soft-cascade/tree/5.5.0"
+            },
+            "time": "2017-09-06T07:59:23+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4870,64 +4908,6 @@
             "time": "2021-01-20T14:39:13+00:00"
         },
         {
-            "name": "webpatser/laravel-uuid",
-            "version": "4.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webpatser/laravel-uuid.git",
-                "reference": "df92ebbc5ea71ee9e0d6e2861178be42ef7eb330"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/df92ebbc5ea71ee9e0d6e2861178be42ef7eb330",
-                "reference": "df92ebbc5ea71ee9e0d6e2861178be42ef7eb330",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.0|^8.0"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.9.1",
-                "phpunit/phpunit": "^9.3.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Webpatser\\Uuid\\UuidServiceProvider"
-                    ],
-                    "aliases": {
-                        "Uuid": "Webpatser\\Uuid\\Uuid"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webpatser\\Uuid\\": "src/Webpatser/Uuid/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christoph Kempen",
-                    "email": "christoph@downsized.nl"
-                }
-            ],
-            "description": "Laravel package to generate and to validate a universally unique identifier (UUID) according to the RFC 4122 standard. Support for version 1, 3, 4 and 5 UUIDs are built-in.",
-            "homepage": "https://github.com/webpatser/laravel-uuid",
-            "keywords": [
-                "UUID RFC4122"
-            ],
-            "support": {
-                "issues": "https://github.com/webpatser/laravel-uuid/issues",
-                "source": "https://github.com/webpatser/laravel-uuid"
-            },
-            "time": "2021-03-09T07:19:24+00:00"
-        },
-        {
             "name": "zendframework/zend-diactoros",
             "version": "1.8.7",
             "source": {
@@ -7083,5 +7063,5 @@
         "php": ">=7.0.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

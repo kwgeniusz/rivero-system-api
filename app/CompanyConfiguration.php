@@ -247,6 +247,33 @@ class CompanyConfiguration extends Model
                  ->where('companyId', $companyId)
                 ->increment('debitNoteNumber');
     }
+//---------------------------------------------------------------------------
+   // ACCOUNTING - ENTRY NUMBER
+//---------------------------------------------------------------------------
+    public function retrieveEntryNumber($countryId, $companyId)
+    {
+        //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
+
+        $entryNumber = 0;
+        $rs             = $this->where('countryId', '=', $countryId)
+                               ->where('companyId', '=', $companyId)
+                               ->get();
+
+        if (!empty($rs)) {
+            foreach ($rs as $rs0) {
+                    $entryNumber = $rs0->accEntryNumber;
+            }
+        }
+
+        return $entryNumber;
+    }
+    //--------------------------------------------------------------------
+    public function increaseEntryNumber($countryId, $companyId)
+    {
+            $this->where('countryId', $countryId)
+                ->where('companyId', $companyId)
+                ->increment('accEntryNumber');
+    }    
 //--------------------------------------------------------------------
        //MISCELLANEOUS FUNCTIONS
 //-------------------------------------------------

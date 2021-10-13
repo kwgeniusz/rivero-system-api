@@ -1,6 +1,7 @@
 webpackJsonp([2],{
 
 /***/ 720:
+<<<<<<< HEAD
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -1018,6 +1019,11 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-36e01245", module.exports)
   }
 }
+=======
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\wamp64\\www\\rivero-system\\resources\\assets\\js\\components\\rrhh\\vacations\\Vacations.vue'");
+>>>>>>> module-adm
 
 /***/ })
 
