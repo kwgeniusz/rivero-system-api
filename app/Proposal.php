@@ -257,7 +257,7 @@ class Proposal extends Model
 
               $proposal->save();
     }
-
+  //-------------------------------------------------
     public function updateSubcontractor($proposalId, $subcontId) 
     {
 
@@ -269,12 +269,20 @@ class Proposal extends Model
 
          return $rs;
     }
-
+  //-------------------------------------------------
     public function deleteProposal($proposalId)
     {
         return $this->where('proposalId', '=', $proposalId) 
                     ->delete();
     }
+ //-------------------------------------------------
+    public function duplicateProposal($proposalId)
+    {
+         $proposal                = proposal::find($proposalId);
+         $proposal->invoiceId     = $invoiceId;
+         $proposal->save();
+    }
+  //-------------------------------------------------
    public function assignInvoiceId($proposalId,$invoiceId)
     {
          $proposal                = proposal::find($proposalId);

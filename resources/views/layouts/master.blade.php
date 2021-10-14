@@ -110,6 +110,7 @@ desired effect
 
   //Tooltip Boostrap 3.3
   $(function () { $('[data-toggle="tooltip"]').tooltip()});
+
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {
@@ -128,6 +129,15 @@ desired effect
       dateFormat: "Y-m-d",
     });
   @endif
+
+  $('.table-responsive').on('show.bs.dropdown', function () {
+  $('.table-responsive').css( "overflow", "inherit" );
+});
+
+$('.table-responsive').on('hide.bs.dropdown', function () {
+  $('.table-responsive').css( "overflow", "auto" );
+})
+
 
  // muestra notificaciones de alerta
     @if(Session::has('message'))
