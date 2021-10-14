@@ -1,19 +1,18 @@
 webpackJsonp([2],{
 
-/***/ 720:
-<<<<<<< HEAD
+/***/ 726:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(746)
+  __webpack_require__(752)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(748)
+var __vue_script__ = __webpack_require__(754)
 /* template */
-var __vue_template__ = __webpack_require__(752)
+var __vue_template__ = __webpack_require__(758)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -53,13 +52,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 746:
+/***/ 752:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(747);
+var content = __webpack_require__(753);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -80,7 +79,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 747:
+/***/ 753:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -95,12 +94,12 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 /***/ }),
 
-/***/ 748:
+/***/ 754:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LisVacation_vue__ = __webpack_require__(749);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LisVacation_vue__ = __webpack_require__(755);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LisVacation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LisVacation_vue__);
 //
 //
@@ -141,15 +140,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 749:
+/***/ 755:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(750)
+var __vue_script__ = __webpack_require__(756)
 /* template */
-var __vue_template__ = __webpack_require__(751)
+var __vue_template__ = __webpack_require__(757)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -189,7 +188,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 750:
+/***/ 756:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -877,7 +876,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 751:
+/***/ 757:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1001,7 +1000,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 752:
+/***/ 758:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1019,11 +1018,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-36e01245", module.exports)
   }
 }
-=======
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\wamp64\\www\\rivero-system\\resources\\assets\\js\\components\\rrhh\\vacations\\Vacations.vue'");
->>>>>>> module-adm
 
 /***/ })
 
