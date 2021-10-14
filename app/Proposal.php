@@ -84,7 +84,7 @@ class Proposal extends Model
     }
      public function user()
     {
-        return $this->belongsTo('App\User', 'userId', 'userId');
+        return $this->belongsTo('App\User', 'userId', 'userId')->withTrashed();
     } 
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -261,7 +261,7 @@ class Proposal extends Model
 
               $proposal->save();
     }
-
+  //-------------------------------------------------
     public function updateSubcontractor($proposalId, $subcontId) 
     {
         $proposal             = proposal::find($proposalId);
@@ -272,8 +272,26 @@ class Proposal extends Model
 
          return $rs;
     }
+<<<<<<< HEAD
 
     public function assignInvoiceId($proposalId,$invoiceId)
+=======
+  //-------------------------------------------------
+    public function deleteProposal($proposalId)
+    {
+        return $this->where('proposalId', '=', $proposalId) 
+                    ->delete();
+    }
+ //-------------------------------------------------
+    public function duplicateProposal($proposalId)
+    {
+         $proposal                = proposal::find($proposalId);
+         $proposal->invoiceId     = $invoiceId;
+         $proposal->save();
+    }
+  //-------------------------------------------------
+   public function assignInvoiceId($proposalId,$invoiceId)
+>>>>>>> module-adm
     {
          $proposal                = proposal::find($proposalId);
          $proposal->invoiceId     = $invoiceId;
