@@ -272,26 +272,8 @@ class Proposal extends Model
 
          return $rs;
     }
-<<<<<<< HEAD
 
     public function assignInvoiceId($proposalId,$invoiceId)
-=======
-  //-------------------------------------------------
-    public function deleteProposal($proposalId)
-    {
-        return $this->where('proposalId', '=', $proposalId) 
-                    ->delete();
-    }
- //-------------------------------------------------
-    public function duplicateProposal($proposalId)
-    {
-         $proposal                = proposal::find($proposalId);
-         $proposal->invoiceId     = $invoiceId;
-         $proposal->save();
-    }
-  //-------------------------------------------------
-   public function assignInvoiceId($proposalId,$invoiceId)
->>>>>>> module-adm
     {
          $proposal                = proposal::find($proposalId);
          $proposal->invoiceId     = $invoiceId;
