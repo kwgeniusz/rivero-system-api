@@ -138,7 +138,7 @@ use Illuminate\Database\Eloquent\Model;
             // dd($saleNote->salNoteId);
             // exit();
 
-                 if($data['formConcept'] == SaleNote::CANCELLATION) {
+                 if($data['formConcept'] == SaleNote::CREDIT_CANCELLATION) {
                  //si es una anulacion el netTotal de la notesale es igual al saldo de la factura. y se anula la factura
                     $oInvoice = new Invoice;
                     $oInvoice->changeStatus($data['invoiceId'], Invoice::PAID);
@@ -165,7 +165,7 @@ use Illuminate\Database\Eloquent\Model;
                      };
 
 
-                   }elseif($data['formConcept'] == SaleNote::DISCOUNT) {
+                   }elseif($data['formConcept'] == SaleNote::CREDIT_DISCOUNT) {
                 //si es un Descuento el netTotal de la notesale es el resultado de la siguiente formula
                 // $rs = invoice->balanceTotal * porcentaje;
                 
@@ -176,7 +176,7 @@ use Illuminate\Database\Eloquent\Model;
                      //   };
  
      
-                   }elseif($data['formConcept'] == SaleNote::PARTIAL_REFUND) {
+                   }elseif($data['formConcept'] == SaleNote::CREDIT_PARTIAL_REFUND) {
                 //si es una devolucion parcial.  
                 //al escoger de los items de la factura se toma el Service Id junto con el precio.
                 //esto sera un arreglo de servicios por lo tanto-> debe existir un foreach que sume el total. y luego ingresalo debajo
@@ -234,7 +234,7 @@ use Illuminate\Database\Eloquent\Model;
                                               $item['quantity'],
                                               $item['amount']);
                                 }
-                   if($data['formConcept'] == SaleNote::COMMISSIONS){
+                   if($data['formConcept'] == SaleNote::DEBIT_COMMISSIONS){
                           
                    }   
                 }
