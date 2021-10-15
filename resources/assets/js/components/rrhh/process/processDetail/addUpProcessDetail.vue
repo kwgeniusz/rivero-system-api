@@ -21,7 +21,7 @@
                                 <div class="form-group col-md-5 ">
                                     <label for="selecTrType" class="form-group" v-text="nameField2"></label>
                                     <select class="form-control" v-model="selecTrType" id="selecTrType" required="required">
-                                        <option v-for="item in selecTrTypes" :key="item.transactionTypeCode" :value="item.transactionTypeCode">{{item.transactionTypeName}}</option>
+                                        <option v-for="item in selecTrTypes" :key="item.transactionTypeCode" :value="item.transactionTypeCode">{{item.transactionTypeCode}} - {{item.transactionTypeName}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                             // console.log(response)
                             if (response.statusText == "OK") {
                                 alert("Success")
-                                document.querySelector("#newUpForm").reset()
+                                
                             } else {
                                 // console.log(response)
                                 alert("Error")

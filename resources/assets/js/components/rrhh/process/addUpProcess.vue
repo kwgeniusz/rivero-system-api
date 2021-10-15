@@ -16,32 +16,21 @@
                                     <input v-else disabled="disabled" type="text" v-model="processCode" class="form-control" id="processCode" v-bind:placeholder="nameField1" required="required">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-5 ">
-                                    <label for="selectCountry" class="form-group" v-text="nameField2"></label>
-                                    <select class="form-control" v-model="selectCountry" @change="changeCompany($event)" id="selectCountry" required="required">
-                                        <option v-for="item in selectCountrys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-5 ">
-                                    <label for="companyId" class="form-group" v-text="nameField3"></label>
-                                    <select class="form-control" v-model="companyId" id="companyId" required="required">
-                                        <option v-for="item in selectCompanys" :key="item.id" :value="item.id">{{item.vText}}</option>
-                                        
-                                    </select>
-                
-                                </div>
-                            </div>
                             
                             <div class="row">
                                 <div class="form-group col-md-7">
                                     <label for="processName" class="form-group" v-text="nameField4"></label>
                                     <input type="text" v-model="processName" class="form-control" id="processName" v-bind:placeholder="nameField4" required="required">
                                 </div>
-                                
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" v-model="payrollCategory" id="payrollCategory" autocomplete="off"  required="required">
+                                        <option  value="payroll">Nomina</option>
+                                        <option  value="vacation">Vacaciones</option>
+                                        <option  value="christmas">Navidad</option>
+                                    </select>
+                                </div>
                             </div>
                             
                             
@@ -72,54 +61,18 @@
     export default {
         mounted() {
 
-            axios.get('periods/list/').then(res => {
-                // const eeeee = res.data
-                this.selectCountrys = res.data.countrys.map(item => {
-                    return {id: item.countryId, vText: item.countryName}
-                    
-                })
-                // this.selectCompanys = res.data.companys.map(item => {
-                //     return {id: item.companyId, vText: item.companyName}
-                    
-                // })
-                // console.log(eeeee)
-                // debugger
-            })
-            
-           
-
             if (this.editId > 0) {
-                this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-
-                axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
-                // const eeeee = res.data
-                
-                    // console.log(res)
-                    this.selectCompanys = res.data.map(item => {
-                        return {id: item.companyId, vText: item.companyName}
-                        
-                    })
-                // console.log(eeeee)
-                // debugger
-                })
-
-                this.companyId = document.querySelector("#companyId").value = this.objEdit.companyId
-                this.processCode = document.querySelector("#processCode").value = this.objEdit.processCode
-                this.processName = document.querySelector("#processName").value = this.objEdit.processName
-               
+                this.processCode = this.objEdit.processCode
+                this.processName = this.objEdit.processName
+                this.payrollCategory = this.objEdit.payrollCategory
             }
-            
-            console.log('Component mounted.')
         },
         data(){
             return{
-                selectCountry:'',
-                companyId: '',
+
                 processCode: '',
                 processName: '',
-                selectCountrys:{},
-                selectCompanys:{},
-                selectPayrollType:{},
+                payrollCategory: 'payroll',
             }
         },
         props:{
@@ -139,31 +92,7 @@
                 type: String,
                 default: 'Name Defauld'
             },
-            nameField2:{
-                type: String,
-                default: 'Name Defauld'
-            },
-            nameField3:{
-                type: String,
-                default: 'Name Defauld'
-            },
             nameField4:{
-                type: String,
-                default: 'Name Defauld'
-            },
-            nameField5:{
-                type: String,
-                default: 'Name Defauld'
-            },
-            nameField6:{
-                type: String,
-                default: 'Name Defauld'
-            },
-            nameField7:{
-                type: String,
-                default: 'Name Defauld'
-            },
-            nameField8:{
                 type: String,
                 default: 'Name Defauld'
             },
@@ -176,10 +105,9 @@
                 if (this.editId === 0) {
                     
                     const params = {
-                        countryId: this.selectCountry,
-                        companyId: this.companyId,
                         processCode: this.processCode,
                         processName: this.processName,
+                        payrollCategory: this.payrollCategory,
                     }
 
                     // console.log(params)
@@ -203,11 +131,10 @@
                             console.log(error);
                         });
                 }else{
-                    const params = {    
-                        countryId: this.selectCountry,
-                        companyId: this.companyId,
+                    const params = {
                         processCode: this.processCode,
                         processName: this.processName,
+                        payrollCategory: this.payrollCategory,
                     }
                     
 
@@ -236,9 +163,7 @@
             changeCompany(event){
                 let cb = event.target.value
                 axios.get(`companys/contrys/${cb}`).then(res => {
-                // const eeeee = res.data
-                
-                    // console.log(res)
+
                 this.selectCompanys = res.data.map(item => {
                     return {id: item.companyId, vText: item.companyName}
                     

@@ -183,67 +183,106 @@ Vue.component("accounting-main-general-ledger",require("./components/accounting/
 Vue.component("accounting-table-general-ledger",require("./components/accounting/generalLedger/table.vue"));
 Vue.component("accounting-addUp-general-ledger",require("./components/accounting/generalLedger/addUp.vue"));
 
- 
+
 //###################################################
 //           Module Human Resource Components
 //###################################################
 // ---------------------> Deparment <-----------------------------//
-Vue.component("rrhh-departments",require("./components/rrhh/department/rrhhDepartments.vue"));
-Vue.component("rrhh-table-departments",require("./components/rrhh/department/rrhhTableDepartaments.vue"));
-Vue.component("add-Departements",require("./components/rrhh/department/addDepartements.vue"));
-Vue.component("add-Departements",require("./components/rrhh/department/addDepartements.vue"));
+Vue.component('rrhh-departments', function (resolve) {
+  // Esta sintaxis de requerimiento especial le indicará a Webpack que
+  // divida automáticamente su código construido en paquetes
+  // que se cargan a través de solicitudes Ajax.
+  require(['./components/rrhh/department/rrhhDepartments.vue'], resolve)
+})
+Vue.component('rrhh-table-departments', function (resolve) {
+  require(['./components/rrhh/department/rrhhTableDepartaments'], resolve)
+})
+Vue.component('add-Departements', function (resolve) {
+  require(['./components/rrhh/department/addDepartements'], resolve)
+})
+Vue.component('add-Departements', function (resolve) {
+  require(['./components/rrhh/department/addDepartements'], resolve)
+})
+
 // ---------------------> Payroll Type <---------------------------//
-Vue.component("mainpayroll-type",require("./components/rrhh/payrolltype/mainPayrollType.vue"));
-Vue.component("listpayroll-type",require("./components/rrhh/payrolltype/listPayrollType.vue"));
-Vue.component("AddUp-Payroll-Type",require("./components/rrhh/payrolltype/AddUpPayrollType.vue"));
+Vue.component('mainpayroll-type', function (resolve) {
+  require(['./components/rrhh/payrolltype/mainPayrollType'], resolve)
+})
+Vue.component('listpayroll-type', function (resolve) {
+  require(['./components/rrhh/payrolltype/listPayrollType'], resolve)
+})
+Vue.component('AddUp-Payroll-Type', function (resolve) {
+  require(['./components/rrhh/payrolltype/AddUpPayrollType'], resolve)
+})
+
 // ---------------------> Position <------------------------------//
 Vue.component("main-position",require("./components/rrhh/position/mainPosition.vue"));
 Vue.component("list-position",require("./components/rrhh/position/listPosition.vue"));
 Vue.component("add-position",require("./components/rrhh/position/addPosition.vue"));
+
 // ---------------------> Transaction Type <----------------------//
 Vue.component("main-transactions-type",require("./components/rrhh/transactionstype/mainTransactionsType.vue"));
 Vue.component("list-transaction-type",require("./components/rrhh/transactionstype/listTransactionType.vue"));
 Vue.component("addUp-transactions-type",require("./components/rrhh/transactionstype/addUpTransactionsType.vue"));
+
 // ---------------------> Periods <----------------------//
 Vue.component("main-periods",require("./components/rrhh/periods/mainPeriods.vue"));
 Vue.component("list-periods",require("./components/rrhh/periods/listPeriods.vue"));
 Vue.component("addUp-periods",require("./components/rrhh/periods/addUpPeriods.vue"));
+
 // ---------------------> Process <----------------------//
 Vue.component("main-process",require("./components/rrhh/process/mainProcess.vue"));
 Vue.component("list-process",require("./components/rrhh/process/listProcess.vue"));
 Vue.component("addUp-process",require("./components/rrhh/process/addUpProcess.vue"));
+
 // ---------------------> Process Details <----------------------//
 Vue.component("list-process-detail",require("./components/rrhh/process/processDetail/listProcessDetail.vue"));
 Vue.component("add-up-process-detail",require("./components/rrhh/process/processDetail/addUpProcessDetail.vue"));
+
 // ---------------------> Staff <----------------------//
 Vue.component("main-staff", require("./components/rrhh/staff/mainStaff.vue"));
 Vue.component("list-staff", require("./components/rrhh/staff/listStaff.vue"));
 Vue.component("add-up-staff",require("./components/rrhh/staff/addUpStaff.vue"));
+
+// ---------------------> vacation Control <----------------------//
+Vue.component('pre-vacations', function (resolve) {
+  require(['./components/rrhh/vacations/PreVacations'], resolve)
+})
+Vue.component('list-vacations', function (resolve) {
+  require(['./components/rrhh/vacations/Vacations'], resolve)
+})
+
 // ---------------------> Payroll Control <----------------------//
 Vue.component("main-payroll-control",require("./components/rrhh/payrollControl/mainPayrollControl.vue"));
 Vue.component("list-payroll-control",require("./components/rrhh/payrollControl/listPayrollControl.vue"));
 Vue.component("add-up-payroll-control",require("./components/rrhh/payrollControl/addUpPayrollControl.vue"));
+
 // --> Print Pre-payroll 
 Vue.component("main-pre-payroll",require("./components/rrhh/printPrePayroll/mainPrintPrePayroll.vue"));
 Vue.component("list-pre-payroll",require("./components/rrhh/printPrePayroll/listPrintPrePayroll.vue"));
 Vue.component("list-pre-payroll-detail",require("./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetail.vue"));
 Vue.component("list-pre-payroll-detail-staff",require("./components/rrhh/printPrePayroll/listPrePayrollDetail/listPrePayrollDetailStaff.vue"));
+
 // --> Print Payroll
 Vue.component("main-payroll",require("./components/rrhh/print-payroll/mainPrintPayroll.vue"));
 Vue.component("list-payroll",require("./components/rrhh/print-payroll/listPrintPayroll.vue"));
+
 // permanent Transaction
 Vue.component("main-permanent-trans",require("./components/rrhh/permanetTransaction/mainPermanetTrac.vue"));
 Vue.component("list-permanent-trans",require("./components/rrhh/permanetTransaction/listPermanentTrac.vue"));
 Vue.component("addUp-permanent-trans",require("./components/rrhh/permanetTransaction/addUpPertmanetTrac.vue"));
+
 // uptade payroll
 Vue.component("main-update-payroll",require("./components/rrhh/update-payroll/mainUpdatePayroll.vue"));
 Vue.component("list-payroll-history",require("./components/rrhh/update-payroll/listPayrollHistory.vue"));
 Vue.component("add-up-payroll-history",require("./components/rrhh/update-payroll/addUpPayrollHistory.vue"));
+
 // paycheck
 Vue.component("main-paycheck",require("./components/rrhh/paycheck/mainPaycheck.vue"));
 Vue.component("list-paycheck",require("./components/rrhh/paycheck/listPaycheck.vue"));
 Vue.component("add-up-paycheck",require("./components/rrhh/paycheck/addUpPaycheck.vue"));
 Vue.component("list-recipt-detail",require("./components/rrhh/paycheck/paycheckDetail/listReciptDetail.vue"));
+
 
 
 //###################################################

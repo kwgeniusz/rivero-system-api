@@ -21,6 +21,7 @@ Route::get('payrolltype/', function () {
 })->name('payroll_type.index');
 
 Route::get('payrolltypes/', 'Web\PayrollTypeController@index');
+Route::get('payrolltypes/list', 'Web\PayrollTypeController@combGetPayrollType');
 Route::post('payrolltypes/post', 'Web\PayrollTypeController@store');
 Route::put('payrolltypes/put/{id}', 'Web\PayrollTypeController@update');
 Route::delete('payrolltypes/delete/{id}', 'Web\PayrollTypeController@destroy');
@@ -47,13 +48,16 @@ Route::delete('transactionstypes/delete/{id}', 'Web\HrTransactionTypeController@
 Route::get('periods/', function () {
     return view('rrhh.periods.index');
 })->name('periods.index'); 
-Route::get('periods/list/', 'Web\PeriodsController@index');
-// Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
+Route::get('periods/list', 'Web\PeriodsController@index');
+Route::get('periods/listall/{date}', 'Web\PeriodsController@getPeriodos');
+Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
 Route::get('periods/list/{year}/{month}', 'Web\PeriodsController@generatePeriods');
 Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PeriodsController@getPayrollNumber');
 Route::post('periods/post', 'Web\PeriodsController@store');
 Route::put('periods/put/{id}', 'Web\PeriodsController@update');
 Route::delete('periods/delete/{id}', 'Web\PeriodsController@destroy');
+Route::get('get-payroll-number-vacation/{dateFrom}/{dateTo}', 'Web\PeriodsController@getPeriodVacation');
+
 
 // Process
 Route::get('process/', function () {
@@ -88,12 +92,35 @@ Route::get('payrollcontrol/', function () {
     return view('rrhh.payrollcontrol.index');
 })->name('payrollcontrol.index'); 
 Route::get('payrollcontrol/list/', 'Web\PayrollControlController@index');
-Route::get('payrollcontrol/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PayrollControlController@getPayrollNumber');
+Route::get('payrollcontrol/payrollNumber/{payrollType}/{year}', 'Web\PayrollControlController@getPayrollNumber');
+Route::get('payrollcontrol/payrollNumber/vacation/{payrollType}/{year}', 'Web\PayrollControlController@getPayrollNumberVacation');
 Route::get('payrollcontrol/process/{country}/{company}', 'Web\PayrollControlController@getPorcess');
 Route::get('payrollcontrol/list/{id}', 'Web\PayrollControlController@processPrePayroll');
 Route::post('payrollcontrol', 'Web\PayrollControlController@store');
 // Route::put('periods/put/{id}', 'Web\PeriodsController@update');
 Route::delete('payrollcontrol/{id}', 'Web\PayrollControlController@destroy');
+
+//Vacations
+Route::get('pre-vacations/', function () {
+    return view('rrhh.pre-vacations.index');
+})->name('pre-vacations.index');
+Route::get('pre-vacations/list', 'Web\PayrollVacationController@index'); 
+Route::get('pre-vacations/{id}', 'Web\PayrollVacationController@processPreVacation'); 
+Route::get('pre-vacations/print/{year}/{payrollNumber}/{payrollTypeId}', 'Web\PayrollVacationController@getListVacation'); 
+Route::post('pre-vacations/', 'Web\PayrollVacationController@store');
+Route::delete('pre-vacations/{id}', 'Web\PayrollVacationController@destroy');
+Route::get('vacations/list', 'Web\VacationHistoryController@index'); 
+Route::get('vacations/print/{year}/{payrollNumber}/{payrollTypeId}/{vacation}', 'Web\printPayrollController@getVacationShow'); 
+// Vacation by employee
+Route::get('vacations-employees/print/{year}/{payrollNumber}/{payrollTypeId}/{vacation}/{staff}', 'Web\printPayrollController@getVacationEmployees'); 
+
+// Route::get('vacations/', function () {
+//     return view('rrhh.vacations.index');
+// })->name('vacations.index');
+// Route::get('vacations/list', 'Web\VacationHistoryController@index'); 
+// upgrade vacation
+Route::get('vacations/upgrade/{year}/{payrollNumber}/{payrollTypeId}', 'Web\VacationHistoryController@processVacationHistory');
+
 
 // imprimir pre-nomina
 Route::get('print-pre-payroll/', function () {
@@ -108,6 +135,7 @@ Route::get('print-payroll/', function () {
 })->name('print-payroll.index'); 
 Route::get('print-payroll/list/', 'Web\printPayrollController@index');
 Route::get('print-payroll/show/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}', 'Web\printPayrollController@getPayrollShow');
+Route::get('print-payroll/show/{countryId}/{companyId}/{year}/{payrollNumber}/{payrollTypeId}/{payrollCategory?}', 'Web\printPayrollController@getVacationShow');
 
 
 // permanent transaction
