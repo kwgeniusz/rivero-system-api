@@ -96,6 +96,12 @@
           <label for="secondaryEmail"><i class="fas fa-at"></i> CORREO SECUNDARIO</label>
           <input type="email" class="form-control" id="secondaryEmail" v-model="client.secondayEmail"  placeholder="CORREO DE CONTACTO">
         </div>
+
+      <div class="form-group col-lg-12">
+               <label for="clientLanguages"><i class="fas fa-language"></i> IDIOMAS DEL CLIENTE</label>
+                <input type="text" class="form-control" v-model="client.clientLanguages" name="clientLanguages" placeholder="">
+              </div>
+
        <div class="form-group col-lg-12 ">
               <label for="contactTypeId">¿COMO NOS CONTACTO?</label>
                    <select class="form-control" v-model="client.contactTypeId" id="contactTypeId">
@@ -159,6 +165,7 @@
                     this.client.fax           = this.data.fax;
                     this.client.mainEmail     = this.data.mainEmail;
                     this.client.secondaryEmail = this.data.secondaryEmail;
+                    this.client.clientLanguages = this.data.clientLanguages;
                     this.client.contactTypeId = this.data.contactTypeId;
                 });       
             } 
@@ -183,6 +190,7 @@
                      fax: '',
                      mainEmail: '',
                      secondaryEmail: '',
+                     clientLanguages: '',
                      contactTypeId: '',
                 },
 
