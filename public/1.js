@@ -6,6 +6,7 @@ webpackJsonp([1],{
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
+<<<<<<< HEAD
   __webpack_require__(739)
 }
 var normalizeComponent = __webpack_require__(1)
@@ -13,6 +14,15 @@ var normalizeComponent = __webpack_require__(1)
 var __vue_script__ = __webpack_require__(741)
 /* template */
 var __vue_template__ = __webpack_require__(751)
+=======
+  __webpack_require__(720)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(722)
+/* template */
+var __vue_template__ = __webpack_require__(732)
+>>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52,13 +62,21 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 739:
+=======
+/***/ 720:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
+<<<<<<< HEAD
 var content = __webpack_require__(740);
+=======
+var content = __webpack_require__(721);
+>>>>>>> module-rrhh
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -79,7 +97,11 @@ if(false) {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 740:
+=======
+/***/ 721:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -94,16 +116,28 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 741:
+=======
+/***/ 722:
+>>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LisPreVacation_vue__ = __webpack_require__(742);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LisPreVacation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LisPreVacation_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddPreVacation_vue__ = __webpack_require__(745);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddPreVacation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AddPreVacation_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ListVacation_vue__ = __webpack_require__(748);
+=======
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LisPreVacation_vue__ = __webpack_require__(723);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LisPreVacation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LisPreVacation_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddPreVacation_vue__ = __webpack_require__(726);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddPreVacation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AddPreVacation_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ListVacation_vue__ = __webpack_require__(729);
+>>>>>>> module-rrhh
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ListVacation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ListVacation_vue__);
 //
 //
@@ -155,15 +189,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 742:
+=======
+/***/ 723:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(743)
 /* template */
 var __vue_template__ = __webpack_require__(744)
+=======
+var __vue_script__ = __webpack_require__(724)
+/* template */
+var __vue_template__ = __webpack_require__(725)
+>>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -203,7 +247,11 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 743:
+=======
+/***/ 724:
+>>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -913,7 +961,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 744:
+=======
+/***/ 725:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1201,15 +1253,25 @@ if (false) {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 745:
+=======
+/***/ 726:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(746)
 /* template */
 var __vue_template__ = __webpack_require__(747)
+=======
+var __vue_script__ = __webpack_require__(727)
+/* template */
+var __vue_template__ = __webpack_require__(728)
+>>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1249,7 +1311,11 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 746:
+=======
+/***/ 727:
+>>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1439,7 +1505,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 747:
+=======
+/***/ 728:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1792,15 +1862,25 @@ if (false) {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 748:
+=======
+/***/ 729:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(749)
 /* template */
 var __vue_template__ = __webpack_require__(750)
+=======
+var __vue_script__ = __webpack_require__(730)
+/* template */
+var __vue_template__ = __webpack_require__(731)
+>>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1840,7 +1920,11 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 749:
+=======
+/***/ 730:
+>>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2027,7 +2111,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var URL2 = 'get-payroll-number-vacation/' + this.fromDate + '/' + this.toDate;
 
             axios.get(URL2).then(function (res) {
-                console.log(res);
+                // console.log(res)
                 // return
                 if (res.status === 204) {
                     alert('sin contenido para este periodo');
@@ -2162,26 +2246,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                         // determino la cantidad de paginas en el documento
                         var numPage = 1;
-                        var cont = 155;
-                        for (var i = 0; i < objPrePayrollDetail.length; i++) {
-                            var element = objPrePayrollDetail;
-                            // condiciono que comienze a leer los datos a partir de la posicion 11 del array
-                            if (i > 13) {
-                                var name = true;
-                                element[i].forEach(function (element2) {
-                                    // doc.text( 'text test11', 220, cont ); //######### only test
-                                    cont += 15; //18 es el tamaño aproximado de separacion entre lineas de palabras
-                                    if (cont > 720) {
-                                        //720 es el tamaño establecido de contenido dento de la hoja letter
-                                        numPage = numPage + 1;
-                                        // doc.addPage(); //######### only test
-                                        cont = 155; // 155 es el espacion definido para la cabecera
-                                    }
-                                    // doc.text( 'text test2', 220, cont ); //######### only test
-                                });
-                                cont += 20;
-                            }
-                        }
+                        // let cont = 155
+                        // for (let i = 0; i < objPrePayrollDetail.length; i++) {
+                        // const element = objPrePayrollDetail;
+                        // // condiciono que comienze a leer los datos a partir de la posicion 11 del array
+                        //     if (i > 13) {
+                        //         let name = true
+                        //         element[i].forEach(element2 => { 
+                        //             // doc.text( 'text test11', 220, cont ); //######### only test
+                        //             cont += 15 //18 es el tamaño aproximado de separacion entre lineas de palabras
+                        //             if (cont > 720) { //720 es el tamaño establecido de contenido dento de la hoja letter
+                        //                 numPage = numPage + 1
+                        //                 // doc.addPage(); //######### only test
+                        //                 cont = 155 // 155 es el espacion definido para la cabecera
+                        //             }
+                        //             // doc.text( 'text test2', 220, cont ); //######### only test
+
+                        //         });
+                        //         cont += 20
+                        //     }
+                        // }
 
                         // doc.text( 'izquierda?.', eje X, eje Y );
                         //  console.log(colorPri1,colorPri2,colorPri3)
@@ -2238,7 +2322,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         // pie de pagina
                         doc.setFontSize(7.5);
                         doc.text('Pagina:', 515, 760);
-                        doc.text('1/' + numPage, 545, 760);
+                        doc.text('1/1', 545, 760);
+                        // doc.text( `1/${numPage}`, 545, 760 );
                         doc.setFontType("italic");
                         doc.text('Designed By Rivero Visual Group', 250, 775);
                         doc.setFontType("normal");
@@ -2253,7 +2338,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         doc.text('Generado Por:', 435, 70);
                         doc.text('Pagina:', 435, 60);
                         doc.setFontType("normal");
-                        doc.text('1/' + numPage, 465, 60);
+                        doc.text('1/1', 465, 60);
+                        // doc.text( `1/${numPage}`, 465, 60 );
                         doc.text(userProcess, 489, 70);
                         doc.text(dataTime, 462, 80);
                         doc.text(period, 468, 90);
@@ -2302,18 +2388,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                             // return num
                         }
 
-                        for (var _i = 0; _i < objPrePayrollDetail.length; _i++) {
-                            var _element = objPrePayrollDetail;
+                        for (var i = 0; i < objPrePayrollDetail.length; i++) {
+                            var element = objPrePayrollDetail;
                             //  console.log( element[i]) 
                             //  console.log('numero de pagina3: ' + numPage) 
 
                             // condiciono que comienze a leer los datos a partir de la posicion 11 del array
-                            if (_i > 13) {
+                            if (i > 13) {
                                 (function () {
 
                                     var name = true;
 
-                                    _element[_i].forEach(function (element2) {
+                                    element[i].forEach(function (element2) {
                                         // console.log('Numero pagina2: ' + numPage)
                                         // indica si imprime linea amarilla
                                         if (nRectangulo % 2 == 0) {
@@ -2495,11 +2581,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                                     var asignacion = void 0;
                                     var deduccion = void 0;
                                     if (selecCurrency1 === false) {
-                                        asignacion = _element[_i][0].asignacionLocal;
-                                        deduccion = _element[_i][0].deduccionLocal;
+                                        asignacion = element[i][0].asignacionLocal;
+                                        deduccion = element[i][0].deduccionLocal;
                                     } else {
-                                        asignacion = _element[_i][0].asignacion;
-                                        deduccion = _element[_i][0].deduccion;
+                                        asignacion = element[i][0].asignacion;
+                                        deduccion = element[i][0].deduccion;
                                     }
 
                                     if (asignacion === null) {
@@ -2870,18 +2956,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         // return num
                     }
 
-                    for (var _i2 = 0; _i2 < objPrePayrollDetail.length; _i2++) {
-                        var _element2 = objPrePayrollDetail;
+                    for (var _i = 0; _i < objPrePayrollDetail.length; _i++) {
+                        var _element = objPrePayrollDetail;
                         //  console.log( element[i]) 
                         //  console.log('numero de pagina3: ' + numPage) 
 
                         // condiciono que comienze a leer los datos a partir de la posicion 11 del array
-                        if (_i2 > 13) {
+                        if (_i > 13) {
                             (function () {
 
                                 var name = true;
 
-                                _element2[_i2].forEach(function (element2) {
+                                _element[_i].forEach(function (element2) {
                                     // console.log('Numero pagina2: ' + numPage)
                                     // indica si imprime linea amarilla
                                     if (nRectangulo % 2 == 0) {
@@ -3063,11 +3149,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                                 var asignacion = void 0;
                                 var deduccion = void 0;
                                 if (selecCurrency1 === false) {
-                                    asignacion = _element2[_i2][0].asignacionLocal;
-                                    deduccion = _element2[_i2][0].deduccionLocal;
+                                    asignacion = _element[_i][0].asignacionLocal;
+                                    deduccion = _element[_i][0].deduccionLocal;
                                 } else {
-                                    asignacion = _element2[_i2][0].asignacion;
-                                    deduccion = _element2[_i2][0].deduccion;
+                                    asignacion = _element[_i][0].asignacion;
+                                    deduccion = _element[_i][0].deduccion;
                                 }
 
                                 if (asignacion === null) {
@@ -3131,7 +3217,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 750:
+=======
+/***/ 731:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -3573,7 +3663,11 @@ if (false) {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 751:
+=======
+/***/ 732:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

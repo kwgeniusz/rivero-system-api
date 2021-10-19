@@ -6,9 +6,15 @@ webpackJsonp([0],{
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(731)
 /* template */
 var __vue_template__ = __webpack_require__(732)
+=======
+var __vue_script__ = __webpack_require__(712)
+/* template */
+var __vue_template__ = __webpack_require__(713)
+>>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -48,7 +54,11 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 731:
+=======
+/***/ 712:
+>>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -227,7 +237,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 732:
+=======
+/***/ 713:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

@@ -1,14 +1,24 @@
 webpackJsonp([6],{
 
+<<<<<<< HEAD
 /***/ 721:
+=======
+/***/ 702:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(729)
 /* template */
 var __vue_template__ = __webpack_require__(730)
+=======
+var __vue_script__ = __webpack_require__(708)
+/* template */
+var __vue_template__ = __webpack_require__(709)
+>>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -25,7 +35,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/rrhh/department/rrhhTableDepartaments.vue"
+Component.options.__file = "resources/assets/js/components/rrhh/department/rrhhDepartments.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -34,9 +44,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-31137201", Component.options)
+    hotAPI.createRecord("data-v-626e472c", Component.options)
   } else {
-    hotAPI.reload("data-v-31137201", Component.options)
+    hotAPI.reload("data-v-626e472c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -48,7 +58,11 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 729:
+=======
+/***/ 708:
+>>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -100,68 +114,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
+        var _this = this;
 
-        console.log('Component mounted.');
-    },
-
-    props: {
-        companys: {},
-        parents: {}
+        axios.get('departments').then(function (response) {
+            _this.objCompanys = response.data;
+            // console.log(this.objCompanys)
+        });
     },
     data: function data() {
         return {
-            editMode: -1,
-            num: 1,
-            parent: ''
+            objCompanys: [],
+            parents: [],
+            formStatus: 0,
+            editId: '',
+            nameField1: 'EMPRESA',
+            nameField2: 'DEPARTAMENTO',
+            nameField3: 'DEPARTAMENTO PADRE'
         };
     },
 
     methods: {
-        deleteDepartment: function deleteDepartment(index, id) {
-            var _this = this;
-
-            // console.log('index 1: ' + index)
-            if (confirm("Delete?")) {
-                axios.delete('departments/' + id).then(function () {
-                    _this.$emit('delete', index);
-                });
-            }
+        addFormStatus: function addFormStatus() {
+            this.formStatus = 1;
         },
-        editDataDepartment: function editDataDepartment(index, id) {
-            // console.log('index: '+index + ' id: '+ id)
-            this.$emit('editData', id);
+        addPepartment: function addPepartment(department) {
+            // console.log(department)
+            // this.objCompanys.push(department)
         },
-        editDepartment: function editDepartment(index) {
-            // console.log(id)
-            this.editMode = index;
-            // this.$emit('delete',index)
+        delDepartment: function delDepartment(index) {
+            // console.log(index)
+            this.objCompanys.splice(index, 1);
         },
-        updateDepartment: function updateDepartment(index, company) {
+        upDepartment: function upDepartment(company) {
+            // console.log(company)
+            // this.objCompanys[company[0]] = company[1]
+        },
+        carga: function carga() {
+            XMLHttpRequest.onprogress = function (event) {
+                event.loaded;
+                event.total;
+            };
+        },
+        editData: function editData(id) {
+            // console.log('el id es: ' + id)
+            this.editId = id;
+            this.formStatus = 2;
+        },
+        showlist: function showlist(n) {
             var _this2 = this;
 
-            // console.log(company) companyId departmentId departmentName parentDepartmentId
-            var params = {
-
-                departmentName: company.departmentName
-            };
-            var url = '/departments/' + company.departmentId;
-
-            axios.put(url, params).then(function (response) {
-                // console.log(response)
-                _this2.editMode = -1;
-                // console.log(response)
-                var company = response.data;
-                _this2.$emit('update', [index, company]);
-            }).catch(function (error) {
-                console.log(error);
+            this.formStatus = 0;
+            axios.get('departments').then(function (response) {
+                _this2.objCompanys = response.data;
+                // console.log(this.objCompanys)
             });
         }
     }
@@ -169,148 +177,79 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 730:
+=======
+/***/ 709:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-10 col-md-offset-1" }, [
-    _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "table-responsive text-center" }, [
-        _c(
-          "table",
-          { staticClass: "table table-striped table-bordered text-center" },
+  return _c("div", { staticClass: "container" }, [
+    _vm.formStatus === 1
+      ? _c(
+          "div",
+          [
+            _c("add-Departements", {
+              attrs: {
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                editId: 0
+              },
+              on: { new: _vm.addPepartment, showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 2
+      ? _c(
+          "div",
+          [
+            _c("add-Departements", {
+              attrs: {
+                nameField1: _vm.nameField1,
+                nameField2: _vm.nameField2,
+                nameField3: _vm.nameField3,
+                editId: _vm.editId
+              },
+              on: { new: _vm.addPepartment, showlist: _vm.showlist }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.formStatus === 0
+      ? _c(
+          "div",
           [
             _vm._m(0),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.companys, function(company, index) {
-                return _c("tr", { key: company.departmentId }, [
-                  _c("td", [_vm._v(_vm._s(index + 1))]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "form-inline" }, [
-                    _c("p", { staticClass: "text-left" }, [
-                      _vm._v(
-                        " \n                                " +
-                          _vm._s(company.companyName) +
-                          "\n                            "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "form-inline" }, [
-                    _c("p", { staticClass: "text-left" }, [
-                      _vm.editMode === index
-                        ? _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-sm btn-success",
-                              on: {
-                                click: function($event) {
-                                  return _vm.updateDepartment(index, company)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "glyphicon glyphicon-ok" })]
-                          )
-                        : _vm._e(),
-                      _vm._v("  \n                                "),
-                      _vm.editMode === index
-                        ? _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: company.departmentName,
-                                expression: "company.departmentName"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text" },
-                            domProps: { value: company.departmentName },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  company,
-                                  "departmentName",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        : _c(
-                            "a",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.editDepartment(index)
-                                }
-                              }
-                            },
-                            [_vm._v(_vm._s(company.departmentName))]
-                          )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("p", { staticClass: "text-left" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(company.dpParentName) +
-                          "\n                            "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        attrs: { title: "Editar" },
-                        on: {
-                          click: function($event) {
-                            return _vm.editDataDepartment(
-                              index,
-                              company.departmentId
-                            )
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-edit" })]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-danger",
-                        attrs: { title: "Eliminar" },
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteDepartment(
-                              index,
-                              company.departmentId
-                            )
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-times-circle" })]
-                    )
-                  ])
-                ])
-              }),
-              0
-            )
-          ]
+            _c("button-form", {
+              attrs: { buttonType: 0, btn4: 0 },
+              on: { addf: _vm.addFormStatus }
+            }),
+            _vm._v(" "),
+            _c("rrhh-table-departments", {
+              attrs: { companys: _vm.objCompanys, parents: _vm.parents },
+              on: {
+                update: function($event) {
+                  return _vm.upDepartment.apply(void 0, arguments)
+                },
+                editData: _vm.editData,
+                delete: _vm.delDepartment
+              }
+            })
+          ],
+          1
         )
-      ])
-    ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -318,19 +257,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("N.")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Empresa")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Departamento")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Departamento Padre")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Acciones")])
-      ])
-    ])
+    return _c("h3", [_c("b", [_vm._v("DEPARTAMENTOS")])])
   }
 ]
 render._withStripped = true
@@ -338,7 +265,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-31137201", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-626e472c", module.exports)
   }
 }
 

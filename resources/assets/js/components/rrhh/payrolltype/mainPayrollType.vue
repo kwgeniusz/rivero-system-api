@@ -26,7 +26,7 @@
                 :nameField3 = nameField3
                 @showlist = "showlist"
                 @newObj = "newObj"
-               
+            
             >
             </AddUp-Payroll-Type>
 
@@ -54,10 +54,10 @@
         mounted() {
             axios.get('payrolltypes/').then( response => {
                 this.objPayRollType = response.data
-                // console.log(this.objPayRollType)
+                console.log(this.objPayRollType)
             })
 
-           
+        
             console.log('Component mounted.')
         },
         data(){

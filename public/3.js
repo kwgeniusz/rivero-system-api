@@ -1,14 +1,24 @@
 webpackJsonp([3],{
 
+<<<<<<< HEAD
 /***/ 722:
+=======
+/***/ 705:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(733)
 /* template */
 var __vue_template__ = __webpack_require__(734)
+=======
+var __vue_script__ = __webpack_require__(716)
+/* template */
+var __vue_template__ = __webpack_require__(717)
+>>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -25,7 +35,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/rrhh/payrolltype/mainPayrollType.vue"
+Component.options.__file = "resources/assets/js/components/rrhh/payrolltype/listPayrollType.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -34,9 +44,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-53763c9e", Component.options)
+    hotAPI.createRecord("data-v-1a68cb19", Component.options)
   } else {
-    hotAPI.reload("data-v-53763c9e", Component.options)
+    hotAPI.reload("data-v-1a68cb19", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -48,7 +58,11 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 733:
+=======
+/***/ 716:
+>>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -104,133 +118,180 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
-        var _this = this;
-
-        axios.get('payrolltypes/').then(function (response) {
-            _this.objPayRollType = response.data;
-            // console.log(this.objPayRollType)
-        });
-
         console.log('Component mounted.');
     },
     data: function data() {
-        return {
-            objPayRollType: [],
-            objEdit: [],
-            formStatus: 0,
-            namePanel: "AGREGAR TIPO DE NÓMINA",
-            namePanel2: "EDITAR TIPO DE NÓMINA",
-            nameField1: "PAÍS",
-            nameField2: "NOMBRE EL TIPO DE NÓMINA",
-            nameField3: "DESCRIPCIÓN DEL TIPO DE NÓMINA"
-
-        };
+        return {};
     },
 
+    props: {
+        namePanel: {
+            type: String,
+            default: 'Listado tipo de Nomina'
+        },
+        objPayRollType: {}
+    },
     methods: {
-        addFormStatus: function addFormStatus() {
-            this.formStatus = 1;
+        editPayrollType: function editPayrollType(index, id) {
+            // paso solamente el index para pasar al formulario el objeto del indice seleccionado,
+            // de esta manera no tengo que buscar los datos en la DB nuevamente
+            this.$emit("indexEdit", index);
+            // console.log('enviado')
         },
-        showlist: function showlist() {
-            var _this2 = this;
+        deletePayrollType: function deletePayrollType(index, id) {
+            var _this = this;
 
-            this.formStatus = 0;
-            axios.get('payrolltypes/').then(function (response) {
-                _this2.objPayRollType = response.data;
-                // console.log(this.objPayRollType)
-            });
-        },
-        newObj: function newObj(payrollType) {
-            // console.log(payrollType)
-            this.objPayRollType.push(payrollType);
-        },
-        indexEdit: function indexEdit(index) {
-            this.formStatus = 2;
-            // console.log('recibido')
-            this.objEdit = this.objPayRollType[index];
-            // console.log( this.objEdit)
-        },
-        delPayrollType: function delPayrollType(indexId) {
-            this.objPayRollType.splice(indexId[0], 1);
+            // console.log(index)
+            // const indexIs = this.objPayRollType[index]
 
-            // console.log(indexId)
+            if (confirm("Delete?")) {
+                axios.delete('payrolltypes/delete/' + id).then(function () {
+
+                    _this.$emit("delPayrollType", [index, id]);
+                }).catch(function (error) {
+                    alert("Error");
+                    console.log(error);
+                });
+            }
+
+            // console.log('enviado')
         }
     }
 });
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 734:
+=======
+/***/ 717:
+>>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.formStatus === 0
-      ? _c(
-          "div",
+  return _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "table-responsive text-center" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped table-bordered text-center" },
           [
             _vm._m(0),
             _vm._v(" "),
-            _c("button-form", {
-              attrs: { buttonType: 0, btn4: 0 },
-              on: { addf: _vm.addFormStatus }
-            }),
-            _vm._v(" "),
-            _c("listpayroll-type", {
-              attrs: { objPayRollType: _vm.objPayRollType },
-              on: {
-                indexEdit: _vm.indexEdit,
-                delPayrollType: _vm.delPayrollType
-              }
-            })
-          ],
-          1
+            _vm.objPayRollType.length > 0
+              ? _c(
+                  "tbody",
+                  _vm._l(_vm.objPayRollType, function(payrollType, index) {
+                    return _c("tr", { key: payrollType.payrollTypeId }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "form-inline" }, [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollType.payrollTypeName) +
+                              " \n                            \n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollType.payrollTypeDescription) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollType.countryName) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", { staticClass: "text-left" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(payrollType.payrollCategory) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            attrs: { title: "Editar" },
+                            on: {
+                              click: function($event) {
+                                return _vm.editPayrollType(
+                                  index,
+                                  payrollType.payrollTypeId
+                                )
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-edit" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            attrs: { title: "Eliminar" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deletePayrollType(
+                                  index,
+                                  payrollType.payrollTypeId
+                                )
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-times-circle" })]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              : _c("tbody", [
+                  _c("tr", [
+                    _c("td", { attrs: { colspan: "5" } }, [_c("loading")], 1)
+                  ])
+                ])
+          ]
         )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.formStatus === 1
-      ? _c(
-          "div",
-          [
-            _c("AddUp-Payroll-Type", {
-              attrs: {
-                namePanel: _vm.namePanel,
-                nameField1: _vm.nameField1,
-                nameField2: _vm.nameField2,
-                nameField3: _vm.nameField3
-              },
-              on: { showlist: _vm.showlist, newObj: _vm.newObj }
-            })
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.formStatus === 2
-      ? _c(
-          "div",
-          [
-            _c("AddUp-Payroll-Type", {
-              attrs: {
-                namePanel2: _vm.namePanel2,
-                nameField1: _vm.nameField1,
-                nameField2: _vm.nameField2,
-                nameField3: _vm.nameField3,
-                objEdit: _vm.objEdit,
-                editId: 1
-              },
-              on: { showlist: _vm.showlist, newObj: _vm.newObj }
-            })
-          ],
-          1
-        )
-      : _vm._e()
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -238,7 +299,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h3", [_c("b", [_vm._v("TIPO DE NOMINA")])])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre del tipo de nomina")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Descripcion del tipo de nomina")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pais")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Categoria")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -246,7 +321,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-53763c9e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1a68cb19", module.exports)
   }
 }
 
