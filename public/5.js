@@ -1,14 +1,14 @@
 webpackJsonp([5],{
 
-/***/ 706:
+/***/ 703:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(719)
+var __vue_script__ = __webpack_require__(710)
 /* template */
-var __vue_template__ = __webpack_require__(720)
+var __vue_template__ = __webpack_require__(711)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -25,7 +25,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/rrhh/payrolltype/AddUpPayrollType.vue"
+Component.options.__file = "resources/assets/js/components/rrhh/department/rrhhTableDepartaments.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -34,9 +34,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3ae92ffb", Component.options)
+    hotAPI.createRecord("data-v-31137201", Component.options)
   } else {
-    hotAPI.reload("data-v-3ae92ffb", Component.options)
+    hotAPI.reload("data-v-31137201", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -48,7 +48,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 719:
+/***/ 710:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91,276 +91,254 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
-        if (this.editId > 0) {
-            this.payrollTypeName = this.objEdit.payrollTypeName;
-            this.payrollTypeDescription = this.objEdit.payrollTypeDescription;
-            this.payrollCategory = this.objEdit.payrollCategory;
-        }
 
         console.log('Component mounted.');
     },
+
+    props: {
+        companys: {},
+        parents: {}
+    },
     data: function data() {
         return {
-            payrollTypeName: '',
-            payrollTypeDescription: '',
-            payrollCategory: 'payroll'
+            editMode: -1,
+            num: 1,
+            parent: ''
         };
     },
 
-    props: {
-        namePanel: {
-            type: String,
-            default: 'Name Defauld'
-        },
-        namePanel2: {
-            type: String,
-            default: 'Name Defauld'
-        },
-        editId: {
-            type: Number,
-            default: 0
-        },
-        nameField1: {
-            type: String,
-            default: 'Name Defauld'
-        },
-        nameField2: {
-            type: String,
-            default: 'Name Defauld'
-        },
-        nameField3: {
-            type: String,
-            default: 'Name Defauld'
-        },
-        nameField4: {
-            type: String,
-            default: 'Usado Para calcular'
-        },
-        objEdit: {}
-
-    },
     methods: {
-        newPayrollType: function newPayrollType() {
+        deleteDepartment: function deleteDepartment(index, id) {
+            var _this = this;
 
-            if (this.editId === 0) {
-
-                var params = {
-                    payrollTypeName: this.payrollTypeName,
-                    payrollTypeDescription: this.payrollTypeDescription,
-                    payrollCategory: this.payrollCategory
-                    // document.querySelector("#form-payroll-type").reset()
-
-                };axios.post('payrolltypes/post', params).then(function (response) {
-                    if (response.statusText == "OK") {
-                        alert("Success");
-                    } else {
-                        alert("Error");
-                    }
-                }).catch(function (error) {
-                    // alert("Faile")
-                    console.log(error);
-                });
-            } else {
-                var _params = {
-                    payrollTypeName: this.payrollTypeName,
-                    payrollTypeDescription: this.payrollTypeDescription,
-                    payrollCategory: this.payrollCategory
-                    // document.querySelector("#form-payroll-type").reset()
-
-                };var url = 'payrolltypes/put/' + this.objEdit.payrollTypeId;
-                axios.put(url, _params).then(function (response) {
-                    if (response.statusText == "OK") {
-                        alert("Success");
-                    } else {
-                        alert("Error");
-                    }
-                }).catch(function (error) {
-                    // alert("Faile")
-                    console.log(error);
+            // console.log('index 1: ' + index)
+            if (confirm("Delete?")) {
+                axios.delete('departments/' + id).then(function () {
+                    _this.$emit('delete', index);
                 });
             }
         },
-        cancf: function cancf() {
-            this.$emit('showlist', 0);
-        }
-    },
-    computed: {
-        addSuccess: function addSuccess() {
-            return {
-                background: '#dff0d8'
-
-            };
+        editDataDepartment: function editDataDepartment(index, id) {
+            // console.log('index: '+index + ' id: '+ id)
+            this.$emit('editData', id);
         },
-        ediPrimary: function ediPrimary() {
-            return {
-                background: '#d9edf7'
+        editDepartment: function editDepartment(index) {
+            // console.log(id)
+            this.editMode = index;
+            // this.$emit('delete',index)
+        },
+        updateDepartment: function updateDepartment(index, company) {
+            var _this2 = this;
 
+            // console.log(company) companyId departmentId departmentName parentDepartmentId
+            var params = {
+
+                departmentName: company.departmentName
             };
-        }
+            var url = '/departments/' + company.departmentId;
 
+            axios.put(url, params).then(function (response) {
+                // console.log(response)
+                _this2.editMode = -1;
+                // console.log(response)
+                var company = response.data;
+                _this2.$emit('update', [index, company]);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 });
 
 /***/ }),
 
-/***/ 720:
+/***/ 711:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
-        _c("div", { staticClass: "panel panel-default" }, [
-          _vm.editId === 0
-            ? _c(
-                "div",
-                { staticClass: "panel-heading", style: _vm.addSuccess },
-                [
-                  _c("h4", { staticClass: "text-uppercase" }, [
-                    _vm._v(_vm._s(_vm.namePanel))
-                  ])
-                ]
-              )
-            : _c(
-                "div",
-                { staticClass: "panel-heading", style: _vm.ediPrimary },
-                [
-                  _c("h4", { staticClass: "text-uppercase" }, [
-                    _vm._v(_vm._s(_vm.namePanel2))
-                  ])
-                ]
-              ),
-          _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
+  return _c("div", { staticClass: "col-md-10 col-md-offset-1" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "table-responsive text-center" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped table-bordered text-center" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
             _c(
-              "form",
-              {
-                staticClass: "form",
-                attrs: { role: "form", id: "form-payroll-type" },
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.newPayrollType()
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "form-group col-md-8" }, [
-                  _c("label", {
-                    staticClass: "form-group",
-                    attrs: { for: "payrollTypeName" },
-                    domProps: { textContent: _vm._s(_vm.nameField2) }
-                  }),
+              "tbody",
+              _vm._l(_vm.companys, function(company, index) {
+                return _c("tr", { key: company.departmentId }, [
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.payrollTypeName,
-                        expression: "payrollTypeName"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "text",
-                      id: "payrollTypeName",
-                      placeholder: _vm.nameField2,
-                      required: "required"
-                    },
-                    domProps: { value: _vm.payrollTypeName },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.payrollTypeName = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-md-9" }, [
-                  _c("label", {
-                    staticClass: "form-group",
-                    attrs: { for: "payrollTypeDescription" },
-                    domProps: { textContent: _vm._s(_vm.nameField3) }
-                  }),
-                  _c("br"),
+                  _c("td", { staticClass: "form-inline" }, [
+                    _c("p", { staticClass: "text-left" }, [
+                      _vm._v(
+                        " \n                                " +
+                          _vm._s(company.companyName) +
+                          "\n                            "
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
+                  _c("td", { staticClass: "form-inline" }, [
+                    _c("p", { staticClass: "text-left" }, [
+                      _vm.editMode === index
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-success",
+                              on: {
+                                click: function($event) {
+                                  return _vm.updateDepartment(index, company)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "glyphicon glyphicon-ok" })]
+                          )
+                        : _vm._e(),
+                      _vm._v("  \n                                "),
+                      _vm.editMode === index
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: company.departmentName,
+                                expression: "company.departmentName"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: company.departmentName },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  company,
+                                  "departmentName",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        : _c(
+                            "a",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.editDepartment(index)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(company.departmentName))]
+                          )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("p", { staticClass: "text-left" }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(company.dpParentName) +
+                          "\n                            "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.payrollTypeDescription,
-                        expression: "payrollTypeDescription"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      rows: "1",
-                      id: "payrollTypeDescription",
-                      required: "required"
-                    },
-                    domProps: { value: _vm.payrollTypeDescription },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                        staticClass: "btn btn-sm btn-primary",
+                        attrs: { title: "Editar" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editDataDepartment(
+                              index,
+                              company.departmentId
+                            )
+                          }
                         }
-                        _vm.payrollTypeDescription = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _vm.editId === 0
-                  ? _c(
-                      "div",
-                      [
-                        _c("button-form", {
-                          attrs: { buttonType: 1 },
-                          on: { cancf: _vm.cancf }
-                        })
-                      ],
-                      1
+                      },
+                      [_c("i", { staticClass: "fa fa-edit" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger",
+                        attrs: { title: "Eliminar" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteDepartment(
+                              index,
+                              company.departmentId
+                            )
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-times-circle" })]
                     )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.editId > 0
-                  ? _c(
-                      "div",
-                      [
-                        _c("button-form", {
-                          attrs: { buttonType: 2 },
-                          on: { cancf: _vm.cancf }
-                        })
-                      ],
-                      1
-                    )
-                  : _vm._e()
-              ]
+                  ])
+                ])
+              }),
+              0
             )
-          ])
-        ])
+          ]
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("N.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Empresa")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Departamento")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Departamento Padre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3ae92ffb", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-31137201", module.exports)
   }
 }
 

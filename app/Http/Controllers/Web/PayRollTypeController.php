@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\web;
 
 use App\PayRollType;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Office;
 
 class PayrollTypeController extends Controller
 {

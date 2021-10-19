@@ -19,7 +19,7 @@ Route::get('department/', function () {
 Route::get('payrolltype/', function () {
     return view('rrhh.payroll_type.index');
 })->name('payroll_type.index');
-
+// 
 Route::get('payrolltypes/', 'Web\PayrollTypeController@index');
 Route::get('payrolltypes/list', 'Web\PayrollTypeController@combGetPayrollType');
 Route::post('payrolltypes/post', 'Web\PayrollTypeController@store');

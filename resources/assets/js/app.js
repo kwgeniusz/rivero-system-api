@@ -244,9 +244,9 @@ Vue.component("add-up-staff",require("./components/rrhh/staff/addUpStaff.vue"));
 Vue.component('pre-vacations', function (resolve) {
   require(['./components/rrhh/vacations/PreVacations'], resolve)
 })
-Vue.component('list-vacations', function (resolve) {
-  require(['./components/rrhh/vacations/Vacations'], resolve)
-})
+// Vue.component('list-vacations', function (resolve) {
+//   require(['./components/rrhh/vacations/Vacations'], resolve)
+// })
 
 // ---------------------> Payroll Control <----------------------//
 Vue.component("main-payroll-control",require("./components/rrhh/payrollControl/mainPayrollControl.vue"));
