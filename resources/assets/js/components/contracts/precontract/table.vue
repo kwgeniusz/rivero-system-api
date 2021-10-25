@@ -3,9 +3,9 @@
 <!-- {{this.mutaTransaction[0]}} -->
   <div class="col-xs-12">
     <div class="col-xs-4">
-        Subcontratistas: ${{totals.subcontractors}} <br>
+        <!-- Subcontratistas: ${{totals.subcontractors}} <br>
         Manuales: ${{totals.manuales}} <br>
-        Total: ${{totals.netTotal}} <br>
+        Total: ${{totals.netTotal}} <br> -->
     </div>   
 
     <div class="col-xs-4">
@@ -17,7 +17,7 @@
     </div>
     
    <div class="col-xs-4">
-
+<!-- 
     <div class="btn-group"> 
         <div class="dropdown">
           <button  class="btn btn-info btn-sm dropdown-toggle" id="drop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -38,28 +38,19 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="drop2">
             <li><a href="#" @click="printPDF()"> PDF</a></li>
-            <!-- <li><a href="#"> EXCEL</a></li> -->
           </ul>
       </div>  
        <div v-else>
          <loading/><br>
            DESCARGANDO...
       </div>
-     </div>  
+     </div>   -->
 
     </div>
 
  </div>
 
    <modal-advanced-search v-if="showModal" sign="-" @close="showModal = false" @filteredTransactions="changeTransactions"/>
-   
-    <div class="col-xs-12 text-center" v-if="datesToShow.date1">
-      <h2> Desde: {{datesToShow.date1| moment("MM/DD/YYYY")}} - Hasta:{{datesToShow.date2 | moment("MM/DD/YYYY")}} </h2>
-   </div> 
-   <div class="col-xs-12 text-center" v-if="datesToShow.year">
-      <h2> Año: {{datesToShow.year}}</h2>
-   </div> 
-
 
        <div class="col-xs-12">
                 <div class="panel panel-default">
@@ -72,7 +63,6 @@
                                  <th>COD. CLIENTE</th>
                                  <th>CLIENTE</th>   
                                  <th>DIRECCION  / NOMBRE DEL PROYECTO</th>
-                                 <!-- <th>BUILDING CODE</th> -->
                                  <th>DESCRIPCION</th>
                                  <th>USO</th>
                                  <th>TIPO</th>
@@ -190,9 +180,7 @@
         },
       data(){
             return{
-                companyId: window.globalCompanyId,
                 inputSearch: '',
-                raizUrl: window.location.protocol+'//'+window.location.host+'/storage/',
                 opened: [],
                 
                 showModal: false,

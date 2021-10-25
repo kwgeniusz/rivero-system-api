@@ -72,7 +72,7 @@
                 </td>
                 <td>
                   <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step=".00" class="form-control" v-model="item.amount">
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
                 </td>
                 <td v-if="!displayMode"> 
                   <!-- <a @click="addRow()" class="btn btn-sm btn-success">

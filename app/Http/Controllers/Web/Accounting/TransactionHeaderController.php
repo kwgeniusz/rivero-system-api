@@ -6,6 +6,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Models\Accounting\TransactionHeader;
 use App\Models\Accounting\GeneralLedger;
+use App\CompanyConfiguration;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,7 @@ class TransactionHeaderController extends Controller
         $this->middleware('auth');
         $this->oHeader        = new TransactionHeader;
         $this->oGeneralLedger        = new GeneralLedger;
+        $this->oCompanyConfiguration        = new CompanyConfiguration;
     }
     /**
      * Display a listing of the resource.
@@ -27,9 +29,12 @@ class TransactionHeaderController extends Controller
      */
     public function index(Request $request)
     {
-
-      $dateNow = Carbon::now(session('companyTimeZone'));
-      $year    = $dateNow->format('Y');
+        $companyConfig = $this->oCompanyConfiguration->findByCompany(session('companyId'));
+        $year = $companyConfig[0]->accYear;
+        
+        //AGREGAR LA FECHA QUE VIENE DE LA CONFIGURACION DE CONTABILIDAD.
+    //   $dateNow = Carbon::now(session('companyTimeZone'));
+    //   $year    = '2020';
 
     //    $transactions   = $this->oTransaction->getAllByYear($sign,$year);
        $headers        = $this->oHeader->getAllByYear($year);
@@ -155,7 +160,16 @@ class TransactionHeaderController extends Controller
         $notification = array('message'    => $rs['message'],'alert-type' => $rs['alert-type']);
         
         return $notification;
-       }//end function
+     }//end function
+
+    public function validateHeader(Request $request) {
+
+        $rs = $this->oHeader->updateValidation($request->id,1);
+    
+        $notification = array('message'=> $rs['message'],'alert-type' => $rs['alert-type']);
+        
+        return $notification;
+    }//end function
 
        public function searchBetweenDates(Request $request)
        {

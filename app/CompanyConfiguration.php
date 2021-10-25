@@ -31,6 +31,16 @@ class CompanyConfiguration extends Model
     {
         return $this->belongTo('App\Company', 'companyId', 'companyId');
     }
+
+//--------------------------------------------------------------------
+    /** Functions */
+//--------------------------------------------------------------------
+    public function findByCompany($companyId)
+    {
+        return $this->where('companyId', '=', $companyId)
+                    ->get();
+    }
+   
 //--------------------------------------------------------------------
          //CLIENT NUMBER 
 //-------------------------------------------------------------------

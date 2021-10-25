@@ -223,6 +223,10 @@ class TransactionHeader extends Model
 
         $header                          = TransactionHeader::find($header->headerId);
 
+        $entryDate = $header->entryDate;
+        $year  = substr($entryDate,0,4);
+        $month = substr($entryDate,5,2);
+
         foreach ($header->transaction as $transaction) {
           $transactionId            = $transaction->transactionId;
           $companyId                = $transaction->companyId;
@@ -230,12 +234,6 @@ class TransactionHeader extends Model
           $generalLedgerId          = $transaction->generalLedgerId;
           $debit                    = $transaction->debit;
           $credit                   = $transaction->credit;
-          $transactionDate          = $transaction->transactionDate;
-          
-        //   $year  = getYear($transactionDate);
-        //   $month = getMonth($transactionDate);
-          $year = 2021;
-          $month = 1;
            
         // Ejecutar funcion de actualizacion en el libro mayor - general_ledger
         $oGeneralLedger = new GeneralLedger;
@@ -264,5 +262,36 @@ class TransactionHeader extends Model
         return $result = ['alert-type' => 'error', 'message' => $error];
      }
 
-  } 
+  } //end of function updateBalance
+// ------------------------------------------------------------------------------
+  public function updateValidation($headerId,$validationValue)
+  {
+        $error = null;
+
+   DB::beginTransaction();
+    try {
+
+      $transaction                          = TransactionHeader::find($headerId);
+      $transaction->validation              = $validationValue;
+      $transaction->save();
+      
+          $success = true;
+          DB::commit();
+      } catch (\Exception $e) {
+
+          $success = false;
+          $error   = $e->getMessage();
+          DB::rollback();
+      }
+
+      if ($success) {
+        return $rs  = ['alert-type' => 'success', 'message' => "Encabezado Validado Exitosamente"];
+      } else {
+          return $rs = ['alert-type' => 'error', 'message' => $error];
+      }
+  }
+
+
+
+
 }//end of the class

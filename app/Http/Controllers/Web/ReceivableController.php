@@ -28,8 +28,8 @@ class ReceivableController extends Controller
                       $receivable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
              });
              
-             dd($receivables);
-             exit();
+            //  dd($receivables);
+            //  exit();
             if($request->ajax()) {
                  return $receivables;
             }

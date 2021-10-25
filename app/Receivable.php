@@ -182,10 +182,12 @@ class Receivable extends Model
 
         return $result;
     } 
+    
+ 	
     //metodo usado en modulo administrativo para mostrar clientes y la suma de cuotas deudoras de todas sus facturas,countryId
     public function clientsPending($companyId)
     { //buscar todos los clientes donde el estado No sea exitoso (4) y agrupalos para contar sus cuotas
-        return $this->select('clientId', DB::raw('count(*) as cuotas'))
+        return $this->select('clientId','amountDue'	,'amountPaid','percent','amountPercentaje','balance','datePaid', DB::raw('count(*) as cuotas'))
             ->with('client')
             ->where('recStatusCode', '!=', Receivable::SUCCESS) 
             ->where('recStatusCode', '!=', Receivable::ANNULLED) 

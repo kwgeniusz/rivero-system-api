@@ -1,24 +1,14 @@
 webpackJsonp([6],{
 
-<<<<<<< HEAD
-/***/ 721:
-=======
-/***/ 702:
->>>>>>> module-rrhh
+/***/ 720:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-<<<<<<< HEAD
-var __vue_script__ = __webpack_require__(729)
+var __vue_script__ = __webpack_require__(726)
 /* template */
-var __vue_template__ = __webpack_require__(730)
-=======
-var __vue_script__ = __webpack_require__(708)
-/* template */
-var __vue_template__ = __webpack_require__(709)
->>>>>>> module-rrhh
+var __vue_template__ = __webpack_require__(727)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -58,11 +48,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ 729:
-=======
-/***/ 708:
->>>>>>> module-rrhh
+/***/ 726:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -177,11 +163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ 730:
-=======
-/***/ 709:
->>>>>>> module-rrhh
+/***/ 727:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

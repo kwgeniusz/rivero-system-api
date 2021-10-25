@@ -95,13 +95,13 @@
                                 <td class="text-left"> {{header.entryNumber}}</td>
                                 <td class="text-left"> {{header.entryDate | moment("MM/DD/YYYY ")}}</td>  
                                 <td class="text-left"> {{header.entryDescription}}</td>
-                                <td class="text-left"> - {{header.totalDebit}}</td>
-                                <td class="text-left"> + {{header.totalCredit}}</td>
+                                <td class="text-left"> {{header.totalDebit}}</td>
+                                <td class="text-left"> {{header.totalCredit}}</td>
                                 <td class="text-left">{{header.entryUpdated}}</td>
                                 <td > 
                                  <!-- <button @click="toggle(header.headerId)" :class="{ opened: opened.includes(header.headerId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>   -->
-                                 <!-- <button class="btn btn-sm btn-warning" title="Validar"><i class="fa fa-clipboard-check"></i></button>  -->
-                                  <!-- | -->
+                                 <button v-if="header.validation == 0" @click="validateHeader(index,header.headerId)" class="btn btn-sm btn-info" title="Validar"><i class="fa fa-clipboard-check"></i></button> 
+                                  |
                                  <button  @click="editData(index,header.headerId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                  <button v-if="header.entryUpdated == 0" @click="deleteData(index,header.headerId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
               
@@ -153,7 +153,7 @@
         },
         props: {
             headerList:   {  type: [Array], default: null},
-            headerYear:   {  type: [String], default: null},
+            headerYear:   {  type: [Number], default: null},
             // headerCodes:  {  type: [Array], default: null},
         },  
       watch:{
@@ -201,6 +201,20 @@
                     })
                 // }    
             },   
+          validateHeader(index, id){
+               if (confirm("Desea Validar este Encabezado con sus Asientos?") ){
+                axios.get(`/accounting/transacciones-encabezado/${id}/validar`).then((res)=>{
+                    toastr.success(response.data.message);
+
+
+                    this.$emit('showlist', 0)
+                })
+                .catch(function (error) {
+                    alert("Error")
+                    console.log(error);
+                });
+            } //end of confirmation
+          },
           changeHeaders(data,searched){
                this.mutaHeaderlist = data;
                this.datesToShow =  searched;
