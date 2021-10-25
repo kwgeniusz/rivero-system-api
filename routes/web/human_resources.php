@@ -86,6 +86,10 @@ Route::get('staff/list/positions', 'Web\HrStaffController@comboPositions');
 Route::post('staff/post', 'Web\HrStaffController@store');
 Route::put('staff/put/{id}', 'Web\HrStaffController@update');
 Route::delete('staff/delete/{id}', 'Web\HrStaffController@destroy');
+// staff peticion micro services
+Route::get('staff/list/services', 'Web\HrStaffController@index');
+
+
 
 // payroll Controll
 Route::get('payrollcontrol/', function () {
