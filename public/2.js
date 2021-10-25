@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 webpackJsonp([2],{
 
 /***/ 722:
@@ -253,3 +254,6 @@ if (false) {
 /***/ })
 
 });
+=======
+webpackJsonp([2],{697:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={mounted:function(){var e=this;axios.get("payrolltypes/").then(function(t){e.objPayRollType=t.data,console.log(e.objPayRollType)}),console.log("Component mounted.")},data:function(){return{objPayRollType:[],objEdit:[],formStatus:0,namePanel:"AGREGAR TIPO DE NÓMINA",namePanel2:"EDITAR TIPO DE NÓMINA",nameField1:"PAÍS",nameField2:"NOMBRE EL TIPO DE NÓMINA",nameField3:"DESCRIPCIÓN DEL TIPO DE NÓMINA"}},methods:{addFormStatus:function(){this.formStatus=1},showlist:function(){var e=this;this.formStatus=0,axios.get("payrolltypes/").then(function(t){e.objPayRollType=t.data})},newObj:function(e){this.objPayRollType.push(e)},indexEdit:function(e){this.formStatus=2,this.objEdit=this.objPayRollType[e]},delPayrollType:function(e){this.objPayRollType.splice(e[0],1)}}}},698:function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",[0===e.formStatus?n("div",[e._m(0),e._v(" "),n("button-form",{attrs:{buttonType:0,btn4:0},on:{addf:e.addFormStatus}}),e._v(" "),n("listpayroll-type",{attrs:{objPayRollType:e.objPayRollType},on:{indexEdit:e.indexEdit,delPayrollType:e.delPayrollType}})],1):e._e(),e._v(" "),1===e.formStatus?n("div",[n("AddUp-Payroll-Type",{attrs:{namePanel:e.namePanel,nameField1:e.nameField1,nameField2:e.nameField2,nameField3:e.nameField3},on:{showlist:e.showlist,newObj:e.newObj}})],1):e._e(),e._v(" "),2===e.formStatus?n("div",[n("AddUp-Payroll-Type",{attrs:{namePanel2:e.namePanel2,nameField1:e.nameField1,nameField2:e.nameField2,nameField3:e.nameField3,objEdit:e.objEdit,editId:1},on:{showlist:e.showlist,newObj:e.newObj}})],1):e._e()])},staticRenderFns:[function(){var e=this.$createElement,t=this._self._c||e;return t("h3",[t("b",[this._v("TIPO DE NOMINA")])])}]}},719:function(e,t,n){var o=n(1)(n(697),n(698),!1,null,null,null);e.exports=o.exports}});
+>>>>>>> module-rrhh

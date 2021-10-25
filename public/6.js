@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 webpackJsonp([6],{
 
 /***/ 720:
@@ -254,3 +255,6 @@ if (false) {
 /***/ })
 
 });
+=======
+webpackJsonp([6],{691:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={mounted:function(){var t=this;axios.get("departments").then(function(e){t.objCompanys=e.data})},data:function(){return{objCompanys:[],parents:[],formStatus:0,editId:"",nameField1:"EMPRESA",nameField2:"DEPARTAMENTO",nameField3:"DEPARTAMENTO PADRE"}},methods:{addFormStatus:function(){this.formStatus=1},addPepartment:function(t){},delDepartment:function(t){this.objCompanys.splice(t,1)},upDepartment:function(t){},carga:function(){XMLHttpRequest.onprogress=function(t){t.loaded,t.total}},editData:function(t){this.editId=t,this.formStatus=2},showlist:function(t){var e=this;this.formStatus=0,axios.get("departments").then(function(t){e.objCompanys=t.data})}}}},692:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"container"},[1===t.formStatus?n("div",[n("add-Departements",{attrs:{nameField1:t.nameField1,nameField2:t.nameField2,nameField3:t.nameField3,editId:0},on:{new:t.addPepartment,showlist:t.showlist}})],1):t._e(),t._v(" "),2===t.formStatus?n("div",[n("add-Departements",{attrs:{nameField1:t.nameField1,nameField2:t.nameField2,nameField3:t.nameField3,editId:t.editId},on:{new:t.addPepartment,showlist:t.showlist}})],1):t._e(),t._v(" "),0===t.formStatus?n("div",[t._m(0),t._v(" "),n("button-form",{attrs:{buttonType:0,btn4:0},on:{addf:t.addFormStatus}}),t._v(" "),n("rrhh-table-departments",{attrs:{companys:t.objCompanys,parents:t.parents},on:{update:function(e){return t.upDepartment.apply(void 0,arguments)},editData:t.editData,delete:t.delDepartment}})],1):t._e()])},staticRenderFns:[function(){var t=this.$createElement,e=this._self._c||t;return e("h3",[e("b",[this._v("DEPARTAMENTOS")])])}]}},716:function(t,e,n){var a=n(1)(n(691),n(692),!1,null,null,null);t.exports=a.exports}});
+>>>>>>> module-rrhh
