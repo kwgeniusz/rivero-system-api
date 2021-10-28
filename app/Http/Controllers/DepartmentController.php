@@ -115,4 +115,22 @@ class DepartmentController extends Controller
         $department->delete();
         // return "entro";
     }
+
+    // obtener todos los departamentos, mediante api externa
+    public function apiDeparmentAll($companyId){
+        $departments = DB::select("SELECT `departmentId`,`departmentName`, departmentParentId, departmentParentName, department.companyId, companyName 
+        FROM `department` 
+            LEFT JOIN `company` ON department.companyId = company.companyId
+            LEFT JOIN ( SELECT departmentName as departmentParentName, departmentId as departmentParentId FROM department) dpName 
+                On department.parentDepartmentId = dpName.departmentParentId  
+            WHERE department.companyId = $companyId
+            ORDER BY department.departmentId ASC");
+        return response()->json(['departments' => $departments, 'message' => 'success'], 200);
+    }
+
+    public function apiByDeparment($companyId, $departmentId){
+        $department = RrhhDepartment::where('companyId', $companyId)
+        ->where('departmentId', $departmentId)->get();
+        return response()->json(['department' => $department, 'message' => 'success'], 200);
+    }
 }

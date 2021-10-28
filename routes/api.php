@@ -43,6 +43,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     ##### FIn Para reporte por transacciones en nomina #########
 });
 
+// api de consulta externa deparmet
+Route::get('deparments/{companyId}', 'DepartmentController@apiDeparmentAll');
+Route::get('deparments/{companyId}/{deparment}', 'DepartmentController@apiByDeparment');
+
+
+// api de consulta externa staff
+Route::get('staff-all/{companyId}', 'Web\HrStaffController@apiStaffAll');
+Route::get('staff-all/{companyId}/{staffCode}', 'Web\HrStaffController@apiByStaff');
+
+
 // Prestamos
 Route::get('hr-history-loans/{staff}', 'Web\HrLoansController@getHistoryLoans');
 Route::get('net-salary/{staff}/{countryId}/{companyId}', 'Web\functionsRrhhController@netSalary');
