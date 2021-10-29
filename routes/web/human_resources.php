@@ -51,7 +51,7 @@ Route::get('periods/', function () {
 Route::get('periods/list', 'Web\PeriodsController@index');
 Route::get('periods/listall/{date}', 'Web\PeriodsController@getPeriodos');
 Route::get('periods/list/{id}', 'Web\PeriodsController@getPayrollType');
-Route::get('periods/list/{year}/{month}', 'Web\PeriodsController@generatePeriods');
+Route::get('periods/list/{year}/{month}/{cant}/{countryId}/{companyId}/{payrollTypeId}/{payrollNumber}', 'Web\PeriodsController@generatePeriods');
 Route::get('periods/payrollNumber/{country}/{company}/{payrollType}/{year}', 'Web\PeriodsController@getPayrollNumber');
 Route::post('periods/post', 'Web\PeriodsController@store');
 Route::put('periods/put/{id}', 'Web\PeriodsController@update');

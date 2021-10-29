@@ -175,15 +175,15 @@ class PeriodsController extends Controller
 
      // script usado para generar los periodos automaticos.. 
     // actatualmente solo se usa bajo desarrollo para pruebas masivas
-    function generatePeriods($year,$month){
+    function generatePeriods($year,$month, $cant, $countryId, $companyId, $payrollTypeId, $payrollNumber){
         // echo $year.$month;
         $year;
         $month;
         
-        $countryId = 2;
-        $companyId = 5;
-        $payrollTypeId = 4;
-        $payrollNumber = 1;
+        // $countryId = 2;
+        // $companyId = 5;
+        // $payrollTypeId = 4;
+        // $payrollNumber = 1;
         $periodName ='';
         $periodFrom = '';
         $periodTo ='';
@@ -192,8 +192,8 @@ class PeriodsController extends Controller
         $monthName = array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
 
         // echo $monthName[date('n')-1];
-        
-        for ($i=1; $i <= 12; $i++) { 
+        // $cant representa la cantidad de meses a ejecutar. eje 1 a 12 mese
+        for ($i=1; $i <= $cant; $i++) { 
             
             // para primera quincena
             $yearMonth    = "{$year}-{$month}";
