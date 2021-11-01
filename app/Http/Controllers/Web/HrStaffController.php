@@ -12,7 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class HrStaffController extends Controller
 {
-    
+    private $oPosition;
+
+    public function __construct()
+    {
+        $this->oPosition = new HrPosition; 
+        
+    }
     /**
      * Display a listing of the resource.
      *
@@ -195,5 +201,31 @@ class HrStaffController extends Controller
         $staff->delete();
 
     
+    }
+
+    // obtener todos los departamentos, mediante api externa
+    public function apiStaffAll($companyId){
+        $staff = DB::table('hrstaff')
+            ->join('hrposition', 'hrstaff.positionCode', '=', 'hrposition.positionCode')
+            ->join('department', 'hrstaff.departmentId', '=', 'department.departmentId')
+            ->where('hrstaff.companyId', $companyId)
+            ->select('hrstaff.companyId', 'hrstaff.staffCode', 'hrstaff.firstName', 'hrstaff.lastName', 'hrstaff.shortName',
+                'hrstaff.idDocument', 'hrposition.positionName','department.departmentName','department.departmentId')
+            ->get();
+        
+        return response()->json(['staff' => $staff, 'message' => 'success'], 200);
+    }
+
+    public function apiByStaff($companyId, $staffCode){
+        // return $staffCode;
+        $staff = DB::table('hrstaff')
+            ->join('hrposition', 'hrstaff.positionCode', '=', 'hrposition.positionCode')
+            ->join('department', 'hrstaff.departmentId', '=', 'department.departmentId')
+            ->where('hrstaff.companyId', $companyId)
+            ->where('hrstaff.staffCode', $staffCode)
+            ->select('hrstaff.companyId', 'hrstaff.staffCode', 'hrstaff.firstName', 'hrstaff.lastName', 'hrstaff.shortName',
+                'hrstaff.idDocument', 'hrposition.positionName','department.departmentName','department.departmentId')
+            ->get();
+        return response()->json(['department' => $staff, 'message' => 'success'], 200);
     }
 }

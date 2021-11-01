@@ -13,5 +13,4 @@ class RrhhDepartment extends Model
     protected $primaryKey = 'departmentId';
 
     protected $fillable = ['departmentId','companyId', 'departmentName', 'parentDepartmentId'];
- 
 }

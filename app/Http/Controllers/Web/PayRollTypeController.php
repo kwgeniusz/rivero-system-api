@@ -28,7 +28,7 @@ class PayrollTypeController extends Controller
         $countryId = session('countryId');
         return DB::select("SELECT * FROM payroll_type
                     INNER JOIN country ON payroll_type.countryId = country.countryId
-                    WHERE payroll_type.countryId = 2");
+                    WHERE payroll_type.countryId = $countryId");
     }
     
 
