@@ -2,6 +2,7 @@
   <div >
 
     <div class="col-xs-4">
+         <accounting-close-year/>
     </div>   
 
     <div class="col-xs-4">

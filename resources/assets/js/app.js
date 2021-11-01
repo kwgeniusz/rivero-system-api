@@ -183,6 +183,7 @@ Vue.component("accounting-main-general-ledger",require("./components/accounting/
 Vue.component("accounting-table-general-ledger",require("./components/accounting/generalLedger/table.vue"));
 Vue.component("accounting-addUp-general-ledger",require("./components/accounting/generalLedger/addUp.vue"));
 
+Vue.component("accounting-close-year",require("./components/accounting/ModalCloseYear.vue"));
 
 //###################################################
 //           Module Human Resource Components

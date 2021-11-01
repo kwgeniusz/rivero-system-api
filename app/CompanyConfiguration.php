@@ -262,7 +262,7 @@ class CompanyConfiguration extends Model
 //---------------------------------------------------------------------------
     public function retrieveEntryNumber($countryId, $companyId)
     {
-        //    return   ($this->where('lastUserId', '=', $userId)->get())->toArray();
+// return ($this->where('lastUserId', '=', $userId)->get())->toArray();
 
         $entryNumber = 0;
         $rs             = $this->where('countryId', '=', $countryId)
@@ -274,15 +274,22 @@ class CompanyConfiguration extends Model
                     $entryNumber = $rs0->accEntryNumber;
             }
         }
-
+        
         return $entryNumber;
     }
-    //--------------------------------------------------------------------
+//--------------------------------------------------------------------
     public function increaseEntryNumber($countryId, $companyId)
     {
             $this->where('countryId', $countryId)
                 ->where('companyId', $companyId)
                 ->increment('accEntryNumber');
+    }    
+//--------------------------------------------------------------------
+    public function increaseAccYear($countryId, $companyId)
+    {
+            $this->where('countryId', $countryId)
+                 ->where('companyId', $companyId)
+                 ->increment('accYear');
     }    
 //--------------------------------------------------------------------
        //MISCELLANEOUS FUNCTIONS
@@ -304,10 +311,11 @@ class CompanyConfiguration extends Model
  
         return $rs[0]->codePrefixClient;
     }
+    //----------------------------------------------------------------------
+ 
     //-------------------------------------------------
     public function findInvoiceTaxPercent($countryId,$companyId)
     {
-
         $invoiceTaxPercent = 0;
         $rs             = $this->where('countryId', $countryId)
                                ->where('companyId', $companyId)

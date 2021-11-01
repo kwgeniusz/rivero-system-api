@@ -6,6 +6,8 @@ use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\CompanyConfiguration;
+use App\Models\Accounting\GeneralLedgerBalance;
 
 class GeneralLedgerBalance extends Model
 {
@@ -79,13 +81,84 @@ class GeneralLedgerBalance extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+ function getByYear($accYear){
+       return $this->where('year', '=', $accYear)
+                   ->get();
+}
+// =========================================================================  
+ function closeYear(){
+    
+   $error = null;
 
+DB::beginTransaction();
+ try {
 
+   $oCompanyConfig    = new CompanyConfiguration;
+   $config            = $oCompanyConfig->findByCompany(session('companyId'));
+   $accYear           = $config[0]->accYear;
+   $accNewYear        = $accYear + 1;
+   
+   $oGeneralLedgerBalance    = new GeneralLedgerBalance;
+   $lastYearData = $oGeneralLedgerBalance->getByYear($accYear);
+   
+   foreach($lastYearData as $lastYear){
+       $initialDebitTotal  = 0; $initialCreditTotal = 0;
 
+       $initialDebitTotal  = $lastYear->debit01 + 
+                             $lastYear->debit02 + 
+                             $lastYear->debit03 + 
+                             $lastYear->debit04 +
+                             $lastYear->debit05 +
+                             $lastYear->debit06 +
+                             $lastYear->debit07 +
+                             $lastYear->debit08 + 
+                             $lastYear->debit09 + 
+                             $lastYear->debit10 + 
+                             $lastYear->debit11 + 
+                             $lastYear->debit12;
+
+      $initialCreditTotal  = $lastYear->credit01 + 
+                             $lastYear->credit02 + 
+                             $lastYear->credit03 + 
+                             $lastYear->credit04 +
+                             $lastYear->credit05 +
+                             $lastYear->credit06 +
+                             $lastYear->credit07 +
+                             $lastYear->credit08 + 
+                             $lastYear->credit09 + 
+                             $lastYear->credit10 + 
+                             $lastYear->credit11 + 
+                             $lastYear->credit12;
+
+       $generalLedgerBalance                     =  new GeneralLedgerBalance;
+       $generalLedgerBalance->generalLedgerId    =  $lastYear->generalLedgerId;
+       $generalLedgerBalance->year	              =  $accNewYear;
+       $generalLedgerBalance->currencyId         =  $lastYear->currencyId;
+       $generalLedgerBalance->initialDebit       =  $initialDebitTotal;
+       $generalLedgerBalance->initialCredit      =  $initialCreditTotal;
+       $generalLedgerBalance->save();
+   }
+    //incrementar a#o contable.
+    $oCompanyConfig->increaseAccYear(session('countryId'),session('companyId'));
+
+       $success = true;
+       DB::commit();
+   } catch (\Exception $e) {
+       $success = false;
+       $error   = $e->getMessage();
+       DB::rollback();
+   }
+
+   if ($success) {
+      return $rs  = ['alert-type' => 'success', 'message' => "Se ha Cerrado el Año contable con exito."];
+   } else {
+       return $rs = ['alert-type' => 'error', 'message' => $error];
+   }
+}
+// ==================================================================================
 function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
 {
   // obtener $saldos actuales
-           
     DB::beginTransaction();
     try {   
         $query = $this->where('generalLedgerId', '=', $generalLedgerId)
@@ -217,4 +290,5 @@ function updateBalance($generalLedgerId,$year,$month,$debit,$credit)
 
  }//end function
 
+  
 }//end of the class
