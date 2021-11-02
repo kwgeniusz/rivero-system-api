@@ -52,7 +52,7 @@ class CompanyController extends \App\Http\Controllers\Controller{
         if ($companyId == 0) {           // leer todos las compañais
          $rs = $oCompany->getAllByCountry($countryId);
         } else {                         // leer un compania
-         $rs = $oCompany->findById($companyId);
+         $rs = $oCompany->findByCompany($countryId,$companyId);
         }
 
 

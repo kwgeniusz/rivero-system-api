@@ -83,7 +83,7 @@ Route::group(['prefix' => 'v1'], function() {
 // ----------------------------------------------------------------------------------------
 Route::group(['prefix' => 'v1'], function() {
 	Route::group(['prefix' => '/company'], function() {
-		Route::post('/{companyId}','Api\Company\CompanyController@getCompany');
+		Route::post('/{countryId}/{companyId}','Api\Company\CompanyController@getCompany');
 		Route::post('/', 'Api\Company\CompanyController@getCompany');
 	});
 });

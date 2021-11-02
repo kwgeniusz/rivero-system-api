@@ -27,10 +27,19 @@ class Company extends Model
     {
         return $this->where('companyId', '=', $companyId)->get();
     }
+
+    // Obtener todos los registro
+    public function findByCompany($countryId,$companyId)
+    {
+        return $this->where('countryId', '=', $countryId)
+                    ->where('companyId', '=', $companyId)   
+                    ->get();
+    }
+
     // Obtener todos los registro
     public function getAllByCountry($countryId)
     {
-        return $this->where('country','=',$countryId)
+        return $this->where('countryId','=',$countryId)
                     ->orderBy('companyId', 'ASC')
                     ->get();
     }
