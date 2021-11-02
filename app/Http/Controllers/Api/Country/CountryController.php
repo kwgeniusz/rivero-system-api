@@ -9,11 +9,11 @@ namespace App\Http\Controllers\Api\Country;
 
 use Illuminate\Http\Request;
 use App\Controllers;
-use App\Models\Country;
+use App\Country;
 
 use Illuminate\Support\Facades\Config;
 
-class CountryController extends \App\Http\Controllers\Controller{
+class CountryController extends \App\Http\Controllers\Controller {
 
 
     /*------------------------------------------------------------------
@@ -29,7 +29,8 @@ class CountryController extends \App\Http\Controllers\Controller{
     public function getCountry(Request $request) {
 
         //--default values  -----------------------
-        $countryId     = 0;
+        $countryId     = 0; 
+        $oCountry      =  new Country();
 
         //-- parameters   -------------------------
         if($request->has('countryId')){ 
