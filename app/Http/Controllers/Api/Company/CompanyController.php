@@ -9,7 +9,7 @@ namespace App\Http\Controllers\Api\Company;
 
 use Illuminate\Http\Request;
 use App\Controllers;
-use App\Models\Company;   // revisar
+use App\Company;   // revisar
 
 use Illuminate\Support\Facades\Config;
 
@@ -31,6 +31,7 @@ class CompanyController extends \App\Http\Controllers\Controller{
         //--default values  -----------------------
         $countryId     = 0;
         $companyId     = 0;
+        $oCompany      = new Company();
 
         //-- parameters   -------------------------
         if($request->has('countryId')){ 
