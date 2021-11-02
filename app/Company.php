@@ -36,7 +36,7 @@ class Company extends Model
                     ->get();
     }
 
-    // Obtener todos los registro
+    // Obtener todos los registroasd
     public function getAllByCountry($countryId)
     {
         return $this->where('countryId','=',$countryId)
