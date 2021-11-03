@@ -181,7 +181,7 @@ class PayrollControlController extends Controller
     // process of pre-payroll
     ##########################
 
-    public function processPrePayroll($id)
+    public function processPrePayroll($id, $exchangeRate)
     {    
     $transactionTypeCode = 0;
     $processCode = 0;
@@ -200,7 +200,9 @@ class PayrollControlController extends Controller
     */
         // get currency 
         $oExchangeRate = $this->oCurrency->getExchangeRate();
-        $exchangeRate = floatval($oExchangeRate[0]->exchangeRate); //convierto el string a numeros reales
+        // $exchangeRate = floatval($oExchangeRate[0]->exchangeRate); //convierto el string a numeros reales
+        $exchangeRate = str_replace(",",".",$exchangeRate); //reemplazo , a .
+        $exchangeRate = floatval($exchangeRate); //convierto el string a numeros reales
 
         // get data form table hrpayroll_control
         $rs0 = DB::select("SELECT * FROM hrpayroll_control
