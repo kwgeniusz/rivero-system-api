@@ -12,6 +12,7 @@
                             <th>TIPO DE NOMINA</th>
                             <th>AÑO</th>
                             <th>PEROÍDO</th>
+                            <th>TAX</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -42,6 +43,12 @@
                                 </p>
                             </td>
                             <td>
+                                <p class="text-left">
+                                    <input type="number" class="form-control" v-model="exchangeRate" >
+                                    <!-- {{payrollcontro.payrollName}}  -->
+                                </p>
+                            </td>
+                            <td>
                                 <!-- <loading v-if="loading == 1"></loading> -->
                                 <button v-if="loading == 0" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
                                 <button v-else disabled="disabled" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
@@ -69,11 +76,12 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            // console.log('Component mounted.')
         },
         data(){
             return{
                 loading: 0,
+                exchangeRate: 300000.53
             }
         },
         props: {
@@ -86,10 +94,10 @@
         },
         methods: {
             process(index, id){
-                console.log( this.loading)
+                // console.log( this.loading)
                     this.loading = 1
-                const URL = `payrollcontrol/list/${id}`
-                
+                console.log(id)
+                const URL = `payrollcontrol/list/${id}/${this.exchangeRate}`
                 axios.get(URL).then((res) => {
                         console.log(res)
                         if (res.statusText === 'OK') {
