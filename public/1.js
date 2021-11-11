@@ -1421,7 +1421,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     payrollName: data[1],
                     processCode: this.processCode
                 };
-                axios.post('pre-vacations/', params).then(function (response) {
+                axios.post('pre-vacations-post', params).then(function (response) {
+                    console.log('vacaciones');
+                    console.log(response);
                     if (response.statusText == "OK") {
                         document.querySelector("#newUpForm").reset();
                         alert("Success");
