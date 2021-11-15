@@ -165,9 +165,11 @@ export default {
                     payrollName: data[1],
                     processCode: this.processCode,
                 }
-                axios.post('pre-vacations/',params)
+                axios.post('pre-vacations-post',params)
                     .then((response) => {
-                        if (response.statusText == "OK") {
+                        // console.log('vacaciones')
+                        console.log(response)
+                        if (response.statusText == "Created") {
                             document.querySelector("#newUpForm").reset()
                             alert("Success")
                         } else {

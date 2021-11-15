@@ -111,7 +111,7 @@ Route::get('pre-vacations/', function () {
 Route::get('pre-vacations/list', 'Web\PayrollVacationController@index'); 
 Route::get('pre-vacations/{id}', 'Web\PayrollVacationController@processPreVacation'); 
 Route::get('pre-vacations/print/{year}/{payrollNumber}/{payrollTypeId}', 'Web\PayrollVacationController@getListVacation'); 
-Route::post('pre-vacations/', 'Web\PayrollVacationController@store');
+Route::post('pre-vacations-post/', 'Web\PayrollVacationController@store');
 Route::delete('pre-vacations/{id}', 'Web\PayrollVacationController@destroy');
 Route::get('vacations/list', 'Web\VacationHistoryController@index'); 
 Route::get('vacations/print/{year}/{payrollNumber}/{payrollTypeId}/{vacation}', 'Web\printPayrollController@getVacationShow'); 

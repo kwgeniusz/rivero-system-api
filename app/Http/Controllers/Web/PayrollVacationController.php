@@ -105,6 +105,7 @@ class PayrollVacationController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json(['data' => [$request->payrollName]], 201);
         $countryId = session('countryId');
         $companyId = session('companyId');
         $hrpayrollControl = new PayrollControl();
@@ -118,7 +119,7 @@ class PayrollVacationController extends Controller
         $hrpayrollControl->processCode = $request->processCode;
         $hrpayrollControl->payrollCategory = 'vacation';
         $hrpayrollControl->save();
-        return $hrpayrollControl;
+        return response()->json(['data' => [$hrpayrollControl]], 201);
     }
     
     /**
