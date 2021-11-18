@@ -73,7 +73,7 @@ class ContractController extends Controller
             session('countryId'),
             session('companyId')
         );
-
+       
         if($request->ajax()){
             return $contracts;
         }

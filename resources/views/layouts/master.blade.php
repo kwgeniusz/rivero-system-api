@@ -92,7 +92,7 @@ desired effect
       @if (isset(Auth::user()->fullName))
         <strong>USUARIO: </strong>{{Auth::user()->fullName}} 
         <strong>PAIS: </strong>{{session('countryName')}} |
-        <strong>COMPAÑIA: </strong>{{session('companyName')}}
+        <strong>COMPAÑIA: </strong>{{session('companyShortName')}}
       @else
         @php
           header("Location: " . URL::to('/login'), true, 302);
@@ -103,7 +103,7 @@ desired effect
     </div>
     <!-- Default to the left -->
     @if (isset(Auth::user()->fullName))
-    <strong>Copyright &copy; 2020 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
+    <strong>Copyright &copy; 2022 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
       
     @endif
   </footer>

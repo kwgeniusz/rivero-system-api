@@ -37,7 +37,7 @@ class Localization
                     ]); 
               session(['companyId'      => Auth::user()->companyId,
                        'parentCompanyId' => Auth::user()->company->parentCompanyId,
-                       'companyName'     => Auth::user()->company->companyName,
+                       'companyShortName'     => Auth::user()->company->companyShortName,
                        'companyTimeZone'     => Auth::user()->company->timeZone
                       ]);
           }//end if !session

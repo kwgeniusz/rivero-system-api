@@ -1,27 +1,14 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 webpackJsonp([3],{
 
 /***/ 726:
-=======
-webpackJsonp([3],{
-
-/***/ 705:
->>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(737)
 /* template */
 var __vue_template__ = __webpack_require__(738)
-=======
-var __vue_script__ = __webpack_require__(716)
-/* template */
-var __vue_template__ = __webpack_require__(717)
->>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61,11 +48,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-<<<<<<< HEAD
 /***/ 737:
-=======
-/***/ 716:
->>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -180,11 +163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-<<<<<<< HEAD
 /***/ 738:
-=======
-/***/ 717:
->>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -330,11 +309,4 @@ if (false) {
 
 /***/ })
 
-<<<<<<< HEAD
 });
-=======
-webpackJsonp([3],{699:function(t,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={mounted:function(){console.log("Component mounted.")},data:function(){return{}},props:{namePanel:{type:String,default:"Listado tipo de Nomina"},objPayRollType:{}},methods:{editPayrollType:function(t,e){this.$emit("indexEdit",t)},deletePayrollType:function(t,e){var l=this;confirm("Delete?")&&axios.delete("payrolltypes/delete/"+e).then(function(){l.$emit("delPayrollType",[t,e])}).catch(function(t){alert("Error"),console.log(t)})}}}},700:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,l=t._self._c||e;return l("div",{staticClass:"col-md-8 col-md-offset-2"},[l("div",{staticClass:"panel panel-default"},[l("div",{staticClass:"table-responsive text-center"},[l("table",{staticClass:"table table-striped table-bordered text-center"},[t._m(0),t._v(" "),t.objPayRollType.length>0?l("tbody",t._l(t.objPayRollType,function(e,n){return l("tr",{key:e.payrollTypeId},[l("td",[t._v(t._s(n+1))]),t._v(" "),l("td",{staticClass:"form-inline"},[l("p",{staticClass:"text-left"},[t._v("\n                                "+t._s(e.payrollTypeName)+" \n                            \n                            ")])]),t._v(" "),l("td",[l("p",{staticClass:"text-left"},[t._v("\n                                "+t._s(e.payrollTypeDescription)+"\n                            ")])]),t._v(" "),l("td",[l("p",{staticClass:"text-left"},[t._v("\n                                "+t._s(e.countryName)+"\n                            ")])]),t._v(" "),l("td",[l("p",{staticClass:"text-left"},[t._v("\n                                "+t._s(e.payrollCategory)+"\n                            ")])]),t._v(" "),l("td",[l("button",{staticClass:"btn btn-sm btn-primary",attrs:{title:"Editar"},on:{click:function(l){return t.editPayrollType(n,e.payrollTypeId)}}},[l("i",{staticClass:"fa fa-edit"})]),t._v(" "),l("button",{staticClass:"btn btn-sm btn-danger",attrs:{title:"Eliminar"},on:{click:function(l){return t.deletePayrollType(n,e.payrollTypeId)}}},[l("i",{staticClass:"fa fa-times-circle"})])])])}),0):l("tbody",[l("tr",[l("td",{attrs:{colspan:"5"}},[l("loading")],1)])])])])])])},staticRenderFns:[function(){var t=this,e=t.$createElement,l=t._self._c||e;return l("thead",[l("tr",[l("th",[t._v("N")]),t._v(" "),l("th",[t._v("Nombre del tipo de nomina")]),t._v(" "),l("th",[t._v("Descripcion del tipo de nomina")]),t._v(" "),l("th",[t._v("Pais")]),t._v(" "),l("th",[t._v("Categoria")]),t._v(" "),l("th",[t._v("Acciones")])])])}]}},720:function(t,e,l){var n=l(1)(l(699),l(700),!1,null,null,null);t.exports=n.exports}});
->>>>>>> module-rrhh
-=======
-});
->>>>>>> module-rrhh

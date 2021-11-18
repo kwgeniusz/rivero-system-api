@@ -1,27 +1,14 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 webpackJsonp([5],{
 
 /***/ 724:
-=======
-webpackJsonp([5],{
-
-/***/ 703:
->>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(731)
 /* template */
 var __vue_template__ = __webpack_require__(732)
-=======
-var __vue_script__ = __webpack_require__(710)
-/* template */
-var __vue_template__ = __webpack_require__(711)
->>>>>>> module-rrhh
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61,11 +48,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-<<<<<<< HEAD
 /***/ 731:
-=======
-/***/ 710:
->>>>>>> module-rrhh
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -186,11 +169,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-<<<<<<< HEAD
 /***/ 732:
-=======
-/***/ 711:
->>>>>>> module-rrhh
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -365,11 +344,4 @@ if (false) {
 
 /***/ })
 
-<<<<<<< HEAD
 });
-=======
-webpackJsonp([5],{693:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={mounted:function(){console.log("Component mounted.")},props:{companys:{},parents:{}},data:function(){return{editMode:-1,num:1,parent:""}},methods:{deleteDepartment:function(t,e){var n=this;confirm("Delete?")&&axios.delete("departments/"+e).then(function(){n.$emit("delete",t)})},editDataDepartment:function(t,e){this.$emit("editData",e)},editDepartment:function(t){this.editMode=t},updateDepartment:function(t,e){var n=this,a={departmentName:e.departmentName},s="/departments/"+e.departmentId;axios.put(s,a).then(function(e){n.editMode=-1;var a=e.data;n.$emit("update",[t,a])}).catch(function(t){console.log(t)})}}}},694:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"col-md-10 col-md-offset-1"},[n("div",{staticClass:"panel panel-default"},[n("div",{staticClass:"table-responsive text-center"},[n("table",{staticClass:"table table-striped table-bordered text-center"},[t._m(0),t._v(" "),n("tbody",t._l(t.companys,function(e,a){return n("tr",{key:e.departmentId},[n("td",[t._v(t._s(a+1))]),t._v(" "),n("td",{staticClass:"form-inline"},[n("p",{staticClass:"text-left"},[t._v(" \n                                "+t._s(e.companyName)+"\n                            ")])]),t._v(" "),n("td",{staticClass:"form-inline"},[n("p",{staticClass:"text-left"},[t.editMode===a?n("button",{staticClass:"btn btn-sm btn-success",on:{click:function(n){return t.updateDepartment(a,e)}}},[n("i",{staticClass:"glyphicon glyphicon-ok"})]):t._e(),t._v("  \n                                "),t.editMode===a?n("input",{directives:[{name:"model",rawName:"v-model",value:e.departmentName,expression:"company.departmentName"}],staticClass:"form-control",attrs:{type:"text"},domProps:{value:e.departmentName},on:{input:function(n){n.target.composing||t.$set(e,"departmentName",n.target.value)}}}):n("a",{on:{click:function(e){return t.editDepartment(a)}}},[t._v(t._s(e.departmentName))])])]),t._v(" "),n("td",[n("p",{staticClass:"text-left"},[t._v("\n                                "+t._s(e.dpParentName)+"\n                            ")])]),t._v(" "),n("td",[n("button",{staticClass:"btn btn-sm btn-primary",attrs:{title:"Editar"},on:{click:function(n){return t.editDataDepartment(a,e.departmentId)}}},[n("i",{staticClass:"fa fa-edit"})]),t._v(" "),n("button",{staticClass:"btn btn-sm btn-danger",attrs:{title:"Eliminar"},on:{click:function(n){return t.deleteDepartment(a,e.departmentId)}}},[n("i",{staticClass:"fa fa-times-circle"})])])])}),0)])])])])},staticRenderFns:[function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("thead",[n("tr",[n("th",[t._v("N.")]),t._v(" "),n("th",[t._v("Empresa")]),t._v(" "),n("th",[t._v("Departamento")]),t._v(" "),n("th",[t._v("Departamento Padre")]),t._v(" "),n("th",[t._v("Acciones")])])])}]}},717:function(t,e,n){var a=n(1)(n(693),n(694),!1,null,null,null);t.exports=a.exports}});
->>>>>>> module-rrhh
-=======
-});
->>>>>>> module-rrhh
