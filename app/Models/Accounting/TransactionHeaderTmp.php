@@ -5,8 +5,13 @@ namespace App\Models\Accounting;
 use Auth;
 use DB;
 use App\Models\Accounting\GeneralLedger;
+<<<<<<< HEAD
 use App\Models\Accounting\Transaction;
 use App\CompanyConfiguration;
+=======
+use App\Models\Accounting\TransactionTmp;
+// use App\CompanyConfiguration;
+>>>>>>> module-adm
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,7 +25,11 @@ class TransactionHeaderTmp extends Model
     protected $table      = 'acc_transaction_header_tmp';
     protected $primaryKey = 'headerId';
 
+<<<<<<< HEAD
     protected $fillable = ['headerId' ,'entryNumber' ,'entryDate' ,'entryDescription' ,'totalDebit' ,'totalCredit' ,'validation' ,'entryUpdated']; 
+=======
+    // protected $fillable = ['headerId' ,'entryNumber' ,'entryDate' ,'entryDescription' ,'totalDebit' ,'totalCredit' ,'validation' ,'entryUpdated']; 
+>>>>>>> module-adm
     //protected $dates = ['deleted_at'];
 
 

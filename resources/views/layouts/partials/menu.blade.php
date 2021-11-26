@@ -78,11 +78,16 @@
       @can('CF') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
       @can('CG') <li><a href="{{route('payables.index')}}">   Cuentas Por Pagar</a></li> @endcan
       @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
+<<<<<<< HEAD
 
 <hr>  
     @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Generar Asientos Contables</a></li> @endcan   
 <hr>
     @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li> @endcan 
+=======
+     <hr>
+           @can('BI') <li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li> @endcan   
+>>>>>>> module-adm
       {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
       {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
                 {{--   <hr>
@@ -90,9 +95,11 @@
       @can('CH') <li><a href="{{route('transactions.income')}}">{{__('income_report')}}</a></li> @endcan
       @can('CI') <li><a href="{{route('transactions.expenses')}}">{{__('expense_report')}}</a></li> @endcan
       @can('CJ')  <li><a href="{{route('collections.index')}}">Reporte de Cobranzas</a></li> @endcan --}}
-              <br>
-          </ul>
-        </li>
+       <hr>
+       @can('CH') <li><a href="{{route('receivables.index')}}">Generar Asientos Contables</a></li> @endcan
+       <br>
+      </ul>
+    </li>
 @endcan
 @can('D')
         <li class="treeview">
