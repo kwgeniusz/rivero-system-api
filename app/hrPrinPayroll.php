@@ -206,7 +206,7 @@ class hrPrinPayroll extends Model
                         AND hrpayroll_history.isIncome = 0                        
                         AND hrpayroll_history.payrollCategory =  '$payrollCategory'
                         AND hrpayroll_history.staffCode =  '$staffCode'
-                ) AS totaldeduccionLocal
+                ) AS totaldeduccionLocal, hrstaff.baseSalary
             FROM hrpayroll_history 
             INNER JOIN hrstaff ON hrpayroll_history.staffCode = hrstaff.staffCode
             INNER JOIN country ON hrpayroll_history.countryId = country.countryId

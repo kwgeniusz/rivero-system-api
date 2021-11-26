@@ -144,6 +144,7 @@ class printPayrollController extends Controller
         $print[11] = $res0[0]->totalasignacionLocal;
         $print[12] = $res0[0]->totaldeduccionLocal;
         $print[13] = $res0[0]->userProcess;
+        $print[14] = $res0[0]->baseSalary;
         
         // Obtener los detalles de las vacaciones
         foreach($res0 as $res1){
