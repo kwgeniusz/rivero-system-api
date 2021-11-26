@@ -178,6 +178,16 @@ Vue.component("accounting-addUp-transaction-header",require("./components/accoun
 Vue.component("accounting-main-transaction",require("./components/accounting/transactionHeader/transaction/main.vue"));
 Vue.component("accounting-table-transaction",require("./components/accounting/transactionHeader/transaction/table.vue"));
 Vue.component("accounting-addUp-transaction",require("./components/accounting/transactionHeader/transaction/addUp.vue"));
+
+// ---------------------> Temporal Transaction Header <-----------------------------//
+Vue.component("accounting-main-transaction-header-tmp",require("./components/accounting/transactionHeaderTmp/main.vue"));
+Vue.component("accounting-table-transaction-header-tmp",require("./components/accounting/transactionHeaderTmp/table.vue"));
+Vue.component("accounting-addUp-transaction-header-tmp",require("./components/accounting/transactionHeaderTmp/addUp.vue"));
+// ---------------------> Temporal Transaction <-----------------------------//
+Vue.component("accounting-main-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/main.vue"));
+Vue.component("accounting-table-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/table.vue"));
+Vue.component("accounting-addUp-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/addUp.vue"));
+
 // ---------------------> General Ledger <-----------------------------//
 Vue.component("accounting-main-general-ledger",require("./components/accounting/generalLedger/main.vue"));
 Vue.component("accounting-table-general-ledger",require("./components/accounting/generalLedger/table.vue"));

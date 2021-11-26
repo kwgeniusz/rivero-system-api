@@ -10,6 +10,18 @@ Route::prefix('accounting')->group(function () {
    // Route::post('transaction-headers/search-between-dates', 'Web\Accounting\TransactionHeaderController@searchBetweenDates')->name('transaction-headers.searchBetweenDates');
 //************* Transaction ************
    Route::resource('transactions', 'Web\Accounting\TransactionController', ['as' => 'accounting']);
+
+//************* Temporal Transaction Header ************
+Route::resource('transaction-headers-tmp', 'Web\Accounting\TransactionHeaderTmpController', ['as' => 'accounting']);
+// Route::get('transacciones-encabezado/actualizarSaldos', 'Web\Accounting\TransactionHeaderController@updateBalance');
+// Route::get('transacciones-encabezado/{id}/validar', 'Web\Accounting\TransactionHeaderController@validateHeader');
+// Route::post('transaction-headers/search-between-dates', 'Web\Accounting\TransactionHeaderController@searchBetweenDates')->name('transaction-headers.searchBetweenDates');
+//************* Temporal Transaction ************
+Route::resource('transactions-tmp', 'Web\Accounting\TransactionTmpController', ['as' => 'accounting']);
+
+
+
+
 //************* General Ledger ************
    Route::resource('general-ledgers', 'Web\Accounting\GeneralLedgerController');
 //************* Close Accounting Year ************

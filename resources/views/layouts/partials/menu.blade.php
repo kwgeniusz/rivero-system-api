@@ -79,9 +79,10 @@
       @can('CG') <li><a href="{{route('payables.index')}}">   Cuentas Por Pagar</a></li> @endcan
       @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
 
+<hr>  
+    @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Generar Asientos Contables</a></li> @endcan   
 <hr>
-    @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li>
-    @endcan   
+    @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li> @endcan 
       {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
       {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
                 {{--   <hr>
@@ -145,6 +146,7 @@
             <li><a href="#">Tipo de Cuentas</a></li>
             <li><a href="#">Clasificacion de Cuentas</a></li>
             <li><a href="/accounting/general-ledgers">Plan de Cuentas</a></li>
+            <li><a href="/accounting/transaction-headers-tmp">Asientos Contables Temporales</a></li>
             <li><a href="/accounting/transaction-headers">Asientos Contables</a></li>
             <li>
             <a href="/accounting/close-year">Cerrar Año Contable</a>

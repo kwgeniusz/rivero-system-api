@@ -72,22 +72,24 @@ use Illuminate\Database\Eloquent\Model;
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function findAllByType($noteType)
+    public function getAllByType($companyId,$noteType)
    {
-    return $this->where('noteType', $noteType)
-                ->get();
-   }
-    public function getAllByType($invoiceId,$noteType)
-    {
-        return $this->where('invoiceId', $invoiceId)
-                    ->where('noteType', $noteType)
-                    ->get();
+       return $this->whereHas('invoice', function($q) use ($companyId){
+           $q->where('companyId', $companyId);
+        })->where('noteType',$noteType)
+          ->get();
     }
     public function getAllByInvoice($invoiceId)
     {
         return $this->where('invoiceId', $invoiceId)
                     ->orderBy('dateNote', 'DESC')
                     ->get();
+    }
+   public function getAllByInvoiceAndType($invoiceId,$noteType)
+   {
+       return $this->where('invoiceId', $invoiceId)
+       ->where('noteType', $noteType)
+       ->get(); 
     }
 //-----------------------------------------
     public function findById($id)

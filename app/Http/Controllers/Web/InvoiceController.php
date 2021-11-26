@@ -188,8 +188,11 @@ class InvoiceController extends Controller
             $totalPorCobrar     +=  $invoice->balanceTotal;
            }
         }    
-     $totalDebitNote  =  $this->oSaleNote->findAllByType('debit')->sum('netTotal');
-     $totalCreditNote =  $this->oSaleNote->findAllByType('credit')->sum('netTotal');
+     $totalDebitNote  =  $this->oSaleNote->getAllByType(session('companyId'),'debit')->sum('netTotal');
+     $totalCreditNote =  $this->oSaleNote->getAllByType(session('companyId'),'credit')->sum('netTotal');
+
+     
+
 
    if($request->method() == 'POST') {
        if($request->date1 || $request->date2 || $request->textToFilter) {
