@@ -5,10 +5,16 @@ namespace App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Config_report\Config_report;
 
 class hrPrinPayroll extends Model
 {
-    
+    private $oConfigReport;
+
+    public function __construct(){
+        $this->oConfigReport = new Config_report;
+    }
+
     function getPayrollList(){
         $countryId = session('countryId');
         $companyId = session('companyId');
@@ -354,7 +360,7 @@ class hrPrinPayroll extends Model
             ORDER BY hrpayroll_history.transactionTypeCode");
     }
     
-    function reportByTransactionPayroll($countryId, $companyId, $payrollNumber, $oTransaction, $oEmployees, $table){
+    function reportByTransactionPayroll($countryId, $companyId, $payrollNumber, $oTransaction, $oEmployees, $table, $report){
         
         $strTransaction = "WHERE (";
         foreach ($oTransaction as $key => $val) {
@@ -371,19 +377,6 @@ class hrPrinPayroll extends Model
             $strTransaction  .= ($key > 0) ? " OR $table.staffCode = " . "'" . $val['code'] . "'" : '' . ' '.$table.'.staffCode = ' . "'" . $val['code'] . "'";
         }
         $strTransaction .= ')';
-
-        
-        // echo 'SELECT * FROM `hrpayroll_history` ' . $strTransaction . ' AND hrpayroll_history.countryId =' . $countryId . ' AND hrpayroll_history.companyId =' . $companyId . ' AND hrpayroll_history.payrollNumber =' .$payrollNumber;
-        
-        // detalle del reporte por staff
-        // $res0 =  DB::select('SELECT * FROM `hrpayroll_history` ' . $strTransaction . ' AND hrpayroll_history.countryId =' . $countryId . ' AND hrpayroll_history.companyId =' . $companyId . ' AND hrpayroll_history.payrollNumber =' .$payrollNumber);
-        // return
-        // echo 'SELECT *, SUM(`amount`) AS total, SUM(`localAmount`) AS totalLocal FROM '. $table .'
-        // INNER JOIN country ON '. $table .'.countryId = country.countryId
-        // INNER JOIN company ON '. $table .'.companyId = company.companyId
-        // INNER JOIN payroll_type ON '. $table .'.payrollTypeId = payroll_type.payrollTypeId
-        // ' . $strTransaction . ' AND '. $table .'.countryId =' . $countryId . ' AND '. $table .'.companyId =' . $companyId . ' AND '. $table .'.payrollNumber =' .$payrollNumber. ' GROUP BY  '. $table .'.`isIncome` ORDER BY '. $table .'.`isIncome` DESC';
-        
         
         $res3 =  DB::select('SELECT *, SUM(`amount`) AS total, SUM(`localAmount`) AS totalLocal FROM '. $table .'
             INNER JOIN country ON '. $table .'.countryId = country.countryId
@@ -392,7 +385,7 @@ class hrPrinPayroll extends Model
             ' . $strTransaction . ' AND '. $table .'.countryId =' . $countryId . ' AND '. $table .'.companyId =' . $companyId . ' AND '. $table .'.payrollNumber =' .$payrollNumber. ' GROUP BY  '. $table .'.`isIncome` ORDER BY '. $table .'.`isIncome` DESC');
         // dd($res3);
         if (!$res3) {
-           return "empty";
+            return "empty";
         }
         // exit();
         $print = array();
@@ -453,6 +446,8 @@ class hrPrinPayroll extends Model
             } 
         }
 
+        $print[1] = $this->oConfigReport->getConfigReportByCompany($countryId, $companyId, $report);
+        
         foreach ($oEmployees as $key => $staffCode) {
             
             $print[] =  DB::select('SELECT * , ( SELECT SUM(amount) FROM '. $table .' ' . $strTransactionType . ' 

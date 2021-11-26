@@ -8,11 +8,16 @@ use App\Company;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Config_report\Config_report;
 
 class printPrePayrollController extends Controller
 {
     
-  
+    private $oConfigReport;
+
+    public function __construct(){
+        $this->oConfigReport = new Config_report;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -117,7 +122,14 @@ class printPrePayrollController extends Controller
                             ORDER BY hrpayroll.staffCode ASC");
                         
                         //  dd( $res0);
+        if (empty($res0)) {
+            return response()->json(['message' => 'no content'], 204);
+            // exit();
+        }
                           // return $res0;
+        // obtengo los datos de configuracion para el reporte
+        $configReport = $this->oConfigReport->getConfigReportByCompany($countryId, $companyId,'prepayroll');
+        
         $print = array();
         $print[0] = $res0[0]->payrollName;
         $print[1] = $res0[0]->countryName;
@@ -128,7 +140,7 @@ class printPrePayrollController extends Controller
         $print[6] = $res0[0]->totaldeduccion;
         $print[7] = $res0[0]->companyAddress;
         $print[8] = $res0[0]->companyNumber;
-        $print[9] = $res0[0]->companyId;
+        $print[9] = $configReport;
         $print[10] = $res0[0]->color;
         $print[11] = $res0[0]->totalasignacionLocal;
         $print[12] = $res0[0]->totaldeduccionLocal;

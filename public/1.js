@@ -409,7 +409,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return alert('Sin contenido');
                 }
                 var objPrePayrollDetail = res.data.print;
-                // return
+
                 var period = objPrePayrollDetail[0];
                 var country = objPrePayrollDetail[1];
                 var company = objPrePayrollDetail[2];
@@ -417,13 +417,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var payrollTypeName = objPrePayrollDetail[4];
                 var companyAddress = objPrePayrollDetail[7];
                 var companyNumber = objPrePayrollDetail[8];
-                var companyId = objPrePayrollDetail[9];
+                // let companyId = objPrePayrollDetail[9]
+                var configReport = objPrePayrollDetail[9];
                 var color = objPrePayrollDetail[10];
                 var userProcess = objPrePayrollDetail[13];
-                var icoMap = 'data:image/png;base64,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';
-                var icoPhone = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA9CAIAAAB+wp2AAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAdUSURBVGhD1ZppUFNXFMdlJxtkX4gQIiKLLMFOtVQFxAWV1raOSq3jUu102mlnrKPTqWVkcB+/1Gktam3tTL84tYsiWhFcEEE2ZQkEQUQSs6AhIASSYIJgz/juGJbkkcTkMf4+hPe/7z3eP/eee+49D7xevHgx7U3DG/18o3gjTTsaHnKF4m5tfW1tXduDdiqVkrV2TebK5egc4dg1/fz5c7lcUS+V3q6oqquv7+3tG4am4eGRkRE4GzUrck/298nvzMUuJhiraTiwWCzQkVXV1U2y5uqaOzpdN3ZqIj4+Puuz1uXmZHt7T0GAWU0rlaofj+UVFhU9e2bGWvBJTIjfk717TpIEaQKx9lNhUfGNkpsOOgbaH3bU3LkLg4M0gVhNazSaAYMBCQcwGo0wL1VqDdIEYjU9NPQcm2SOI22SyWTNMD+RJgqr6eDgoICAACQco7u7u6q65unTXqSJYrTp4IAAfyQcprSsXKVWI0EUVtM+3t5eXl5IOIxWqy2/XWEwGpEmBKvpQFKgr48vEg4DGbPg0mWCI8RqWhgSQqVSkXAGuVxeUVk5PDyMtOexmmaxmCRSIBJOcvHSZZNpEAnPYzXN4/HIZAoSTlJZVQ07KiQ8j9W0gM+HrOfCXMRQqVToyPNYTQMhAoG/v9NZD2Aw6Hw+HwnPM8b0W3OSqBSnI4TJZGzdsjkhPg5pzzPGdJIkkeKk6ZkzI3bu2P7J+iw/Pz/U5HnGmJ4+XSgQ8B0Pa+jd3d/u+uiDVQw6HTURwhjTsLWXSBLgE2n7wDWpCxcc2r83NWVhYKCLidJlxpgG0lJSJh1oUmDgyhUZhw/ui42NmZLKZfwj5819O1QoRMIW0MeZmSuOHDpAZLoYh41+yspai47sQ+SiPREbpldkLCWTyUhMAOyWlpaVlVcgPRXYMA3jvmTxIiRs0afvyy8o6Hz8GGnCsT2NPv9saxCNhsQEoDCrq2sovnqN+EILw7bpmRERMNuQsMXT3t5r12+0tT1Amlhsm4ast27N6kD7JSOUwNJG2ZXiq/0DA6iJQGybhkVRKBQuWZyOtC2MRuO/5/NvlZVPZTU+DjaLtWnjBg6HjbQtHj9+8sPRn+obpPZeCHoIn9zcXHQ4ARqNBgmurr4BJyv36fUdHfI5Egns9VzeizuL3Z4GaDTqorRU2Prhu4Fvder0793ddt9Wuh28ngYgSMBwk6zZYMB7SdDS0grzIDo6imJ/VZrI0NCQWq2Bb0sikZza2U5iGvZDHA6nt6+vvf0hPAO12kLWfE+v14eHi5gMBmrCxWQync8vOHP2r5LSWwrFI2ihUqkOVtaTmAYoFDKUjw87OjSdnTgv+yDuW1rvwzV0Ol0UFoZa7QDf/1z+heMnTjVIG8ExfDbfg7vvm4wmNpuNs4nAmNw0AJ3H5bJra+ugL1GTLSCHKFXqBw/aofyZIRbj7Muvl9w8eeo3pUqFpR3oCwgSuLGhsbG65g6sXBCWQUF2q2yHTMPN0NkkErnsdgX+/g4e39PT09ra5uPrIxaLbb7RlDY2HT/xi0zWPG7cQBoMBrVGAxcUFhVru7pg0LhcDjo9CodMA9BtMdFRPB73+o0S1GQH6DwYkIrKKsWjRxEzxDBKozvskVJ5LO9k6a0ynEgzm816fT9Yzy+4WNfQwGGzQ6dPR+de4qhpACZl3OxY8FRbV4/zSAwYEBjuwivFQ5ah6JgoX19fuF3f33/mz7N//3POkUUUHgGhL5crLhRcqrlzVywO53I4WKHkhGmMOUmS7p6ehx1y/GSCMTg4WFldDZtvMoUcHEQruVn6c94JZ1+gQTep1GqYqFGzIkNCBNDitGmIkySJxGg0qFRq8IRacdHpdBBUkBMvFxb19rr4fhWsJ8+bGxExA47xVkR7MBj0r778YsvmjUJhCGqaDIiWl3/j0yHtPBaz5dXYumIaYLGYG9Znfbp5E6RkYgpyCAxI4dix68+DfLT6w1U7tn+dmJgA8wy1egyRKAzSLnb8Wp0EvjOWLc3J/m55xjKcpcQtiMJEfD4PO37dkYXlIz4uLid7966d35BJJNTqbmCTLBDwXr3RdUM4Qkyz2axtWzb/V3AuLS0FtboVHpcbGhqKhFtMY0BYi0SivB+PHtyXKxDw3RstfB5XFOYB0xiwM17/8bo/Tv+6ds1qcXg4BMzrlzPwGyBvcDlcpF1YXByByWQuTl/0bvI8f/8As8UyMDDwOsUvlUJJT09buGA+0h4yjcFiMhfMT06Ij4OyjR4cjG3iRpwvgTlczvvvrZwVGYn06P/38CharVbaKGtsgsLtHtQTXV06R7YuGLExMUcOH5gdG4M0YaYxnpnNSqVSo+mE0hCswze4f7/NhLuB8ffzy1y5Yv/enNHlDKGmXwHd3N8/ANUKFClms6WltUXbpevUdD7RdmEjoFAoYDJANKempmzbskkiScRuxJga06OB5w8OmsAruITNN+YHxuTFyAjkzaAgGoPBGJdAp960C7g5TxPDG2h62rT/AbMvLZ/PTCGTAAAAAElFTkSuQmCC';
-                var icoGlobe = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAzCAYAAADVY1sUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL7SURBVHgB7VqLcdswDH3JdQB1AnODaAR1g25QdgNvEHcCuxM4nSDdQO4ETieQO4HTCVLBthoEESVApBKdz+8Od7QNgHgU+BFoYDzktZS17Gt5quW+FoeJIqvltpYv4nv63BCQInX9yYfDO6DAcbQpsApHQg1ytBPgUjD97OSDvl/jjQhlp854UB7tQXWJJO/F76MSakuXSujcop9EIwthW7X49kiMZSAYz3Qc9CRIaFD4U1kE9JZIAOqo7AjGMd05bETkU8kQXiC2eEnaTGLbEcRPoV/BTmQvfHQN2mAy254gPNMtYCfRSMH8+B7dLYxYKgJwTH+t0A/JivnJFPrqOeMVzuTIVAobbXr1ZQLJHD1wyqBWwuYpUmbM30pJ3vHAr1/yUB8VNqxdIB6fWPtBoU8pGEwxB/0I5sxOM4JjPeGihYd6wlqWTK3IObdX2pWNwQdm/OskfXgUn7/X8gNxkD6/ImIDvGAKuMJxcnmDDR1NmpWFJv1npEGM38NiQQaWick7GHJQDAnf5LzR1tM+UsAGPjFTTkjuawcbciJyg+FISWTG2o+wwRERBxsq1h5ribQSuRlCZIrIrnEeOBsih9OvNR8niXMhsiMimvM/x0eMg7+sbV0ND0T+wIaYjasLMRvt7yFPxKG981jEEHmg9xE6rDmLEWtvavmGNNiw9s7od4MLJoYr1vbQgXKZl0vpWB975orxeSe/oBf5IcUHTUFNXUQ4QVt8kPXnAwpDxzNml7oclBvs/pel+FlrE2LYAmtBrQ/ch4MOd+jo20H3WFOXTHPmb1DJtA2a9/CURexK+CoVNnMooRmVzKgfkjXzo7lWWMGIs7joIfRdvZVCX7tkdqXVfQ+J0e4RNbeyXcKvBtxYJDhCc2DBdLpuZUPimL1HojnRB4/Xq5Pc5RfQk5ABtvlWr05WOBw3otCkt/yFwzE7L35/s38SOTwToqB4/hboJ5ILfw35Emmu8sxwOKaITAGPMAnforvAhC92HJ6XU8p3Gu0cF3TjH2L2H0VgekrQAAAAAElFTkSuQmCC';
-                var icoMail = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAmCAYAAACGeMg8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAG6SURBVHgB7VnbcYMwEFwnDVCCPvPpEijBHYQO4s/84Q5MB6YDpwPSgd0BdIA7IJyRJhiONzIS4505PDDotCstOpCBf/h5xHlklsQlDw8VnA0l2yeIO96lqm/Yi488NhsUU7SF3UhISIYV4A0rwaqE/MJ+XOkgYFf94OqJUIqcPALDCXMRSu417A0k2xR7dEDAbKsRN7bunVHyWElMCCxOuhrEtWqlrbzeOlWmWC1t4PdVuuehwYlRLLCs1WLUreRIrlmTENVQMA2XWNUC8FaKmXsbk/iow0MxzboFpGC+NfBopd5ClNVEJZmAXqtdwDsi6mjXmZhIu6jjoEFEwPTjot/A9e7En9DJ2ME6DsgxedrpfMqncgR+pYwG5hk1eh7qOIzIxdWGHcYtKKNH8oj+S2MfKzkYZqXZhChCokKIzsOWNifoKbqTGlM0vT64KJ6dVEYE/oH+xDy1aXKCNqu1YaqVtAlRVvPQDRfzF9VZk6mIpKDyDDnyWqSjz2fsayXyV0AjXht0puElxDSQkBvsx42EXGE/fuhAL3rP+HzVFcRdKEUu7Nz/TSX3ex0pYwd7/r1KUFjq/oz/Ad4q72Jw+8N+AAAAAElFTkSuQmCC';
                 var dataTime = _this5.formatDate();
                 var colorPri1 = void 0;
                 var colorPri2 = void 0;
@@ -431,11 +428,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var colorSec1 = void 0;
                 var colorSec2 = void 0;
                 var colorSec3 = void 0;
+                var textColorPinc = void 0;
+                var textColorSecu = void 0;
 
                 // chequear si el total general es el local o moneda extrangera
                 var totalAsignacion = void 0;
                 var totalDeduccion = void 0;
-                if (selecCurrency1 == 1) {
+                if (selecCurrency1) {
                     totalAsignacion = objPrePayrollDetail[5];
                     totalDeduccion = objPrePayrollDetail[6];
                 } else {
@@ -445,6 +444,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // plantilla de colores
                 switch (color) {
                     case 'YELLOW':
+                        textColorPinc = 0;
+                        textColorSecu = 0;
                         colorPri1 = 230;
                         colorPri2 = 219;
                         colorPri3 = 153;
@@ -453,6 +454,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         colorSec3 = 209;
                         break;
                     case 'BLUE':
+                        textColorPinc = 0;
+                        textColorSecu = 0;
                         colorPri1 = 113;
                         colorPri2 = 160;
                         colorPri3 = 228;
@@ -460,8 +463,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         colorSec2 = 229;
                         colorSec3 = 251;
                         break;
+                    case 'GRAY':
+                        textColorPinc = 255;
+                        textColorSecu = 0;
+                        colorPri1 = 57;
+                        colorPri2 = 54;
+                        colorPri3 = 104;
+                        colorSec1 = 219;
+                        colorSec2 = 219;
+                        colorSec3 = 219;
+                        break;
+                    case 'DARKBLUE':
+                        textColorPinc = 255;
+                        textColorSecu = 0;
+                        colorPri1 = 2;
+                        colorPri2 = 34;
+                        colorPri3 = 104;
+                        colorSec1 = 72;
+                        colorSec2 = 163;
+                        colorSec3 = 205;
+                        break;
 
                     default:
+                        textColorPinc = 0;
+                        textColorSecu = 0;
                         colorPri1 = 255;
                         colorPri2 = 255;
                         colorPri3 = 255;
@@ -469,23 +494,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         colorSec2 = 255;
                         colorSec3 = 255;
                         break;
-                }
-                // white
-
-                // funcion para centrado de texto en company
-                function centerText(text) {
-                    var numCenter = 220;
-                    // console.log(text)
-                    // si es jdrivero CA o jd rivero INC
-                    if (text.length < 20) {
-
-                        // console.log('entro: ' + numCenter)
-                        numCenter = numCenter + 30;
-                        return numCenter;
-                    } else {
-                        // si es rivero visual group o otras con nombres largos
-                        return numCenter;
-                    }
                 }
 
                 var imgLogoURL = window.location.origin + '/' + logo;
@@ -533,103 +541,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             cont += 20;
                         }
                     }
-
-                    // doc.text( 'izquierda?.', eje X, eje Y );
-                    //  console.log(colorPri1,colorPri2,colorPri3)
                     //  Encabezado
                     doc.setDrawColor(0);
                     doc.setFillColor(colorPri1, colorPri2, colorPri3); // color de los rectangulos
                     doc.rect(30, 25, 550, 20, 'F');
-                    doc.addImage(imgData, 'JPEG', 35, 50, 85, 60);
+                    var ICONOS = {
+                        'icoMap': 'data:image/png;base64,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',
+                        'icoPhone': 'data:image/png;base64,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',
+                        'icoGlobe': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAzCAYAAADVY1sUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL7SURBVHgB7VqLcdswDH3JdQB1AnODaAR1g25QdgNvEHcCuxM4nSDdQO4ETieQO4HTCVLBthoEESVApBKdz+8Od7QNgHgU+BFoYDzktZS17Gt5quW+FoeJIqvltpYv4nv63BCQInX9yYfDO6DAcbQpsApHQg1ytBPgUjD97OSDvl/jjQhlp854UB7tQXWJJO/F76MSakuXSujcop9EIwthW7X49kiMZSAYz3Qc9CRIaFD4U1kE9JZIAOqo7AjGMd05bETkU8kQXiC2eEnaTGLbEcRPoV/BTmQvfHQN2mAy254gPNMtYCfRSMH8+B7dLYxYKgJwTH+t0A/JivnJFPrqOeMVzuTIVAobbXr1ZQLJHD1wyqBWwuYpUmbM30pJ3vHAr1/yUB8VNqxdIB6fWPtBoU8pGEwxB/0I5sxOM4JjPeGihYd6wlqWTK3IObdX2pWNwQdm/OskfXgUn7/X8gNxkD6/ImIDvGAKuMJxcnmDDR1NmpWFJv1npEGM38NiQQaWick7GHJQDAnf5LzR1tM+UsAGPjFTTkjuawcbciJyg+FISWTG2o+wwRERBxsq1h5ribQSuRlCZIrIrnEeOBsih9OvNR8niXMhsiMimvM/x0eMg7+sbV0ND0T+wIaYjasLMRvt7yFPxKG981jEEHmg9xE6rDmLEWtvavmGNNiw9s7od4MLJoYr1vbQgXKZl0vpWB975orxeSe/oBf5IcUHTUFNXUQ4QVt8kPXnAwpDxzNml7oclBvs/pel+FlrE2LYAmtBrQ/ch4MOd+jo20H3WFOXTHPmb1DJtA2a9/CURexK+CoVNnMooRmVzKgfkjXzo7lWWMGIs7joIfRdvZVCX7tkdqXVfQ+J0e4RNbeyXcKvBtxYJDhCc2DBdLpuZUPimL1HojnRB4/Xq5Pc5RfQk5ABtvlWr05WOBw3otCkt/yFwzE7L35/s38SOTwToqB4/hboJ5ILfw35Emmu8sxwOKaITAGPMAnforvAhC92HJ6XU8p3Gu0cF3TjH2L2H0VgekrQAAAAAElFTkSuQmCC',
+                        'icoMail': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAmCAYAAACGeMg8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAG6SURBVHgB7VnbcYMwEFwnDVCCPvPpEijBHYQO4s/84Q5MB6YDpwPSgd0BdIA7IJyRJhiONzIS4505PDDotCstOpCBf/h5xHlklsQlDw8VnA0l2yeIO96lqm/Yi488NhsUU7SF3UhISIYV4A0rwaqE/MJ+XOkgYFf94OqJUIqcPALDCXMRSu417A0k2xR7dEDAbKsRN7bunVHyWElMCCxOuhrEtWqlrbzeOlWmWC1t4PdVuuehwYlRLLCs1WLUreRIrlmTENVQMA2XWNUC8FaKmXsbk/iow0MxzboFpGC+NfBopd5ClNVEJZmAXqtdwDsi6mjXmZhIu6jjoEFEwPTjot/A9e7En9DJ2ME6DsgxedrpfMqncgR+pYwG5hk1eh7qOIzIxdWGHcYtKKNH8oj+S2MfKzkYZqXZhChCokKIzsOWNifoKbqTGlM0vT64KJ6dVEYE/oH+xDy1aXKCNqu1YaqVtAlRVvPQDRfzF9VZk6mIpKDyDDnyWqSjz2fsayXyV0AjXht0puElxDSQkBvsx42EXGE/fuhAL3rP+HzVFcRdKEUu7Nz/TSX3ex0pYwd7/r1KUFjq/oz/Ad4q72Jw+8N+AAAAAElFTkSuQmCC',
+                        'logo': imgData
+                    };
+
+                    var COMPONENT = {
+                        userProcess: userProcess,
+                        dateTime: dataTime,
+                        period: period,
+                        payrollTypeName: payrollTypeName,
+                        country: country,
+                        company: company,
+                        companyNumber: companyNumber,
+                        companyAddress: companyAddress
+                        // numero de pagina 
+                    };doc.setFontSize(7.5);
+                    doc.setFontType("italic");
+                    doc.text('Page: 1/' + numPage, 549, 20);
+                    doc.text('Page: 1/' + numPage, 549, 760);
+
+                    // rectangulo de los titulos de tablas
+                    doc.setDrawColor(0);
+                    doc.setFillColor(colorSec1, colorSec2, colorSec3);
+                    doc.rect(30, 117, 550, 20, 'F');
+
                     doc.setFont("helvetica");
-                    doc.setFontType("bold");
-                    doc.setFontSize(14);
-                    doc.text('PRE-VACACIONES', 240, 40);
-                    // doc.setFontType("courier");
+                    // generador de textos de tabla config_report
+                    configReport.forEach(function (element) {
+                        if (element.fieldType === 'text') {
+                            doc.setFontType(element.fontType);
+                            doc.setFontSize(element.size);
+                            doc.setTextColor(element.r, element.g, element.b);
+                            doc.text(element.value, element.x1, element.y1);
+                            doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                            doc.setFontType("normal");
+                        }
+                        if (element.fieldType === 'JPEG') {
+                            var ICOLOGO = ICONOS[element.value];
+                            doc.addImage(ICOLOGO, element.fieldType, element.x1, element.y1, element.width, element.high);
+                        }
+                        if (element.fieldType === 'component') {
+                            var COMP = COMPONENT[element.value];
+                            doc.setFontType(element.fontType);
+                            doc.setFontSize(element.size);
+                            doc.setTextColor(element.r, element.g, element.b);
+                            doc.text(COMP, element.x1, element.y1);
+                            doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                            doc.setFontType("normal");
+                        }
+                        console.log(element);
+                    });
 
-                    doc.setFontType("bold");
-                    doc.text(company, centerText(company), 70);
-                    // doc.setFontType("courier");
-
-                    doc.setFontSize(8.5);
-                    doc.text('Rif: ' + companyNumber, 265, 80);
-                    doc.setFontType("normal");
-                    // console.log('conpany: ' + company)
-                    if (companyId == 4) {
-                        doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                        doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                        doc.addImage(icoMail, 'JPEG', 179, 103, 9, 8);
-                        doc.text('+58 (247) 342-9544', 270, 100);
-                        doc.text('info@riverovisualgroup.com', 190, 110);
-                        doc.text('www.riverovisualgroup.com', 315, 110);
-                        // pie de pagina
-                        doc.setFontSize(7.5);
-                        doc.setFontType("italic");
-                        var _dataTime = new Date();
-                        var yearYYYY = _dataTime.getFullYear();
-                        doc.text('\xA9 Copyright ' + yearYYYY + ' Rivero Visual Group - All rights reserved ', 210, 760);
-                        doc.setFontType("normal");
-                    }
-                    if (companyId == 5) {
-                        doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                        doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                        doc.addImage(icoMail, 'JPEG', 219, 103, 9, 7);
-                        doc.text('+58 (247) 342-9544', 270, 100);
-                        doc.text('info@jdrivero.com       www.jdrivero.com', 230, 110);
-                        // pie de pagina
-                        doc.setFontType("italic");
-                        doc.setFontSize(7.5);
-                        var _dataTime2 = new Date();
-                        var _yearYYYY = _dataTime2.getFullYear();
-                        doc.text('\xA9 Copyright ' + _yearYYYY + ' JD Rivero Global - All rights reserved ', 215, 760);
-                        doc.setFontType("normal");
-                    }
-                    doc.addImage(icoMap, 'JPEG', 181, 82, 11, 9);
-                    doc.text(companyAddress, 195, 90);
                     // pie de pagina
                     doc.setFontSize(7.5);
-                    doc.text('Pagina:', 515, 760);
-                    doc.text('1/' + numPage, 545, 760);
                     doc.setFontType("italic");
                     doc.text('Designed By Rivero Visual Group', 250, 775);
                     doc.setFontType("normal");
 
-                    doc.setFontSize(7.5);
-                    doc.setFontType("bold");
-                    // doc.setFontSize(12);
-                    doc.text('Fecha: ', 435, 80);
-                    doc.text('Periodo: ', 435, 90);
-                    doc.text('Tipo De Nomina:', 435, 100);
-                    doc.text('Pais:', 435, 110);
-                    doc.text('Generado Por:', 435, 70);
-                    doc.text('Pagina:', 435, 60);
-                    doc.setFontType("normal");
-                    doc.text('1/' + numPage, 465, 60);
-                    doc.text(userProcess, 489, 70);
-                    doc.text(dataTime, 462, 80);
-                    doc.text(period, 468, 90);
-                    doc.text(payrollTypeName, 500, 100);
-                    doc.text(country, 455, 110);
-                    doc.setFontSize(12);
-                    doc.setFontType("normal");
-
-                    // // titulos tablas
-                    doc.setDrawColor(0);
-                    doc.setFillColor(colorSec1, colorSec2, colorSec3);
-                    doc.rect(30, 117, 550, 20, 'F');
-                    // doc.line(30, 115, 580, 115);
-                    doc.setFontSize(8);
-                    doc.setFontType("bold");
-                    doc.text('CODIGO', 30, 130);
-                    doc.text('NOMBRE', 76, 130);
-                    doc.text('CONCEPTO', 195, 130);
-                    doc.text('CANTIDAD', 315, 130);
-                    doc.text('ASIGNACION', 385, 130);
-                    doc.text('DEDUCCION', 453, 130);
-                    doc.text('NETO', 545, 130);
-                    // doc.line(30, 138, 580, 138);
-                    doc.setFontSize(7.5);
-                    doc.setFontType("normal");
                     var n = 155;
                     var nRectangulo = 2;
                     var nunIniRectangulo = 145;
@@ -642,10 +618,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         number = number.toFixed(2);
                         if (currencyCurrent) {
                             var montoNuevo = number.toString().replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-                            return '$' + montoNuevo;
+                            return montoNuevo > 0 ? '$' + montoNuevo : '$ 0.00';
                         } else {
                             var _montoNuevo = number.toString().replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1,$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
-                            return 'Bs' + _montoNuevo;
+                            return _montoNuevo > 0 ? 'Bs' + _montoNuevo : 'Bs. 0.00';
                         }
 
                         // let num = parseFloat(number).toFixed(2);
@@ -678,16 +654,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                         // doc.line(30, n - 10, 580, n - 10);
                                         // doc.text(`n es: ${n}`, 150, n);
                                         doc.text(element2.staffCode, 30, n);
-                                        doc.text(element2.staffName, 76, n);
+                                        doc.text(element2.staffName, 96, n);
                                         name = false;
                                         doc.setFontType("normal");
                                     }
-                                    doc.line(193, n - 10, 193, n + 5); // vertical line
-                                    doc.line(309, n - 10, 309, n + 5); // vertical line
+                                    doc.line(203, n - 10, 203, n + 5); // vertical line
+                                    doc.line(329, n - 10, 329, n + 5); // vertical line
                                     doc.line(365, n - 10, 365, n + 5); // vertical line
                                     doc.line(448, n - 10, 448, n + 5); // vertical line
                                     doc.line(510, n - 10, 510, n + 5); // vertical line
-                                    doc.text(element2.transactionTypeName, 195, n);
+                                    doc.text(element2.transactionTypeName, 205, n);
                                     doc.text(element2.quantity, 361, n, 'right');
                                     // validacion de moneda
                                     var amount = element2.amount;
@@ -720,112 +696,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     if (n > 720) {
                                         page += 1;
                                         doc.addPage();
-
-                                        //  Encabezado
-                                        doc.setDrawColor(0);
-                                        doc.setFillColor(colorPri1, colorPri2, colorPri3); // color de los rectangulos
-                                        doc.rect(30, 25, 550, 20, 'F');
-                                        doc.addImage(imgData, 'JPEG', 35, 50, 95, 60);
-                                        doc.setFont("helvetica");
-                                        doc.setFontType("bold");
-                                        doc.setFontSize(14);
-                                        doc.text('PRE-VACACIONES', 240, 40);
-                                        // doc.setFontType("courier");
-
-
-                                        // doc.text( 'PAIS:', 30, 74 );
-                                        // doc.text( country, 63, 74 );
-                                        // doc.text( 'EMPRESA:', 30, 84 );
-                                        doc.setFontType("bold");
-                                        doc.text(company, centerText(company), 70);
-                                        // doc.setFontType("courier");
-
-                                        doc.setFontSize(8.5);
-                                        doc.text('Rif: ' + companyNumber, 265, 80);
-                                        doc.setFontType("normal");
-                                        // console.log('conpany: ' + company)
-                                        if (companyId == 4) {
-                                            doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                                            doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                                            doc.addImage(icoMail, 'JPEG', 179, 103, 9, 8);
-                                            doc.text('+58 (247) 342-9544', 270, 100);
-                                            doc.text('info@riverovisualgroup.com', 190, 110);
-                                            doc.text('www.riverovisualgroup.com', 315, 110);
-                                            // pie de pagina
-                                            doc.setFontSize(7.5);
-                                            doc.setFontType("italic");
-                                            var _dataTime3 = new Date();
-                                            var _yearYYYY2 = _dataTime3.getFullYear();
-                                            doc.text('\xA9 Copyright ' + _yearYYYY2 + ' Rivero Visual Group - All rights reserved ', 210, 760);
-                                            doc.setFontType("normal");
-                                        }
-                                        if (companyId == 5) {
-                                            doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                                            doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                                            doc.addImage(icoMail, 'JPEG', 219, 103, 9, 7);
-                                            doc.text('+58 (247) 342-9544', 270, 100);
-                                            doc.text('info@jdrivero.com       www.jdrivero.com', 230, 110);
-                                            // pie de pagina
-                                            doc.setFontType("italic");
-                                            doc.setFontSize(7.5);
-                                            var _dataTime4 = new Date();
-                                            var _yearYYYY3 = _dataTime4.getFullYear();
-                                            doc.text('\xA9 Copyright ' + _yearYYYY3 + ' JD Rivero Global - All rights reserved ', 215, 760);
-                                            doc.setFontType("normal");
-                                        }
-                                        doc.addImage(icoMap, 'JPEG', 181, 82, 11, 9);
-                                        doc.text(companyAddress, 195, 90);
-                                        // pie de pagina
-                                        doc.setFontSize(7.5);
-                                        doc.text('Pagina:', 515, 760);
-                                        doc.text(page + '/' + numPage, 545, 760);
-                                        doc.setFontType("italic");
-                                        doc.text('Designed By Rivero Visual Group', 250, 775);
-                                        doc.setFontType("normal");
-
-                                        doc.setFontSize(7.5);
-                                        doc.setFontType("bold");
-                                        // doc.setFontSize(12);
-                                        doc.text('Fecha: ', 435, 80);
-                                        doc.text('Periodo: ', 435, 90);
-                                        doc.text('Tipo De Nomina:', 435, 100);
-                                        doc.text('Pais:', 435, 110);
-                                        doc.text('Generado Por:', 435, 70);
-                                        doc.text('Pagina:', 435, 60);
-                                        doc.setFontType("normal");
-                                        doc.text(page + '/' + numPage, 465, 60);
-                                        doc.text(userProcess, 489, 70);
-                                        doc.text(dataTime, 462, 80);
-                                        doc.text(period, 468, 90);
-                                        doc.text(payrollTypeName, 500, 100);
-                                        doc.text(country, 455, 110);
-                                        doc.setFontSize(12);
-                                        doc.setFontType("normal");
-
-                                        // // titulos tablas
+                                        // rectangulo de los titulos de tablas
                                         doc.setDrawColor(0);
                                         doc.setFillColor(colorSec1, colorSec2, colorSec3);
                                         doc.rect(30, 117, 550, 20, 'F');
-                                        // doc.line(30, 115, 580, 115);
-                                        doc.setFontSize(8);
-                                        doc.setFontType("bold");
-                                        doc.text('CODIGO', 30, 130);
-                                        doc.text('NOMBRE', 76, 130);
-                                        doc.text('CONCEPTO', 195, 130);
-                                        doc.text('CANTIDAD', 315, 130);
-                                        doc.text('ASIGNACION', 385, 130);
-                                        doc.text('DEDUCCION', 453, 130);
-                                        doc.text('NETO', 545, 130);
-                                        // doc.line(30, 138, 580, 138);
+                                        doc.setDrawColor(0);
+                                        doc.setFillColor(colorPri1, colorPri2, colorPri3); // color de los rectangulos
+                                        doc.rect(30, 25, 550, 20, 'F');
+
+                                        // numero de pagina 
+                                        doc.setFontSize(7.5);
+                                        doc.setFontType("italic");
+                                        doc.text('Page: ' + page + '/' + numPage, 549, 20);
+                                        doc.text('Page: ' + page + '/' + numPage, 549, 760);
+
+                                        // generador de textos de tabla config_report
+                                        doc.setFont("helvetica");
+                                        configReport.forEach(function (element) {
+                                            if (element.fieldType === 'text') {
+                                                doc.setFontType(element.fontType);
+                                                doc.setFontSize(element.size);
+                                                doc.setTextColor(element.r, element.g, element.b);
+                                                doc.text(element.value, element.x1, element.y1);
+                                                doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                                                doc.setFontType("normal");
+                                            }
+                                            if (element.fieldType === 'JPEG') {
+                                                var ICOLOGO = ICONOS[element.value];
+                                                doc.addImage(ICOLOGO, element.fieldType, element.x1, element.y1, element.width, element.high);
+                                            }
+                                            if (element.fieldType === 'component') {
+                                                var COMP = COMPONENT[element.value];
+                                                doc.setFontType(element.fontType);
+                                                doc.setFontSize(element.size);
+                                                doc.setTextColor(element.r, element.g, element.b);
+                                                doc.text(COMP, element.x1, element.y1);
+                                                doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                                                doc.setFontType("normal");
+                                            }
+                                        });
 
                                         doc.setFontSize(7.5);
                                         doc.setFontType("normal");
-
                                         n = 155;
                                         nunIniRectangulo = 145;
                                         // nRectangulo = 2
+
+                                        // pie de pagina
+                                        doc.setFontSize(7.5);
+                                        doc.setFontType("italic");
+                                        doc.text('Designed By Rivero Visual Group', 250, 775);
+                                        doc.setFontType("normal");
                                     }
                                 });
+
                                 // indica si imprime linea amarilla
                                 if (nRectangulo % 2 == 0) {
                                     doc.setDrawColor(0);
@@ -885,24 +809,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         // return
                     }
                     doc.setFontType("bold");
-
                     totalAsignacion;
                     totalDeduccion;
                     var totalNeto = totalAsignacion - totalDeduccion;
                     n = n + 5;
                     doc.text('TOTAL GENERAL:', 215, n);
-                    doc.text(' ' + formatNumber(totalAsignacion, selecCurrency1), 438, n, 'right');
+                    doc.text(' ' + formatNumber(totalAsignacion, selecCurrency1), 445, n, 'right');
                     doc.text(' ' + formatNumber(totalDeduccion, selecCurrency1), 508, n, 'right');
                     doc.text(' ' + formatNumber(totalNeto, selecCurrency1), 578, n, 'right');
+                    // doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
 
                     doc.save(company + '-' + period + '.pdf');
-                    // console.log(res.data.print)
-                    // this.$emit("prePayrollDetail", objPrePayrollDetail)
                 }
 
                 // llamo la funcion para combertir imagen a base64 y le paso por parametro la variable ' imgLogoURL' con la URL
                 toDataUrl(imgLogoURL, function (dataURL) {
                     function closeFrame() {}
+                    // alert('entro')
+                    // let b = document.querySelector("iframe");
+                    // b.remove();
+
                     // como callback llamo una funcion para crear el pdf y le para por varible 'dataURL' la imagen convertida en base64
                     crearPDF(dataURL);
                 });
@@ -1422,9 +1348,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     processCode: this.processCode
                 };
                 axios.post('pre-vacations-post', params).then(function (response) {
-                    console.log('vacaciones');
+                    // console.log('vacaciones')
                     console.log(response);
-                    if (response.statusText == "OK") {
+                    if (response.statusText == "Created") {
                         document.querySelector("#newUpForm").reset();
                         alert("Success");
                     } else {
@@ -2371,114 +2297,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                                         nunIniRectangulo += 15;
                                         nRectangulo += 1;
-                                        if (n > 720) {
-                                            page += 1;
-                                            doc.addPage();
-
-                                            //  Encabezado
-                                            doc.setDrawColor(0);
-                                            doc.setFillColor(colorPri1, colorPri2, colorPri3); // color de los rectangulos
-                                            doc.rect(30, 25, 550, 20, 'F');
-                                            doc.addImage(imgData, 'JPEG', 35, 50, 95, 60);
-                                            doc.setFont("helvetica");
-                                            doc.setFontType("bold");
-                                            doc.setFontSize(14);
-                                            doc.text('VACACIONES', 260, 40);
-                                            // doc.setFontType("courier");
-
-
-                                            // doc.text( 'PAIS:', 30, 74 );
-                                            // doc.text( country, 63, 74 );
-                                            // doc.text( 'EMPRESA:', 30, 84 );
-                                            doc.setFontType("bold");
-                                            doc.text(company, centerText(company), 70);
-                                            // doc.setFontType("courier");
-
-                                            doc.setFontSize(8.5);
-                                            doc.text('Rif: ' + companyNumber, 265, 80);
-                                            doc.setFontType("normal");
-                                            // console.log('conpany: ' + company)
-                                            if (companyId == 4) {
-                                                doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                                                doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                                                doc.addImage(icoMail, 'JPEG', 179, 103, 9, 8);
-                                                doc.text('+58 (247) 342-9544', 270, 100);
-                                                doc.text('info@riverovisualgroup.com', 190, 110);
-                                                doc.text('www.riverovisualgroup.com', 315, 110);
-                                                // pie de pagina
-                                                doc.setFontSize(7.5);
-                                                doc.setFontType("italic");
-                                                var _dataTime3 = new Date();
-                                                var _yearYYYY2 = _dataTime3.getFullYear();
-                                                doc.text('\xA9 Copyright ' + _yearYYYY2 + ' Rivero Visual Group - All rights reserved ', 210, 760);
-                                                doc.setFontType("normal");
-                                            }
-                                            if (companyId == 5) {
-                                                doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                                                doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                                                doc.addImage(icoMail, 'JPEG', 219, 103, 9, 7);
-                                                doc.text('+58 (247) 342-9544', 270, 100);
-                                                doc.text('info@jdrivero.com       www.jdrivero.com', 230, 110);
-                                                // pie de pagina
-                                                doc.setFontType("italic");
-                                                doc.setFontSize(7.5);
-                                                var _dataTime4 = new Date();
-                                                var _yearYYYY3 = _dataTime4.getFullYear();
-                                                doc.text('\xA9 Copyright ' + _yearYYYY3 + ' JD Rivero Global - All rights reserved ', 215, 760);
-                                                doc.setFontType("normal");
-                                            }
-                                            doc.addImage(icoMap, 'JPEG', 181, 82, 11, 9);
-                                            doc.text(companyAddress, 195, 90);
-                                            // pie de pagina
-                                            doc.setFontSize(7.5);
-                                            doc.text('Pagina:', 515, 760);
-                                            doc.text(page + '/' + numPage, 545, 760);
-                                            doc.setFontType("italic");
-                                            doc.text('Designed By Rivero Visual Group', 250, 775);
-                                            doc.setFontType("normal");
-
-                                            doc.setFontSize(7.5);
-                                            doc.setFontType("bold");
-                                            // doc.setFontSize(12);
-                                            doc.text('Fecha: ', 435, 80);
-                                            doc.text('Periodo: ', 435, 90);
-                                            doc.text('Tipo De Nomina:', 435, 100);
-                                            doc.text('Pais:', 435, 110);
-                                            doc.text('Generado Por:', 435, 70);
-                                            doc.text('Pagina:', 435, 60);
-                                            doc.setFontType("normal");
-                                            doc.text(page + '/' + numPage, 465, 60);
-                                            doc.text(userProcess, 489, 70);
-                                            doc.text(dataTime, 462, 80);
-                                            doc.text(period, 468, 90);
-                                            doc.text(payrollTypeName, 500, 100);
-                                            doc.text(country, 455, 110);
-                                            doc.setFontSize(12);
-                                            doc.setFontType("normal");
-
-                                            // // titulos tablas
-                                            doc.setDrawColor(0);
-                                            doc.setFillColor(colorSec1, colorSec2, colorSec3);
-                                            doc.rect(30, 117, 550, 20, 'F');
-                                            // doc.line(30, 115, 580, 115);
-                                            doc.setFontSize(8);
-                                            doc.setFontType("bold");
-                                            doc.text('CODIGO', 30, 130);
-                                            doc.text('NOMBRE', 76, 130);
-                                            doc.text('CONCEPTO', 195, 130);
-                                            doc.text('CANTIDAD', 315, 130);
-                                            doc.text('ASIGNACION', 385, 130);
-                                            doc.text('DEDUCCION', 453, 130);
-                                            doc.text('NETO', 545, 130);
-                                            // doc.line(30, 138, 580, 138);
-
-                                            doc.setFontSize(7.5);
-                                            doc.setFontType("normal");
-
-                                            n = 155;
-                                            nunIniRectangulo = 145;
-                                            // nRectangulo = 2
-                                        }
                                     });
                                     // indica si imprime linea amarilla
                                     if (nRectangulo % 2 == 0) {
@@ -2625,13 +2443,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var selecCurrency1 = this.currency;
 
             axios.get(URL).then(function (res) {
-                // console.log(res)
+                console.log(res);
                 // return
                 if (res.status === 204) {
                     return alert('Sin contenido');
                 }
                 var objPrePayrollDetail = res.data.print;
-                // return
+
                 var period = objPrePayrollDetail[0];
                 var country = objPrePayrollDetail[1];
                 var company = objPrePayrollDetail[2];
@@ -2639,13 +2457,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 var payrollTypeName = objPrePayrollDetail[4];
                 var companyAddress = objPrePayrollDetail[7];
                 var companyNumber = objPrePayrollDetail[8];
-                var companyId = objPrePayrollDetail[9];
+                // let companyId = objPrePayrollDetail[9]
+                var configReport = objPrePayrollDetail[9];
                 var color = objPrePayrollDetail[10];
                 var userProcess = objPrePayrollDetail[13];
-                var icoMap = 'data:image/png;base64,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';
-                var icoPhone = 'data:image/png;base64,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';
-                var icoGlobe = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAzCAYAAADVY1sUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL7SURBVHgB7VqLcdswDH3JdQB1AnODaAR1g25QdgNvEHcCuxM4nSDdQO4ETieQO4HTCVLBthoEESVApBKdz+8Od7QNgHgU+BFoYDzktZS17Gt5quW+FoeJIqvltpYv4nv63BCQInX9yYfDO6DAcbQpsApHQg1ytBPgUjD97OSDvl/jjQhlp854UB7tQXWJJO/F76MSakuXSujcop9EIwthW7X49kiMZSAYz3Qc9CRIaFD4U1kE9JZIAOqo7AjGMd05bETkU8kQXiC2eEnaTGLbEcRPoV/BTmQvfHQN2mAy254gPNMtYCfRSMH8+B7dLYxYKgJwTH+t0A/JivnJFPrqOeMVzuTIVAobbXr1ZQLJHD1wyqBWwuYpUmbM30pJ3vHAr1/yUB8VNqxdIB6fWPtBoU8pGEwxB/0I5sxOM4JjPeGihYd6wlqWTK3IObdX2pWNwQdm/OskfXgUn7/X8gNxkD6/ImIDvGAKuMJxcnmDDR1NmpWFJv1npEGM38NiQQaWick7GHJQDAnf5LzR1tM+UsAGPjFTTkjuawcbciJyg+FISWTG2o+wwRERBxsq1h5ribQSuRlCZIrIrnEeOBsih9OvNR8niXMhsiMimvM/x0eMg7+sbV0ND0T+wIaYjasLMRvt7yFPxKG981jEEHmg9xE6rDmLEWtvavmGNNiw9s7od4MLJoYr1vbQgXKZl0vpWB975orxeSe/oBf5IcUHTUFNXUQ4QVt8kPXnAwpDxzNml7oclBvs/pel+FlrE2LYAmtBrQ/ch4MOd+jo20H3WFOXTHPmb1DJtA2a9/CURexK+CoVNnMooRmVzKgfkjXzo7lWWMGIs7joIfRdvZVCX7tkdqXVfQ+J0e4RNbeyXcKvBtxYJDhCc2DBdLpuZUPimL1HojnRB4/Xq5Pc5RfQk5ABtvlWr05WOBw3otCkt/yFwzE7L35/s38SOTwToqB4/hboJ5ILfw35Emmu8sxwOKaITAGPMAnforvAhC92HJ6XU8p3Gu0cF3TjH2L2H0VgekrQAAAAAElFTkSuQmCC';
-                var icoMail = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAmCAYAAACGeMg8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAG6SURBVHgB7VnbcYMwEFwnDVCCPvPpEijBHYQO4s/84Q5MB6YDpwPSgd0BdIA7IJyRJhiONzIS4505PDDotCstOpCBf/h5xHlklsQlDw8VnA0l2yeIO96lqm/Yi488NhsUU7SF3UhISIYV4A0rwaqE/MJ+XOkgYFf94OqJUIqcPALDCXMRSu417A0k2xR7dEDAbKsRN7bunVHyWElMCCxOuhrEtWqlrbzeOlWmWC1t4PdVuuehwYlRLLCs1WLUreRIrlmTENVQMA2XWNUC8FaKmXsbk/iow0MxzboFpGC+NfBopd5ClNVEJZmAXqtdwDsi6mjXmZhIu6jjoEFEwPTjot/A9e7En9DJ2ME6DsgxedrpfMqncgR+pYwG5hk1eh7qOIzIxdWGHcYtKKNH8oj+S2MfKzkYZqXZhChCokKIzsOWNifoKbqTGlM0vT64KJ6dVEYE/oH+xDy1aXKCNqu1YaqVtAlRVvPQDRfzF9VZk6mIpKDyDDnyWqSjz2fsayXyV0AjXht0puElxDSQkBvsx42EXGE/fuhAL3rP+HzVFcRdKEUu7Nz/TSX3ex0pYwd7/r1KUFjq/oz/Ad4q72Jw+8N+AAAAAElFTkSuQmCC';
                 var dataTime = _this4.formatDate();
                 var colorPri1 = void 0;
                 var colorPri2 = void 0;
@@ -2653,11 +2468,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 var colorSec1 = void 0;
                 var colorSec2 = void 0;
                 var colorSec3 = void 0;
+                var textColorPinc = void 0;
+                var textColorSecu = void 0;
 
                 // chequear si el total general es el local o moneda extrangera
                 var totalAsignacion = void 0;
                 var totalDeduccion = void 0;
-                if (selecCurrency1 == 1) {
+                if (selecCurrency1) {
                     totalAsignacion = objPrePayrollDetail[5];
                     totalDeduccion = objPrePayrollDetail[6];
                 } else {
@@ -2667,6 +2484,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 // plantilla de colores
                 switch (color) {
                     case 'YELLOW':
+                        textColorPinc = 0;
+                        textColorSecu = 0;
                         colorPri1 = 230;
                         colorPri2 = 219;
                         colorPri3 = 153;
@@ -2675,6 +2494,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         colorSec3 = 209;
                         break;
                     case 'BLUE':
+                        textColorPinc = 0;
+                        textColorSecu = 0;
                         colorPri1 = 113;
                         colorPri2 = 160;
                         colorPri3 = 228;
@@ -2682,8 +2503,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         colorSec2 = 229;
                         colorSec3 = 251;
                         break;
+                    case 'GRAY':
+                        textColorPinc = 255;
+                        textColorSecu = 0;
+                        colorPri1 = 57;
+                        colorPri2 = 54;
+                        colorPri3 = 104;
+                        colorSec1 = 219;
+                        colorSec2 = 219;
+                        colorSec3 = 219;
+                        break;
+                    case 'DARKBLUE':
+                        textColorPinc = 255;
+                        textColorSecu = 0;
+                        colorPri1 = 2;
+                        colorPri2 = 34;
+                        colorPri3 = 104;
+                        colorSec1 = 72;
+                        colorSec2 = 163;
+                        colorSec3 = 205;
+                        break;
 
                     default:
+                        textColorPinc = 0;
+                        textColorSecu = 0;
                         colorPri1 = 255;
                         colorPri2 = 255;
                         colorPri3 = 255;
@@ -2691,23 +2534,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         colorSec2 = 255;
                         colorSec3 = 255;
                         break;
-                }
-                // white
-
-                // funcion para centrado de texto en company
-                function centerText(text) {
-                    var numCenter = 220;
-                    // console.log(text)
-                    // si es jdrivero CA o jd rivero INC
-                    if (text.length < 20) {
-
-                        // console.log('entro: ' + numCenter)
-                        numCenter = numCenter + 30;
-                        return numCenter;
-                    } else {
-                        // si es rivero visual group o otras con nombres largos
-                        return numCenter;
-                    }
                 }
 
                 var imgLogoURL = window.location.origin + '/' + logo;
@@ -2755,103 +2581,71 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                             cont += 20;
                         }
                     }
-
-                    // doc.text( 'izquierda?.', eje X, eje Y );
-                    //  console.log(colorPri1,colorPri2,colorPri3)
                     //  Encabezado
                     doc.setDrawColor(0);
                     doc.setFillColor(colorPri1, colorPri2, colorPri3); // color de los rectangulos
                     doc.rect(30, 25, 550, 20, 'F');
-                    doc.addImage(imgData, 'JPEG', 35, 50, 85, 60);
+                    var ICONOS = {
+                        'icoMap': 'data:image/png;base64,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',
+                        'icoPhone': 'data:image/png;base64,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',
+                        'icoGlobe': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAzCAYAAADVY1sUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL7SURBVHgB7VqLcdswDH3JdQB1AnODaAR1g25QdgNvEHcCuxM4nSDdQO4ETieQO4HTCVLBthoEESVApBKdz+8Od7QNgHgU+BFoYDzktZS17Gt5quW+FoeJIqvltpYv4nv63BCQInX9yYfDO6DAcbQpsApHQg1ytBPgUjD97OSDvl/jjQhlp854UB7tQXWJJO/F76MSakuXSujcop9EIwthW7X49kiMZSAYz3Qc9CRIaFD4U1kE9JZIAOqo7AjGMd05bETkU8kQXiC2eEnaTGLbEcRPoV/BTmQvfHQN2mAy254gPNMtYCfRSMH8+B7dLYxYKgJwTH+t0A/JivnJFPrqOeMVzuTIVAobbXr1ZQLJHD1wyqBWwuYpUmbM30pJ3vHAr1/yUB8VNqxdIB6fWPtBoU8pGEwxB/0I5sxOM4JjPeGihYd6wlqWTK3IObdX2pWNwQdm/OskfXgUn7/X8gNxkD6/ImIDvGAKuMJxcnmDDR1NmpWFJv1npEGM38NiQQaWick7GHJQDAnf5LzR1tM+UsAGPjFTTkjuawcbciJyg+FISWTG2o+wwRERBxsq1h5ribQSuRlCZIrIrnEeOBsih9OvNR8niXMhsiMimvM/x0eMg7+sbV0ND0T+wIaYjasLMRvt7yFPxKG981jEEHmg9xE6rDmLEWtvavmGNNiw9s7od4MLJoYr1vbQgXKZl0vpWB975orxeSe/oBf5IcUHTUFNXUQ4QVt8kPXnAwpDxzNml7oclBvs/pel+FlrE2LYAmtBrQ/ch4MOd+jo20H3WFOXTHPmb1DJtA2a9/CURexK+CoVNnMooRmVzKgfkjXzo7lWWMGIs7joIfRdvZVCX7tkdqXVfQ+J0e4RNbeyXcKvBtxYJDhCc2DBdLpuZUPimL1HojnRB4/Xq5Pc5RfQk5ABtvlWr05WOBw3otCkt/yFwzE7L35/s38SOTwToqB4/hboJ5ILfw35Emmu8sxwOKaITAGPMAnforvAhC92HJ6XU8p3Gu0cF3TjH2L2H0VgekrQAAAAAElFTkSuQmCC',
+                        'icoMail': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAmCAYAAACGeMg8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAG6SURBVHgB7VnbcYMwEFwnDVCCPvPpEijBHYQO4s/84Q5MB6YDpwPSgd0BdIA7IJyRJhiONzIS4505PDDotCstOpCBf/h5xHlklsQlDw8VnA0l2yeIO96lqm/Yi488NhsUU7SF3UhISIYV4A0rwaqE/MJ+XOkgYFf94OqJUIqcPALDCXMRSu417A0k2xR7dEDAbKsRN7bunVHyWElMCCxOuhrEtWqlrbzeOlWmWC1t4PdVuuehwYlRLLCs1WLUreRIrlmTENVQMA2XWNUC8FaKmXsbk/iow0MxzboFpGC+NfBopd5ClNVEJZmAXqtdwDsi6mjXmZhIu6jjoEFEwPTjot/A9e7En9DJ2ME6DsgxedrpfMqncgR+pYwG5hk1eh7qOIzIxdWGHcYtKKNH8oj+S2MfKzkYZqXZhChCokKIzsOWNifoKbqTGlM0vT64KJ6dVEYE/oH+xDy1aXKCNqu1YaqVtAlRVvPQDRfzF9VZk6mIpKDyDDnyWqSjz2fsayXyV0AjXht0puElxDSQkBvsx42EXGE/fuhAL3rP+HzVFcRdKEUu7Nz/TSX3ex0pYwd7/r1KUFjq/oz/Ad4q72Jw+8N+AAAAAElFTkSuQmCC',
+                        'logo': imgData
+                    };
+
+                    var COMPONENT = {
+                        userProcess: userProcess,
+                        dateTime: dataTime,
+                        period: period,
+                        payrollTypeName: payrollTypeName,
+                        country: country,
+                        company: company,
+                        companyNumber: companyNumber,
+                        companyAddress: companyAddress
+                        // numero de pagina 
+                    };doc.setFontSize(7.5);
+                    doc.setFontType("italic");
+                    doc.text('Page: 1/' + numPage, 549, 20);
+                    doc.text('Page: 1/' + numPage, 549, 760);
+
+                    // rectangulo de los titulos de tablas
+                    doc.setDrawColor(0);
+                    doc.setFillColor(colorSec1, colorSec2, colorSec3);
+                    doc.rect(30, 117, 550, 20, 'F');
+
                     doc.setFont("helvetica");
-                    doc.setFontType("bold");
-                    doc.setFontSize(14);
-                    doc.text('VACACIONES', 260, 40);
-                    // doc.setFontType("courier");
+                    // generador de textos de tabla config_report
+                    configReport.forEach(function (element) {
+                        if (element.fieldType === 'text') {
+                            doc.setFontType(element.fontType);
+                            doc.setFontSize(element.size);
+                            doc.setTextColor(element.r, element.g, element.b);
+                            doc.text(element.value, element.x1, element.y1);
+                            doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                            doc.setFontType("normal");
+                        }
+                        if (element.fieldType === 'JPEG') {
+                            var ICOLOGO = ICONOS[element.value];
+                            doc.addImage(ICOLOGO, element.fieldType, element.x1, element.y1, element.width, element.high);
+                        }
+                        if (element.fieldType === 'component') {
+                            var COMP = COMPONENT[element.value];
+                            doc.setFontType(element.fontType);
+                            doc.setFontSize(element.size);
+                            doc.setTextColor(element.r, element.g, element.b);
+                            doc.text(COMP, element.x1, element.y1);
+                            doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                            doc.setFontType("normal");
+                        }
+                        console.log(element);
+                    });
 
-                    doc.setFontType("bold");
-                    doc.text(company, centerText(company), 70);
-                    // doc.setFontType("courier");
-
-                    doc.setFontSize(8.5);
-                    doc.text('Rif: ' + companyNumber, 265, 80);
-                    doc.setFontType("normal");
-                    // console.log('conpany: ' + company)
-                    if (companyId == 4) {
-                        doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                        doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                        doc.addImage(icoMail, 'JPEG', 179, 103, 9, 8);
-                        doc.text('+58 (247) 342-9544', 270, 100);
-                        doc.text('info@riverovisualgroup.com', 190, 110);
-                        doc.text('www.riverovisualgroup.com', 315, 110);
-                        // pie de pagina
-                        doc.setFontSize(7.5);
-                        doc.setFontType("italic");
-                        var _dataTime5 = new Date();
-                        var yearYYYY = _dataTime5.getFullYear();
-                        doc.text('\xA9 Copyright ' + yearYYYY + ' Rivero Visual Group - All rights reserved ', 210, 760);
-                        doc.setFontType("normal");
-                    }
-                    if (companyId == 5) {
-                        doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                        doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                        doc.addImage(icoMail, 'JPEG', 219, 103, 9, 7);
-                        doc.text('+58 (247) 342-9544', 270, 100);
-                        doc.text('info@jdrivero.com       www.jdrivero.com', 230, 110);
-                        // pie de pagina
-                        doc.setFontType("italic");
-                        doc.setFontSize(7.5);
-                        var _dataTime6 = new Date();
-                        var _yearYYYY4 = _dataTime6.getFullYear();
-                        doc.text('\xA9 Copyright ' + _yearYYYY4 + ' JD Rivero Global - All rights reserved ', 215, 760);
-                        doc.setFontType("normal");
-                    }
-                    doc.addImage(icoMap, 'JPEG', 181, 82, 11, 9);
-                    doc.text(companyAddress, 195, 90);
                     // pie de pagina
                     doc.setFontSize(7.5);
-                    doc.text('Pagina:', 515, 760);
-                    doc.text('1/' + numPage, 545, 760);
                     doc.setFontType("italic");
                     doc.text('Designed By Rivero Visual Group', 250, 775);
                     doc.setFontType("normal");
 
-                    doc.setFontSize(7.5);
-                    doc.setFontType("bold");
-                    // doc.setFontSize(12);
-                    doc.text('Fecha: ', 435, 80);
-                    doc.text('Periodo: ', 435, 90);
-                    doc.text('Tipo De Nomina:', 435, 100);
-                    doc.text('Pais:', 435, 110);
-                    doc.text('Generado Por:', 435, 70);
-                    doc.text('Pagina:', 435, 60);
-                    doc.setFontType("normal");
-                    doc.text('1/' + numPage, 465, 60);
-                    doc.text(userProcess, 489, 70);
-                    doc.text(dataTime, 462, 80);
-                    doc.text(period, 468, 90);
-                    doc.text(payrollTypeName, 500, 100);
-                    doc.text(country, 455, 110);
-                    doc.setFontSize(12);
-                    doc.setFontType("normal");
-
-                    // // titulos tablas
-                    doc.setDrawColor(0);
-                    doc.setFillColor(colorSec1, colorSec2, colorSec3);
-                    doc.rect(30, 117, 550, 20, 'F');
-                    // doc.line(30, 115, 580, 115);
-                    doc.setFontSize(8);
-                    doc.setFontType("bold");
-                    doc.text('CODIGO', 30, 130);
-                    doc.text('NOMBRE', 76, 130);
-                    doc.text('CONCEPTO', 195, 130);
-                    doc.text('CANTIDAD', 315, 130);
-                    doc.text('ASIGNACION', 385, 130);
-                    doc.text('DEDUCCION', 453, 130);
-                    doc.text('NETO', 545, 130);
-                    // doc.line(30, 138, 580, 138);
-                    doc.setFontSize(7.5);
-                    doc.setFontType("normal");
                     var n = 155;
                     var nRectangulo = 2;
                     var nunIniRectangulo = 145;
@@ -2864,10 +2658,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         number = number.toFixed(2);
                         if (currencyCurrent) {
                             var montoNuevo = number.toString().replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-                            return '$' + montoNuevo;
+                            return montoNuevo > 0 ? '$' + montoNuevo : '$ 0.00';
                         } else {
                             var _montoNuevo2 = number.toString().replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1,$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
-                            return 'Bs' + _montoNuevo2;
+                            return _montoNuevo2 > 0 ? 'Bs' + _montoNuevo2 : 'Bs. 0.00';
                         }
 
                         // let num = parseFloat(number).toFixed(2);
@@ -2900,16 +2694,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                                         // doc.line(30, n - 10, 580, n - 10);
                                         // doc.text(`n es: ${n}`, 150, n);
                                         doc.text(element2.staffCode, 30, n);
-                                        doc.text(element2.staffName, 76, n);
+                                        doc.text(element2.staffName, 96, n);
                                         name = false;
                                         doc.setFontType("normal");
                                     }
-                                    doc.line(193, n - 10, 193, n + 5); // vertical line
-                                    doc.line(309, n - 10, 309, n + 5); // vertical line
+                                    doc.line(203, n - 10, 203, n + 5); // vertical line
+                                    doc.line(329, n - 10, 329, n + 5); // vertical line
                                     doc.line(365, n - 10, 365, n + 5); // vertical line
                                     doc.line(448, n - 10, 448, n + 5); // vertical line
                                     doc.line(510, n - 10, 510, n + 5); // vertical line
-                                    doc.text(element2.transactionTypeName, 195, n);
+                                    doc.text(element2.transactionTypeName, 205, n);
                                     doc.text(element2.quantity, 361, n, 'right');
                                     // validacion de moneda
                                     var amount = element2.amount;
@@ -2942,112 +2736,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                                     if (n > 720) {
                                         page += 1;
                                         doc.addPage();
-
-                                        //  Encabezado
-                                        doc.setDrawColor(0);
-                                        doc.setFillColor(colorPri1, colorPri2, colorPri3); // color de los rectangulos
-                                        doc.rect(30, 25, 550, 20, 'F');
-                                        doc.addImage(imgData, 'JPEG', 35, 50, 95, 60);
-                                        doc.setFont("helvetica");
-                                        doc.setFontType("bold");
-                                        doc.setFontSize(14);
-                                        doc.text('VACACIONES', 260, 40);
-                                        // doc.setFontType("courier");
-
-
-                                        // doc.text( 'PAIS:', 30, 74 );
-                                        // doc.text( country, 63, 74 );
-                                        // doc.text( 'EMPRESA:', 30, 84 );
-                                        doc.setFontType("bold");
-                                        doc.text(company, centerText(company), 70);
-                                        // doc.setFontType("courier");
-
-                                        doc.setFontSize(8.5);
-                                        doc.text('Rif: ' + companyNumber, 265, 80);
-                                        doc.setFontType("normal");
-                                        // console.log('conpany: ' + company)
-                                        if (companyId == 4) {
-                                            doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                                            doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                                            doc.addImage(icoMail, 'JPEG', 179, 103, 9, 8);
-                                            doc.text('+58 (247) 342-9544', 270, 100);
-                                            doc.text('info@riverovisualgroup.com', 190, 110);
-                                            doc.text('www.riverovisualgroup.com', 315, 110);
-                                            // pie de pagina
-                                            doc.setFontSize(7.5);
-                                            doc.setFontType("italic");
-                                            var _dataTime7 = new Date();
-                                            var _yearYYYY5 = _dataTime7.getFullYear();
-                                            doc.text('\xA9 Copyright ' + _yearYYYY5 + ' Rivero Visual Group - All rights reserved ', 210, 760);
-                                            doc.setFontType("normal");
-                                        }
-                                        if (companyId == 5) {
-                                            doc.addImage(icoPhone, 'JPEG', 260, 92, 9, 9);
-                                            doc.addImage(icoGlobe, 'JPEG', 304, 103, 9, 9);
-                                            doc.addImage(icoMail, 'JPEG', 219, 103, 9, 7);
-                                            doc.text('+58 (247) 342-9544', 270, 100);
-                                            doc.text('info@jdrivero.com       www.jdrivero.com', 230, 110);
-                                            // pie de pagina
-                                            doc.setFontType("italic");
-                                            doc.setFontSize(7.5);
-                                            var _dataTime8 = new Date();
-                                            var _yearYYYY6 = _dataTime8.getFullYear();
-                                            doc.text('\xA9 Copyright ' + _yearYYYY6 + ' JD Rivero Global - All rights reserved ', 215, 760);
-                                            doc.setFontType("normal");
-                                        }
-                                        doc.addImage(icoMap, 'JPEG', 181, 82, 11, 9);
-                                        doc.text(companyAddress, 195, 90);
-                                        // pie de pagina
-                                        doc.setFontSize(7.5);
-                                        doc.text('Pagina:', 515, 760);
-                                        doc.text(page + '/' + numPage, 545, 760);
-                                        doc.setFontType("italic");
-                                        doc.text('Designed By Rivero Visual Group', 250, 775);
-                                        doc.setFontType("normal");
-
-                                        doc.setFontSize(7.5);
-                                        doc.setFontType("bold");
-                                        // doc.setFontSize(12);
-                                        doc.text('Fecha: ', 435, 80);
-                                        doc.text('Periodo: ', 435, 90);
-                                        doc.text('Tipo De Nomina:', 435, 100);
-                                        doc.text('Pais:', 435, 110);
-                                        doc.text('Generado Por:', 435, 70);
-                                        doc.text('Pagina:', 435, 60);
-                                        doc.setFontType("normal");
-                                        doc.text(page + '/' + numPage, 465, 60);
-                                        doc.text(userProcess, 489, 70);
-                                        doc.text(dataTime, 462, 80);
-                                        doc.text(period, 468, 90);
-                                        doc.text(payrollTypeName, 500, 100);
-                                        doc.text(country, 455, 110);
-                                        doc.setFontSize(12);
-                                        doc.setFontType("normal");
-
-                                        // // titulos tablas
+                                        // rectangulo de los titulos de tablas
                                         doc.setDrawColor(0);
                                         doc.setFillColor(colorSec1, colorSec2, colorSec3);
                                         doc.rect(30, 117, 550, 20, 'F');
-                                        // doc.line(30, 115, 580, 115);
-                                        doc.setFontSize(8);
-                                        doc.setFontType("bold");
-                                        doc.text('CODIGO', 30, 130);
-                                        doc.text('NOMBRE', 76, 130);
-                                        doc.text('CONCEPTO', 195, 130);
-                                        doc.text('CANTIDAD', 315, 130);
-                                        doc.text('ASIGNACION', 385, 130);
-                                        doc.text('DEDUCCION', 453, 130);
-                                        doc.text('NETO', 545, 130);
-                                        // doc.line(30, 138, 580, 138);
+                                        doc.setDrawColor(0);
+                                        doc.setFillColor(colorPri1, colorPri2, colorPri3); // color de los rectangulos
+                                        doc.rect(30, 25, 550, 20, 'F');
+
+                                        // numero de pagina 
+                                        doc.setFontSize(7.5);
+                                        doc.setFontType("italic");
+                                        doc.text('Page: ' + page + '/' + numPage, 549, 20);
+                                        doc.text('Page: ' + page + '/' + numPage, 549, 760);
+
+                                        // generador de textos de tabla config_report
+                                        doc.setFont("helvetica");
+                                        configReport.forEach(function (element) {
+                                            if (element.fieldType === 'text') {
+                                                doc.setFontType(element.fontType);
+                                                doc.setFontSize(element.size);
+                                                doc.setTextColor(element.r, element.g, element.b);
+                                                doc.text(element.value, element.x1, element.y1);
+                                                doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                                                doc.setFontType("normal");
+                                            }
+                                            if (element.fieldType === 'JPEG') {
+                                                var ICOLOGO = ICONOS[element.value];
+                                                doc.addImage(ICOLOGO, element.fieldType, element.x1, element.y1, element.width, element.high);
+                                            }
+                                            if (element.fieldType === 'component') {
+                                                var COMP = COMPONENT[element.value];
+                                                doc.setFontType(element.fontType);
+                                                doc.setFontSize(element.size);
+                                                doc.setTextColor(element.r, element.g, element.b);
+                                                doc.text(COMP, element.x1, element.y1);
+                                                doc.setTextColor(textColorSecu, textColorSecu, textColorSecu);
+                                                doc.setFontType("normal");
+                                            }
+                                        });
 
                                         doc.setFontSize(7.5);
                                         doc.setFontType("normal");
-
                                         n = 155;
                                         nunIniRectangulo = 145;
                                         // nRectangulo = 2
+
+                                        // pie de pagina
+                                        doc.setFontSize(7.5);
+                                        doc.setFontType("italic");
+                                        doc.text('Designed By Rivero Visual Group', 250, 775);
+                                        doc.setFontType("normal");
                                     }
                                 });
+
                                 // indica si imprime linea amarilla
                                 if (nRectangulo % 2 == 0) {
                                     doc.setDrawColor(0);
@@ -3107,24 +2849,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         // return
                     }
                     doc.setFontType("bold");
-
                     totalAsignacion;
                     totalDeduccion;
                     var totalNeto = totalAsignacion - totalDeduccion;
                     n = n + 5;
                     doc.text('TOTAL GENERAL:', 215, n);
-                    doc.text(' ' + formatNumber(totalAsignacion, selecCurrency1), 438, n, 'right');
+                    doc.text(' ' + formatNumber(totalAsignacion, selecCurrency1), 445, n, 'right');
                     doc.text(' ' + formatNumber(totalDeduccion, selecCurrency1), 508, n, 'right');
                     doc.text(' ' + formatNumber(totalNeto, selecCurrency1), 578, n, 'right');
+                    // doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
 
                     doc.save(company + '-' + period + '.pdf');
-                    // console.log(res.data.print)
-                    // this.$emit("prePayrollDetail", objPrePayrollDetail)
                 }
 
                 // llamo la funcion para combertir imagen a base64 y le paso por parametro la variable ' imgLogoURL' con la URL
                 toDataUrl(imgLogoURL, function (dataURL) {
                     function closeFrame() {}
+                    // alert('entro')
+                    // let b = document.querySelector("iframe");
+                    // b.remove();
+
                     // como callback llamo una funcion para crear el pdf y le para por varible 'dataURL' la imagen convertida en base64
                     crearPDF(dataURL);
                 });
