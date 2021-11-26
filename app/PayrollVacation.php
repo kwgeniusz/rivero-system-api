@@ -151,7 +151,7 @@ class PayrollVacation extends Model
         $holiday4 = $period['holiday4'];
         $holiday5 = $period['holiday5'];
         $periodFrom = Carbon::parse($periodFrom);
-        $days = $periodFrom->diffInDays($periodTo); //calcila la diferencia de cias entre periodFrom y periodTo
+        $days = $periodFrom->diffInDays($periodTo); //calcila la diferencia de dias entre periodFrom y periodTo
         // $periodFrom1 = Carbon::createFromFormat('Y-m-d', $periodFrom1)->addDay()->toDateTimeString();
         // $periodFrom1 = $periodFrom->addDay();
         $dayOff = 0;

@@ -35,6 +35,7 @@
                     <thead>
                         <tr>
                             <th>N.</th>
+                            <th>CODIGO</th>
                             <th>NOMBRE</th>
                             <th>CANTIDAD</th>
                             <th>MONTO</th>
@@ -46,6 +47,11 @@
     
                         <tr  v-for="(Process, index) in objProcessDetailList" :key="Process.hrpdId">
                             <td >{{index + 1}}</td>
+                            <td class="form-inline">
+                                <p class="text-left">
+                                    {{Process.transactionTypeCode}}
+                                </p>
+                            </td>
                             <td class="form-inline">
                                 <p class="text-left">
                                     {{Process.transactionTypeName}}
@@ -101,7 +107,7 @@
             axios.get(`process-detail/${this.objProcessDetail.hrprocessId}`).then( response => {
                 this.objProcessDetailList = response.data.processDetail
                 this.lengths = this.objProcessDetailList.length
-                
+                console.log(this.objProcessDetailList)
             })
             // },1000)
             
@@ -129,7 +135,7 @@
                 // console.log(this.objProcessDetailList[index])
                 // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
                 // de esta manera no tengo que buscar los datos en la DB nuevamente
-              
+            
                 this.$emit("indexEditDetail",this.objProcessDetailList[index])
             },
             deleteDetailrow(index, id){

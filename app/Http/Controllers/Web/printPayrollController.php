@@ -6,12 +6,14 @@ namespace App\Http\Controllers\web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\hrPrinPayroll;
+use App\Models\Config_report\Config_report;
 
 class printPayrollController extends Controller
 {
     private $oGetPayroll;
     private $oHeaderPayroll;
     private $oDetailPayroll;
+    private $oConfigReport;
     
     function __construct()
     {
@@ -19,6 +21,7 @@ class printPayrollController extends Controller
         $this->oHeaderPayroll = new hrPrinPayroll;
         $this->oDetailPayroll = new hrPrinPayroll;
         $this->oReporteByTransaction = new hrPrinPayroll();
+        $this->oConfigReport = new Config_report;
     }
 
     /**
@@ -38,6 +41,13 @@ class printPayrollController extends Controller
         // obtiener informacion para los encabezados 
         $res0 = $this->oHeaderPayroll->headerPayroll($countryId, $companyId, $year, $payrollNumber, $payrollTypeId, $payrollCategory="payroll");
         // dd($res0);
+        if (empty($res0)) {
+            return response()->json(['message' => 'no content'], 204);
+            // exit();
+        }
+        // obtengo los datos de configuracion para el reporte
+        $configReport = $this->oConfigReport->getConfigReportByCompany($countryId, $companyId,'payroll');
+
         $print = array();
         $print[0]  = $res0[0]->payrollName;
         $print[1]  = $res0[0]->countryName;
@@ -48,7 +58,7 @@ class printPayrollController extends Controller
         $print[6]  = $res0[0]->totaldeduccion;
         $print[7]  = $res0[0]->companyAddress;
         $print[8]  = $res0[0]->companyNumber;
-        $print[9]  = $res0[0]->companyId;
+        $print[9]  = $configReport;
         $print[10] = $res0[0]->color;
         $print[11] = $res0[0]->totalasignacionLocal;
         $print[12] = $res0[0]->totaldeduccionLocal;
@@ -72,6 +82,10 @@ class printPayrollController extends Controller
 
         // obtiener informacion para los encabezados 
         $res0 = $this->oHeaderPayroll->headerPayrollVacation($year, $payrollNumber, $payrollTypeId, $payrollCategory);
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        // obtengo los datos de configuracion para el reporte
+        $configReport = $this->oConfigReport->getConfigReportByCompany($countryId, $companyId,'vacation');
 
         $print = array();
         $print[0]  = $res0[0]->payrollName;
@@ -83,7 +97,7 @@ class printPayrollController extends Controller
         $print[6]  = $res0[0]->totaldeduccion;
         $print[7]  = $res0[0]->companyAddress;
         $print[8]  = $res0[0]->companyNumber;
-        $print[9]  = $res0[0]->companyId;
+        $print[9]  = $configReport;
         $print[10] = $res0[0]->color;
         $print[11] = $res0[0]->totalasignacionLocal;
         $print[12] = $res0[0]->totaldeduccionLocal;
@@ -109,6 +123,12 @@ class printPayrollController extends Controller
         if (empty($res0)) {
             return response()->json([], 204);
         }
+
+        $countryId = session('countryId');
+        $companyId = session('companyId');
+        // obtengo los datos de configuracion para el reporte
+        $configReport = $this->oConfigReport->getConfigReportByCompany($countryId, $companyId,'vacatstaff');
+
         $print = array();
         $print[0]  = $res0[0]->payrollName;
         $print[1]  = $res0[0]->countryName;
@@ -119,11 +139,12 @@ class printPayrollController extends Controller
         $print[6]  = $res0[0]->totaldeduccion;
         $print[7]  = $res0[0]->companyAddress;
         $print[8]  = $res0[0]->companyNumber;
-        $print[9]  = $res0[0]->companyId;
+        $print[9]  = $configReport;
         $print[10] = $res0[0]->color;
         $print[11] = $res0[0]->totalasignacionLocal;
         $print[12] = $res0[0]->totaldeduccionLocal;
         $print[13] = $res0[0]->userProcess;
+        $print[14] = $res0[0]->baseSalary;
         
         // Obtener los detalles de las vacaciones
         foreach($res0 as $res1){
@@ -140,7 +161,7 @@ class printPayrollController extends Controller
     public function reportByTransactionPayrollController(Request $request)
     {
         // echo $request->payrollNumber;
-        $res0 = $this->oReporteByTransaction->reportByTransactionPayroll($request->countryId, $request->companyId, $request->payrollNumber,$request->transaction, $request->employees, $request->table);
+        $res0 = $this->oReporteByTransaction->reportByTransactionPayroll($request->countryId, $request->companyId, $request->payrollNumber,$request->transaction, $request->employees, $request->table, $request->report);
 
         return response()->json(['data' => $res0],200);
     }

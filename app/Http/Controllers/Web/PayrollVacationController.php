@@ -11,6 +11,7 @@ use App\Periods;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Config_report\Config_report;
 use Auth;
 // use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,7 @@ class PayrollVacationController extends Controller
     
     private $oCurrency;
     private $oParamsTransaction;
+    private $oConfigReport;
 
     // vacations
     private $oListVacation;
@@ -41,6 +43,7 @@ class PayrollVacationController extends Controller
         $this->oDelDataDuplicate = new PayrollVacation; 
         $this->oStaff = new PayrollVacation; 
         $this->oWeekend = new PayrollVacation; 
+        $this->oConfigReport = new Config_report;
     }
     /**
      * Display a listing of the resource.
@@ -283,7 +286,7 @@ class PayrollVacationController extends Controller
                             }
     
                         } else {
-                            if ($isSalaryBased == 1 && $isIncome == 1){ //si es vasada en salario y contiene saldo, le cambio el nombre a vacaciones
+                            if ($isSalaryBased == 1 && $isIncome == 1){ //si es vasada en salario y es una asignacion, le cambio el nombre a vacaciones
                                 $transactionTypeName = 'VACACIONES';
                                 // echo  $transactionTypeName;
                                 $quantity = (15 + $additionalDays); //15 dias + dias adicionales por año
@@ -447,6 +450,8 @@ class PayrollVacationController extends Controller
         if (empty($res0)){
             return response()->json(['success' => true], 204);
         }
+        // obtengo los datos de configuracion para el reporte
+        $configReport = $this->oConfigReport->getConfigReportByCompany($countryId, $companyId,'prevacation');
 
         $print = array();
         $print[0] = $res0[0]->payrollName;
@@ -458,7 +463,7 @@ class PayrollVacationController extends Controller
         $print[6] = $res0[0]->totaldeduccion;
         $print[7] = $res0[0]->companyAddress;
         $print[8] = $res0[0]->companyNumber;
-        $print[9] = $res0[0]->companyId;
+        $print[9] = $configReport;
         $print[10] = $res0[0]->color;
         $print[11] = $res0[0]->totalasignacionLocal;
         $print[12] = $res0[0]->totaldeduccionLocal;

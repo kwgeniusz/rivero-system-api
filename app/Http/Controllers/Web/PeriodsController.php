@@ -137,7 +137,7 @@ class PeriodsController extends Controller
         return $periods;
     }
 
-    public function getPeriodReport($countryId, $companyId, $periodFrom, $periodTo, $updated)
+    public function getPeriodReport($countryId, $companyId, $periodFrom, $periodTo, $updated, $payrollCategory="payroll")
     {
         $payrollNumber = DB::table('hrperiod')->select('payrollNumber')
         ->where('periodFrom' , '>=' , $periodFrom)
@@ -145,6 +145,7 @@ class PeriodsController extends Controller
         ->where('countryId' , '=' , $countryId)
         ->where('companyId' , '=' , $companyId)
         ->where('updated' , '=' , $updated)
+        ->where('payrollCategory' , '=' , $payrollCategory)
         ->first();
         // ->collapse();
 
