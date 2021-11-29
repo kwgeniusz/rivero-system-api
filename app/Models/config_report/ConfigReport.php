@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\config_Report;
+namespace App\Models\config_report;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
