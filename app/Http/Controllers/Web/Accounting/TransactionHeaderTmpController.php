@@ -192,19 +192,23 @@ class TransactionHeaderTmpController extends Controller
 // Logica para genear asientos contables temporales desde administracion
 public function generateTemporaryAccountingEntries(Request $request)
 {
-// parametros de entrada: opcion por pantalla
-$countryId
-$companyId
-$entryDate
 
-// Seleccionar source code. Manuelmente
+    
+// parametros de entrada: opcion por pantalla
+$countryId = session('countryId');
+$companyId = session('companyId');
+$entryDate = '';
+
+// Seleccionar source code. Manualmente
 $sourceCode = "administration";
 
-// borrar las transacciones temporles de este $countryId, $companyId, $sourceCode="administration"
+// borrar las transacciones temporales de este $countryId, $companyId, $sourceCode="administration"
 
-// Leer las transacciones de adminsitration. Depende del modulo
-$rsAdm = $Transaccion->JoinTransactionTType($country,$companyId);
 
+// Leer las transacciones de administracion Depende del modulo
+$rsAdm = $Transaccion->JoinTransactionType($country,$companyId);
+
+  dd($rsAdm)
 // total de la cabecera
 $totalDebit  = 0;
 $totalCredit = 0;
