@@ -312,25 +312,28 @@ public function printPaymentRequest(Request $request)
 
         $date              = Carbon::now();
         $company           = DB::table('company')->where('companyId', session('companyId'))->get();
-        $creditNote        = $this->oSaleNote->findById($request->id);
-        $debitNoteDetails = $creditNote[0]->saleNoteDetails;
-        $client            = $creditNote[0]->client;
-
-        $symbol = $creditNote[0]->invoice->contract->currency->currencySymbol;
-
-        // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
+        $debitNote        = $this->oSaleNote->findById($request->id);
+        $debitNoteDetails = $debitNote[0]->saleNoteDetails;
+        $client            = $debitNote[0]->client;
+        $symbol = $debitNote[0]->invoice->contract->currency->currencySymbol;
+             
           $data = [
-           'date'  => $date,
-           'company'  => $company,
-           'creditNote'  => $creditNote,
+           'date'         => $date,
+           'company'      => $company,
+           'debitNote'   => $debitNote,
            'client'  => $client,
            'debitNoteDetails'  => $debitNoteDetails,
            'symbol'  => $symbol,
           // 'status'  => $status
            ];
 
-      return PDF::loadView('module_administration.reports.printDebitNote', $data)->stream('DebitNote.pdf');
-
+      if($debitNote[0]->concept == SALENOTE::DEBIT_APPEND_SERVICES) {
+         return PDF::loadView('module_administration.reports.printDebitNote', $data)->stream('DebitNote.pdf');
+      }elseif($debitNote[0]->concept == SALENOTE::DEBIT_COMMISSIONS){
+         return PDF::loadView('module_administration.reports.printDebitNoteShort', $data)->stream('DebitNote.pdf');
+      }
+    
+  
    } //end printInvoice
 
    public function printExpenses(Request $request)

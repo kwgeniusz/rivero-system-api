@@ -92,7 +92,7 @@ desired effect
       @if (isset(Auth::user()->fullName))
         <strong>USUARIO: </strong>{{Auth::user()->fullName}} 
         <strong>PAIS: </strong>{{session('countryName')}} |
-        <strong>COMPAÑIA: </strong>{{session('companyName')}}
+        <strong>COMPAÑIA: </strong>{{session('companyShortName')}}
       @else
         @php
           header("Location: " . URL::to('/login'), true, 302);
@@ -103,7 +103,7 @@ desired effect
     </div>
     <!-- Default to the left -->
     @if (isset(Auth::user()->fullName))
-    <strong>Copyright &copy; 2020 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
+    <strong>Copyright &copy; 2022 <a href="#">Rivero Global Company</a>.</strong> {{__('All Right Reserved')}}.
       
     @endif
   </footer>
@@ -121,6 +121,7 @@ desired effect
 
   //Tooltip Boostrap 3.3
   $(function () { $('[data-toggle="tooltip"]').tooltip()});
+
   // Instancia de Input date libreria Flatpickr
   @if(session('countryId') == '1')
      flatpickr('.flatpickr', {
@@ -139,6 +140,15 @@ desired effect
       dateFormat: "Y-m-d",
     });
   @endif
+
+  $('.table-responsive').on('show.bs.dropdown', function () {
+  $('.table-responsive').css( "overflow", "inherit" );
+});
+
+$('.table-responsive').on('hide.bs.dropdown', function () {
+  $('.table-responsive').css( "overflow", "auto" );
+})
+
 
  // muestra notificaciones de alerta
     @if(Session::has('message'))

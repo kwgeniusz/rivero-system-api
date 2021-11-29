@@ -24,7 +24,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="payrollCategory" class="form-group" >&nbsp;</label>
                                     <select class="form-control" v-model="payrollCategory" id="payrollCategory" autocomplete="off"  required="required">
-                                        <option value="payroll">Nomia</option>
+                                        <option value="payroll">Nomina</option>
                                         <option value="vacation">Vacaciones</option>
                                         <option value="christmas">Navidades</option>
                                     </select>

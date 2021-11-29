@@ -86,3 +86,8 @@ Route::get('reports/debit-note', 'Report\Pdf\AdministrationControllerPDF@printDe
 
 Route::post('reports/expenses', 'Report\Pdf\AdministrationControllerPDF@printExpenses')->name('reports.expenses');
 Route::post('reports/incomes',  'Report\Pdf\AdministrationControllerPDF@printIncomes')->name('reports.incomes');
+//-----------------------------ACCOUNTING---------------------------------------------------//
+// Route::get('reports/debit-note', 'Report\Pdf\AccountingControllerPDF@printDebitNote')->name('reports.debit-note');
+// Route::post('reports/expenses', 'Report\Pdf\AccountingControllerPDF@printExpenses')->name('reports.expenses');
+// Route::post('reports/incomes',  'Report\Pdf\AccountingControllerPDF@printIncomes')->name('reports.incomes');
+

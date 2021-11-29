@@ -57,8 +57,11 @@
                                 <td class="text-left"> + {{transaction.credit}}</td>
                                 <td> 
                                  <!-- <button @click="toggle(transaction.transactionId)" :class="{ opened: opened.includes(transaction.transactionId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>   -->
+                                 <button class="btn btn-sm btn-warning" title="Validar"><i class="fa fa-clipboard-check"></i></button> 
+                                  |
                                  <button @click="editData(index,transaction.transactionId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                  <button @click="deleteData(index,transaction.transactionId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
+              
                                 </td>
                               </tr>                
                           </tbody>

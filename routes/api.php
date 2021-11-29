@@ -65,3 +65,29 @@ Route::post('register', 'Api\AuthController@register');
 // barCode
 Route::get('barcode-create/{staff}', 'Api\BarcodeController@barcodeCreate');
 Route::get('barcode/{barcode}', 'Api\BarcodeController@barcodeShow');
+
+
+// ----------------------------------------------------------------------------------------
+// -- COUNTRY API              ------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+Route::group(['prefix' => 'v1'], function() {
+	Route::group(['prefix' => '/country'], function() {
+		Route::post('/{countryId}','Api\Country\CountryController@getCountry');
+		Route::post('/', 'Api\Country\CountryController@getCountry');
+	});
+});
+
+
+// ----------------------------------------------------------------------------------------
+// -- COMPANY API              ------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+Route::group(['prefix' => 'v1'], function() {
+	Route::group(['prefix' => '/company'], function() {
+		Route::post('/{countryId}/{companyId}','Api\Company\CompanyController@getCompany');
+		Route::post('/', 'Api\Company\CompanyController@getCompany');
+	});
+});
+
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------

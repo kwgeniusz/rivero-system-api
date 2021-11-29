@@ -36,6 +36,11 @@ class Country extends Model
 // //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+    public function findById($countryId)
+    {
+        return $this->where('countryId', '=', $countryId)->get();
+    }
+    // Obtener todos los registro
     public function getAll()
     {
         return $this->orderBy('countryId', 'ASC')->get();

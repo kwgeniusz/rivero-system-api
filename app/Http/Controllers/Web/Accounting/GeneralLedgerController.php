@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Web\Accounting;
 
 use Auth;
+use App\CompanyConfiguration;
 use App\Models\Accounting\GeneralLedger;
+use App\Models\Accounting\GeneralLedgerBalance;
 use App\Models\Accounting\AccountType;
 use App\Models\Accounting\AccountClassification;
 use App\Helpers\DateHelper;
@@ -12,6 +14,7 @@ use Illuminate\Http\Request;
 
 class GeneralLedgerController extends Controller
 {
+    private $oCompanyConfig;
     private $oGeneralLedger;
     private $oAccountType;
     private $oAccountClassification;
@@ -19,7 +22,9 @@ class GeneralLedgerController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->oCompanyConfig        = new CompanyConfiguration;
         $this->oGeneralLedger        = new GeneralLedger;
+        $this->oGeneralLedgerBalance        = new GeneralLedgerBalance;
         $this->oAccountType          = new AccountType;
         $this->oAccountClassification = new AccountClassification;
     }
@@ -152,6 +157,19 @@ class GeneralLedgerController extends Controller
         // return redirect()->route('clients.index')->with($notification);
     }
     
+   public function closeYear()
+    {
+        $rs = $this->oGeneralLedgerBalance->closeYear();
+    
+         $notification = array(
+            'message'    => $rs['message'],
+            'alert-type' => $rs['alert-type'],
+        );
+        
+        return $notification;
+  
+    }
+
 
     // public function balanceUpdate()
     // {

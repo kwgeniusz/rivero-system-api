@@ -97,10 +97,10 @@
                 <td> {{item.amount}}</td>
                 <!-- <td>{{item.subcontractor_inv_detail.length}} SB</td> -->
                 <td> 
-                  <a v-if="editMode != index && item.unit != null" @click="editItemList(index)" class="btn btn-sm btn-primary" title="Editar" > 
+                  <a v-if="editMode != index && item.unit != null" @click="editRow(index)" class="btn btn-sm btn-primary" title="Editar" > 
                     <i class="fa fa-edit"></i>
                   </a>   
-                  <a v-if="editMode === index" @click="updateItemList()" class="btn btn-sm btn-success">
+                  <a v-if="editMode === index" @click="updateRow()" class="btn btn-sm btn-success">
                     <i class="glyphicon glyphicon-ok"></i>
                   </a> 
                   <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
@@ -309,13 +309,24 @@ export default {
                                    });
            }
          },
-
-       editItemList: function(index){
+       editRow: function(index){
              this.editMode = index
         },
-      updateItemList: function(){
+       updateRow: function(){
               this.editMode = -1
         },
+       deleteRow: function(id) {
+         //borrar valor que encuentre del arreglo
+             this.itemList.splice(--id,1);
+        }, 
+       moveUp: function(rowIndex) {
+             --rowIndex;
+             this.itemList.splice(rowIndex - 1, 0, this.itemList.splice(rowIndex, 1)[0]);
+       },
+       moveDown: function(rowIndex) {
+            --rowIndex;
+           this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
+       },  
       calculateItemAmount: function(index,item) { 
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
@@ -331,24 +342,9 @@ export default {
               myObj.amount = parseFloat(amountRs).toFixed(2);
               console.log(myObj);
         }, 
-       deleteRow: function(id) {
-            //borrar valor que encuentre del arreglo
-                 this.itemList.splice(--id,1);
-          },
-         moveUp: function(rowIndex) {
-             --rowIndex;
-             this.itemList.splice(rowIndex - 1, 0, this.itemList.splice(rowIndex, 1)[0]);
-           },
-         moveDown: function(rowIndex) {
-             --rowIndex;
-             this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
-           },
-
-         saveInvoice: function() {
+       saveInvoice: function() {
            this.errors = [];
            //VALIDATIONS
-
-
                 // if(acum > 0){
                 //   this.$refs.modalConfirm.open();
                 //   return;

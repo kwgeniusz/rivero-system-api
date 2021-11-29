@@ -45,6 +45,7 @@
                                   <!-- <th>TELEFONO DE CASA</th>  -->
                                   <!-- <th>CELULAR</th>  -->
                                   <th>CORREO</th> 
+                                  <th>IDIOMAS</th> 
                                   <th>ACCIONES</th>            
                                </tr>
                             </thead>
@@ -67,6 +68,7 @@
                                 <!-- <td class="text-left"> {{client.homePhone}}</td> -->
                                 <!-- <td class="text-left"> {{client.mobilePhone}}</td> -->
                                 <td class="text-left"> {{client.mainEmail}}</td>
+                                <td class="text-left"> {{client.clientLanguages}}</td>
                                 <td v-if="client.companyId == companyId"> 
                                  <button @click="toggle(client.clientId)" :class="{ opened: opened.includes(client.clientId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>  
                                  <button @click="editData(index,client.clientId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
