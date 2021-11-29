@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Config_report;
+namespace App\Models\config_Report;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Config_report extends Model
+class ConfigReport extends Model
 {
     public $timestamps = false;
 
