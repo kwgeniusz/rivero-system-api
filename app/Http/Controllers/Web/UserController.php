@@ -142,7 +142,7 @@ class UserController extends Controller
 
 
         session(['companyId'       => $company->companyId, 
-                 'companyName'     =>$company->companyName,
+                 'companyShortName'     =>$company->companyShortName,
                  'parentCompanyId' => $company->parentCompanyId]);
 
         $notification = array(

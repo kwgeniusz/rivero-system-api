@@ -23,7 +23,8 @@ class Precontract extends Model
 
     protected $table      = 'pre_contract';
     protected $primaryKey = 'precontractId';
-    //protected $dateFormat = 'Y-m-d';
+
+    protected $appends = ['precontractDate'];
     protected $fillable = ['precontractId', 'contractType', 'countryId', 'companyId',
         'clientId', 'siteAddress','buildingCodeId', 'projectDescriptionId', 'projectUseId', 'comment',
         'currencyId',
@@ -45,9 +46,13 @@ class Precontract extends Model
     {
         $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['precontractDate'], 'UTC');
         $date->tz = session('companyTimeZone');   // ... set to the current users timezone
+
         return $date->format('Y-m-d H:i:s');
     }
-//------------------------MUTADORES--------------------------------
+
+//--------------------------------------------------------------------
+                     /** MUTADORES  **/
+//--------------------------------------------------------------------
 
     public function setPrecontractCostAttribute($precontractCost)
     {

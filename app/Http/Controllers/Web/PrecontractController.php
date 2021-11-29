@@ -212,8 +212,7 @@ class PrecontractController extends Controller
         throw new \Exception('Error: Ya este precontrato fue convertido');
      }
      
-    // dd($timeFrame[0]->daysRepresented );
-    // exit();
+  
            
             //insertar el nuevo contrato
             $contract = $this->oContract->insertContract(

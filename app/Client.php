@@ -237,6 +237,7 @@ class Client extends Model
         $client->fax          = $data['fax'];
         $client->mainEmail   = $data['mainEmail'];
         $client->secondaryEmail   = $data['secondaryEmail'];
+        $client->clientLanguages   = $data['clientLanguages'];
         $client->contactTypeId   = $data['contactTypeId'];
         $client->created_at   = date('Y-m-d H:i:s');
         $client->lastUserId    = Auth::user()->userId;
@@ -278,6 +279,7 @@ class Client extends Model
         $client->fax           = $data['fax'];
         $client->mainEmail     = $data['mainEmail'];
         $client->secondaryEmail   = $data['secondaryEmail'];
+        $client->clientLanguages   = $data['clientLanguages'];
         $client->contactTypeId   = $data['contactTypeId'];
         $client->save();
 

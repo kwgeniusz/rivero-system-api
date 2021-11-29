@@ -392,4 +392,10 @@ class ProposalController extends Controller
         );
       return redirect()->back()->with($notification);
     }
+
+// --------------------------------------------------------------------
+  public function duplicateProposal($proposalId)
+   {
+     $this->proposal->duplicateProposal($proposalId);
+   }
 }

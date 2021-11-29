@@ -39,9 +39,27 @@
                                <th>OPCIONES</th>
                               </tr>
                         </thead>
-                          <tbody v-if="searchData.length > 0">
-                                        
-                         </tbody>
+                           <tbody v-if="searchData.length > 0">
+                             <tr  v-for="(receivable, index) in searchData" :key="receivable.receivableId">
+                                <td >{{index + 1}}</td>
+                                <td class="text-left"> {{receivable.client.clientCode}}</td>  
+                                <td class="text-left"> {{receivable.client.clientName}} </td>           
+                                <td class="text-left"> {{receivable.client.clientAddress}}</td>
+                                <td class="text-left"> {{receivable.client.mainPhone}}</td>
+                                <td class="text-left"> {{receivable.mainPhone}}</td>
+                                <td class="text-left"> {{receivable.mainEmail}}</td>
+                                <td class="text-left"> {{receivable.balanceTotal}}</td>
+                                <td class="text-left"> {{receivable.typeForm1099}}</td>
+                                  <td> 
+                      
+                                 <button v-if="$can('BAB')" @click="editSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
+                                 <!-- <button v-if="$can('BAC')"  @click="deleteSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>   -->
+                                 <a v-if="$can('BAB')" :href="'subcontractors/'+subcontractor.subcontId+'/payables'" class="btn btn-sm btn-success" title="Cuentas por Pagar"><span class="fa fa-user" aria-hidden="true"></span></a> 
+                         
+                                  </td>
+                                </tr>
+                     
+                        </tbody>
                          <tbody v-else>
                            <tr>
                              <td colspan="12">

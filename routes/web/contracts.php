@@ -29,6 +29,7 @@ Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@stor
 
 //***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
+Route::get('proposals/{id}/duplicate', 'Web\Proposal@duplicateProposal')->name('proposal.duplicate');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
 
  //->Proposal Scopes

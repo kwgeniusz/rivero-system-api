@@ -38,6 +38,7 @@
                 <b><u>Fax</u></b> <br>{{client[0].fax}}<br>
                 <b><u>Email Principal</u></b> <br>{{client[0].mainEmail}}<br>
                 <b><u>Email Secundario</u></b> <br>{{client[0].secondaryEmail}}<br>
+                <b><u>Idiomas</u></b> <br>{{client[0].clientLanguages}}<br>
                 </center>
              </div>  
       </div>

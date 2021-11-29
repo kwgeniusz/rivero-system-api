@@ -26,8 +26,8 @@ class InvoiceSaleNoteController extends Controller
         $invoice    = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
          // dd($invoice[0]->balanceTotal);
          // exit();
-        $creditNotes =  $this->oSaleNote->getAllByType($id,SaleNote::CREDIT);
-        $debitNotes  =  $this->oSaleNote->getAllByType($id,SaleNote::DEBIT);
+        $creditNotes =  $this->oSaleNote->getAllByInvoiceAndType($id,SaleNote::CREDIT);
+        $debitNotes  =  $this->oSaleNote->getAllByInvoiceAndType($id,SaleNote::DEBIT);
 
         return view('module_administration.invoices.sale_notes.index',compact('invoice','creditNotes','debitNotes'));
     }

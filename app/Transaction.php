@@ -79,7 +79,7 @@ class Transaction extends Model
     }
      public function user()
     {
-        return $this->belongsTo('App\User', 'userId', 'userId');
+        return $this->belongsTo('App\User', 'userId', 'userId')->withTrashed();
     }
 
     public function costCategory()

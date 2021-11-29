@@ -44,6 +44,7 @@ class GeneralLedger extends Model
     {
         return $this->daughterAccount()->with('allDaughterAccount');
     } 
+
 //--------------------------------------------------------------------
      /** ACCESORES **/
 //--------------------------------------------------------------------
@@ -105,6 +106,15 @@ class GeneralLedger extends Model
                       ->orderBy('accountCode', 'ASC')
                       ->get(); 
       }      
+     public function getAllWithBalanceByYear($companyId,$year) 
+      {  
+           return $this->join('acc_general_ledger_balance','acc_general_ledger.generalLedgerId','=','acc_general_ledger_balance.generalLedgerId')
+                       ->where('companyId', '=', $companyId)
+                       ->where('year',      '=', $year)
+                       ->orderBy('accountCode', 'ASC')
+                       ->get(); 
+       }    
+
     public function insertG($countryId, $companyId, $data)
     {
           $error = null;
@@ -211,7 +221,10 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
   $loop = 1;
   // inicio del loop
   while($loop == 1) {
-     // actualizar el saldo de cuenta con $generalLedgerId
+     // actualizar el saldo de cuenta con $generalLedgerId libro diario
+     $oGeneralLedger = new GeneralLedger;
+     $rs = $oGeneralLedger->updateBalance($generalLedgerId,$debit,$credit);
+     // actualizar el saldo de cuenta con $generalLedgerId en GeneralLedger Balance libro mayors
      $oGeneralLedgerBalance = new GeneralLedgerBalance;
      $rs = $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit);
 
@@ -253,5 +266,34 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
             return $rs = ['alert' => 'error', 'message' => $error];
         }
   }//end of the function
+
+
+  function updateBalance($generalLedgerId,$debit,$credit)
+{
+  // obtener $saldos actuales
+    DB::beginTransaction();
+    try {   
+        $query = $this->where('generalLedgerId', '=', $generalLedgerId)->get();
+
+  //Actualizar saldos en tabl acc_general_ledger_balance
+  foreach($query as $rs){
+        $rs->debit  = $rs->debit + $debit;
+        $rs->credit = $rs->credit + $credit;
+        $rs->save();
+  }
+         $success = true;
+         DB::commit();
+    } catch (\Exception $e) {
+        $error   = $e->getMessage();
+        $success = false;
+        DB::rollback();
+    }
+
+    if ($success) {
+      return $result = ['alert-type' => 'success', 'message' => 'Balance de la cuenta actualizado.'];
+    } else {
+      return $result = ['alert-type' => 'error', 'message' => $error];
+    }
+ }//end function
 //------------------------------------------
 }//end of the class
