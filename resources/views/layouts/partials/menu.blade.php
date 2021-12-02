@@ -79,8 +79,8 @@
       @can('CG') <li><a href="{{route('payables.index')}}">   Cuentas Por Pagar</a></li> @endcan
       @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
 
-<hr>  
-    @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Generar Asientos Contables</a></li> @endcan   
+<hr> 
+    @can('BI')<li><a href="{{route('temporary-acc-entry.index')}}">Generar Asientos Contables</a></li> @endcan   
 <hr>
     @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li> @endcan 
       {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}

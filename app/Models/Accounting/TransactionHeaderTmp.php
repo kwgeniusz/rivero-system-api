@@ -5,13 +5,8 @@ namespace App\Models\Accounting;
 use Auth;
 use DB;
 use App\Models\Accounting\GeneralLedger;
-<<<<<<< HEAD
-use App\Models\Accounting\Transaction;
-use App\CompanyConfiguration;
-=======
 use App\Models\Accounting\TransactionTmp;
 // use App\CompanyConfiguration;
->>>>>>> module-adm
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -25,11 +20,7 @@ class TransactionHeaderTmp extends Model
     protected $table      = 'acc_transaction_header_tmp';
     protected $primaryKey = 'headerId';
 
-<<<<<<< HEAD
-    protected $fillable = ['headerId' ,'entryNumber' ,'entryDate' ,'entryDescription' ,'totalDebit' ,'totalCredit' ,'validation' ,'entryUpdated']; 
-=======
     // protected $fillable = ['headerId' ,'entryNumber' ,'entryDate' ,'entryDescription' ,'totalDebit' ,'totalCredit' ,'validation' ,'entryUpdated']; 
->>>>>>> module-adm
     //protected $dates = ['deleted_at'];
 
 
@@ -298,7 +289,83 @@ class TransactionHeaderTmp extends Model
       } else {
           return $rs = ['alert-type' => 'error', 'message' => $error];
       }
-  }
+  } //fin de validacion de la actualizacion
+
+// ================================ GENERAR ASIENTOS CONTABLES TEMPORALES  ====================================================//
+// Logica para genear asientos contables temporales desde administracion
+
+public function generateTemporaryAccountingEntries(Request $request)
+{
+
+// parametros de entrada: opcion por pantalla
+$countryId = session('countryId');
+$companyId = session('companyId');
+$entryDate = '';
+
+// Seleccionar source code. Manualmente
+$sourceCode = "administration";
+
+// borrar las transacciones temporales de este $countryId, $companyId, $sourceCode="administration"
+
+
+// Leer las transacciones de administracion Depende del modulo
+$rsAdm = $Transaccion->JoinTransactionType($country,$companyId);
+
+  dd($rsAdm)
+// total de la cabecera
+$totalDebit  = 0;
+$totalCredit = 0;
+
+// grabar registro cabecera y obtener id
+$headerId = $HeadarTMP->insert();
+
+// Procesar las trasacciones. Depende del módudlo
+foreach($rsAdm  as $rs1) {
+     $transactionTypeId = $rs1->transactionTypeId; 
+     $amount            = $rs1->amount; 
+
+     // buscar la equivalencia contable
+     $rsequiv = $equivalence->getByTransactionType($transactionTypeId );
+     foreach($rsequiv as $rs2) {
+        $debitAccount   = $rs2->debitAccount;
+        $creditAccount  = $rs2->creditAccount;
+
+        $debit = 0;
+        $credit = 0;
+
+        if (!empty($debitAccount) ) {
+            $generalLedgerId = $GeneralLedger->getId($debitAccount );
+
+            // insertar registro en transaccion tmp
+            $debit = $amount;
+            $totalDebit = $totalDebit + $debit;
+            $TransactionTmp->insert($headerId,$generalLedgerId, $debit, $credit,,, );
+        }
+
+        $debit = 0;
+        $credit = 0;
+
+        if (!empty($creditAccount) ) {
+            $generalLedgerId = $GeneralLedger->getId($creditAccount );
+
+            // insertar registro en transaccion tmp
+            $credit = $amount;
+            $totalCredit = $totalCredit + $debit;
+            $TransactionTmp->insert($headerId, $generalLedgerId, $debit, $credit,,, );
+        }
+
+     }
+
+}
+
+// fin del proceso. ACtualizar cabecera
+   $HeaderTmp->updateAmount($headerId,$totalDebit,$totalCredit);
+   
+  }//END OF PROCESS 
+
+
+
+
 
 
 

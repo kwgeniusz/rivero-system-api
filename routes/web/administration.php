@@ -86,6 +86,15 @@ Route::get('receivables/get/{receivableId}', 'Web\ReceivableController@getForId'
 Route::post('receivables/share', 'Web\ReceivableController@share')->name('receivables.share');
 Route::post('receivablesConfirmPayment', 'Web\ReceivableController@confirmPayment')->name('receivables.confirmPayment');
 
-//**************************** PAYABLES ******************************
+//**************************** COST CATEGORIES ******************************
 Route::get('cost-categories', 'Web\CostCategoryController@index')->name('costCategories.index');
 Route::get('cost-categories/{id}/subcategories', 'Web\CostCategoryController@subcategories')->name('costCategories.subcategories');
+
+//***************************************************************************
+//***************** TEMPORARY ACCOUNTING ENTRY ******************************
+//***************************************************************************
+Route::prefix('accounting')->group(function () {
+
+   Route::get('temporary-accounting-entries', 'Web\Administration\TemporaryAccEntryController@index')->name('temporary-acc-entry.index');
+   
+});
