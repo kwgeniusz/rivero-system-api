@@ -11,7 +11,7 @@ use App\Periods;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Config_report\Config_report;
+use App\Models\config_report\ConfigReport;
 use Auth;
 // use Illuminate\Support\Facades\Auth;
 
@@ -43,7 +43,7 @@ class PayrollVacationController extends Controller
         $this->oDelDataDuplicate = new PayrollVacation; 
         $this->oStaff = new PayrollVacation; 
         $this->oWeekend = new PayrollVacation; 
-        $this->oConfigReport = new Config_report;
+        $this->oConfigReport = new ConfigReport;
     }
     /**
      * Display a listing of the resource.

@@ -8,7 +8,7 @@ use App\Company;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Config_report\Config_report;
+use App\Models\config_report\ConfigReport;
 
 class printPrePayrollController extends Controller
 {
@@ -16,7 +16,7 @@ class printPrePayrollController extends Controller
     private $oConfigReport;
 
     public function __construct(){
-        $this->oConfigReport = new Config_report;
+        $this->oConfigReport = new ConfigReport;
     }
     /**
      * Display a listing of the resource.

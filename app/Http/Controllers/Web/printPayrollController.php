@@ -6,7 +6,7 @@ namespace App\Http\Controllers\web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\hrPrinPayroll;
-use App\Models\Config_report\Config_report;
+use App\Models\config_report\ConfigReport;
 
 class printPayrollController extends Controller
 {
@@ -21,7 +21,7 @@ class printPayrollController extends Controller
         $this->oHeaderPayroll = new hrPrinPayroll;
         $this->oDetailPayroll = new hrPrinPayroll;
         $this->oReporteByTransaction = new hrPrinPayroll();
-        $this->oConfigReport = new Config_report;
+        $this->oConfigReport = new ConfigReport;
     }
 
     /**

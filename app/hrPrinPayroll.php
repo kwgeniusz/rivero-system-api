@@ -5,14 +5,14 @@ namespace App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Config_report\Config_report;
+use App\Models\config_report\ConfigReport;
 
 class hrPrinPayroll extends Model
 {
     private $oConfigReport;
 
     public function __construct(){
-        $this->oConfigReport = new Config_report;
+        $this->oConfigReport = new ConfigReport;
     }
 
     function getPayrollList(){
