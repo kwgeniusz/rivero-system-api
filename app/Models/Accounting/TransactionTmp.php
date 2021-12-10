@@ -18,11 +18,7 @@ class TransactionTmp extends Model
     protected $table      = 'acc_transaction_tmp';
     protected $primaryKey = 'transactionId';
 
-<<<<<<< HEAD
-    protected $fillable = ['transactionId' ,'countryId' ,'companyId','transactionNumber','generalLedgerId','transactionDate' ,'transactionDescription' ,'debit' ,'credit' ,	'balanceUpdated' ,	'userId' ,	'deleted_at']; 	
-=======
     // protected $fillable = ['transactionId' ,'countryId' ,'companyId','transactionNumber','generalLedgerId','transactionDate' ,'transactionDescription' ,'debit' ,'credit' ,	'balanceUpdated' ,	'userId' ,	'deleted_at']; 	
->>>>>>> module-adm
   
     // protected $dates = ['deleted_at'];
 

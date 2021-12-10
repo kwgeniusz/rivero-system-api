@@ -261,7 +261,7 @@ class Proposal extends Model
 
               $proposal->save();
     }
-  //-------------------------------------------------
+//-------------------------------------------------
     public function updateSubcontractor($proposalId, $subcontId) 
     {
         $proposal             = proposal::find($proposalId);
@@ -272,15 +272,14 @@ class Proposal extends Model
 
          return $rs;
     }
-
+//-------------------------------------------------
     public function assignInvoiceId($proposalId,$invoiceId)
     {
          $proposal                = proposal::find($proposalId);
          $proposal->invoiceId     = $invoiceId;
          $proposal->save();
     }
-
-
+//-------------------------------------------------
     public function duplicateProp($proposalId)
     {
          $proposal                = proposal::find($proposalId);

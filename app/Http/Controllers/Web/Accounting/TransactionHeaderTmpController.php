@@ -190,71 +190,11 @@ class TransactionHeaderTmpController extends Controller
 // ================================ GENERAR ASIENTOS CONTABLES TEMPORALES  ====================================================//
 
 // Logica para genear asientos contables temporales desde administracion
-public function generateTemporaryAccountingEntries(Request $request)
-{
-// parametros de entrada: opcion por pantalla
-$countryId
-$companyId
-$entryDate
-
-// Seleccionar source code. Manuelmente
-$sourceCode = "administration";
-
-// borrar las transacciones temporles de este $countryId, $companyId, $sourceCode="administration"
-
-// Leer las transacciones de adminsitration. Depende del modulo
-$rsAdm = $Transaccion->JoinTransactionTType($country,$companyId);
-
-// total de la cabecera
-$totalDebit  = 0;
-$totalCredit = 0;
-
-// grabar registro cabecera y obtener id
-$headerId = $HeadarTMP->insert();
-
-// Procesar las trasacciones. Depende del módudlo
-foreach($rsAdm  as $rs1) {
-     $transactionTypeId = $rs1->transactionTypeId; 
-     $amount            = $rs1->amount; 
-
-     // buscar la equivalencia contable
-     $rsequiv = $equivalence->getByTransactionType($transactionTypeId );
-     foreach($rsequiv as $rs2) {
-        $debitAccount   = $rs2->debitAccount;
-        $creditAccount  = $rs2->creditAccount;
-
-        $debit = 0;
-        $credit = 0;
-
-        if (!empty($debitAccount) ) {
-            $generalLedgerId = $GeneralLedger->getId($debitAccount );
-
-            // insertar registro en transaccion tmp
-            $debit = $amount;
-            $totalDebit = $totalDebit + $debit;
-            $TransactionTmp->insert($headerId,$generalLedgerId, $debit, $credit,,, );
-        }
-
-        $debit = 0;
-        $credit = 0;
-
-        if (!empty($creditAccount) ) {
-            $generalLedgerId = $GeneralLedger->getId($creditAccount );
-
-            // insertar registro en transaccion tmp
-            $credit = $amount;
-            $totalCredit = $totalCredit + $debit;
-            $TransactionTmp->insert($headerId, $generalLedgerId, $debit, $credit,,, );
-        }
-
-     }
-
-}
-
-// fin del proceso. ACtualizar cabecera
-   $HeaderTmp->updateAmount($headerId,$totalDebit,$totalCredit);
-   
-  }//END OF PROCESS 
+ public function generateTemporaryAccountingEntries(Request $request)
+ {
+    $oTransactionHeaderTmp-> ;
+    
+ }//END OF PROCESS 
 
 
 
