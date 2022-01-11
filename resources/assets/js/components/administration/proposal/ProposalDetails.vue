@@ -19,14 +19,16 @@
             <h4>Errores:</h4>
             <div v-for="error in errors">- {{ error }}</div>
           </div>
-          <div class="input-label boxes2" style="margin-bottom: 30px;">
+
+
+         <div class="input-label boxes2" style="margin-bottom: 30px;">
             <label for="serviceId">SERVICIO</label>
-            <select v-model="modelServiceId" class="form-control" @change="selectService(modelServiceId)" name="serviceId" id="serviceId">
-                <option :class="{ bold: item.hasCost == 'Y' ? true : false }" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}}
-                </option>
-                  
-            </select>
+            <v-select :on-change="selectService(modelServiceId)" :options="services" v-model="modelServiceId" :reduce="services => services.serviceId" label="serviceName" />
           </div>
+           {{modelServiceId}}
+
+
+        
           <div v-if="hasCost" class="inputother boxes2">
             <label for="unit">UNIDAD</label>
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
@@ -121,7 +123,7 @@
       </div>
     </div>
     <div class="botonera"> 
-      <a @click.prevent="saveProposal()" class="submit buttonmovil">
+      <a @click.prevent="saveProposal()" class="submit buttonmovil btn-sticky">
         <span class="fa fa-save" aria-hidden="true"></span>  Guardar Propuesta
       </a>
       <a @click.prevent="itemList = []"  class="submit buttonmovil" style="margin-left: 20px; background: #d60101;">
@@ -162,7 +164,7 @@ export default {
             errors: [],
 
             proposal: '',
-            services: {},
+            services: [],
             selectedService: {},
             itemList: [],
             
@@ -234,10 +236,11 @@ export default {
             return false;
           }
         }
+
         this.selectedService = this.services.filter(filtrarPorID);
               // this.selectedService =response.data[0];
-              // console.log(this.selectedService);
-              if(this.selectedService[0].hasCost == 'N'){
+              console.log(this.selectedService);
+              if(this.selectedService.hasCost == 'N'){
                  this.hasCost = false //oculta los input que tienen esta variable
                  this.modelQuantity =''
                  this.modelUnit = null
@@ -245,10 +248,10 @@ export default {
               }else{
                  this.hasCost = true
                  this.modelQuantity= 1.00
-                 this.modelUnit = this.selectedService[0].unit1;
-                 this.modelUnitCost = this.selectedService[0].cost1;
+                 this.modelUnit = this.selectedService.unit1;
+                 this.modelUnitCost = this.selectedService.cost1;
               }
-             // this.modelServiceName = response.data[0].serviceName;
+             // this.modelServiceName = response.data.serviceName;
             // });
         },
        changeUnit: function(unit) {

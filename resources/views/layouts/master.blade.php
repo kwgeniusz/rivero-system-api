@@ -69,6 +69,7 @@ desired effect
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <span class="ir-arriba icon-arrow-up2"></span>
     <!-- Content Header (Page header) -->
        @include('layouts.partials.contentHeader')
 
@@ -86,6 +87,7 @@ desired effect
 
   <!-- Main Footer -->
   <footer class="main-footer">
+  <span class="ir-arriba fas fa-arrow-up"></span>
     <!-- To the right -->
     <div class="pull-right hidden-xs">
       @if (isset(Auth::user()->fullName))
@@ -140,6 +142,7 @@ desired effect
     });
   @endif
 
+  // CORRECION DE GRUPOS DE BOTONES EN TABLAS.
   $('.table-responsive').on('show.bs.dropdown', function () {
   $('.table-responsive').css( "overflow", "inherit" );
 });
@@ -147,9 +150,26 @@ desired effect
 $('.table-responsive').on('hide.bs.dropdown', function () {
   $('.table-responsive').css( "overflow", "auto" );
 })
+  // BOTON IR HACIA ARRIBA
+$(document).ready(function(){
 
+$('.ir-arriba').click(function(){
+  $('body, html').animate({
+    scrollTop: '0px'
+  }, 300);
+});
 
- // muestra notificaciones de alerta
+$(window).scroll(function(){
+  if( $(this).scrollTop() > 0 ){
+    $('.ir-arriba').slideDown(300);
+  } else {
+    $('.ir-arriba').slideUp(300);
+  }
+});
+
+});
+
+ // TIPOS DE ALERTAS DE MENSAJE TOASTR
     @if(Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}";
         switch(type){

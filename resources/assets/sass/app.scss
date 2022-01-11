@@ -675,7 +675,6 @@ textarea {
   left: 0;
   background: none;
 }
-<<<<<<< HEAD
 
 .ac-sub .ac-input:checked + label, .ac-sub .ac-label:hover {
   background: none;
@@ -685,7 +684,28 @@ textarea {
   padding: 0 1em 0 2em;
 }
 
-// Table responsive
-=======
-      
->>>>>>> origin/feature-ui
+// DISENO DE BOTON IR HACIA ARRIBA
+.ir-arriba {
+	display:none;
+	padding:20px;
+	background:#024959;
+	font-size:20px;
+	color:#fff;
+	cursor:pointer;
+	position: fixed;
+	bottom:20px;
+  right:20px;
+  border-radius: 15px;
+}
+// .btn-sticky {
+// 	display:none;
+// 	padding:20px;
+// 	background:#024959;
+// 	font-size:20px;
+// 	color:#fff;
+// 	cursor:pointer;
+// 	position: fixed;
+// 	bottom:20px;
+//   right:20px;
+//   border-radius: 15px;
+// }

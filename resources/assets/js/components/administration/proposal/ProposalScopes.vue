@@ -18,11 +18,7 @@
           <ul>
           <li v-for="(propScope,index) in scopesList">
 
-          <textarea v-if="editMode === index" class="form-control" rows="2" v-model="propScope.description" ></textarea>
-          <!-- <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)"> -->
-          <span v-else v-html="nl2br(propScope.description,false) "></span>
-          <br>
-            <a v-if="editMode === index" @click="updateItemList()" class="supc">
+          <a v-if="editMode === index" @click="updateItemList()" class="supc">
               <i class="glyphicon glyphicon-ok"></i>
             </a> 
             <a v-else @click="editItemList(index)" class="edit" title="Editar" > 
@@ -31,6 +27,10 @@
             <a @click="deleteScope(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar">
               <span class="fa fa-times-circle" aria-hidden="true"></span> 
           </a>
+          <textarea v-if="editMode === index" class="form-control" rows="2" v-model="propScope.description" ></textarea>
+          <!-- <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)"> -->
+          <span v-else v-html="nl2br(propScope.description,false) "></span>
+          
           </li>
         </ul>
       </div>

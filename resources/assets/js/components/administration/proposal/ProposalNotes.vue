@@ -38,10 +38,11 @@
           <h4><b>Notas</b></h4>
             <ul>
             <li v-for="(note,index) in notesList">
-              <span v-html="nl2br(note.noteName,false) "></span> 
-              <a @click="deleteNote(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                 <a @click="deleteNote(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar">
                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
               </a>
+              <span v-html="nl2br(note.noteName,false) "></span> 
+           
             </li>
           </ul>
     </div>
