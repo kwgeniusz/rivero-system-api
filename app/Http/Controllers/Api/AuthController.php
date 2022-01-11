@@ -24,15 +24,15 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-         $credentials = request(['countryId','companyId','changeCompany','fullName','userName','userPassword','email','dateCreated','lastUserId']);
-         $credentials['userPassword'] = bcrypt($request->userPassword);
- 
-          return response(['user'=> $credentials]);
-         $user = User::create($credentials);
- 
-         $accessToken = $user->createToken('authToken')->accessToken;
- 
-         return response(['user'=> $user, 'access_token'=> $accessToken]);
+        $credentials = request(['countryId','companyId','changeCompany','fullName','userName','userPassword','email','dateCreated','lastUserId']);
+        $credentials['userPassword'] = bcrypt($request->userPassword);
+
+        return response(['user'=> $credentials]);
+        $user = User::create($credentials);
+
+        $accessToken = $user->createToken('authToken')->accessToken;
+
+        return response(['user'=> $user, 'access_token'=> $accessToken]);
         
     }
     public function login(Request $request)
@@ -57,10 +57,12 @@ class AuthController extends Controller
 
         return response()->json(['data' => [
             'user' => Auth::user(),
+            'permissions' => Auth::user()->allPermissions,
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
         ]], 200);
+
 
 
     }

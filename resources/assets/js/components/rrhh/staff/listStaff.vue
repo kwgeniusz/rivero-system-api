@@ -52,7 +52,8 @@
                             </td>
                             
                             <td> 
-                                <button v-on:click="detailRow(index, staff.hrstaffId)" class="btn btn-sm btn-info"><i class=" 	glyphicon glyphicon-th-list"></i> </button>  
+                                <button v-on:click="detailRow(index, staff.hrstaffId)" class="btn btn-sm btn-info" title="Imprimir Constancia"><i class="fa fa-id-badge"></i> </button>  
+                                <button v-on:click="detailRow(index, staff.hrstaffId)" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-th-list"></i> </button>  
                                 <button v-on:click="editRow(index, staff.hrstaffId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i> </button>  
                                 <button v-on:click="deleterow(index, staff.hrstaffId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  
                             </td>
@@ -84,6 +85,7 @@
         },
         data(){
             return{
+                objStaffShow:{},
                 showLoading: true,
             }
         },
@@ -104,7 +106,7 @@
                 
                 // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
                 // de esta manera no tengo que buscar los datos en la DB nuevamente
-              
+            
                 this.$emit("indexEdit",index)
             },
             deleterow(index, id){
@@ -133,8 +135,16 @@
                 if (val === 1) {
                     this.showLoading = false
                 }
-            }
-        }
+            },
+            objStaff: (val) => {
+                // console.log(val)
+                
+                console.log('val')
+                console.log(this.objStaff)
+            },
+
+        },
+        
     }
 </script>
 <style>
