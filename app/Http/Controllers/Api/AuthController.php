@@ -75,7 +75,7 @@ class AuthController extends Controller
     public function session()
     {
         $user = auth()->user();
-        return response()->json(['data' => ['user' => $user, 'message' => 'success']], 200);
+        return response()->json(['data' => ['user' => $user, 'permissions' => Auth::user()->allPermissions,'message' => 'success']], 200);
     }
     
     public function logout(Request $request)
