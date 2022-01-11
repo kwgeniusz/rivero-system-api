@@ -102,11 +102,11 @@ class HrStaffController extends Controller
         // return $request;
 
         $userSerie = Company::where('companyId',session('companyId'))->first();
-        dd($userSerie);
-        if ($userSerie->serie == null) {
-            // return response()->json(['department' => $staff, 'message' => 'success'], 200);
-            # code...
-        }
+        // dd($userSerie);
+        // if ($userSerie->serie == null) {
+        //     // return response()->json(['department' => $staff, 'message' => 'success'], 200);
+        //     # code...
+        // }
         $numberMax = hrStaff::where('companyId',session('companyId'))
                             ->where('countryId',session('countryId'))
                             ->max('number');

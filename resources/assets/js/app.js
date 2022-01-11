@@ -167,6 +167,12 @@ Vue.component("invoice-btn-collection",require("./components/administration/invo
 Vue.component("credit-note",require("./components/administration/invoice/saleNote/CreditNote.vue"));
 Vue.component("debit-note",require("./components/administration/invoice/saleNote/DebitNote.vue"));
 
+// --------------------->Temporary Accounting Entry <----------------------------------------//
+Vue.component("adm-main-temporary-acc-entry", require("./components/accounting/transactionHeader/main.vue"));
+Vue.component("adm-table-temporary-acc-entry",require("./components/accounting/transactionHeader/table.vue"));
+Vue.component("adm-addUp-temporary-acc-entry",require("./components/accounting/transactionHeader/addUp.vue"));
+
+
 //###################################################
 //           Module Accounting Components
 //###################################################

@@ -21,4 +21,6 @@ class PayRollType extends Model
         return $listPayrollType;
     }
 
+
+    
 }

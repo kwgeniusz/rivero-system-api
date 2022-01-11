@@ -23,6 +23,8 @@ class PayrollTypeController extends Controller
         $this->oListPayrollType        = new PayRollType; 
     }
     
+
+    
     public function index()
     {
         $countryId = session('countryId');

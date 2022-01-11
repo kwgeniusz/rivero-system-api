@@ -10,7 +10,6 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
-    @stack('styles')
     <link rel="shortcut icon" href="{{{ asset('img/favicon.ico') }}}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
