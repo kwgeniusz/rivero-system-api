@@ -44,7 +44,7 @@
                                     <label for="payrollNumber" class="form-group" v-text="nameField4"></label> <button v-if="editId === 0" v-on:click="getPayrollNumber()" type="button" title="Obtener periodo" data-original-title="Obtener periodo" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-search"></i></button>
                                     <select v-if="editId === 0" class="form-control" v-model="payrollNumber" id="payrollNumber" autocomplete="off"  disabled="disabled" required="required">
                                         <option  value=""> </option>
-                                        <option v-for="item in selectPayrollNumber" :key="item.id" :value="item.id+'-'+item.vText">{{item.vText}}</option>
+                                        <option v-for="item in selectPayrollNumber" :key="item.id" :value="item.id + '-' + item.vText + '-' + item.periodId">{{item.vText}}</option>
                                         
                                     </select>
                                 </div>
@@ -120,6 +120,7 @@
                 processCode: '',
                 selectProcessCode: {},
                 payrollNumber: '',
+                periodId: '',
                 thereIs: false,
                 selectPayrollType:{},
                 selectPayrollNumber:{},
@@ -181,12 +182,15 @@
                     console.log(this.payrollNumber)
                     const data = this.payrollNumber.split('-')
                     console.log(data)
+                    // return
                     data[0] = parseInt(data[0])
+                    data[2] = parseInt(data[2])
                     const params = {
                         countryId: this.selectCountry,
                         companyId: this.companyId,
                         payrollTypeId: this.payrollTypeId,
                         payrollNumber: data[0],
+                        periodId: data[2],
                         year: this.year,
                         payrollName: data[1],
                         processCode: this.processCode,
@@ -219,6 +223,7 @@
                         payrollTypeId: this.payrollTypeId,
                         periodName: this.periodName,
                         payrollNumber: this.payrollNumber,
+                        periodId: this.periodId,
                         year: this.year,
                         updated: this.updated,
                         periodFrom: this.periodFrom,
@@ -256,10 +261,11 @@
             getPayrollNumber(){
                 if (this.payrollTypeId !== "" && this.year !== "") {
                     axios.get(`payrollcontrol/payrollNumber/${this.payrollTypeId}/${this.year}`).then(res => {
+                        console.log(res.data)
                         if (res.data.length > 0) {
                             payrollNumber.disabled = false
                             this.selectPayrollNumber = res.data.map(item =>{
-                                return {id: item.payrollNumber, vText: item.periodName}
+                                return {id: item.payrollNumber, vText: item.periodName , periodId: item.periodId}
                             })
                         }else{
                             alert('No hay registros')

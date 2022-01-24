@@ -10,7 +10,7 @@ use App\PerTrans;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class PayrollControlController extends Controller
 {
@@ -35,7 +35,7 @@ class PayrollControlController extends Controller
         $companyId = session('companyId');
         $payrollControl = DB::select("SELECT hrpayroll_control.hrpayrollControlId, country.countryId, country.countryName, company.companyId, company.companyName,
                         payroll_type.payrollTypeId, payroll_type.payrollTypeName, hrpayroll_control.year, hrpayroll_control.payrollNumber,
-                        hrpayroll_control.payrollName, hrpayroll_control.processCode
+                        hrpayroll_control.payrollName, hrpayroll_control.processCode, hrpayroll_control.periodId
                         FROM `hrpayroll_control`
                     INNER JOIN country ON hrpayroll_control.countryId = country.countryId
                     INNER JOIN company ON hrpayroll_control.companyId = company.companyId
@@ -133,6 +133,7 @@ class PayrollControlController extends Controller
         $hrpayrollControl->payrollTypeId = $request->payrollTypeId;
         $hrpayrollControl->year = $request->year;
         $hrpayrollControl->payrollNumber = $request->payrollNumber;
+        $hrpayrollControl->periodId = $request->periodId;
         $hrpayrollControl->payrollName = $request->payrollName;
         $hrpayrollControl->processCode = $request->processCode;
         $hrpayrollControl->payrollCategory = 'payroll';
@@ -181,7 +182,7 @@ class PayrollControlController extends Controller
     // process of pre-payroll
     ##########################
 
-    public function processPrePayroll($id, $exchangeRate)
+    public function processPrePayroll($id, $periodId, $exchangeRate)
     {    
     $transactionTypeCode = 0;
     $processCode = 0;
@@ -189,6 +190,13 @@ class PayrollControlController extends Controller
     $quantity   = 1;
     $amount   =  0; 
     $userProcess = Auth::user()->fullName;
+
+    
+    $rsPeriod = Periods::findOrFail($periodId);
+    
+    // cantidad de lunes en un periodo determinado
+    $startDaysWeekQuantity = $rsPeriod->start_days_week_quantity;
+
         // PARTE 1. 
     /*
         1. leer tabla hrprepayroll_control.
@@ -258,6 +266,7 @@ class PayrollControlController extends Controller
             $staffName         = $rs->shortName;
             $probationSalary   = $rs->probationSalary;
             $baseSalaryPosition= $rs->baseSalary;
+            $retentionSalary   = $rs->retentionSalary;
             $probationPeriod   = $rs->probationPeriod;
             $employmentDate    = $rs->employmentDate;
             $probationPeriodEnd= $rs->probationPeriodEnd;
@@ -351,8 +360,19 @@ class PayrollControlController extends Controller
                                 if ($staffBlockSS == 1 && $transTypeBlockSS == 1) {
                                     $addTransaction = 0;
                                 } else {
-                                    $amount = $quantity * $baseSalary;
-                                    $amount = round($amount, 2);
+                                    if ($retentionSalary > 0) {
+                                        // echo $retentionSalary . '<br>';
+                                        $retentionSalary2 = ($retentionSalary * 12) / 52;
+                                        // echo $retentionSalary . '<br>';
+                                        $retentionSalary2 = $quantity *  $retentionSalary2;
+                                        // echo $retentionSalary . '<br>';
+                                        $amount =  $retentionSalary2 * $startDaysWeekQuantity;
+                                        // echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary: ". $retentionSalary ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
+                                    }else {
+                                        // echo 'no entro: ' . $transactionTypeName . '<br>';
+                                        $amount = $quantity * $baseSalary;
+                                        $amount = round($amount, 2);
+                                    }
                                     // dd($amount);
                                     if ($amount > 0) {
                                         $addTransaction = 1;             

@@ -45,12 +45,12 @@
                             <td>
                                 <p class="text-left">
                                     <input type="number" class="form-control" v-model="exchangeRate" >
-                                    <!-- {{payrollcontro.payrollName}}  -->
+                                    <!-- {{payrollcontro.periodId}} -->
                                 </p>
                             </td>
                             <td>
                                 <!-- <loading v-if="loading == 1"></loading> -->
-                                <button v-if="loading == 0" v-on:click="process(index,payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
+                                <button v-if="loading == 0" v-on:click="process(index,payrollcontro.hrpayrollControlId, payrollcontro.periodId)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
                                 <button v-else disabled="disabled" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Procesar</button>  
                                 <button v-on:click="deleterow(index, payrollcontro.hrpayrollControlId)" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> Eliminar</button>  
                             </td>
@@ -93,11 +93,11 @@
             lengths:'',
         },
         methods: {
-            process(index, id){
+            process(index, id, periodId){
                 // console.log( this.loading)
                     this.loading = 1
                 console.log(id)
-                const URL = `payrollcontrol/list/${id}/${this.exchangeRate}`
+                const URL = `payrollcontrol/list/${id}/${periodId}/${this.exchangeRate}`
                 axios.get(URL).then((res) => {
                         console.log(res)
                         if (res.statusText === 'OK') {

@@ -41,6 +41,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('get-payroll-number/{countryId}/{companyId}/{dateFrom}/{dateTo}/{updatePeriod}/{payrollCategory}', 'Web\PeriodsController@getPeriodReport');
 
     ##### FIn Para reporte por transacciones en nomina #########
+
+
+    ######### Generar asientos contables ############
+    Route::post('hr-acc-entry-temp', 'Web\rrhh\HrAccEntryTempController@store');
+
 });
 
 // api de consulta externa deparmet
