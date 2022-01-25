@@ -102,6 +102,7 @@ class PeriodsController extends Controller
         $periods->holiday3 =$request->holiday3;
         $periods->holiday4 =$request->holiday4;
         $periods->holiday5 =$request->holiday5;
+        $periods->start_days_week_quantity =$request->start_days_week_quantity;
         $periods->payrollCategory =$request->payrollCategory;
         $periods->save();
         return $periods;
@@ -132,6 +133,7 @@ class PeriodsController extends Controller
         $periods->holiday3 =$request->holiday3;
         $periods->holiday4 =$request->holiday4;
         $periods->holiday5 =$request->holiday5;
+        $periods->start_days_week_quantity =$request->start_days_week_quantity;
         $periods->payrollCategory =$request->payrollCategory;
         $periods->save();
         return $periods;

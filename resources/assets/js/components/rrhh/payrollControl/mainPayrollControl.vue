@@ -68,8 +68,8 @@
             axios.get('payrollcontrol/list/').then( response => {
                 this.objPayrollCOntrol = response.data.payrollControl
                 this.lengths = this.objPayrollCOntrol.length
-                console.log(this.lengths)
-                // console.log(this.objPayrollCOntrol)
+                // console.log(this.lengths)
+                console.log(this.objPayrollCOntrol)
                 // debugger
             })
             console.log('Component mounted.')

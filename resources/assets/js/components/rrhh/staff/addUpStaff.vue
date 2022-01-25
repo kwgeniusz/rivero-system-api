@@ -136,6 +136,10 @@
                                     <label for="probationSalary" class="form-group" v-text="nameField23"></label>
                                     <input type="text" v-model="probationSalary" class="form-control" id="probationSalary" @keyup="validProbationSalary()" v-bind:placeholder="'0.00'">
                                     
+                                </div> <div class="form-group col-md-4">
+                                    <label for="retentionSalary" class="form-group">Salario de retencion</label>
+                                    <input type="text" v-model="retentionSalary" class="form-control" id="retentionSalary"  v-bind:placeholder="'0.00'">
+                                    
                                 </div>
                             
                                 <div class="form-group col-md-4 hidden">
@@ -231,21 +235,21 @@
 
             axios.get(`staff/list/comboxDepartment/0`).then( response => {
                 this.selectDepartments = response.data.departments
-                console.log(this.selectDepartments)
+                // console.log(this.selectDepartments)
             })
 
             axios.get(`staff/list/positions`).then(res => {
                 this.selectPosition = res.data.map(item => {
                     return {id: item.positionCode, vText: item.positionName, baseSalary: item.baseSalary }
                 })
-            console.log(this.selectPosition)
+            // console.log(this.selectPosition)
             })
 
             axios.get(`/staff/list/typepayroll/0`).then(res => {
                 this.selectPayrollType = res.data.map(item => {
                     return {id: item.payrollTypeId, vText: item.payrollTypeName}
                 })
-                console.log(this.selectPayrollType)
+                // console.log(this.selectPayrollType)
             })
 
             
@@ -257,18 +261,9 @@
                 })
             })
             
-           
 
             if (this.editId > 0) {
                 console.log(this.objEdit);
-                // this.selectCountry = document.querySelector("#selectCountry").value = this.objEdit.countryId
-                // axios.get(`companys/contrys/${this.objEdit.countryId}`).then(res => {
-                //     this.selectCompanys = res.data.map(item => {
-                //         return {id: item.companyId, vText: item.companyName}
-                //     })
-                //     this.selectCompany = document.querySelector("#selectCompany").value = this.objEdit.companyId
-                // })
-                
                 axios.get(`/staff/list/comboxDepartment/${this.objEdit.companyId}`).then( response => {
                     this.selectDepartments = response.data.departments
                     this.departmentId = this.objEdit.departmentId
@@ -308,10 +303,10 @@
                 this.status              = this.objEdit.status
                 this.birthdayDate        = this.objEdit.birthdayDate
                 this.childrenCount       = this.objEdit.childrenCount
-               
+                this.retentionSalary       = this.objEdit.retentionSalary
+            
             }
         
-           
         },
         data(){
             return{
@@ -332,6 +327,7 @@
                 probationSalary: 0,
                 localDailySalary: 0,
                 probationPeriod: 0,
+                retentionSalary: 0,
                 excTranTypeCode1: 0,
                 excTranTypeCode2: 0,
                 excTranTypeCode3: 0,
@@ -506,6 +502,7 @@
                         childrenCount: this.childrenCount,
                         probationPeriod: this.probationPeriod,
                         probationPeriodEnd: this.probationPeriodEnd,
+                        retentionSalary: this.retentionSalary,
                         stopSS: this.stopSS,
                         blockSS: this.blockSS,
                         status: this.status
@@ -517,15 +514,18 @@
                             if (response.statusText == "OK") {
                                 alert("Success")
                                 document.querySelector("#newUpForm").reset()
-                            } else {
+                            }else {
                                 // console.log(response)
                                 alert("Error")
                             }
-                            
                         })
                         .catch(function (error) {
-                            // alert("Faile")
-                            console.log(error);
+                            if (error.response) {
+                                alert(error.response.data.message)
+                                console.log(error.response.data);
+                                console.log(error.response.status);
+                                console.log(error.response.headers);
+                            }
                         });
                 }else{
                     const params = {    
@@ -554,6 +554,7 @@
                         childrenCount: this.childrenCount,
                         probationPeriod: this.probationPeriod,
                         probationPeriodEnd: this.probationPeriodEnd,
+                        retentionSalary: this.retentionSalary,
                         stopSS: this.stopSS,
                         blockSS: this.blockSS,
                         status: this.status
@@ -606,7 +607,6 @@
                 })
                 
                 axios.get(`/staff/list/typepayroll/${cb}`).then(res => {
-               
 
                     this.selectPayrollType = res.data.map(item => {
                         return {id: item.payrollTypeId, vText: item.payrollTypeName}
@@ -637,7 +637,6 @@
                     alert('El salario de prueba no puede ser mayor, al salario base')
                 }
                 
-              
             }
         },
         computed: {

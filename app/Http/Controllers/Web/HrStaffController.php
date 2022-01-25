@@ -48,7 +48,7 @@ class HrStaffController extends Controller
                             ORDER BY hrstaff.staffCode");
 
                             return compact('hrstaff');
-                        }
+    }
                         
                         /**
      * funcion para ortener los valores de los comboBox
@@ -103,10 +103,9 @@ class HrStaffController extends Controller
 
         $userSerie = Company::where('companyId',session('companyId'))->first();
         // dd($userSerie);
-        // if ($userSerie->serie == null) {
-        //     // return response()->json(['department' => $staff, 'message' => 'success'], 200);
-        //     # code...
-        // }
+        if ($userSerie->serie == null) {
+            return response()->json(['message' => 'Add Company Serial Code'], 400);
+        }
         $numberMax = hrStaff::where('companyId',session('companyId'))
                             ->where('countryId',session('countryId'))
                             ->max('number');
@@ -134,6 +133,7 @@ class HrStaffController extends Controller
         $staff->probationPeriodEnd = $request->probationPeriodEnd;
         $staff->baseSalary = (float)$request->baseSalary;
         $staff->probationSalary = (float)$request->probationSalary;
+        $staff->retentionSalary = (float)$request->retentionSalary;
         $staff->baseCurrencyId = $request->baseCurrencyId;
         $staff->localSalary = $request->localSalary;
         $staff->localCurrencyId = $request->localCurrencyId;
@@ -178,6 +178,7 @@ class HrStaffController extends Controller
         $staff->probationPeriodEnd = $request->probationPeriodEnd;
         $staff->baseSalary = (float)$request->baseSalary;
         $staff->probationSalary = (float)$request->probationSalary;
+        $staff->retentionSalary = (float)$request->retentionSalary;
         $staff->baseCurrencyId = $request->baseCurrencyId;
         $staff->localSalary = $request->localSalary;
         $staff->localCurrencyId = $request->localCurrencyId;

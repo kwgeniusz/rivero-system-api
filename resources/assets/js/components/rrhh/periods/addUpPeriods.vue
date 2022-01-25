@@ -97,6 +97,17 @@
                                 </div>
                                 
                             </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="start_days_week_quantity" class="form-group" v-text="'Ingrese la cantidad de lunes'"></label>
+                                    
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <input type="number" v-model="start_days_week_quantity" class="form-control" id="start_days_week_quantity" v-bind:placeholder="'Feriado 1'" >
+                                </div>
+
+                                
+                            </div>
                             
                             <div v-if="editId === 0">
                                 <button-form 
@@ -166,6 +177,7 @@
                 holiday3:'',
                 holiday4:'',
                 holiday5:'',
+                start_days_week_quantity: 0,
                 selectPayrollType:{},
             }
         },
@@ -236,6 +248,7 @@
                         holiday3: this.holiday3,
                         holiday4: this.holiday4,
                         holiday5: this.holiday5,
+                        start_days_week_quantity: this.start_days_week_quantity,
                         
                     }
 
@@ -273,6 +286,7 @@
                         holiday3: this.holiday3,
                         holiday4: this.holiday4,
                         holiday5: this.holiday5,
+                        start_days_week_quantity: this.start_days_week_quantity,
                     }
 
                     let url = `periods/put/${this.objEdit.periodId}`
