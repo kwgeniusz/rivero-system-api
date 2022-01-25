@@ -36,12 +36,12 @@
       </div>
       <div class="input-label">
         <h4><b>Terminos y Condiciones</b></h4>
-          <ul>
+        <ul>
             <li v-for="(note,index) in termsList">
-              <span v-html="nl2br(note.termName,false) "></span> 
-              <a @click="deleteTerm(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar">
+              <a @click="deleteTerm(++index)" class="supr" data-toggle="tooltip" data-placement="top" title="Eliminar" style="margin-bottom: 20px">
                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
               </a>
+              <span v-html="nl2br(note.termName,false) "></span> 
             </li>
         </ul>
       </div>

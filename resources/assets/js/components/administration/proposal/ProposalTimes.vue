@@ -53,16 +53,10 @@
       <h4><b>Time Frame</b></h4>
       <ul>
         <li v-for="(item, index) in timesList">
-          <span v-html="nl2br(item.timeName, false)"></span>
-          <a
-            @click="deleteTime(++index)"
-            class="supr"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Eliminar"
-          >
+          <a @click="deleteTime(++index)" class="supr"  data-toggle="tooltip" data-placement="top" title="Eliminar">
             <span class="fa fa-times-circle" aria-hidden="true"></span>
           </a>
+          <span v-html="nl2br(item.timeName, false)"></span>
         </li>
       </ul>
     </div>

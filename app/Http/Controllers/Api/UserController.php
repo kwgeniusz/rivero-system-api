@@ -7,79 +7,44 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    // *-----------------------------------------------------------------*/
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function getUser(Request $request) {
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        //--default values  -----------------------
+        $userId     = 0; 
+        $oCountry      =  new Country();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        //-- parameters   -------------------------
+        if($request->has('countryId')){ 
+             $countryId     = trim($request->input('countryId'));  
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        //-- read country data  -------------------
+        if ($countryId == 0) {           // leer todos los paises
+         $rs = $oCountry->getAll();
+        } else {                         // leer un pais
+         $rs = $oCountry->findById($countryId);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        //-- prepare output   ---------------------
+        $aCountry      = array(); 
+
+        foreach ($rs as $rows) {
+        	
+           $countryId     = $rows->countryId;
+           $countryName   = $rows->countryName;	
+
+           $aCountry[] = ['countryId'=>$countryId, 'countryName'=>$countryName  ];        	
+        } 
+
+
+        //-- send output  --------------------------   
+	    return \Response::json([ 'country'=>$aCountry ]);
+
+	}
+
+    //----  end of function getCompany    -------------------------
+
 }

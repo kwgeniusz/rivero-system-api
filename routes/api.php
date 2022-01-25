@@ -67,27 +67,32 @@ Route::get('barcode-create/{staff}', 'Api\BarcodeController@barcodeCreate');
 Route::get('barcode/{barcode}', 'Api\BarcodeController@barcodeShow');
 
 
+
+// ====================================
+// ======= MANUEL CASTRO - APIS //
+// ====================================
+
+Route::group(['prefix' => 'v1'], function() {
 // ----------------------------------------------------------------------------------------
 // -- COUNTRY API              ------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
-Route::group(['prefix' => 'v1'], function() {
 	Route::group(['prefix' => '/country'], function() {
 		Route::post('/{countryId}','Api\Country\CountryController@getCountry');
 		Route::post('/', 'Api\Country\CountryController@getCountry');
 	});
-});
-
-
-// ----------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
 // -- COMPANY API              ------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
-Route::group(['prefix' => 'v1'], function() {
 	Route::group(['prefix' => '/company'], function() {
 		Route::post('/{countryId}/{companyId}','Api\Company\CompanyController@getCompany');
 		Route::post('/', 'Api\Company\CompanyController@getCompany');
 	});
+// ----------------------------------------------------------------------------------------
+// -- USER API              ------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+	Route::group(['prefix' => '/company'], function() {
+		Route::post('/{countryId}/{companyId}','Api\User\UserController@getCompany');
+		Route::post('/', 'Api\Company\CompanyController@getCompany');
+    });
+    
 });
-
-// ----------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------
