@@ -192,7 +192,7 @@ class TransactionHeaderTmpController extends Controller
 // Logica para genear asientos contables temporales desde administracion
  public function generateTemporaryAccountingEntries(Request $request)
  {
-    $oTransactionHeaderTmp-> ;
+    // $oTransactionHeaderTmp-> ;
     
  }//END OF PROCESS 
 

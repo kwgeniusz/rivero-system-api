@@ -294,74 +294,74 @@ class TransactionHeaderTmp extends Model
 // ================================ GENERAR ASIENTOS CONTABLES TEMPORALES  ====================================================//
 // Logica para genear asientos contables temporales desde administracion
 
-public function generateTemporaryAccountingEntries(Request $request)
-{
+// public function generateTemporaryAccountingEntries(Request $request)
+// {
 
-// parametros de entrada: opcion por pantalla
-$countryId = session('countryId');
-$companyId = session('companyId');
-$entryDate = '';
+// // parametros de entrada: opcion por pantalla
+// $countryId = session('countryId');
+// $companyId = session('companyId');
+// $entryDate = '';
 
-// Seleccionar source code. Manualmente
-$sourceCode = "administration";
+// // Seleccionar source code. Manualmente
+// $sourceCode = "administration";
 
-// borrar las transacciones temporales de este $countryId, $companyId, $sourceCode="administration"
+// // borrar las transacciones temporales de este $countryId, $companyId, $sourceCode="administration"
 
 
-// Leer las transacciones de administracion Depende del modulo
-$rsAdm = $Transaccion->JoinTransactionType($country,$companyId);
+// // Leer las transacciones de administracion Depende del modulo
+// $rsAdm = $Transaccion->JoinTransactionType($country,$companyId);
 
-  dd($rsAdm)
-// total de la cabecera
-$totalDebit  = 0;
-$totalCredit = 0;
+//   dd($rsAdm)
+// // total de la cabecera
+// $totalDebit  = 0;
+// $totalCredit = 0;
 
-// grabar registro cabecera y obtener id
-$headerId = $HeadarTMP->insert();
+// // grabar registro cabecera y obtener id
+// $headerId = $HeadarTMP->insert();
 
-// Procesar las trasacciones. Depende del módudlo
-foreach($rsAdm  as $rs1) {
-     $transactionTypeId = $rs1->transactionTypeId; 
-     $amount            = $rs1->amount; 
+// // Procesar las trasacciones. Depende del módudlo
+// foreach($rsAdm  as $rs1) {
+//      $transactionTypeId = $rs1->transactionTypeId; 
+//      $amount            = $rs1->amount; 
 
-     // buscar la equivalencia contable
-     $rsequiv = $equivalence->getByTransactionType($transactionTypeId );
-     foreach($rsequiv as $rs2) {
-        $debitAccount   = $rs2->debitAccount;
-        $creditAccount  = $rs2->creditAccount;
+//      // buscar la equivalencia contable
+//      $rsequiv = $equivalence->getByTransactionType($transactionTypeId );
+//      foreach($rsequiv as $rs2) {
+//         $debitAccount   = $rs2->debitAccount;
+//         $creditAccount  = $rs2->creditAccount;
 
-        $debit = 0;
-        $credit = 0;
+//         $debit = 0;
+//         $credit = 0;
 
-        if (!empty($debitAccount) ) {
-            $generalLedgerId = $GeneralLedger->getId($debitAccount );
+//         if (!empty($debitAccount) ) {
+//             $generalLedgerId = $GeneralLedger->getId($debitAccount );
 
-            // insertar registro en transaccion tmp
-            $debit = $amount;
-            $totalDebit = $totalDebit + $debit;
-            $TransactionTmp->insert($headerId,$generalLedgerId, $debit, $credit,,, );
-        }
+//             // insertar registro en transaccion tmp
+//             $debit = $amount;
+//             $totalDebit = $totalDebit + $debit;
+//             $TransactionTmp->insert($headerId,$generalLedgerId, $debit, $credit,,, );
+//         }
 
-        $debit = 0;
-        $credit = 0;
+//         $debit = 0;
+//         $credit = 0;
 
-        if (!empty($creditAccount) ) {
-            $generalLedgerId = $GeneralLedger->getId($creditAccount );
+//         if (!empty($creditAccount) ) {
+//             $generalLedgerId = $GeneralLedger->getId($creditAccount );
 
-            // insertar registro en transaccion tmp
-            $credit = $amount;
-            $totalCredit = $totalCredit + $debit;
-            $TransactionTmp->insert($headerId, $generalLedgerId, $debit, $credit,,, );
-        }
+//             // insertar registro en transaccion tmp
+//             $credit = $amount;
+//             $totalCredit = $totalCredit + $debit;
+//             $TransactionTmp->insert($headerId, $generalLedgerId, $debit, $credit,,, );
+//         }
 
-     }
+//      }
 
-}
+// }
 
-// fin del proceso. ACtualizar cabecera
-   $HeaderTmp->updateAmount($headerId,$totalDebit,$totalCredit);
+// // fin del proceso. ACtualizar cabecera
+//    $HeaderTmp->updateAmount($headerId,$totalDebit,$totalCredit);
    
-  }//END OF PROCESS 
+//   }//END OF PROCESS 
 
 
 
