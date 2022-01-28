@@ -80,7 +80,9 @@
       @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
 
 <hr> 
-    @can('BI')<li><a href="{{route('temporary-acc-entry.index')}}">Generar Asientos Contables</a></li> @endcan   
+    <!-- @can('BI')<li><a href="{{route('temporary-acc-entry.index')}}">Generar Asientos Contables Temporales</a></li> @endcan    -->
+    <li><a href="/accounting/transaction-headers-tmp">Asientos Contables Temporales</a></li>
+
 <hr>
     @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li> @endcan 
       {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
@@ -148,7 +150,6 @@
             <li><a href="#">Tipo de Cuentas</a></li>
             <li><a href="#">Clasificacion de Cuentas</a></li>
             <li><a href="/accounting/general-ledgers">Plan de Cuentas</a></li>
-            <li><a href="/accounting/transaction-headers-tmp">Asientos Contables Temporales</a></li>
             <li><a href="/accounting/transaction-headers">Asientos Contables</a></li>
             <li>
             <a href="/accounting/close-year">Cerrar Año Contable</a>

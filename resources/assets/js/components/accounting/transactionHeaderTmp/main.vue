@@ -2,36 +2,36 @@
     <div class="">
     <!-- agregar -->
         <div v-if="formStatus === 1">
-            <accounting-addUp-transaction-header
+            <accounting-addUp-transaction-header-tmp
                 @showlist = "showlist"
                 :editId=0
-            > </accounting-addUp-transaction-header> 
+            > </accounting-addUp-transaction-header-tmp> 
         </div>
 
     <!-- Vista actualizar -->
         <div v-if="formStatus === 2">
-            <accounting-addUp-transaction-header
+            <accounting-addUp-transaction-header-tmp
                 @showlist = "showlist"
                 :editId=editId                
-            > </accounting-addUp-transaction-header> 
+            > </accounting-addUp-transaction-header-tmp> 
         </div>
 
     <!-- botones y listado -->
         <div v-if="formStatus === 0">
             <h3><b>ASIENTOS CONTABLES TEMPORALES</b></h3>
 
-            <button-form
+            <!-- <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
-            ></button-form>
+            ></button-form> -->
 
-            <accounting-table-transaction-header  
+            <accounting-table-transaction-header-tmp  
                 :headerList = headerList
                 :headerYear = year
                 @editData = "editData"
                 @showlist = "showlist">
-            </accounting-table-transaction-header>
+            </accounting-table-transaction-header-tmp>
 
         </div>  
 
