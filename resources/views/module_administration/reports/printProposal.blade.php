@@ -7,7 +7,7 @@
 
 		table {
 			page-break-inside: auto;
-             page-break-after: auto;
+			page-break-after: auto;
             page-break-before: auto;
 }
 
@@ -99,8 +99,8 @@
 		margin-top: 3px;
 		width: 12px;
 }
-
-	 	.lower-block {
+/* pie de pagina */
+		.lower-block {
 		position: absolute;
 		background-color: #ffc501;
 		width: 535px;
@@ -187,6 +187,12 @@
 		.line-height {
 		line-height: 1.5;
 }
+		.line-height2 {
+		line-height: 1.2;
+}
+		.line-height3 {
+		line-height: 1;
+}
 
 		.pagination {
 		position: absolute;
@@ -214,237 +220,273 @@
 
 
 <body>
-<div class="container-header">
-	<div class="header"></div>
+	<div class="container-header">
+		<div class="header"></div>
 
-	<div class="upper-right"></div>
-	 <div class="logo"><img src="img/logos/jd/jd.png"></img></div>
-				<img class="wm-one" src="img/logos/jd/1.png"></img>
-				<img class="wm-two" src="img/logos/jd/2.png"></img>
-</div>
+		<div class="upper-right"></div>
+		<div class="logo"><img src="img/logos/jd/jd.png"></img></div>
+			<img class="wm-one" src="img/logos/jd/1.png"></img>
+			<img class="wm-two" src="img/logos/jd/2.png"></img>
+	</div>
 
-<div class="footer">
-				<div class="pagination">
-				<p>Page <span class="pagenum"></span></p>
-				</div>
+	<div class="footer">
+		<div class="pagination">
+			<p>Page <span class="pagenum"></span></p>
+		</div>
 
-				<div class="lower-left"></div>
-				<div class="lower-block">
-				                                     <b>{{$company[0]->companyName}}</b> - 
-					<img src="img/icon-email.png"></img> {{$company[0]->companyEmail}} 
-					<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}} <br>
-					<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
-					<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
-					<div class="text-alt">
-					<p>© Copyright 2020 JD Rivero - All rights reserved | Designed by Rivero Visual Group</p>
-					</div>
-				</div>
-				<div class="lower-right">
-				</div>
- </div>
+		<div class="lower-left"></div>
+		<div class="lower-block">
+			<b>{{$company[0]->companyName}}</b> - 
+			<img src="img/icon-email.png"></img> {{$company[0]->companyEmail}} 
+			<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}} <br>
+			<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
+			<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
+			<div class="text-alt">
+				<p>© Copyright 2020 JD Rivero - All rights reserved | Designed by Rivero Visual Group</p>
+			</div>
+		</div>
+		<div class="lower-right">
+		</div>
+	</div>
 
-<div class="date bold">
-{{$date->format('F jS, Y')}}
-</div>       
+	<div class="date bold">
+	{{$date->format('F jS, Y')}}
+	</div>       
 
-<div class="big bold">
-<b>
-@if($client->clientType == 'COMPANY') 
-  {{$client->companyName}}
-@else 
-  @if($client->gender == 'M') Mr. @else Mrs. @endif {{$client->clientName}}
-@endif
+	<div class="big bold">
+	<b>
+	@if($client->clientType == 'COMPANY') 
+	{{$client->companyName}}
+	@else 
+	@if($client->gender == 'M') Mr. @else Mrs. @endif {{$client->clientName}}
+	@endif
 
 
-</b>
-</div>   
+	</b>
+	</div>   
 
-{{$client->mainEmail}}   <br>
-P. {{$client->businessPhone}}    <br>
-C. ID: {{$client->clientCode}}   <br>
+	{{$client->mainEmail}}   <br>
+	P. {{$client->businessPhone}}    <br>
+	C. ID: {{$client->clientCode}}   <br>
 
-<br>
-<div>
-<div class="float-left"><b>RE:</b></div>
-<div class="float-left">Professional Design Services Proposal <br>
-           @if($proposal[0]->$modelType->projectName)
-		    <b>Project Name:</b> {{$proposal[0]->$modelType->projectName}} <br>
-           @endif
-           @if($proposal[0]->$modelType->siteAddress)
-			<b> {{$proposal[0]->$modelType->siteAddress}}</b> <br>
-           @endif
-  <div style="font-size:10px">	   
+	<br>
+	<div>
+	<div class="float-left"><b>RE:</b></div>
+	<div class="float-left">Professional Design Services Proposal <br>
+			@if($proposal[0]->$modelType->projectName)
+				<b>Project Name:</b> {{$proposal[0]->$modelType->projectName}} <br>
+			@endif
+			@if($proposal[0]->$modelType->siteAddress)
+				<b> {{$proposal[0]->$modelType->siteAddress}}</b> <br>
+			@endif
+		<div style="font-size:10px">	   
 			Proposal ID: {{$proposal[0]->propId}} 
 			- {{$modelTypeView}} ID: {{$modelId}} <br>
 			Type: {{$proposal[0]->$modelType->projectUse->projectUseName}} -
 			Description: {{$proposal[0]->projectDescription->projectDescriptionName}} <br>
-  </div>			
-</div>
+		</div>			
+	</div>
 
-<br>
-<div class="prologue">
-@if($client->clientType == 'COMPANY' && $client->clientName == '') 
-  Dears <b>{{$client->companyName}}<b/>
-@else 
-  @if($client->gender == 'M')Dear <b>Mr. @else Dear <b>Mrs. @endif  {{$client->clientName}}</b>
-@endif
+	<br>
+	<div class="prologue">
+	@if($client->clientType == 'COMPANY' && $client->clientName == '') 
+		Dears <b>{{$client->companyName}}<b/>
+	@else 
+		@if($client->gender == 'M')Dear <b>Mr. @else Dear <b>Mrs. @endif  {{$client->clientName}}</b>
+	@endif
 
-</div>
+	</div>
 
-<br>
-<div class="just">
-<span class="tab">
-@if($proposal[0]->subcontId != null)  
- JD Rivero & {{$proposal[0]->subcontractor->companyName}} 
-@else
-We
-@endif 
-are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in  {{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project objectives, we propose to perform the following <b>scope of work</b>.
+	<br>
+	<div class="just">
+	<span class="tab">
+	@if($proposal[0]->subcontId != null)  
+		JD Rivero & {{$proposal[0]->subcontractor->companyName}} 
+	@else
+		We
+	@endif 
+		are pleased to submit this proposal to provide Professional Design Services associated with this project at the reference address in 
+		{{$proposal[0]->$modelType->city}},  {{$proposal[0]->$modelType->state}}. Based on our perception of the overall project
+		objectives, we propose to perform the following <b>scope of work</b>.
 
-</div>
+	</div>
+		@php
+		$counter = 0; 
+		@endphp
+		<ul class="just">
+			@foreach($proposal['0']->scope as $scope)
+				{!! nl2br($scope->description) !!} <br>
+				@php
+					
+					$array = str_split($scope->description);
+					$cantRow = count($array);
+					$cantRow2 = ($cantRow / 121);
+					$cantRow3 = ceil($cantRow2);
+					$counter += $cantRow3;
+					// echo "<br>El número de elementos en el array es: " . count($array) . "<br><br>";
+				@endphp
+			@endforeach
+			@php
 
-				<ul class="just">
-@foreach($proposal['0']->scope as $scope)
-					<li>{!! nl2br($scope->description) !!}</li>
-@endforeach
-				</ul>
-	
-<div>
-To comply with the scope of work we propose the following deliverables:
-</div>
- 
- <table class="ts" style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
-				<thead>
-				<tr class="table-header bold">
-					<th width="5%" align="center">#</th>
-					<th width="55%">DESCRIPTION</th>
-					<th width="10%" align="center">UNIT</th>
-					<th width="10%" align="center">QTY</th>
-					<th width="10%" align="center">UP</th>
-					<th width="10%" align="center">AMOUNT</th>
-				</tr>
-				</thead>
-@php 
-			 $acum= 0 ;
-			 $subTotalPerPage= 0;
-					 $acumPropDetail = 0;
+				// $cadena = "uno,dos,tres,cuatro,cinco";
+				// $array = explode(",", $cadena);
+				// echo "<br><br>El número de elementos en el array es: " . count($array);
 
-foreach ($proposalDetails as $propDetail) {
+			@endphp
+			{{-- @foreach($proposal['0']->scope as $scope)
+				<li>{!! nl2br($scope->description) !!}</li>
+			@endforeach --}}
+			
+		</ul>
+		
+	<div>
+		To comply with the scope of work we propose the following deliverables:
+	</div>
 
-							 $acum = $acum + 1;
-								if ($acum % 2 == 0) {
-										$background = "#ffffff";
-								} else {
-										$background = "#ffffff";
-								}
-		 //espacios,numeracion,precios, negritas para reglon con precios
-							 if ($propDetail->unit == null) {
-										$acum2 = "";
-										$space = "   ";
-										$symbol = '';
-								} else {
-										$acumPropDetail = $acumPropDetail + 1;
-										$acum2=$acumPropDetail;
-										$space = "";
-										$symbol = $moneySymbol;
-								}
-@endphp
-				<tr class="line-height">
+	<table class="ts" style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
+		<thead>
+			<tr class="table-header bold">
+				<th width="5%" align="center">#</th>
+				<th width="55%">DESCRIPTION</th>
+				<th width="10%" align="center">UNIT</th>
+				<th width="10%" align="center">QTY</th>
+				<th width="10%" align="center">UP</th>
+				<th width="10%" align="center">AMOUNT</th>
+			</tr>
+		</thead>
+	@php 
+		$acum= 0 ;
+		$subTotalPerPage= 0;
+		$acumPropDetail = 0;
+
+	foreach ($proposalDetails as $propDetail) {
+		$counter ++;
+	}// Cambio de variable para contador
+
+	foreach ($proposalDetails as $propDetail) {
+
+		$acum = $acum + 1;
+		if ($acum % 2 == 0) {
+			$background = "#ffffff";
+		} else {
+			$background = "#ffffff";
+		}
+			//espacios,numeracion,precios, negritas para reglon con precios
+		if ($propDetail->unit == null) {
+			$acum2 = "";
+			$space = "   ";
+			$symbol = '';
+		} else {
+			$acumPropDetail = $acumPropDetail + 1;
+			$acum2=$acumPropDetail;
+			$space = "";
+			$symbol = $moneySymbol;
+		}
+			if ( $counter >= 30 AND  $counter <= 37 ) {
+				$lineHeight = 'line-height3';
+			}elseif ( $counter >= 25 AND  $counter <= 29 ) {
+				$lineHeight = 'line-height2';
+			}else {
+				$lineHeight = 'line-height';
+			}
+		@endphp
+			<tr class="{{$lineHeight}}">
 				<td width="5%" align="center">{{$acum2}}</td>
 				<td width="40%" >{{$space}}{{$propDetail->serviceName}}</td>
 				<td width="10%" align="center">{{$propDetail->unit}}</td>
 				<td width="15%" align="center">{{$propDetail->quantity}}</td>
 				<td width="15%" align="center">{{$symbol}}  {{$propDetail->unitCost}}</td>
 				<td width="15%" align="right">{{$symbol}}  {{$propDetail->amount}}</td>
-				</tr>
-@php
-			 $subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
-			 $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
-}// FIN DE FOREACH DE RENGLONES
-@endphp
-			<tr >
-				<td width="5%" align="center"></td>
-				<td width="40%" ></td>
-				<td width="10%" align="center"></td>
-				<td width="15%" align="center"></td>
-				<td width="15%" align="center">TOTAL:</td>
-				<td width="15%" style="border-top:2px solid black"align="right"> {{$subTotalPerPage}}</td>
-		 </tr>
-</table>
+			</tr>
+		@php
+		$subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
+		$subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+	}// FIN DE FOREACH DE RENGLONES
+	@endphp
+		<tr >
+			<td width="5%" align="center"></td>
+			<td width="40%" ></td>
+			<td width="10%" align="center"></td>
+			<td width="15%" align="center"></td>
+			<td width="15%" align="center">TOTAL:</td>
+			<td width="15%" style="border-top:2px solid black"align="right"> {{$subTotalPerPage}}</td>
+		</tr>
+	</table>
 
-<br>
-{{-- <div class="big bold center">
-	 <b>Payment Breakdown</b>
-</div>
-		@foreach ($proposal[0]->paymentProposal as $payment) 
-			<ul>
-					<li>{{$payment->paymentDate}} {{$symbol}}{{$payment->amount}}</li>
-			</ul>
-		@endforeach
- --}}
-@if($proposal[0]->paymentProposal->isNotEmpty())
-	<div class="big bold center">Payment Breakdown</div>
-		 <ul>
-@foreach($proposal[0]->paymentProposal as $payment)
-		<li>{!! nl2br($payment->paymentDate) !!} {{$symbol}}{{$payment->amount}}</li>
-@endforeach
-	</ul>
+	<br>
 	
-<br>
-@endif
+	{{-- <div class="big bold center">
+		<b>Payment Breakdown</b>
+	</div>
+			@foreach ($proposal[0]->paymentProposal as $payment) 
+				<ul>
+						<li>{{$payment->paymentDate}} {{$symbol}}{{$payment->amount}}</li>
+				</ul>
+			@endforeach
+	--}}
+	@if($proposal[0]->paymentProposal->isNotEmpty())
+		<div class="big bold center">Payment Breakdown</div>
+			<ul>
+	@foreach($proposal[0]->paymentProposal as $payment)
+			<li>{!! nl2br($payment->paymentDate) !!} {{$symbol}}{{$payment->amount}}</li>
+	@endforeach
+		</ul>
+		
+	<br>
+	@endif
 
-@if($proposal[0]->timeFrame->isNotEmpty())
+	@if($proposal[0]->timeFrame->isNotEmpty())
 		<div class="big bold center">Time Frame</div>
-		 <ul>
-@foreach($proposal[0]->timeFrame as $item)
-		<li>{!! nl2br($item->timeName) !!}</li>
-@endforeach
-		 </ul>
-@endif
-
-@if($proposal[0]->term->isNotEmpty())
-	<div class="big bold center">Terms & Conditions</div>
 		<ul>
-@foreach($proposal[0]->term as $item)
-		  <li>{!! nl2br($item->termName) !!}</li>
-@endforeach
-	  </ul>
-@endif
+	@foreach($proposal[0]->timeFrame as $item)
+		<li>{!! nl2br($item->timeName) !!}</li>
+	@endforeach
+		</ul>
+	@endif
 
-<div class="big bold center">
-	 <b>Payment Method</b>
-</div>
+	@if($proposal[0]->term->isNotEmpty())
+		<div class="big bold center">Terms & Conditions</div>
+		<ul>
+	@foreach($proposal[0]->term as $item)
+		<li>{!! nl2br($item->termName) !!}</li>
+	@endforeach
+		</ul>
+	@endif
 
-<div style="text-align: left">
-<b>Remit payment to:</b><br>
-<div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
-</div>
-<br>
-<div align="center">
-If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
-</div>
+	<div class="big bold center">
+		<b>Payment Method</b>
+	</div>
 
-<br>
-@if($proposal[0]->note->isNotEmpty())
-	 <div class="big bold center">Note</div>
-		 <ul>
-@foreach($proposal[0]->note as $note)
-		<li>{!! nl2br($note->noteName) !!}</li>
-@endforeach
-	 </ul>
-<br><br>
-@endif
+	<div style="text-align: left">
+	<b>Remit payment to:</b><br>
+	<div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
+	</div>
+	<br>
+	<div align="center">
+		If the payment is by Check, Cash or Money Order, leave it at the office or give it to one of our employees at the project address.
+	</div>
 
-<div class="just">
-<span style='display:inline; white-space:pre;'> </span><span style='display:inline; white-space:pre;'> </span>We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
-<br><br>
-Sincerely.
-</div>
-<br><br>
+	<br>
+	@if($proposal[0]->note->isNotEmpty())
+		<div class="big bold center">Note</div>
+			<ul>
+	@foreach($proposal[0]->note as $note)
+			<li>{!! nl2br($note->noteName) !!}</li>
+	@endforeach
+		</ul>
+	<br><br>
+	@endif
 
-<table class="table-sign" cellspacing="0" cellpadding="0" border="0"  >
-			 <tr>
-		@if($proposal[0]->subcontId != null)  
+	<div class="just">
+	<span style='display:inline; white-space:pre;'> </span><span style='display:inline; white-space:pre;'> </span>We are pleased to have the opportunity to submit this proposal and look forward to the prospect of working with you on this project. If the proposal is acceptable as presented, please sign where indicated below and return one copy to our office. If you have any questions, please do not hesitate to call us. 
+	<br><br>
+	Sincerely.
+	</div>
+	<br><br>
+
+	<table class="table-sign" cellspacing="0" cellpadding="0" border="0"  >
+		<tr>
+			@if($proposal[0]->subcontId != null)  
 				<th align="center" >
 				@if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
 					<b>{{$proposal[0]->subcontractor->subcontractorName}}</b> <br>
@@ -452,26 +494,23 @@ Sincerely.
 				@else
 					<b>{{$proposal[0]->subcontractor->companyName}}</b> <br>
 				@endif
-				    <!-- ENGINEERING CONSULTING <br> -->
+					<!-- ENGINEERING CONSULTING <br> -->
 					{{$proposal[0]->subcontractor->serviceOffered}}<br>
 					{{$proposal[0]->subcontractor->mainPhone}}
 				</th>
-		@endif  
+			@endif  
 				<th align="center">
-					 <b>{{$proposal[0]->user->fullName}}</b><br>
-					 {{$company[0]->companyName}} <br> Representative
-					 {{-- (214) 718 6256 <br> --}}
+						<b>{{$proposal[0]->user->fullName}}</b><br>
+						{{$company[0]->companyName}} <br> Representative
+						{{-- (214) 718 6256 <br> --}}
 				</th>
-			 </tr>
-</table>
+				</tr>
+	</table>
 
-<br><br><br><br><br>
-<div  class="bold center">
-Accepted By:     _____________________________________ <br>
-          @if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
-</div>
-
-
-
+	<br><br><br><br><br>
+	<div  class="bold center">
+		Accepted By:     _____________________________________ <br>
+		@if($client->gender == 'M') Mr. @else Mrs. @endif  {{$client->clientName}}</b>
+	</div>
 
 </body>
