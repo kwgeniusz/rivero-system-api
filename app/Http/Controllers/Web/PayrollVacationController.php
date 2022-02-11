@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\config_report\ConfigReport;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\Auth;
 
 class PayrollVacationController extends Controller
@@ -190,11 +190,13 @@ class PayrollVacationController extends Controller
         } 
 
         $period = Periods::findOrFail($periodId);
-        
+        // cantidad de lunes en un periodo determinado
+        $startDaysWeekQuantity = $period->start_days_week_quantity;
+        // dd($startDaysWeekQuantity);
         $period = collect($period);
         // get data from table hrstaff by period
         $rs1  = $this->oStaff->getStaffByEmploymentDate($period,$payrollTypeId);
-
+        dd($rs1);
         $dayOff = $this->oWeekend->weekend($period); //obtengo la cantidad de dias en fines de semanas
         // dd($dayOff);
         try {
@@ -216,6 +218,7 @@ class PayrollVacationController extends Controller
                 $excTTCode2        = $rs['excTranTypeCode2'];
                 $excTTCode3        = $rs['excTranTypeCode3'];
                 $validity          = $rs['validity'];
+                $retentionSalary   = $rs['retentionSalary'];
                 $additionalDays    = 0;
                 if ($validity > 1) {
                     $additionalDays = $validity - 1;
@@ -274,8 +277,19 @@ class PayrollVacationController extends Controller
                                 if ($staffBlockSS == 1 && $transTypeBlockSS == 1) {
                                     $addTransaction = 0;
                                 } else {
-                                    $amount = $quantity * $baseSalary;
-                                    $amount = round($amount, 2);
+                                    if ($retentionSalary > 0) { //si existe un salario para retencion, aplico nueva formula
+                                        // echo $retentionSalary . '<br>';
+                                        $retentionSalary2 = ($retentionSalary * 12) / 52;
+                                        // echo $retentionSalary . '<br>';
+                                        $retentionSalary2 = $quantity *  $retentionSalary2;
+                                        // echo $retentionSalary . '<br>';
+                                        $amount =  $retentionSalary2 * $startDaysWeekQuantity;
+                                        // echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary: ". $retentionSalary ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
+                                    }else {
+                                        // echo 'no entro: ' . $transactionTypeName . '<br>';
+                                        $amount = $quantity * $baseSalary;
+                                        $amount = round($amount, 2);
+                                    }
                                     // dd($amount);
                                     if ($amount > 0) {
                                         $addTransaction = 1;             

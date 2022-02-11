@@ -360,7 +360,7 @@ class PayrollControlController extends Controller
                                 if ($staffBlockSS == 1 && $transTypeBlockSS == 1) {
                                     $addTransaction = 0;
                                 } else {
-                                    if ($retentionSalary > 0) {
+                                    if ($retentionSalary > 0) { //si existe un salario para retencion, aplico nueva formula
                                         // echo $retentionSalary . '<br>';
                                         $retentionSalary2 = ($retentionSalary * 12) / 52;
                                         // echo $retentionSalary . '<br>';
