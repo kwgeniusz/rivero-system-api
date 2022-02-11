@@ -116,6 +116,7 @@ class PayrollVacation extends Model
                         "probationPeriod" => $vStaff->probationPeriod,
                         "probationPeriodEnd" => $vStaff->probationPeriodEnd,
                         "baseSalary" => $vStaff->baseSalary,
+                        "retentionSalary" => $vStaff->retentionSalary,
                         "baseCurrencyId" => $vStaff->baseCurrencyId,
                         "localSalary" => $vStaff->localSalary,
                         "probationSalary" => $vStaff->probationSalary,
