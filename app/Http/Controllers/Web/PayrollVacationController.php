@@ -196,7 +196,7 @@ class PayrollVacationController extends Controller
         $period = collect($period);
         // get data from table hrstaff by period
         $rs1  = $this->oStaff->getStaffByEmploymentDate($period,$payrollTypeId);
-        dd($rs1);
+        // dd($rs1);
         $dayOff = $this->oWeekend->weekend($period); //obtengo la cantidad de dias en fines de semanas
         // dd($dayOff);
         try {
