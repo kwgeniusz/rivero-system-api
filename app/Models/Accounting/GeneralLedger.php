@@ -5,6 +5,8 @@ namespace App\Models\Accounting;
 use Auth;
 use DB;
 use App\Models\Accounting\GeneralLedgerBalance;
+use App\CompanyConfiguration;
+use App\Country;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -30,11 +32,11 @@ class GeneralLedger extends Model
 //--------------------------------------------------------------------
     public function accountType()
     {
-        return $this->hasOne(AccountType::class, 'accountTypeCode', 'accountTypeCode');
+        return $this->hasOne(AccountType::class, 'accountTypeCode', 'accountTypeCode')->where('countryId', '=',session('countryId'));
     }
     public function accountClassification()
     {
-        return $this->hasOne(AccountClassification::class, 'accountClassificationCode', 'accountClassificationCode');
+        return $this->hasOne(AccountClassification::class, 'accountClassificationCode', 'accountClassificationCode')->where('countryId', '=',session('countryId'));
     }
     public function daughterAccount()
     {
@@ -132,6 +134,25 @@ class GeneralLedger extends Model
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode         = $data['accountTypeCode'];
         $generalLedger->save();
+
+        $generalLedgerId = $generalLedger->generalLedgerId;
+        
+        // creacion de general ledger balance
+
+        // obtengo el a#o contable actual y lo incremento
+        $oCompanyConfig    = new CompanyConfiguration;
+        $config            = $oCompanyConfig->findByCompany(session('companyId'));
+        $accYear           = $config[0]->accYear;
+
+        $country           = Country::find(session('countryId'));
+        $currencyId          = $country->countryConfiguration->primaryCurrency->currencyId;
+
+         $generalLedgerBalance                          = new GeneralLedgerBalance;
+         $generalLedgerBalance->generalLedgerId         = $generalLedgerId;
+         $generalLedgerBalance->year                    = $accYear;
+         $generalLedgerBalance->currencyId              = $currencyId;
+         $generalLedgerBalance->save(); 
+            
             
             $success = true;
             DB::commit();
@@ -202,7 +223,7 @@ class GeneralLedger extends Model
         }
     }
 //------------------------------------------
-function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month)
+function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$debitSec,$creditSec,$year,$month)
 {
     DB::beginTransaction();
     try {    
@@ -223,10 +244,10 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
   while($loop == 1) {
      // actualizar el saldo de cuenta con $generalLedgerId libro diario
      $oGeneralLedger = new GeneralLedger;
-     $rs = $oGeneralLedger->updateBalance($generalLedgerId,$debit,$credit);
+     $rs = $oGeneralLedger->updateBalance($generalLedgerId,$debit,$credit,$debitSec,$creditSec);
      // actualizar el saldo de cuenta con $generalLedgerId en GeneralLedger Balance libro mayors
      $oGeneralLedgerBalance = new GeneralLedgerBalance;
-     $rs = $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit);
+     $rs = $oGeneralLedgerBalance->updateBalance($generalLedgerId,$year,$month,$debit,$credit,$debitSec,$creditSec);
 
       // siguiente nivel arriba
       $generalLedgerId = 0;
@@ -267,8 +288,8 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
         }
   }//end of the function
 
-
-  function updateBalance($generalLedgerId,$debit,$credit)
+// =========================================================================
+  function updateBalance($generalLedgerId,$debit,$credit,$debitSec,$creditSec)
 {
   // obtener $saldos actuales
     DB::beginTransaction();
@@ -277,8 +298,10 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
 
   //Actualizar saldos en tabl acc_general_ledger_balance
   foreach($query as $rs){
-        $rs->debit  = $rs->debit + $debit;
-        $rs->credit = $rs->credit + $credit;
+        $rs->debit    = $rs->debit + $debit;
+        $rs->credit   = $rs->credit + $credit;
+        $rs->debitSec  = $rs->debitSec + $debitSec;
+        $rs->creditSec = $rs->creditSec + $creditSec;
         $rs->save();
   }
          $success = true;

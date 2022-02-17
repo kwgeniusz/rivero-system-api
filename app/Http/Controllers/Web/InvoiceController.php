@@ -233,16 +233,16 @@ class InvoiceController extends Controller
     //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
   if($request->date1 && $request->date2) {
     $invoices = $invoices->filter(function ($invoice) use($request) {
-   
+
                $oDateHelper = new DateHelper;
                $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-               $date1                 = $oDateHelper->$functionRs($request->date1);
-               $date2                 = $oDateHelper->$functionRs($request->date2);
-               $invoiceDate       = $oDateHelper->$functionRs($invoice->invoiceDate);
+              //  $date1                 = $oDateHelper->$functionRs($request->date1);
+              //  $date2                 = $oDateHelper->$functionRs($request->date2);
+              //  $invoiceDate       = $oDateHelper->$functionRs($invoice->invoiceDate);
 
-              $date_inicio = strtotime($date1);
-              $date_fin    = strtotime($date2);
-              $date_nueva  = strtotime($invoiceDate);
+              $date_inicio = strtotime($request->date1);
+              $date_fin    = strtotime($request->date2);
+              $date_nueva  = strtotime($invoice->invoiceDate);
 
                // esta dentro del rango
               if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){

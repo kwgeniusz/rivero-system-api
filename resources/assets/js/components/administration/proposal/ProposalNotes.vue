@@ -1,9 +1,11 @@
 <template> 
   <form class="input-label boxes2" style="margin-top: 30px;">
+
     <div class="alert alert-danger " v-if="errors.length">
       <h4>Errores:</h4>
       <div v-for="error in errors">- {{ error }}</div>
     </div>
+    
     <div class="input-label" style="display: flex; flex-wrap: wrap;">
       <div class="inputother" style="display: flex; align-items: center; flex-direction: column;">
         <div style="width: 48%">

@@ -204,7 +204,7 @@
             },   
           validateHeader(index, id){
                if (confirm("Desea Validar este Encabezado con sus Asientos?") ){
-                axios.get(`/accounting/transacciones-encabezado/${id}/validar`).then((res)=>{
+                axios.get(`/accounting/transacciones-encabezado/${id}/validar`).then((response)=>{
                     toastr.success(response.data.message);
 
 

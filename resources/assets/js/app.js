@@ -162,6 +162,7 @@ Vue.component("invoice-details",require("./components/administration/invoice/Inv
 Vue.component("invoice-subcontractors",require("./components/administration//invoice/InvoiceSubcontractors.vue"));
 Vue.component("invoice-btn-cancel",require("./components/administration/invoice/InvoiceBtnCancel.vue"));
 Vue.component("invoice-btn-collection",require("./components/administration/invoice/InvoiceBtnCollection.vue"));
+Vue.component("invoice-add-note",require("./components/administration/invoice/addInvoiceNote.vue"));
 
 // ---------------------> Sales Notes <----------------------------------------//
 Vue.component("credit-note",require("./components/administration/invoice/saleNote/CreditNote.vue"));

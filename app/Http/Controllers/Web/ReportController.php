@@ -16,7 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
-use PDF;
+use TCPDF;
 
 class ReportController extends Controller
 {

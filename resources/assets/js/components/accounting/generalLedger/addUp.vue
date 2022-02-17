@@ -86,7 +86,7 @@
     export default {
         mounted() {
             //obtengo los datos para llenar las listas de selects
-          axios.get('/accounting/general-ledger/create').then((response) => {
+          axios.get('/accounting/general-ledgers/create').then((response) => {
               console.log(response.data)
                   this.chartOfAccount            = response.data.chartOfAccount;
                   this.chartOfAccount.map(function (x){
@@ -99,7 +99,7 @@
 
             if (this.editId > 0) {
                 // transaction to edit.
-                axios.get(`/accounting/general-ledger/${this.editId}`).then((response) => {
+                axios.get(`/accounting/general-ledgers/${this.editId}`).then((response) => {
                     this.data = response.data[0]
                     console.log(this.data)
 

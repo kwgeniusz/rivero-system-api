@@ -445,23 +445,18 @@ foreach ($invoiceDetails as $invDetail) {
  </p> 
  @endif
 
- {{-- 
-
- <table cellspacing="0" cellpadding="0" >
-       <tr>
-        <th style="background-color:#f2edd1; font-size:17px;" colspan="1" align="center"><b>Terms & Conditions</b></th>
-       </tr>
-       <tr> 
-                  <ul>
-@foreach($invoice['0']->note as $note)
-    <li>{!! nl2br($note->noteName) !!}</li>
+ @if($invoice[0]->note->isNotEmpty())
+	 <div class="big bold center">Note</div>
+		 <ul>
+@foreach($invoice[0]->note as $note)
+		<li>{!! nl2br($note->noteName) !!}</li>
 @endforeach
-                  </ul>
-       </tr>
-</table>
+	 </ul>
+<br><br>
+@endif
 
 
-
+{{-- 
  <table cellspacing="0" cellpadding="0" >
        <tr>
         <th style="background-color:#f2edd1; font-size:17px;" colspan="1" align="center"><b>Scope of Work</b></th>

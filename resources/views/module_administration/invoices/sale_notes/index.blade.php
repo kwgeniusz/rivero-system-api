@@ -62,6 +62,7 @@
       </div>
    </div>
 
+
 <h4><b>NOTAS DE VENTA</b></h4>
 
  <!-- Nav tabs -->
@@ -174,8 +175,12 @@
        <a href="{{route('invoices.all')}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
        </a>
+       <br><br>
+       <invoice-add-note inline-template/>
   </center>
 </div>
+
 </div>
+
 
 @endsection

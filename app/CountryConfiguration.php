@@ -19,6 +19,13 @@ class CountryConfiguration extends Model
                             ];
     protected $dates      = ['dateCreated'];
 
-
-  
+// relations
+    public function primaryCurrency()
+    {
+        return $this->belongsTo('App\Currency', 'currency1Id', 'currencyId');
+    }
+    public function secondaryCurrency()
+    {
+        return $this->belongsTo('App\Currency', 'currency2Id', 'currencyId');
+    }
 }

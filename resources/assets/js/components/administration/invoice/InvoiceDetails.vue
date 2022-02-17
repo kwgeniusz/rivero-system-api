@@ -123,10 +123,10 @@
             <b>Total Neto:</b> {{invoice[0].netTotal}}<br> -->
             {{invoiceNetTotal}}
         </div>
-        <!--<hr>
-        <invoice-notes :invoice-id="invoice[0].invoiceId" ref="invoiceNotes"></invoice-notes>
         <hr>
-        <invoice-scopes :invoice-id="invoice[0].invoiceId" ref="invoiceScopes"></invoice-scopes> -->
+        <invoice-notes :invoice-id="invoice[0].invoiceId" ref="invoiceNotes"></invoice-notes>
+        <!-- <hr> -->
+        <!-- <invoice-scopes :invoice-id="invoice[0].invoiceId" ref="invoiceScopes"></invoice-scopes> --> 
       </div>
     </div>
     <div class="botonera"> 
@@ -145,7 +145,7 @@
  </template>
  <script>
 
-// import InvoiceNotes from './InvoiceNotes.vue'
+import InvoiceNotes from './InvoiceNotes.vue'
 // import InvoiceScopes from './InvoiceScopes.vue'
 
 export default {
@@ -211,10 +211,10 @@ export default {
                ` )
        }  
     },
-  //  components: {
-  //        InvoiceNotes,
+    components: {
+          InvoiceNotes,
   //        InvoiceScopes
-  // },
+   },
     methods: {
         findInvoice: function (){
             let url ='invoices/'+this.invoiceId;
@@ -355,7 +355,7 @@ export default {
 
           if (!this.errors.length) { 
         //ejecuta la funciona que esta en el componente hijo Proposal Notes
-          // this.$refs.invoiceNotes.sendNotes();
+           this.$refs.invoiceNotes.sendNotes();
           // this.$refs.invoiceScopes.sendScopes();
 
           axios.post('invoicesDetails',{

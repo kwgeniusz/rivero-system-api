@@ -33,6 +33,14 @@
              <flat-pickr v-model="searcher.date2" :config="configFlatPickr"  class="form-control" id="formDatePaid"></flat-pickr>
           </div> 
 
+         <div class="form-group col-xs-12 col-md-12">
+             <label for="year">MONEDA</label>
+            <select class="form-control" id="year" v-model="searcher.currency">
+               <option value="primary"> PRIMARIA</option>
+               <option value="secondary">SECUNDARIA</option>
+            </select>
+          </div> 
+
            <div class="row"/>
            <button type="submit" v-if="showSubmitBtn" class="btn btn-primary">
                 <span class="fa fa-check" aria-hidden="true"></span>  ENVIAR
@@ -80,6 +88,7 @@
                 searcher:  {                    
                      date1: '',
                      date2: '',
+                     currency: 'primary'
                 },
             }
          },
@@ -95,7 +104,7 @@
 
          if (!this.errors.length) { 
              this.loading = true;
-           axios.post('/accounting/reports/entries',{modelReport: this.modelReport, dateRange: this.searcher},{
+           axios.post('/accounting/reports/entries',{modelReport: this.modelReport, receivedData: this.searcher},{
             responseType: 'blob',
             onDownloadProgress: (progressEvent) => {
                console.log(progressEvent.total)

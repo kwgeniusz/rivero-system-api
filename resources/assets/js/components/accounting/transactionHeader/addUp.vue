@@ -16,16 +16,22 @@
 
     <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
       <form  class="" id="form1" role="form" @submit.prevent="sendForm()">
-        
-        <div class="form-group col-lg-6">
+     
+        <div class="form-group col-lg-4">
               <label style="color:red">*</label> <label for="date">FECHA:</label>
              <p v-if="displayMode">{{entry.date}}</p>  
              <flat-pickr v-else v-model="entry.date" :config="configFlatPickr"  class="form-control" id="formDatePaid"></flat-pickr>
         </div>
-        <div class="form-group col-lg-6">
+        <div class="form-group col-lg-4">
               <label style="color:red">*</label> <label for="description">DESCRIPCION:</label>
                 <p v-if="displayMode">{{entry.description}}</p> 
                 <input v-else type="text" class="form-control" v-model="entry.description" name="description" placeholder="">     
+        </div>
+
+         <div class="form-group col-lg-4">
+              <label style="color:red">*</label> <label for="description">TASA DE CAMBIO:</label>
+                <p v-if="displayMode">{{entry.conversionRate}}</p> 
+                <input v-else type="number" class="form-control" v-model.number="entry.conversionRate" name="tasa" placeholder="" min="1" step="0.01"  >     
         </div>
 
          <div class="text-center" v-if="!displayMode">
@@ -33,7 +39,9 @@
                 Agregar Fila<i ></i>
             </a> 
          </div>
+
          <br>
+         
 <div class="col-xs-12">
        <div class="tableother">
           <table class="table table-bordered text-center">
@@ -131,6 +139,7 @@
 
                     this.entry.date                      = this.data.entryDate;
                     this.entry.description               = this.data.entryDescription;
+                    this.entry.conversionRate               = this.data.conversionRate;
 
                     for (var i=0; i<this.data.transaction.length; i++) { 
                       let transaction = this.data.transaction[i];
@@ -171,6 +180,7 @@
                 entry:  {                    
                      date: '',
                      description: '',
+                     conversionRate: 1,
                    },
                 itemList: [{
                    generalLedgerId:'',

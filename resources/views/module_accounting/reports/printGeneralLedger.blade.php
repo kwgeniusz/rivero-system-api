@@ -47,11 +47,11 @@
 
         <th width="55%">
              <div style="text-align:center; font-size:14px;">
-               <strong style="font-size:20px" sty>{{$company[0]->companyName}}</strong><br>
-               <img src="img/icon-point.png" width="10px" height="10px"/> {{$company[0]->companyAddress}}<br>
-               <img src="img/icon-phone.png" width="10px" height="10px"/> {{$company[0]->companyPhone}},{{$company[0]->companyPhoneOptional}}<br>
-               <img src="img/icon-email.png" width="10px" height="10px"/> {{$company[0]->companyEmail}}
-               <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
+               <strong style="font-size:20px">{{$company->companyName}}</strong><br>
+               <img src="img/icon-point.png" width="10px" height="10px"/> {{$company->companyAddress}}<br>
+               <img src="img/icon-phone.png" width="10px" height="10px"/> {{$company->companyPhone}},{{$company->companyPhoneOptional}}<br>
+               <img src="img/icon-email.png" width="10px" height="10px"/> {{$company->companyEmail}}
+               <img src="img/icon-location.png" width="10px" height="10px"/> {{$company->companyWebsite}}
              </div>
         </th>
 
@@ -60,6 +60,10 @@
             <tr style="font-size:12px">
               <td><b>Report Date:</b></td>
               <td align="left">{{$date->format('F jS, Y')}}</td>
+            </tr>
+            <tr style="font-size:12px">
+              <td><b>Currency:</b></td>
+              <td align="left">{{$currency->currencyName}}</td>
             </tr>
          </table>     
       </th>
