@@ -6,6 +6,8 @@ namespace App\Http\Controllers\web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\hrPrinPayroll;
+use App\Company;
+use App\Periods;
 use App\Models\config_report\ConfigReport;
 
 class printPayrollController extends Controller
@@ -14,6 +16,7 @@ class printPayrollController extends Controller
     private $oHeaderPayroll;
     private $oDetailPayroll;
     private $oConfigReport;
+    private $oTotalGeneral;
     
     function __construct()
     {
@@ -22,7 +25,9 @@ class printPayrollController extends Controller
         $this->oDetailPayroll = new hrPrinPayroll;
         $this->oReporteByTransaction = new hrPrinPayroll();
         $this->oConfigReport = new ConfigReport;
+        $this->oTotalGeneral = new hrPrinPayroll;
     }
+    
 
     /**
      * Display a listing of the resource.
@@ -68,7 +73,7 @@ class printPayrollController extends Controller
         foreach($res0 as $res1){
             
             $print[] = $this->oDetailPayroll->detailPayroll($countryId, $companyId, $year, $payrollNumber, $res1->staffCode);
-                            // return  $print;
+            // return  $print;
         }                    
         //  dd($print);
         // return $print;
@@ -164,5 +169,38 @@ class printPayrollController extends Controller
         $res0 = $this->oReporteByTransaction->reportByTransactionPayroll($request->countryId, $request->companyId, $request->payrollNumber,$request->transaction, $request->employees, $request->table, $request->report);
 
         return response()->json(['data' => $res0],200);
+    }
+    
+    public function gerenalPayrollReport(Request $request)
+    {
+        // dd($request->all());
+
+        $countryId = $request->countryId;
+        $companyId = $request->companyId;
+        $year = $request->year;
+        $payrollNumber = $request->payrollNumber;
+        $payrollTypeId = $request->payrollTypeId;
+        // datos da la conpañia 
+        $companyData = Company::findOrFail($companyId);
+        // periodo del reporte generado
+        $period = Periods::select('periodName', 'periodFrom', 'periodTo') 
+                ->where('companyId', $companyId)
+                ->where('payrollNumber', $payrollNumber)
+                ->get();
+        // obtengo los datos de configuracion para el reporte
+        $configReport = $this->oConfigReport->getConfigReportByCompany($countryId, $companyId,'payroll','normal');
+
+        // datos para el total del reporte
+        $total = [
+            "totalGeneralAssignment"      => $this->oTotalGeneral->TotalGeneral($countryId, $companyId, $year, $payrollNumber, $payrollTypeId, 1, 'payroll'),
+            'totalGeneralAssignmentLocal' => $this->oTotalGeneral->TotalGeneral($countryId, $companyId, $year, $payrollNumber, $payrollTypeId, 1, 'payroll', 'localAmount'), 
+            'totalGeneralDeduction'       => $this->oTotalGeneral->TotalGeneral($countryId, $companyId, $year, $payrollNumber, $payrollTypeId, 0, 'payroll'),
+            'totalGeneralDeductionLocal'  => $this->oTotalGeneral->TotalGeneral($countryId, $companyId, $year, $payrollNumber, $payrollTypeId, 0, 'payroll', 'localAmount')
+        ];
+
+        // datos para el total por cada transaccion
+        $totalTransaction = $this->oTotalGeneral->TotalDetail($countryId, $companyId, $year, $payrollNumber, $payrollTypeId);
+
+        return response()->json(['data' =>['totalTransaction'=> $totalTransaction, 'totalGeneral'=> $total, 'companyData'=>$companyData, 'period'=>$period, 'configReport'=>$configReport]], 200);
     }
 }
