@@ -203,6 +203,37 @@ class GeneralLedger extends Model
         }
     }
 //------------------------------------------
+ public function updateAmounts($generalLedgerId,$debit,$credit,$debitSec,$creditSec)
+{
+      $error = null;
+
+ DB::beginTransaction();
+  try {
+
+         $this->where('generalLedger', $generalLedgerId)
+              ->update([
+                  'debit'     => $debit,
+                  'credit'    => $credit,
+                  'debitSec'  => $debitSec,
+                  'creditSec' => $creditSec,
+              ]); 
+
+        $success = true;
+        DB::commit();
+    } catch (\Exception $e) {
+
+        $success = false;
+        $error   = $e->getMessage();
+        DB::rollback();
+    }
+
+    if ($success) {
+      return $rs  = ['alert' => 'success', 'message' => "Saldos de la cuenta modificados"];
+    } else {
+        return $rs = ['alert' => 'error', 'message' => $error];
+    }
+}
+//------------------------------------------
     public function deleteG($companyId,$generalLedgerId)
     {
         try {

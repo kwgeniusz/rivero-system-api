@@ -86,21 +86,23 @@ class GeneralLedgerBalance extends Model
                    ->get();
 }
 // =========================================================================  
- function closeYear(){
-    
-   $error = null;
-
-DB::beginTransaction();
- try {
-
-   $oCompanyConfig    = new CompanyConfiguration;
-   $config            = $oCompanyConfig->findByCompany(session('companyId'));
-   // obtengo el a#o contable actual y lo incremento
-   $accYear           = $config[0]->accYear;
-   $accNewYear        = $accYear + 1;
+function closeYear(){
    
+   $error = null;
+   
+   DB::beginTransaction();
+   try {
+      
+      $oCompanyConfig           = new CompanyConfiguration;
+      $oGeneralLedger           = new GeneralLedger;
+      $oGeneralLedgerBalance    = new GeneralLedgerBalance;
+
+      $config            = $oCompanyConfig->findByCompany(session('companyId'));
+      // obtengo el a#o contable actual y lo incremento
+      $accYear           = $config[0]->accYear;
+      $accNewYear        = $accYear + 1;
+      
    // obteniendo los saldos del a#o actual para crear el saldo inicial del a#o siguiente
-   $oGeneralLedgerBalance    = new GeneralLedgerBalance;
    $lastYearData = $oGeneralLedgerBalance->getByYear($accYear);
    
    foreach($lastYearData as $lastYear){
@@ -172,8 +174,12 @@ DB::beginTransaction();
        $generalLedgerBalance->initialDebitSec    =  $initialDebitTotalSec;
        $generalLedgerBalance->initialCreditSec   =  $initialCreditTotalSec;
        $generalLedgerBalance->save();
-   }
-    //incrementar a#o contable.
+       
+        $rs = $oGeneralLedger->updateAmounts($lastYear->generalLedgerId,$initialDebitTotal,$initialCreditTotal,$initialDebitTotalSec,$initialCreditTotalSec);
+
+      }
+      
+      //incrementar a#o contable.
     $oCompanyConfig->increaseAccYear(session('countryId'),session('companyId'));
 
        $success = true;
