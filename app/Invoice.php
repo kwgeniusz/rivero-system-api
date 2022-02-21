@@ -54,10 +54,10 @@ class Invoice extends Model
     {
       return $this->hasMany('App\SubcontractorInvDetail', 'invoiceId', 'invoiceId');
     } 
-    //  public function note()
-    // {
-    //   return $this->belongsToMany('App\Note', 'invoice_note', 'invoiceId', 'noteId')->withPivot('invNoteId');
-    // }
+    public function note()
+    {
+        return $this->hasMany('App\InvoiceNote', 'invoiceId')->orderBy('InvNoteId');
+    }
     // public function scope()
     // {
     //   return $this->hasMany('App\InvoiceScope', 'invoiceId', 'invoiceId');

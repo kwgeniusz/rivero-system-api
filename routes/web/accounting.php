@@ -17,7 +17,6 @@ Route::resource('transaction-headers-tmp', 'Web\Accounting\TransactionHeaderTmpC
 //************* Temporal Transaction ************
 Route::resource('transactions-tmp', 'Web\Accounting\TransactionTmpController', ['as' => 'accounting']);
 
-
 //************* General Ledger ************
 Route::resource('general-ledgers', 'Web\Accounting\GeneralLedgerController');
 

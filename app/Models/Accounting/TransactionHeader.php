@@ -96,21 +96,26 @@ class TransactionHeader extends Model
                        $oConfiguration->increaseEntryNumber($countryId, $companyId);
         $entryNumber = $oConfiguration->retrieveEntryNumber($countryId, $companyId);
  
-        $header                           = new TransactionHeader;
-        $header->countryId                = $countryId;
-        $header->companyId                = $companyId;
-        $header->entryNumber              = $entryNumber;
-        $header->entryDate                = $data[0]['date'];
-        $header->entryDescription         = $data[0]['description'];
-        $header->validation               = 0;
-        $header->entryUpdated             = 0;
-        $header->source                   = 'ACCOUNTING';
-        $header->totalDebit               = 0;
-        $header->totalCredit              = 0;
+        $header                   = new TransactionHeader;
+        $header->countryId        = $countryId;
+        $header->companyId        = $companyId;
+        $header->entryNumber      = $entryNumber;
+        $header->entryDate        = $data[0]['date'];
+        $header->entryDescription = $data[0]['description'];
+        $header->validation       = 0;
+        $header->entryUpdated     = 0;
+        $header->source           = 'ACCOUNTING';
+        $header->totalDebit       = 0;
+        $header->totalCredit      = 0;
+        $header->totalDebitSec    = 0;
+        $header->totalCreditSec   = 0;
+        $header->conversionRate   = $data[0]['conversionRate'];
+        $header->userId           = Auth::user()->userId;
         $header->save();
+        
+        // inicializando variables acumuladoras de saldo
+        $acumDebit = 0; $acumCredit = 0; $acumDebitSec  = 0; $acumCreditSec = 0;
 
-        $acumDebit = 0;
-        $acumCredit = 0;
         foreach ($data[1] as $key => $transactionData) {
             $transaction                           = new Transaction;
             $transaction->countryId                = $countryId;
@@ -122,19 +127,25 @@ class TransactionHeader extends Model
             $transaction->transactionReference     = $transactionData['reference'];
              if($transactionData['type'] == 'debit'){ 
               $transaction->debit                    = $transactionData['amount'];
-              $transaction->credit                   = 0;
-              $acumDebit += $transactionData['amount'];
+              $transaction->debitSec                 = $transactionData['amount'] * $header->conversionRate;
+
+              $acumDebit    += $transaction->debit;
+              $acumDebitSec += $transaction->debitSec;
              }else{
-              $transaction->debit                    = 0;
               $transaction->credit                   = $transactionData['amount']; 
-              $acumCredit += $transactionData['amount'];
+              $transaction->creditSec                = $transactionData['amount'] * $header->conversionRate; 
+
+              $acumCredit    += $transaction->credit;
+              $acumCreditSec += $transaction->creditSec;
              }
-            //  $transaction->balanceUpdated           = 0;
-             $transaction->userId                   = 0;
+
              $transaction->save();
         }
-            $header->totalDebit               = $acumDebit;
-            $header->totalCredit              = $acumCredit;
+            $header->totalDebit     = $acumDebit;
+            $header->totalCredit    = $acumCredit;
+            $header->totalDebitSec  = $acumDebitSec;
+            $header->totalCreditSec = $acumCreditSec;
+
             $header->save();
 
             $success = true;
@@ -156,35 +167,81 @@ class TransactionHeader extends Model
 //------------------------------------------
     public function updateT($companyId,$headerId ,$data)
     {
-          $error = null;
-
-     DB::beginTransaction();
-      try {
-
-        $transaction                          = Transaction::find($headerId);
-        $transaction->transactionNumber       = $data['transactionNumber'];
-        $transaction->generalLedgerId           = $data['generalLedgerId'];
-        $transaction->transactionDate         = $data['transactionDate'];
-        $transaction->transactionDescription  = $data['transactionDescription'];
-        $transaction->transactionReference  = $data['transactionReference'];
-        $transaction->debit                 = $data['debit'];
-        $transaction->credit               = $data['credit'];
-        $transaction->save();
-        
-            $success = true;
-            DB::commit();
-        } catch (\Exception $e) {
-
-            $success = false;
-            $error   = $e->getMessage();
-            DB::rollback();
-        }
-
-        if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Encabezado Modificada"];
-        } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
-        }
+        $error = null;
+    
+        DB::beginTransaction();
+         try {
+       
+           $oConfiguration = new CompanyConfiguration();
+                          $oConfiguration->increaseEntryNumber($countryId, $companyId);
+           $entryNumber = $oConfiguration->retrieveEntryNumber($countryId, $companyId);
+    
+           $header                   = new TransactionHeader;
+           $header->countryId        = $countryId;
+           $header->companyId        = $companyId;
+           $header->entryNumber      = $entryNumber;
+           $header->entryDate        = $data[0]['date'];
+           $header->entryDescription = $data[0]['description'];
+           $header->validation       = 0;
+           $header->entryUpdated     = 0;
+           $header->source           = 'ACCOUNTING';
+           $header->totalDebit       = 0;
+           $header->totalCredit      = 0;
+           $header->totalDebitSec    = 0;
+           $header->totalCreditSec   = 0;
+           $header->conversionRate   = $data[0]['conversionRate'];
+           $header->userId           = Auth::user()->userId;
+           $header->save();
+           
+           // inicializando variables acumuladoras de saldo
+           $acumDebit = 0; $acumCredit = 0; $acumDebitSec  = 0; $acumCreditSec = 0;
+   
+           foreach ($data[1] as $key => $transactionData) {
+               $transaction                           = new Transaction;
+               $transaction->countryId                = $countryId;
+               $transaction->companyId                = $companyId;
+               $transaction->headerId                 = $header->headerId;
+               $transaction->generalLedgerId          = $transactionData['generalLedgerId'];
+               $transaction->transactionDate          = $data[0]['date'];
+               $transaction->transactionDescription   = $transactionData['description'];
+               $transaction->transactionReference     = $transactionData['reference'];
+                if($transactionData['type'] == 'debit'){ 
+                 $transaction->debit                    = $transactionData['amount'];
+                 $transaction->debitSec                 = $transactionData['amount'] * $header->conversionRate;
+   
+                 $acumDebit    += $transaction->debit;
+                 $acumDebitSec += $transaction->debitSec;
+                }else{
+                 $transaction->credit                   = $transactionData['amount']; 
+                 $transaction->creditSec                = $transactionData['amount'] * $header->conversionRate; 
+   
+                 $acumCredit    += $transaction->credit;
+                 $acumCreditSec += $transaction->creditSec;
+                }
+   
+                $transaction->save();
+           }
+               $header->totalDebit     = $acumDebit;
+               $header->totalCredit    = $acumCredit;
+               $header->totalDebitSec  = $acumDebitSec;
+               $header->totalCreditSec = $acumCreditSec;
+   
+               $header->save();
+   
+               $success = true;
+               DB::commit();
+           } catch (\Exception $e) {
+   
+               $success = false;
+               $error   = $e->getMessage();
+               DB::rollback();
+           }
+   
+           if ($success) {
+             return $rs  = ['alert' => 'success', 'message' => "Encabezado Y Renglones creados Exitosamente."];
+           } else {
+               return $rs = ['alert' => 'error', 'message' => $error];
+           }
     }
 //------------------------------------------
     public function deleteT($companyId,$headerId)
@@ -221,8 +278,8 @@ class TransactionHeader extends Model
    
      foreach ($headers as $header) {
 
-        $header                          = TransactionHeader::find($header->headerId);
-
+        $header         = TransactionHeader::find($header->headerId);
+        
         $entryDate = $header->entryDate;
         $year  = substr($entryDate,0,4);
         $month = substr($entryDate,5,2);
@@ -234,10 +291,13 @@ class TransactionHeader extends Model
           $generalLedgerId          = $transaction->generalLedgerId;
           $debit                    = $transaction->debit;
           $credit                   = $transaction->credit;
+          $debitSec                    = $transaction->debitSec;
+          $creditSec                   = $transaction->creditSec;
+
            
         // Ejecutar funcion de actualizacion en el libro mayor - general_ledger
         $oGeneralLedger = new GeneralLedger;
-        $rs = $oGeneralLedger->cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$year,$month);
+        $rs = $oGeneralLedger->cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$credit,$debitSec,$creditSec,$year,$month);
         // Marcar como "actualizado" el registro de trasacciones contable (MODELO) (SET balanceUpdated = 1)
         //  $rs = $this->setBalanceUpdated($transactionId,$statusUpdated);  
 

@@ -41,6 +41,14 @@
             </select>
           </div> 
 
+       <div class="form-group col-xs-12 col-md-12">
+             <label for="year">MONEDA</label>
+            <select class="form-control" id="year" v-model="searcher.currency">
+               <option value="primary"> PRIMARIA</option>
+               <option value="secondary">SECUNDARIA</option>
+            </select>
+          </div> 
+
            <div class="row"/>
            <button type="submit" v-if="showSubmitBtn" class="btn btn-primary">
                 <span class="fa fa-check" aria-hidden="true"></span>  ENVIAR
@@ -88,6 +96,7 @@
                 searcher:  {                    
                      month: '',
                      year: '',
+                     currency: 'primary',
                 },
             }
          },
@@ -111,7 +120,7 @@
 
          if (!this.errors.length) { 
              this.loading = true;
-           axios.post('/accounting/reports/general-ledger',{dates: this.searcher},{
+           axios.post('/accounting/reports/general-ledger',{receivedData: this.searcher},{
             responseType: 'blob',
             onDownloadProgress: (progressEvent) => {
                console.log(progressEvent.total)

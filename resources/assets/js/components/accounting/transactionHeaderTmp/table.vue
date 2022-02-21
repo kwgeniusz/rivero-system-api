@@ -2,7 +2,7 @@
   <div >
 
     <div class="col-xs-4">
-         <!-- <accounting-close-year/> -->
+         GENERAR ASIENTOS TEMPORALES
     </div>   
 
     <div class="col-xs-4">
@@ -18,14 +18,14 @@
                      <span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir Clientes de la Corporacion
            </a> -->
       <div class="btn-group">     
-        <div class="dropdown">
+        <!-- <div class="dropdown">
           <button  class="btn btn-info btn-sm" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Opciones<span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dLabel">
             <li><a v-if="$can('FE')" @click="$refs.modalConfirmation.open()" href="#">Actualizar Asientos Contables</a></li>
           </ul>
-        </div>    
+        </div>     -->
         </div>   
 
       <!-- <div  class="btn-group"> 
@@ -101,9 +101,9 @@
                                 <td class="text-left">{{header.entryUpdated}}</td>
                                 <td > 
                                  <!-- <button @click="toggle(header.headerId)" :class="{ opened: opened.includes(header.headerId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>   -->
-                                 <button v-if="header.validation == 0" @click="validateHeader(index,header.headerId)" class="btn btn-sm btn-info" title="Validar"><i class="fa fa-clipboard-check"></i></button> 
+                                 <!-- <button v-if="header.validation == 0" @click="validateHeader(index,header.headerId)" class="btn btn-sm btn-info" title="Validar"><i class="fa fa-clipboard-check"></i></button>  -->
                                   |
-                                 <button  @click="editData(index,header.headerId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
+                                 <!-- <button  @click="editData(index,header.headerId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>   -->
                                  <button v-if="header.entryUpdated == 0" @click="deleteData(index,header.headerId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
               
                                 </td>

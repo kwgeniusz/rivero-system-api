@@ -46,11 +46,11 @@
 
         <th width="55%">
              <div style="text-align:center; font-size:14px;">
-               <strong style="font-size:20px" sty>{{$company[0]->companyName}}</strong><br>
-               <img src="img/icon-point.png" width="10px" height="10px"/> {{$company[0]->companyAddress}}<br>
-               <img src="img/icon-phone.png" width="10px" height="10px"/> {{$company[0]->companyPhone}},{{$company[0]->companyPhoneOptional}}<br>
-               <img src="img/icon-email.png" width="10px" height="10px"/> {{$company[0]->companyEmail}}
-               <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
+               <strong style="font-size:20px" sty>{{$company->companyName}}</strong><br>
+               <img src="img/icon-point.png" width="10px" height="10px"/> {{$company->companyAddress}}<br>
+               <img src="img/icon-phone.png" width="10px" height="10px"/> {{$company->companyPhone}},{{$company->companyPhoneOptional}}<br>
+               <img src="img/icon-email.png" width="10px" height="10px"/> {{$company->companyEmail}}
+               <img src="img/icon-location.png" width="10px" height="10px"/> {{$company->companyWebsite}}
              </div>
         </th>
 
@@ -60,6 +60,12 @@
               <td><b>Report Date:</b></td>
               <td align="left">{{$dateToday->format('m/d/Y')}}</td>
             </tr>
+
+            <tr style="font-size:12px" >
+              <td><b>Currency:</b></td>
+              <td align="left">{{$currency->currencyName}}</td>
+            </tr>
+
          </table>     
       </th>
 
@@ -107,11 +113,18 @@
 @endphp
    
     @foreach ($header['transaction'] as $key => $transaction)
-           @php
+       @php
             $acum2 += 1;
+            
+          if($selectedCurrency == 'primary'){
             $totalDebit  += $transaction['debit'];
             $totalCredit += $transaction['credit'];
-           @endphp
+          }else{
+            $totalDebit  += $transaction['debitSec'];
+            $totalCredit += $transaction['creditSec'];
+          }
+
+        @endphp
 <tr style="background-color:{{$background}}; font-size:8px;">
 
         @if($acum2 == 1)
@@ -129,8 +142,14 @@
         <td align="left">{{$transaction['generalLedger']['accountCode'] }}</td>
         @endif
          <td align="left">{{$transaction['transactionDescription'] }}</td>
-         <td align="right">{{number_format($transaction['debit'], 2, '.', ',') }}</td>
-         <td align="right">{{number_format($transaction['credit'], 2, '.', ',') }}</td>
+        
+         @if($selectedCurrency == 'primary')
+         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['debit'], 2, '.', ',') }}</td>
+         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['credit'], 2, '.', ',') }}</td>
+         @else
+         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['debitSec'], 2, '.', ',') }}</td>
+         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['creditSec'], 2, '.', ',') }}</td>
+         @endif
 
            <!-- // detectar todos menos el último: -->
           @if($loop->last)) 
@@ -139,8 +158,8 @@
              <td align="right"></td>
              <td align="right"> </td>
              <td align="left"><b>TOTAL</b></td>
-             <td align="right"><b>{{number_format($totalDebit, 2, '.', ',') }}</b></td>
-             <td align="right"><b>{{number_format($totalCredit, 2, '.', ',') }}</b></td>
+             <td align="right"><b>{{$currency->currencySymbol}} {{number_format($totalDebit, 2, '.', ',') }}</b></td>
+             <td align="right"><b>{{$currency->currencySymbol}} {{number_format($totalCredit, 2, '.', ',') }}</b></td>
            </tr>
            @endif
  </tr>
@@ -154,7 +173,7 @@
     if ( isset($pdf) ) {
         $pdf->page_script('
             $font = $fontMetrics->get_font("Helvetica", "italic");
-            $pdf->text(210, 805, "© Copyright 2020 JD Rivero Global - All rights reserved", $font, 8);
+            $pdf->text(210, 805, "© Copyright 20202 JD Rivero Global - All rights reserved", $font, 8);
             $pdf->text(250, 816, "Designed By Rivero Visual Group", $font, 8);
             $pdf->text(530, 816, "Page $PAGE_NUM/$PAGE_COUNT", $font, 8);
         ');

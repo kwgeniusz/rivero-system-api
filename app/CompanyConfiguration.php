@@ -29,7 +29,7 @@ class CompanyConfiguration extends Model
 //--------------------------------------------------------------------
     public function company()
     {
-        return $this->belongTo('App\Company', 'companyId', 'companyId');
+        return $this->belongsTo('App\Company', 'companyId', 'companyId');
     }
 
 //--------------------------------------------------------------------
