@@ -47,6 +47,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('hr-acc-entry-temp', 'Web\rrhh\HrAccEntryTempController@store');
 
 });
+######### Para reporte general en nomina ############
+    // ruta liberada temporalmente
+    Route::post('general-payroll-report', 'Web\printPayrollController@gerenalPayrollReport');
+    
+
+
 
 // api de consulta externa deparmet
 Route::get('deparments/{companyId}', 'DepartmentController@apiDeparmentAll');

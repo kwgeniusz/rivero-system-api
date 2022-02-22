@@ -9,11 +9,47 @@ use App\Models\config_report\ConfigReport;
 
 class hrPrinPayroll extends Model
 {
+    use SoftDeletes;
+    public $timestamps = false;
+    protected $table      = 'hrpayroll_history';
+    protected $primaryKey = 'hrpayrollHistoryId';
+    protected $dates = ['deleted_at'];
+
+    protected $guarded = ['hrpayrollHistoryId'];
+
     private $oConfigReport;
 
     public function __construct(){
         $this->oConfigReport = new ConfigReport;
     }
+    
+    function TotalGeneral( $countryId, $companyId, $year, $payrollNumber, $payrollTypeId, $isIncome, $payrollCategory, $field = "amount")
+        {
+            return hrPrinPayroll::where('countryId', $countryId)
+                    ->where('companyId', $companyId)
+                    ->where('year', $year)
+                    ->where('payrollNumber', $payrollNumber)
+                    ->where('payrollTypeId', $payrollTypeId)
+                    ->where('isIncome', $isIncome)
+                    ->where('payrollCategory', $payrollCategory)
+                    ->sum($field);
+        }
+        
+        function TotalDetail( $countryId, $companyId, $year, $payrollNumber, $payrollTypeId)
+        {
+            return DB::select("SELECT hrpayroll_history.transactionTypeCode, hrpayroll_history.transactionTypeName, 
+                hrpayroll_history.isIncome, SUM( hrpayroll_history.amount) AS amount,
+                SUM( hrpayroll_history.localAmount) AS localAmount         
+                FROM hrpayroll_history
+                WHERE hrpayroll_history.countryId = $countryId
+                    AND hrpayroll_history.companyId = $companyId
+                    AND hrpayroll_history.year = $year
+                    AND hrpayroll_history.payrollNumber = $payrollNumber
+                    AND hrpayroll_history.payrollTypeId = $payrollTypeId
+                    AND hrpayroll_history.payrollCategory = 'payroll'
+                GROUP BY hrpayroll_history.transactionTypeCode");
+            
+        }
 
     function getPayrollList(){
         $countryId = session('countryId');
