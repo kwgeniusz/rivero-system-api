@@ -165,84 +165,83 @@ class TransactionHeader extends Model
 
     }
 //------------------------------------------
-    public function updateT($companyId,$headerId ,$data)
-    {
+     public function updateHeaderWithTransactions($countryId, $companyId, $data)
+   {
         $error = null;
+
+      DB::beginTransaction();
+      try {
+
+        
+    $header                   = TransactionHeader::find();
+    $header->countryId        = $countryId;
+    $header->companyId        = $companyId;
+    $header->entryNumber      = $entryNumber;
+    $header->entryDate        = $data[0]['date'];
+    $header->entryDescription = $data[0]['description'];
+    $header->validation       = 0;
+    $header->entryUpdated     = 0;
+    $header->source           = 'ACCOUNTING';
+    $header->totalDebit       = 0;
+    $header->totalCredit      = 0;
+    $header->totalDebitSec    = 0;
+    $header->totalCreditSec   = 0;
+    $header->conversionRate   = $data[0]['conversionRate'];
+    $header->userId           = Auth::user()->userId;
+    $header->save();
     
-        DB::beginTransaction();
-         try {
-       
-           $oConfiguration = new CompanyConfiguration();
-                          $oConfiguration->increaseEntryNumber($countryId, $companyId);
-           $entryNumber = $oConfiguration->retrieveEntryNumber($countryId, $companyId);
-    
-           $header                   = new TransactionHeader;
-           $header->countryId        = $countryId;
-           $header->companyId        = $companyId;
-           $header->entryNumber      = $entryNumber;
-           $header->entryDate        = $data[0]['date'];
-           $header->entryDescription = $data[0]['description'];
-           $header->validation       = 0;
-           $header->entryUpdated     = 0;
-           $header->source           = 'ACCOUNTING';
-           $header->totalDebit       = 0;
-           $header->totalCredit      = 0;
-           $header->totalDebitSec    = 0;
-           $header->totalCreditSec   = 0;
-           $header->conversionRate   = $data[0]['conversionRate'];
-           $header->userId           = Auth::user()->userId;
-           $header->save();
-           
-           // inicializando variables acumuladoras de saldo
-           $acumDebit = 0; $acumCredit = 0; $acumDebitSec  = 0; $acumCreditSec = 0;
-   
-           foreach ($data[1] as $key => $transactionData) {
-               $transaction                           = new Transaction;
-               $transaction->countryId                = $countryId;
-               $transaction->companyId                = $companyId;
-               $transaction->headerId                 = $header->headerId;
-               $transaction->generalLedgerId          = $transactionData['generalLedgerId'];
-               $transaction->transactionDate          = $data[0]['date'];
-               $transaction->transactionDescription   = $transactionData['description'];
-               $transaction->transactionReference     = $transactionData['reference'];
-                if($transactionData['type'] == 'debit'){ 
-                 $transaction->debit                    = $transactionData['amount'];
-                 $transaction->debitSec                 = $transactionData['amount'] * $header->conversionRate;
-   
-                 $acumDebit    += $transaction->debit;
-                 $acumDebitSec += $transaction->debitSec;
-                }else{
-                 $transaction->credit                   = $transactionData['amount']; 
-                 $transaction->creditSec                = $transactionData['amount'] * $header->conversionRate; 
-   
-                 $acumCredit    += $transaction->credit;
-                 $acumCreditSec += $transaction->creditSec;
-                }
-   
-                $transaction->save();
-           }
-               $header->totalDebit     = $acumDebit;
-               $header->totalCredit    = $acumCredit;
-               $header->totalDebitSec  = $acumDebitSec;
-               $header->totalCreditSec = $acumCreditSec;
-   
-               $header->save();
-   
-               $success = true;
-               DB::commit();
-           } catch (\Exception $e) {
-   
-               $success = false;
-               $error   = $e->getMessage();
-               DB::rollback();
-           }
-   
-           if ($success) {
-             return $rs  = ['alert' => 'success', 'message' => "Encabezado Y Renglones creados Exitosamente."];
-           } else {
-               return $rs = ['alert' => 'error', 'message' => $error];
-           }
+    // inicializando variables acumuladoras de saldo
+    $acumDebit = 0; $acumCredit = 0; $acumDebitSec  = 0; $acumCreditSec = 0;
+
+    foreach ($data[1] as $key => $transactionData) {
+        $transaction                           = Transaction::find();
+        $transaction->countryId                = $countryId;
+        $transaction->companyId                = $companyId;
+        $transaction->headerId                 = $header->headerId;
+        $transaction->generalLedgerId          = $transactionData['generalLedgerId'];
+        $transaction->transactionDate          = $data[0]['date'];
+        $transaction->transactionDescription   = $transactionData['description'];
+        $transaction->transactionReference     = $transactionData['reference'];
+         if($transactionData['type'] == 'debit'){ 
+          $transaction->debit                    = $transactionData['amount'];
+          $transaction->debitSec                 = $transactionData['amount'] * $header->conversionRate;
+
+          $acumDebit    += $transaction->debit;
+          $acumDebitSec += $transaction->debitSec;
+         }else{
+          $transaction->credit                   = $transactionData['amount']; 
+          $transaction->creditSec                = $transactionData['amount'] * $header->conversionRate; 
+
+          $acumCredit    += $transaction->credit;
+          $acumCreditSec += $transaction->creditSec;
+         }
+
+         $transaction->save();
     }
+        $header->totalDebit     = $acumDebit;
+        $header->totalCredit    = $acumCredit;
+        $header->totalDebitSec  = $acumDebitSec;
+        $header->totalCreditSec = $acumCreditSec;
+
+        $header->save();
+
+        $success = true;
+        DB::commit();
+    } catch (\Exception $e) {
+
+        $success = false;
+        $error   = $e->getMessage();
+        DB::rollback();
+    }
+
+    if ($success) {
+      return $rs  = ['alert' => 'success', 'message' => "Encabezado Y Renglones creados Exitosamente."];
+    } else {
+        return $rs = ['alert' => 'error', 'message' => $error];
+    }
+
+}
+
 //------------------------------------------
     public function deleteT($companyId,$headerId)
     {

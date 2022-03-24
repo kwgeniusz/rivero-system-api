@@ -36,7 +36,7 @@ class Transaction extends Model
     // }
     // public function daughterAccount()
     // {
-    //     return $this->hasMany('App\GeneralLedger', 'parentAccountCode', 'accountCode');
+    //     return $this->hasMany('App\GeneralLedger', 'parentAccountId', 'generalLedgerId');
     // }
     // public function allDaughterAccount()
     // {
@@ -89,76 +89,76 @@ class Transaction extends Model
     //                   ->get(); 
     //   }
     public function insertT($countryId, $companyId, $data)
-    {
-          $error = null;
+    // {
+    //       $error = null;
     
-     DB::beginTransaction();
-      try {
+    //  DB::beginTransaction();
+    //   try {
 
-        if($data['debit'] == ''){$data['debit'] = 0;}
-        if($data['credit'] == ''){$data['credit'] = 0;}
+    //     if($data['debit'] == ''){$data['debit'] = 0;}
+    //     if($data['credit'] == ''){$data['credit'] = 0;}
 
-        $transaction                          = new Transaction;
-        $transaction->countryId               = $countryId;
-        $transaction->companyId               = $companyId;
-        $transaction->transactionNumber       = $data['transactionNumber'];
-        $transaction->generalLedgerId         = $data['generalLedgerId'];
-        $transaction->transactionDate         = $data['transactionDate'];
-        $transaction->transactionDescription  = $data['transactionDescription'];
-        $transaction->transactionReference    = $data['transactionReference'];
-        $transaction->debit                   = $data['debit'];
-        $transaction->credit                  = $data['credit'];
-        $transaction->userId                  = Auth::user()->userId;
-        $transaction->save();
+    //     $transaction                          = new Transaction;
+    //     $transaction->countryId               = $countryId;
+    //     $transaction->companyId               = $companyId;
+    //     $transaction->transactionNumber       = $data['transactionNumber'];
+    //     $transaction->generalLedgerId         = $data['generalLedgerId'];
+    //     $transaction->transactionDate         = $data['transactionDate'];
+    //     $transaction->transactionDescription  = $data['transactionDescription'];
+    //     $transaction->transactionReference    = $data['transactionReference'];
+    //     $transaction->debit                   = $data['debit'];
+    //     $transaction->credit                  = $data['credit'];
+    //     $transaction->userId                  = Auth::user()->userId;
+    //     $transaction->save();
             
-            $success = true;
-            DB::commit();
-        } catch (\Exception $e) {
+    //         $success = true;
+    //         DB::commit();
+    //     } catch (\Exception $e) {
 
-            $success = false;
-            $error   = $e->getMessage();
-            DB::rollback();
-        }
+    //         $success = false;
+    //         $error   = $e->getMessage();
+    //         DB::rollback();
+    //     }
 
-        if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Transaccion Creada Exitosamente."];
-        } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
-        }
+    //     if ($success) {
+    //       return $rs  = ['alert' => 'success', 'message' => "Transaccion Creada Exitosamente."];
+    //     } else {
+    //         return $rs = ['alert' => 'error', 'message' => $error];
+    //     }
 
     }
 //------------------------------------------
     public function updateT($companyId,$transactionId ,$data)
     {
-          $error = null;
+    //       $error = null;
 
-     DB::beginTransaction();
-      try {
+    //  DB::beginTransaction();
+    //   try {
 
-        $transaction                          = Transaction::find($transactionId);
-        $transaction->transactionNumber       = $data['transactionNumber'];
-        $transaction->generalLedgerId           = $data['generalLedgerId'];
-        $transaction->transactionDate         = $data['transactionDate'];
-        $transaction->transactionDescription  = $data['transactionDescription'];
-        $transaction->transactionReference  = $data['transactionReference'];
-        $transaction->debit                 = $data['debit'];
-        $transaction->credit               = $data['credit'];
-        $transaction->save();
+    //     $transaction                          = Transaction::find($transactionId);
+    //     $transaction->transactionNumber       = $data['transactionNumber'];
+    //     $transaction->generalLedgerId           = $data['generalLedgerId'];
+    //     $transaction->transactionDate         = $data['transactionDate'];
+    //     $transaction->transactionDescription  = $data['transactionDescription'];
+    //     $transaction->transactionReference  = $data['transactionReference'];
+    //     $transaction->debit                 = $data['debit'];
+    //     $transaction->credit               = $data['credit'];
+    //     $transaction->save();
         
-            $success = true;
-            DB::commit();
-        } catch (\Exception $e) {
+    //         $success = true;
+    //         DB::commit();
+    //     } catch (\Exception $e) {
 
-            $success = false;
-            $error   = $e->getMessage();
-            DB::rollback();
-        }
+    //         $success = false;
+    //         $error   = $e->getMessage();
+    //         DB::rollback();
+    //     }
 
-        if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Transaccion Modificada"];
-        } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
-        }
+    //     if ($success) {
+    //       return $rs  = ['alert' => 'success', 'message' => "Transaccion Modificada"];
+    //     } else {
+    //         return $rs = ['alert' => 'error', 'message' => $error];
+    //     }
     }
 //------------------------------------------
     public function deleteT($companyId,$transactionId)

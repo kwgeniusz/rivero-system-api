@@ -36,7 +36,7 @@ class TransactionTmp extends Model
     // }
     // public function daughterAccount()
     // {
-    //     return $this->hasMany('App\GeneralLedger', 'parentAccountCode', 'accountCode');
+    //     return $this->hasMany('App\GeneralLedger', 'parentAccountId', 'generalLedgerId');
     // }
     // public function allDaughterAccount()
     // {

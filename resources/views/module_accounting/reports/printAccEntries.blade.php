@@ -144,11 +144,27 @@
          <td align="left">{{$transaction['transactionDescription'] }}</td>
         
          @if($selectedCurrency == 'primary')
-         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['debit'], 2, '.', ',') }}</td>
-         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['credit'], 2, '.', ',') }}</td>
+         <td align="right">
+            @if($transaction['debit'] != 0)
+            {{$currency->currencySymbol}} {{number_format($transaction['debit'], 2, '.', ',') }}
+            @endif
+         </td>
+         <td align="right">
+           @if($transaction['credit'] != 0)
+            {{$currency->currencySymbol}} {{number_format($transaction['credit'], 2, '.', ',') }}
+           @endif
+         </td>
          @else
-         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['debitSec'], 2, '.', ',') }}</td>
-         <td align="right">{{$currency->currencySymbol}} {{number_format($transaction['creditSec'], 2, '.', ',') }}</td>
+         <td align="right">
+         @if($transaction['debitSec'] != 0)
+           {{$currency->currencySymbol}} {{number_format($transaction['debitSec'], 2, '.', ',') }}
+         @endif
+         </td>
+         <td align="right">
+         @if($transaction['creditSec'] != 0)
+           {{$currency->currencySymbol}} {{number_format($transaction['creditSec'], 2, '.', ',') }}
+         @endif
+        </td>
          @endif
 
            <!-- // detectar todos menos el último: -->
@@ -158,8 +174,16 @@
              <td align="right"></td>
              <td align="right"> </td>
              <td align="left"><b>TOTAL</b></td>
-             <td align="right"><b>{{$currency->currencySymbol}} {{number_format($totalDebit, 2, '.', ',') }}</b></td>
-             <td align="right"><b>{{$currency->currencySymbol}} {{number_format($totalCredit, 2, '.', ',') }}</b></td>
+             <td align="right">
+             @if($transaction['totalDebit'] != 0)
+               <b>{{$currency->currencySymbol}} {{number_format($totalDebit, 2, '.', ',') }}</b>
+             @endif
+             </td>
+             <td align="right">
+             @if($transaction['totalCredit'] != 0)
+               <b>{{$currency->currencySymbol}} {{number_format($totalCredit, 2, '.', ',') }}</b>
+             @endif
+            </td>
            </tr>
            @endif
  </tr>

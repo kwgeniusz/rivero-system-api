@@ -97,9 +97,21 @@
 <tr style="background-color:{{$background}};  font-size:8px;" >
          <td align="left"> {{$generalLedger['accountCode'] }} </td>
          <td align="left"> {{$generalLedger['accountName'] }}</td>
-         <td align="right">{{number_format($generalLedger['debitTotal'], 2, '.', ',') }}</td>
-         <td align="right">{{number_format($generalLedger['creditTotal'], 2, '.', ',') }}</td>
-         <td align="right">{{number_format($generalLedger['difference'], 2, '.', ',') }}</td>
+         <td align="right">
+         @if($generalLedger['debitTotal'] != 0)
+          {{number_format($generalLedger['debitTotal'], 2, '.', ',') }}
+         @endif
+         </td>
+         <td align="right">
+         @if($generalLedger['creditTotal'] != 0)
+          {{number_format($generalLedger['creditTotal'], 2, '.', ',') }}
+         @endif
+         </td>
+         <td align="right">
+         @if($generalLedger['difference'] != 0)
+           {{number_format($generalLedger['difference'], 2, '.', ',') }}
+         @endif
+         </td>
  </tr>
 @php
    } // Fin de Foreach de headers

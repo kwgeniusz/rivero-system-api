@@ -20,7 +20,7 @@ class GeneralLedger extends Model
     protected $table      = 'acc_general_ledger';
     protected $primaryKey = 'generalLedgerId';
 
-    protected $fillable = ['generalLedgerId','countryId' ,'companyId','accountCode','accountName','leftMargin','parentAccountCode','accountClassificationCode', 'accountTypeCode','debit','credit'];
+    protected $fillable = ['generalLedgerId','countryId' ,'companyId','accountCode','accountName','leftMargin','parentAccountId','accountClassificationCode', 'accountTypeCode','debit','credit'];
     // protected $dates = ['deleted_at'];
 
     // Type Of Account
@@ -40,7 +40,7 @@ class GeneralLedger extends Model
     }
     public function daughterAccount()
     {
-        return $this->hasMany(GeneralLedger::class, 'parentAccountCode', 'accountCode');
+        return $this->hasMany(GeneralLedger::class, 'parentAccountId', 'generalLedgerId');
     }
     public function allDaughterAccount()
     {
@@ -130,7 +130,7 @@ class GeneralLedger extends Model
         $generalLedger->accountCode             = $data['accountCode'];
         $generalLedger->accountName             = $data['accountName'];
         $generalLedger->leftMargin              = $data['leftMargin'];
-        $generalLedger->parentAccountCode       = $data['parentAccountCode'];
+        $generalLedger->parentAccountId       = $data['parentAccountId'];
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode         = $data['accountTypeCode'];
         $generalLedger->save();
@@ -182,7 +182,7 @@ class GeneralLedger extends Model
         $generalLedger->accountCode                 = $data['accountCode'];
         $generalLedger->accountName                 = $data['accountName'];
         $generalLedger->leftMargin                  = $data['leftMargin'];
-        $generalLedger->parentAccountCode           = $data['parentAccountCode'];
+        $generalLedger->parentAccountId           = $data['parentAccountId'];
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode             = $data['accountTypeCode'];
         $generalLedger->save();
@@ -264,10 +264,10 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
      //   $query =  "SELECT * FROM acc_general_ledger WHERE generalLedgerId = $generalLedgerId";
 
       $accountCode = $query->accountCode;
-      if (empty($query->parentAccountCode)) {
-         $parentAccountCode = "";
+      if ($query->parentAccountId == 0) { //HAY CAMBIAR ESTA LINEA POR parentAccountId == 0 (porque no tiene padre)
+         $parentAccountId = 0;
       } else {
-         $parentAccountCode = $query->parentAccountCode;
+         $parentAccountId = $query->parentAccountId;
       }
   // actualizar saldo en cascada
   $loop = 1;
@@ -285,16 +285,16 @@ function cascadeBalanceUpdate($countryId,$companyId,$generalLedgerId,$debit,$cre
 
       $query =  $this->where('countryId','=',$countryId)
                      ->where('companyId','=',$companyId)
-                     ->where('accountCode','=',$parentAccountCode)
+                     ->where('generalLedgerId','=',$parentAccountId) //  generalLedgerId = parentAccountId  
                      ->get();
                   
       foreach($query as $rs){
           $generalLedgerId    = $rs->generalLedgerId;
           $accountCode        = $rs->accountCode;
-          if (empty($rs->parentAccountCode)) {
-             $parentAccountCode = "";
+          if ($rs->parentAccountId == 0) { //parentAccountId
+             $parentAccountId = 0;          // parentAccountId = 0
           } else {
-             $parentAccountCode  = $rs->parentAccountCode;
+             $parentAccountId  = $rs->parentAccountId;   // parentAccountId = $rs-> parentAccountId
           }
       }
 

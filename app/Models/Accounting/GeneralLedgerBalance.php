@@ -35,7 +35,7 @@ class GeneralLedgerBalance extends Model
     // }
     // public function daughterAccount()
     // {
-    //     return $this->hasMany(GeneralLedger::class, 'parentAccountCode', 'accountCode');
+    //     return $this->hasMany(GeneralLedger::class, 'parentAccountId', 'generalLedgerId');
     // }
     // public function allDaughterAccount()
     // {

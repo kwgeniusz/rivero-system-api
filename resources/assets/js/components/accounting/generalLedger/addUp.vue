@@ -28,8 +28,8 @@
           </div> 
 
          <div class="form-group col-lg-12" v-if="selectAccountType == 'DAUGHTER'">
-              <label for="parentAccountCode">CUENTA PADRE:</label>
-                     <v-select :options="chartOfAccount" v-model="generalLedger.parentAccountCode" :reduce="chartOfAccount => chartOfAccount.accountCode" label="item_data" /> 
+              <label for="parentAccountId">CUENTA PADRE:</label>
+                     <v-select :options="chartOfAccount" v-model="generalLedger.parentAccountId" :reduce="chartOfAccount => chartOfAccount.accountCode" label="item_data" /> 
           </div>
 
         <div class="form-group col-lg-7">
@@ -106,7 +106,7 @@
                     this.generalLedger.accountCode         = this.data.accountCode;
                     this.generalLedger.accountName         = this.data.accountName;
                     this.generalLedger.leftMargin                 = this.data.leftMargin;
-                    this.generalLedger.parentAccountCode          = this.data.parentAccountCode;
+                    this.generalLedger.parentAccountId          = this.data.parentAccountId;
                     this.generalLedger.accountClassificationCode  = this.data.accountClassificationCode;
                     this.generalLedger.accountTypeCode            = this.data.accountTypeCode;
                 });       
@@ -126,7 +126,7 @@
                    accountCode:'',
                    accountName:'',
                    leftMargin:'',
-                   parentAccountCode:'',
+                   parentAccountId:'',
                    accountClassificationCode:'',
                    accountTypeCode:'',
                 },
@@ -141,7 +141,7 @@
               this.errors = [];
 
                  if (this.selectAccountType=='DAUGHTER'){
-                    if (!this.generalLedger.parentAccountCode) 
+                    if (!this.generalLedger.parentAccountId) 
                      this.errors.push('Cuenta Padre requerida.');
                  }
 

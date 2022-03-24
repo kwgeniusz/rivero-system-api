@@ -46,7 +46,7 @@
                            <tbody v-if="searchData.length > 0">      
                              <tr v-for="(generalLedger, index) in searchData" :key="index">
                                 <td >{{index + 1}}</td>
-                                <td class="text-left"> {{generalLedger.parentAccountCode}}</td>
+                                <td class="text-left"> {{generalLedger.parentAccountId}}</td>
                                 <td class="text-left"> {{generalLedger.accountCode}}</td>
                                 <td class="text-left"> {{generalLedger.accountName}}</td>
                                 <td class="text-left"> {{generalLedger.account_classification.accountClassificationName}}</td>  
