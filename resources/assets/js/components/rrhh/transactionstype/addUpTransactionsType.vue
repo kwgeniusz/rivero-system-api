@@ -25,37 +25,41 @@
                             <div class="row">
                                 <div class="form-group col-md-7 form-inline"> 
                                     <label for="salaryBased" class="form-group" v-text="nameField5"> </label> 
-                                    <input type="checkbox"  id="salaryBased" v-model="salaryBased" value="1">
+                                    <input type="checkbox"  id="salaryBased" v-model="salaryBased" >
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="isIncome" class="form-group" v-text="nameField6"></label>
-                                    <input type="checkbox" id="isIncome" v-model="isIncome" value="1">
+                                    <input type="checkbox" id="isIncome" v-model="isIncome" >
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="hasBalance" class="form-group" v-text="nameField7"></label>
-                                    <input type="checkbox" id="hasBalance" v-model="hasBalance" value="1">
+                                    <input type="checkbox" id="hasBalance" v-model="hasBalance" >
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="blockSS" class="form-group" v-text="nameField11"></label>
-                                    <input type="checkbox" id="blockSS" v-model="blockSS" value="1">
+                                    <input type="checkbox" id="blockSS" v-model="blockSS" >
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="accTax" class="form-group" v-text="nameField8"></label>
-                                    <input type="checkbox" id="accTax" v-model="accTax" value="1">
+                                    <input type="checkbox" id="accTax" v-model="accTax" >
                                     
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="accChristmas" class="form-group" v-text="nameField9"></label>
-                                    <input type="checkbox" id="accChristmas" v-model="accChristmas" value="1">
+                                    <input type="checkbox" id="accChristmas" v-model="accChristmas" >
                                     
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="accSeniority" class="form-group" v-text="nameField10"></label>
-                                    <input type="checkbox" id="accSeniority" v-model="accSeniority" value="1">
+                                    <input type="checkbox" id="accSeniority" v-model="accSeniority" >
                                 </div>
                                 <div class="form-group col-md-7 form-inline">
                                     <label for="display" class="form-group" v-text="nameField12"></label>
-                                    <input type="checkbox" id="display" v-model="display" value="1">
+                                    <input type="checkbox" id="display" v-model="display" >
+                                </div>
+                                <div class="form-group col-md-7 form-inline">
+                                    <label for="display" class="form-group" >APLICA RETENCI&Oacute;N?</label>
+                                    <input type="checkbox" id="display" v-model="taxRetention" >
                                 </div>
                             </div>
                             
@@ -95,7 +99,8 @@
                 this.accChristmas = this.objEdit.accChristmas
                 this.accSeniority = this.objEdit.accSeniority
                 this.blockSS = this.objEdit.blockSS
-                this.display = this.objEdit.displa
+                this.display = this.objEdit.display
+                this.taxRetention = this.objEdit.taxRetention
             }
         },
         data(){
@@ -110,7 +115,8 @@
                 accChristmas: 0,
                 accSeniority: 0,
                 blockSS: 0,
-                display: 0,
+                display: 1,
+                taxRetention: 0,
             }
         },
         props:{
@@ -193,6 +199,7 @@
                         accSeniority: this.accSeniority,
                         blockSS: this.blockSS,
                         display: this.display,
+                        taxRetention: this.taxRetention,
                         
                     }
                     axios.post('transactionstypes/post',params)
@@ -223,7 +230,10 @@
                         accSeniority: this.accSeniority,
                         blockSS: this.blockSS,
                         display: this.display,
+                        taxRetention: this.taxRetention,
                     }
+                    // console.log(params)
+                    // return
                     let url = `transactionstypes/put/${this.objEdit.hrtransactionTypeId}`
                     axios.put(url,params)
                         .then((response) => {
