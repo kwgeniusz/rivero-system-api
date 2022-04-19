@@ -109,7 +109,7 @@
                 axios.get(URL).then((res) => {
                         console.log(res)
                         if (res.statusText === 'OK') {
-                            alert('Excito..')
+                            alert('Exito..')
                             this.$emit("showlist",0)
                             this.loading = 0
                         }else{

@@ -626,7 +626,15 @@
                     // console.log(res.data.print)
                     // return
                     const objPayroll = res.data.data
-                    // console.log(objPayroll)
+                    // if (res.status === 200) {
+                    //     alert('imprimir pdf')
+                    //     let ObjPartidas = res.data.data.totalTransaction
+                    //     console.log(ObjPartidas)
+                    // }else{
+                    //     alert('error')
+                    // }
+                    
+                    console.log(objPayroll)
                     // return 
                     
                     let totalTransaction = objPayroll.totalTransaction
@@ -753,8 +761,24 @@
 
                         // encabezado
                         doc.text( 'REPORTE GENERAL DE NÓMINA' , 165, 40 );
+                        // doc.setFontSize(12);
+                        // doc.setFontType("helvetica");
+                        doc.text( companyData.companyShortName , 165, 55 );
 
-                        doc.text( 'REPORTE GENERAL DE NÓMINA' , 165, 40 );
+                        let posicionEjeY = 150
+
+                        objPayroll.totalTransaction.forEach( item => {
+                            doc.text( item.transactionTypeName , 30, posicionEjeY );
+                            doc.text( item.amount , 250, posicionEjeY );
+                            posicionEjeY += 15
+                            // console.log(item.transactionTypeName)
+                        });
+
+
+                        doc.text( companyData.companyShortName , 165, 55 );
+
+                        doc.text( totalGeneral.totalGeneralAssignment , 250, posicionEjeY + 30);
+                        
                         
                         // doc.setDrawColor(0);
                         // doc.setFillColor(colorSec1,colorSec2,colorSec3);
@@ -1015,7 +1039,9 @@
                         // doc.text(` ${formatNumber(totalNeto, selecCurrency1)}`, 578, n, 'right' );
                         // // doc.text( `TOTAL GENERAL:  $${totalGeneral}`, 215, n );
                         
-                        doc.save('REPORTE-GENERAL-NOMINA-' + period + '.pdf');
+                        // aqui se genera el pdf
+                        doc.save('REPORTE-GENERAL-NOMINA'+'.pdf');
+
                         // console.log(res.data.print)
                         // this.$emit("prePayrollDetail", objPrePayrollDetail)
                     }

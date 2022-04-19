@@ -315,7 +315,7 @@
 		@endphp
 		<ul class="just">
 			@foreach($proposal['0']->scope as $scope)
-				{!! nl2br($scope->description) !!} <br>
+				<li>{!! nl2br($scope->description) !!} </li>
 				@php
 					
 					$array = str_split($scope->description);
