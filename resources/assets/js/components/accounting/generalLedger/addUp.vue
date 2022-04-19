@@ -19,17 +19,13 @@
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
         <form  class="form" id="formgeneralLedger" role="form" @submit.prevent="createUpdateAccount()">
 
-      <div class="form-group col-lg-12 ">
-            <label for="selectAccountType">TIPO DE CUENTA:</label>        
-            <select class="form-control" v-model="selectAccountType" id="selectAccountType">
-               <option value="FATHER">PADRE</option>
-               <option value="DAUGHTER">HIJA</option>
-            </select> 
-          </div> 
-
-         <div class="form-group col-lg-12" v-if="selectAccountType == 'DAUGHTER'">
+         <div class="form-group col-lg-12 ">
+              <label for="accountTypeCode">TIPO:</label>
+              <v-select :options="accountTypeList" v-model="generalLedger.accountTypeCode" :reduce="accountTypeList => accountTypeList.accountTypeCode" label="accountTypeName" />
+          </div>    
+         <div class="form-group col-lg-12">
               <label for="parentAccountId">CUENTA PADRE:</label>
-                     <v-select :options="chartOfAccount" v-model="generalLedger.parentAccountId" :reduce="chartOfAccount => chartOfAccount.accountCode" label="item_data" /> 
+                     <v-select :options="chartOfAccount" v-model="generalLedger.parentAccountId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data" /> 
           </div>
 
         <div class="form-group col-lg-7">
@@ -52,10 +48,6 @@
                  <v-select :options="accountClassificationList" v-model="generalLedger.accountClassificationCode" :reduce="accountClassificationList => accountClassificationList.accountClassificationCode" label="accountClassificationName" /> 
           </div>  
 
-         <div class="form-group col-lg-12 ">
-              <label for="accountTypeCode">TIPO:</label>
-              <v-select :options="accountTypeList" v-model="generalLedger.accountTypeCode" :reduce="accountTypeList => accountTypeList.accountTypeCode" label="accountTypeName" />
-          </div>    
 
                         <div v-if="editId === 0">
                              <button-form 
@@ -87,8 +79,10 @@
         mounted() {
             //obtengo los datos para llenar las listas de selects
           axios.get('/accounting/general-ledgers/create').then((response) => {
-              console.log(response.data)
                   this.chartOfAccount            = response.data.chartOfAccount;
+                //   this.chartOfAccount            = 'No Tiene';
+                  console.log(this.chartOfAccount)
+
                   this.chartOfAccount.map(function (x){
                        return x.item_data = `${x.accountCode} - (${x.accountName})`;
                  });
@@ -101,7 +95,6 @@
                 // transaction to edit.
                 axios.get(`/accounting/general-ledgers/${this.editId}`).then((response) => {
                     this.data = response.data[0]
-                    console.log(this.data)
 
                     this.generalLedger.accountCode         = this.data.accountCode;
                     this.generalLedger.accountName         = this.data.accountName;
@@ -116,7 +109,6 @@
             return{
                 errors: [],
                 showSubmitBtn:true,
-                selectAccountType: 'DAUGHTER',
 
                 chartOfAccount: [],
                 accountTypeList: [],
@@ -140,10 +132,10 @@
             createUpdateAccount(){
               this.errors = [];
 
-                 if (this.selectAccountType=='DAUGHTER'){
-                    if (!this.generalLedger.parentAccountId) 
-                     this.errors.push('Cuenta Padre requerida.');
-                 }
+        
+            //    if (!this.generalLedger.parentAccountId) 
+            //     this.errors.push('Campo Cuenta Padre es requerido.');
+                
 
                  if (!this.generalLedger.accountCode) 
                 this.errors.push('Codigo de la Cuenta es Requerido.');
@@ -190,3 +182,4 @@
     }
 
 </script>
+

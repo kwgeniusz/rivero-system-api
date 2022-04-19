@@ -94,10 +94,14 @@
             </tbody>
           </table>
         </div>
+  
 
+    <div class="col-xs-offset-7 col-xs-5">
+      <h3>Total Debito: {{totalDebit}} | Total Credito: {{totalCredit}}</h3>
+    </div>
 
-    <div v-if="editId === 0" class="text-center">
-        <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> Guardar</button>
+     <div v-if="editId === 0" class="text-center">
+        <button v-if="totalDebit > 0 && totalCredit > 0" type="submit" class="btn btn-success"><span class="fa fa-check"></span> Guardar</button>
         <button @click="cancf" type="button"  class="btn btn-warning"><span class="fa fa-hand-point-left"></span> Regresar</button>
       </div>
 
@@ -194,6 +198,30 @@
       props: {
             editId:'',
         },
+      computed: {
+        totalDebit: function () {
+          let sum = 0;
+
+         this.itemList.forEach(function(item){
+             if(item.type == 'debit') {
+               sum +=  parseFloat(item.amount);
+               sum.toFixed(2);
+              }
+          });
+            return sum;
+         },
+        totalCredit: function () {
+          let sum = 0;
+
+         this.itemList.forEach(function(item) {
+             if(item.type == 'credit') {
+               sum +=  parseFloat(item.amount);
+               sum.toFixed(2);
+               }
+           });
+             return sum;
+         }
+      },
       methods: {
         addRow: function() {
            this.errors = [];
@@ -224,18 +252,17 @@
                 this.errors.push('Fecha del Encabezado es Requerido.');
                  if (!this.entry.description) 
                 this.errors.push('Descripcion del Encabezado es Requerido.');
+                // if (this.totalDebit == this.totalCredit) 
+                // this.errors.push('El total de debito y credito debe ser igual.');
                 
-                // console.log(JSON.stringify(this.itemList))
-
                 //  let error ='';
                  this.itemList.map(item => {
-                
                       if (!item.generalLedgerId) 
                         this.errors.push('Debe escoger una cuenta contable es Requerido.');
-                      if (!item.description) 
-                        this.errors.push('Descripcion del Asiento es Requerido.');
-                     if (!item.reference) 
-                        this.errors.push('Referencia del Asiento es Requerido.');
+                    //   if (!item.description) 
+                    //     this.errors.push('Descripcion del Asiento es Requerido.');
+                    //  if (!item.reference) 
+                    //     this.errors.push('Referencia del Asiento es Requerido.');
                       if (item.amount == 0) 
                         this.errors.push('El campo monto debe ser mayor a cero');
                  });

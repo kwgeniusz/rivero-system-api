@@ -130,7 +130,7 @@ class GeneralLedger extends Model
         $generalLedger->accountCode             = $data['accountCode'];
         $generalLedger->accountName             = $data['accountName'];
         $generalLedger->leftMargin              = $data['leftMargin'];
-        $generalLedger->parentAccountId       = $data['parentAccountId'];
+        $generalLedger->parentAccountId         = $data['parentAccountId'];
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode         = $data['accountTypeCode'];
         $generalLedger->save();
@@ -138,7 +138,6 @@ class GeneralLedger extends Model
         $generalLedgerId = $generalLedger->generalLedgerId;
         
         // creacion de general ledger balance
-
         // obtengo el a#o contable actual y lo incremento
         $oCompanyConfig    = new CompanyConfiguration;
         $config            = $oCompanyConfig->findByCompany(session('companyId'));

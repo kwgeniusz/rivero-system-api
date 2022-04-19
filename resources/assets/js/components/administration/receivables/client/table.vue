@@ -42,14 +42,14 @@
                            <tbody v-if="searchData.length > 0">
                              <tr  v-for="(receivable, index) in searchData" :key="receivable.receivableId">
                                 <td >{{index + 1}}</td>
-                                <td class="text-left"> {{receivable.client.clientCode}}</td>  
-                                <td class="text-left"> {{receivable.client.clientName}} </td>           
-                                <td class="text-left"> {{receivable.client.clientAddress}}</td>
-                                <td class="text-left"> {{receivable.client.mainPhone}}</td>
-                                <td class="text-left"> {{receivable.mainPhone}}</td>
-                                <td class="text-left"> {{receivable.mainEmail}}</td>
-                                <td class="text-left"> {{receivable.balanceTotal}}</td>
-                                <td class="text-left"> {{receivable.typeForm1099}}</td>
+                                <!-- <td class="text-left"> {{receivable.client.clientCode}}</td>   -->
+                                <!-- <td class="text-left"> {{receivable.client.clientName}} </td>            -->
+                                <!-- <td class="text-left"> {{receivable.client.clientAddress}}</td> -->
+                                <!-- <td class="text-left"> {{receivable.client.mainPhone}}</td> -->
+                                <!-- <td class="text-left"> {{receivable.mainPhone}}</td> -->
+                                <!-- <td class="text-left"> {{receivable.mainEmail}}</td> -->
+                                <!-- <td class="text-left"> {{receivable.balanceTotal}}</td> -->
+                                <!-- <td class="text-left"> {{receivable.typeForm1099}}</td> -->
                                   <td> 
                       
                                  <button v-if="$can('BAB')" @click="editSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  

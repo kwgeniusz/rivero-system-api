@@ -89,7 +89,7 @@ class Transaction extends Model
     //                   ->get(); 
     //   }
     public function insertT($countryId, $companyId, $data)
-    // {
+    {
     //       $error = null;
     
     //  DB::beginTransaction();
@@ -258,4 +258,4 @@ class Transaction extends Model
 //   } 
 
 
-}//end of the class
+}  //end of the class
