@@ -5,9 +5,9 @@ namespace App\Http\Controllers\web;
 use App\HrTransactionType;
 use App\Country;
 use App\Company;
-use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class HrTransactionTypeController extends Controller
 {
@@ -64,6 +64,7 @@ class HrTransactionTypeController extends Controller
         $hrtransType->accChristmas = $request->accChristmas;
         $hrtransType->accSeniority = $request->accSeniority;
         $hrtransType->display = $request->display;
+        $hrtransType->taxRetention = $request->taxRetention;
         
         $hrtransType->save();
         return $hrtransType;
@@ -93,6 +94,7 @@ class HrTransactionTypeController extends Controller
         $hrtransType->accChristmas = $request->accChristmas;
         $hrtransType->accSeniority = $request->accSeniority;
         $hrtransType->display = $request->display;
+        $hrtransType->taxRetention = $request->taxRetention;
         
         $hrtransType->save();
         return $hrtransType;

@@ -101,7 +101,7 @@
                 axios.get(URL).then((res) => {
                         console.log(res)
                         if (res.statusText === 'OK') {
-                            alert('Excito..')
+                            alert('Exito..')
                             this.loading = 0
                         }else{
                             alert('Error al calcular')

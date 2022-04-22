@@ -343,6 +343,7 @@ class PayrollControlController extends Controller
                         $transactionTypeName    = $rs->transactionTypeName;
                         $isSalaryBased        = $rs->salaryBased;
                         $isIncome             = $rs->isIncome;
+                        $taxRetention         = $rs->taxRetention;
                         $transTypeBlockSS     = $rs->blockSS;
                         $displayPayroll       = $rs->display; 
                     } 
@@ -354,33 +355,40 @@ class PayrollControlController extends Controller
                         // verifico si el parametro que viene es una deducciones como SSO, FAOV, etc.
                         if ($isSalaryBased == 1 && $isIncome == 0) {
                             // verificacion si a la persona, se le aplican esta deduccion como SSO, FAOV, etc.
-                            if ($stopSS == 0) {
+                            // if ($stopSS == 0) {
                                 /* si el tipo de transaccion es bloqueable y el usuario tiene esa transaccion 
                                 especifica bloqueada, no se inserta la transaccion */
                                 if ($staffBlockSS == 1 && $transTypeBlockSS == 1) {
                                     $addTransaction = 0;
                                 } else {
-                                    if ($retentionSalary > 0) { //si existe un salario para retencion, aplico nueva formula
-                                        // echo $retentionSalary . '<br>';
+                                    if ($retentionSalary > 0 && $taxRetention == 1) { //si existe un salario para retencion, aplico nueva formula
+                                        // echo '$staffName ' . $staffName . '<br>';
+                                        // echo '$retentionSalary ' . $retentionSalary . '<br>';
                                         $retentionSalary2 = ($retentionSalary * 12) / 52;
-                                        // echo $retentionSalary . '<br>';
-                                        $retentionSalary2 = $quantity *  $retentionSalary2;
-                                        // echo $retentionSalary . '<br>';
+                                        // echo '$retentionSalary2 '.$retentionSalary2 . '<br>';
+                                        // echo '$quantity '.$quantity . '<br>';
+                                        
+                                        $retentionSalary2 = ($retentionSalary2 * 4) / 100;
+                                        // echo '$retentionSalary2 '. $retentionSalary2 . '<br>';
                                         $amount =  $retentionSalary2 * $startDaysWeekQuantity;
-                                        // echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary: ". $retentionSalary ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
+                                        // echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary2: ". $retentionSalary2 ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
+                                        if ($amount > 0) {
+                                            $addTransaction = 1;             
+                                        }
                                     }else {
                                         // echo 'no entro: ' . $transactionTypeName . '<br>';
                                         $amount = $quantity * $baseSalary;
                                         $amount = round($amount, 2);
+                                        if ($amount > 0) {
+                                            $addTransaction = 1;             
+                                        }
                                     }
                                     // dd($amount);
-                                    if ($amount > 0) {
-                                        $addTransaction = 1;             
-                                    }
+                                    
                                 }
-                            } else {
-                                $addTransaction = 0;
-                            }
+                            // } else {
+                            //     $addTransaction = 0;
+                            // }
     
                         } else {
                             $amount = $quantity * $baseSalary;
@@ -576,38 +584,60 @@ class PayrollControlController extends Controller
                         
                         //si hasBalance = 1  ? balance = balance - amount (condición: balance debe ser igual o mayor que amount)
                         
-                        // dd($transactionTypeCode,$quantity,$transAmount,$isIncome,$salaryBased);
-                        if ($salaryBased == 1) { //si es basado en salario se aplica como una deduccion normal, ej: SSO FAOV, etc
-                            $amount   =   $quantity * $baseSalary; 
-                            $amount = round($amount, 2);       	
-                        } else {
-                            if ($isIncome == 0) { //si es 0, es una deduccion, si no, es una asignacion
-                                if ($transHasBalance == 1) { //si la deduccion es con saldo, hago el proceso de reduccion del balance en la deduccion
-                                    $amount   =   $quantity * $transAmount; 
-                                    if ($transBalance <= $amount) { //pregunto, si el balance o saldo de la deduccion es menor o igual, al monto a descontar
-                                        // si el monto a descontar es mayor al balance de la transaccion, lo igualo al balance para evitar saldos negativos
-                                        $amount = $transBalance;
+                        // Si la transaccion es basada en salario
+                        if ($isSalaryBased == 1) {  
+                        
+                            // verifico si el parametro que viene es una deducciones como SSO, FAOV, etc.
+                            if ($isSalaryBased == 1 && $isIncome == 0) {
+                                // verificacion si a la persona, se le aplican esta deduccion como SSO, FAOV, etc.
+                                // if ($stopSS == 0) {
+                                    /* si el tipo de transaccion es bloqueable y el usuario tiene esa transaccion 
+                                    especifica bloqueada, no se inserta la transaccion */
+                                    if ($staffBlockSS == 1 && $transTypeBlockSS == 1) {
+                                        $addTransaction = 0;
+                                    } else {
+                                        if ($retentionSalary > 0 && $taxRetention == 1) { //si existe un salario para retencion, aplico nueva formula
+                                            echo '$staffName ' . $staffName . '<br>';
+                                            echo '$retentionSalary ' . $retentionSalary . '<br>';
+                                            $retentionSalary2 = ($retentionSalary * 12) / 52;
+                                            echo '$retentionSalary2 '.$retentionSalary2 . '<br>';
+                                            echo '$quantity '.$quantity . '<br>';
+                                            
+                                            $retentionSalary2 = ($retentionSalary2 * 4) / 100;
+                                            echo '$retentionSalary2 '. $retentionSalary2 . '<br>';
+                                            $amount =  $retentionSalary2 * $startDaysWeekQuantity;
+                                            echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary2: ". $retentionSalary2 ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
+                                            if ($amount > 0) {
+                                                $addTransaction = 1;             
+                                            }
+                                        }else {
+                                            // echo 'no entro: ' . $transactionTypeName . '<br>';
+                                            $amount = $quantity * $baseSalary;
+                                            $amount = round($amount, 2);
+                                            if ($amount > 0) {
+                                                $addTransaction = 1;             
+                                            }
+                                        }
+                                        // dd($amount);
+                                        
                                     }
-                                    //este proceso se aplica solo cuando se actualiza la prenomina
-                                    // echo $transBalance .' - '.  $amount.' ';
-                                    $transBalance = $transBalance -  $amount; //se activa solo al actualizar la prenomina
-                                    // echo $staffName.' balance: ' . $balance.' => '; 
-                                }else{
-                                    $amount   =   $quantity * $transAmount;
+                                // } else {
+                                //     $addTransaction = 0;
+                                // }
         
-                                    //este proceso se aplica solo cuando se actualiza la prenomina
-                                    $transBalance = $transBalance +  $amount; //se activa solo en actualizacion de nomina
-                                    // echo $staffName. ' ahorro sumado en:' . $balance . ' => ';
-                                }
-                            }else { 
-                                // si no, la transaccion permanete es una asignacion
-                                $amount   =   $quantity * $transAmount;  
+                            } else {
+                                $amount = $quantity * $baseSalary;
                                 $amount = round($amount, 2);
+                                if ($amount > 0) {
+                                    $addTransaction = 1;             
+                                }
                             }
-                        }
-                            
-                        if ($amount > 0) {
-                            $addTransaction = 1;    
+        
+                        } else { 
+                            if ($quantity > 0 and $amount > 0) {
+                                $addTransaction = 1; 
+                            } 
+                                
                         }
                         
                         // check for valid transacction
