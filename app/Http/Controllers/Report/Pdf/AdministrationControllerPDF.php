@@ -45,12 +45,11 @@ class AdministrationControllerPDF extends Controller
 {
    $pdf = app('dompdf.wrapper');
 
-        $date  = Carbon::now();  
-        $company           = DB::table('company')->where('companyId', session('companyId'))->get();
-        $proposal         = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
-        $proposalDetails = $proposal[0]->proposalDetail;
-        $client           = $proposal[0]->client;
-        
+   $company           = DB::table('company')->where('companyId', session('companyId'))->get();
+   $proposal          = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
+   $proposalDetails   = $proposal[0]->proposalDetail;
+   $client            = $proposal[0]->client;
+   $date              = Carbon::parse($proposal[0]->proposalDate)->format('F jS, Y');  
 
         if($proposal[0]->precontract){
            $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;

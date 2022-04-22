@@ -250,7 +250,7 @@
 	</div>
 
 	<div class="date bold">
-	{{$date->format('F jS, Y')}}
+	{{$date}}
 	</div>       
 
 	<div class="big bold">
