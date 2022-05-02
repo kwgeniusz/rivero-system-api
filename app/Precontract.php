@@ -24,12 +24,15 @@ class Precontract extends Model
     protected $table      = 'pre_contract';
     protected $primaryKey = 'precontractId';
 
-    protected $appends = ['precontractDate'];
+    protected $appends = ['precontractDate','siteAddress'];
     protected $fillable = ['precontractId', 'contractType', 'countryId', 'companyId',
         'clientId', 'siteAddress','buildingCodeId', 'projectDescriptionId', 'projectUseId', 'comment',
         'currencyId',
     ];
 
+  //PARA EVITAR LOS NUMEROS MAGICOS
+  const CONVERTED    = '!=';
+  const UNCONVERTED  = '=';
 //--------------------------------------------------------------------
                      /** ACCESORES  **/
 //--------------------------------------------------------------------
@@ -143,7 +146,7 @@ class Precontract extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    //------------------------------------------
+//------------------------------------------
     public function getAll($countryId,$companyId,$filteredOut)
     {
         $result = $this->with('client','buildingCode','projectUse','proposal.projectDescription')
@@ -151,6 +154,19 @@ class Precontract extends Model
             ->where('companyId', $companyId) 
             ->orderBy('precontractId', 'DESC')
             ->filter($filteredOut)
+            ->get();
+
+        return $result;
+    }
+
+//------------------------------------------
+    public function getAllByStatus($countryId,$companyId,$sign)
+    {
+        $result = $this->with('client','buildingCode','projectUse','proposal.projectDescription')
+            ->where('countryId', $countryId)
+            ->where('companyId', $companyId) 
+            ->where('contractId', $sign, NULL) 
+            ->orderBy('precontractId', 'DESC')
             ->get();
 
         return $result;

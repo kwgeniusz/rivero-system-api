@@ -7,8 +7,6 @@ use Auth;
 use App;
 use DB;
 use App\CompanyConfiguration;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Precontract;
 use App\Contract;
 use App\Proposal;
@@ -22,7 +20,9 @@ use App\InvoiceScope;
 use App\PaymentInvoice;
 use App\ProjectDescription;
 use App\Http\Requests\PaymentRequest;
+use App\Http\Controllers\Controller;
 use App\Helpers\DateHelper;
+use Illuminate\Http\Request;
 
 class ProposalController extends Controller
 {
@@ -394,8 +394,8 @@ class ProposalController extends Controller
     }
 
 // --------------------------------------------------------------------
-  public function duplicateProposal($proposalId)
+  public function duplicateProposal(Request $request)
    {
-     $this->proposal->duplicateProposal($proposalId);
+     return $this->oProposal->duplicateProp($request->proposalId,$request->precontractId);
    }
 }

@@ -18,6 +18,9 @@
             </a>
         @endcan
 @endif
+        <a href="{{Route('precontracts.index')}}" class="btn btn-warning">
+                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
+        </a>
      <br> <br>
     
          <div class="table-responsive">
@@ -41,31 +44,40 @@
                 <tr>
                    <td>
                     <div class="dropdown">
+                    @if($proposal->invoice != null)
+                      <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    @else
                       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    @endif
                         <span class="caret"></span> {{$proposal->propId}}
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li class="dropdown-header">Acciones</li>
+                        
+                     @if($precontract[0]->contractId == null)  
                         @can('BCB')    
-                        <li><a href="{{route('proposals.edit', ['id' => $proposal->proposalId])}}"><span class="fa fa-edit" aria-hidden="true"></span>Editar Propuesta</a></li>
+                          <li><a href="{{route('proposals.edit', ['id' => $proposal->proposalId])}}"><span class="fa fa-edit" aria-hidden="true"></span>Editar Propuesta</a></li>
                         @endcan
                         @can('BCD')
-                        <li><a href="{{route('proposalsDetails.index', ['btnReturn' => 'mod_cont','modelType' => 'pre_contract','id' => $proposal->proposalId])}}"><span class="fa fa-book" aria-hidden="true"></span>Renglones</a></li>
+                          <li><a href="{{route('proposalsDetails.index', ['btnReturn' => 'mod_cont','modelType' => 'pre_contract','id' => $proposal->proposalId])}}"><span class="fa fa-book" aria-hidden="true"></span>Renglones</a></li>
                         @endcan
                         @if($proposal->netTotal > 0)    
                          @can('BCE')
-                          <li><a href="{{route('proposals.payments', ['btnReturn' => 'mod_cont','id' => $proposal->proposalId])}}"><span class="fa fa-dollar-sign" aria-hidden="true"></span> Cuotas</a></li>          
+                            <li><a href="{{route('proposals.payments', ['btnReturn' => 'mod_cont','id' => $proposal->proposalId])}}"><span class="fa fa-dollar-sign" aria-hidden="true"></span> Cuotas</a></li>          
                          @endcan
                         @endif  
+                    @endif  
                         @can('BCC')      
-                        <li><a href="{{route('reports.proposal', ['id' => $proposal->proposalId])}}"><span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir</a></li>
+                          <li><a href="{{route('reports.proposal', ['id' => $proposal->proposalId])}}"><span class="fa fa-file-pdf" aria-hidden="true"></span> Imprimir</a></li>
                         @endif  
                         @if($proposal->pQuantity > 0)  
                           @can('BCF') 
-                              <li role="separator" class="divider"></li>
-                              <li><a href="{{route('proposal.duplicate', ['id' => $proposal->proposalId])}}"><span class="fa fa-copy" aria-hidden="true"></span>Duplicar Propuesta</a></li>
-                              <li role="separator" class="divider"></li>
-                               <li><a href="{{route('precontracts.convert', ['id' => $proposal->proposalId])}}"><span class="fa fa-sync" aria-hidden="true"></span> Convertir en Factura</a></li>
+                                 <li role="separator" class="divider"></li>
+                                 <li><a href="{{route('proposal.duplicate', ['id' => $proposal->proposalId])}}"><span class="fa fa-copy" aria-hidden="true"></span>Duplicar Propuesta</a></li>
+                              @if($precontract[0]->contractId == null)  
+                                 <li role="separator" class="divider"></li>
+                                 <li><a href="{{route('precontracts.convert', ['id' => $proposal->proposalId])}}"><span class="fa fa-sync" aria-hidden="true"></span> Convertir en Factura</a></li>
+                              @endcan    
                            @endcan    
                        @endif        
                       </ul>
@@ -85,9 +97,7 @@
             </table>
         </div>
   
-             <a href="{{Route('precontracts.index')}}" class="btn btn-warning">
-                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-              </a>
+         
         </div>
         </div>
     </div>

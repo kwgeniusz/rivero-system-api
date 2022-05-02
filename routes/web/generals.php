@@ -76,6 +76,7 @@ Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForCli
 //-----------------------------ADMINISTRATION---------------------------------------------------//
 Route::get('reportsProposal', 'Report\Pdf\AdministrationControllerPDF@printProposal')->name('reports.proposal');
 Route::get('reportsInvoice', 'Report\Pdf\AdministrationControllerPDF@printInvoice')->name('reports.invoice');
+
 Route::get('reportsStatement', 'Report\Pdf\AdministrationControllerPDF@printStatement')->name('reports.statement');
 Route::get('reportsReceipt', 'Report\Pdf\AdministrationControllerPDF@printReceipt')->name('reports.printReceipt');
 Route::get('reportsPaymentRequest', 'Report\Pdf\AdministrationControllerPDF@printPaymentRequest')->name('reports.paymentRequest');

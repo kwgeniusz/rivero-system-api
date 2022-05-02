@@ -16,11 +16,15 @@ Route::resource('contactTypes', 'Web\ContactTypeController');
 Route::resource('precontracts', 'Web\PrecontractController', ['parameters' => ['precontracts' => 'id']]);
 Route::put('precontracts/{id}/update-ibc', 'Web\PrecontractController@updateIbc')->name('precontracts.updateIbc');
 Route::get('precontracts/{id}/details', 'Web\PrecontractController@details')->name('precontracts.details');
+
+Route::get('converted-precontracts',   'Web\PrecontractController@convertedPrecontractsIndex')->name('convertedPrecontract.index');
+Route::get('unconverted-precontracts', 'Web\PrecontractController@unconvertedPrecontractsIndex')->name('unconvertedPrecontract.index');
+
 //PRECONTRACTS-OPTIONS
  // ->Precontract Files
 Route::get('precontracts/{id}/files', 'Web\PrecontractFileController@index')->name('precontractsFile.index');
 Route::post('precontracts/{id}/files', 'Web\PrecontractFileController@store')->name('precontractsFile.store');
- // ->Precontract Convert to Contract
+ // ->Convert Precontract to Contract
 Route::get('precontractsConvert/{id}', 'Web\PrecontractController@convert')->name('precontracts.convert');
 Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAdd')->name('precontracts.convertAdd');
  // ->Precontract Comments
@@ -29,7 +33,6 @@ Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@stor
 
 //***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
-Route::get('proposals/{id}/duplicate', 'Web\Proposal@duplicateProposal')->name('proposal.duplicate');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
 
  //->Proposal Scopes
@@ -61,6 +64,10 @@ Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@
 // ->Proposal Convert
 Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
 Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
+
+// ->Proposal Duplicate
+Route::get('proposals/{id}/duplicate', function ($id) { return view('module_administration.proposals.duplicate', compact('id')); })->name('proposal.duplicate');
+Route::post('proposals/duplicate', 'Web\ProposalController@duplicateProposal')->name('proposals.convertAdd');
 
 // ->Time Frames
 Route::resource('timeframes', 'Web\TimeFrameController');

@@ -103,12 +103,14 @@ Vue.component("service-templates",require("./components/contracts/ServiceTemplat
 Vue.component("grid-files-precontract",require("./components/contracts/documents/precontracts/GridFiles.vue"));
 Vue.component("grid-files",require("./components/contracts/documents/GridFiles.vue"));
 
-// -----------------> Time Frames <-------------------------//
+// -----------------> Proposals <-------------------------//
+Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
+Vue.component("duplicate-proposal",require("./components/administration/proposal/DuplicateProposal.vue"));
+
 Vue.component("time-frame-crud",require("./components/administration/proposal/timeFrame/timeFrameCrud.vue"));
 Vue.component("term-crud",require("./components/administration/proposal/term/termCrud.vue"));
 Vue.component("note-crud",require("./components/administration/proposal/note/noteCrud.vue"));
 Vue.component("time-payment-crud",require("./components/administration/proposal/timePayment/timePayCrud.vue"));
-// Vue.component("table-contract",require("./components/contracts/contract/table.vue"));
 //###################################################
 //           Module Administration Components
 //###################################################
@@ -152,7 +154,6 @@ Vue.component("addUp-cost-category",require("./components/administration/transac
 Vue.component("form-modal-charge", require("./components/administration/FormModalCharge.vue"));
 Vue.component("confirm-payment",require("./components/administration/ModalConfirmPayment.vue"));
 
-Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
 Vue.component("modal-transaction-details",require("./components/administration/ModalTransactionDetails.vue"));
 Vue.component("form-new-service",require("./components/administration/FormNewService.vue"));
 Vue.component("select-bank-with-account",require("./components/administration/SelectBankWithAccount.vue"));

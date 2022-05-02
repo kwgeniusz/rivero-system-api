@@ -60,6 +60,11 @@ class PrecontractController extends Controller
         //GET LIST PrecontractS for type
         $precontracts = $this->oPrecontract->getAll(session('countryId'),session('companyId'), $filteredOut);
 
+      //Si la peticion es asincronica es un ENDPOINT
+           if($request->ajax()){
+               return $precontracts;
+           }
+
         return view('module_contracts.precontracts.index', compact('precontracts'));
     }
 
@@ -180,6 +185,24 @@ class PrecontractController extends Controller
 
     }
 
+    public function convertedPrecontractsIndex(Request $request)
+    {
+        $precontracts = $this->oPrecontract->getAllByStatus(session('countryId'),session('companyId'), Precontract::CONVERTED);
+
+           if($request->ajax()){
+               return $precontracts;
+           }
+    }
+
+    public function unconvertedPrecontractsIndex(Request $request)
+    {
+
+        $precontracts = $this->oPrecontract->getAllByStatus(session('countryId'),session('companyId'), Precontract::UNCONVERTED);
+
+           if($request->ajax()){
+               return $precontracts;
+           }
+    }
 /* -----------OPTIONS------------- */
     public function convert($id)
     {
@@ -306,8 +329,7 @@ class PrecontractController extends Controller
             'message'    => $result['msj'],
             'alert-type' => $result['alert'],
         );
-// dd($notification);
-// exit();
+
         return redirect()->route('contracts.index')
             ->with($notification);
 

@@ -157,8 +157,7 @@ export default {
       this.timesList.splice(--id, 1);
     },
     sendTimes: function() {
-      axios
-        .post("proposals/" + this.proposalId + "/time-frames", {
+      axios.post("proposals/" + this.proposalId + "/time-frames", {
           timesList: this.timesList,
         })
         .then((response) => {

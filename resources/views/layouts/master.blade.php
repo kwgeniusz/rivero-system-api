@@ -69,7 +69,7 @@ desired effect
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <span class="ir-arriba icon-arrow-up2"></span>
+    <!-- <span class="ir-arriba icon-arrow-up2"></span> -->
     <!-- Content Header (Page header) -->
        @include('layouts.partials.contentHeader')
 
@@ -87,7 +87,7 @@ desired effect
 
   <!-- Main Footer -->
   <footer class="main-footer">
-  <span class="ir-arriba fas fa-arrow-up"></span>
+  <!-- <span class="ir-arriba fas fa-arrow-up"></span> -->
     <!-- To the right -->
     <div class="pull-right hidden-xs">
       @if (isset(Auth::user()->fullName))

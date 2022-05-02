@@ -26,9 +26,9 @@ class PaymentProposal extends Model
         'created_at',
         'lastUserId',
     ];
+    protected $appends = ['amount'];
 
-
-//--------------------------------------------------------------------
+//-------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
     public function proposal()
@@ -79,8 +79,7 @@ class PaymentProposal extends Model
         DB::beginTransaction();
         try {
             $acum = 0;
-            $proposal     = Proposal::where('proposalId', $proposalId)->get();
-
+            $proposal = Proposal::where('proposalId', $proposalId)->get();
             $payments =  PaymentProposal::where('proposalId', $proposalId)->get();
       
            //suma todas las cuotas y luego el monto que ingrese por formulario
@@ -90,19 +89,18 @@ class PaymentProposal extends Model
             }
                 $acum = $acum + $amount ;
            
-              if ( $acum > $proposal[0]->netTotal)
-              {
+              if ( $acum > $proposal[0]->netTotal) {
                 throw new \Exception("Error: El total de Cuotas no debe sobrepasar el Monto de Factura.");
               }
 
             // DB::table('proposal')->where('proposalId', $proposalId)->increment('pQuantity');  
             //INSERTA PAGO
-            $payment              = new PaymentProposal;
+            $payment               = new PaymentProposal;
             $payment->proposalId   = $proposalId;
-            $payment->amount      = $amount;
-            $payment->paymentDate      = $paymentDate;
-            $payment->created_at = date('Y-m-d H:i:s');
-            $payment->lastUserId  = Auth::user()->userId;
+            $payment->amount       = $amount;
+            $payment->paymentDate  = $paymentDate;
+            $payment->created_at   = date('Y-m-d H:i:s');
+            $payment->lastUserId   = Auth::user()->userId;
             $payment->save();
 
             $success = true;

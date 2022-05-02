@@ -228,7 +228,7 @@ class Invoice extends Model
 
     public function getAllByContract($contractId)
     {
-        $result = $this->with('invoiceDetails','proposal.term','proposal.scope','projectDescription','invoiceStatus')
+        $result = $this->with('invoiceDetails','proposal.term','proposal.scope', 'proposal.note','projectDescription','invoiceStatus')
             ->where('contractId', $contractId)
             ->orderBy('invoiceId', 'ASC')
             ->get();

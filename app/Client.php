@@ -253,7 +253,7 @@ class Client extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Cliente N° $client->clientCode creado exitosamente ",'model'=>$client];
+            return $rs  = ['alert' => 'success', 'message' => "Cliente N° $client->clientCode creado exitosamente ",'model'=>$client];
         } else {
             return $rs = ['alert' => 'error', 'message' => $error];
         }
@@ -293,9 +293,9 @@ class Client extends Model
         }
 
         if ($success) {
-          return $rs  = ['alert' => 'success', 'message' => "Cliente Modificado "];
+            return $rs  = ['alert' => 'success', 'message' => "Cliente Modificado "];
         } else {
-            return $rs = ['alert' => 'error', 'message' => $error];
+            return $rs  = ['alert' => 'error', 'message' => $error];
         }
     }
 //------------------------------------------

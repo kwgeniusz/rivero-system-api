@@ -64,6 +64,14 @@
                 <!-- Using properly a better class for "p" text -->
                   <div class="text-left">
 
+                  <div v-if="invoice.proposal">
+                    <center><b><u>Alcance</u></b></center>
+                    <br>
+                    <p v-for="(scope,index3) in invoice.proposal.scope">
+                             - {{scope.description}}
+                     </p>
+                  </div>
+
                   <!-- Centering the text with just a "center" tag-->
                   <div>
                     <center><b><u>Requerimientos</u></b></center>
@@ -81,14 +89,14 @@
                      </p>
                   </div>
 
-      
                   <div v-if="invoice.proposal">
-                    <center><b><u>Alcance</u></b></center>
+                    <center><b><u>Notas</u></b></center>
                     <br>
-                    <p v-for="(scope,index3) in invoice.proposal.scope">
-                             - {{scope.description}}
+                     <p v-for="(note,index2) in invoice.proposal.note">
+                           - {{note.noteName}}     
                      </p>
                   </div>
+      
 
                        </div>
                      </div>    

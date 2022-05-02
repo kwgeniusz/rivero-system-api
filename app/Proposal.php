@@ -2,9 +2,12 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use App;
+use Auth;
+use DB;
+use App\Precontract;
 use App\Helpers\DateHelper;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -175,7 +178,7 @@ class Proposal extends Model
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->with('user')
+        return $this->with('proposalDetail', 'scope', 'timeFrame', 'term', 'note', 'paymentProposal', 'subcontractor', 'user')
                     ->where('proposalId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('companyId', $companyId) 
@@ -184,13 +187,16 @@ class Proposal extends Model
 //------------------------------------------
     public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status,$userId) {
 
+
+        $error = null;
+        
+        DB::beginTransaction();
+         try {
+
           $oConfiguration = new CompanyConfiguration();
           $propId = $oConfiguration->retrieveProposalNumber($countryId, $companyId);
           $propId++;
                     $oConfiguration->increaseProposalNumber($countryId, $companyId);
-
-
-
         $proposal                   = new Proposal;
         $proposal->propId           =  $propId;
         $proposal->countryId        =  $countryId;
@@ -211,9 +217,19 @@ class Proposal extends Model
         $proposal->userId    =  $userId;
         $proposal->save();
 
-      
-        return $proposal->proposalId;
-
+               $success = true;
+               DB::commit();
+           } catch (\Exception $e) {
+               $success = false;
+               $error   = $e->getMessage();
+               DB::rollback();
+           }
+   
+           if ($success) {
+               return $proposal->proposalId;
+           } else {
+               return $rs = ['alert' => 'error', 'message' => $error];
+           }
     }
     //------------------------------------------
     public function updateProposal($proposalId, $paymentConditionId,$projectDescriptionId, $proposalDate, $taxPercent) {
@@ -280,10 +296,129 @@ class Proposal extends Model
          $proposal->save();
     }
 //-------------------------------------------------
-    public function duplicateProp($proposalId)
+    public function duplicateProp($proposalId, $precontractId)
     {
-         $proposal                = proposal::find($proposalId);
-        //  $proposal->invoiceId     = $invoiceId;
-        //  $proposal->save();
+        $error = null;
+        
+        DB::beginTransaction();
+         try {
+  
+        // Buscar la Propuesta a utilizar para la duplicacion
+          $proposal  = $this->findById($proposalId,session('countryId'),session('companyId'));
+ 
+        // Busca los datos del precontrato destino, para agregarlos en la nueva propuesta
+          $oPrecontract = new Precontract;
+          $destinationPrecontract  = $oPrecontract->findById($precontractId,session('countryId'),session('companyId'));
+
+        // Crear la Nueva Propuesta
+        $newProposalId  =   $this->insertProp(
+            $proposal[0]->countryId,
+            $proposal[0]->companyId,
+            'pre_contract',//esta funcion trae el nombre de la tabla para saber a que campo de la tabla(proposal) insertare el id , en este caso tengo dos opciones precontract y contract
+            $destinationPrecontract[0]->precontractId,//se trae el id de la tabla que halla escogido el usuasio en formulario create .
+            $destinationPrecontract[0]->clientId,
+            $proposal[0]->projectDescriptionId,
+            Carbon::now()->format('Y-m-d'), //poner funcion de fecha de hoy
+            $proposal[0]->taxPercent,
+            $proposal[0]->pCondId, 
+            '1',
+            Auth::user()->userId);
+
+          
+    //Insercion de Servicios de la propuesta
+    if($proposal[0]->proposalDetail->isNotEmpty()) {
+         
+          $oProposalDetail = new App\ProposalDetail;
+          foreach ($proposal[0]->proposalDetail as $key => $item) {
+              $result = $oProposalDetail->insert(
+                  $newProposalId,
+                  $item->itemNumber,
+                  $item->serviceId,
+                  $item->serviceName,
+                  $item->unit,
+                  $item->unitCost,
+                  $item->quantity,
+                  $item->amount);
+                }
+        }
+
+        //Insercion de Notas de la propuesta
+        if($proposal[0]->note->isNotEmpty()) {
+
+            $oProposalNote = new App\ProposalNote;
+              foreach ($proposal[0]->note as $key => $item) {
+                   $result = $oProposalNote->insert(
+                    $newProposalId,
+                    $item->noteId,
+                    $item->noteName);
+                if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+              };
+             
+        }
+    //Insercion de Alcances
+        if($proposal[0]->scope->isNotEmpty()) {
+        
+            $oProposalScope = new App\ProposalScope;
+            foreach ($proposal[0]->scope as $key => $item) {
+                 $result = $oProposalScope->insert(
+                    $newProposalId,
+                    $item->description);
+    
+                    if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+                  };
+        }
+    //Insercion de Terminos y condiciones
+        if($proposal[0]->term->isNotEmpty()) {
+
+            $oProposalTerm = new App\ProposalTerm;
+              foreach ($proposal[0]->term as $key => $item) {
+                   $result = $oProposalTerm->insert(
+                    $newProposalId,
+                    $item->termId,
+                    $item->termName);
+      
+                  if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+              };   
+        }
+    // Insercion de Times Frames
+        if($proposal[0]->timeFrame->isNotEmpty()) {
+            
+            $oProposalTimeFrame = new App\ProposalTimeFrame;
+            foreach ($proposal[0]->timeFrame as $key => $item) {
+                 $result = $oProposalTimeFrame->insert(
+                  $newProposalId,
+                  $item->timeId,
+                  $item->timeName);
+    
+                  if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+            };
+         }
+    // Insertar Cuotas de la propuesta
+         if($proposal[0]->paymentProposal->isNotEmpty()) {
+
+            $oPaymentProposal = new App\PaymentProposal;
+            foreach ($proposal[0]->paymentProposal as $key => $item) {
+                $result = $oPaymentProposal->addPayment(
+                    $newProposalId,
+                    $item->amount,
+                    $item->paymentDate
+                );
+                  if($result['alert'] == 'error'){ throw new \Exception($result['message']); }
+            };
+         }
+               $success = true;
+               DB::commit();
+           } catch (\Exception $e) {
+               $success = false;
+               $error   = $e->getMessage();
+               DB::rollback();
+           }
+   
+           if ($success) {
+                return $rs  = ['alert' => 'success', 'message' => "Propuesta Duplicada con Exito"];
+           } else {
+                return $rs  = ['alert' => 'error', 'message' => $error];
+           }
+    
     }
 }
