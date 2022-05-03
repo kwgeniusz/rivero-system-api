@@ -346,12 +346,13 @@ class PayrollControlController extends Controller
                         $taxRetention         = $rs->taxRetention;
                         $transTypeBlockSS     = $rs->blockSS;
                         $displayPayroll       = $rs->display; 
+                        $formula               = $rs->formula; 
                     } 
                     // print_r($rs0);
                     $addTransaction = 0;         // add transaction control
                     // Si la transaccion es basada en salario
                     if ($isSalaryBased == 1) {  
-                        
+                        // echo " if: transactionTypeName: $transactionTypeName amount: $amount  personal: $staffName paso 1 ";
                         // verifico si el parametro que viene es una deducciones como SSO, FAOV, etc.
                         if ($isSalaryBased == 1 && $isIncome == 0) {
                             // verificacion si a la persona, se le aplican esta deduccion como SSO, FAOV, etc.
@@ -362,15 +363,10 @@ class PayrollControlController extends Controller
                                     $addTransaction = 0;
                                 } else {
                                     if ($retentionSalary > 0 && $taxRetention == 1) { //si existe un salario para retencion, aplico nueva formula
-                                        // echo '$staffName ' . $staffName . '<br>';
-                                        // echo '$retentionSalary ' . $retentionSalary . '<br>';
-                                        $retentionSalary2 = ($retentionSalary * 12) / 52;
-                                        // echo '$retentionSalary2 '.$retentionSalary2 . '<br>';
-                                        // echo '$quantity '.$quantity . '<br>';
-                                        
-                                        $retentionSalary2 = ($retentionSalary2 * 4) / 100;
-                                        // echo '$retentionSalary2 '. $retentionSalary2 . '<br>';
-                                        $amount =  $retentionSalary2 * $startDaysWeekQuantity;
+
+                                        // info($formula);
+                                        $amount =  (((($retentionSalary * 12) / 52) * $formula) / 100) * $startDaysWeekQuantity;
+                                        // info($amount);
                                         // echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary2: ". $retentionSalary2 ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
                                         if ($amount > 0) {
                                             $addTransaction = 1;             
@@ -402,7 +398,7 @@ class PayrollControlController extends Controller
                         if ($quantity > 0 and $amount > 0) {
                             $addTransaction = 1; 
                         } 
-                            
+                        // echo " else: transactionTypeName: $transactionTypeName  amount: $amount  personal: $staffName paso 1";
                     }
                     
                     // check for valid transacction
@@ -440,10 +436,7 @@ class PayrollControlController extends Controller
     
                     // insert record in hrpayroll
                     if ($addTransaction == 1) {
-                        // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
-                        // $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );
-                        // localAmount = amount * exchangeRate
-                        // echo $staffName . ' '.$localAmount  = $amount * $exchangeRate .' = '. $amount .' * '. $exchangeRate .'<br>';
+
                         $localAmount = $amount * $exchangeRate;
                         
                         $hrpayroll = new Payroll();
@@ -473,72 +466,6 @@ class PayrollControlController extends Controller
             
             }//foreach ($rs2 as $rs3)
 
-            // PARTE 2.
-            // procesar transacciones permanentes
-            //   $countryId,$companyId,$staffCode,$transactionTypeCode
-            // $rs4  = DB::table('hrpermanent_transaction')
-            // ->join('hrtransaction_type', 'hrpermanent_transaction.transactionTypeCode', '=', 'hrtransaction_type.transactionTypeCode')
-            // ->where('hrpermanent_transaction.countryId', '=', $countryId)
-            // ->where('hrpermanent_transaction.companyId', '=', $companyId)
-            // ->where('hrpermanent_transaction.staffCode', '=', $staffCode)
-            // ->where('hrpermanent_transaction.transactionTypeCode', '=', $transactionTypeCode)
-            // ->whereNull('hrpermanent_transaction.deleted_at')
-            // ->get();
-            // $addTransaction = 0; 
-            // // dd($rs4);
-            
-            // // print_r($rs4);
-            
-            // foreach ($rs4 as $rs5) {
-            //         $stCode            = $rs5->staffCode;   
-            //         $ttCode            = $rs5->transactionTypeCode; 
-            //         $tTyName           = $rs5->transactionTypeName; 
-            //         $transactionQty    = $rs5->quantity;  
-            //         $transactionAmount = $rs5->amount;  
-            //         $display           = $rs5->display; 
-
-
-            //         if ($isSalaryBased == 1) {   // transaccion basada en salario
-                
-            //             $amount = $transactionQty * $baseSalary;
-            //             $amount = round($amount, 2);
-
-            //         } else {
-            //             $amount   =   $transactionQty * $transactionAmount; 
-            //             $amount = round($amount, 2);              	
-            //         }
-                    
-            //         // localAmount = amount * exchangeRate
-            //         $localAmount = $amount * $exchangeRate;
-
-            //         $hrpayroll = new Payroll();
-            //         $hrpayroll->countryId = $countryId;
-            //         $hrpayroll->companyId = $companyId;
-            //         $hrpayroll->year = $year;
-            //         $hrpayroll->payrollNumber = $payrollNumber;
-            //         $hrpayroll->payrollTypeId = $payrollTypeId;
-            //         $hrpayroll->payrollName = $payrollName;
-            //         $hrpayroll->userProcess = $userProcess;
-            //         $hrpayroll->staffCode = $staffCode;
-            //         $hrpayroll->idDocument = $idDocument;
-            //         $hrpayroll->staffName = $staffName;
-            //         $hrpayroll->transactionTypeCode = $transactionTypeCode;
-            //         $hrpayroll->transactionTypeName = $tTyName;
-            //         $hrpayroll->isIncome = $isIncome;
-            //         $hrpayroll->quantity = $quantity;
-            //         $hrpayroll->amount = $amount;
-            //         $hrpayroll->localCurrency = $oExchangeRate[0]->localCurrency;
-            //         $hrpayroll->localAmount = $localAmount;
-            //         $hrpayroll->exchangeRate = $exchangeRate;
-            //         $hrpayroll->display = $display;
-            //         $hrpayroll->save();
-            //         // $oPayroll->insert($countryId, $companyId, $year, $payrollNumber, $payrollName, 
-            //         //     $staffCode, $staffName, $transactionTypeCode, $isIncome, $quantity, $amount );            	 	
-
-            // }
-            // PARTE 3.
-            // procesar transacciones permanentes
-
             // get permanent transactions for this person and transaction code
             foreach ( $rs2 as $key => $val) {
                 $transactionTypeCode  = $val->transactionTypeCode;
@@ -556,7 +483,7 @@ class PayrollControlController extends Controller
                             AND hrpermanent_transaction.staffCode = '$staffCode'");
                 // $rs6  = $oVariable->joinTransactionType($countryId,$companyId,$staffCode);
                 // dd($rs6);
-            
+                // info($rs6);
                 //obtengo los datos para Verificar si el usuario tiene alguna transaccion bloqueada
                 $TransBlocked = $this->oParamsTransaction->getBlockedTransaction($countryId, $companyId, $transactionTypeCode, $staffCode);
                 
@@ -574,7 +501,7 @@ class PayrollControlController extends Controller
                         $transactionTypeCode = $rs7->transactionTypeCode; 
                         $transactionTypeName = $rs7->transactionTypeName; 
                         $quantity            = $rs7->quantity;  
-                        $transAmount         = $rs7->amount;  
+                        $amount              = $rs7->amount;  
                         $transBalance        = $rs7->balance;  
                         $isIncome            = $rs7->isIncome;
                         $transHasBalance     = $rs7->hasBalance;
@@ -586,7 +513,7 @@ class PayrollControlController extends Controller
                         
                         // Si la transaccion es basada en salario
                         if ($isSalaryBased == 1) {  
-                        
+                            // echo " if: transactionTypeName: $transactionTypeName  amount: $amount  personal: $staffName paso 2";
                             // verifico si el parametro que viene es una deducciones como SSO, FAOV, etc.
                             if ($isSalaryBased == 1 && $isIncome == 0) {
                                 // verificacion si a la persona, se le aplican esta deduccion como SSO, FAOV, etc.
@@ -597,16 +524,9 @@ class PayrollControlController extends Controller
                                         $addTransaction = 0;
                                     } else {
                                         if ($retentionSalary > 0 && $taxRetention == 1) { //si existe un salario para retencion, aplico nueva formula
-                                            echo '$staffName ' . $staffName . '<br>';
-                                            echo '$retentionSalary ' . $retentionSalary . '<br>';
-                                            $retentionSalary2 = ($retentionSalary * 12) / 52;
-                                            echo '$retentionSalary2 '.$retentionSalary2 . '<br>';
-                                            echo '$quantity '.$quantity . '<br>';
-                                            
-                                            $retentionSalary2 = ($retentionSalary2 * 4) / 100;
-                                            echo '$retentionSalary2 '. $retentionSalary2 . '<br>';
-                                            $amount =  $retentionSalary2 * $startDaysWeekQuantity;
-                                            echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary2: ". $retentionSalary2 ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
+
+                                            $amount =  ((((($retentionSalary * 12) / 52) * $formula) / 100) * $startDaysWeekQuantity);
+                                            // echo "entro: " . $transactionTypeName . "amount: " . $amount . " = retentionSalary2: ". $retentionSalary2 ." * startDaysWeekQuantity: " .$startDaysWeekQuantity ."  <br>";
                                             if ($amount > 0) {
                                                 $addTransaction = 1;             
                                             }
@@ -634,10 +554,11 @@ class PayrollControlController extends Controller
                             }
         
                         } else { 
+                            $amount = $amount * $quantity;
                             if ($quantity > 0 and $amount > 0) {
                                 $addTransaction = 1; 
                             } 
-                                
+                            // echo " else: transactionTypeName: $transactionTypeName  amount: $amount  personal: $staffName paso 2";
                         }
                         
                         // check for valid transacction
