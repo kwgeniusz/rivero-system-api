@@ -74,7 +74,31 @@
       </div> <!-- fin del panel body -->
    </div>   <!-- fin del panel default principal -->
 
-      <div class="panel panel-default col-xs-12 col-sm-6">
+
+   <div class="panel panel-default col-xs-12 col-sm-6">
+
+    
+
+        <div class="precontractList">
+          <div class="panel-heading"> <h4><b>Lista de Precontratos:</b></h4> </div>
+          <div class="panel-body">
+            <div class="form-group col-lg-12 ">
+
+              <h4><label for="accountTypeCode">Escoja un Precontrato de Destino:</label></h4>
+              <v-select  @input="getPrecontractInfo()" :options="precontractList" v-model="precontractIdSelected" :reduce="precontractList => precontractList.precontractId" label="siteAddress"/>
+                <br>
+                 <ul>
+                   <li><b>Precontract Number:</b> {{precontractInfo.preId}}</li>
+                   <li><b>Nombre del Proyecto:</b> {{precontractInfo.projectName}}</li>
+                   <li><b>Fecha:</b> {{precontractInfo.precontractDate}}</li>
+                   <li><b>Cliente:</b> {{precontractInfo.clientId}}</li>
+                   <li><b>Direccion:</b> {{precontractInfo.siteAddress}}</li>
+                   <li><b>Comentario Inicial:</b> {{precontractInfo.comment}} </b></li>
+                 </ul>
+
+            </div> 
+          </div>
+
           <div class="panel-heading"> <h4><b>Lista de Precontratos:</b></h4> </div>
           <div class="panel-body">
             <div class="form-group col-lg-12 ">

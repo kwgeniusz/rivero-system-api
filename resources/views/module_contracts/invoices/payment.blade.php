@@ -4,14 +4,23 @@
   <div class="create">
     <div class="formulario">
       <div>
-        <h3>FACTURA</h3>
-        <div class="boxes" style="padding-top: 10px;">
+
+   <h2 class="text-center bg-primary">CUOTAS DE LA FACTURA</h2>
+     <!--COMIENZO A VER LOS DETALLES DE LA FACTURA-->
+      <div class="bg-info hover round glow" role="button" data-toggle="collapse" href="#invoiceInfo" aria-expanded="false" style="" >
+           <h4><i class="fa fa-chevron-circle-down"></i> DATOS DE LA FACTURA </h4>
+           <!-- v-if="contract != null" -->
+       </div>
+       <!-- collapse -->
+         <!-- v-if="contract != null" -->
+         <div class="collapse in" id="invoiceInfo">
+           <div class="well">
+
+    
           <div class="table-responsive tableother">
-            {{-- {{$invoice[0]->shareSucceed}}<BR><BR> --}}
-            {{-- {{$invoice[0]->sharePending}} --}}
             <table class="table table-striped table-bordered text-center">
               <thead>
-                <tr class="bg-success">
+                <tr class="bg-info">
                   <th>N° FACTURA</th>
                   <th>CLIENTE</th>
                   <th>CONTRATO</th>
@@ -63,9 +72,54 @@
               </tbody>
             </table>
           </div>
+
+           </div>
+         </div>
+      
+       <!--COMIENZO A VER LOS DETALLES DE LA FACTURA-->
+         <div class="bg-info hover round glow" role="button" data-toggle="collapse" href="#invoiceDetail" aria-expanded="false" style="" >
+         <h4><i class="fa fa-chevron-circle-down"></i> RENGLONES </h4>
+           <!-- v-if="contract != null" -->
+         </div>
+       <!-- collapse -->
+         <!-- v-if="contract != null" -->
+         <div class="collapse" id="invoiceDetail">
+           <div class="well">
+
+           <div class="table-responsive tableother">
+            <table class="table table-striped table-bordered text-center">
+              <thead>
+                <tr class="bg-info">
+                  <th>#</th>
+                  <th>SERVICIO</th>  
+                  <th>UNIDAD</th>
+                  <th>COSTO</th>
+                  <th>CANTIDAD</th>
+                  <th>MONTO</th>
+                </tr>
+              </thead>
+              <tbody>
+              @foreach($invoiceDetails as $detail)
+                @if($detail->amount > '0)
+                  <tr>
+                     <td>{{$detail->itemNumber}}</td> 
+                     <td>{{$detail->serviceName}}</td> 
+                     <td>{{$detail->unit}}</td> 
+                     <td>{{$detail->unitCost}}</td> 
+                     <td>{{$detail->quantity}}</td> 
+                     <td>{{$detail->amount}}</td> 
+                 </tr>
+               @endif  
+              @endforeach  
+            </tbody>
+          </table>
+        </div>
+            
+           </div>
+         </div>
+
           <hr>
           <div class="input-label boxes2">
-            <h4 style="font-size: 25px; font-weight: 700; text-align: center;">CUOTAS</h4>
             @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
               @if($invoice[0]->invStatusCode <> App\Invoice::PAID  && $invoice[0]->invStatusCode <> App\Invoice::CANCELLED)
                   @if ($errors->any())
@@ -78,20 +132,20 @@
                       </ul>
                     </div>
                   @endif
-                  <form class="input-label" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; flex-direction: column;" action="{{Route('invoices.paymentsAdd')}}" method="POST">
+                  <form class="input-label" style="margin-bottom: 30px;" action="{{Route('invoices.paymentsAdd')}}" method="POST">
                     {{csrf_field()}}
                     <input type="hidden" name="invoiceId" value="{{$invoice[0]->invoiceId}}">
-                    <div class="inputother boxes2">
+                    <div class="col-xs-12 col-sm-5 col-sm-offset-3">
                       <label for="amount" >MONTO</label>
                       <input type="number" min='0.01' step="0.01" class="input-label" id="amount" name="amount" required autocomplete="off">
                     </div>
-                    <div style="width: 100%; display: flex; justify-content: left; align-items: flex-start;"> 
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-4" style="padding:20px"> 
                       <button type="submit" class="submit button-prevent-multiple-submits" style="background: green; margin-top: 0px;">
                         <span class="fa fa-plus" aria-hidden="true"></span>
-                        Agregar Cuota
+                           Agregar Cuota
                       </button>
                     </div>
-                  </form>
+                </form>
               @endif
             @endif
           </div>
@@ -198,7 +252,7 @@
                 <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
               </a>
             @endif
-          </div>
+
         </div>
       </div>
     </div>

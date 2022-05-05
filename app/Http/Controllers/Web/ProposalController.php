@@ -262,14 +262,14 @@ class ProposalController extends Controller
         return view('module_contracts.proposals.convert', compact('proposal'));
 
     }   
-    public function convertAdd($id)
+    public function executeConvert(Request $request)
     {
         $error = null;
 
         DB::beginTransaction();
         try {
              //traer todos los datos del proposal
-             $proposal     = $this->oProposal->FindById($id,session('countryId'),session('companyId')); 
+             $proposal     = $this->oProposal->FindById($request->proposalId,session('countryId'),session('companyId')); 
 
           
            if($proposal[0]->invoiceId != null ){

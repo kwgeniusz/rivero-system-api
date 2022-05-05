@@ -7,10 +7,12 @@
     <div class="panel-heading"> <h3><b>¿Esta Seguro de Convertir esta Propuesta a Factura?</b></h3></div>
     <div class="panel-body">
 
-      <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('proposals.convertAdd',['id' => $proposal[0]->proposalId])}}" method="POST">
+      <form class="form-horizontal form-prevent-multiple-submits" action="{{Route('proposals.executeConvert')}}" method="POST">
         {{csrf_field()}}
 
-  <div class="form-group">
+         <input type="hidden" name="proposalId" value="{{$proposal[0]->proposalId}}">
+
+     <div class="form-group">
           <label class="col-sm-5 control-label">PROPUESTA </label>
           <div class="col-sm-7">
             <p class="form-control-static"># {{ $proposal[0]->propId }}</p>
@@ -69,7 +71,7 @@
               </button>
                <a href="{{URL::previous()}}" class="btn btn-warning">
                   <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-       </a>
+              </a>
             </div>
             </div>
           </form>

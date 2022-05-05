@@ -62,12 +62,12 @@ Route::post('proposalsPayments/add', 'Web\ProposalController@paymentsAdd')->name
 Route::get('proposalsPayments/{id}/{invoiceId}/remove', 'Web\ProposalController@paymentsRemove')->name('proposals.paymentsRemove');
  
 // ->Proposal Convert
-Route::get('proposalsConvert', 'Web\ProposalController@convert')->name('proposals.convert');
-Route::post('proposalsConvert/add/{id}', 'Web\ProposalController@convertAdd')->name('proposals.convertAdd');
+Route::get('proposals/{id}/convert', 'Web\ProposalController@convert')->name('proposals.convert');
+Route::post('proposals/convert', 'Web\ProposalController@executeConvert')->name('proposals.executeConvert');
 
 // ->Proposal Duplicate
 Route::get('proposals/{id}/duplicate', function ($id) { return view('module_administration.proposals.duplicate', compact('id')); })->name('proposal.duplicate');
-Route::post('proposals/duplicate', 'Web\ProposalController@duplicateProposal')->name('proposals.convertAdd');
+Route::post('proposals/duplicate', 'Web\ProposalController@duplicateProposal')->name('proposals.duplicate');
 
 // ->Time Frames
 Route::resource('timeframes', 'Web\TimeFrameController');
