@@ -10,12 +10,9 @@
     </div>   
 
     <div class="col-xs-4">
-      <ul class="list-group">
-        <li class="list-group-item">
-            <input type="text" placeholder="Buscar" class="form-control" v-model="inputSearch">
-        </li>
-       </ul>
+       <input type="text" placeholder="Buscar" class="form-control" v-model="inputSearch">
     </div> 
+
    <div class="col-xs-4">
     
     </div>
@@ -27,7 +24,7 @@
                 <div class="panel panel-default">
                     <div class="table-responsive text-center">
 
-                        <table class="table table-striped table-bordered text-center">
+                        <table class="table table-striped table-bordered text-center" style="border: 1px solid #ddd !important;">
                             <thead class="bg-success">
                               <tr>
                                   <th>#</th> 

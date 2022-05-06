@@ -1,23 +1,37 @@
 <template>
 <div>
 
- <h3><b>CUENTAS POR COBRAR</b></h3>
+   <div class="panel panel-default col-xs-12">
 
-<vue-tabs class="bg-info" type="pills"  centered @tab-change="handleTabChange">
-    <v-tab title="CLIENTES" icon="ti-user">
-            <receivables-from-clients/>
-    </v-tab>
+        <div class="panel-heading">
+            <form class="form-inline">
+               <div class="form-group">
+                 <label for="exampleInputName2"><h4><b>CUENTAS POR COBRAR: </b></h4></label>
+                 <select v-model="entity" class="form-control" name="unit" id="unit">
+                      <option value="customers">Clientes</option>
+                      <option value="partners">Socios</option>
+                      <option value="employees">Empleados</option>
+                 </select>
+               </div>
+             </form>
+         </div>
 
-    <v-tab title="SOCIOS" icon="ti-settings">
 
-    </v-tab>
+        <div v-if="entity == 'customers'">
+           <receivables-from-clients/>
+        </div>
 
-    <v-tab title="EMPLEADOS" icon="ti-check">
-       
-    </v-tab>
-</vue-tabs>
+        <div v-if="entity == 'partners'">
+            <!-- <receivables-from-clients/> --> 
+        </div>
 
- </div>         
+        <div v-if="entity == 'employees'">
+            <!-- <receivables-from-clients/> -->
+        </div>
+
+    </div>
+
+</div>
 </template>
 
 <script>
@@ -27,11 +41,17 @@
         },
         data() {
             return{
-             
+             entity:'customers',
             }
         },
      methods: {
-
+    //    changeEntity(n){
+    //             this.formStatus = 0
+    //             axios.get('/receivables').then((response) => {
+    //                 this.receivableList = response.data
+    //                 // console.log(this.receivableList)
+    //             })
+    //         },  
         
      }
     }
