@@ -100,7 +100,7 @@
               </thead>
               <tbody>
               @foreach($invoiceDetails as $detail)
-                @if($detail->amount > '0)
+                @if($detail->amount > 0)
                   <tr>
                      <td>{{$detail->itemNumber}}</td> 
                      <td>{{$detail->serviceName}}</td> 

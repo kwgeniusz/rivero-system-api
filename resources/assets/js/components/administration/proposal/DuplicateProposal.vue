@@ -74,13 +74,7 @@
       </div> <!-- fin del panel body -->
    </div>   <!-- fin del panel default principal -->
 
-
-   <div class="panel panel-default col-xs-12 col-sm-6">
-
-    
-
-   
-
+      <div class="panel panel-default col-xs-12 col-sm-6">
           <div class="panel-heading"> <h4><b>Lista de Precontratos:</b></h4> </div>
           <div class="panel-body">
             <div class="form-group col-lg-12 ">
