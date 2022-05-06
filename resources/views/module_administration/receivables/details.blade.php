@@ -25,7 +25,7 @@
                      <td>{{$receivable[0]->client->clientCode}}</td>
                      <td>{{$receivable[0]->client->clientName}}</td>
                      <td>{{$receivable[0]->client->clientAddress}}</td>
-                     <td>{{$receivable[0]->client->clientPhone}}</td>
+                     <td>{{$receivable[0]->client->businessPhone}}</td>
                      <td>{{$receivable[0]->cuotas}}</td>
                      <td>{{$receivable[0]->balanceTotal}}</td>
                 </tr>

@@ -1,15 +1,13 @@
 <template>
   <div>
 
+<div class="col-xs-12" style="margin:10px">
     <div class="col-xs-4">
+      
     </div>   
 
     <div class="col-xs-4">
-      <ul class="list-group">
-        <li class="list-group-item">
             <input type="text" placeholder="Buscar" class="form-control" v-model="inputSearch">
-        </li>
-       </ul>
     </div> 
 
    <div class="col-xs-4">
@@ -22,11 +20,12 @@
           </ul>
         </div>
     </div>
+</div>
 
             <div class="col-xs-12">
                 <div class="panel panel-default">         
                     <div class="table-responsive text-center">
-                        <table class="table table-striped table-bordered text-center">
+                        <table class="table table-striped table-bordered text-center" style="border: 1px solid #ddd !important;">
                             <thead class="bg-success">
                               <tr>
                                <th>#</th>
@@ -39,34 +38,26 @@
                                <th>OPCIONES</th>
                               </tr>
                         </thead>
-                           <tbody v-if="searchData.length > 0">
-                             <tr  v-for="(receivable, index) in searchData" :key="receivable.receivableId">
+                           <tbody>
+                             <!-- {{searchData}} -->
+                             <tr v-for="(receivable, index) in receivableList" :key="receivable.receivableId">
+
                                 <td >{{index + 1}}</td>
-                                <!-- <td class="text-left"> {{receivable.client.clientCode}}</td>   -->
-                                <!-- <td class="text-left"> {{receivable.client.clientName}} </td>            -->
-                                <!-- <td class="text-left"> {{receivable.client.clientAddress}}</td> -->
-                                <!-- <td class="text-left"> {{receivable.client.mainPhone}}</td> -->
-                                <!-- <td class="text-left"> {{receivable.mainPhone}}</td> -->
-                                <!-- <td class="text-left"> {{receivable.mainEmail}}</td> -->
-                                <!-- <td class="text-left"> {{receivable.balanceTotal}}</td> -->
-                                <!-- <td class="text-left"> {{receivable.typeForm1099}}</td> -->
-                                  <td> 
-                      
-                                 <button v-if="$can('BAB')" @click="editSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
+                                <td class="text-left"> {{receivable.client.clientCode}}</td>  
+                                <td class="text-left"> {{receivable.client.clientName}} </td>           
+                                <td class="text-left"> {{receivable.client.clientAddress}}</td>
+                                <td class="text-left"> {{receivable.client.businessPhone}}</td>
+                                <td class="text-left"> {{receivable.cuotas}}</td>
+                                <td class="text-left"> {{receivable.balanceTotal}}</td>
+                                <td> 
+                                 <!-- <button v-if="$can('BAB')" @click="editSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>   -->
                                  <!-- <button v-if="$can('BAC')"  @click="deleteSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>   -->
-                                 <a v-if="$can('BAB')" :href="'subcontractors/'+subcontractor.subcontId+'/payables'" class="btn btn-sm btn-success" title="Cuentas por Pagar"><span class="fa fa-user" aria-hidden="true"></span></a> 
-                         
-                                  </td>
-                                </tr>
+                                 <a v-if="$can('BAB')" :href="'receivables/'+receivable.client.clientId" class="btn btn-sm btn-success" title="Cuentas por Cobrar"><i class="fa fa-dollar-sign"></i></a>
+                                </td>
+                             </tr>
                      
                         </tbody>
-                         <tbody v-else>
-                           <tr>
-                             <td colspan="12">
-                                 <loading></loading>
-                             </td>
-                          </tr>
-                      </tbody>     
+                            
                      </table>
 
                     </div>
@@ -80,8 +71,8 @@
     export default {
         mounted() {
             axios.get('/receivables').then((response) => {
-                // this.receivableList = response.data
-                // console.log(response.data)
+                this.receivableList = response.data
+                console.log(response.data)
             })
         },
         data(){
@@ -92,8 +83,8 @@
             }
         },
         computed: {
-            searchData: function () {
-                return this.receivableList.filter((receivable) => {
+            // searchData: function () {
+            //     return this.receivableList.filter((receivable) => {
 
                   // if(client.companyName == null ) 
                   //    client.companyName = 'No Info'
@@ -106,14 +97,14 @@
                   // if(client.mainEmail == null ) 
                   //    client.mainEmail = 'No Info'
                 
-                  //  return client.companyName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         client.clientName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         client.clientAddress.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         client.businessPhone.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         client.mainEmail.toLowerCase().includes(this.inputSearch.toLowerCase()) 
+                  //  return receivable.companyName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                  //         receivable.clientName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                  //         receivable.clientAddress.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                  //         receivable.businessPhone.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
+                  //         receivable.mainEmail.toLowerCase().includes(this.inputSearch.toLowerCase()) 
                   
-                })
-            } //end of the function searchData
+                // })
+            // } //end of the function searchData
         },
        methods: {
          showlist(n){

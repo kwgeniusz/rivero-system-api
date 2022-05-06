@@ -13,6 +13,8 @@
 Route::group(['middleware' => ['auth:api']], function () {
     // rutas protegidas
 
+    Route::get('contracts', 'Web\ContractController@index');
+
     // rutas para las sesiones
     Route::get('user-session', 'Api\AuthController@session');//->middleware('permission:shop.index');
     Route::get('user-logout', 'Api\AuthController@logout'); //->middleware('permission:shop.index');

@@ -1,30 +1,40 @@
 <template>
 <div>
 
-   <h3><b>CUENTAS POR PAGAR</b></h3>
+   <div class="panel panel-default col-xs-12">
 
-    <vue-tabs class="bg-info" type="pills" centered @tab-change="handleTabChange">
+        <div class="panel-heading">
+            <form class="form-inline">
+               <div class="form-group">
+                 <label for="exampleInputName2"><h4><b>CUENTAS POR PAGAR: </b></h4></label>
+                 <select v-model="entity" class="form-control" name="unit" id="unit">
+                      <option value="subcontrators">Subcontratista</option>
+                      <option value="partners">Socios</option>
+                      <option value="customers">Clientes</option>
+                      <option value="employees">Empleados</option>
+                 </select>
+               </div>
+             </form>
+         </div>
 
-    <v-tab title="SUBCONTRATISTAS" icon="ti-user">
+
+        <div v-if="entity == 'subcontrators'">
             <main-subcontractor/>
-    </v-tab>
-
-    <v-tab title="SOCIOS" icon="ti-settings">
-            <!-- <main-subcontractor/> -->
-    </v-tab>
-
-    <v-tab title="CLIENTES" icon="ti-check">
-            <!-- <main-subcontractor/> -->
-    </v-tab>
-
-    <v-tab title="EMPLEADOS" icon="ti-check">
-      <div class="panel panel-default">
-           <div class="panel-body">
-             <!-- <main-subcontractor/> -->
-          </div>
         </div>
-    </v-tab>
-</vue-tabs>
+
+        <div v-if="entity == 'partners'">
+            <!-- <receivables-from-clients/> --> 
+        </div>
+
+        <div v-if="entity == 'customers'">
+            <!-- <receivables-from-clients/> -->
+        </div>
+
+        <div v-if="entity == 'employees'">
+            <!-- <receivables-from-clients/> -->
+        </div>
+
+    </div>
 
  </div>         
 </template>
@@ -36,7 +46,7 @@
         },
         data() {
             return{
-             
+              entity:'subcontrators',
             }
         },
      methods: {
