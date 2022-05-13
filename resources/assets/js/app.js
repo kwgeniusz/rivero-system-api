@@ -102,6 +102,9 @@ Vue.component("modal-client-details",require("./components/contracts/ModalClient
 Vue.component("service-templates",require("./components/contracts/ServiceTemplates.vue"));
 Vue.component("grid-files-precontract",require("./components/contracts/documents/precontracts/GridFiles.vue"));
 Vue.component("grid-files",require("./components/contracts/documents/GridFiles.vue"));
+// -----------------> Budgets <-------------------------//
+Vue.component("table-contract-budget",require("./components/contracts/budget/main.vue"));
+
 
 // -----------------> Proposals <-------------------------//
 Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
@@ -202,6 +205,11 @@ Vue.component("accounting-table-general-ledger",require("./components/accounting
 Vue.component("accounting-addUp-general-ledger",require("./components/accounting/generalLedger/addUp.vue"));
 
 Vue.component("accounting-close-year",require("./components/accounting/ModalCloseYear.vue"));
+
+// ---------------------> Auxiliary Book <-----------------------------//
+Vue.component("accounting-main-auxiliary-book",require("./components/accounting/auxiliaryBook/main.vue"));
+Vue.component("accounting-table-auxiliary-book",require("./components/accounting/auxiliaryBook/table.vue"));
+Vue.component("accounting-addUp-auxiliary-book",require("./components/accounting/auxiliaryBook/addUp.vue"));
 
 //###################################################
 //           Module Human Resource Components

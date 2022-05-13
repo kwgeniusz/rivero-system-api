@@ -35,6 +35,8 @@ Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@stor
 Route::resource('proposals', 'Web\ProposalController');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
 
+Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
+
  //->Proposal Scopes
 Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
 Route::post('proposals/{id}/scopes', 'Web\ProposalScopeController@store')->name('proposalsScopes.store');

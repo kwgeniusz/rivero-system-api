@@ -33,7 +33,7 @@ class ContractController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
+        // $this->middleware('auth');
         // $this->middleware("permission:BC");
         // $this->middleware("permission:BCA")->only("create", "store");
         // $this->middleware("permission:BCB")->only("show","destroy");

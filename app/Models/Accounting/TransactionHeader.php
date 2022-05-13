@@ -4,6 +4,7 @@ namespace App\Models\Accounting;
 
 use Auth;
 use DB;
+use App\Models\Accounting\AuxiliaryBook;
 use App\Models\Accounting\GeneralLedger;
 use App\Models\Accounting\Transaction;
 use App\CompanyConfiguration;
@@ -268,21 +269,24 @@ class TransactionHeader extends Model
     DB::beginTransaction();
     try {
       // Actualizar transacciones contables
-      // 1. Leer las transacciones que no han sido actualizadas
+       // 1. Leer las transacciones que no han sido actualizadas
           $companyId        = session('companyId');
           $statusUpdated    = 1; //actualizados
           $statusNotUpdated = 0; //No actualizados
+
+       //Instancia de Libro Auxiliar
+         $oAuxiliary  = new AuxiliaryBook;
 
       $headers =  $this->getAllByEntryUpdated($companyId,$statusNotUpdated);
    
      foreach ($headers as $header) {
 
-        $header         = TransactionHeader::find($header->headerId);
+        $header  = TransactionHeader::find($header->headerId);
         
         $entryDate = $header->entryDate;
         $year  = substr($entryDate,0,4);
         $month = substr($entryDate,5,2);
-
+         
         foreach ($header->transaction as $transaction) {
           $transactionId            = $transaction->transactionId;
           $companyId                = $transaction->companyId;
@@ -290,8 +294,20 @@ class TransactionHeader extends Model
           $generalLedgerId          = $transaction->generalLedgerId;
           $debit                    = $transaction->debit;
           $credit                   = $transaction->credit;
-          $debitSec                    = $transaction->debitSec;
-          $creditSec                   = $transaction->creditSec;
+          $transaction->convertionRate = $header->convertionRate;
+          $debitSec                 = $transaction->debitSec;
+          $creditSec                = $transaction->creditSec;
+
+        //   AQUI ES CREAR EL REGISTRO EN TABLA ACC_AUXILIARY
+           //DEBO VALIDAR SI EL campo EntityName no esta vacio en esta tabla acc_auxiliary
+            if($transaction->entityName != ''){
+                //insertar registro auxiliar
+                $rs = $oAuxiliary->insertA($countryId, $companyId, $transaction);
+                if($rs['alert'] == 'error'){ 
+                    throw new \Exception($rs['message']);
+                 }
+                 
+            }
 
            
         // Ejecutar funcion de actualizacion en el libro mayor - general_ledger

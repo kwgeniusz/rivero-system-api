@@ -151,6 +151,7 @@
             <li><a href="#">Clasificacion de Cuentas</a></li>
             <li><a href="/accounting/general-ledgers">Plan de Cuentas</a></li>
             <li><a href="/accounting/transaction-headers">Asientos Contables</a></li>
+            <li><a href="/accounting/auxiliary-books">Libro Auxiliar (PRUEBAS)</a></li>
             <li>
             <a href="/accounting/close-year">Cerrar Año Contable</a>
                

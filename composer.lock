@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e826ac02013b1321c7aee0ffc21a2fb",
+    "content-hash": "aa0f2e65d68d43f7cae6873a3db4794c",
     "packages": [
         {
             "name": "aferrandini/phpqrcode",
@@ -3053,6 +3053,105 @@
                 "source": "https://github.com/spatie/laravel-permission/tree/v2"
             },
             "time": "2019-09-02T17:12:21+00:00"
+        },
+        {
+            "name": "staudenmeir/laravel-adjacency-list",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/laravel-adjacency-list.git",
+                "reference": "e049deabfcd95a2d16d2a4cca2eeca53c5d30d35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/laravel-adjacency-list/zipball/e049deabfcd95a2d16d2a4cca2eeca53c5d30d35",
+                "reference": "e049deabfcd95a2d16d2a4cca2eeca53c5d30d35",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.5.29|5.6.*|5.7.*",
+                "illuminate/support": "^5.5.14",
+                "php": ">=7.0",
+                "staudenmeir/laravel-cte": "^1.0.3"
+            },
+            "require-dev": {
+                "laravel/homestead": "^7.0",
+                "phpunit/phpunit": "~6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\LaravelAdjacencyList\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Recursive Laravel Eloquent relationships with CTEs",
+            "support": {
+                "issues": "https://github.com/staudenmeir/laravel-adjacency-list/issues",
+                "source": "https://github.com/staudenmeir/laravel-adjacency-list/tree/v1.0"
+            },
+            "time": "2019-04-25T00:11:58+00:00"
+        },
+        {
+            "name": "staudenmeir/laravel-cte",
+            "version": "v1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/laravel-cte.git",
+                "reference": "6132814839df43aa5b70828e6b36adcff73ea310"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/laravel-cte/zipball/6132814839df43aa5b70828e6b36adcff73ea310",
+                "reference": "6132814839df43aa5b70828e6b36adcff73ea310",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.5.*|5.6.*|5.7.*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "laravel/homestead": "^7.0",
+                "orchestra/testbench": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Staudenmeir\\LaravelCte\\DatabaseServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\LaravelCte\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Laravel queries with common table expressions",
+            "support": {
+                "issues": "https://github.com/staudenmeir/laravel-cte/issues",
+                "source": "https://github.com/staudenmeir/laravel-cte/tree/v1.0.7"
+            },
+            "time": "2020-08-28T19:47:33+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -7252,5 +7351,5 @@
         "php": ">=7.0.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

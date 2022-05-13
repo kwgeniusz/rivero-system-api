@@ -19,6 +19,7 @@
         "nesbot/carbon": "^1.33",
         "spatie/laravel-cors": "^1.6",
         "spatie/laravel-permission": "^2.37",
+        "staudenmeir/laravel-adjacency-list": "1.0",
         "tightenco/ziggy": "^0.7.1"
     },
     "require-dev": {
@@ -64,6 +65,10 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true,
+            "symfony/thanks": true
+        }
     }
 }

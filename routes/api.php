@@ -11,10 +11,9 @@
 */
 
 Route::group(['middleware' => ['auth:api']], function () {
-    // rutas protegidas
-    Route::get('contracts', 'Web\ContractController@index');
 
-    Route::get('contracts', 'Web\ContractController@index');
+   // ruta liberada temporalmente
+   Route::get('contracts', 'Web\ContractController@index');
 
     // rutas para las sesiones
     Route::get('user-session', 'Api\AuthController@session');//->middleware('permission:shop.index');
@@ -51,12 +50,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 });
 ######### Para reporte general en nomina ############
-    // ruta liberada temporalmente
-    Route::post('general-payroll-report', 'Web\printPayrollController@gerenalPayrollReport');
+  // ruta liberada temporalmente
+  Route::get('contracts', 'Web\ContractController@index');
+
+  Route::post('general-payroll-report', 'Web\printPayrollController@gerenalPayrollReport');
     
-
-
-
 // api de consulta externa deparmet
 Route::get('deparments/{companyId}', 'DepartmentController@apiDeparmentAll');
 Route::get('deparments/{companyId}/{deparment}', 'DepartmentController@apiByDeparment');
@@ -100,6 +98,14 @@ Route::group(['prefix' => 'v1'], function() {
 	Route::group(['prefix' => '/company'], function() {
 		Route::post('/{countryId}/{companyId}','Api\Company\CompanyController@getCompany');
 		Route::post('/', 'Api\Company\CompanyController@getCompany');
+  });
+  
+// ----------------------------------------------------------------------------------------
+// -- CONTRACT API              ------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+	Route::group(['prefix' => '/contract'], function() {
+		Route::post('/{contractId}','Api\Contract\ContractController@getContract');
+		Route::post('/', 'Api\Contract\ContractController@getContract');
 	});
 // ----------------------------------------------------------------------------------------
 // -- USER API              ------------------------------------------------------------

@@ -16,9 +16,11 @@ Route::prefix('accounting')->group(function () {
 Route::resource('transaction-headers-tmp', 'Web\Accounting\TransactionHeaderTmpController', ['as' => 'accounting']);
 //************* Temporal Transaction ************
 Route::resource('transactions-tmp', 'Web\Accounting\TransactionTmpController', ['as' => 'accounting']);
-
 //************* General Ledger ************
 Route::resource('general-ledgers', 'Web\Accounting\GeneralLedgerController');
+
+//************* Auxiliary Book ************
+Route::resource('auxiliary-books', 'Web\Accounting\AuxiliaryBookController');
 
 //************* Close Accounting Year ************
 Route::get('close-year', 'Web\Accounting\GeneralLedgerController@closeYear');

@@ -40,6 +40,7 @@
         "vue-phone-number-input": "^1.1.10",
         "vue-select": "^3.11.2",
         "vue-simple-progress": "^1.1.1",
+        "vue-tree-table-component": "^0.1.1",
         "vue-upload-component": "^2.8.20",
         "vuedraggable": "^2.24.3",
         "vuelidate": "^0.7.6"
