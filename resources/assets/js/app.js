@@ -102,9 +102,13 @@ Vue.component("modal-client-details",require("./components/contracts/ModalClient
 Vue.component("service-templates",require("./components/contracts/ServiceTemplates.vue"));
 Vue.component("grid-files-precontract",require("./components/contracts/documents/precontracts/GridFiles.vue"));
 Vue.component("grid-files",require("./components/contracts/documents/GridFiles.vue"));
-// -----------------> Budgets <-------------------------//
-Vue.component("table-contract-budget",require("./components/contracts/budget/main.vue"));
 
+// -----------------> Precontract <-------------------------//
+
+// -----------------> Precontract - Budgets <-------------------------//
+// Vue.component("precontract-main-budget",require("./components/contracts/precontract/budget/main.vue"));
+// Vue.component("precontract-table-budget",require("./components/contracts/precontract/budget/table.vue"));
+// Vue.component("precontract-addUp-budget",require("./components/contracts/precontract/budget/addUp.vue"));
 
 // -----------------> Proposals <-------------------------//
 Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));

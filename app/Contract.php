@@ -283,9 +283,10 @@ class Contract extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll()
+    public function getAll($companyId)
     {
-        return $this->orderBy('contractNumber', 'ASC')->get();
+        return $this->where('companyId', $companyId)
+                    ->orderBy('contractNumber', 'ASC')->get();
     }
 //--------------------------------------------------------------------
     public function getAllByProjectUse($companyId,$projectUseId)

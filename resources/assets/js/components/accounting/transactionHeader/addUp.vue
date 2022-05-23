@@ -53,6 +53,7 @@
                 <th>REFERENCIA</th>
                 <th>TIPO</th>
                 <th>MONTO</th>
+                <th>AUXILIAR</th>
                 <th v-if="!displayMode">ACCION</th>
               </tr>
             </thead>
@@ -81,6 +82,10 @@
                 <td>
                   <p v-if="displayMode">{{item.amount}}</p> 
                   <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                 <td>
+                   <p v-if="displayMode">{{item.accountName}}</p> 
+                   <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/>
                 </td>
                 <td v-if="!displayMode"> 
                   <!-- <a @click="addRow()" class="btn btn-sm btn-success">
@@ -128,6 +133,7 @@
          //obtengo los datos para llenar las listas de selects
           axios.get('/accounting/transaction-headers/create').then((response) => {
                   this.chartOfAccount = response.data;
+                  console.log(this.chartOfAccount)
                   this.chartOfAccount.map(function (x){
                        return x.item_data = `${x.accountCode} - (${x.accountName})`;
                  });

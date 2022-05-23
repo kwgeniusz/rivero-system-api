@@ -30,6 +30,9 @@ Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAd
  // ->Precontract Comments
 Route::get('precontracts/{id}/comments', 'Web\PrecontractCommentController@index')->name('precontractsComment.index');
 Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@store')->name('precontractsComment.store');
+ // ->Precontract Budgets
+Route::get('precontracts/{id}/budgets','Web\Contracts\PrecontractBudgetController@index')->name('precontractsBudgets.index');
+ Route::post('precontracts/{id}/budgets', 'Web\Contracts\PrecontractBudgetController@store')->name('precontractsBudgets.store');
 
 //***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
@@ -109,19 +112,18 @@ Route::put('files/move', 'Web\FileController@move')->name('files.move');
 // Route::resource('comments', 'Web\CommentController');
 // Route::get('contracts/{modelId}/comments', 'Web\CommentController@getAllByModel')->name('contracts.comments');
 
-
-//CONTRACT-SEARCH********
+//******** CONTRACT-SEARCH ********
 Route::get('contractsGeneralSearch', 'Web\ContractController@generalSearch')->name('contracts.generalSearch');
 Route::get('contractsGeneralSearch/{contract}/details', 'Web\ContractController@generalSearchDetails')->name('contracts.generalSearchDetails');
 Route::get('contractsStatus', function () {return view('module_contracts.contractstatus.index');})->name('contracts.searchStatus');
 Route::post('contractsStatus/result', 'Web\ContractController@resultStatus')->name('contracts.resultStatus');
 Route::get('contractsStatus/{contract}/', 'Web\ContractController@resultStatusDetails')->name('contracts.resultStatusDetails');
-//CONTRACT-FINISHED*******
+//******** CONTRACT-FINISHED *******
 Route::get('contractsFinished', 'Web\ContractController@getContractsFinished')->name('contracts.finished');
 Route::get('contractsFinished/{id}/details', 'Web\ContractController@detailsContractsFinished')->name('contracts.finishedDetails');
 Route::get('contractsFinished/{id}/show', 'Web\ContractController@showContractsFinished')->name('contracts.finishedShow');
 Route::delete('contractsFinished/{id}/delete', 'Web\ContractController@deleteContractsFinished')->name('contracts.finishedDelete');
-//CONTRACT-CANCELLED*********
+//******** CONTRACT-CANCELLED *********
 Route::get('contractsCancelled', 'Web\ContractController@getContractsCancelled')->name('contracts.cancelled');
 Route::get('contractsCancelled/{id}/details', 'Web\ContractController@detailsContractsCancelled')->name('contracts.cancelledDetails');
 Route::get('contractsCancelled/{id}/show', 'Web\ContractController@showContractsCancelled')->name('contracts.cancelledShow');

@@ -8,6 +8,7 @@ use App\Models\Accounting\GeneralLedger;
 use App\Models\Accounting\GeneralLedgerBalance;
 use App\Models\Accounting\AccountType;
 use App\Models\Accounting\AccountClassification;
+use App\Models\Entity;
 use App\Helpers\DateHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
@@ -18,15 +19,17 @@ class GeneralLedgerController extends Controller
     private $oGeneralLedger;
     private $oAccountType;
     private $oAccountClassification;
+    private $oEntity;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oCompanyConfig        = new CompanyConfiguration;
-        $this->oGeneralLedger        = new GeneralLedger;
-        $this->oGeneralLedgerBalance        = new GeneralLedgerBalance;
-        $this->oAccountType          = new AccountType;
+        $this->oCompanyConfig         = new CompanyConfiguration;
+        $this->oGeneralLedger         = new GeneralLedger;
+        $this->oGeneralLedgerBalance  = new GeneralLedgerBalance;
+        $this->oAccountType           = new AccountType;
         $this->oAccountClassification = new AccountClassification;
+        $this->oEntity                = new Entity;
     }
     /**
      * Display a listing of the resource.
@@ -54,12 +57,14 @@ class GeneralLedgerController extends Controller
         $chartOfAccount              = $this->oGeneralLedger->getAllByCompany(session('companyId'));
         $accountTypeList             = $this->oAccountType->getAllByCountry(session('countryId'));
         $accountClassificationList   = $this->oAccountClassification->getAllByCountry(session('countryId'));
+        $entitiesList                = $this->oEntity->getAll();
         
         if($request->ajax()) {
          return [
                  'chartOfAccount'            => $chartOfAccount,
                  'accountTypeList'           => $accountTypeList,
-                 'accountClassificationList' => $accountClassificationList
+                 'accountClassificationList' => $accountClassificationList,
+                 'entitiesList'              => $entitiesList
                 ];
         }
         // return view('module_contracts.clients.create', compact('contactTypes','clientNumberFormat'));

@@ -28,24 +28,23 @@ class ContractController extends \App\Http\Controllers\Controller {
 
     public function getContract(Request $request) {
 
-        //--default values  -----------------------
+        //--Default values  -----------------------
         $contractId     = 0; 
         $oContract      =  new Contract();
 
-        //-- parameters   -------------------------
+        //-- Parameters   -------------------------
         if($request->has('contractId')){ 
              $contractId     = trim($request->input('contractId'));  
         }
 
-        //-- read Contract data  -------------------
-        if ($contractId == 0) {           // leer todos los paises
-         $rs = $oContract->getAll();
-        } else {                         // leer un pais
+        //-- Read Contract Data  -------------------
+        if ($contractId == 0) {           // leer todos los Contratos de una compania
+         $rs = $oContract->getAll($request->companyId);
+        } else {                         // Buscar una contrato por Id
          $rs = $oContract->findById($contractId);
         }
 
-
-        //-- prepare output   ---------------------
+        //-- Prepare output   ---------------------
       //   $aContract      = array(); 
 
       //   foreach ($rs as $rows) {
@@ -59,9 +58,7 @@ class ContractController extends \App\Http\Controllers\Controller {
 
         //-- send output  --------------------------   
 	    return \Response::json($rs);
-
 	}
-
     //----  end of function getCompany    -------------------------
 
 

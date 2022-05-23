@@ -48,6 +48,10 @@
                  <v-select :options="accountClassificationList" v-model="generalLedger.accountClassificationCode" :reduce="accountClassificationList => accountClassificationList.accountClassificationCode" label="accountClassificationName" /> 
           </div>  
 
+         <div class="form-group col-lg-12 ">
+              <label for="accountClassificationCode">ENTIDAD:</label>
+                 <v-select :options="entitiesList" v-model="generalLedger.entityId" :reduce="entitiesList => entitiesList.entityId" label="item_data" /> 
+          </div>  
 
                         <div v-if="editId === 0">
                              <button-form 
@@ -80,15 +84,16 @@
             //obtengo los datos para llenar las listas de selects
           axios.get('/accounting/general-ledgers/create').then((response) => {
                   this.chartOfAccount            = response.data.chartOfAccount;
-                //   this.chartOfAccount            = 'No Tiene';
-                  console.log(this.chartOfAccount)
-
                   this.chartOfAccount.map(function (x){
                        return x.item_data = `${x.accountCode} - (${x.accountName})`;
-                 });
-
+                   });
                   this.accountTypeList           = response.data.accountTypeList;
                   this.accountClassificationList = response.data.accountClassificationList;
+                  this.entitiesList              = response.data.entitiesList;
+                  this.entitiesList.map(function (x){
+                       return x.item_data = `${x.entityName} - (${x.entityKey})`;
+                  });
+
             }); //end of create clients
 
             if (this.editId > 0) {
@@ -96,13 +101,14 @@
                 axios.get(`/accounting/general-ledgers/${this.editId}`).then((response) => {
                     this.data = response.data[0]
 
-                    this.generalLedger.accountCode         = this.data.accountCode;
-                    this.generalLedger.accountName         = this.data.accountName;
+                    this.generalLedger.accountCode                = this.data.accountCode;
+                    this.generalLedger.accountName                = this.data.accountName;
                     this.generalLedger.leftMargin                 = this.data.leftMargin;
-                    this.generalLedger.parentAccountId          = this.data.parentAccountId;
+                    this.generalLedger.parentAccountId            = this.data.parentAccountId;
                     this.generalLedger.accountClassificationCode  = this.data.accountClassificationCode;
                     this.generalLedger.accountTypeCode            = this.data.accountTypeCode;
-                });       
+                    this.generalLedger.entityId                   = this.data.entityId;
+                });    
             } 
         },
         data(){
@@ -121,6 +127,7 @@
                    parentAccountId:'',
                    accountClassificationCode:'',
                    accountTypeCode:'',
+                   entityId:'',
                 },
             }
          },

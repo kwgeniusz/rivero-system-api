@@ -35,9 +35,9 @@ Route::get('/localization/{language}', function ($language) {
 //HOME ROUTE----------------------------------------------------------------------------
 Route::get('/home', 'HomeController@index')->name('home');
 
-//---------------------AXIOS ROUTES ----------------------------------------------------//
+//------------------------------ AXIOS ROUTES ----------------------------------------------------//
 
-//CONTRACTS********************************************
+//********************************CONTRACTS***********************************************
 //COUNTRYS
 Route::get('countrys/all', 'Web\CountryController@all')->name('countrys.all');
 //CLIENT
@@ -50,6 +50,10 @@ Route::get('companies/{countryId}', 'Web\CompanyController@getForCountry')->name
 //CONTRACTS
 Route::get('contracts-office/{officeId}', 'Web\ContractController@getForOffice')->name('contracts.getForOffice');
 Route::get('precontract-allFiles/{id}/{type}', 'Web\PrecontractController@getFiles')->name('precontract.getFiles');
+
+//******************************** GENERAL CONFIGURATIONS ***********************************************
+Route::resource('entities', 'Web\EntityController');
+
 
 //ROUTES TO STATISTIC **********************
 Route::get('statistic/clients', 'Web\StatisticController@numberOfClients')->name('statistic.clients');

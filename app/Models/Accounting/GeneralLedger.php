@@ -7,6 +7,7 @@ use DB;
 use App\Models\Accounting\GeneralLedgerBalance;
 use App\CompanyConfiguration;
 use App\Country;
+use App\Models\Entity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -133,12 +134,15 @@ class GeneralLedger extends Model
         $generalLedger->parentAccountId         = $data['parentAccountId'];
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode         = $data['accountTypeCode'];
+        $entityRs                               = Entity::find($data['entityId']);
+        $generalLedger->entityName              = $entityRs['entityName'];
+        $generalLedger->entityKey               = $entityRs['entityKey'];
         $generalLedger->save();
 
         $generalLedgerId = $generalLedger->generalLedgerId;
         
-        // creacion de general ledger balance
-        // obtengo el a#o contable actual y lo incremento
+        // Creacion de general ledger balance
+        // Obtengo el a#o contable actual y lo incremento
         $oCompanyConfig    = new CompanyConfiguration;
         $config            = $oCompanyConfig->findByCompany(session('companyId'));
         $accYear           = $config[0]->accYear;
