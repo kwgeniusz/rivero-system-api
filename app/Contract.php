@@ -285,7 +285,8 @@ class Contract extends Model
 //--------------------------------------------------------------------
     public function getAll($companyId)
     {
-        return $this->where('companyId', $companyId)
+        return $this->with('client')
+                    ->where('companyId', $companyId)
                     ->orderBy('contractNumber', 'ASC')->get();
     }
 //--------------------------------------------------------------------
