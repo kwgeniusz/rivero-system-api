@@ -371,6 +371,24 @@ public function printPaymentRequest(Request $request)
 
       return PDF::loadView('module_administration.reports.printIncomes', $data)->stream('Incomes.pdf');
    }  
+//REPORTE QUE SUMA LA CANTIDAD DE CONTRATOS POR STATUS Y SU MONTO CONTRATADO, MONTO POR COBRADO, Y POR COBRAR.
+
+   public function printTotalContracts(Request $request)
+ {
+   $pdf         = app('dompdf.wrapper');
+   $date        = Carbon::now();
+   $company     = DB::table('company')->where('companyId', session('companyId'))->get();
+    
+   $data = [
+    'date'         => $date,
+    'company'      => $company,
+    'transactions' => $request->transactions,
+    'dateRange'    => $request->dateRange,
+    'pdf'          => $pdf,
+     ];
+     
+   return PDF::loadView('module_administration.reports.printTotalContracts', $data)->stream('Total Contracts.pdf');
+ }  
 
 }//end class
 

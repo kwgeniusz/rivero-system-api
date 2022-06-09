@@ -68,8 +68,9 @@ Route::get('statistic/contracts-by-status', 'Web\StatisticController@numberOfCon
 Route::get('statistic/invoicesPaid', 'Web\StatisticController@numberOfInvoicePaid')->name('statistic.invoicesPaid');
 // Route::get('statistic/invoicesCancelled', 'Web\StatisticController@numberOfInvoiceCancelled')->name('statistic.invoicesResidencial');
 
-//***************************************ROUTES TO REPORTS**********************//
-//-----------------------------CONTRACTS---------------------------------------------------//
+//******************************* ROUTES TO REPORTS ****************************************************//
+
+//----------------------------- CONTRACTS ---------------------------------------------------//
 Route::get('reports/clients', 'Report\Pdf\ClientControllerPdf@printClient')->name('reports.clients');
 // Route::get('contracts-print', function () {return view('contractprint.index');})->name('contracts.print');
 Route::get('reportsContract', 'Web\ReportController@printContract')->name('reports.contract');
@@ -77,20 +78,7 @@ Route::get('reportsContract', 'Web\ReportController@printContract')->name('repor
 Route::get('contracts-summary', 'Web\ReportController@summaryContractForCompany')->name('reports.summaryContractForCompany');
 Route::get('contracts-summary-for-clients', 'Web\ReportController@summaryClientForm')->name('contracts.summaryForClient');
 Route::post('contracts-summary-for-clients', 'Web\ReportController@summaryForClient')->name('reports.summaryForClient');
-//-----------------------------ADMINISTRATION---------------------------------------------------//
-Route::get('reportsProposal', 'Report\Pdf\AdministrationControllerPDF@printProposal')->name('reports.proposal');
-Route::get('reportsInvoice', 'Report\Pdf\AdministrationControllerPDF@printInvoice')->name('reports.invoice');
 
-Route::get('reportsStatement', 'Report\Pdf\AdministrationControllerPDF@printStatement')->name('reports.statement');
-Route::get('reportsReceipt', 'Report\Pdf\AdministrationControllerPDF@printReceipt')->name('reports.printReceipt');
-Route::get('reportsPaymentRequest', 'Report\Pdf\AdministrationControllerPDF@printPaymentRequest')->name('reports.paymentRequest');
-Route::get('reportsReceivables', 'Report\Pdf\AdministrationControllerPDF@printReceivables')->name('reports.receivables');
-
-Route::get('reports/credit-note', 'Report\Pdf\AdministrationControllerPDF@printCreditNote')->name('reports.credit-note');
-Route::get('reports/debit-note', 'Report\Pdf\AdministrationControllerPDF@printDebitNote')->name('reports.debit-note');
-
-Route::post('reports/expenses', 'Report\Pdf\AdministrationControllerPDF@printExpenses')->name('reports.expenses');
-Route::post('reports/incomes',  'Report\Pdf\AdministrationControllerPDF@printIncomes')->name('reports.incomes');
 //-----------------------------ACCOUNTING---------------------------------------------------//
 // Route::get('reports/debit-note', 'Report\Pdf\AccountingControllerPDF@printDebitNote')->name('reports.debit-note');
 // Route::post('reports/expenses', 'Report\Pdf\AccountingControllerPDF@printExpenses')->name('reports.expenses');

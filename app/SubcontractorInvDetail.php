@@ -17,7 +17,7 @@ class SubcontractorInvDetail extends Model
 
     protected $table      = 'subcontractor_invdetail';
     protected $primaryKey = 'subcontInvDetailId';
-    protected $fillable = ['subcontInvDetailId','countryId','companyId','subcontId','invDetailId','transactionTypeId','transactionPercentage','transactionAmount'];
+    protected $fillable = ['subcontInvDetailId','countryId','companyId','subcontId','invDetailId','transactionTypeId','transactionPercentage', 'transactionUnitCost', 'transactionQuantity','transactionAmount'];
   
     protected $appends = ['transactionAmount'];
 //--------------------------------------------------------------------
@@ -104,12 +104,15 @@ class SubcontractorInvDetail extends Model
              if($verification == false){
                throw new \Exception('Error: No se puede superar el monto del servicio, verifique si existe otro compromiso');
               }
+
             //INSERTA UN RENGLON
            $subcontInvDetail                         = new SubcontractorInvDetail;
            $subcontInvDetail->subcontId              = $request['subcontId'];
            $subcontInvDetail->invoiceId              = $request['invoiceId'];
            $subcontInvDetail->invDetailId            = $request['invDetailId'];
            $subcontInvDetail->transactionPercentage  = $request['transactionPercentage'];
+           $subcontInvDetail->transactionUnitCost    = $request['transactionUnitCost'];
+           $subcontInvDetail->transactionQuantity    = $request['transactionQuantity'];
            $subcontInvDetail->transactionAmount      = $request['transactionAmount'];
            $subcontInvDetail->save();
            

@@ -15,34 +15,27 @@
                 <th>#</th>
                 <th>SERVICIO</th>  
                 <th>UNIDAD</th>
-                <th>COSTO</th>
+                <th>COSTO UNITARIO</th>
                 <th>CANTIDAD</th>
                 <th>MONTO</th>
                 <th colspan="2" >ACCION</th>
             </tr>
             </thead>
           <tbody>   
-           <template v-for="(item,index) in itemList">      
+           <template v-for="(item,index) in invoiceDetails">      
           <tr>
-            <!-- {{item}} -->
             <td>{{++index}}</td>
-            <!-- <td>{{item.itemNumber}}</td> -->
             <td>{{item.serviceName}}</td>
             <td>{{item.unit}}</td>
             <td>{{item.unitCost}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.amount}}</td>
             <td>
-               <!--  <a @click="toggle(item.invDetailId)" :class="{ opened: opened.includes(item.invDetailId) }" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Compromisos">
-                            <span class="fa fa-user" aria-hidden="true"></span> 
-               </a>   -->
                 <a @click="openModal(item)" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Subcontratista">
                             <span class="fa fa-plus" aria-hidden="true"></span> 
                </a>   
            </td> 
          </tr>
-
-            <!-- <tr v-if="opened.includes(item.invDetailId)"> -->
             <tr>
             <td></td>
              <td colspan="6" >
@@ -52,7 +45,7 @@
                             <span class="fa fa-times-circle" aria-hidden="true"></span> 
                    </a>   
                     <b>{{++index2}})
-                     Nombre: {{item2.subcontractor.name}} /
+                     Nombre: {{item2.subcontractor.companyName}} ({{item2.subcontractor.subcontractorName}}) /
                      Monto a Pagar:   {{item2.transactionAmount}}</b>
                   <br>
                  </div>
@@ -71,8 +64,10 @@
    </div>
 
 
+<!-- Ventana modal para relacionar subcontratista con el servicio de la factura -->
+
  <sweet-modal ref="modal">
-    <h3 class="bg-success"><b>{{service.serviceName}} <br> MONTO DEL SERVICIO: {{service.amount}}</b></h3>
+    <h3 class="bg-success"><b>{{serviceSelected.serviceName}} <br> MONTO DEL SERVICIO: {{serviceSelected.amount}}</b></h3>
 
           <div class="alert alert-danger" v-if="errors.length">
             <h4>Errores:</h4>
@@ -81,38 +76,55 @@
             </ul>
           </div>
 
-        <search-subcontractor pref-url='../../'
-         @subcontractorSelected ='formSubcontId = $event' 
-         @subcontractorRemoved  ="formSubcontId = ''" 
-         ref="searchSubcontractor">
-         </search-subcontractor >
-<!-- 
-              <div class="form-group">
-                <label>MONTO DEL SERVICIO: {{service.amount}}</label> 
-              </div> -->
-
+   <br>
+    <h4><b>SUBCONTRATISTA:</b></h4>
+     <v-select :options="subcontractors"  v-model="form.subcontractorId" :reduce="subcontractors => subcontractors.subcontId" label="item_data"/>
+   <br>
          <div class="form-group col-sm-6">
             <label for="formTypeOfAgreement">TIPO DE ACUERDO</label>:<br> 
-           <select class="form-control" id="formTypeOfAgreement" v-model="formTypeOfAgreement" @change="formPercent = ''; formAmountPayable = '' ">
+           <select class="form-control" id="formTypeOfAgreement" v-model="form.typeOfAgreement" @change="resetForm()">
              <option value="amountPayable">Monto</option>
              <option value="percentage">Porcentaje</option>
+             <option value="detailed">Detallado</option>
             </select>
           </div> 
 
-           <div class="form-group col-sm-6" v-if="formTypeOfAgreement == 'amountPayable'">
-                 <label for="formAmountPayable">MONTO A PAGAR</label>
-                 <input type="number" step="0.01" min="0" class="form-control" id="formAmountPayable"  pattern="^[0-9]+" v-model="formAmountPayable" >
+           <div class="form-group col-sm-6" v-if="form.typeOfAgreement == 'amountPayable'">
+                 <label for=".a">MONTO A PAGAR</label>
+                 <input type="number" step="0.01" min="0" class="form-control" id=".a"  pattern="^[0-9]+" v-model="form.amountPayable" >
              </div>
 
-          <div class="form-group col-sm-6" v-if="formTypeOfAgreement == 'percentage'">
+          <div class="form-group col-sm-6" v-if="form.typeOfAgreement == 'percentage'">
                  <label for="formPercent">PORCENTAJE</label>
-                 <input type="number" step="0.01" min="0" max="100" class="form-control" id="formPercent"  pattern="^[0-9]+" v-model="formPercent" >
+                 <input type="number" step="0.01" min="0" max="100" class="form-control" id="formPercent"  pattern="^[0-9]+" v-model="form.percent" >
           </div>
 
           <div class="row"></div>
-          <div class="form-group col-sm-6 col-sm-offset-3" v-if="formTypeOfAgreement == 'percentage'">
-                 <p>MONTO A PAGAR: {{sumTotal}}</p>
+          <div class="form-group col-sm-6 col-sm-offset-3" v-if="form.typeOfAgreement == 'percentage'">
+                 <p>MONTO A PAGAR: {{sumTotalPercent}}</p>
           </div>
+
+ <!-- Modalidad detallada -->
+         <div v-if="form.typeOfAgreement == 'detailed'" class="table-responsive col-xs-12">
+          <table class="table table-bordered text-center">
+            <thead class="bg-info"> 
+            <tr>  
+                <th>UNIDAD</th>
+                <th>COSTO UNITARIO</th>
+                <th>CANTIDAD</th>
+                <th>MONTO</th>
+            </tr>
+            </thead>
+          <tbody>   
+          <tr>
+            <td>{{serviceSelected.unit}}</td>
+            <td><input type="number" step="0.01" min="0.00" class="form-control" v-model="form.unitCost"></td>
+            <td><input type="number" step="0.01" min="0.00" class="form-control" v-model="form.quantity"></td>
+            <td>{{sumTotalDetailed}}</td>
+         </tr>
+         </tbody>   
+        </table>
+       </div>
 
       <div class="row"></div>
       <a @click="sendForm()" v-if="btnSubmitForm" class="btn btn-primary">
@@ -127,7 +139,6 @@
 
 
 <script>
-import searchSubcontractor from '../payables/subcontractor/searchSubcontractor.vue';
 
 export default {
         
@@ -135,39 +146,50 @@ export default {
             console.log('Component mounted.')
             this.findInvoice();
             this.getAllInvoicesDetails();
+
+            axios.get('/subcontractors').then((response) => {
+                  this.subcontractors = response.data;
+                  this.subcontractors.map(function (x){
+                       return x.item_data = `${x.companyName} - (${x.subcontractorName})`;
+                 });
+             }); //end of create subcontractors
         },
     data: function() {
         return {
             errors: [],
-            opened: [],
 
             invoice: '',
-            itemList: {},
-            itemList2: {},
-            service: '',
+            invoiceDetails: [],
+            subcontractors:[],
 
-            formSubcontId:'',
-            formTypeOfAgreement:'amountPayable',
-            formAmountPayable:'',
-            formPercent:'',
+            serviceSelected: '',
+            form :  {                    
+                      subcontractorId: '',
+                      typeOfAgreement: 'amountPayable',
+                      percent: '',
+                      unitCost: '',
+                      quantity: '',
+                      amountPayable: '',
+                   },
             btnSubmitForm: false,
         }
     },
   props: {
      invoiceId: { type: String},
     },
-  components: {
-     searchSubcontractor
-  },  
   computed: {
-      sumTotal: function () {
-          let amountTotal = (this.service.amount * this.formPercent)/100;
+      sumTotalPercent: function () {
+          let amountTotal = (this.serviceSelected.amount * this.form.percent)/100;
+          return  Number.parseFloat(amountTotal).toFixed(2);  
+       },
+      sumTotalDetailed: function () {
+          let amountTotal = this.form.unitCost * this.form.quantity;
           return  Number.parseFloat(amountTotal).toFixed(2);  
        },
       invoiceNetTotal: function () {
           let suma = 0;
 
-         this.itemList.forEach (function(item){
+         this.invoiceDetails.forEach (function(item){
              if(item.amount == null){item.amount=0.00}
             suma += parseFloat(item.amount);
             suma.toFixed(2);
@@ -178,21 +200,13 @@ export default {
 
                return (
                 `Sub Total: ${suma} /
-               Impuesto:${this.invoice[0].taxPercent}% = ${taxAmount} /
-               Total Neto: ${netTotal}
-               ` )
+                 Impuesto:  ${this.invoice[0].taxPercent}% = ${taxAmount} /
+                 Total Neto: ${netTotal}
+                ` )
        }  
     },
-
     methods: {
-       //  toggle(id) {
-       //   const index = this.opened.indexOf(id);
-       //   if (index > -1) {
-       //     this.opened.splice(index, 1)
-       //   } else {
-       //     this.opened.push(id)
-       //   }
-       // },
+/*------------------SEARCH METHODS-------------------- */
         findInvoice: function (){
             let url ='../../invoices/'+this.invoiceId;
             axios.get(url).then(response => {
@@ -202,58 +216,88 @@ export default {
         getAllInvoicesDetails: function (){
           let url ='../../invoicesDetails/'+this.invoiceId+'/withPrice';
             axios.get(url).then(response => {
-             this.itemList = response.data
+             this.invoiceDetails = response.data
             });
         },
-  /*------------------FORM METHODS-------------------- */
-   openModal: function (item){
-            this.service = item;
-
+/*------------------FORM METHODS-------------------- */
+      openModal: function (item){
+            this.serviceSelected = item;
 
             this.errors = [];
             this.btnSubmitForm = true;
             this.$refs.modal.open()
-    },
-    sendForm: function() {
+       },
+       resetForm: function() {
+         if(this.form.typeOfAgreement == 'detailed'){
+            this.form.percent       = ''; 
+            this.form.unitCost = this.serviceSelected.unitCost;
+            this.form.quantity = this.serviceSelected.quantity;
+            this.form.amountPayable = '';
+         } else{
+            this.form.percent       = ''; 
+            this.form.unitCost      = ''; 
+            this.form.quantity      = ''; 
+            this.form.amountPayable = '';
+         }
+            
+       },
+       sendForm: function() {
            this.errors = [];
            
               //VALIDATIONS
-               if (!this.formSubcontId) {
+               if (!this.form.subcontractorId) {
                     this.errors.push('Debe Escoger un Subcontratista.');
                } 
-               if (this.formTypeOfAgreement == 'amountPayable') {
-                    if(!this.formAmountPayable) 
+               if (this.form.typeOfAgreement == 'amountPayable') {
+                    if(!this.form.amountPayable) 
                     this.errors.push('Debe Ingresar un Monto.');
                }
-               if (this.formTypeOfAgreement == 'percentage') {
-                    if(!this.formPercent) 
+               if (this.form.typeOfAgreement == 'percentage') {
+                    if(!this.form.percent) 
                     this.errors.push('Debe Ingresar un Porcentaje.');
+               }
+              if (this.form.typeOfAgreement == 'detailed') {
+                    if(!this.form.unitCost || this.form.unitCost == 0) 
+                    this.errors.push('Debe Ingresar un costo para la unidad y debe ser mayor a cero.');
+                    if(this.form.unitCost > this.serviceSelected.unitCost) 
+                    this.errors.push('El costo por unidad no puede ser mayor al monto ofrecido.');
+
+                    if(!this.form.quantity || this.form.quantity == 0) 
+                    this.errors.push('Debe Ingresar la cantidad y debe ser mayor a cero.');
+                    if(this.form.quantity > this.serviceSelected.quantity) 
+                    this.errors.push('La cantidad no puede ser mayor a la ofrecida');
                }
       
        if (!this.errors.length) { 
             // this.btnSubmitForm = false;
-           if(this.formTypeOfAgreement == 'percentage'){
-               this.formAmountPayable = this.sumTotal;
+           if(this.form.typeOfAgreement == 'percentage'){
+               this.form.amountPayable  = this.sumTotalPercent;
+           }
+          if(this.form.typeOfAgreement == 'detailed'){
+               this.form.amountPayable  = this.sumTotalDetailed;
            }
             axios.post('../../subcontractors/add/invDetail',{
-                subcontId :  this.formSubcontId,
-                invoiceId: this.service.invoiceId,
-                invDetailId: this.service.invDetailId,
-                transactionPercentage: this.formPercent,
-                transactionAmount : this.formAmountPayable,
+                subcontId :  this.form.subcontractorId,
+                invoiceId: this.serviceSelected.invoiceId,
+                invDetailId: this.serviceSelected.invDetailId,
+                transactionPercentage: this.form.percent,
+                transactionUnitCost: this.form.unitCost,
+                transactionQuantity: this.form.quantity,
+                transactionAmount : this.form.amountPayable,
             }).then(response => {
                    if (response.data.alertType == "error") {
-                       toastr.error(response.data.message)
+                         toastr.error(response.data.message)
                          this.btnSubmitForm = true;
                    } else {
                        toastr.success(response.data.message)
-                         this.service = '';
+                         this.serviceSelected = '';
                          this.errors = [];
 
-                         // this.formSubcontId = '';
-                         this.formTypeOfAgreement = 'amountPayable';
-                         this.formAmountPayable = '';
-                         this.formPercent = '';
+                         this.form.typeOfAgreement = 'amountPayable';
+                         this.form.unitCost = '';
+                         this.form.quantity = '';
+                         this.form.percent = '';
+                         this.form.amountPayable = '';
                          this.btnSubmitForm =  false;
 
                         this.getAllInvoicesDetails();//actualiza los detalles

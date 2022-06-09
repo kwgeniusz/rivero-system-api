@@ -60,7 +60,7 @@ Route::put('transactions-types/{id}', 'Web\TransactionTypeController@update')->n
 Route::delete('transaction-types/{id}', 'Web\TransactionTypeController@delete')->name('transactionTypes.delete');
 
 
-//******************************SUBCONTRACTORS***********************************
+//****************************** SUBCONTRACTORS ***********************************
 Route::resource('subcontractors', 'Web\SubcontractorController', ['parameters' => ['subcontractors' => 'id']]);
 Route::get('subcontractors/{subcontName}/search', 'Web\SubcontractorController@getFiltered')->name('subcontractors.search');
 
@@ -89,6 +89,23 @@ Route::post('receivablesConfirmPayment', 'Web\ReceivableController@confirmPaymen
 //**************************** COST CATEGORIES ******************************
 Route::get('cost-categories', 'Web\CostCategoryController@index')->name('costCategories.index');
 Route::get('cost-categories/{id}/subcategories', 'Web\CostCategoryController@subcategories')->name('costCategories.subcategories');
+
+//**************************** REPORTS **************************************
+Route::get('reportsProposal', 'Report\Pdf\AdministrationControllerPDF@printProposal')->name('reports.proposal');
+Route::get('reportsInvoice', 'Report\Pdf\AdministrationControllerPDF@printInvoice')->name('reports.invoice');
+
+Route::get('reports/credit-note', 'Report\Pdf\AdministrationControllerPDF@printCreditNote')->name('reports.credit-note');
+Route::get('reports/debit-note', 'Report\Pdf\AdministrationControllerPDF@printDebitNote')->name('reports.debit-note');
+
+Route::post('reports/expenses', 'Report\Pdf\AdministrationControllerPDF@printExpenses')->name('reports.expenses');
+Route::post('reports/incomes',  'Report\Pdf\AdministrationControllerPDF@printIncomes')->name('reports.incomes');
+
+Route::get('reports/total-contracts', 'Report\Pdf\AdministrationControllerPDF@printTotalContracts')->name('reports.administration.totalContracts');
+
+Route::get('reportsStatement', 'Report\Pdf\AdministrationControllerPDF@printStatement')->name('reports.statement');
+Route::get('reportsReceipt', 'Report\Pdf\AdministrationControllerPDF@printReceipt')->name('reports.printReceipt');
+Route::get('reportsPaymentRequest', 'Report\Pdf\AdministrationControllerPDF@printPaymentRequest')->name('reports.paymentRequest');
+Route::get('reportsReceivables', 'Report\Pdf\AdministrationControllerPDF@printReceivables')->name('reports.receivables');
 
 //***************************************************************************
 //***************** TEMPORARY ACCOUNTING ENTRY ******************************

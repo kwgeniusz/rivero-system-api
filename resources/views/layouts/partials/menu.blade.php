@@ -55,7 +55,7 @@
   @can('BF') <li><a href="{{route('contracts.finished')}}">{{__('contracts_finished')}}</a></li> @endcan
   @can('BG') <li><a href="{{route('contracts.cancelled')}}">{{__('contracts_cancelled')}}</a></li> @endcan
             <hr>
-  @can('BH')<li><a href="{{route('reports.summaryContractForCompany')}}">{{__('contract_summary')}}</a></li>@endcan
+  <!-- @can('BH')<li><a href="{{route('reports.summaryContractForCompany')}}">{{__('contract_summary')}}</a></li>@endcan -->
   <br>    
           </ul>
         </li>
@@ -85,6 +85,7 @@
 
 <hr>
     @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li> @endcan 
+    @can('BI')<li><a href="{{route('reports.administration.totalContracts')}}">Total de Contratos</a></li> @endcan 
       {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
       {{-- @can('CF') <li><a href="#">{{__('debts_to_pay')}}</a></li> @endcan --}}
                 {{--   <hr>

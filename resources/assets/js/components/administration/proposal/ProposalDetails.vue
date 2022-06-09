@@ -32,7 +32,6 @@
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
                 <option value="sqft">sqft</option>
                 <option value="ea">ea</option>
-
             </select>
           </div>
           <div v-if="hasCost" class="inputother boxes2">

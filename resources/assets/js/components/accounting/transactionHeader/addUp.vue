@@ -133,7 +133,6 @@
          //obtengo los datos para llenar las listas de selects
           axios.get('/accounting/transaction-headers/create').then((response) => {
                   this.chartOfAccount = response.data;
-                  console.log(this.chartOfAccount)
                   this.chartOfAccount.map(function (x){
                        return x.item_data = `${x.accountCode} - (${x.accountName})`;
                  });

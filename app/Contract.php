@@ -74,7 +74,6 @@ class Contract extends Model
     {
         return $this->morphMany('App\Comment', 'commentable');
     }
-    
     public function buildingCode()
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
@@ -186,12 +185,6 @@ class Contract extends Model
                   
          return $date1;
     }
-    // public function dias(){
-    //     $fecha1 = date_create($this->created_at);
-    //     $fecha2 = date_create($this->canceled_at);
-    //     $dias = date_diff($fecha1, $fecha2)->format('%R%a');
-    //     return $dias;
-    // }
 //--------------------------------------------------------------------
     /** Mutadores  */
 //--------------------------------------------------------------------

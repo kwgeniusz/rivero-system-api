@@ -1,75 +1,317 @@
 <template>
-    <div>
-        <tree-table
-                class="table"
-                :columns="columns"
-                :table-data="tableData"
-        >
-            <template #headerTemplate="headerProps">
-                <food-calculator-table-header v-bind="headerProps" />
-            </template>
+ <div class="col-xs-12">
+    <div class="row">
+      <div class="panel panel-default col-xs-12">
+          <div class="panel-heading"><h4><b>Crear Presupuesto:</b></h4></div>
+             <div class="panel-body">
 
-            <template #nodeTemplate="nodeProps">
-                <food-calculator-node v-bind="nodeProps"
-                                      :is-key-editable="isKeyEditable(nodeProps.depth)"
-                                      :delete-node="deleteNode"
-                                      :add-node="addNode(nodeProps.depth)"
-                                      :keys-to-calculate="keysToCalculate" :columns="columns"/>
-            </template>
+       <div class="tableother table-responsive">
+          <table class="table table-bordered text-center">
+            <thead class="bg-info"> 
+              <tr>  
+                <th>#</th>
+                <th>Description</th>  
+                <th>Quantity</th>
+                <th>Units</th>
+                <th>Unit Cost</th>
+                <th>Extended cost</th>
+                <th>Line Item Subcontracted price</th>
+                <th>Actuals cost to date</th>
+                <th>Pending cost to execute</th>
+                <th>Profit %</th>
+                <th>Profit Amount</th>
+                <th>Totalm item price</th>
+                <!-- <th>Total Price</th> -->
+                <!-- <th>Category Total Price</th> -->
+                <th>Price/sq. ft.</th>
+                <th>% of Total</th>
+                <th>Cost Type</th>
+                <th>Notes</th>
+                <th>Line Item Subcontracted price</th>
+                <th>Actuals cost to date</th>
+                <th>Pending cost to execute</th>
+                <th v-if="!displayMode">ACCION</th>
+              </tr>
+            </thead>
+            <tbody>   
+              <tr v-for="(item,index) in services" :key="index">
+                <td>{{++index}}</td>
+                <td>{{item.serviceName}}</td>
+                <td >
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.type}}</p>  
+                  <select v-else class="form-control" v-model="item.type">
+                    <option value="each">each</option>
+                    <option value="sqft">sqft</option>
+                  </select>
+                </td>
+                <td>
+                   <p v-if="displayMode">{{item.amount}}</p> 
+                   <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <!-- <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td>
+                <td>
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
+                </td> -->
+                 <td>
+                   <p v-if="displayMode">{{item.accountName}}</p> 
+                   <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/>
+                </td>
+               <td >
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
+                </td>
+                <td >
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
+                </td>
+                <td >
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
+                </td>
+                 <td >
+                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
+                </td>
+                <td v-if="!displayMode"> 
+                  <!-- <a @click="addRow()" class="btn btn-sm btn-success">
+                    <i class="glyphicon glyphicon-ok"></i>
+                  </a>  -->
+                  <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                    <span class="fa fa-times-circle" aria-hidden="true"></span> 
+                  </a>
+                </td> 
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
 
-            <template #leafTemplate="leafProps">
-                <food-calculator-leaf v-bind="leafProps"
-                                      :delete-node="deleteNode"
-                                      :is-key-editable="isKeyEditable(leafProps.depth)" :columns="columns"/>
-            </template>
-        </tree-table>
-        <div class="add-button" @click="addNode(topLevel)(tableData)">Add new record</div>
+    <div class="col-xs-offset-7 col-xs-5">
+      <h3>Total Debito: {{totalDebit}} | Total Credito: {{totalCredit}}</h3>
     </div>
+
+     <div v-if="editId === 0" class="text-center">
+        <button v-if="totalDebit > 0 && totalCredit > 0" type="submit" class="btn btn-success"><span class="fa fa-check"></span> Guardar</button>
+        <button @click="cancf" type="button"  class="btn btn-warning"><span class="fa fa-hand-point-left"></span> Regresar</button>
+      </div>
+
+     <div v-if="editId > 0" class="text-center">
+        <button type="submit" class="btn btn-primary"><span class="fa fa-check"></span> Actualizar</button>
+        <button @click="cancf" type="button"  class="btn btn-warning"><span class="fa fa-hand-point-left"></span> Regresar</button>
+     </div>
+
+ </div>
+  </div>
+   </div>
+   </div>
+
 </template>
 
 <script>
-    import TreeTable from 'vue-tree-table-component'
-    import data from '../resources/data'
-    import FoodCalculatorTableHeader from './FoodCalculatorTableHeader'
-    import FoodCalculatorNode from "./FoodCalculatorNode";
-    import FoodCalculatorLeaf from "./FoodCalculatorLeaf";
-    import addNode from "../utils/addNode";
-    import deleteNodeRecursively from "../utils/deleteNodeRecursively";
-    import computeInitialValues from "../utils/computeInitialValues";
+
     
     export default {
-        name: 'FoodCalculatorExample',
-        components: {FoodCalculatorTableHeader, TreeTable, FoodCalculatorNode, FoodCalculatorLeaf },
-        props: {
+        mounted() {
+         //obtengo los datos para llenar la tabla
+          axios.get('/services').then((response) => {
+                  this.services = response.data;
+                  console.log(this.services)
+                  this.services.map(function (x){
+                       return x.item_data = `${x.accountCode} - (${x.accountName})`;
+                 });
+          }); //end of create clients
+
+         //obtengo los datos para llenar las listas de selects
+
+            // budget to edit.
+            if (this.editId > 0) {
+                this.itemList = [];
+                axios.get(`/accounting/transaction-headers/${this.editId}`).then((response) => {
+                    this.data = response.data[0]
+
+                    if(this.data.entryUpdated == 1){this.displayMode == false; }
+
+                    this.entry.date                      = this.data.entryDate;
+                    this.entry.description               = this.data.entryDescription;
+                    this.entry.conversionRate               = this.data.conversionRate;
+
+                    for (var i=0; i<this.data.transaction.length; i++) { 
+                      let transaction = this.data.transaction[i];
+                        
+                        if(transaction.debit > 0){
+                          transaction.type   = 'debit';
+                          transaction.amount = transaction.debit;
+                        }else if(transaction.credit > 0) {
+                          transaction.type   = 'credit';
+                          transaction.amount = transaction.credit;
+                        }
+                       this.itemList.push({
+                                     generalLedgerId: transaction.generalLedgerId,
+                                     description:transaction.transactionDescription,
+                                     reference: transaction.transactionReference,
+                                     type: transaction.type,
+                                     amount: transaction.amount,
+                                     accountName: transaction.general_ledger.accountName,
+                                   });
+                         }
+
+                });       
+            } 
         },
-        data: function() {
-            return {
-                tableData: data.tableData,
-                columns: data.columns,
-                editableFields: {
-                    0: ['day', 'day_name'],
-                    1: ['meal'],
-                    2: ['ingredient', 'carbs','proteins', 'fat', 'kcal']
-                },
-                keysToCalculate: ['carbs','proteins', 'fat', 'kcal']
+        data(){
+            return{
+                errors: [],
+                displayMode: false,
+                showSubmitBtn: true,
+                configFlatPickr:{
+                     altFormat: 'm/d/Y',
+                     altInput: true,
+                     dateFormat: 'Y-m-d',
+                    //  locale: Spanish, // locale for this instance only  
+                 },
+
+                services:[], 
+                entry:  {                    
+                     date: '',
+                     description: '',
+                     conversionRate: 1,
+                   },
+                itemList: [{
+                   generalLedgerId:'',
+                   description:'',
+                   reference: '',
+                   type:'debit',
+                   amount: 0,
+                   }],
             }
+         },
+      props: {
+            editId:'',
         },
-        computed: {
-          topLevel: function(){ return 0 }
-        },
-        methods: {
-            addNode,
-            deleteNode(uuid){
-                deleteNodeRecursively(this.tableData, uuid)
+      computed: {
+       
+      },
+      methods: {
+        addRow: function() {
+           this.errors = [];
+             //Validaciones.
+              //  if (!this.modelServiceId) 
+              //   this.errors.push('Debe Escoger un Servicio.');
+  
+               if (!this.errors.length) { 
+                 //insertar en arreglo de items.
+                 this.itemList.push({
+                                     generalLedgerId:'',
+                                     description:'',
+                                     reference: '',
+                                     type:'debit',
+                                     amount: 0,
+                                   });
+
+           } //end of errors
+         },
+         deleteRow: function(id) {
+            //borrar valor que encuentre del arreglo
+                 this.itemList.splice(--id,1);
+         }, 
+         sendForm(){
+              this.errors = [];
+
+                 if (!this.entry.date) 
+                this.errors.push('Fecha del Encabezado es Requerido.');
+                 if (!this.entry.description) 
+                this.errors.push('Descripcion del Encabezado es Requerido.');
+                // if (this.totalDebit == this.totalCredit) 
+                // this.errors.push('El total de debito y credito debe ser igual.');
+                
+                //  let error ='';
+                 this.itemList.map(item => {
+                      if (!item.generalLedgerId) 
+                        this.errors.push('Debe escoger una cuenta contable es Requerido.');
+                    //   if (!item.description) 
+                    //     this.errors.push('Descripcion del Asiento es Requerido.');
+                    //  if (!item.reference) 
+                    //     this.errors.push('Referencia del Asiento es Requerido.');
+                      if (item.amount == 0) 
+                        this.errors.push('El campo monto debe ser mayor a cero');
+                 });
+               
+
+           if (!this.errors.length) { 
+                if (this.editId === 0) {  
+                    this.showSubmitBtn = false;
+                    
+                    axios.post('/accounting/transaction-headers', [this.entry,this.itemList]).then((response) => {
+                           toastr.success(response.data.message);
+                           this.$emit('showlist', 0)
+                    }).catch((error) => {
+                    //   this.errors.push(error.response.data.errors.businessPhone);
+                    //   this.errors.push(error.response.data.errors.mainEmail);
+                      this.showSubmitBtn = true;
+                    });
+
+                }else {
+                    axios.put(`/accounting/transactions/${this.editId}`,  [this.entry,this.itemList]).then((response) => {
+                          toastr.success(response.data.message);
+                          this.$emit('showlist', 0)
+                        })
+                    .catch(function (error,response) {
+                         toastr.success(response.data.message);
+                    });
+                }   // else end   
+              }  //end if error.length 
             },
-            isKeyEditable(depth){
-                const editableFields = this.editableFields[depth] || []
-                return (key) => editableFields.includes(key)
+            cancf(n){
+                // console.log('vista a mostrar: ' + n)
+                this.$emit('showlist', 0)
+                this.$emit('close') 
             },
-        },
-        created() {
-            computeInitialValues(this.tableData, this.keysToCalculate)
         }
+    
     }
 </script>
 

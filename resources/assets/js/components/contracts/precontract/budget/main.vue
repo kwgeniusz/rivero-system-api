@@ -1,6 +1,5 @@
 <template>
     <div class="">
-        <!-- agregar -->
         <div v-if="formStatus === 1">
             <precontract-addUp-budget
                 @showlist = "showlist"

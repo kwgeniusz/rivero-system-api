@@ -106,9 +106,9 @@ Vue.component("grid-files",require("./components/contracts/documents/GridFiles.v
 // -----------------> Precontract <-------------------------//
 
 // -----------------> Precontract - Budgets <-------------------------//
-// Vue.component("precontract-main-budget",require("./components/contracts/precontract/budget/main.vue"));
-// Vue.component("precontract-table-budget",require("./components/contracts/precontract/budget/table.vue"));
-// Vue.component("precontract-addUp-budget",require("./components/contracts/precontract/budget/addUp.vue"));
+Vue.component("precontract-main-budget",require("./components/contracts/precontract/budget/main.vue"));
+Vue.component("precontract-table-budget",require("./components/contracts/precontract/budget/table.vue"));
+Vue.component("precontract-addUp-budget",require("./components/contracts/precontract/budget/addUp.vue"));
 
 // -----------------> Proposals <-------------------------//
 Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));

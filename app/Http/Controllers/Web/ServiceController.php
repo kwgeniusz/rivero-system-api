@@ -32,7 +32,7 @@ class ServiceController extends Controller
         $servicesWithPrice  = $services->filter(function($service){
             return $service->hasCost == 'Y';
            });   
-       $servicesWithoutPrice  = $services->filter(function($service){
+        $servicesWithoutPrice  = $services->filter(function($service){
             return $service->hasCost == 'N';
            });  
 

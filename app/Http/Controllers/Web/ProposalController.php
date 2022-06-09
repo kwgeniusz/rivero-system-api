@@ -68,7 +68,7 @@ class ProposalController extends Controller
         }
 
         $projectDescriptions = $this->oProjectDescription->getAll();
-        $paymentConditions = $this->oPaymentCondition->getAllByLanguage();
+        $paymentConditions   = $this->oPaymentCondition->getAllByLanguage();
         $invoiceTaxPercent   = $this->oCompanyConfiguration->findInvoiceTaxPercent(session('countryId'),session('companyId'));
 
         $propId = $this->oCompanyConfiguration->retrieveProposalNumber(session('countryId'),session('companyId'));
@@ -357,7 +357,7 @@ class ProposalController extends Controller
 
         $proposal         = $this->oProposal->findById($id,session('countryId'),session('companyId'));
         $proposalDetails  = $this->oProposalDetail->getAllByProposal($id);
-        $payments        = $this->oPaymentProposal->getAllByProposal($id);
+        $payments         = $this->oPaymentProposal->getAllByProposal($id);
 
         $btnReturn = $request->btnReturn;
         return view('module_contracts.proposals.payment', compact('proposal','proposalDetails', 'payments','btnReturn'));
