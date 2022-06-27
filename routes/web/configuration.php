@@ -1,6 +1,6 @@
 <?php
 
-//ROUTES DE MODULO CONFIGURACION----------------------------------------------------------------------------
+//--------------------CONFIGURATION MODULE ROUTES-------------------------//
 
 //CHANGE OFFICE
 Route::get('change-company', function () {return view('module_configuration.changecompany.index'); })->name('changeCompany.index');
@@ -14,7 +14,7 @@ Route::get('projectUses/{projectUseId}/descriptions', 'Web\ProjectUseController@
 //PROJECTS DESCRIPTIONS********
 Route::resource('projectDescriptions', 'Web\ProjectDescriptionController', ['except' => ['create']]);
 //SERVICES********
-Route::resource('services', 'Web\ServiceController');
+// Route::resource('services', 'Web\ServiceController');
 Route::resource('notes', 'Web\NoteController', ['parameters' => ['notes' => 'id']]);
 
 //INVOICE TEMPLATES********

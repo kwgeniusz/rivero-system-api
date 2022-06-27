@@ -6,117 +6,45 @@
              <div class="panel-body">
 
        <div class="tableother table-responsive">
-          <table class="table table-bordered text-center">
+          <table class="table table-bordered ">
             <thead class="bg-info"> 
               <tr>  
                 <th>#</th>
                 <th>Description</th>  
+                <th>Label</th>
                 <th>Quantity</th>
-                <th>Units</th>
-                <th>Unit Cost</th>
-                <th>Extended cost</th>
-                <th>Line Item Subcontracted price</th>
-                <th>Actuals cost to date</th>
-                <th>Pending cost to execute</th>
-                <th>Profit %</th>
-                <th>Profit Amount</th>
-                <th>Totalm item price</th>
-                <!-- <th>Total Price</th> -->
-                <!-- <th>Category Total Price</th> -->
-                <th>Price/sq. ft.</th>
-                <th>% of Total</th>
-                <th>Cost Type</th>
-                <th>Notes</th>
-                <th>Line Item Subcontracted price</th>
-                <th>Actuals cost to date</th>
-                <th>Pending cost to execute</th>
+                <th>Unit</th>
+                <th>Costs</th>
                 <th v-if="!displayMode">ACCION</th>
               </tr>
             </thead>
             <tbody>   
               <tr v-for="(item,index) in services" :key="index">
                 <td>{{++index}}</td>
-                <td>{{item.serviceName}}</td>
-                <td >
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
-                </td>
+                <td><a>{{item.serviceCode}} - {{item.serviceName}}</a></td>
                 <td>
-                  <p v-if="displayMode">{{item.type}}</p>  
+                  <p v-if="item.hasAPU == 'Y'">{{item.type}}</p>  
                   <select v-else class="form-control" v-model="item.type">
                     <option value="each">each</option>
                     <option value="sqft">sqft</option>
                   </select>
                 </td>
-                <td>
-                   <p v-if="displayMode">{{item.amount}}</p> 
-                   <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <!-- <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td>
-                <td>
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">
-                </td> -->
-                 <td>
-                   <p v-if="displayMode">{{item.accountName}}</p> 
-                   <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/>
-                </td>
                <td >
-                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <p v-if="item.hasAPU == 'Y'">{{item.amount}}</p> 
                   <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
+                </td>
+                 <td>
+                  <p v-if="item.hasAPU == 'Y'">{{item.type}}</p>  
+                  <select v-else class="form-control" v-model="item.type">
+                    <option value="each">each</option>
+                    <option value="sqft">sqft</option>
+                  </select>
                 </td>
                 <td >
-                  <p v-if="displayMode">{{item.amount}}</p> 
+                  <p v-if="item.hasAPU == 'Y'">{{item.amount}}</p> 
                   <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
                 </td>
-                <td >
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
-                </td>
-                 <td >
-                  <p v-if="displayMode">{{item.amount}}</p> 
-                  <input v-else type="number" step="0.01" min="0.00" class="form-control" v-model="item.amount">  
-                </td>
-                <td v-if="!displayMode"> 
+                <td v-if="!item.hasAPU == 'Y'"> 
                   <!-- <a @click="addRow()" class="btn btn-sm btn-success">
                     <i class="glyphicon glyphicon-ok"></i>
                   </a>  -->

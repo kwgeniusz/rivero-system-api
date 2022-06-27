@@ -162,7 +162,7 @@ Vue.component("form-modal-charge", require("./components/administration/FormModa
 Vue.component("confirm-payment",require("./components/administration/ModalConfirmPayment.vue"));
 
 Vue.component("modal-transaction-details",require("./components/administration/ModalTransactionDetails.vue"));
-Vue.component("form-new-service",require("./components/administration/FormNewService.vue"));
+// Vue.component("form-new-service",require("./components/administration/FormNewService.vue"));
 Vue.component("select-bank-with-account",require("./components/administration/SelectBankWithAccount.vue"));
 
 // ---------------------> Invoices <----------------------------------------//
@@ -180,6 +180,15 @@ Vue.component("debit-note",require("./components/administration/invoice/saleNote
 Vue.component("adm-main-temporary-acc-entry", require("./components/accounting/transactionHeader/main.vue"));
 Vue.component("adm-table-temporary-acc-entry",require("./components/accounting/transactionHeader/table.vue"));
 Vue.component("adm-addUp-temporary-acc-entry",require("./components/accounting/transactionHeader/addUp.vue"));
+
+//###################################################
+//           Inventory Module Components
+//###################################################
+// ---------------------> Services Catalog <----------------------------------------//
+Vue.component("inventory-main-service", require("./components/inventory/service/main.vue"));
+Vue.component("inventory-table-service",require("./components/inventory/service/table.vue"));
+Vue.component("inventory-addUp-service",require("./components/inventory/service/addUp.vue"));
+
 
 
 //###################################################
@@ -340,6 +349,9 @@ Vue.component("list-company",require("./components/configuration/company/listCom
 Vue.component("button-form",require("./components/srcComponent/buttonForm.vue"));
 Vue.component("loading", require("./components/srcComponent/loading.vue"));
 Vue.component("time-live", require("./components/srcComponent/timeLive.vue"));
+Vue.component("recursive-select", require("./components/srcComponent/RecursiveSelect.vue"));
+Vue.component("recursive-table", require("./components/srcComponent/recursiveTable/FoodCalculatorExample.vue"));
+
 
 const app = new Vue({
   el: "#app",

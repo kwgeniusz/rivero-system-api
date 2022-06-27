@@ -19,30 +19,34 @@
             <h4>Errores:</h4>
             <div v-for="error in errors">- {{ error }}</div>
           </div>
+       
           <div class="input-label boxes2" style="margin-bottom: 30px;">
             <label for="serviceId">SERVICIO</label>
-            <select v-model="modelServiceId" class="form-control" @change="selectService(modelServiceId)" name="serviceId" id="serviceId">
-                <option :class="{ bold: item.hasCost == 'Y' ? true : false }" v-for="(item,index) in services" :value="item.serviceId" > {{item.serviceName}}
-                </option>
-                  
-            </select>
+            <v-select @input="pasteServiceInfo()" 
+            v-model="selectedService" 
+            :options="services" 
+            :reduce="services => services" label="item_data"
+            
+            />
           </div>
-          <div v-if="hasCost" class="inputother boxes2">
+
+   
+          <div v-if="selectedService" class="inputother boxes2">
             <label for="unit">UNIDAD</label>
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
                 <option value="sqft">sqft</option>
                 <option value="ea">ea</option>
             </select>
           </div>
-          <div v-if="hasCost" class="inputother boxes2">
+          <div v-if="selectedService" class="inputother boxes2">
             <label for="unitCost">PRECIO</label>
             <input v-model="modelUnitCost" type="number" class="form-control" id="unitCost" name="unitCost" autocomplete="off">
           </div>
-          <div v-if="hasCost" class="inputother boxes2">
+          <div v-if="selectedService" class="inputother boxes2">
             <label for="quantity">CANTIDAD</label>
             <input v-model="modelQuantity" type="number" class="form-control" id="quantity" name="quantity"  autocomplete="off">
           </div>
-          <div v-if="hasCost" class="inputother boxes2">
+          <div v-if="selectedService" class="inputother boxes2">
             <label> COSTO TOTAL: {{sumTotal}}</label>
           </div>
           <div style="width: 100%; display: flex; justify-content: center; align-items: flex-start;">
@@ -52,6 +56,9 @@
             <!-- <form-new-service pref-url='' @servicecreated='getAllServices()'></form-new-service> -->
           </div>
         </form>
+
+        <!-- <recursive-table/> -->
+
         <div class="table-responsive tableother">
             <table class="table table-striped table-bordered text-center bg-info">
               <thead> 
@@ -108,11 +115,7 @@
           </table>
         </div>
         <div style="text-align: center; width: 100%; margin: auto;">
-              <!-- <b>Sub-Total:</b> {{proposal[0].grossTotal}} <br>
-              <b>Impuesto {{proposal[0].taxPercent}}%:</b> {{proposal[0].taxAmount}} <br>
-              <b>Total Neto:</b> {{proposal[0].netTotal}}<br> -->
               {{proposalNetTotal}}
-
         </div>
         <proposal-times :proposal-id="proposal[0].proposalId" ref="proposalTimes"/>
         <proposal-terms :proposal-id="proposal[0].proposalId" ref="proposalTerms"/>
@@ -154,19 +157,19 @@ export default {
          proposalTimes,
          proposalTerms,
          proposalNotes,
-         proposalSubcontractor
+         proposalSubcontractor,
+
   },     
     data: function() {
         return {
             errors: [],
 
             proposal: '',
-            services: {},
-            selectedService: {},
+            services: [],
+            selectedService: '',
             itemList: [],
             
             //variables del formulario
-            hasCost: false,
             modelServiceId: '',
             modelQuantity: '',
             modelUnit: '',
@@ -179,6 +182,7 @@ export default {
   props: {
            proposalId: { type: String},
     },
+  // components: {TreeTable},
   computed: {
       sumTotal: function () {
           let sum = this.modelQuantity * this.modelUnitCost;
@@ -220,37 +224,19 @@ export default {
             let url ='services';
             axios.get(url).then(response => {
              this.services = response.data
+             console.log(this.services)
+             this.services.map(function (x){ return x.item_data = `${x.serviceCode} - (${x.serviceName})` });
+
             });
         },
-         selectService: function (id){
-            // let url ='services/'+id;
-            // axios.get(url).then(response => {
-        let serviceId = id;
-        function filtrarPorID(obj) {
-          if ('serviceId' in obj && obj.serviceId == serviceId) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-        this.selectedService = this.services.filter(filtrarPorID);
-              // this.selectedService =response.data[0];
-              // console.log(this.selectedService);
-              if(this.selectedService[0].hasCost == 'N'){
-                 this.hasCost = false //oculta los input que tienen esta variable
-                 this.modelQuantity =''
-                 this.modelUnit = null
-                 this.modelUnitCost =''
-              }else{
-                 this.hasCost = true
+        pasteServiceInfo: function (){
+              if(this.selectedService){ 
                  this.modelQuantity= 1.00
-                 this.modelUnit = this.selectedService[0].unit1;
-                 this.modelUnitCost = this.selectedService[0].cost1;
+                 this.modelUnit = this.selectedService.unit;
+                 this.modelUnitCost = this.selectedService.cost;
               }
-             // this.modelServiceName = response.data[0].serviceName;
-            // });
         },
-       changeUnit: function(unit) {
+         changeUnit: function(unit) {
              if(unit == 'sqft'){
                this.modelUnitCost = this.selectedService[0].cost1;
              }else {
@@ -259,30 +245,17 @@ export default {
           },
 
   /*----CRUD----- */
-  addRow: function() {
+     addRow: function() {
            this.errors = [];
            //VALIDATIONS
-               if (!this.modelServiceId) 
+               if (!this.selectedService) 
                 this.errors.push('Debe Escoger un Servicio.');
            
           if (!this.errors.length) {
-      //BUSCAR EN ARREGLO DE JAVASCRIPT /SERVICE/ EL ID QUE SELECCIONO EL USUARIO PARA TRAER EL NOMBRE DEL SERVICIO
-        let serviceId = this.modelServiceId;
-    
-        function filtrarPorID(obj) {
-          if ('serviceId' in obj && obj.serviceId == serviceId) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-
-        let service = this.services.filter(filtrarPorID);
-            //AGREGAR A ITEMLIST
               //Nota al agregar el item debo meter un objeto con el nombre y el ID
                  this.itemList.push({
-                                     serviceId:service[0].serviceId,
-                                     serviceName:service[0].serviceName,
+                                     serviceId:this.selectedService.serviceId,
+                                     serviceName:this.selectedService.serviceName,
                                      quantity:this.modelQuantity,
                                      unit:this.modelUnit,
                                      unitCost:this.modelUnitCost,
@@ -353,7 +326,7 @@ export default {
                        this.modelQuantity =''
                        this.modelUnit =''
                        this.modelUnitCost =''
-                       this.hasCost = false //oculta los input que tienen esta variable
+                
                        if (response.data.alertType == 'success') {
                          toastr.success(response.data.message)
                        } else {

@@ -1,25 +1,26 @@
 <template>
     <div class="">
+
         <!-- agregar -->
         <div v-if="formStatus === 1">
-            <addUp-client
+            <inventory-addUp-service
                 @showlist = "showlist"
                 :editId=0
-            > </addUp-client> 
+            > </inventory-addUp-service> 
         </div>
 
         <!-- Vista actualizar -->
         <div v-if="formStatus === 2">
-            <addUp-client
+            <inventory-addUp-service
                 @showlist = "showlist"
                 :editId=editId                
-            > </addUp-client> 
+            > </inventory-addUp-service> 
         </div>
 
 
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>CLIENTES</b></h3>
+            <h3><b>CATALOGO DE SERVICIOS</b></h3>
 
             <button-form
                 @addf = "addFormStatus"
@@ -27,11 +28,12 @@
                 :btn4 = 0
             ></button-form>
 
-            <table-client  
-                :clientList = clientList
+            <inventory-table-service  
+                :serviceList = serviceList
                 @editData = "editData"
                 @showlist = "showlist">
-            </table-client>
+            </inventory-table-service>
+            
         </div>  
 
     </div>         
@@ -40,17 +42,15 @@
 <script>
     export default {
         mounted() {
-
-            axios.get('/clients').then((response) => {
-                this.clientList = response.data
-            // console.log(this.clientList)
+            axios.get('/services').then((response) => {
+                this.serviceList = response.data
             })
         
         },
         data() {
             return{
-                clientList: [],
-                // parents: [],
+                serviceList: [],
+
                 formStatus: 0,
                 editId: '',
             }
@@ -60,22 +60,14 @@
                 this.formStatus = 1
             },
             editData(id){
-                // console.log('el id es: ' + id)
                 this.editId = id
                 this.formStatus = 2
             }, 
-            upDepartment( company){
-                // console.log(company)
-                // this.clientList[company[0]] = company[1]
-            },
             showlist(n){
                 this.formStatus = 0
-                axios.get('/clients').then((response) => {
-                    this.clientList = response.data
-                    // console.log(this.clientList)
+                axios.get('/services').then((response) => {
+                    this.serviceList  = response.data
                 })
-            
-            
             },
         }
     }

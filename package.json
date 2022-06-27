@@ -29,6 +29,7 @@
         "moment-timezone": "^0.5.31",
         "sweet-modal-vue": "^2.0.0",
         "toastr": "^2.1.4",
+        "vue-ads-table-tree": "^2.4.2",
         "vue-audio-recorder": "^3.0.1",
         "vue-chartjs": "^3.5.0",
         "vue-dialog-drag": "^0.1.29",

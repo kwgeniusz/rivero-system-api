@@ -172,13 +172,27 @@
 @endcan
 @can('E')        
         <li class="treeview">
-          <a href="#"><i class="fa fa-suitcase"></i> <span>{{__('Inventory')}}</span>
+          <a href="#"><i class="fa fa-warehouse"></i> <span>{{__('Inventory')}}</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
 @can('FC')  <li><a href="{{route('services.index')}}">Servicios</a></li>@endcan 
+@can('FC')  <li><a href="{{route('services.index')}}">Productos</a></li>@endcan 
+@can('FC')  <li><a href="{{route('services.index')}}">Existencia</a></li>@endcan 
+          
+          </ul>
+        </li>
+@endcan
+@can('E')        
+        <li class="treeview">
+          <a href="#"><i class="fa fa-desktop"></i> <span>Activo Fijo</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
             <li><a href="#">{{__('Equipment Registration')}}</a></li>
             <li><a href="#">{{__('Registration by Location')}}</a></li>
             <li><a href="#">{{__('Registration by Status')}}</a></li>

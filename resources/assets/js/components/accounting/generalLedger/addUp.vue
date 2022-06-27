@@ -139,11 +139,9 @@
             createUpdateAccount(){
               this.errors = [];
 
-        
             //    if (!this.generalLedger.parentAccountId) 
             //     this.errors.push('Campo Cuenta Padre es requerido.');
                 
-
                  if (!this.generalLedger.accountCode) 
                 this.errors.push('Codigo de la Cuenta es Requerido.');
                  if (!this.generalLedger.accountName) 
