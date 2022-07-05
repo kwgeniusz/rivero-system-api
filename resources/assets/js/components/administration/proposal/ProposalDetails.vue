@@ -25,12 +25,13 @@
             <v-select @input="pasteServiceInfo()" 
             v-model="selectedService" 
             :options="services" 
+            :selectable="services => services.isCategory =='N'"
             :reduce="services => services" label="item_data"
             
             />
           </div>
 
-   
+
           <div v-if="selectedService" class="inputother boxes2">
             <label for="unit">UNIDAD</label>
             <select v-model="modelUnit" @change="changeUnit(modelUnit)"  class="form-control" name="unit" id="unit">
@@ -102,12 +103,12 @@
                 <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                               <span class="fa fa-times-circle" aria-hidden="true"></span> 
                 </a>
-              <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
+              <!-- <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
                 <span class="fa fa-angle-double-up" aria-hidden="true"></span>
                 </button>
               <button class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
                 <span class="fa fa-angle-double-down" aria-hidden="true"></span>
-                </button>
+                </button> -->
 
             </td> 
           </tr>
@@ -253,24 +254,43 @@ export default {
            
           if (!this.errors.length) {
               //Nota al agregar el item debo meter un objeto con el nombre y el ID
-                 this.itemList.push({
-                                     serviceId:this.selectedService.serviceId,
-                                     serviceName:this.selectedService.serviceName,
-                                     quantity:this.modelQuantity,
-                                     unit:this.modelUnit,
-                                     unitCost:this.modelUnitCost,
-                                     amount:this.sumTotal,
-                                   });
-           }
-          },
+                //  this.itemList.push({
+                //                      serviceId:this.selectedService.serviceId,
+                //                      serviceName:this.selectedService.serviceName,
+                //                      quantity:this.modelQuantity,
+                //                      unit:this.modelUnit,
+                //                      unitCost:this.modelUnitCost,
+                //                      amount:this.sumTotal,
+                //                    });
 
+          axios.post(`proposalsDetails/storeOneByOne`,{
+              proposalId :  this.proposal[0].proposalId,
+              selectedService:   this.selectedService,
+            }).then(response => {
+                   if (response.data.alertType == "error") {
+                       toastr.error(response.data.msj)
+                   } else {
+                       this.findProposal();
+                       this.getAllProposalDetails();
+
+                       this.modelServiceId = ''
+                       this.modelQuantity =''
+                       this.modelUnit =''
+                       this.modelUnitCost =''
+
+                       toastr.success(response.data.message)
+                 
+               }
+            })
+          } //end of "if (!this.errors.length)" 
+        },
       editItemList: function(index){
              this.editMode = index
         },
       updateItemList: function(){
               this.editMode = -1
         },
-      calculateItemAmount: function(index,item) { 
+        calculateItemAmount: function(index,item) { 
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
               item.unitCost = 1;
@@ -300,8 +320,8 @@ export default {
          saveProposal: function() {
            this.errors = [];
            //VALIDATIONS
-               if (!this.itemList) 
-                this.errors.push('Debe Escoger Ingresar servicio para Guardar la Propuesta.');
+              //  if (!this.itemList) 
+              //   this.errors.push('Debe Escoger Ingresar servicio para Guardar la Propuesta.');
           
 
           if (!this.errors.length) { 
@@ -311,31 +331,31 @@ export default {
           this.$refs.proposalTerms.sendTerms();
           this.$refs.proposalNotes.sendNotes();
 
-          axios.post('proposalsDetails',{
-              proposalId :  this.proposal[0].proposalId,
-              itemList:   this.itemList,
-            }).then(response => {
-                   // if (response.data.alert == "error") {
-                   //     toastr.error(response.data.msj)
-                   // } else {
-                       this.findProposal();
-                       this.getAllProposalDetails();
+          // axios.post('proposalsDetails',{
+          //     proposalId :  this.proposal[0].proposalId,
+          //     itemList:   this.itemList,
+          //   }).then(response => {
+          //          // if (response.data.alert == "error") {
+          //          //     toastr.error(response.data.msj)
+          //          // } else {
+          //              this.findProposal();
+          //              this.getAllProposalDetails();
 
-                       this.modelServiceId = ''
-                       // this.modelServiceName = ''
-                       this.modelQuantity =''
-                       this.modelUnit =''
-                       this.modelUnitCost =''
+          //              this.modelServiceId = ''
+          //              // this.modelServiceName = ''
+          //              this.modelQuantity =''
+          //              this.modelUnit =''
+          //              this.modelUnitCost =''
                 
-                       if (response.data.alertType == 'success') {
-                         toastr.success(response.data.message)
-                       } else {
-                          toastr.error(response.data.message)
-                       }
-                   // }
+          //              if (response.data.alertType == 'success') {
+          //                toastr.success(response.data.message)
+          //              } else {
+          //                 toastr.error(response.data.message)
+          //              }
+          //          // }
   
-            })
-           }
+          //   })
+               }
           }, //end function saveProposal
 
     } // fin de vue methods
@@ -344,6 +364,11 @@ export default {
  </script>
   
 <style>
+
+#mySelect .v-select .dropdown-toggle {
+   border: 2px red;
+}
+
 .bold {
     font-weight:bold;
     background:#D7F7E2;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 
 use Auth;
 use DB;
+use PDO;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Precontract;
@@ -12,6 +13,8 @@ use App\Contract;
 use App\Proposal;
 use App\ProposalDetail;
 use App\ProposalNote;
+use App\Models\Inventory\Service;
+
 
 class ProposalDetailController extends Controller
 {
@@ -42,6 +45,46 @@ class ProposalDetailController extends Controller
 
         $btnReturn = $request->btnReturn;
           return view('module_contracts.proposals.details.index', compact('proposal','modelRs','btnReturn'));
+    }
+    public function storeOneByOne(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $serviceWithAncestors = Service::find($request->selectedService['serviceId'])->ancestorsAndSelf()->get();
+            dd($serviceWithAncestors);
+            exit();
+            //VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
+            $rs =  $this->oService->findById($request->proposalId);
+
+       //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
+        if(!empty($request->itemList)) {
+           foreach ($request->itemList as $key => $item) {
+              $result = $this->oProposalDetail->insert(
+                             $request->proposalId,
+                            ++$key,
+                             $item['serviceId'],
+                             $item['serviceName'],
+                             $item['unit'],
+                             $item['unitCost'],
+                             $item['quantity'],
+                              $item['amount']);
+                }
+         }
+
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+            return $result = ['alertType' => 'success', 'message' => 'Reglon Guardado Exitosamente'];
+        } else {
+            return $result = ['alertType' => 'error', 'message' => $error];
+        }
     }
 
     public function store(Request $request)

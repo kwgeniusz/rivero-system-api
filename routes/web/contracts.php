@@ -36,9 +36,10 @@ Route::get('precontracts/{id}/budgets','Web\Contracts\PrecontractBudgetControlle
 
 //***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
-Route::resource('proposalsDetails', 'Web\ProposalDetailController');
 
-Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
+ //->Proposal Details
+Route::resource('proposalsDetails', 'Web\ProposalDetailController');
+Route::post('proposalsDetails/storeOneByOne', 'Web\ProposalDetailController@storeOneByOne')->name('proposalsScopes.storeOneByOne');
 
  //->Proposal Scopes
 Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');

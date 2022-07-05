@@ -96,8 +96,7 @@ public function setCostAttribute($cost)
     }
 //------------------------------------------
     public function insertS($countryId,$companyId,$data)
-    {
- 
+    { 
         $service                  = new Service;
         $service->countryId       = $countryId;
         $service->companyId       = $companyId;
@@ -112,8 +111,7 @@ public function setCostAttribute($cost)
     }
 //------------------------------------------
     public function updateS($serviceId,$data)
-    {
-        
+    { 
         $service                  =  Service::find($serviceId);
         $service->serviceParentId = $data['serviceParentId'];
         $service->serviceCode     = $data['serviceCode'];

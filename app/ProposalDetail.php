@@ -56,7 +56,6 @@ class ProposalDetail extends Model
     /** Function of Models */
 //--------------------------------------------------------------------
 
-//------------------------------------
     public function getAllByProposal($proposalId)
     {
         $result = $this->where('proposalId', $proposalId)
@@ -107,8 +106,6 @@ class ProposalDetail extends Model
             return $result = ['alertType' => 'error', 'message' => $error];
         }
     }
-//------------------------------------------
-
 //------------------------------------------
     public function deleteProp($id)
     {
