@@ -6,11 +6,13 @@ use Auth;
 use App\Models\Inventory\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
+// use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Service extends Model
 {
-    use SoftDeletes, HasRecursiveRelationships;
+    use SoftDeletes;
+    use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
     public $timestamps = false;
 
@@ -25,14 +27,14 @@ class Service extends Model
 
 // Change defautl field for recursive librery
  
-   public function getLocalKeyName()
-   {
-        return 'serviceId';
-   }
-    public function getParentKeyName()
-    {
-        return 'serviceParentId';
-    }
+public function getLocalKeyName()
+{
+    return 'serviceId';
+}
+public function getParentKeyName()
+{
+    return 'serviceParentId';
+}
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------

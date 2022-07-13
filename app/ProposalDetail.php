@@ -64,28 +64,30 @@ class ProposalDetail extends Model
 
         return $result;
     }
-//------------------------------------------
-    public function insert($proposalId,$itemNumber,$serviceId,$serviceName,$unit,$unitCost,$quantity,$amount) {
 
-     $error = null;
+//------------------------------------------
+    public function insert($proposalId,$itemNumber,$serviceId, $serviceParentId ,$serviceName,$unit,$unitCost,$quantity,$amount) {
+
+     $error = '';
 
         DB::beginTransaction();
         try {
 
               if($amount == '0.00') {
-                $amount = null;
+                $amount = 0.00;
               }
               
             //INSERTA UN RENGLON
-             $propDetail                   = new ProposalDetail;
-             $propDetail->proposalId        = $proposalId;
-             $propDetail->itemNumber        = $itemNumber;
-             $propDetail->serviceId        = $serviceId;
-             $propDetail->serviceName      = $serviceName;
-             $propDetail->unit             = $unit;
-             $propDetail->unitCost         = $unitCost;
-             $propDetail->quantity         = $quantity;
-             $propDetail->amount           = $amount;
+             $propDetail                     = new ProposalDetail;
+             $propDetail->proposalId         = $proposalId;
+             $propDetail->itemNumber         = $itemNumber;
+             $propDetail->serviceId          = $serviceId;
+             $propDetail->serviceParentId    = $serviceParentId;
+             $propDetail->serviceName        = $serviceName;
+             $propDetail->unit               = $unit;
+             $propDetail->unitCost           = $unitCost;
+             $propDetail->quantity           = $quantity;
+             $propDetail->amount             = $amount;
              $propDetail->save();
             
             //REALIZA ACTUALIZACION EN PROPUESTA
@@ -101,9 +103,9 @@ class ProposalDetail extends Model
         }
 
         if ($success) {
-            return $result = ['alertType' => 'success', 'message' => 'Reglon Agregado Exitosamente'];
+            return ['alertType' => 'success', 'message' => 'Reglon Agregado Exitosamente','entity' => $propDetail];
         } else {
-            return $result = ['alertType' => 'error', 'message' => $error];
+            return ['alertType' => 'error', 'message' => $error];
         }
     }
 //------------------------------------------
@@ -138,4 +140,92 @@ class ProposalDetail extends Model
     }
 //-----------------------------------------
 
+function cascadeBalanceUpdate($proposalId, $selectedService)
+{
+
+    DB::beginTransaction();
+    try {    
+      
+     $serviceId = $selectedService->serviceId;
+     $amount    = $selectedService->amount;
+
+      if ($selectedService->serviceParentId == 0) { //HAY CAMBIAR ESTA LINEA POR serviceParentId == 0 (porque no tiene padre)
+         $serviceParentId = 0;
+      } else {
+         $serviceParentId = $selectedService->serviceParentId;
+      }
+  // actualizar saldo en cascada
+  $loop = 1;
+  $acum = 0;
+  // inicio del loop
+  while($loop == 1) {
+
+     // actualizar el saldo de cuenta con $serviceId
+        if($acum > 0){ 
+          $msg = $this->sumAmount($proposalId,$serviceId,$amount);
+        }
+      // consulta para saber el siguiente nivel de arriba
+      $serviceId  = 0;
+      $query      =  $this->where('proposalId','=',$proposalId)
+                          ->where('serviceId','=',$serviceParentId) //  serviceId = serviceParentId  
+                          ->get();
+                  
+      foreach($query as $row){
+          $serviceId          = $row->serviceId;
+          if ($row->serviceParentId == 0) { //serviceParentId
+             $serviceParentId = 0;          // serviceParentId = 0
+          } else {
+             $serviceParentId  = $row->serviceParentId;   // serviceParentId = $row-> serviceParentId
+          }
+      }
+      // condicion de salida del ciclo while
+      if ($serviceId == 0 ) {
+         $loop = 0;
+      }
+        $acum++;
+    }//end of the loop
+            $success = true;
+            DB::commit();
+        } catch (\Exception $e) {
+            $error   = $e->getMessage();
+            $success = false;
+            DB::rollback();
+        }
+
+        if ($success) {
+            return ['alertType' => 'info', 'message' => 'Actualizacion en cascada Exitosa'];
+        } else {
+            return ['alertType' => 'error', 'message' => $error];
+        }
+  }//end of the function
+
+  function sumAmount($proposalId,$serviceId,$amount)
+  {
+    // obtener $saldos actuales
+      DB::beginTransaction();
+      try {   
+          $query = $this->where('proposalId', '=', $proposalId)
+                        ->where('serviceId', '=', $serviceId)
+                        ->get();
+  
+            //Actualizar saldos en tabl acc_general_ledger_balance
+            foreach($query as $row){
+                  $row->amount    = $row->amount + $amount;
+                  $row->save();
+            }
+
+           $success = true;
+           DB::commit();
+      } catch (\Exception $e) {
+          $error   = $e->getMessage();
+          $success = false;
+          DB::rollback();
+      }
+  
+      if ($success) {
+        return ['alertType' => 'success', 'message' => 'El monto ha sido sumando en el renglon.'];
+      } else {
+        return ['alertType' => 'error', 'message' => $error];
+      }
+   }//end function
 }

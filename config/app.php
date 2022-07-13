@@ -167,9 +167,10 @@ return [
         /*
          * Package Service Providers...
          */
-        // Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider::class,
-        // Barryvdh\DomPDF\ServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        // agregado por elisnar para generacion de codigo de barra
+        Milon\Barcode\BarcodeServiceProvider::class,
+        Franzose\ClosureTable\ClosureTableServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -179,9 +180,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // agregado por elisnar para generacion de codigo de barra
-        Milon\Barcode\BarcodeServiceProvider::class,
-        // Elibyy\TCPDF\ServiceProvider::class,
 
     ],
 

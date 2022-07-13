@@ -27,7 +27,6 @@
             :options="services" 
             :selectable="services => services.isCategory =='N'"
             :reduce="services => services" label="item_data"
-            
             />
           </div>
 
@@ -260,15 +259,19 @@ export default {
                 //                      quantity:this.modelQuantity,
                 //                      unit:this.modelUnit,
                 //                      unitCost:this.modelUnitCost,
-                //                      amount:this.sumTotal,
+                //                      amount:this.amount,
                 //                    });
+              this.selectedService.quantity     = this.modelQuantity,
+              this.selectedService.unitSelected = this.modelUnit,
+              this.selectedService.unitCost     = this.modelUnitCost,
+              this.selectedService.sumTotal     = this.sumTotal,
 
           axios.post(`proposalsDetails/storeOneByOne`,{
               proposalId :  this.proposal[0].proposalId,
               selectedService:   this.selectedService,
             }).then(response => {
                    if (response.data.alertType == "error") {
-                       toastr.error(response.data.msj)
+                       toastr.error(response.data.message)
                    } else {
                        this.findProposal();
                        this.getAllProposalDetails();
@@ -277,6 +280,7 @@ export default {
                        this.modelQuantity =''
                        this.modelUnit =''
                        this.modelUnitCost =''
+                       this.selectedService = '',
 
                        toastr.success(response.data.message)
                  

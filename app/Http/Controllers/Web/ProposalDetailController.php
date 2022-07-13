@@ -48,30 +48,69 @@ class ProposalDetailController extends Controller
     }
     public function storeOneByOne(Request $request)
     {
+        // inicializacion de datos
+        $msg = [];
+        $rs  = [];
+
         DB::beginTransaction();
         try {
+              
+    //  EN ESTE PRIMER RECORRIDO SE COMIENZA DESDE EL NODO PADRE HASTA EL HIJO DEL ULTIMO NIVEL 
+        // Busqueda de los ancestros del servicio seleccionado
+            $serviceWithAncestors = Service::find($request->selectedService['serviceId'])->ancestors;
+            //revertir el orden de los ancestros
+            $serviceWithAncestors = $serviceWithAncestors->reverse()->values();
+            //insertar el servicio seleccionado, en la ultima posicion de la coleccion de ancestros
+            $serviceWithAncestors->push($request->selectedService);
+
             
-            $serviceWithAncestors = Service::find($request->selectedService['serviceId'])->ancestorsAndSelf()->get();
-            dd($serviceWithAncestors);
-            exit();
-            //VACIA TODA LA PROPUESTA PARA LLENARLA PARA INSERTAR LAS MODIFICACIONES.
-            $rs =  $this->oService->findById($request->proposalId);
+       // Insertando valores en la tabla ProposalDetail, se agrega los ancestros y el servicio seleccionado.
+            if(!empty($serviceWithAncestors)) {
+              foreach ($serviceWithAncestors as $key => $item) {
+             //buscar si existe ese servicio dentro de la propuesta, para que no me lo inserte.
+               $serviceFound  = ProposalDetail::where('serviceId',$item['serviceId'])
+                                        ->where('proposalId',$request->proposalId)
+                                        ->get();
+             
+              if($serviceFound->isEmpty()) { 
+            // si es una categoria solamente necesito insertar nombre y parentId
+                 if($item['isCategory'] == 'Y') { 
+                $msg = $this->oProposalDetail->insert(
+                    $request->proposalId,
+                     ++$key,
+                    $item['serviceId'],
+                    $item['serviceParentId'],
+                    $item['serviceName'],
+                    '',
+                    '',
+                    '',
+                    0);
+               } else{
+                // si no es categoria, quiere decir que es un servicio con precio del ultimo nivel.
+                $msg = $this->oProposalDetail->insert(
+                    $request->proposalId,
+                     ++$key,
+                    $item['serviceId'],
+                    $item['serviceParentId'],
+                    $item['serviceName'],
+                    $item['unitSelected'],
+                    $item['unitCost'],
+                    $item['quantity'],
+                    $item['sumTotal']);
+               } //if(!$serviceFound)
+            } //if($item['isCategory'] == 'Y') 
 
-       //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
-        if(!empty($request->itemList)) {
-           foreach ($request->itemList as $key => $item) {
-              $result = $this->oProposalDetail->insert(
-                             $request->proposalId,
-                            ++$key,
-                             $item['serviceId'],
-                             $item['serviceName'],
-                             $item['unit'],
-                             $item['unitCost'],
-                             $item['quantity'],
-                              $item['amount']);
-                }
-         }
+          } //foreach ($request->itemList as $key => $item)
+        } //if(!empty($serviceWithAncestors)) 
 
+        if(empty($msg)) {
+            throw new \Exception('Ya Existe este servicio');
+           };
+          
+        // Ejecutar funcion de actualizacion de monto en cascada hacia arriba.
+         $oProposalDetail = new ProposalDetail;
+         $msg = $this->oProposalDetail->cascadeBalanceUpdate($request->proposalId, $msg['entity'], $item['sumTotal']);
+      
             $success = true;
             DB::commit();
         } catch (\Exception $e) {
@@ -81,9 +120,9 @@ class ProposalDetailController extends Controller
         }
 
         if ($success) {
-            return $result = ['alertType' => 'success', 'message' => 'Reglon Guardado Exitosamente'];
+            return ['alertType' => 'success', 'message' => 'Reglon Guardado Exitosamente'];
         } else {
-            return $result = ['alertType' => 'error', 'message' => $error];
+            return ['alertType' => 'error', 'message' => $error];
         }
     }
 
