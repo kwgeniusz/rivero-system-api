@@ -407,8 +407,10 @@
 				</td>
 			</tr>
 		@php
-		$subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
-		$subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+		  if($propDetail->isCategory == 'N'){ 
+		   $subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
+		   $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+		  }
 	}// FIN DE FOREACH DE RENGLONES
 	@endphp
 		<tr >

@@ -78,6 +78,7 @@ class ProposalDetailController extends Controller
                 $msg = $this->oProposalDetail->insert(
                     $request->proposalId,
                      ++$key,
+                    $item['isCategory'],
                     $item['serviceId'],
                     $item['serviceParentId'],
                     $item['serviceName'],
@@ -90,6 +91,7 @@ class ProposalDetailController extends Controller
                 $msg = $this->oProposalDetail->insert(
                     $request->proposalId,
                      ++$key,
+                    $item['isCategory'],
                     $item['serviceId'],
                     $item['serviceParentId'],
                     $item['serviceName'],
@@ -102,7 +104,8 @@ class ProposalDetailController extends Controller
 
           } //foreach ($request->itemList as $key => $item)
         } //if(!empty($serviceWithAncestors)) 
-
+        //  dd($msg);
+        //  exit();
         if(empty($msg)) {
             throw new \Exception('Ya Existe este servicio');
            };

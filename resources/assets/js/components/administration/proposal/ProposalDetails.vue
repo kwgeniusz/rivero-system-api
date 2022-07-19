@@ -58,7 +58,12 @@
         </form>
 
         <!-- <recursive-table/> -->
+<tree-table
+          class="table"
+          :columns="columns"
+          :table-data="itemList" />
 
+          
         <div class="table-responsive tableother">
             <table class="table table-striped table-bordered text-center bg-info">
               <thead> 
@@ -138,6 +143,7 @@
 </template>
  <script>
 
+import TreeTable from 'vue-tree-table-component'
 import proposalScopes from './ProposalScopes.vue'
 import proposalTimes from './ProposalTimes.vue'
 import proposalTerms from './ProposalTerms.vue'
@@ -158,6 +164,7 @@ export default {
          proposalTerms,
          proposalNotes,
          proposalSubcontractor,
+         TreeTable,
 
   },     
     data: function() {
@@ -176,7 +183,7 @@ export default {
             modelUnitCost: '',
 
             editMode: -1,
-            
+            columns: [{label: 'Name', id: 'serviceName'}, {label: 'Surname', id: 'amount'}]
         }
     },
   props: {
@@ -192,9 +199,14 @@ export default {
           let suma = 0;
 
          this.itemList.forEach (function(item){
-             if(item.amount == null){item.amount=0.00}
-            suma += parseFloat(item.amount);
-            suma.toFixed(2);
+          
+            if(item.isCategory == 'N') {
+              console.log(item)
+              suma += parseFloat(item.amount);
+              suma.toFixed(2);
+             }
+
+
           });
   
               let taxAmount   = (parseFloat(suma).toFixed(2) * parseFloat(this.proposal[0].taxPercent).toFixed(2))/100;
@@ -218,13 +230,14 @@ export default {
             let url ='proposalsDetails/'+this.proposalId;
             axios.get(url).then(response => {
              this.itemList = response.data
+            //  console.log(this.itemList)
             });
         },
          getAllServices: function (){
             let url ='services';
             axios.get(url).then(response => {
              this.services = response.data
-             console.log(this.services)
+            //  console.log(this.services)
              this.services.map(function (x){ return x.item_data = `${x.serviceCode} - (${x.serviceName})` });
 
             });

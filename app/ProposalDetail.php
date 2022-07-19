@@ -11,18 +11,41 @@ class ProposalDetail extends Model
 {
     //traits
     // use SoftDeletes;
+    use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
     public $timestamps = false;
 
     protected $table      = 'proposal_detail';
     protected $primaryKey = 'propDetailId';
-    protected $fillable = ['propDetailId','proposalId','serviceId','serviceName','unit','unitCost','quantity','amount'];
+    protected $fillable = ['propDetailId','proposalId','serviceId', 'serviceParentId','serviceName','unit','unitCost','quantity','amount'];
   
     protected $appends = ['unitCost','amount'];
+
+// Change defautl field for recursive librery
+
+    public function getLocalKeyName()
+    {
+        return 'serviceId';
+    }
+    public function getParentKeyName()
+    {
+        return 'serviceParentId';
+    }
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+//Relaciones recursivas
 
+    //Relaciones de primer nivel
+    public function proposalDetail() 
+    {
+        return $this->hasMany(ProposalDetail::class, 'serviceParentId','serviceId');
+    }
+    //Relaciones con el arbol completo
+    public function childrenServiceTree() 
+    {
+        return $this->proposalDetail()->with('childrenServiceTree');
+    }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -59,14 +82,25 @@ class ProposalDetail extends Model
     public function getAllByProposal($proposalId)
     {
         $result = $this->where('proposalId', $proposalId)
-            ->orderBy('itemNumber', 'ASC')
+            ->orderBy('propDetailId', 'ASC')
             ->get();
 
         return $result;
     }
 
+    public function getAllByProposalAndGroup($proposalId)
+    {
+        $result = ProposalDetail::where('serviceParentId', 0)
+                                ->where('proposalId', $proposalId)
+                                ->get()
+                                ->map(function ($items) {
+                                    return $items->load('childrenServiceTree');
+                                 });
+
+        return $result;
+    }
 //------------------------------------------
-    public function insert($proposalId,$itemNumber,$serviceId, $serviceParentId ,$serviceName,$unit,$unitCost,$quantity,$amount) {
+    public function insert($proposalId, $itemNumber, $isCategory ,$serviceId, $serviceParentId ,$serviceName,$unit,$unitCost,$quantity,$amount) {
 
      $error = '';
 
@@ -81,6 +115,7 @@ class ProposalDetail extends Model
              $propDetail                     = new ProposalDetail;
              $propDetail->proposalId         = $proposalId;
              $propDetail->itemNumber         = $itemNumber;
+             $propDetail->isCategory         = $isCategory;
              $propDetail->serviceId          = $serviceId;
              $propDetail->serviceParentId    = $serviceParentId;
              $propDetail->serviceName        = $serviceName;

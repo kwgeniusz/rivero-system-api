@@ -7,7 +7,7 @@ use App\Models\Inventory\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
-use Kalnoy\Nestedset\NodeTrait;
+// use Kalnoy\Nestedset\NodeTrait;
 
 class Service extends Model
 {

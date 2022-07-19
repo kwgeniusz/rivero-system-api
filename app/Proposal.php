@@ -55,7 +55,7 @@ class Proposal extends Model
     }
       public function proposalDetail()
     {
-        return $this->hasMany('App\ProposalDetail', 'proposalId')->orderBy('itemNumber');
+        return $this->hasMany('App\ProposalDetail', 'proposalId')->orderBy('proposalId');
     }
      public function scope()
     {
