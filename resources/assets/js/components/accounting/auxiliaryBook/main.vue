@@ -2,23 +2,23 @@
     <div class="">
     <!-- agregar -->
         <div v-if="formStatus === 1">
-            <accounting-addUp-auxiliary-book
+            <accounting-addUp-auxiliary
                 @showlist = "showlist"
                 :editId=0
-            > </accounting-addUp-auxiliary-book> 
+            > </accounting-addUp-auxiliary> 
         </div>
 
     <!-- Vista actualizar -->
         <div v-if="formStatus === 2">
-            <accounting-addUp-auxiliary-book
+            <accounting-addUp-auxiliary
                 @showlist = "showlist"
                 :editId=editId                
-            > </accounting-addUp-auxiliary-book> 
+            > </accounting-addUp-auxiliary> 
         </div>
 
     <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>LIBRO AUXILIAR</b></h3>
+            <h3><b>LISTA DE AUXILIARES DE LA CUENTA</b></h3>
 
             <button-form
                 @addf = "addFormStatus"
@@ -26,11 +26,11 @@
                 :btn4 = 0
             ></button-form>
 
-            <accounting-table-auxiliary-book  
+            <accounting-table-auxiliary  
                 :auxiliaryList = auxiliaryList
                 @editData = "editData"
                 @showlist = "showlist">
-            </accounting-table-auxiliary-book>
+            </accounting-table-auxiliary>
 
         </div>  
 
@@ -40,11 +40,14 @@
 <script>
     export default {
         mounted() {
-            axios.get('/accounting/auxiliary-books').then((response) => {
+            axios.get(`/accounting/general-ledgers/${this.generalLedgerId}/auxiliaries`).then((response) => {
                 this.auxiliaryList = response.data
                 console.log(this.auxiliaryList)
             })
         },
+        props: {
+            generalLedgerId: { type: Number},
+        }, 
         data() {
             return{
                 auxiliaryList: [],

@@ -53,6 +53,8 @@
                                 <td class="text-left"> {{generalLedger.account_type.accountTypeName}}</td>
                                 <td> 
                                  <!-- <button @click="toggle(generalLedger.generalLedgerId)" :class="{ opened: opened.includes(generalLedger.generalLedgerId) }" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Informacion de otros contactos"><i class="fa fa-user" aria-hidden="true"></i></button>   -->
+                                 <a v-if="generalLedger.account_type.accountTypeCode == 2" :href="`general-ledgers/${generalLedger.generalLedgerId}/auxiliaries`" class="btn btn-sm btn-info" title="Auxiliares"><i class="fa fa-book"></i></a> 
+                                  
                                  <button @click="editData(index,generalLedger.generalLedgerId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i></button>  
                                  <button @click="deleteData(index,generalLedger.generalLedgerId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button> 
                                 </td>

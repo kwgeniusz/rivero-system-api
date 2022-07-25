@@ -220,9 +220,9 @@ Vue.component("accounting-addUp-general-ledger",require("./components/accounting
 Vue.component("accounting-close-year",require("./components/accounting/ModalCloseYear.vue"));
 
 // ---------------------> Auxiliary Book <-----------------------------//
-Vue.component("accounting-main-auxiliary-book",require("./components/accounting/auxiliaryBook/main.vue"));
-Vue.component("accounting-table-auxiliary-book",require("./components/accounting/auxiliaryBook/table.vue"));
-Vue.component("accounting-addUp-auxiliary-book",require("./components/accounting/auxiliaryBook/addUp.vue"));
+Vue.component("accounting-main-auxiliary",require("./components/accounting/auxiliaryBook/main.vue"));
+Vue.component("accounting-table-auxiliary",require("./components/accounting/auxiliaryBook/table.vue"));
+Vue.component("accounting-addUp-auxiliary",require("./components/accounting/auxiliaryBook/addUp.vue"));
 
 //###################################################
 //           Module Human Resource Components

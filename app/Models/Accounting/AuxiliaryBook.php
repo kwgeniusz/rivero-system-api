@@ -85,13 +85,14 @@ class AuxiliaryBook extends Model
 //--------------------------------------------------------------------
     public function findById($id)
     {
-        return $this->where('generalLedgerId', '=', $id)
+        return $this->where('auxiliaryId', '=', $id)
                     ->get();
     }
 
-    public function getAllByCompany($companyId) 
+    public function getAllByCompany($companyId, $generalLedgerId) 
     {  
          return $this->where('companyId', '=', $companyId)
+                     ->where('generalLedgerId', '=', $generalLedgerId)
                      ->orderBy('auxiliaryId', 'ASC')
                      ->get(); 
      }      

@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-  <accounting-main-auxiliary-book/>
+  <accounting-main-auxiliary general-ledger-id=""/>
 @endsection

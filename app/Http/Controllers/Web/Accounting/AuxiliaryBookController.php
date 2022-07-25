@@ -16,7 +16,7 @@ class AuxiliaryBookController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oAuxiliaryBook        = new AuxiliaryBook;
+        $this->oAuxiliaryBook   = new AuxiliaryBook;
     }
     /**
      * Display a listing of the resource.
@@ -26,11 +26,12 @@ class AuxiliaryBookController extends Controller
     public function index(Request $request)
     {
 
-         $auxiliaryBook = $this->oAuxiliaryBook->getAllByCompany(session('companyId'));
-         
+         $auxiliaryBook = $this->oAuxiliaryBook->getAllByCompany(session('companyId'), $request->id);
+         dd($auxiliaryBook);
+         exit();
          if($request->ajax()) {
                return $auxiliaryBook;
-                }
+         }
 
         return view('module_accounting.auxiliary_book.index');
     }
