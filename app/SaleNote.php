@@ -79,6 +79,15 @@ use Illuminate\Database\Eloquent\Model;
         })->where('noteType',$noteType)
           ->get();
     }
+
+    public function getAllByTypeAndDate($companyId, $noteType, $date1,$date2)
+    {
+        return $this->whereHas('invoice', function($q) use ($companyId){
+            $q->where('companyId', $companyId);
+         })->where('noteType',$noteType)
+           ->whereNotBetween('dateNote', [$date1, $date2])
+           ->get();
+    }  
     public function getAllByInvoice($invoiceId)
     {
         return $this->where('invoiceId', $invoiceId)

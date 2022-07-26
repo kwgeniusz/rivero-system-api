@@ -175,24 +175,22 @@ class InvoiceController extends Controller
        $totalCobrado = 0;
 
      $invoices = $this->oInvoice->getAllByFourStatus(Invoice::OPEN,Invoice::CLOSED,Invoice::PAID,Invoice::COLLECTION,session('companyId'));
-
+    
      foreach ($invoices as $invoice) {
            // $invoice->shareSucceed = count($this->oReceivable->shareSucceed($invoice->invoiceId));
            // $invoice->balance = $this->oInvoice->getBalance($invoice->invoiceId);
 
             $totalMontoFacturas += $invoice->netTotal;
             $totalCobrado       += $invoice->shareSucceed->sum('amountPaid');
+            $totalDebitNote     += $invoice->debitNote->sum('netTotal');
+            $totalCreditNote    += $invoice->creditNote->sum('netTotal');
+     
           if ($invoice->invStatusCode == Invoice::COLLECTION) {
             $totalCollections   +=  $invoice->balanceTotal;    
           }else{
             $totalPorCobrar     +=  $invoice->balanceTotal;
            }
         }    
-     $totalDebitNote  =  $this->oSaleNote->getAllByType(session('companyId'),'debit')->sum('netTotal');
-     $totalCreditNote =  $this->oSaleNote->getAllByType(session('companyId'),'credit')->sum('netTotal');
-
-     
-
 
    if($request->method() == 'POST') {
        if($request->date1 || $request->date2 || $request->textToFilter) {
@@ -232,23 +230,69 @@ class InvoiceController extends Controller
 
     //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
   if($request->date1 && $request->date2) {
+
+    $totalMontoFacturas = 0;
+    $totalPorCobrar = 0;
+    $totalCollections = 0;
+    $totalDebitNote = 0;
+    $totalCreditNote = 0;
+    $totalCobrado = 0;
+
+  
     $invoices = $invoices->filter(function ($invoice) use($request) {
-
-               $oDateHelper = new DateHelper;
-               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-              //  $date1                 = $oDateHelper->$functionRs($request->date1);
-              //  $date2                 = $oDateHelper->$functionRs($request->date2);
-              //  $invoiceDate       = $oDateHelper->$functionRs($invoice->invoiceDate);
-
+               //  formatear fechas
               $date_inicio = strtotime($request->date1);
               $date_fin    = strtotime($request->date2);
               $date_nueva  = strtotime($invoice->invoiceDate);
-
                // esta dentro del rango
               if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
                  return $invoice;
               }
      });
+  
+     foreach ($invoices as $invoice) {
+    
+       $totalMontoFacturas += $invoice->netTotal;
+       $totalCobrado       += $invoice->shareSucceed->sum('amountPaid');
+       $totalDebitNote     += $invoice->debitNote->sum('netTotal');
+       $totalCreditNote    += $invoice->creditNote->sum('netTotal');
+
+     if ($invoice->invStatusCode == Invoice::COLLECTION) {
+       $totalCollections   +=  $invoice->balanceTotal;    
+     }else{
+       $totalPorCobrar     +=  $invoice->balanceTotal;
+      }
+   }
+
+//    $debitNotes  =  $this->oSaleNote->getAllByType(session('companyId'),'debit');
+//    $creditNotes =  $this->oSaleNote->getAllByType(session('companyId'),'credit');
+  
+//    $debitNotes = $debitNotes->filter(function ($debit) use($request) {
+//             //  formatear fechas
+//             $date_inicio = strtotime($request->date1);
+//             $date_fin    = strtotime($request->date2);
+//             $date_nueva  = strtotime($debit->dateNote);
+//      // esta dentro del rango
+//     if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
+//        return $debit;
+//     }
+// });
+
+//    $creditNotes = $creditNotes->filter(function ($credit) use($request) {
+//               //  formatear fechas
+//               $date_inicio = strtotime($request->date1);
+//               $date_fin    = strtotime($request->date2);
+//               $date_nueva  = strtotime($credit->dateNote);
+//    // esta dentro del rango
+//   if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
+//        return $credit;
+//   }
+// });
+
+
+// $totalDebitNote       =    $debitNotes->sum('netTotal');
+// $totalCreditNote       =    $creditNotes->sum('netTotal');
+
     }//fin del segundo filtrado
 
   } //cierre del filtrado general.
