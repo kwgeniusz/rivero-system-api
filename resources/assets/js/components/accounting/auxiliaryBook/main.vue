@@ -18,22 +18,30 @@
 
     <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>LISTA DE AUXILIARES DE LA CUENTA</b></h3>
-
+             <!-- <form class="form-inline"> -->
+                 <!-- <div class="form-group"> -->
+                 <label> <h3><b>LISTA DE AUXILIARES DE LA CUENTA</b></h3></label>
+                 <!-- <select v-model="entity" class="form-control" name="unit" id="unit">
+                      <option value="customers">Clientes</option>
+                      <option value="partners">Socios</option>
+                      <option value="employees">Empleados</option>
+                 </select>
+                 </div>
+             </form> -->
+             <a href=""></a>
             <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
             ></button-form>
-
+             
             <accounting-table-auxiliary  
                 :auxiliaryList = auxiliaryList
                 @editData = "editData"
                 @showlist = "showlist">
             </accounting-table-auxiliary>
-
         </div>  
-
+        
     </div>         
 </template>
 

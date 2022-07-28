@@ -30,6 +30,10 @@ class Transaction extends Model
     {
         return $this->hasOne(GeneralLedger::class, 'generalLedgerId', 'generalLedgerId');
     }
+    public function auxiliary()
+    {
+        return $this->belongsToMany('App\Model\Accounting\AuxiliaryBook', 'acc_transaction_auxiliary', 'auxiliaryId', 'transactionId');
+    }
     // public function accountClassification()
     // {
     //     return $this->hasOne('App\AccountClassification', 'accountClassificationCode', 'accountClassificationCode');

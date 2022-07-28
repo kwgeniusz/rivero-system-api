@@ -26,23 +26,18 @@ class AuxiliaryBook extends Model
 //--------------------------------------------------------------------
     /** RELATIONS **/
 //--------------------------------------------------------------------
-    public function accountType()
+    public function transaction()
     {
-        return $this->hasOne(AccountType::class, 'accountTypeCode', 'accountTypeCode')->where('countryId', '=',session('countryId'));
+        return $this->belongsToMany('App\Models\Accounting\Transaction', 'acc_transaction_auxiliary', 'auxiliaryId', 'transactionId');
     }
-    public function accountClassification()
+    public function generalLedger()
     {
-        return $this->hasOne(AccountClassification::class, 'accountClassificationCode', 'accountClassificationCode')->where('countryId', '=',session('countryId'));
+        return $this->hasOne('App\Models\Accounting\GeneralLedger', 'generalLedgerId', 'generalLedgerId');
     }
-    public function daughterAccount()
+    public function entity()
     {
-        return $this->hasMany(GeneralLedger::class, 'parentAccountId', 'generalLedgerId');
+        return $this->hasOne('App\Models\Entity', 'entityId', 'entityId');
     }
-    public function allDaughterAccount()
-    {
-        return $this->daughterAccount()->with('allDaughterAccount');
-    } 
-
 //--------------------------------------------------------------------
      /** ACCESORES **/
 //--------------------------------------------------------------------
@@ -89,9 +84,10 @@ class AuxiliaryBook extends Model
                     ->get();
     }
 
-    public function getAllByCompany($companyId, $generalLedgerId) 
+    public function getAllByAccountAndCompany($companyId, $generalLedgerId) 
     {  
-         return $this->where('companyId', '=', $companyId)
+         return $this->with('generalLedger', 'entity')
+                     ->where('companyId', '=', $companyId)
                      ->where('generalLedgerId', '=', $generalLedgerId)
                      ->orderBy('auxiliaryId', 'ASC')
                      ->get(); 

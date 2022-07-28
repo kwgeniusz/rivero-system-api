@@ -25,15 +25,15 @@ class AuxiliaryBookController extends Controller
      */
     public function index(Request $request)
     {
+        $generalLedgerId = $request->id;
 
-         $auxiliaryBook = $this->oAuxiliaryBook->getAllByCompany(session('companyId'), $request->id);
-         dd($auxiliaryBook);
-         exit();
+         $auxiliaryBook = $this->oAuxiliaryBook->getAllByAccountAndCompany(session('companyId'), $request->id);
+    
          if($request->ajax()) {
                return $auxiliaryBook;
          }
 
-        return view('module_accounting.auxiliary_book.index');
+        return view('module_accounting.auxiliary_book.index', compact('generalLedgerId'));
     }
     /**
      * Show the form for creating a new resource.
