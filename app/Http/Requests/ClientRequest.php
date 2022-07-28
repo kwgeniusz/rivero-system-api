@@ -27,8 +27,8 @@ class ClientRequest extends FormRequest
             'clientName'       => 'required|max:255',
             'clientAddress'    => 'max:255',
             'contactTypeId'    => 'required',
-            'businessPhone'    => 'unique:client',
-            'mainEmail'        => 'unique:client',
+            // 'businessPhone'    => 'unique:client',
+            // 'mainEmail'        => 'unique:client',
         ];
     }
     /**
