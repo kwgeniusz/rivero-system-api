@@ -335,7 +335,7 @@ class InvoiceController extends Controller
         $invoice         = $this->oInvoice->findById($id,session('countryId'),session('companyId'));
         $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($id);
         $payments        = $invoice[0]->receivable;
-        // dd($invoice);
+        // dd($payments);
         // exit();
         // $payments        = $this->oPaymentInvoice->getAllByInvoice($id);
 

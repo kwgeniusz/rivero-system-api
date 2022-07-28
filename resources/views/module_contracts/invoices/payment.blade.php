@@ -159,6 +159,8 @@
                   <!-- <th>MONTO INICIAL</th> -->
                   <th>CUOTA</th>
                   <th>MONTO PAGADO</th>
+                  <th>METODO DE PAGO</th>
+                  <th>REFERENCIA</th>
                   <th colspan="1">ACCIONES</th>
                 </tr>
               </thead>
@@ -184,6 +186,14 @@
                     </td>
                     <td>{{$receivable->amountDue}}</td>
                     <td>{{$receivable->amountPaid}}</td>
+                    <td>
+                     @if($receivable->paymentMethod)
+                         {{$receivable->paymentMethod->payMethodName}}
+                     @else
+                       NO PAGADA
+                     @endif
+                    </td>
+                    <td>{{$receivable->checkNumber}}</td>
                     <td>
                       {{-- {{$receivable->recStatusCode}} - {{$invoice[0]->contract->contractStatus}} --}}
                       @if($invoice[0]->contract->contractStatus <> App\Contract::FINISHED && $invoice[0]->contract->contractStatus <> App\Contract::CANCELLED)
@@ -231,6 +241,8 @@
                     <td></td>
                     <td><h4 class="text-info" align="center" >Suma de Cuotas: {{$total}} </h3></td>
                     <td><h4 class="text-danger" align="center" >Restante a Pagar: {{$invoice[0]->balanceTotal}}</h4></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                   </tr>
               </tbody>
