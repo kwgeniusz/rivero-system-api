@@ -5,11 +5,12 @@
 
   <div class="col-xs-3 text-left">
     <h4 class="text-primary text-left">Total En Facturas: ${{$totalMontoFacturas}}</h4>
-    <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
-    <h4 class="text-warning text-left">Collections: ${{$totalCollections}}</h4>
     <h4 class="text-left">Total Notas de Credito: ${{$totalCreditNote}} (-)</h4>
     <h4 class="text-left">Total Notas de Debito: ${{$totalDebitNote}} (+)</h4>
-        <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}}</h4>
+    <hr>
+    <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
+    <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}} / Collections: ${{$totalCollections}}</h4>
+   
   </div>
 
 <div class="col-xs-6 text-center">
