@@ -199,9 +199,9 @@ Vue.component("accounting-main-transaction-header",require("./components/account
 Vue.component("accounting-table-transaction-header",require("./components/accounting/transactionHeader/table.vue"));
 Vue.component("accounting-addUp-transaction-header",require("./components/accounting/transactionHeader/addUp.vue"));
 // ---------------------> Transaction <-----------------------------//
-Vue.component("accounting-main-transaction",require("./components/accounting/transactionHeader/transaction/main.vue"));
-Vue.component("accounting-table-transaction",require("./components/accounting/transactionHeader/transaction/table.vue"));
-Vue.component("accounting-addUp-transaction",require("./components/accounting/transactionHeader/transaction/addUp.vue"));
+// Vue.component("accounting-main-transaction",require("./components/accounting/transactionHeader/transaction/main.vue"));
+// Vue.component("accounting-table-transaction",require("./components/accounting/transactionHeader/transaction/table.vue"));
+// Vue.component("accounting-addUp-transaction",require("./components/accounting/transactionHeader/transaction/addUp.vue"));
 
 // ---------------------> Temporal Transaction Header <-----------------------------//
 Vue.component("accounting-main-transaction-header-tmp",require("./components/accounting/transactionHeaderTmp/main.vue"));

@@ -85,12 +85,17 @@
                 </td>
                  <td>
                    <p v-if="displayMode">{{item.accountName}}</p> 
-                   <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/>
+                   <!-- <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/> -->
+                     <accounting-main-auxiliary />
+                    
+                    <a @click="auxiliaries(item)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Auxiliares">
+                      Auxiliares 
+                    </a>
                 </td>
                 <td v-if="!displayMode"> 
                   <!-- <a @click="addRow()" class="btn btn-sm btn-success">
-                    <i class="glyphicon glyphicon-ok"></i>
-                  </a>  -->
+                          <i class="glyphicon glyphicon-ok"></i>
+                       </a>  -->
                   <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                     <span class="fa fa-times-circle" aria-hidden="true"></span> 
                   </a>
@@ -245,6 +250,7 @@
                                    });
 
            } //end of errors
+           console.log(this.itemList);
          },
          deleteRow: function(id) {
             //borrar valor que encuentre del arreglo
