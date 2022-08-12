@@ -62,7 +62,8 @@
                 <td>{{++index}}</td>
                 <td class="col-xs-4">
                   <p v-if="displayMode">{{item.accountName}}</p> 
-                  <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/>
+                  <v-select v-else :options="chartOfAccount"  v-model="item.generalLedger" :reduce="chartOfAccount => chartOfAccount" label="item_data"/>
+                {{item}}
                 </td>
                 <td>
                   <p v-if="displayMode">{{item.description}}</p> 
@@ -85,17 +86,10 @@
                 </td>
                  <td>
                    <p v-if="displayMode">{{item.accountName}}</p> 
-                   <!-- <v-select v-else :options="chartOfAccount"  v-model="item.generalLedgerId" :reduce="chartOfAccount => chartOfAccount.generalLedgerId" label="item_data"/> -->
-                     <accounting-main-auxiliary />
-                    
-                    <a @click="auxiliaries(item)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Auxiliares">
-                      Auxiliares 
-                    </a>
+                   <!-- <v-select v-else :options="chartOfAccount"  v-model="item.generalLedger" :reduce="chartOfAccount => chartOfAccount.generalLedger" label="item_data"/> -->
+                  <accounting-main-transaction-auxiliary :general-ledger="item.generalLedger" v-if="item.generalLedger.hasAuxiliary == 'Y'"/>
                 </td>
                 <td v-if="!displayMode"> 
-                  <!-- <a @click="addRow()" class="btn btn-sm btn-success">
-                          <i class="glyphicon glyphicon-ok"></i>
-                       </a>  -->
                   <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                     <span class="fa fa-times-circle" aria-hidden="true"></span> 
                   </a>
@@ -166,7 +160,7 @@
                           transaction.amount = transaction.credit;
                         }
                        this.itemList.push({
-                                     generalLedgerId: transaction.generalLedgerId,
+                                     generalLedger: transaction.generalLedgerId, //OJO REVISAR ESTA RECEPCION DE DATOS
                                      description:transaction.transactionDescription,
                                      reference: transaction.transactionReference,
                                      type: transaction.type,
@@ -197,7 +191,7 @@
                      conversionRate: 1,
                    },
                 itemList: [{
-                   generalLedgerId:'',
+                   generalLedger:'',
                    description:'',
                    reference: '',
                    type:'debit',
@@ -242,7 +236,7 @@
                if (!this.errors.length) { 
                  //insertar en arreglo de items.
                  this.itemList.push({
-                                     generalLedgerId:'',
+                                     generalLedger:'',
                                      description:'',
                                      reference: '',
                                      type:'debit',
@@ -268,7 +262,7 @@
                 
                 //  let error ='';
                  this.itemList.map(item => {
-                      if (!item.generalLedgerId) 
+                      if (!item.generalLedger) 
                         this.errors.push('Debe escoger una cuenta contable es Requerido.');
                     //   if (!item.description) 
                     //     this.errors.push('Descripcion del Asiento es Requerido.');

@@ -49,6 +49,12 @@
          <loading/><br>
            DESCARGANDO...
       </div>
+
+       <div v-if="!loading" class="dropdown">
+         <button  class="btn btn-info btn-sm dropdown-toggle" id="drop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Generar Asientos Contables<span class="caret"></span>
+          </button>
+      </div>  
     </div>  
 
      

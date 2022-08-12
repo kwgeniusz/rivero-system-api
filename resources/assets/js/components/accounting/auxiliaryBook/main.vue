@@ -28,12 +28,17 @@
                  </select>
                  </div>
              </form> -->
-             <a href=""></a>
+
             <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
             ></button-form>
+                 <a :href="'/accounting/general-ledgers'" class="btn btn-warning">
+                 <span class="fa fa-hand-point-left" aria-hidden="true"></span>  Regresar 
+               </a>
+
+
              
             <accounting-table-auxiliary  
                 :auxiliaryList = auxiliaryList

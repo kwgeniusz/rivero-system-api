@@ -118,6 +118,7 @@ Vue.component("time-frame-crud",require("./components/administration/proposal/ti
 Vue.component("term-crud",require("./components/administration/proposal/term/termCrud.vue"));
 Vue.component("note-crud",require("./components/administration/proposal/note/noteCrud.vue"));
 Vue.component("time-payment-crud",require("./components/administration/proposal/timePayment/timePayCrud.vue"));
+
 //###################################################
 //           Module Administration Components
 //###################################################
@@ -198,7 +199,11 @@ Vue.component("inventory-addUp-service",require("./components/inventory/service/
 Vue.component("accounting-main-transaction-header",require("./components/accounting/transactionHeader/main.vue"));
 Vue.component("accounting-table-transaction-header",require("./components/accounting/transactionHeader/table.vue"));
 Vue.component("accounting-addUp-transaction-header",require("./components/accounting/transactionHeader/addUp.vue"));
-// ---------------------> Transaction <-----------------------------//
+// ---------------------> Transaction - Auxiliary <-----------------------------//
+Vue.component("accounting-main-transaction-auxiliary",require("./components/accounting/transactionHeader/auxiliary/main.vue"));
+// Vue.component("accounting-table-transaction-auxiliary",require("./components/accounting/transactionHeader/auxiliary/table.vue"));
+// Vue.component("accounting-addUp-transaction-auxiliary",require("./components/accounting/transactionHeader/auxiliary/addUp.vue"));
+
 // Vue.component("accounting-main-transaction",require("./components/accounting/transactionHeader/transaction/main.vue"));
 // Vue.component("accounting-table-transaction",require("./components/accounting/transactionHeader/transaction/table.vue"));
 // Vue.component("accounting-addUp-transaction",require("./components/accounting/transactionHeader/transaction/addUp.vue"));
@@ -208,21 +213,21 @@ Vue.component("accounting-main-transaction-header-tmp",require("./components/acc
 Vue.component("accounting-table-transaction-header-tmp",require("./components/accounting/transactionHeaderTmp/table.vue"));
 Vue.component("accounting-addUp-transaction-header-tmp",require("./components/accounting/transactionHeaderTmp/addUp.vue"));
 // ---------------------> Temporal Transaction <-----------------------------//
-Vue.component("accounting-main-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/main.vue"));
-Vue.component("accounting-table-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/table.vue"));
-Vue.component("accounting-addUp-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/addUp.vue"));
+// Vue.component("accounting-main-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/main.vue"));
+// Vue.component("accounting-table-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/table.vue"));
+// Vue.component("accounting-addUp-transaction-tmp",require("./components/accounting/transactionHeaderTmp/transactionTmp/addUp.vue"));
 
 // ---------------------> General Ledger <-----------------------------//
 Vue.component("accounting-main-general-ledger",require("./components/accounting/generalLedger/main.vue"));
 Vue.component("accounting-table-general-ledger",require("./components/accounting/generalLedger/table.vue"));
 Vue.component("accounting-addUp-general-ledger",require("./components/accounting/generalLedger/addUp.vue"));
 
-Vue.component("accounting-close-year",require("./components/accounting/ModalCloseYear.vue"));
+// ---------------------> General Ledger - Auxiliaries <-----------------------------//
+Vue.component("accounting-main-general-ledger-auxiliary",require("./components/accounting/generalLedger/auxiliary/main.vue"));
+Vue.component("accounting-table-general-ledger-auxiliary",require("./components/accounting/generalLedger/auxiliary/table.vue"));
+Vue.component("accounting-addUp-general-ledger-auxiliary",require("./components/accounting/generalLedger/auxiliary/addUp.vue"));
 
-// ---------------------> Auxiliary Book <-----------------------------//
-Vue.component("accounting-main-auxiliary",require("./components/accounting/auxiliaryBook/main.vue"));
-Vue.component("accounting-table-auxiliary",require("./components/accounting/auxiliaryBook/table.vue"));
-Vue.component("accounting-addUp-auxiliary",require("./components/accounting/auxiliaryBook/addUp.vue"));
+Vue.component("accounting-close-year",require("./components/accounting/ModalCloseYear.vue"));
 
 //###################################################
 //           Module Human Resource Components

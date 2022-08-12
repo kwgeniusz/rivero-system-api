@@ -134,9 +134,10 @@ class GeneralLedger extends Model
         $generalLedger->parentAccountId         = $data['parentAccountId'];
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode         = $data['accountTypeCode'];
-        $entityRs                               = Entity::find($data['entityId']);
-        $generalLedger->entityName              = $entityRs['entityName'];
-        $generalLedger->entityKey               = $entityRs['entityKey'];
+        $generalLedger->hasAuxiliary            = $data['hasAuxiliary'];
+        // $entityRs                               = Entity::find($data['entityId']);
+        // $generalLedger->entityName              = $entityRs['entityName'];
+        // $generalLedger->entityKey               = $entityRs['entityKey'];
         $generalLedger->save();
 
         $generalLedgerId = $generalLedger->generalLedgerId;
@@ -185,9 +186,10 @@ class GeneralLedger extends Model
         $generalLedger->accountCode                 = $data['accountCode'];
         $generalLedger->accountName                 = $data['accountName'];
         $generalLedger->leftMargin                  = $data['leftMargin'];
-        $generalLedger->parentAccountId           = $data['parentAccountId'];
+        $generalLedger->parentAccountId             = $data['parentAccountId'];
         $generalLedger->accountClassificationCode   = $data['accountClassificationCode'];
         $generalLedger->accountTypeCode             = $data['accountTypeCode'];
+        $generalLedger->hasAuxiliary                = $data['hasAuxiliary'];
         $generalLedger->save();
         
             $success = true;

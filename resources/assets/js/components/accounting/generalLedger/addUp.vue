@@ -19,6 +19,11 @@
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
         <form  class="form" id="formgeneralLedger" role="form" @submit.prevent="createUpdateAccount()">
 
+
+         <div class="form-group col-lg-12 ">
+              <label for="accountClassificationCode">CLASIFICACION:</label>
+                 <v-select :options="accountClassificationList" v-model="generalLedger.accountClassificationCode" :reduce="accountClassificationList => accountClassificationList.accountClassificationCode" label="accountClassificationName" /> 
+          </div>  
          <div class="form-group col-lg-12 ">
               <label for="accountTypeCode">TIPO:</label>
               <v-select :options="accountTypeList" v-model="generalLedger.accountTypeCode" :reduce="accountTypeList => accountTypeList.accountTypeCode" label="accountTypeName" />
@@ -43,14 +48,12 @@
                 <input type="number" class="form-control" v-model="generalLedger.leftMargin" name="leftMargin" placeholder="">
         </div>
 
-         <div class="form-group col-lg-12 ">
-              <label for="accountClassificationCode">CLASIFICACION:</label>
-                 <v-select :options="accountClassificationList" v-model="generalLedger.accountClassificationCode" :reduce="accountClassificationList => accountClassificationList.accountClassificationCode" label="accountClassificationName" /> 
-          </div>  
-
-         <div class="form-group col-lg-12 ">
-              <label for="accountClassificationCode">ENTIDAD:</label>
-                 <v-select :options="entitiesList" v-model="generalLedger.entityId" :reduce="entitiesList => entitiesList.entityId" label="item_data" /> 
+         <div  v-if="generalLedger.accountTypeCode == 2" class="form-group col-lg-12 ">
+              <label for="accountClassificationCode">TIENE AUXILIARES?:</label>
+                <select class="form-control" v-model="generalLedger.hasAuxiliary" id="transactionTypeId">
+                    <option value="Y">SI</option>
+                    <option value="N">NO</option>
+                </select>
           </div>  
 
                         <div v-if="editId === 0">
@@ -89,10 +92,6 @@
                    });
                   this.accountTypeList           = response.data.accountTypeList;
                   this.accountClassificationList = response.data.accountClassificationList;
-                  this.entitiesList              = response.data.entitiesList;
-                  this.entitiesList.map(function (x){
-                       return x.item_data = `${x.entityName} - (${x.entityKey})`;
-                  });
 
             }); //end of create clients
 
@@ -107,7 +106,7 @@
                     this.generalLedger.parentAccountId            = this.data.parentAccountId;
                     this.generalLedger.accountClassificationCode  = this.data.accountClassificationCode;
                     this.generalLedger.accountTypeCode            = this.data.accountTypeCode;
-                    this.generalLedger.entityId                   = this.data.entityId;
+                    this.generalLedger.hasAuxiliary                   = this.data.hasAuxiliary;
                 });    
             } 
         },
@@ -127,7 +126,7 @@
                    parentAccountId:'',
                    accountClassificationCode:'',
                    accountTypeCode:'',
-                   entityId:'',
+                   hasAuxiliary: 'N',
                 },
             }
          },

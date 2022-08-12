@@ -68,6 +68,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
+Procesos
       {{-- @can('CA') <li><a href="{{route('transactionsTypes.index')}}">{{__('types_of_transactions')}}</a></li> @endcan --}}
       <!-- @can('BA') <li><a href="{{route('subcontractors.index')}}">Subcontratistas   </a></li> @endcan -->
       @can('CA') <li><a href="{{route('invoices.all')}}">Facturas</a></li> @endcan
@@ -78,12 +79,8 @@
       @can('CF') <li><a href="{{route('transactions.index',['sign' => '-'])}}">{{__('expenses_transactions')}}</a></li> @endcan
       @can('CG') <li><a href="{{route('payables.index')}}">   Cuentas Por Pagar</a></li> @endcan
       @can('CH') <li><a href="{{route('receivables.index')}}">Cuentas Por Cobrar</a></li> @endcan
-
-<hr> 
-    <!-- @can('BI')<li><a href="{{route('temporary-acc-entry.index')}}">Generar Asientos Contables Temporales</a></li> @endcan    -->
-    <li><a href="/accounting/transaction-headers-tmp">Asientos Contables Temporales</a></li>
-
 <hr>
+Reportes
     @can('BI')<li><a href="{{route('contracts.summaryForClient')}}">Estado de Cuenta Por Cliente</a></li> @endcan 
     @can('BI')<li><a href="{{route('reports.administration.totalContracts')}}">Total de Contratos</a></li> @endcan 
       {{-- @can('CD') <li><a href="{{route('banks.index')}}">{{__('bank')}}</a></li> @endcan --}}
@@ -95,6 +92,10 @@
       @can('CJ')  <li><a href="{{route('collections.index')}}">Reporte de Cobranzas</a></li> @endcan --}}
        <!-- <hr>
        @can('CH') <li><a href="{{route('receivables.index')}}">Generar Asientos Contables</a></li> @endcan -->
+<hr> 
+Enlace Contable
+    <!-- <li><a href="/accounting/equivalence">Equivalencia Contable</a></li> -->
+    <li><a href="/accounting/transaction-headers-tmp">Asientos Contables Temporales</a></li>
        <br>
       </ul>
     </li>
@@ -148,19 +149,11 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Tipo de Cuentas</a></li>
             <li><a href="#">Clasificacion de Cuentas</a></li>
             <li><a href="/accounting/general-ledgers">Plan de Cuentas</a></li>
             <li><a href="/accounting/transaction-headers">Asientos Contables</a></li>
-            <li><a href="/accounting/auxiliary-books">Libro Auxiliar (PRUEBAS)</a></li>
-            <li>
-            <a href="/accounting/close-year">Cerrar Año Contable</a>
-               
-            </li>
-            <!-- <li><a href="#">Actualizar Asiento</a></li> -->
-            <!-- <li><a href="#">Listado del plan de cuentas</a></li> -->
-            <!-- <li><a href="#">Listado de transacciones</a></li> -->
-            <!-- <li><a href="#">Actualizar transacciones</a></li> -->
+            <li><a href="/accounting/close-year">Cerrar Año Contable</a></li>
+            <li><a href="/accounting/equivalence">Equivalencia Contable</a></li>
             <hr>
             <li><a href="#">Balance de Comprobacion</a></li>
             <li><a href="#">Balance General</a></li>
