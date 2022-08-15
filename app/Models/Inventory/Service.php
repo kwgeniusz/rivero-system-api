@@ -88,7 +88,7 @@ public function setCostAttribute($cost)
      public function getAllByCompany($companyId)
     {
         return $this->where('companyId' , '=' , $companyId)
-          ->orderBy('serviceCode', 'ASC')
+          ->orderBy('serviceName', 'ASC')
           ->get();
     }
 //------------------------------------------

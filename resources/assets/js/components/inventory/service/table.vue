@@ -51,7 +51,6 @@
                             <thead class="bg-success">
                               <tr>
                                  <th>#</th>
-                                 <th>CODIGO</th>
                                  <th>SERVICIO</th>
                                  <th>UNIDAD</th>
                                  <th>COSTO</th>
@@ -61,7 +60,6 @@
                             <tbody v-if="searchData.length > 0">
                              <tr v-for="(service, index) in searchData" :key="service.serviceId">
                                 <td>{{index + 1}}</td>
-                                <td> {{service.serviceCode}}</td>
                                 <td> {{service.serviceName}}</td>
                                 <td class="text-left"> {{service.unit}} <br>
                                 <td class="text-left"> {{service.cost}} </td>
