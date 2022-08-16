@@ -50,7 +50,7 @@ class ProposalController extends Controller
     {
 
         $precontract = $this->oPrecontract->findById($request->id,session('countryId'),session('companyId'));
-        $proposals = $this->oProposal->getAllByPrecontract($request->id);
+        $proposals   = $this->oProposal->getAllByPrecontract($request->id);
 
          if($request->ajax()){
                 return $proposals;

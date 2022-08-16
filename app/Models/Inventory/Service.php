@@ -4,6 +4,7 @@ namespace App\Models\Inventory;
 
 use Auth;
 use App\Models\Inventory\Service;
+use App\Models\Inventory\ServiceCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Service extends Model
 {
     use SoftDeletes;
-    use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
+    // use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
     public $timestamps = false;
 
@@ -38,22 +39,11 @@ public function getParentKeyName()
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
- //Relaciones recursivas
+ //Relaciones
 
-    //Relaciones de primer nivel
-    public function service() 
+    public function category() 
     {
-        return $this->hasMany(Service::class, 'serviceParentId');
-    }
-    //Relaciones de primer nivel + segundo nivel
-    public function childrenService()
-    {
-        return $this->hasMany(Service::class, 'serviceParentId')->with('service');
-    }
-    //Relaciones con el arbol completo
-    public function childrenServiceTree() 
-    {
-        return $this->services()->with('childrenServicesTree');
+        return $this->hasOne(ServiceCategory::class, 'categoryId');
     }
     //Fin relaciones recursivas
  //--------------------------------------------------------------------
@@ -87,9 +77,10 @@ public function setCostAttribute($cost)
 //-----------------------------------------
      public function getAllByCompany($companyId)
     {
-        return $this->where('companyId' , '=' , $companyId)
-          ->orderBy('serviceName', 'ASC')
-          ->get();
+        return $this->with('category')
+                    ->where('companyId' , '=' , $companyId)
+                    ->orderBy('serviceName', 'ASC')
+                    ->get();
     }
 //------------------------------------------
     public function findById($id)

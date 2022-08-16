@@ -58,10 +58,10 @@
         </form>
 
         <!-- <recursive-table/> -->
-<tree-table
+<!-- <tree-table
           class="table"
           :columns="columns"
-          :table-data="itemList" />
+          :table-data="itemList" /> -->
 
           
         <div class="table-responsive tableother">
@@ -98,13 +98,13 @@
               </td>
               <td> {{item.amount}}</td>
               <td>
-                <a v-if="editMode != index && item.unit != null" @click="editItemList(index)" class="btn btn-sm btn-primary" title="Editar" > 
+                <a @click="editItemList(index)" class="btn btn-sm btn-primary" title="Editar" > 
                   <i class="fa fa-edit"></i>
                 </a>   
                 <a v-if="editMode === index" @click="updateItemList()" class="btn btn-sm btn-success">
                   <i class="glyphicon glyphicon-ok"></i>
                 </a> 
-                <a @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                <a v-if="item.isHeaderTag == 'N'" @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                               <span class="fa fa-times-circle" aria-hidden="true"></span> 
                 </a>
               <!-- <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
@@ -154,9 +154,9 @@ export default {
         
      mounted() {
             console.log('Component mounted.')
+            this.getAllServices();
             this.findProposal();
             this.getAllProposalDetails();
-            this.getAllServices();
         },
    components: {
          proposalScopes,
@@ -237,7 +237,7 @@ export default {
             let url ='services';
             axios.get(url).then(response => {
              this.services = response.data
-            //  console.log(this.services)
+             console.log(this.services)
              this.services.map(function (x){ return x.item_data = `${x.serviceCode} - (${x.serviceName})` });
 
             });
@@ -308,6 +308,7 @@ export default {
               this.editMode = -1
         },
         calculateItemAmount: function(index,item) { 
+          console.log(item);
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
               item.unitCost = 1;
@@ -319,7 +320,10 @@ export default {
              let amountRs = item.unitCost * item.quantity;
 
              let myObj = this.itemList.find(el => el.propDetailId == item.propDetailId);
-              myObj.amount = parseFloat(amountRs).toFixed(2);
+          myObj.amount = parseFloat(amountRs).toFixed(2);
+
+          //SI, el item modificado es un servicio, realiza la suma el Header Tag
+          
         },            
         deleteRow: function(id) {
             //borrar valor que encuentre del arreglo
