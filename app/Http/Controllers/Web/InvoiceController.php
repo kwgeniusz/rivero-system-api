@@ -389,6 +389,157 @@ class InvoiceController extends Controller
        
     }
 
+//--------------COMUNICATION OF INTERCOMPANY INVOICE----------//
 
+public function generateIntercompanyInvoiceWithCostReduction($originInvoiceId, $precontractId)
+{
+    $error = null;
+    
+    DB::beginTransaction();
+     try {
+      //VALOR QUE SE EXTRAE DE LA ENTIDAD SUBCONTRACTOR...
+      $destinationCountry = 1; // ESTADOS UNIDOS - ESTE ES EL PAIS DE DESTINO
+      $destinationCompany = 1; // JD RIVERO INC  - ESTA ES LA COMPANIA DESTINO
+
+      //AHORA, YA SABIENDO CUAL ES LA COMPANIA DESTINO NECESITO SABER DENTRO DE SU LISTA DE CLIENTES, CUAL ES LA COMPANIA ORIGEN...
+      $client = $oClient->findByIntercompanyId($destinationCompany,session('companyId'));
+
+      //BUSCAR EL CONTRATO Y LA FACTURA A UTILIZAR PARA LA DUPLICACION
+      $originInvoice  = $oInvoice->findById($originInvoiceId,session('countryId'),session('companyId'));
+      $originContract = $oInvoice->contract;
+
+    // INSERTAR EL NUEVO CONTRATO
+      $newContract = $this->oContract->insertContract(
+        $destinationCountry,
+        $destinationCompany,
+        $originContract->contractType,
+        $originContract->projectName,
+        $originContract->contractDate,
+        $client->clientId,
+        $originContract->propertyNumber,
+        $originContract->streetName,
+        $originContract->streetType,
+        $originContract->suiteNumber,
+        $originContract->city,
+        $originContract->state,
+        $originContract->zipCode,     
+        $originContract->buildingCodeId,
+        $originContract->groupId,
+        $originContract->projectUseId,
+        $originContract->constructionType,
+        $originContract->initialComment,
+        $originContract->currencyId);
+
+    // CREAR LA NUEVA FACTURA
+      $newInvoice  =   $this->insertInv(
+        $destinationCountry,
+        $destinationCompany,
+        $newContract->contractId,
+        $client->clientId,
+        $originInvoice->projectDescriptionId,
+        $originInvoice->invoiceDate,
+        $originInvoice->grossTotal,
+        $originInvoice->taxPercent,
+        $originInvoice->taxAmount,
+        $originInvoice->netTotal,
+        $originInvoice->paymentConditionId,
+        $originInvoice->invStatusCode,
+        Auth::user()->userId);
+
+//Insercion de Servicios de la factura
+if($originInvoice->invoiceDetails->isNotEmpty()) {
+   
+      foreach ($originInvoice->invoiceDetails as $key => $item) {
+          $result = $oInvoiceDetail->insert(
+              $newInvoice->invoiceId,
+              $item->itemNumber,
+              $item->serviceId,
+              $item->serviceName,
+              $item->unit,
+              $item->unitCost,
+              $item->quantity,
+              $item->amount);
+            }
+}
+
+    //Insercion de Notas de la propuesta
+    if($proposal[0]->note->isNotEmpty()) {
+
+        $oProposalNote = new App\ProposalNote;
+          foreach ($proposal[0]->note as $key => $item) {
+               $result = $oProposalNote->insert(
+                $newProposalId,
+                $item->noteId,
+                $item->noteName);
+            if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+          };
+         
+    }
+//Insercion de Alcances
+    if($proposal[0]->scope->isNotEmpty()) {
+    
+        $oProposalScope = new App\ProposalScope;
+        foreach ($proposal[0]->scope as $key => $item) {
+             $result = $oProposalScope->insert(
+                $newProposalId,
+                $item->description);
+
+                if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+              };
+    }
+//Insercion de Terminos y condiciones
+    if($proposal[0]->term->isNotEmpty()) {
+
+        $oProposalTerm = new App\ProposalTerm;
+          foreach ($proposal[0]->term as $key => $item) {
+               $result = $oProposalTerm->insert(
+                $newProposalId,
+                $item->termId,
+                $item->termName);
+  
+              if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+          };   
+    }
+// Insercion de Times Frames
+    if($proposal[0]->timeFrame->isNotEmpty()) {
+        
+        $oProposalTimeFrame = new App\ProposalTimeFrame;
+        foreach ($proposal[0]->timeFrame as $key => $item) {
+             $result = $oProposalTimeFrame->insert(
+              $newProposalId,
+              $item->timeId,
+              $item->timeName);
+
+              if($result['alertType'] == 'error'){ throw new \Exception($result['message']); }
+        };
+     }
+// Insertar Cuotas de la propuesta
+     if($proposal[0]->paymentProposal->isNotEmpty()) {
+
+        $oPaymentProposal = new App\PaymentProposal;
+        foreach ($proposal[0]->paymentProposal as $key => $item) {
+            $result = $oPaymentProposal->addPayment(
+                $newProposalId,
+                $item->amount,
+                $item->paymentDate
+            );
+              if($result['alert'] == 'error'){ throw new \Exception($result['message']); }
+        };
+     }
+           $success = true;
+           DB::commit();
+       } catch (\Exception $e) {
+           $success = false;
+           $error   = $e->getMessage();
+           DB::rollback();
+       }
+
+       if ($success) {
+            return $rs  = ['alert' => 'success', 'message' => "Propuesta Duplicada con Exito"];
+       } else {
+            return $rs  = ['alert' => 'error', 'message' => $error];
+       }
+
+}
 
 }

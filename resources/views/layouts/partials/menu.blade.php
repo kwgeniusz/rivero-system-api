@@ -178,6 +178,7 @@
           </a>
           <ul class="treeview-menu">
 @can('FC')  <li><a href="{{route('services.index')}}">Servicios</a></li>@endcan 
+@can('FC')  <li><a href="{{route('service-equivalences.index')}}">Equivalencia de Servicios</a></li>@endcan 
             <li><a href="#">{{__('Equipment Registration')}}</a></li>
             <li><a href="#">{{__('Registration by Location')}}</a></li>
             <li><a href="#">{{__('Registration by Status')}}</a></li>

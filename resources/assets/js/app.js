@@ -215,6 +215,16 @@ Vue.component("accounting-main-auxiliary-book",require("./components/accounting/
 Vue.component("accounting-table-auxiliary-book",require("./components/accounting/auxiliaryBook/table.vue"));
 Vue.component("accounting-addUp-auxiliary-book",require("./components/accounting/auxiliaryBook/addUp.vue"));
 
+
+//###################################################
+//           Module Inventory Components
+//###################################################
+// ---------------------> Service Equivalence <-----------------------------//
+Vue.component("inventory-main-service-equivalence",require("./components/inventory/serviceEquivalence/main.vue"));
+Vue.component("inventory-table-service-equivalence",require("./components/inventory/serviceEquivalence/table.vue"));
+Vue.component("inventory-addUp-service-equivalence",require("./components/inventory/serviceEquivalence/addUp.vue"));
+
+
 //###################################################
 //           Module Human Resource Components
 //###################################################

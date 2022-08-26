@@ -5,6 +5,7 @@ namespace App;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Inventory\ServiceEquivalence;
 
 class Service extends Model
 {
@@ -16,12 +17,15 @@ class Service extends Model
     protected $primaryKey = 'serviceId';
     protected $fillable   = ['serviceId', 'serviceName', 'hasCost', 'unit1','unit2','cost1','cost2','variableName'];
 
-    protected $dates = ['deleted_at'];
 
-    // protected $appends = ['cost1','cost2'];
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+
+  public function serviceEquivalence()
+   {
+    return $this->hasOne(ServiceEquivalence::class, 'originServiceId', 'serviceId')->with('destinationCompany','destinationService');
+   }
  //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -55,10 +59,11 @@ class Service extends Model
 //-----------------------------------------
      public function getAllByOffice($companyId)
     {
-
-        return $this->where('companyId' , '=' , $companyId)
-          ->orderBy('serviceName', 'ASC')
-          ->get();
+        return $this->with('serviceEquivalence')
+                    ->where('companyId' , '=' , $companyId)
+                    // ->where('hasCost' , '=' , 'Y')
+                    ->orderBy('serviceName', 'ASC')
+                    ->get();
     }
 //------------------------------------------
     public function findById($id)
