@@ -458,8 +458,18 @@
 	</div>
 
 	<div style="text-align: left">
-	<b>Remit payment to:</b><br>
-	<div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
+	   <b>Remit payment to:</b><br>
+	  @if($proposal[0]->invoiceId)
+	   <div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
+	  @else
+	  <div class="tab">
+	  Remit payment to:<br>
+      Name: XXXXXXXXXXXX<br>
+      Bank: XXXXXXXXXXXX<br>
+      Account number: XXXXXXXXXXXX<br>
+      Routing number:  XXXXXXXXXXXX
+	  </div>
+	  @endif
 	</div>
 	<br>
 	<div align="center">
