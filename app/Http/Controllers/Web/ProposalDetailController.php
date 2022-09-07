@@ -29,7 +29,7 @@ class ProposalDetailController extends Controller
     {
  
         $proposal = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
-
+      
        if($request->modelType == 'pre_contract'){
           $oModelType = $this->oPrecontract;
         }else{     
