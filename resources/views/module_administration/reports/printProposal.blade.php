@@ -458,8 +458,8 @@
 	</div>
 
 	<div style="text-align: left">
-	<b>Remit payment to:</b><br>
-	<div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
+	   <b>Remit payment to:</b><br>
+	   <div class="tab">{!! nl2br($proposal[0]->paymentMethods) !!}</div>
 	</div>
 	<br>
 	<div align="center">
