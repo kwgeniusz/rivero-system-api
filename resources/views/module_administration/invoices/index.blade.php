@@ -10,7 +10,7 @@
     <hr>
     <h4 class="text-success text-left">Total Cobrado: ${{$totalCobrado}}</h4>
     <h4 class="text-danger text-left">Total Por Cobrar: ${{$totalPorCobrar}} / Collections: ${{$totalCollections}}</h4>
-   
+    
   </div>
 
 <div class="col-xs-6 text-center">
@@ -166,6 +166,11 @@
         @if($invoice->invStatusCode == App\Invoice::PAID )
          <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
+             </a>
+          @endif
+          @if(Auth()->user()->userId == 20 || Auth()->user()->userId == 21)
+         <a href="{{route('intercompany.invoice.export-data', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar Factura Intercompania">
+                     <span class="fa fa-solid fa-file-export" aria-hidden="true"></span> Exportar
              </a>
           @endif
 
