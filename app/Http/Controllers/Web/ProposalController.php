@@ -81,6 +81,9 @@ class ProposalController extends Controller
 
     public function store(Request $request)
     {
+      
+      $company     = Company::find($modelRs[0]->companyId);
+
            $this->validate($request, [
                 'proposalDate' => 'required',
                 'invoiceTaxPercent' => 'required',
@@ -104,6 +107,7 @@ class ProposalController extends Controller
                       $request->proposalDate,
                       $request->invoiceTaxPercent,
                       $request->paymentConditionId, 
+                      $company->paymentMethods, 
                       '1',
                       Auth::user()->userId);
 

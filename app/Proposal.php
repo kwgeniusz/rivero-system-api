@@ -185,7 +185,7 @@ class Proposal extends Model
                     ->get();
     }
 //------------------------------------------
-    public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status,$userId) {
+    public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate, $taxPercent, $paymentConditionId, $paymentMethod, $status ,$userId) {
 
 
         $error = null;
@@ -214,6 +214,7 @@ class Proposal extends Model
         $proposal->taxAmount        =  '0.00';
         $proposal->netTotal         =  '0.00';
         $proposal->pCondId          =  $paymentConditionId;
+        $proposal->paymentMethod    =  $paymentMethod;
         $proposal->userId    =  $userId;
         $proposal->save();
 
