@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web;
 use Auth;
 use App;
 use DB;
+use App\Company;
 use App\CompanyConfiguration;
 use App\Precontract;
 use App\Contract;
@@ -82,19 +83,19 @@ class ProposalController extends Controller
     public function store(Request $request)
     {
       
-      $company     = Company::find($modelRs[0]->companyId);
-
-           $this->validate($request, [
-                'proposalDate' => 'required',
-                'invoiceTaxPercent' => 'required',
-           ]);
- 
+      
+      $this->validate($request, [
+        'proposalDate' => 'required',
+        'invoiceTaxPercent' => 'required',
+        ]);
+        
         if($request->modelType == 'pre_contract'){
           $oModelType = $this->oPrecontract;
         }else{     
           $oModelType = $this->oContract;
         }
-
+        
+          $company = Company::find(session('companyId'));
           $modelRs = $oModelType->findById($request->modelId,session('countryId'),session('companyId'));
 
           $proposalId  =   $this->oProposal->insertProp(
@@ -110,7 +111,8 @@ class ProposalController extends Controller
                       $company->paymentMethods, 
                       '1',
                       Auth::user()->userId);
-
+         
+               
         $notification = array(
                      'message'    => 'Propuesta Creada, Agrege Renglones',
                      'alert-type' => 'success');
