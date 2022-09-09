@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\Inventory;
 
 use Auth;
-use App\CompanyConfiguration;
+// use App\CompanyConfiguration;
 use App\Service;
 use App\Models\Inventory\ServiceEquivalence;
 use App\Helpers\DateHelper;
@@ -29,7 +29,7 @@ class ServiceEquivalenceController extends Controller
     public function index(Request $request)
     {
     
-         $serviceEquivalences = $this->oService->getAllByOffice(session('companyId'));
+        $serviceEquivalences = $this->oService->getAllByCompanyWithLinkedService(session('companyId'),$request->destinationCompanyId);
          
          if($request->ajax()) {
                return $serviceEquivalences;
@@ -46,13 +46,13 @@ class ServiceEquivalenceController extends Controller
     public function create(Request $request)
     {
         // Servicios de JD RIVERO ORIGEN, VALIDACION: NO DEBEN TENER EQUIVALENCIA PARA SER MOSTRADOS
-        $localServiceList         = $this->oService->getAllByOffice(session('companyId'));
+        $localServiceList         = $this->oService->getAllByCompany(session('companyId'));
         $filtered = $localServiceList->filter(function ($item) {
             return $item->serviceEquivalence == [];
         })->values();
 
         // Servicios de JD RIVERO INC, VALIDACION: NO DEBEN TENER EQUIVALENCIA CON ESTA EMPRESA PARA MOSTRARSE...
-        $destinationServiceList   = $this->oService->getAllByOffice(1);
+        $destinationServiceList   = $this->oService->getAllByCompany(1);
         // $filtered = $destinationServiceList->filter(function ($item) {
         //          $item->serviceEquivalence == [];
 
@@ -100,7 +100,7 @@ class ServiceEquivalenceController extends Controller
     // {
 
     //     $client       = $this->oGeneralLedger->findById($id, session('companyId'));
-    //     $contactTypes = $this->oContactType->getAllByOffice(session('companyId'));
+    //     $contactTypes = $this->oContactType->getAllByCompany(session('companyId'));
 
     //     return view('module_contracts.clients.edit', compact('client','contactTypes'));
     // }
@@ -128,22 +128,6 @@ class ServiceEquivalenceController extends Controller
         // return redirect()->route('clients.index')->with($notification);
     }
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request,$id)
-    {
-        $serviceEquivalences = $this->oGeneralLedger->findById($id,session('companyId'));
-
-           if($request->ajax()){
-              return $serviceEquivalences;
-            }
-        // return view('module_contracts.clients.show', compact('client'));
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -162,30 +146,4 @@ class ServiceEquivalenceController extends Controller
         // return redirect()->route('clients.index')->with($notification);
     }
     
-   public function closeYear()
-    {
-        $rs = $this->oGeneralLedgerBalance->closeYear();
-    
-         $notification = array(
-            'message'    => $rs['message'],
-            'alert-type' => $rs['alert-type'],
-        );
-        
-        return $notification;
-  
-    }
-
-
-    // public function balanceUpdate()
-    // {
-    //     $rs = $this->oGeneralLedger->deleteG(session('companyId'),$id);
-          
-    //      $notification = array(
-    //         'message'    => $rs['message'],
-    //         'alert-type' => $rs['alert'],
-    //     );
-        
-    //     return $notification;
-    //     // return redirect()->route('clients.index')->with($notification);
-    // }
 }

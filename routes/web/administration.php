@@ -99,11 +99,10 @@ Route::prefix('accounting')->group(function () {
    Route::get('temporary-accounting-entries', 'Web\Administration\TemporaryAccEntryController@index')->name('temporary-acc-entry.index');
    
 });
-
-
 //***************************************************************************
 //***************** INTERCOMPANY ******************************
 //***************************************************************************
 Route::prefix('intercompany')->group(function () {
-   Route::get('invoice/{id}/export-data', 'Web\Intercompany\InvoiceController@export-data')->name('intercompany.invoice.export-data');
+   Route::get('export/invoice/{id}', function ($id) { return view('module_intercompany.export.invoice', compact('id')); })->name('intercompany.export.invoice.prepareData');
+   Route::post('export/invoice/{id}', 'Web\Intercompany\Export\InvoiceExportController@sendData')->name('intercompany.export.invoice.sendData');
 });

@@ -168,8 +168,8 @@
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
              </a>
           @endif
-          @if(Auth()->user()->userId == 20 || Auth()->user()->userId == 21)
-         <a href="{{route('intercompany.invoice.export-data', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar Factura Intercompania">
+          @if(Auth()->user()->userId == 20 && $invoice->invStatusCode != 3 || Auth()->user()->userId == 21 && $invoice->invStatusCode != 3)
+         <a href="{{route('intercompany.export.invoice.prepareData', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar Factura Intercompania">
                      <span class="fa fa-solid fa-file-export" aria-hidden="true"></span> Exportar
              </a>
           @endif

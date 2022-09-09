@@ -57,20 +57,7 @@ class ServiceEquivalence extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll()
-    {
-        return $this->orderBy('serviceName', 'ASC')->get();
-    }
-//-----------------------------------------
-     public function getAllByOffice($companyId)
-    {
-
-        return $this->where('companyId' , '=' , $companyId)
-          ->orderBy('serviceName', 'ASC')
-          ->get();
-    }
-//------------------------------------------
-    public function findById($id)
+  public function findById($id)
     {
         return $this->where('serviceId', '=', $id)->get();
     }
@@ -83,15 +70,6 @@ class ServiceEquivalence extends Model
         $equivalence->destinationServiceId = $destinationService['serviceId'];
         $equivalence->destinationCompanyId = $destinationService['companyId'];
         $equivalence->save();
-    }
-//------------------------------------------
-    public function updateS($serviceId,$serviceName,$cost1 ='',$cost2 = '')
-    {
-        $this->where('serviceId', $serviceId)->update(array(
-            'serviceName' => $serviceName,
-            'cost1' => $cost1,
-            'cost2' => $cost2,
-        ));
     }
 //------------------------------------------
     public function deleteS($serviceId)

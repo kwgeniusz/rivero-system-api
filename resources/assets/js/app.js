@@ -344,6 +344,12 @@ Vue.component("panel-heading-add",require("./components/configuration/company/pa
 Vue.component("panel-heading-update",require("./components/configuration/company/panelHeadingUpdate.vue"));
 Vue.component("list-company",require("./components/configuration/company/listCompany.vue"));
 
+
+//###################################################
+//           Module Intercompany Components
+//###################################################
+Vue.component("intercompany-export-invoice",require("./components/intercompany/export/invoice/main.vue"));
+
 //###################################################
 //            Sources Components
 //###################################################

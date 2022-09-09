@@ -24,7 +24,8 @@ class Service extends Model
 
   public function serviceEquivalence()
    {
-    return $this->hasOne(ServiceEquivalence::class, 'originServiceId', 'serviceId')->with('destinationCompany','destinationService');
+    return $this->hasOne(ServiceEquivalence::class, 'originServiceId', 'serviceId')
+                ->with('destinationCompany','destinationService');
    }
  //--------------------------------------------------------------------
     /** Accesores  */
@@ -52,18 +53,25 @@ class Service extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll()
-    {
-        return $this->orderBy('serviceName', 'ASC')->get();
-    }
+    // public function getAll()
+    // {
+    //     return $this->orderBy('serviceName', 'ASC')->get();
+    // }
 //-----------------------------------------
-     public function getAllByOffice($companyId)
+     public function getAllByCompany($companyId)
     {
-        return $this->with('serviceEquivalence')
-                    ->where('companyId' , '=' , $companyId)
-                    // ->where('hasCost' , '=' , 'Y')
+        return $this->where('companyId' , '=' , $companyId)
                     ->orderBy('serviceName', 'ASC')
                     ->get();
+    }
+//-----------------------------------------
+    public function getAllByCompanyWithLinkedService($companyId,$linkedCompanyId)
+    {
+        return $this->with(['serviceEquivalence' => function($q) use($linkedCompanyId){ 
+            $q->where('destinationCompanyId', $linkedCompanyId);
+        }])->where('companyId' , '=' , $companyId)
+           ->orderBy('serviceName', 'ASC')
+           ->get();
     }
 //------------------------------------------
     public function findById($id)

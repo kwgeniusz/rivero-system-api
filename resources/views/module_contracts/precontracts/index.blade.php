@@ -64,9 +64,15 @@
                     <td>{{$precontract->preId}}
                       <comments-precontract pref-url="" precontract-id="{{$precontract->precontractId}}"/>
                      </td>
-                    <td>{{$precontract->client->clientCode}}   </td>
+                    <td>{{$precontract->client->clientCode}} 
+
+                     </td>
                     <td>
                      <modal-client-details pref-url="/" client-id="{{$precontract->client->clientId}}" company-name="{{$precontract->client->companyName}}" client-name="{{$precontract->client->clientName}}"></modal-client-details>
+                      Tlf: {{$precontract->client->businessPhone}}   <br>
+                      Correo: {{$precontract->client->mainEmail}} <br>
+                      Idioma: {{$precontract->client->clientLanguages}}
+                      
                     </td>  
                     <td >{{$precontract->siteAddress}}
                   <br>

@@ -18,14 +18,30 @@
 
     <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>EQUIVALENCIA DE SERVICIOS LOCALES A EXTERNOS</b></h3>
+         <h3><b>EQUIVALENCIA DE SERVICIOS LOCALES A EXTERNOS</b></h3>
 
-            <button-form
-                @addf = "addFormStatus"
-                :buttonType = 0
-                :btn4 = 0
-            ></button-form>
-
+         <div class="panel panel-default" >
+            <div class="container">
+                <div class="row">
+                   <div class="col-xs-4">
+                     <select-country-office pref-url="/" @company-value="setCompanyValue"></select-country-office>
+                  </div>   
+              
+                  <div class="col-xs-4">
+                    <button-form
+                         @addf = "addFormStatus"
+                         :buttonType = 0
+                         :btn4 = 0
+                     ></button-form>
+                  </div> 
+              
+                 <div class="col-xs-4">
+               
+                  </div>
+                 </div>
+             </div>
+         </div>
+    
             <inventory-table-service-equivalence  
                 :serviceEquivalenceList = serviceEquivalenceList
                 @editData = "editData"
@@ -42,11 +58,12 @@
         mounted() {
             axios.get('/service-equivalences').then((response) => {
                 this.serviceEquivalenceList = response.data
-                console.log(this.serviceEquivalenceList)
+                // console.log(this.serviceEquivalenceList)
             })
         },
         data() {
             return{
+                companyToLink: 1,
                 serviceEquivalenceList: [],
                 // parents: [],
                 formStatus: 0,
@@ -68,9 +85,10 @@
                     this.serviceEquivalenceList = response.data
                     // console.log(this.serviceEquivalenceList)
                 })
-            
-            
             },
+           setCompanyValue(value) {
+             this.companyToLink = value;
+          },
         }
     }
 
