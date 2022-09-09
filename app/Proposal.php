@@ -21,7 +21,7 @@ class Proposal extends Model
 
     protected $table      = 'proposal';
     protected $primaryKey = 'proposalId';
-    protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
+    protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId','paymentMethods'];
 
      protected $appends = ['grossTotal','taxAmount','netTotal','pQuantity','proposalDate'];
      protected $dates = ['deleted_at'];
@@ -214,7 +214,7 @@ class Proposal extends Model
         $proposal->taxAmount        =  '0.00';
         $proposal->netTotal         =  '0.00';
         $proposal->pCondId          =  $paymentConditionId;
-        $proposal->paymentMethods    =  $paymentMethods;
+        $proposal->paymentMethods   =  $paymentMethods;
         $proposal->userId    =  $userId;
         $proposal->save();
 
@@ -322,6 +322,7 @@ class Proposal extends Model
             Carbon::now()->format('Y-m-d'), //poner funcion de fecha de hoy
             $proposal[0]->taxPercent,
             $proposal[0]->pCondId, 
+            $proposal[0]->paymentMethods,
             '1',
             Auth::user()->userId);
 
@@ -395,18 +396,18 @@ class Proposal extends Model
             };
          }
     // Insertar Cuotas de la propuesta
-         if($proposal[0]->paymentProposal->isNotEmpty()) {
+        //  if($proposal[0]->paymentProposal->isNotEmpty()) {
 
-            $oPaymentProposal = new App\PaymentProposal;
-            foreach ($proposal[0]->paymentProposal as $key => $item) {
-                $result = $oPaymentProposal->addPayment(
-                    $newProposalId,
-                    $item->amount,
-                    $item->paymentDate
-                );
-                  if($result['alert'] == 'error'){ throw new \Exception($result['message']); }
-            };
-         }
+        //     $oPaymentProposal = new App\PaymentProposal;
+        //     foreach ($proposal[0]->paymentProposal as $key => $item) {
+        //         $result = $oPaymentProposal->addPayment(
+        //             $newProposalId,
+        //             $item->amount,
+        //             $item->paymentDate
+        //         );
+        //           if($result['alert'] == 'error'){ throw new \Exception($result['message']); }
+        //     };
+        //  }
                $success = true;
                DB::commit();
            } catch (\Exception $e) {
