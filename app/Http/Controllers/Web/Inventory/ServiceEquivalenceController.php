@@ -28,9 +28,9 @@ class ServiceEquivalenceController extends Controller
      */
     public function index(Request $request)
     {
-    
-        $serviceEquivalences = $this->oService->getAllByCompanyWithLinkedService(session('companyId'),$request->destinationCompanyId);
-         
+        // dd($request->all());
+        $serviceEquivalences = $this->oService->getAllByCompanyWithLinkedService(session('companyId'),$request->companyToLink);    
+
          if($request->ajax()) {
                return $serviceEquivalences;
                 }
@@ -46,13 +46,7 @@ class ServiceEquivalenceController extends Controller
     public function create(Request $request)
     {
         // Servicios de JD RIVERO ORIGEN, VALIDACION: NO DEBEN TENER EQUIVALENCIA PARA SER MOSTRADOS
-        $localServiceList         = $this->oService->getAllByCompany(session('companyId'));
-        $filtered = $localServiceList->filter(function ($item) {
-            return $item->serviceEquivalence == [];
-        })->values();
-
-        // Servicios de JD RIVERO INC, VALIDACION: NO DEBEN TENER EQUIVALENCIA CON ESTA EMPRESA PARA MOSTRARSE...
-        $destinationServiceList   = $this->oService->getAllByCompany(1);
+     
         // $filtered = $destinationServiceList->filter(function ($item) {
         //          $item->serviceEquivalence == [];
 

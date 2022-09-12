@@ -18,7 +18,9 @@
 
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
         <form  class="form" id="formgeneralLedger" role="form" @submit.prevent="linkService()">
-
+    
+         <select-country-office pref-url="/" @company-value="setCompanyValue"></select-country-office>
+    
          <div class="form-group col-lg-12 ">
               <label for="accountTypeCode">SERVICIOS SIN ENLAZAR:</label>
               <v-select :options="localServiceList" v-model="form.localService" :reduce="localServiceList => localServiceList" label="serviceName" />
@@ -78,6 +80,7 @@
 
                 localServiceList: [],
                 destinationServiceList: [],
+                companySelected: '',
                 
                 form: { 
                   localService: {},
@@ -121,6 +124,9 @@
                     });
                 }   // else end   
               }  //end if error.length 
+            },
+            setCompanyValue(value) {
+               this.companySelected = value;
             },
             cancf(n){
                 // console.log('vista a mostrar: ' + n)
