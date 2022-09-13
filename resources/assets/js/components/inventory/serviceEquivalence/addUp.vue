@@ -18,12 +18,20 @@
 
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
         <form  class="form" id="formgeneralLedger" role="form" @submit.prevent="linkService()">
+<<<<<<< HEAD
 
         <label for="parentAccountId">ESCOJA UNA EMPRESA PARA ENLAZAR:</label>
         <select-country-office pref-url="/" @company-value="setCompanyValue"></select-country-office>
 
          <div class="form-group col-lg-12" v-if="companyToLinkId">
               <label for="accountTypeCode">SERVICIOS LOCALES SIN ENLAZAR:</label>
+=======
+    
+         <select-country-office pref-url="/" @company-value="setCompanyValue"></select-country-office>
+    
+         <div class="form-group col-lg-12 ">
+              <label for="accountTypeCode">SERVICIOS SIN ENLAZAR:</label>
+>>>>>>> def9f7e90fcac52e25bbc8f449cdf2d58fbd40ae
               <v-select :options="localServiceList" v-model="form.localService" :reduce="localServiceList => localServiceList" label="serviceName" />
           </div> 
 
@@ -79,7 +87,11 @@
 
                 localServiceList: [],
                 destinationServiceList: [],
+<<<<<<< HEAD
                 companyToLinkId: 1,
+=======
+                companySelected: '',
+>>>>>>> def9f7e90fcac52e25bbc8f449cdf2d58fbd40ae
                 
                 form: { 
                   localService: {},
@@ -124,6 +136,7 @@
                 }   // else end   
               }  //end if error.length 
             },
+<<<<<<< HEAD
            getCreateData(){
                   axios.get('service-equivalences/create',  { params: { companyToLinkId: this.companyToLinkId } }).then((response) => {
                   this.localServiceList           = response.data.localServiceList;
@@ -134,6 +147,11 @@
              this.companyToLinkId = value;
              this.getCreateData();
           },
+=======
+            setCompanyValue(value) {
+               this.companySelected = value;
+            },
+>>>>>>> def9f7e90fcac52e25bbc8f449cdf2d58fbd40ae
             cancf(n){
                 // console.log('vista a mostrar: ' + n)
                 this.$emit('showlist', 0)
