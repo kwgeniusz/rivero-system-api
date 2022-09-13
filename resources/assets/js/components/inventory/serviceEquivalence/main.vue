@@ -56,14 +56,15 @@
 <script>
     export default {
         mounted() {
-            axios.get('/service-equivalences').then((response) => {
+            
+            axios.get(`/service-equivalences`,  { params: { companyToLinkId: this.companyToLinkId } }).then((response) => {
                 this.serviceEquivalenceList = response.data
                 // console.log(this.serviceEquivalenceList)
             })
         },
         data() {
             return{
-                companyToLink: 1,
+                companyToLinkId: 1,
                 serviceEquivalenceList: [],
                 // parents: [],
                 formStatus: 0,
@@ -81,13 +82,14 @@
             }, 
             showlist(n){
                 this.formStatus = 0
-                axios.get('/service-equivalences').then((response) => {
+                axios.get(`/service-equivalences`, { params: { companyToLinkId: this.companyToLinkId } }).then((response) => {
                     this.serviceEquivalenceList = response.data
                     // console.log(this.serviceEquivalenceList)
                 })
             },
            setCompanyValue(value) {
-             this.companyToLink = value;
+             this.companyToLinkId = value;
+             this.showlist();
           },
         }
     }

@@ -28,44 +28,41 @@ class ServiceEquivalenceController extends Controller
      */
     public function index(Request $request)
     {
-    
-        $serviceEquivalences = $this->oService->getAllByCompanyWithLinkedService(session('companyId'),$request->destinationCompanyId);
-         
-         if($request->ajax()) {
-               return $serviceEquivalences;
-                }
+  
+        $serviceEquivalences = $this->oService->getAllByCompanyWithLinkedService(session('companyId'), $request->companyToLinkId);
+        
+        if($request->ajax()) {
+            return $serviceEquivalences;
+        }
 
         return view('module_inventory.service_equivalence.index');
     }
     
-    /**
+        /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
     {
+        
         // Servicios de JD RIVERO ORIGEN, VALIDACION: NO DEBEN TENER EQUIVALENCIA PARA SER MOSTRADOS
-        $localServiceList         = $this->oService->getAllByCompany(session('companyId'));
+        $localServiceList         = $this->oService->getAllByCompanyWithLinkedService(session('companyId'), $request->companyToLinkId);
         $filtered = $localServiceList->filter(function ($item) {
             return $item->serviceEquivalence == [];
         })->values();
 
         // Servicios de JD RIVERO INC, VALIDACION: NO DEBEN TENER EQUIVALENCIA CON ESTA EMPRESA PARA MOSTRARSE...
-        $destinationServiceList   = $this->oService->getAllByCompany(1);
-        // $filtered = $destinationServiceList->filter(function ($item) {
-        //          $item->serviceEquivalence == [];
-
-        //          if(){
-        //             return $item
-        //          }
-        // })->values();
+        $destinationServiceList   = $this->oService->destinationServiceWithOriginLink($request->companyToLinkId, session('companyId'));
+        $filtered2 = $destinationServiceList->filter(function ($item) {
+            return  $item->serviceEquivId == '';
+        })->values();
 
 
         if($request->ajax()) {
          return [
                  'localServiceList'       => $filtered->toArray(),
-                 'destinationServiceList' => $destinationServiceList,
+                 'destinationServiceList' => $filtered2->toArray(),
                 ];
         }
         // return view('module_contracts.clients.create', compact('contactTypes','clientNumberFormat'));

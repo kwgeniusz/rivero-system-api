@@ -19,12 +19,17 @@
       <p class="text-right"> <label style="color:red">* </label>REQUERIDOS </p>
         <form  class="form" id="formgeneralLedger" role="form" @submit.prevent="linkService()">
 
-         <div class="form-group col-lg-12 ">
-              <label for="accountTypeCode">SERVICIOS SIN ENLAZAR:</label>
+        <label for="parentAccountId">ESCOJA UNA EMPRESA PARA ENLAZAR:</label>
+        <select-country-office pref-url="/" @company-value="setCompanyValue"></select-country-office>
+
+         <div class="form-group col-lg-12" v-if="companyToLinkId">
+              <label for="accountTypeCode">SERVICIOS LOCALES SIN ENLAZAR:</label>
               <v-select :options="localServiceList" v-model="form.localService" :reduce="localServiceList => localServiceList" label="serviceName" />
-          </div>    
-         <div class="form-group col-lg-12">
-              <label for="parentAccountId">SERVICIO DESTINO:</label>
+          </div> 
+
+
+         <div class="form-group col-lg-12" v-if="companyToLinkId">
+              <label for="parentAccountId">SERVICIOS EXTERNOS SIN ENLAZAR:</label>
               <v-select :options="destinationServiceList" v-model="form.destinationService" :reduce="destinationServiceList => destinationServiceList" label="serviceName" /> 
           </div>
 
@@ -39,7 +44,6 @@
                             <div v-if="editId > 0">
                                 <button-form 
                                     :buttonType = 2
-                                    @cancf = "cancf"
                                 ></button-form>
                             </div>
 
@@ -57,10 +61,7 @@
     export default {
         mounted() {
             //obtengo los datos para llenar las listas de selects
-          axios.get('/service-equivalences/create').then((response) => {
-                  this.localServiceList           = response.data.localServiceList;
-                  this.destinationServiceList     = response.data.destinationServiceList;
-            }); //end of create clients
+             this.getCreateData();
 
             if (this.editId > 0) {
                 // transaction to edit.
@@ -78,6 +79,7 @@
 
                 localServiceList: [],
                 destinationServiceList: [],
+                companyToLinkId: 1,
                 
                 form: { 
                   localService: {},
@@ -122,6 +124,16 @@
                 }   // else end   
               }  //end if error.length 
             },
+           getCreateData(){
+                  axios.get('service-equivalences/create',  { params: { companyToLinkId: this.companyToLinkId } }).then((response) => {
+                  this.localServiceList           = response.data.localServiceList;
+                  this.destinationServiceList     = response.data.destinationServiceList;
+                });
+            },
+           setCompanyValue(value) {
+             this.companyToLinkId = value;
+             this.getCreateData();
+          },
             cancf(n){
                 // console.log('vista a mostrar: ' + n)
                 this.$emit('showlist', 0)
