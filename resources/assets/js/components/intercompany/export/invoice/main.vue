@@ -133,10 +133,10 @@
     },
     methods: {
         sendInvoice: function () {
-           this.loading = true;
+          //  this.loading = true;
 
           //llamar los detalles de la Factura
-           axios.post("/invoices/duplicate", {
+           axios.post("/intercompany/export/invoice", {
                invoiceId:   this.invoice.invoiceId,
                companyId:   this.companySelected,
              }).then(response => {

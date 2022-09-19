@@ -219,10 +219,6 @@ Vue.component("accounting-addUp-auxiliary-book",require("./components/accounting
 //###################################################
 //           Module Inventory Components
 //###################################################
-// ---------------------> Service Equivalence <-----------------------------//
-Vue.component("inventory-main-service-equivalence",require("./components/inventory/serviceEquivalence/main.vue"));
-Vue.component("inventory-table-service-equivalence",require("./components/inventory/serviceEquivalence/table.vue"));
-Vue.component("inventory-addUp-service-equivalence",require("./components/inventory/serviceEquivalence/addUp.vue"));
 
 
 //###################################################
@@ -348,6 +344,24 @@ Vue.component("list-company",require("./components/configuration/company/listCom
 //###################################################
 //           Module Intercompany Components
 //###################################################
+// ---------------------> Service Equivalence <-----------------------------//
+Vue.component("intercompany-main-service-equivalence",require("./components/intercompany/equivalence/serviceEquivalence/main.vue"));
+Vue.component("intercompany-table-service-equivalence",require("./components/intercompany/equivalence/serviceEquivalence/table.vue"));
+Vue.component("intercompany-addUp-service-equivalence",require("./components/intercompany/equivalence/serviceEquivalence/addUp.vue"));
+// ---------------------> Time Frame Equivalence <-----------------------------//
+Vue.component("intercompany-main-time-frame-equivalence",require("./components/intercompany/equivalence/timeFrameEquivalence/main.vue"));
+Vue.component("intercompany-table-time-frame-equivalence",require("./components/intercompany/equivalence/timeFrameEquivalence/table.vue"));
+Vue.component("intercompany-addUp-time-frame-equivalence",require("./components/intercompany/equivalence/timeFrameEquivalence/addUp.vue"));
+// ---------------------> Note Equivalence <-----------------------------//
+Vue.component("intercompany-main-note-equivalence",require("./components/intercompany/equivalence/noteEquivalence/main.vue"));
+Vue.component("intercompany-table-note-equivalence",require("./components/intercompany/equivalence/noteEquivalence/table.vue"));
+Vue.component("intercompany-addUp-note-equivalence",require("./components/intercompany/equivalence/noteEquivalence/addUp.vue"));
+// ---------------------> Term Equivalence <-----------------------------//
+Vue.component("intercompany-main-term-equivalence",require("./components/intercompany/equivalence/termEquivalence/main.vue"));
+Vue.component("intercompany-table-term-equivalence",require("./components/intercompany/equivalence/termEquivalence/table.vue"));
+Vue.component("intercompany-addUp-term-equivalence",require("./components/intercompany/equivalence/termEquivalence/addUp.vue"));
+
+// ---------------------> Term Export <-----------------------------//
 Vue.component("intercompany-export-invoice",require("./components/intercompany/export/invoice/main.vue"));
 
 //###################################################

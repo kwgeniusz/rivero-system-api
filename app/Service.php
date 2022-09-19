@@ -5,7 +5,7 @@ namespace App;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Inventory\ServiceEquivalence;
+use App\Models\Intercompany\ServiceEquivalence;
 
 class Service extends Model
 {

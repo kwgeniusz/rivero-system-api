@@ -49,6 +49,7 @@ class RouteServiceProvider extends ServiceProvider
                  require base_path('routes/web/accounting.php');
                  require base_path('routes/web/human_resources.php');
                  require base_path('routes/web/inventory.php');
+                 require base_path('routes/web/intercompany.php');
                  require base_path('routes/web/configuration.php');
              })
         ;

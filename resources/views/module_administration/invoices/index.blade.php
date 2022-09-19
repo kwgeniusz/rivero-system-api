@@ -154,20 +154,17 @@
                 <invoice-btn-cancel invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-btn-cancel>
 
              @endif 
- 
-           @if($invoice->invStatusCode == App\Invoice::CLOSED )
-           
              <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
              </a>
-
+           @if($invoice->invStatusCode == App\Invoice::CLOSED )
              <invoice-btn-collection invoice-id="{{$invoice->invoiceId}}" inv-id="{{$invoice->invId}}"></invoice-btn-collection>
           @endif
-        @if($invoice->invStatusCode == App\Invoice::PAID )
+        <!-- @if($invoice->invStatusCode == App\Invoice::PAID )
          <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
              </a>
-          @endif
+          @endif -->
           @if(Auth()->user()->userId == 20 && $invoice->invStatusCode != 3 || Auth()->user()->userId == 21 && $invoice->invStatusCode != 3)
          <a href="{{route('intercompany.export.invoice.prepareData', ['id' => $invoice->invoiceId])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar Factura Intercompania">
                      <span class="fa fa-solid fa-file-export" aria-hidden="true"></span> Exportar

@@ -178,7 +178,6 @@
           </a>
           <ul class="treeview-menu">
 @can('FC')  <li><a href="{{route('services.index')}}">Servicios</a></li>@endcan 
-@can('FC')  <li><a href="{{route('service-equivalences.index')}}">Equivalencia de Servicios</a></li>@endcan 
             <li><a href="#">{{__('Equipment Registration')}}</a></li>
             <li><a href="#">{{__('Registration by Location')}}</a></li>
             <li><a href="#">{{__('Registration by Status')}}</a></li>
@@ -196,16 +195,33 @@
 @if(Auth::user()->changeCompany == 'Y')
           <li><a href="{{route('changeCompany.index')}}">Escoger Compañia</a></li>
 @endif
-@can('FA')<li><a href="{{route('company.index')}}">Empresas</a></li>       @endcan
+       @can('FA')<li><a href="{{route('company.index')}}">Empresas</a></li>       @endcan
 {{-- @can('FB')  <li><a href="{{route('serviceTemplates.index')}}">Plantillas Para Factura</a></li>@endcan --}}
-<li><a href="#">Correos</a></li> 
-<li><a href="#">Telefonos</a></li> 
-@can('FF')<li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>  @endcan
+                 <li><a href="#">Correos</a></li> 
+                 <li><a href="#">Telefonos</a></li> 
+      @can('FF')<li><a href="{{route('users.index')}}">{{__('Users')}}</a></li>  @endcan
           </ul>
         </li>
  @endcan
+ @if(Auth()->user()->userId == 20  || Auth()->user()->userId == 21)
+ @can('F')        
+        <li class="treeview">
+          <a href="#"><i class="fa fa-wrench"></i> <span>Intercompañia</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{route('service-equivalences.index')}}">Equivalencia de Servicios</a></li>
+            <li><a href="{{route('time-frame-equivalences.index')}}">Equivalencia de Time Frames</a></li> 
+            <li><a href="{{route('note-equivalences.index')}}">Equivalencia de Notas</a></li> 
+            <li><a href="{{route('term-equivalences.index')}}">Equivalencia de Terminos</a></li> 
+
+          </ul>
+        </li>
+ @endcan
+@endif
    <li>
-    
     <a href="{{ route('logout') }}"  onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                <i class="fa fa-power-off"></i>

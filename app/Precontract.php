@@ -211,6 +211,9 @@ class Precontract extends Model
         $precontract->currencyId             = $currencyId;
         $precontract->userId                    =  Auth::user()->userId;
         $precontract->save();
+          
+        // dd($precontract);
+        return $precontract;
 
     }
 //------------------------------------------

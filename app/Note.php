@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Intercompany\NoteEquivalence;
 
 
 class Note extends Model
@@ -25,6 +26,12 @@ class Note extends Model
      public function invoice()
     {
         return $this->belongsToMany('App\Invoice');
+    }
+
+    public function noteEquivalence()
+    {
+        return $this->hasOne(NoteEquivalence::class, 'originNoteId', 'noteId')
+                 ->with('destinationCompany','destinationNote');
     }
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -62,4 +69,24 @@ class Note extends Model
         return $this->where('noteId', '=', $noteId)->delete();
     }
 //------------------------------------------
+
+public function getAllByCompanyWithLinkedNote($companyId,$linkedCompanyId)
+{
+    return $this->with(['noteEquivalence' => function($q) use($linkedCompanyId){ 
+        $q->where('destinationCompanyId', $linkedCompanyId);
+    }])->where('companyId' , '=' , $companyId)
+       ->orderBy('noteName', 'ASC')
+       ->get();
+}
+
+public function destinationNoteWithOriginLink($companyId,$companyId2)
+{
+
+      return $this->leftjoin('intercompany_note_equivalence',  function($join) use($companyId2) {
+             $join->on('note.noteId', '=', 'intercompany_note_equivalence.destinationNoteId')->where('originCompanyId', '=', $companyId2);
+        })->where('companyId' , '=' , $companyId)
+          ->orderBy('noteName', 'ASC')
+          ->get();
+}
+
 }

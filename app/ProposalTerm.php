@@ -14,6 +14,14 @@ class ProposalTerm extends Model
     protected $primaryKey = 'propTermId';
     protected $fillable   = ['propTermId','proposalId','termId','termName'];
   
+
+//--------------------------------------------------------------------
+    /** Relations */
+//--------------------------------------------------------------------
+   public function term()
+   {
+       return $this->belongsTo('App\Term', 'termId','termId');
+   }
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
