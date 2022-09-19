@@ -6,6 +6,7 @@ use App;
 use Auth;
 use DB;
 use App\Precontract;
+use App\Country;
 use App\Helpers\DateHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -303,7 +304,9 @@ class Proposal extends Model
         
         DB::beginTransaction();
          try {
-  
+        
+        $company     = Company::find(session('companyId'));
+
         // Buscar la Propuesta a utilizar para la duplicacion
           $proposal  = $this->findById($proposalId,session('countryId'),session('companyId'));
  
@@ -322,7 +325,7 @@ class Proposal extends Model
             Carbon::now()->format('Y-m-d'), //poner funcion de fecha de hoy
             $proposal[0]->taxPercent,
             $proposal[0]->pCondId, 
-            $proposal[0]->paymentMethods,
+            $company->paymentMethods,
             '1',
             Auth::user()->userId);
 
