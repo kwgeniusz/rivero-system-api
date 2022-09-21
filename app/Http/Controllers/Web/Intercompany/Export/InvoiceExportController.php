@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\DateHelper;
+use App\Company;
 use App\Precontract;
 use App\Proposal;
 use App\ProposalDetail;
@@ -42,6 +43,8 @@ class InvoiceExportController extends Controller
          try {
 
         // Buscar la Propuesta a utilizar para la duplicacion
+        $company     = Company::find(session('companyId'));
+
         $invoice     = $this->oInvoice->findById($request->invoiceId,session('countryId'),session('companyId'));
         $proposal    = $invoice[0]->proposal;
         $precontract = $proposal->precontract;
@@ -77,7 +80,7 @@ class InvoiceExportController extends Controller
                 Carbon::now()->format('Y-m-d'), //poner funcion de fecha de hoy
                 $proposal->taxPercent,
                 $proposal->pCondId, 
-                $proposal->paymentMethods, 
+                $company->paymentMethods,
                 '1',
                 Auth::user()->userId);
                
