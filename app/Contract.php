@@ -50,6 +50,8 @@ class Contract extends Model
     const SENT_TO_OFFICE = '9';
     const IN_PRODUCTION_QUEUE = '10';
     const SENT_TO_ENGINEER = '11';
+    const WAITING_FOR_ADMINISTRATION = '12';
+    const EXPORTED_TO_NEW_COMPANY = '13';
     
 
 // -VACANTE (VERDE)
@@ -315,12 +317,12 @@ class Contract extends Model
         return $result;
     }
 //------------------------------------------
-    public function getAllForNineStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9,$filteredOut,$countryId,$companyId)
+    public function getAllForElevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9,$contractStatus10,$contractStatus11,$filteredOut,$countryId,$companyId)
     {
         $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription','user')
                        ->where('countryId', $countryId)
                        ->where('companyId', $companyId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9){
+                       ->where(function($q) use ($contractStatus1,$contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9,$contractStatus10,$contractStatus11){
                           $q->where('contractStatus', $contractStatus1)
                           ->orWhere('contractStatus', $contractStatus2)
                           ->orWhere('contractStatus', $contractStatus3)
@@ -329,7 +331,9 @@ class Contract extends Model
                           ->orWhere('contractStatus', $contractStatus6)
                           ->orWhere('contractStatus', $contractStatus7)
                           ->orWhere('contractStatus', $contractStatus8)
-                          ->orWhere('contractStatus', $contractStatus9);
+                          ->orWhere('contractStatus', $contractStatus9)
+                          ->orWhere('contractStatus', $contractStatus10)
+                          ->orWhere('contractStatus', $contractStatus11);
                         })           
                       ->orderBy('contractNumber', 'DESC')
                       ->filter($filteredOut)

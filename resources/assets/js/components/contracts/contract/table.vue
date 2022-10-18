@@ -106,6 +106,8 @@
                                  <td v-if="contract.contractStatus == SENT_TO_OFFICE"  style="background-color: #5dc1b9;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
                                  <td v-if="contract.contractStatus == IN_PRODUCTION_QUEUE"  style="background-color: #7d2181;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
                                  <td v-if="contract.contractStatus == SENT_TO_ENGINEER"  style="background-color: #804000 ;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == WAITING_FOR_ADMINISTRATION"  style="background-color: #5e2129 ;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
+                                 <td v-if="contract.contractStatus == EXPORTED_TO_NEW_COMPANY"  style="background-color: black ;color:white;" > <a data-toggle="tooltip" data-placement="left"  :title="contract.contract_status_r[0].contStatusName">VER</a> </td>
                                  <td  v-if="contract.daysToDelivery < 0 " style="background-color: red;color:white;" :title="`DIAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays} 
 HORAS DE TRABAJO ESTIMADO: ${contract.estimatedWorkDays*8}
 DIAS CONSECUTIVOS TRANSCURRIDOS: ${contract.consecutiveDaysElapsed}
@@ -160,6 +162,8 @@ DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
            this.SENT_TO_OFFICE = 9;
            this.IN_PRODUCTION_QUEUE = 10;
            this.SENT_TO_ENGINEER = 11;
+           this.WAITING_FOR_ADMINISTRATION = 12;
+           this.EXPORTED_TO_NEW_COMPANY = 13;
 
         },
         mounted() {
