@@ -168,7 +168,7 @@ DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
         },
         mounted() {
             console.log('Component mounted.') 
-            // console.log(this.contractList)
+      
         },
         data(){
             return{
@@ -181,7 +181,7 @@ DIAS PARA ENTREGAR: ${contract.daysToDelivery}`"> A TIEMPO </td>
         computed: {
             searchData: function () {
                 return this.contractList.filter((contract) => {
-                  // console.log(contract.contract_status_r[0].contStatusName)
+
                   if(contract.projectName == null ) 
                      contract.projectName = 'No Info'
                   

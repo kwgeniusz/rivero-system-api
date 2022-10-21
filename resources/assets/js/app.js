@@ -55,9 +55,6 @@ Vue.use(Popover)
 import AudioRecorder from 'vue-audio-recorder'
 Vue.use(AudioRecorder)
 
-import VueTabs from 'vue-nav-tabs'
-import 'vue-nav-tabs/themes/vue-tabs.css'
-Vue.use(VueTabs)
 
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
@@ -367,6 +364,9 @@ Vue.component("intercompany-export-invoice",require("./components/intercompany/e
 //###################################################
 //            Sources Components
 //###################################################
+Vue.component("vue-tabs",require("./components/srcComponent/Tabs.vue"));
+Vue.component("vue-tab",require("./components/srcComponent/Tab.vue"));
+Vue.component("button-form",require("./components/srcComponent/buttonForm.vue"));
 Vue.component("button-form",require("./components/srcComponent/buttonForm.vue"));
 Vue.component("loading", require("./components/srcComponent/loading.vue"));
 Vue.component("time-live", require("./components/srcComponent/timeLive.vue"));

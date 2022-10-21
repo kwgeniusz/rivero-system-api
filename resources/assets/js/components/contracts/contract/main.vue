@@ -42,7 +42,6 @@
         mounted() {
             axios.get('/contracts').then((response) => {
                 this.contractList = response.data
-            // console.log(this.contractList)
             })
         },
         data() {

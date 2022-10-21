@@ -117,7 +117,8 @@
 
           axios.post(url,{
               precontractId: this.precontract.precontractId,
-              commentContent: this.formCommentContent
+              commentContent: this.formCommentContent,
+              commentTagId: 0
             }).then(response => {
               // console.log(response)
 

@@ -102,6 +102,9 @@ Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contrac
 Route::get('contracts/{id}/comments', 'Web\ContractCommentController@index')->name('contractsComment.index');
 Route::post('contracts/{id}/comments', 'Web\ContractCommentController@store')->name('contractsComment.store');
 
+ // ->Comment Tags
+ Route::resource('comment-tags', 'Web\Contracts\CommentTagController')->except(['show']);
+ 
 //****************************FILES********************************
 Route::get('files/{id}/download', 'Web\FileController@download')->name('files.download');
 Route::post('files/download-zip', 'Web\FileController@downloadZip')->name('files.downloadZip');
