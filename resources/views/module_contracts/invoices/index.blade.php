@@ -102,11 +102,11 @@
               @endif  
           @endif 
 
-               @if($invoice->invStatusCode == App\Invoice::CLOSED or $invoice->invStatusCode == App\Invoice::PAID )
+          
                  <a href="{{route('invoiceSaleNotes.getAll', ['id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Notas de Venta">
                      <span class="fa fa-briefcase" aria-hidden="true"></span> 
                 </a>
-                @endif
+  
 
             {{--       <a href="{{route('invoices.show', ['id' => $invoice->invoiceId])}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Anular">
                         <span class="fa fa-times-circle" aria-hidden="true"></span> 
