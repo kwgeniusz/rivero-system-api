@@ -78,6 +78,10 @@
                                     :client-name="contract.client.clientName"
                                     :company-name="contract.client.companyName">
                                     </modal-client-details>
+
+                                    Tlf: {{contract.client.businessPhone}}   <br>
+                                    Correo: {{contract.client.mainEmail}} <br>
+                                    Idioma: {{contract.client.clientLanguages}} 
                                 </td>
                                 <td class="text-left"> 
                                   {{contract.siteAddress}}

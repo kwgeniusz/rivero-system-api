@@ -115,7 +115,7 @@ class Contract extends Model
     }
    public function precontract()
     {
-        return $this->belongsTo('App\Precontract', 'contractId');
+        return $this->belongsTo('App\Precontract', 'contractId')->with('comments');
     } 
    public function invoice()
     {
@@ -358,7 +358,7 @@ class Contract extends Model
 //------------------------------------------
     public function findById($id,$countryId,$companyId)
     {
-        return $this->with('client','buildingCode','buildingCodeGroup','projectUse','user')
+        return $this->with('client','buildingCode','buildingCodeGroup','projectUse', 'precontract','user')
                     ->where('contractId', '=', $id)
                     ->where('countryId', $countryId)
                     ->where('companyId', $companyId) 

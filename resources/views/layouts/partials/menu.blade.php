@@ -203,8 +203,9 @@
           </ul>
         </li>
  @endcan
- @if(Auth()->user()->userId == 20  || Auth()->user()->userId == 21)
- @can('F')        
+ @if(Auth()->user()->userId == 20  || Auth()->user()->userId == 21  ||
+    Auth()->user()->userId  == 73  || Auth()->user()->userId == 81 )
+ <!-- @can('F')         -->
         <li class="treeview">
           <a href="#"><i class="fa fa-wrench"></i> <span>Intercompañia</span>
             <span class="pull-right-container">
@@ -219,7 +220,7 @@
 
           </ul>
         </li>
- @endcan
+ <!-- @endcan -->
 @endif
    <li>
     <a href="{{ route('logout') }}"  onclick="event.preventDefault();

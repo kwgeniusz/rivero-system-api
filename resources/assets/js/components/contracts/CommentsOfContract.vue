@@ -15,6 +15,8 @@
     </h4>
 
     <div class="tabs">
+        <!-- <a v-on:click="activetab='precontract'" v-bind:class="[ activetab === 'precontract' ? 'active' : '' ]">Precontrato</a> -->
+
         <a v-on:click="activetab=0" v-bind:class="[ activetab === 0 ? 'active' : '' ]">Sin Tag</a>
         <a v-for="tag in commentTagsList" :key="tag.commentTagId" @click="activetab = tag.commentTagId" :class="[ activetab === tag.commentTagId ? 'active' : '' ]">{{tag.commentTagName}}</a>
         <!-- <a v-on:click="activetab=1" v-bind:class="[ activetab === 1 ? 'active' : '' ]">Tab 1</a>
@@ -22,8 +24,20 @@
         <a v-on:click="activetab=3" v-bind:class="[ activetab === 3 ? 'active' : '' ]">Tab 3</a> -->
     </div>
 
-    <div class="content">
-      <div  v-if="activetab === 0" class="tabcontent">
+ <div class="content">
+  <!-- SECTION PRECONTRACT COMMENTS -->
+    <!-- <div v-if="activetab === 'precontract'" class="tabcontent">
+      {{contract.precontract}}
+
+        <div class="row comment" v-for="comment in commentListFiltered" :key="comment.commentId">
+          <div class="col-xs-12">
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('MM/DD/YYYY - hh:mm A')}})</p>
+            <p class="text-left" v-html="nl2br(comment.commentContent,false) "> </p>
+          </div>
+        </div>
+    </div> -->
+  <!-- SECTION WITHOUT TAGS -->
+    <div v-if="activetab === 0" class="tabcontent">
 
            <a @click="addCommentModal()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
            </a>
@@ -40,12 +54,11 @@
             <p class="text-left" v-html="nl2br(contract.initialComment,false) "></p>
           </div>
         </div>
-      </div>
-
-        <div v-for="tag in commentTagsList" :key="tag.commentTagId" v-if="activetab === tag.commentTagId" class="tabcontent">
-            <!-- {{tag}} -->
-
-             <a @click="addCommentModal()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
+    </div>
+  <!-- SECTION LISTA DE TAGS -->
+    <div v-for="tag in commentTagsList" :key="tag.commentTagId" v-if="activetab === tag.commentTagId" class="tabcontent">
+          
+          <a @click="addCommentModal()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
            </a>
         <div class="row comment" v-for="comment in commentListFiltered" :key="comment.commentId">
           <div class="col-xs-12">
@@ -60,7 +73,7 @@
              <p class="text-left" v-html="nl2br(contract.initialComment,false) "></p>
           </div>
          </div>
-        </div>
+    </div>
         <!-- <div v-if="activetab === 1" class="tabcontent">
             Is this the real life? Is this just fantasy?
         </div>
