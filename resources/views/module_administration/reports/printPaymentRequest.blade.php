@@ -180,13 +180,8 @@
 
 <br><br>
 <div style="text-align: center">
-<b>Remit payment to:</b><br>
-       Name: JD Rivero Dallas LLC <br>
-           Bank: Bank of America <br>
-           Account number: 4880 9011 7716 <br>
-           Routing number: 111000025<br>
-           026009593 (WIRES)<br>
-           E-mail: jdriverodallas@gmail.com (ZELLE)
+     <b>Remit payment to:</b><br>
+	   <div class="tab">{!! nl2br($invoice->proposal->paymentMethods) !!}</div>
 </div>
 
 <br> <br><br>
