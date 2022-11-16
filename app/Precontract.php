@@ -121,7 +121,9 @@ class Precontract extends Model
     }
     public function comments()
     {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->morphMany('App\Comment', 'commentable')
+                    ->orderBy('commentDate','DESC')->with('user');
+                    
     }
     public function currency()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Auth;
 use App\Bank;
+use App\Contract;
 use App\Receivable;
 use App\PaymentMethod;
 use App\Http\Controllers\Controller;
@@ -16,6 +17,7 @@ class ReceivableController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->oContract      = new Contract;
         $this->oReceivable    = new Receivable;
         $this->oPaymentMethod = new PaymentMethod;
     }
@@ -37,6 +39,8 @@ class ReceivableController extends Controller
     public function details($clientId)
     {
         $receivable           = $this->oReceivable->clientPendingInfo($clientId);
+        // $contracts             = $this->oContract->getAllByClient($clientId);
+      
         $receivablesInvoices  = $this->oReceivable->invoicesPendingAll($clientId);
 
         $receivable->map(function($receivable){
@@ -44,8 +48,8 @@ class ReceivableController extends Controller
                       $receivable->balanceTotal = number_format((float)$paymentsMissing->sum('amountDue'), 2, '.', '');
              });
  
-          // dd($receivablesInvoices);
-          // exit();
+        //   dd($receivablesInvoices);
+        //   exit();
         //verifica si hay registros sino redirigeme a "ver todos los clientes con cuentas por cobrar"
         if (count($receivable) == 0) {
             return redirect()->route('receivables.index');

@@ -45,10 +45,19 @@
                   <input type="text" class="form-control" id="formName" v-model="subcontractor.companyName" placeholder="" autocomplete="off ">
           </div>
 
+          <div class="form-group col-lg-6 " v-if="subcontractor.subcontType == 'COMPANY'"> 
+               <i class="far fa-id-card"></i> <label for="companyLicense">LICENCIA DE LA COMPAÑIA</label>
+                  <input type="text" class="form-control" id="companyLicense" v-model="subcontractor.companyLicense" placeholder="" autocomplete="off ">
+          </div>
+
          <div class="form-group col-lg-6 ">
               <i class="fas fa-user-friends"></i> <label for="formRepresentative">NOMBRE Y APELLIDO / REPRESENTANTE</label>
                   <input type="text" class="form-control" id="formRepresentative" v-model="subcontractor.subcontractorName"  autocomplete="off ">
         </div>
+           <div class="form-group col-lg-6 "> 
+               <i class="far fa-id-card"></i> <label for="professionalLicense">LICENCIA DEL PROFESIONAL</label>
+                  <input type="text" class="form-control" id="professionalLicense" v-model="subcontractor.professionalLicense" placeholder="" autocomplete="off ">
+          </div>
 
        <div class="row"></div>
        <div class="form-group col-lg-6 ">
@@ -154,6 +163,8 @@
                     this.subcontractor.taxId = data.taxId;
                     this.subcontractor.companyName = data.companyName;
                     this.subcontractor.subcontractorName = data.subcontractorName;
+                    this.subcontractor.companyLicense =  data.companyLicense
+                    this.subcontractor.professionalLicense = data.professionalLicense
                     this.subcontractor.address = data.address;
                     this.subcontractor.mainPhone = data.mainPhone;
                     this.subcontractor.secondaryPhone = data.secondaryPhone;
@@ -187,6 +198,8 @@
                     taxId: '',
                     companyName: '',
                     subcontractorName: '',
+                    companyLicense: '',
+                    professionalLicense: '',
                     address: '',
                     mainPhone: '',
                     secondaryPhone: '',
@@ -239,6 +252,8 @@
                      formData.append('taxId',this.subcontractor.taxId);
                      formData.append('companyName',this.subcontractor.companyName);
                      formData.append('subcontractorName',this.subcontractor.subcontractorName);
+                     formData.append('companyLicense',this.subcontractor.companyLicense);
+                     formData.append('professionalLicense',this.subcontractor.professionalLicense);
                      formData.append('address',this.subcontractor.address);
                      formData.append('mainPhone',this.subcontractor.mainPhone);
                      formData.append('secondaryPhone',this.subcontractor.secondaryPhone);

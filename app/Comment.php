@@ -14,7 +14,6 @@ class Comment extends Model
     protected $primaryKey = 'commentId';
     protected $appends = ['commentDate'];
     protected $fillable   = ['commentId','commentContent', 'commentDate', 'contractId','userId'];
-
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -25,17 +24,13 @@ class Comment extends Model
 
     public function tag()
     {
-        return $this->hasOne('App\Models\CommentTag', 'commentTagId', 'commentTagId')->withTrashed();
+        return $this->hasOne('App\Models\Contracts\CommentTag', 'commentTagId', 'commentTagId');
     }
 
      public function user()
     {
         return $this->hasOne('App\User', 'userId', 'userId')->withTrashed();
     }
-
-    // function PerTransaction() {
-    //     return $this->hasOne(User::class, 'userId','userId');
-    // }
 
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -63,7 +58,6 @@ public function setCommentDateAttribute($commentDate)
     {
    
 
-    
         // dd($data);
         $comment                      = new Comment;
         $comment->commentContent      = $data['commentContent'];

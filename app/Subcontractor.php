@@ -83,14 +83,15 @@ class Subcontractor extends Model
 
      DB::beginTransaction();
       try {
-
+   
         $subcontractor                      = new Subcontractor;
         $subcontractor->countryId           = $countryId;
         $subcontractor->companyId           = $companyId;
         $subcontractor->subcontType         = $data['subcontType'];
         $subcontractor->companyName                = $data['companyName'];
         $subcontractor->subcontractorName      = $data['subcontractorName'];
-        // $subcontractor->serviceOffered      = $data['serviceOffered'];
+        $subcontractor->companyLicense      = $data['companyLicense'];
+        $subcontractor->professionalLicense      = $data['professionalLicense'];
         $subcontractor->typeTaxId             = $data['typeTaxId'];
         $subcontractor->taxId                 = $data['taxId'];
         $subcontractor->address               = $data['address'];
@@ -139,6 +140,8 @@ class Subcontractor extends Model
         $subcontractor->subcontType         = $data['subcontType'];
         $subcontractor->companyName         = $data['companyName'];
         $subcontractor->subcontractorName   = $data['subcontractorName'];
+        $subcontractor->companyLicense      = $data['companyLicense'];
+        $subcontractor->professionalLicense      = $data['professionalLicense'];
         $subcontractor->typeTaxId           = $data['typeTaxId'];
         $subcontractor->taxId               = $data['taxId'];
         $subcontractor->address             = $data['address'];

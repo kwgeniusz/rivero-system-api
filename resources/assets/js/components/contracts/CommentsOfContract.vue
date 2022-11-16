@@ -15,35 +15,36 @@
     </h4>
 
     <div class="tabs">
-        <!-- <a v-on:click="activetab='precontract'" v-bind:class="[ activetab === 'precontract' ? 'active' : '' ]">Precontrato</a> -->
+        <a v-on:click="activetab='precontract'" v-bind:class="[ activetab === 'precontract' ? 'active' : '' ]">Precontrato</a>
+        <a v-on:click="activetab='all'" v-bind:class="[ activetab === 'all' ? 'active' : '' ]">Todos</a>
 
-        <a v-on:click="activetab=0" v-bind:class="[ activetab === 0 ? 'active' : '' ]">Sin Tag</a>
         <a v-for="tag in commentTagsList" :key="tag.commentTagId" @click="activetab = tag.commentTagId" :class="[ activetab === tag.commentTagId ? 'active' : '' ]">{{tag.commentTagName}}</a>
         <!-- <a v-on:click="activetab=1" v-bind:class="[ activetab === 1 ? 'active' : '' ]">Tab 1</a>
         <a v-on:click="activetab=2" v-bind:class="[ activetab === 2 ? 'active' : '' ]">Tab 2</a>
         <a v-on:click="activetab=3" v-bind:class="[ activetab === 3 ? 'active' : '' ]">Tab 3</a> -->
     </div>
-
+  
+  <!-- <v-select :options="commentTagsList" v-model="activetab" :reduce="commentTagsList => commentTagsList.commentTagId" label="commentTagName" />  -->
+  
  <div class="content">
   <!-- SECTION PRECONTRACT COMMENTS -->
-    <!-- <div v-if="activetab === 'precontract'" class="tabcontent">
-      {{contract.precontract}}
-
-        <div class="row comment" v-for="comment in commentListFiltered" :key="comment.commentId">
+    <div v-if="activetab === 'precontract'" class="tabcontent">
+        <div class="row comment" v-for="comment in contract.precontract.comments" :key="comment.commentId">
           <div class="col-xs-12">
             <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('MM/DD/YYYY - hh:mm A')}})</p>
             <p class="text-left" v-html="nl2br(comment.commentContent,false) "> </p>
           </div>
         </div>
-    </div> -->
-  <!-- SECTION WITHOUT TAGS -->
-    <div v-if="activetab === 0" class="tabcontent">
+    </div>
+
+<!-- SECTION ALL -->
+    <div v-if="activetab === 'all'" class="tabcontent">
 
            <a @click="addCommentModal()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
            </a>
         <div class="row comment" v-for="comment in commentListFiltered" :key="comment.commentId">
           <div class="col-xs-12">
-            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('MM/DD/YYYY - hh:mm A')}})</p>
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i>{{comment.user.fullName}} - ({{comment.commentDate | moment('MM/DD/YYYY - hh:mm A')}}) <span v-if="comment.tag && comment.tag.commentTagName"> - [{{ comment.tag.commentTagName }}]</span></p>
             <p class="text-left" v-html="nl2br(comment.commentContent,false) "> </p>
           </div>
         </div>
@@ -55,6 +56,7 @@
           </div>
         </div>
     </div>
+
   <!-- SECTION LISTA DE TAGS -->
     <div v-for="tag in commentTagsList" :key="tag.commentTagId" v-if="activetab === tag.commentTagId" class="tabcontent">
           
@@ -62,27 +64,18 @@
            </a>
         <div class="row comment" v-for="comment in commentListFiltered" :key="comment.commentId">
           <div class="col-xs-12">
-            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('MM/DD/YYYY - hh:mm A')}})</p>
+            <p class="text-left" style="font-weight: bold"><i class="fa fa-user-circle"></i> {{comment.user.fullName}} - ({{comment.commentDate | moment('MM/DD/YYYY - hh:mm A')}}) <span v-if="comment.tag && comment.tag.commentTagName"> - [{{ comment.tag.commentTagName }}]</span></p>
             <p class="text-left" v-html="nl2br(comment.commentContent,false) "> </p>
           </div>
         </div>
 
          <div class="row comment">
            <div class="col-xs-12">
-             <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> {{contract.user.fullName}} - COMENTARIO INICIAL: ({{contract.contractDate | moment('MM/DD/YYYY - hh:mm A') }})</p>
+             <p class="text-left" style="font-weight: bold"><i class="fa fa-info-circle"></i> COMENTARIO INICIAL: ({{contract.contractDate | moment('MM/DD/YYYY - hh:mm A') }})</p>
              <p class="text-left" v-html="nl2br(contract.initialComment,false) "></p>
           </div>
          </div>
     </div>
-        <!-- <div v-if="activetab === 1" class="tabcontent">
-            Is this the real life? Is this just fantasy?
-        </div>
-        <div v-if="activetab === 2" class="tabcontent">
-            Caught in a landslide, no escape from reality
-        </div>
-        <div v-if="activetab === 3" class="tabcontent">
-            Open your eyes, look up to the skies and see
-        </div> -->
     </div>
 </sweet-modal>
 
@@ -130,7 +123,10 @@
           return {
            contract: '',
            commentList: [],
-           commentTagsList:[],
+           commentTagsList:[
+             {commentTagId: 'precontract',commentTagName: "Precontract"},
+             {commentTagId: 'all', commentTagName: "Todos"},
+           ],
            activetab: 0,
 
           // variables about the form
@@ -151,6 +147,10 @@
           },
       computed: {
             commentListFiltered: function () {
+
+              if(this.activetab == 'all'){
+                return this.commentList;
+              }
 
               return this.commentList.filter((comment, index) => {
                  return comment.commentTagId == this.activetab; 
@@ -176,12 +176,15 @@
          //obtener los comentarios del contrato
           axios.get(this.prefUrl+'contracts/'+this.contractId+'/comments').then(response => {
                   this.commentList = response.data
+                  console.log(this.commentList)
+               
             });
        },
       getAllCommentTags: function(){
          //obtener los comentarios del contrato
           axios.get(this.prefUrl+'comment-tags').then(response => {
                   this.commentTagsList = response.data
+                  // console.log(this.commentTagsList)
             });
        },
        sendForm: function() {

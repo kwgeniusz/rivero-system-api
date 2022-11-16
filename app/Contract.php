@@ -74,9 +74,8 @@ class Contract extends Model
     }
     public function comments()
     {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->morphMany('App\Comment', 'commentable')->with(['user','tag']);
     }
-    
     public function buildingCode()
     {
         return $this->belongsTo('App\BuildingCode', 'buildingCodeId');
@@ -285,26 +284,60 @@ class Contract extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    public function getAll($companyId)
+public function findById($id,$countryId,$companyId)
+{
+    return $this->with('client','buildingCode','buildingCodeGroup','projectUse', 'precontract','user')
+                ->where('contractId', '=', $id)
+                ->where('countryId', $countryId)
+                ->where('companyId', $companyId) 
+                ->get();
+}
+//------------------------------------------
+public function findByCompany($companyId)
+{
+    return $this->where('companyId', '=', $companyId)->get();
+}
+//------------------------------------------
+public function findSiteAddressByCompany($companyId)
+{
+    $result = DB::select("SELECT DISTINCT contract.siteAddress FROM contract
+                          INNER JOIN client ON contract.clientId = client.clientId
+                          WHERE companyId = $companyId ");
+
+    return $result;
+}
+//------------------------------------------
+public function getAll($companyId)
     {
         return $this->with('client')
                     ->where('companyId', $companyId)
                     ->orderBy('contractNumber', 'ASC')->get();
     }
-//--------------------------------------------------------------------
-    public function getAllByProjectUse($companyId,$projectUseId)
+//------------------------------------------
+public function getAllByClient($clientId)
+    {
+        // $authors = Author::with(['books' => function($query) use ($year) {
+        //     $query->whereYear('created_at', $year);
+        //   }])->get();
+
+        return $this->with('invoice.receivable')
+                    ->where('clientId', $clientId)
+                    ->orderBy('contractNumber', 'ASC')->get();
+    }
+//----- ---------------------------------------------------------------
+public function getAllPaginate($number)
+{
+    return $this->orderBy('contractNumber', 'ASC')->paginate($number);
+}
+//------------------------------------
+public function getAllByProjectUse($companyId,$projectUseId)
     {
         return $this->where('projectUseId', $projectUseId)
                     ->where('companyId', $companyId) 
                     ->get();
     }
 //------------------------------------
-    public function getAllPaginate($number)
-    {
-        return $this->orderBy('contractNumber', 'ASC')->paginate($number);
-    }
-//------------------------------------
-    public function getAllForStatus($contractStatus,$filteredOut,$countryId,$companyId)
+public function getAllForStatus($contractStatus,$filteredOut,$countryId,$companyId)
     {
         $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
             ->where('contractStatus', $contractStatus)
@@ -316,6 +349,21 @@ class Contract extends Model
 
         return $result;
     }
+//------------------------------------
+public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$companyId)
+    {
+        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
+                       ->where('countryId', $countryId)
+                       ->where('companyId', $companyId) 
+                       ->where(function($q) use ($contractStatus1,$contractStatus2){
+                          $q->where('contractStatus', $contractStatus1)
+                          ->orWhere('contractStatus', $contractStatus2);
+                        })           
+                      ->orderBy('contractNumber', 'DESC')
+                      ->filter($filteredOut)
+                      ->paginate(300);
+        return $result;
+    }  
 //------------------------------------------
     public function getAllForElevenStatus($contractStatus1, $contractStatus2,$contractStatus3,$contractStatus4,$contractStatus5,$contractStatus6,$contractStatus7,$contractStatus8,$contractStatus9,$contractStatus10,$contractStatus11,$filteredOut,$countryId,$companyId)
     {
@@ -340,50 +388,7 @@ class Contract extends Model
                       ->get();
         return $result;
     }
-//------------------------------------------ 
-      public function getAllForTwoStatus($contractStatus1, $contractStatus2,$filteredOut,$countryId,$companyId)
-    {
-        $result = $this->with('client','buildingCode','projectUse','contractStatusR','invoice.projectDescription')
-                       ->where('countryId', $countryId)
-                       ->where('companyId', $companyId) 
-                       ->where(function($q) use ($contractStatus1,$contractStatus2){
-                          $q->where('contractStatus', $contractStatus1)
-                          ->orWhere('contractStatus', $contractStatus2);
-                        })           
-                      ->orderBy('contractNumber', 'DESC')
-                      ->filter($filteredOut)
-                      ->paginate(300);
-        return $result;
-    }  
-//------------------------------------------
-    public function findById($id,$countryId,$companyId)
-    {
-        return $this->with('client','buildingCode','buildingCodeGroup','projectUse', 'precontract','user')
-                    ->where('contractId', '=', $id)
-                    ->where('countryId', $countryId)
-                    ->where('companyId', $companyId) 
-                    ->get();
-    }
-//------------------------------------------
-    public function findByCompany($companyId)
-    {
-        return $this->where('companyId', '=', $companyId)->get();
-    }
-//------------------------------------------
-    // public function findByClient($clientId)
-    // {
-    //     return $this->where('clientId', '=', $clientId)->get();
-    // }
 
-//------------------------------------------
-    public function findSiteAddressByCompany($companyId)
-    {
-        $result = DB::select("SELECT DISTINCT contract.siteAddress FROM contract
-                              INNER JOIN client ON contract.clientId = client.clientId
-                              WHERE companyId = $companyId ");
-
-        return $result;
-    }
 //------------------------------------------
     public function insertContract($countryId, $companyId, $contractType,$projectName, $contractDate,
         $clientId,$propertyNumber,$streetName,$streetType,$suiteNumber,$city,$state,$zipCode,$buildingCodeId, $groupId, $projectUseId,$constructionType, $initialComment, $currencyId,$estimatedWorkDays) {
