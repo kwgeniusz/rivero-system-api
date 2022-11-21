@@ -114,7 +114,7 @@ class Contract extends Model
     }
    public function precontract()
     {
-        return $this->belongsTo('App\Precontract', 'contractId')->with('comments');
+        return $this->belongsTo('App\Precontract', 'contractId', 'contractId')->with('comments');
     } 
    public function invoice()
     {
