@@ -203,8 +203,9 @@
           </ul>
         </li>
  @endcan
- @if(Auth()->user()->userId == 20  || Auth()->user()->userId == 21  ||
-    Auth()->user()->userId  == 73  || Auth()->user()->userId == 81 )
+ @if(Auth()->user()->userId  == 20  || Auth()->user()->userId == 21  ||
+     Auth()->user()->userId  == 73  || Auth()->user()->userId == 81  ||
+     Auth()->user()->userId  == 100)
  <!-- @can('F')         -->
         <li class="treeview">
           <a href="#"><i class="fa fa-wrench"></i> <span>Intercompañia</span>

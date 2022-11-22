@@ -79,12 +79,17 @@
           <div class="panel-heading"> <h4><b>Preparacion de Datos:</b></h4> </div>
           <div class="panel-body">
             <div class="form-group col-lg-12 ">
-              <h4><label for="accountTypeCode">Tipo de exportacion:</label></h4>
+              <!-- <h4><label for="accountTypeCode">Tipo de exportacion:</label></h4>
                <select name="" id="">
                  <option value="ONLY_ENTITY">SOLO LA ENTIDAD</option>
                  <option value="ENTITY_WITH_RELATIONS">ENTIDAD CON RELACIONES</option>
+               </select> -->
+                 <h4><label for="accountTypeCode">Aplicar Formulas de Costo?</label></h4>
+               <select name="" id="">
+                 <option value="0">No</option>
+                 <option value="1">Si</option>
                </select>
-              
+
               <h4><label for="accountTypeCode">Escoja una Compañia destino:</label></h4>
               <select-country-office pref-url="/" @company-value="setCompanyValue"></select-country-office>
 
