@@ -37,8 +37,7 @@ Route::get('precontracts/{id}/budgets','Web\Contracts\PrecontractBudgetControlle
 //***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
-
-Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
+Route::get('propsosalsDetails/{invoiceId}/withPrice', 'Web\ProposalDetailController@getWithPriceByProposal')->name('proposalsDetails.withPrice');
 
  //->Proposal Scopes
 Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
@@ -58,6 +57,10 @@ Route::post('proposals/{id}/terms', 'Web\ProposalTermController@store')->name('p
 Route::get('proposals/{id}/notes', 'Web\ProposalNoteController@index')->name('proposalsNotes.index');
 Route::post('proposals/{id}/notes', 'Web\ProposalNoteController@store')->name('proposalsNotes.store');
 
+ //->Proposal Subcontractors
+ Route::get('proposals/{id}/subcontractors', 'Web\ProposalSubcontractorController@index')->name('proposals.subcontractors.index');
+ Route::post('proposals/{id}/subcontractors', 'Web\ProposalSubcontractorController@store')->name('proposals.subcontractors.store');
+ 
  // ->Proposal Subcontractor
 Route::put('proposal/{id}/update-subcontractor', 'Web\ProposalController@updateSubcontractor');
 

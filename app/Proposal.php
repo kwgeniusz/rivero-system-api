@@ -146,7 +146,8 @@ class Proposal extends Model
     
   public function getAllByCompany($companyId)
     {
-        return $this->where('companyId' , '=' , $companyId)
+        return $this->with('client','paymentCondition','projectDescription','user')
+            ->where('companyId' , '=' , $companyId)
             ->orderBy('propId', 'DESC')
             ->get();
     }   
@@ -162,7 +163,7 @@ class Proposal extends Model
 
     public function getAllByPrecontract($precontractId)
     {
-        $result = $this->with("paymentCondition",'projectDescription')
+        $result = $this->with('paymentCondition','projectDescription')
             ->where('precontractId', $precontractId)
             ->orderBy('proposalId', 'ASC')
             ->get();

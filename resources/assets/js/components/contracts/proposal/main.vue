@@ -2,36 +2,44 @@
     <div class="">
         <!-- agregar -->
         <!-- <div v-if="formStatus === 1">
-            <addUp-contract
+            <addUp-proposal
                 @showlist = "showlist"
                 :editId=0
-            > </addUp-contract> 
+            > </addUp-proposal> 
         </div> -->
 
         <!-- Vista actualizar -->
         <!-- <div v-if="formStatus === 2">
-            <addUp-contract
+            <addUp-proposal
                 @showlist = "showlist"
                 :editId=editId                
-            > </addUp-contract> 
+            > </addUp-proposal> 
         </div> -->
 
+       <!-- Vista de Subcontratistas -->
+        <div v-if="formStatus === 3">
+            <subcontractor-proposal
+                @showlist = "showlist"
+                :proposalId = proposalId                 
+            > </subcontractor-proposal> 
+        </div>
 
         <!-- botones y listado -->
         <div v-if="formStatus === 0">
-            <h3><b>CONTRATOS</b></h3>
+            <h3><b>COTIZACIONES</b></h3>
 
-            <!-- <button-form
+            <button-form
                 @addf = "addFormStatus"
                 :buttonType = 0
                 :btn4 = 0
-            ></button-form> -->
+            ></button-form>
 
-            <table-contract  
-                :contractList = contractList
+            <table-proposal  
+                :proposalList = proposalList
                 @editData = "editData"
+                @subcontractors = "subcontractors"
                 @showlist = "showlist">
-            </table-contract>
+            </table-proposal>
         </div>  
 
     </div>         
@@ -40,16 +48,17 @@
 <script>
     export default {
         mounted() {
-            axios.get('/contracts').then((response) => {
-                this.contractList = response.data
+            axios.get('/proposals').then((response) => {
+                this.proposalList = response.data
             })
         },
         data() {
             return{
-                contractList: [],
+                proposalList: [],
                 // parents: [],
                 formStatus: 0,
                 editId: '',
+                proposalId: '',
             }
         },
         methods: {
@@ -61,9 +70,14 @@
                 this.editId = id
                 this.formStatus = 2
             }, 
+            subcontractors(proposalId){
+                // console.log('el id es: ' + id)
+                this.proposalId = proposalId
+                this.formStatus = 3
+            }, 
             upDepartment( company){
                 // console.log(company)
-                // this.contractList[company[0]] = company[1]
+                // this.proposalList[company[0]] = company[1]
             },
             // carga(){
             //     XMLHttpRequest.onprogress = function (event) {
@@ -73,9 +87,9 @@
             // },
             showlist(n){
                 this.formStatus = 0
-                axios.get('/contracts').then((response) => {
-                    this.contractList = response.data
-                    // console.log(this.contractList)
+                axios.get('/proposals').then((response) => {
+                    this.proposalList = response.data
+                    // console.log(this.proposalList)
                 })
             
             

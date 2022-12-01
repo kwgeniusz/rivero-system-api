@@ -114,4 +114,11 @@ class ProposalDetailController extends Controller
          return $notification;
 
     }
+
+    
+   public function getWithPriceByInvoice($invoiceId)
+   {
+       $result = $this->oInvoiceDetail->getWithPriceByInvoice($invoiceId);
+        return $result;
+   }
 }

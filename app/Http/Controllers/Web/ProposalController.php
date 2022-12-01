@@ -49,15 +49,16 @@ class ProposalController extends Controller
 
     public function index(Request $request)
     {
+        $proposals   = $this->oProposal->getAllByCompany(session('companyId'));
 
-        $precontract = $this->oPrecontract->findById($request->id,session('countryId'),session('companyId'));
-        $proposals = $this->oProposal->getAllByPrecontract($request->id);
+        // $precontract = $this->oPrecontract->findById($request->id,session('countryId'),session('companyId'));
+        // $proposals   = $this->oProposal->getAllByPrecontract($request->id);
 
-         if($request->ajax()){
+         if($request->ajax()) {
                 return $proposals;
             }
 
-        return view('module_contracts.proposals.index', compact('precontract','proposals'));
+        return view('module_contracts.proposals.index', compact('proposals'));
     }
 
     public function create(Request $request)
@@ -186,68 +187,68 @@ class ProposalController extends Controller
 
   public function getAllProposals(Request $request)
     {
-      $proposals = $this->oProposal->getAllByCompany(session('companyId'));
+  //     $proposals = $this->oProposal->getAllByCompany(session('companyId'));
 
-      if($request->method() == 'POST') {
-       if($request->date1 || $request->date2 || $request->textToFilter) {
+  //     if($request->method() == 'POST') {
+  //      if($request->date1 || $request->date2 || $request->textToFilter) {
   
-        //primer filtrado por el select y texto escrito en el formulario.
-        if($request->textToFilter){
-        $proposals = $proposals->filter(function ($proposal) use($request) {
-                      switch ($request->filterBy) {
-                        case 'invId':
-                               $valorABuscar = $proposal->propId;
-                          break;
-                        case 'siteAddress':
-                          if($proposal->precontract == null)
-                              $valorABuscar =  $proposal->contract->siteAddress;
-                          else
-                              $valorABuscar =  $proposal->precontract->siteAddress;
-                          break;  
-                        case 'clientCode':
-                              $valorABuscar =  $proposal->client->clientCode;
-                          break;
-                        case 'clientName':
-                              $valorABuscar =  $proposal->client->clientName;
-                          break;  
-                        case 'clientPhone':
-                              $valorABuscar =  $proposal->client->clientPhone;
-                          break;
-                      }
-                $coincidencia = stripos($valorABuscar, $request->textToFilter);
+  //       //primer filtrado por el select y texto escrito en el formulario.
+  //       if($request->textToFilter){
+  //       $proposals = $proposals->filter(function ($proposal) use($request) {
+  //                     switch ($request->filterBy) {
+  //                       case 'invId':
+  //                              $valorABuscar = $proposal->propId;
+  //                         break;
+  //                       case 'siteAddress':
+  //                         if($proposal->precontract == null)
+  //                             $valorABuscar =  $proposal->contract->siteAddress;
+  //                         else
+  //                             $valorABuscar =  $proposal->precontract->siteAddress;
+  //                         break;  
+  //                       case 'clientCode':
+  //                             $valorABuscar =  $proposal->client->clientCode;
+  //                         break;
+  //                       case 'clientName':
+  //                             $valorABuscar =  $proposal->client->clientName;
+  //                         break;  
+  //                       case 'clientPhone':
+  //                             $valorABuscar =  $proposal->client->clientPhone;
+  //                         break;
+  //                     }
+  //               $coincidencia = stripos($valorABuscar, $request->textToFilter);
 
-            if ($coincidencia !== false) { 
-                 return $proposal;
-            } 
+  //           if ($coincidencia !== false) { 
+  //                return $proposal;
+  //           } 
 
-     });
-  } //fin del primer filtrado
+  //    });
+  // } //fin del primer filtrado
 
-    //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
-  if($request->date1 && $request->date2) {
-    $proposals = $proposals->filter(function ($proposal) use($request) {
+  //   //segundo filtrado por fechas se aplica si estan llenos los dos campos de fecha
+  // if($request->date1 && $request->date2) {
+  //   $proposals = $proposals->filter(function ($proposal) use($request) {
    
-               $oDateHelper = new DateHelper;
-               $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
-               $date1                 = $oDateHelper->$functionRs($request->date1);
-               $date2                 = $oDateHelper->$functionRs($request->date2);
-               $proposalDate       = $oDateHelper->$functionRs($proposal->proposalDate);
+  //              $oDateHelper = new DateHelper;
+  //              $functionRs = $oDateHelper->changeDateForCountry(session('countryId'),'Mutador');
+  //              $date1                 = $oDateHelper->$functionRs($request->date1);
+  //              $date2                 = $oDateHelper->$functionRs($request->date2);
+  //              $proposalDate       = $oDateHelper->$functionRs($proposal->proposalDate);
 
-              $date_inicio = strtotime($date1);
-              $date_fin    = strtotime($date2);
-              $date_nueva  = strtotime($proposalDate);
+  //             $date_inicio = strtotime($date1);
+  //             $date_fin    = strtotime($date2);
+  //             $date_nueva  = strtotime($proposalDate);
 
-               // esta dentro del rango
-              if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
-                 return $proposal;
-              }
-     });
-    }//fin del segundo filtrado
+  //              // esta dentro del rango
+  //             if (($date_nueva >= $date_inicio) && ($date_nueva <= $date_fin)){
+  //                return $proposal;
+  //             }
+  //    });
+  //   }//fin del segundo filtrado
 
 
 
-  } //cierre del filtrado general.
- }//cierre de request->post
+  //} cierre del filtrado general.
+ //}cierre de request->post
 
         return view('module_administration.proposals.index', compact('proposals'));
     }

@@ -108,6 +108,13 @@ Vue.component("grid-files",require("./components/contracts/documents/GridFiles.v
 // Vue.component("precontract-addUp-budget",require("./components/contracts/precontract/budget/addUp.vue"));
 
 // -----------------> Proposals <-------------------------//
+// Vue.component('main-proposal', function (resolve) {
+//   require(['./components/contracts/proposal/main.vue'], resolve)
+// })
+Vue.component("main-proposal",require("./components/contracts/proposal/main.vue"));
+Vue.component("table-proposal",require("./components/contracts/proposal/table.vue"));
+Vue.component("subcontractor-proposal",require("./components/contracts/proposal/subcontractor.vue"));
+
 Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
 Vue.component("duplicate-proposal",require("./components/administration/proposal/DuplicateProposal.vue"));
 

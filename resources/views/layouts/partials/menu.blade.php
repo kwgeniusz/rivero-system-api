@@ -49,6 +49,7 @@
           <ul class="treeview-menu">
   @can('BA') <li><a href="{{route('clients.index')}}"> {{__('clients')}}   </a></li> @endcan
   @can('BB') <li><a href="{{route('precontracts.index')}}">Pre-Contratos</a></li> @endcan
+  @can('BB') <li><a href="{{route('proposals.index')}}">Cotizaciones</a></li> @endcan
   @can('BD') <li><a href="{{route('contracts.index')}}">{{__('Contracts')}}</a></li> @endcan
   {{-- @can('BD') <li><a href="{{route('contracts.generalSearch')}}">{{__('general_search')}}</a></li> @endcan
   @can('BE') <li><a href="{{route('contracts.searchStatus')}}">{{__('contract_status')}}</a></li> @endcan --}}
