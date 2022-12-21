@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\DateHelper;
+use App\Models\Intercompany\ServiceCost;
 use App\Company;
 use App\Precontract;
 use App\Proposal;
@@ -33,6 +34,7 @@ class InvoiceExportController extends Controller
         $this->oInvoiceDetail         = new InvoiceDetail;
         $this->oCompanyConfiguration  = new CompanyConfiguration;
         $this->oProjectDescription    = new Projectdescription;
+        $this->oServiceCost           = new ServiceCost;
     }
 
     public function sendData(Request $request)
@@ -44,12 +46,10 @@ class InvoiceExportController extends Controller
 
         // Buscar la Propuesta a utilizar para la duplicacion
         $company     = Company::find(session('companyId'));
-
         $invoice     = $this->oInvoice->findById($request->invoiceId,session('countryId'),session('companyId'));
         $proposal    = $invoice[0]->proposal;
         $precontract = $proposal->precontract;
 
-     
 
         $newPrecontract = $this->oPrecontract->insertPrecontract(
             session('countryId'), 
@@ -84,8 +84,6 @@ class InvoiceExportController extends Controller
                 '1',
                 Auth::user()->userId);
                
-    
-          
     //Insercion de Servicios de la propuesta
     if($proposal->proposalDetail->isNotEmpty()) {
          
@@ -93,18 +91,79 @@ class InvoiceExportController extends Controller
           foreach ($proposal->proposalDetail as $key => $item) {
                $serviceId   =  $item->service->serviceEquivalence->destinationService->serviceId;
                $serviceName =  $item->service->serviceEquivalence->destinationService->serviceName;
-             
-              $result = $oProposalDetail->insert(
-                  $newProposalId,
-                  $item->itemNumber,
-                  $serviceId,
-                  $serviceName,
-                  $item->unit,
-                  $item->unitCost,
-                  $item->quantity,
-                  $item->amount);
+
+               // Si se aplica la formula de costos, hacer esto:
+       if($request->costFormula == 'Y'){
+                  //buscar costo local del producto para saber porcentaje a deducir en la propuesta destino...
+                  $rs = ServiceCost::where('serviceId', $item->service->serviceId)->get();
+
+                  if($rs->count() > 1){
+                      $rs = ServiceCost::where('serviceId', $item->service->serviceId)
+                                       ->where('projectUseId', $precontract->projectUseId)
+                                       ->get();
+                  }
+                  //  saber el porcentaje a aplicar o el costo por unidad
+                  $companyPercent = $rs[0]->targetCompanyPercentage;
+                  $companyCost    = $rs[0]->targetCompanyCost;
+
+                if($companyPercent > 0 && $item->unit == 'ea'){
+                    // Usar porcentaje
+
+                    $newUP  =   ($item->unitCost * $companyPercent)/100;
+                    $newAmount =  ( $item->amount * $companyPercent)/100;
+
+                    $result = $oProposalDetail->insert(
+                        $newProposalId,
+                        $item->itemNumber,
+                        $serviceId,
+                        $serviceName,
+                        $item->unit,
+                        $newUP,
+                        $item->quantity,
+                        $newAmount);
+                     
+                } elseif($companyCost > 0 && $item->unit == 'sqft'){
+                    // Usar monto
+                    $newUP  =  $companyCost;
+                    $newAmount =  $companyCost * $item->quantity;
+
+                    $result = $oProposalDetail->insert(
+                        $newProposalId,
+                        $item->itemNumber,
+                        $serviceId,
+                        $serviceName,
+                        $item->unit,
+                        $newUP,
+                        $item->quantity,
+                        $newAmount );
+                }else{
+                    $result = $oProposalDetail->insert(
+                        $newProposalId,
+                        $item->itemNumber,
+                        $serviceId,
+                        $serviceName,
+                        $item->unit,
+                        $item->unitCost,
+                        $item->quantity,
+                        $item->amount);
                 }
+
+            // Si NO se aplica la formula de costos, hacer esto:
+        }else{
+                    $result = $oProposalDetail->insert(
+                        $newProposalId,
+                        $item->itemNumber,
+                        $serviceId,
+                        $serviceName,
+                        $item->unit,
+                        $item->unitCost,
+                        $item->quantity,
+                        $item->amount);
         }
+            
+    } //endforeach
+            
+  } //end proposal Detail
 
         //Insercion de Notas de la propuesta
         if($proposal->note->isNotEmpty()) {

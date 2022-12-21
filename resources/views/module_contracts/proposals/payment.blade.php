@@ -2,15 +2,22 @@
 @section('content')
   <div class="create">
     <div class="formulario">
+    <h2 class="text-center bg-primary">CUOTAS DE LA PROPUESTA</h2>
+     <!--COMIENZO A VER LOS DETALLES DE LA FACTURA-->
+      <div class="bg-info hover round glow" role="button" data-toggle="collapse" href="#invoiceInfo" aria-expanded="false" style="" >
+           <h4><i class="fa fa-chevron-circle-down"></i> DATOS DE LA PROPUESTA </h4>
+           <!-- v-if="contract != null" -->
+       </div>
+       <!-- collapse -->
+         <!-- v-if="contract != null" -->
+         <div class="collapse in" id="invoiceInfo">
+           <div class="well">
 
-        <h3>DETALLES DE PROPUESTA</h3>
-        <div class="boxes" style="padding-top: 10px;">
           <div class="table-responsive tableother">
-
-            <table class="table table-striped table-bordered text-center ">
+            <table class="table table-striped table-bordered text-center">
               <thead>
-                <tr class="bg-success">
-                  <th>N° PROPUESTA</th>
+                <tr class="bg-info">
+                    <th>N° PROPUESTA</th>
                   @if($proposal[0]->contractId ==null)
                     <th>PRECONTRATO</th>
                   @else
@@ -27,7 +34,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>{{$proposal[0]->propId}} </td>
+                <td>{{$proposal[0]->propId}} </td>
                   @if($proposal[0]->contractId ==null)
                     <td>{{$proposal[0]->precontract->preId}} </td>
                     <td>{{$proposal[0]->precontract->siteAddress}} </td>
@@ -44,12 +51,56 @@
                 </tr>
               </tbody>
             </table>
-
           </div>
-        </div>
 
+           </div>
+         </div>
+      
+       <!--COMIENZO A VER LOS DETALLES DE LA FACTURA-->
+         <div class="bg-info hover round glow" role="button" data-toggle="collapse" href="#invoiceDetail" aria-expanded="false" style="" >
+         <h4><i class="fa fa-chevron-circle-down"></i> RENGLONES </h4>
+           <!-- v-if="contract != null" -->
+         </div>
+       <!-- collapse -->
+         <!-- v-if="contract != null" -->
+         <div class="collapse" id="invoiceDetail">
+           <div class="well">
+
+           <div class="table-responsive tableother">
+            <table class="table table-striped table-bordered text-center">
+              <thead>
+                <tr class="bg-info">
+                  <th>#</th>
+                  <th>SERVICIO</th>  
+                  <th>UNIDAD</th>
+                  <th>COSTO</th>
+                  <th>CANTIDAD</th>
+                  <th>MONTO</th>
+                </tr>
+              </thead>
+              <tbody>
+              @foreach($proposalDetails as $detail)
+                @if($detail->amount > 0)
+                  <tr>
+                     <td>{{$detail->itemNumber}}</td> 
+                     <td>{{$detail->serviceName}}</td> 
+                     <td>{{$detail->unit}}</td> 
+                     <td>{{$detail->unitCost}}</td> 
+                     <td>{{$detail->quantity}}</td> 
+                     <td>{{$detail->amount}}</td> 
+                 </tr>
+               @endif  
+              @endforeach  
+            </tbody>
+          </table>
+        </div>
+            
+           </div>
+         </div>
+
+
+        <hr>
           <div class="input-label boxes2">
-            <h4 style="font-size: 25px; font-weight: 700; text-align: center;">CUOTAS</h4>
             @can('BCEA')
               @if ($errors->any())
                 <div class="alert alert-danger">
