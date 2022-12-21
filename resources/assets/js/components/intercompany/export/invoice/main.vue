@@ -84,10 +84,10 @@
                  <option value="ONLY_ENTITY">SOLO LA ENTIDAD</option>
                  <option value="ENTITY_WITH_RELATIONS">ENTIDAD CON RELACIONES</option>
                </select> -->
-                 <h4><label for="accountTypeCode">Aplicar Formulas de Costo?</label></h4>
-               <select name="" id="">
-                 <option value="0">No</option>
-                 <option value="1">Si</option>
+              <h4><label for="costFormula">Aplicar Formulas de Costo?</label></h4>
+               <select v-model="costFormula" id="costFormula">
+                 <option value="N">No</option>
+                 <option value="Y">Si</option>
                </select>
 
               <h4><label for="accountTypeCode">Escoja una Compañia destino:</label></h4>
@@ -134,6 +134,7 @@
 
            companyList: [],
            companySelected: '',
+           costFormula: '',
           }
     },
     methods: {
@@ -144,6 +145,7 @@
            axios.post("/intercompany/export/invoice", {
                invoiceId:   this.invoice.invoiceId,
                companyId:   this.companySelected,
+               costFormula:  this.costFormula,
              }).then(response => {
                 if (response.data.alert == "success") {
                    toastr.success(response.data.message);
