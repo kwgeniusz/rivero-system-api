@@ -30,6 +30,10 @@ Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAd
  // ->Precontract Comments
 Route::get('precontracts/{id}/comments', 'Web\PrecontractCommentController@index')->name('precontractsComment.index');
 Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@store')->name('precontractsComment.store');
+ // ->Precontract Proposal
+ Route::get('precontracts/{id}/proposals','Web\Contracts\PrecontractProposalController@index')->name('precontractsProposals.index');
+//  Route::post('precontracts/{id}/proposals', 'Web\Contracts\PrecontractProposalController@store')->name('precontractsProposals.store');
+
  // ->Precontract Budgets
 Route::get('precontracts/{id}/budgets','Web\Contracts\PrecontractBudgetController@index')->name('precontractsBudgets.index');
  Route::post('precontracts/{id}/budgets', 'Web\Contracts\PrecontractBudgetController@store')->name('precontractsBudgets.store');
@@ -37,7 +41,7 @@ Route::get('precontracts/{id}/budgets','Web\Contracts\PrecontractBudgetControlle
 //***************************PROPOSAL***************************
 Route::resource('proposals', 'Web\ProposalController');
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
-Route::get('propsosalsDetails/{invoiceId}/withPrice', 'Web\ProposalDetailController@getWithPriceByProposal')->name('proposalsDetails.withPrice');
+Route::get('proposalsDetails/{proposalId}/withPrice', 'Web\ProposalDetailController@getWithPriceByProposal')->name('proposalsDetails.withPrice');
 
  //->Proposal Scopes
 Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
@@ -58,8 +62,8 @@ Route::get('proposals/{id}/notes', 'Web\ProposalNoteController@index')->name('pr
 Route::post('proposals/{id}/notes', 'Web\ProposalNoteController@store')->name('proposalsNotes.store');
 
  //->Proposal Subcontractors
- Route::get('proposals/{id}/subcontractors', 'Web\ProposalSubcontractorController@index')->name('proposals.subcontractors.index');
- Route::post('proposals/{id}/subcontractors', 'Web\ProposalSubcontractorController@store')->name('proposals.subcontractors.store');
+ Route::get('proposals/{id}/subcontractors', 'Web\Contracts\ProposalSubcontractorController@index')->name('proposalsSubcontractors');
+ Route::post('proposals/{id}/subcontractors', 'Web\Contracts\ProposalSubcontractorController@store')->name('proposalsSubcontractors.store');
  
  // ->Proposal Subcontractor
 Route::put('proposal/{id}/update-subcontractor', 'Web\ProposalController@updateSubcontractor');

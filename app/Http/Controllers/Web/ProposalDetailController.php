@@ -116,9 +116,10 @@ class ProposalDetailController extends Controller
     }
 
     
-   public function getWithPriceByInvoice($invoiceId)
+   public function getWithPriceByProposal($proposalId)
    {
-       $result = $this->oInvoiceDetail->getWithPriceByInvoice($invoiceId);
+       $result = $this->oProposalDetail->getWithPriceByProposal($proposalId);
+
         return $result;
    }
 }

@@ -112,9 +112,9 @@ class PaymentProposal extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'success', 'msj' => 'Cuota Agregado Exitosamente'];
+            return $result = ['alert' => 'success', 'message' => 'Cuota Agregado Exitosamente'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
 
     }
@@ -140,9 +140,9 @@ class PaymentProposal extends Model
         }
 
         if ($success) {
-            return $result = ['alert' => 'info', 'msj' => 'Cuota Eliminada'];
+            return $result = ['alert' => 'info', 'message' => 'Cuota Eliminada'];
         } else {
-            return $result = ['alert' => 'error', 'msj' => $error];
+            return $result = ['alert' => 'error', 'message' => $error];
         }
     }
 

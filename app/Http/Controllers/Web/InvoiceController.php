@@ -525,7 +525,7 @@ if($originInvoice->invoiceDetails->isNotEmpty()) {
             );
               if($result['alert'] == 'error'){ throw new \Exception($result['message']); }
         };
-     }
+    }
            $success = true;
            DB::commit();
        } catch (\Exception $e) {

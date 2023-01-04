@@ -113,7 +113,9 @@ Vue.component("grid-files",require("./components/contracts/documents/GridFiles.v
 // })
 Vue.component("main-proposal",require("./components/contracts/proposal/main.vue"));
 Vue.component("table-proposal",require("./components/contracts/proposal/table.vue"));
-Vue.component("subcontractor-proposal",require("./components/contracts/proposal/subcontractor.vue"));
+Vue.component("subcontractor-proposal",require("./components/administration/proposal/ProposalSubcontractor.vue"));
+
+Vue.component("proposal-subcontractors",require("./components/contracts/precontract/proposal/subcontractors.vue"));
 
 Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
 Vue.component("duplicate-proposal",require("./components/administration/proposal/DuplicateProposal.vue"));

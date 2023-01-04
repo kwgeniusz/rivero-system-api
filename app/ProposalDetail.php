@@ -22,6 +22,12 @@ class ProposalDetail extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
+   public function subcontractorPropDetail()
+   {
+         $relation = $this->hasMany('App\SubcontractorPropDetail', 'propDetailId', 'propDetailId');
+     
+        return $relation->with('subcontractor');
+   }
    public function service()
    {
        return $this->belongsTo('App\Service', 'serviceId','serviceId');
@@ -65,6 +71,16 @@ class ProposalDetail extends Model
         $result = $this->where('proposalId', $proposalId)
             ->orderBy('itemNumber', 'ASC')
             ->get();
+
+        return $result;
+    }
+    public function getWithPriceByProposal($proposalId)
+    {
+        $result = $this->with('subcontractorPropDetail')
+                       ->where('proposalId', $proposalId)
+                       ->where('unit','!=', null)
+                       ->orderBy('itemNumber', 'ASC')
+                       ->get();
 
         return $result;
     }

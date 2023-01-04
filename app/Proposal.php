@@ -229,7 +229,7 @@ class Proposal extends Model
            }
    
            if ($success) {
-               return $proposal->proposalId;
+               return $proposal;
            } else {
                return $rs = ['alert' => 'error', 'message' => $error];
            }
@@ -264,7 +264,7 @@ class Proposal extends Model
               $proposal = Proposal::find($proposalId);
                     $grossTotal = $proposal->grossTotal + $amount;
                     $proposal->grossTotal = number_format((float)$grossTotal, 2, '.', '');
-            } else {
+        }else {
               $proposal = Proposal::find($proposalId);
                 if ($proposal->grossTotal < $amount) {
                     throw new \Exception('Error: El monto de la propuesta no puede ser menor que 0.00');
@@ -272,7 +272,7 @@ class Proposal extends Model
                   $grossTotal = $proposal->grossTotal - $amount;
                   $proposal->grossTotal = number_format((float)$grossTotal, 2, '.', '');
                 }
-            }
+        }
               $taxAmount   = ($proposal->grossTotal * $proposal->taxPercent)/100;
               $proposal->taxAmount = number_format((float)$taxAmount, 2, '.', '');
               $netTotal    = $proposal->taxAmount + $proposal->grossTotal;

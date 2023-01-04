@@ -49,10 +49,10 @@ class ProposalController extends Controller
 
     public function index(Request $request)
     {
-        $proposals   = $this->oProposal->getAllByCompany(session('companyId'));
+        // $proposals   = $this->oProposal->getAllByCompany(session('companyId'));
 
-        // $precontract = $this->oPrecontract->findById($request->id,session('countryId'),session('companyId'));
-        // $proposals   = $this->oProposal->getAllByPrecontract($request->id);
+        $precontract = $this->oPrecontract->findById($request->id,session('countryId'),session('companyId'));
+        $proposals   = $this->oProposal->getAllByPrecontract($request->id);
 
          if($request->ajax()) {
                 return $proposals;
