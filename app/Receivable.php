@@ -196,6 +196,7 @@ class Receivable extends Model
             ->get();
     }
     //------------------------------------------
+    
      //igual que el anterior pero este es para una sola persona, es por clientId
     public function clientPendingInfo($clientId)
     {

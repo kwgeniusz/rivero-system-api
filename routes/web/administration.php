@@ -1,6 +1,7 @@
 <?php
 
 //--------------------ADMINISTRATION MODULE ROUTES-------------------------//
+
 //**************************** PROPOSALS ***************************
 Route::get('proposalsAll', 'Web\ProposalController@getAllProposals')->name('proposals.all');
 Route::post('filteredProposals', 'Web\ProposalController@getAllProposals')->name('proposals.filtered');
@@ -22,7 +23,7 @@ Route::get('invoices/{id}/sale-notes', 'Web\InvoiceSaleNoteController@getAll')->
 Route::get('invoices/{id}/sale-notes/{noteType}/create', 'Web\InvoiceSaleNoteController@create')->name('invoiceSaleNotes.create');
 Route::post('invoices/sale-notes/store', 'Web\InvoiceSaleNoteController@store')->name('invoiceSaleNotes.store');
 
- // sub categories 
+ // SUB-CATEGORIES
 Route::get('invoicesCancelled', 'Web\InvoiceController@InvoicesCancelled')->name('invoices.cancelled');
 Route::get('invoicesAll', 'Web\InvoiceController@getAllInvoices')->name('invoices.all');
 Route::post('filteredInvoices', 'Web\InvoiceController@getAllInvoices')->name('invoices.filtered');

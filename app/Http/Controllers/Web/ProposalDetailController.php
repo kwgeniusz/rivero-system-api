@@ -32,7 +32,7 @@ class ProposalDetailController extends Controller
     {
  
         $proposal = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
-
+      
        if($request->modelType == 'pre_contract'){
           $oModelType = $this->oPrecontract;
         }else{     
@@ -199,4 +199,12 @@ class ProposalDetailController extends Controller
          return $notification;
 
     }
+
+    
+   public function getWithPriceByProposal($proposalId)
+   {
+       $result = $this->oProposalDetail->getWithPriceByProposal($proposalId);
+
+        return $result;
+   }
 }

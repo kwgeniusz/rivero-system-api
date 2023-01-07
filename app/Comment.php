@@ -14,7 +14,6 @@ class Comment extends Model
     protected $primaryKey = 'commentId';
     protected $appends = ['commentDate'];
     protected $fillable   = ['commentId','commentContent', 'commentDate', 'contractId','userId'];
-
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
@@ -22,13 +21,15 @@ class Comment extends Model
     {
         return $this->morphTo();
     }
+
+    public function tag()
+    {
+        return $this->hasOne('App\Models\Contracts\CommentTag', 'commentTagId', 'commentTagId');
+    }
+
      public function user()
     {
         return $this->hasOne('App\User', 'userId', 'userId')->withTrashed();
-    }
-
-    function PerTransaction() {
-        return $this->hasOne(User::class, 'userId','userId');
     }
 
 //--------------------------------------------------------------------
@@ -52,35 +53,15 @@ public function setCommentDateAttribute($commentDate)
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
-    //------------------------------------------
-//     public function findById($projectUseId, $projectUseName)
-//     {
-//         $this->where('projectUseId', $projectUseId)->update(array(
-//             'projectUseName' => $projectUseName,
-//         ));
-//     }
-//------------------------------------------
-//     public function updateC($projectUseId, $projectUseName)
-//     {
-//         $this->where('projectUseId', $projectUseId)->update(array(
-//             'projectUseName' => $projectUseName,
-//         ));
-//     }
-// //------------------------------------------
-//     public function deleteC($projectUseId)
-//     {
-//        $model=$modelType::findOrFail($request->modelId);
-
-//        $model->comments()->detach($commentId);
-//         return $this->where('projectUseId', '=', $projectUseId)->delete();
-//     }
-//------------------------------------------
-
 
    public function insertC($model,$data)
     {
+   
+
+        // dd($data);
         $comment                      = new Comment;
         $comment->commentContent      = $data['commentContent'];
+        $comment->commentTagId        = $data['commentTagId'];
         $comment->commentDate         = date('Y-m-d');
         $comment->commentable_id      = $model->getKey();
         $comment->commentable_type    = get_class($model);

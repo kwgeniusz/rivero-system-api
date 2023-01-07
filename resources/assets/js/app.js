@@ -55,9 +55,6 @@ Vue.use(Popover)
 import AudioRecorder from 'vue-audio-recorder'
 Vue.use(AudioRecorder)
 
-import VueTabs from 'vue-nav-tabs'
-import 'vue-nav-tabs/themes/vue-tabs.css'
-Vue.use(VueTabs)
 
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
@@ -111,6 +108,15 @@ Vue.component("precontract-table-budget",require("./components/contracts/precont
 Vue.component("precontract-addUp-budget",require("./components/contracts/precontract/budget/addUp.vue"));
 
 // -----------------> Proposals <-------------------------//
+// Vue.component('main-proposal', function (resolve) {
+//   require(['./components/contracts/proposal/main.vue'], resolve)
+// })
+Vue.component("main-proposal",require("./components/contracts/proposal/main.vue"));
+Vue.component("table-proposal",require("./components/contracts/proposal/table.vue"));
+Vue.component("subcontractor-proposal",require("./components/administration/proposal/ProposalSubcontractor.vue"));
+
+Vue.component("proposal-subcontractors",require("./components/contracts/precontract/proposal/subcontractors.vue"));
+
 Vue.component("proposal-details",require("./components/administration/proposal/ProposalDetails.vue"));
 Vue.component("duplicate-proposal",require("./components/administration/proposal/DuplicateProposal.vue"));
 
@@ -228,6 +234,7 @@ Vue.component("accounting-table-general-ledger-auxiliary",require("./components/
 Vue.component("accounting-addUp-general-ledger-auxiliary",require("./components/accounting/generalLedger/auxiliary/addUp.vue"));
 
 Vue.component("accounting-close-year",require("./components/accounting/ModalCloseYear.vue"));
+
 
 //###################################################
 //           Module Human Resource Components
@@ -348,9 +355,36 @@ Vue.component("panel-heading-add",require("./components/configuration/company/pa
 Vue.component("panel-heading-update",require("./components/configuration/company/panelHeadingUpdate.vue"));
 Vue.component("list-company",require("./components/configuration/company/listCompany.vue"));
 
+
+//###################################################
+//           Module Intercompany Components
+//###################################################
+// ---------------------> Service Equivalence <-----------------------------//
+Vue.component("intercompany-main-service-equivalence",require("./components/intercompany/equivalence/serviceEquivalence/main.vue"));
+Vue.component("intercompany-table-service-equivalence",require("./components/intercompany/equivalence/serviceEquivalence/table.vue"));
+Vue.component("intercompany-addUp-service-equivalence",require("./components/intercompany/equivalence/serviceEquivalence/addUp.vue"));
+// ---------------------> Time Frame Equivalence <-----------------------------//
+Vue.component("intercompany-main-time-frame-equivalence",require("./components/intercompany/equivalence/timeFrameEquivalence/main.vue"));
+Vue.component("intercompany-table-time-frame-equivalence",require("./components/intercompany/equivalence/timeFrameEquivalence/table.vue"));
+Vue.component("intercompany-addUp-time-frame-equivalence",require("./components/intercompany/equivalence/timeFrameEquivalence/addUp.vue"));
+// ---------------------> Note Equivalence <-----------------------------//
+Vue.component("intercompany-main-note-equivalence",require("./components/intercompany/equivalence/noteEquivalence/main.vue"));
+Vue.component("intercompany-table-note-equivalence",require("./components/intercompany/equivalence/noteEquivalence/table.vue"));
+Vue.component("intercompany-addUp-note-equivalence",require("./components/intercompany/equivalence/noteEquivalence/addUp.vue"));
+// ---------------------> Term Equivalence <-----------------------------//
+Vue.component("intercompany-main-term-equivalence",require("./components/intercompany/equivalence/termEquivalence/main.vue"));
+Vue.component("intercompany-table-term-equivalence",require("./components/intercompany/equivalence/termEquivalence/table.vue"));
+Vue.component("intercompany-addUp-term-equivalence",require("./components/intercompany/equivalence/termEquivalence/addUp.vue"));
+
+// ---------------------> Term Export <-----------------------------//
+Vue.component("intercompany-export-invoice",require("./components/intercompany/export/invoice/main.vue"));
+
 //###################################################
 //            Sources Components
 //###################################################
+Vue.component("vue-tabs",require("./components/srcComponent/Tabs.vue"));
+Vue.component("vue-tab",require("./components/srcComponent/Tab.vue"));
+Vue.component("button-form",require("./components/srcComponent/buttonForm.vue"));
 Vue.component("button-form",require("./components/srcComponent/buttonForm.vue"));
 Vue.component("loading", require("./components/srcComponent/loading.vue"));
 Vue.component("time-live", require("./components/srcComponent/timeLive.vue"));

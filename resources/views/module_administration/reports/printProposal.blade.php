@@ -103,12 +103,12 @@
 		.lower-block {
 		position: absolute;
 		background-color: #ffc501;
-		width: 535px;
+		width: 575px;
 		height: 31px;
 		font-size: 10.5px;
 		text-align: center;
 		margin-top: -60px;
-		margin-left: 35px;
+		margin-left: 20px;
 		margin-bottom: 48px;
 		border-radius: 10px 10px 0px 0px;
 		padding: 5px 5px 5px 5px;
@@ -238,7 +238,15 @@
 		<div class="lower-block">
 			<b>{{$company[0]->companyName}}</b> - 
 			<img src="img/icon-email.png"></img> {{$company[0]->companyEmail}} 
-			<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}} <br>
+			<img src="img/icon-location.png"></img> {{$company[0]->companyWebsite}}
+
+			@if($proposal[0]->subcontractor)  
+			| 
+			  @if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
+					<b>{{$proposal[0]->subcontractor->companyName}} </b>
+			  @endif
+			@endif
+			<br> 
 			<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
 			<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
 			<div class="text-alt">
@@ -468,8 +476,8 @@
 	</div>
 
 	<div style="text-align: left">
-	<b>Remit payment to:</b><br>
-	<div class="tab">{!! nl2br($company[0]->paymentMethods) !!}</div>
+	   <b>Remit payment to:</b><br>
+	   <div class="tab">{!! nl2br($proposal[0]->paymentMethods) !!}</div>
 	</div>
 	<br>
 	<div align="center">
@@ -500,17 +508,29 @@
 				<th align="center" >
 				@if($proposal[0]->subcontractor->subcontType == 'COMPANY')  
 					<b>{{$proposal[0]->subcontractor->subcontractorName}}</b> <br>
-					{{$proposal[0]->subcontractor->companyName}} <br>
+
+					@if($proposal[0]->subcontractor->professionalLicense)  
+					    {{$proposal[0]->subcontractor->professionalLicense }} <br>
+					@endif
+
+				        {{$proposal[0]->subcontractor->companyName}} <br>
+					@if($proposal[0]->subcontractor->companyLicense)  
+				    	{{$proposal[0]->subcontractor->companyLicense}} <br>
+				    @endif
+				
+
 				@else
 					<b>{{$proposal[0]->subcontractor->companyName}}</b> <br>
 				@endif
 					<!-- ENGINEERING CONSULTING <br> -->
-					{{$proposal[0]->subcontractor->serviceOffered}}<br>
+					@if($proposal[0]->subcontractor->serviceOffered)  
+					  {{$proposal[0]->subcontractor->serviceOffered}}<br>
+					@endif
 					{{$proposal[0]->subcontractor->mainPhone}}
 				</th>
 			@endif  
 				<th align="center">
-						<b>{{$proposal[0]->user->fullName}}</b><br>
+					 <b>{{$proposal[0]->user->fullName}}</b><br>
 						{{$company[0]->companyName}} <br> Representative
 						{{-- (214) 718 6256 <br> --}}
 				</th>

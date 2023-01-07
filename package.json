@@ -11,12 +11,14 @@
     },
     "devDependencies": {
         "axios": "^0.19.2",
-        "bootstrap-sass": "^3.3.7",
+        "bootstrap-sass": "3.4.1",
         "cross-env": "^5.1",
         "jquery": "^3.5.1",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
-        "vue": "^2.6.11"
+        "vue": "^2.6.11",
+        "sass": "1.33",
+        "sass-loader": "7.1"
     },
     "dependencies": {
         "@codekraft-studio/vue-record": "0.0.3",
@@ -37,7 +39,6 @@
         "vue-form-wizard": "^0.8.4",
         "vue-js-popover": "^1.2.1",
         "vue-moment": "^4.1.0",
-        "vue-nav-tabs": "^0.5.7",
         "vue-phone-number-input": "^1.1.10",
         "vue-select": "^3.11.2",
         "vue-simple-progress": "^1.1.1",

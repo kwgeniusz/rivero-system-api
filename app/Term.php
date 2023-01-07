@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Intercompany\TermEquivalence;
 
 class Term extends Model
 {
@@ -23,6 +24,12 @@ class Term extends Model
      public function proposal()
     {
         return $this->belongsToMany('App\Proposal');
+    }
+
+    public function termEquivalence()
+    {
+        return $this->hasOne(TermEquivalence::class, 'originTermId', 'termId')
+                 ->with('destinationCompany','destinationTerm');
     }
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -62,4 +69,23 @@ class Term extends Model
         return $this->where('termId', '=', $termId)->delete();
     }
 //------------------------------------------
+public function getAllByCompanyWithLinkedTerm($companyId,$linkedCompanyId)
+{
+    return $this->with(['termEquivalence' => function($q) use($linkedCompanyId){ 
+        $q->where('destinationCompanyId', $linkedCompanyId);
+    }])->where('companyId' , '=' , $companyId)
+       ->orderBy('termName', 'ASC')
+       ->get();
+}
+
+public function destinationTermWithOriginLink($companyId,$companyId2)
+{
+
+      return $this->leftjoin('intercompany_term_equivalence',  function($join) use($companyId2) {
+             $join->on('term.termId', '=', 'intercompany_term_equivalence.destinationTermId')->where('originCompanyId', '=', $companyId2);
+        })->where('companyId' , '=' , $companyId)
+          ->orderBy('termName', 'ASC')
+          ->get();
+}
+
 }

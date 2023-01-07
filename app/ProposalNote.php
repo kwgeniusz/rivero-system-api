@@ -19,6 +19,13 @@ class ProposalNote extends Model
     protected $fillable = ['propNoteId','proposalId','noteId','noteName'];
   
 //--------------------------------------------------------------------
+    /** Relations */
+//--------------------------------------------------------------------
+   public function note()
+   {
+       return $this->belongsTo('App\Note', 'noteId','noteId');
+   }
+//--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
 

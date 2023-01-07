@@ -43,7 +43,7 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
 @can('BDGA')
-    <li role="presentation" class="active "><a class="bg-info" href="#previous" aria-controls="previous" role="tab" data-toggle="tab">PREVIOS</a></li>
+    <li role="presentation" class="active"><a class="bg-info" href="#previous" aria-controls="previous" role="tab" data-toggle="tab">PREVIOS</a></li>
 @endcan
 @can('BDGB')    
     <li role="presentation"><a class="bg-info" href="#processed" aria-controls="processed" role="tab" data-toggle="tab">PROCESADOS</a></li>
@@ -53,8 +53,8 @@
 @endcan
 @can('BDGD')      
     <li role="presentation"><a class="bg-info" href="#ready" aria-controls="ready" role="tab" data-toggle="tab">LISTOS</a></li>
-  </ul>
 @endcan
+  </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">

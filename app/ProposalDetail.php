@@ -46,6 +46,16 @@ class ProposalDetail extends Model
     {
         return $this->proposalDetail()->with('childrenServiceTree');
     }
+   public function subcontractorPropDetail()
+   {
+         $relation = $this->hasMany('App\SubcontractorPropDetail', 'propDetailId', 'propDetailId');
+     
+        return $relation->with('subcontractor');
+   }
+   public function service()
+   {
+       return $this->belongsTo('App\Service', 'serviceId','serviceId');
+   }
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
@@ -96,6 +106,14 @@ class ProposalDetail extends Model
                                 ->map(function ($items) {
                                     return $items->load('childrenServiceTree');
                                  });
+    }
+    public function getWithPriceByProposal($proposalId)
+    {
+        $result = $this->with('subcontractorPropDetail')
+                       ->where('proposalId', $proposalId)
+                       ->where('unit','!=', null)
+                       ->orderBy('itemNumber', 'ASC')
+                       ->get();
 
         return $result;
     }

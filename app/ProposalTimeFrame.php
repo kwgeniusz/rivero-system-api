@@ -15,6 +15,13 @@ class ProposalTimeFrame extends Model
     // protected $fillable = ['propTimeId','proposalId','noteId','noteName'];
   
 //--------------------------------------------------------------------
+    /** Relations */
+//--------------------------------------------------------------------
+   public function timeFrame()
+   {
+       return $this->belongsTo('App\TimeFrame', 'timeId','timeId');
+   }
+//--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
     public function insert($proposalId,$timeId,$timeName) {

@@ -6,6 +6,7 @@ use App;
 use Auth;
 use DB;
 use App\Precontract;
+use App\Country;
 use App\Helpers\DateHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +22,7 @@ class Proposal extends Model
 
     protected $table      = 'proposal';
     protected $primaryKey = 'proposalId';
-    protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId'];
+    protected $fillable = ['proposalId','propId','countryId','companyId','clientId','address','proposalDate','currencyId','grossTotal','taxPercent','taxAmount','netTotal','pCondId','paymentMethods'];
 
      protected $appends = ['grossTotal','taxAmount','netTotal','pQuantity','proposalDate'];
      protected $dates = ['deleted_at'];
@@ -145,7 +146,8 @@ class Proposal extends Model
     
   public function getAllByCompany($companyId)
     {
-        return $this->where('companyId' , '=' , $companyId)
+        return $this->with('client','paymentCondition','projectDescription','user')
+            ->where('companyId' , '=' , $companyId)
             ->orderBy('propId', 'DESC')
             ->get();
     }   
@@ -161,7 +163,7 @@ class Proposal extends Model
 
     public function getAllByPrecontract($precontractId)
     {
-        $result = $this->with("paymentCondition",'projectDescription')
+        $result = $this->with('paymentCondition','projectDescription')
             ->where('precontractId', $precontractId)
             ->orderBy('proposalId', 'ASC')
             ->get();
@@ -185,7 +187,7 @@ class Proposal extends Model
                     ->get();
     }
 //------------------------------------------
-    public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate,$taxPercent,$paymentConditionId,$status,$userId) {
+    public function insertProp($countryId,$companyId,$modelType,$modelId,$clientId,$projectDescriptionId, $proposalDate, $taxPercent, $paymentConditionId, $paymentMethods, $status ,$userId) {
 
 
         $error = null;
@@ -214,6 +216,7 @@ class Proposal extends Model
         $proposal->taxAmount        =  '0.00';
         $proposal->netTotal         =  '0.00';
         $proposal->pCondId          =  $paymentConditionId;
+        $proposal->paymentMethods   =  $paymentMethods;
         $proposal->userId    =  $userId;
         $proposal->save();
 
@@ -226,7 +229,7 @@ class Proposal extends Model
            }
    
            if ($success) {
-               return $proposal->proposalId;
+               return $proposal;
            } else {
                return $rs = ['alert' => 'error', 'message' => $error];
            }
@@ -261,7 +264,7 @@ class Proposal extends Model
               $proposal = Proposal::find($proposalId);
                     $grossTotal = $proposal->grossTotal + $amount;
                     $proposal->grossTotal = number_format((float)$grossTotal, 2, '.', '');
-            } else {
+        }else {
               $proposal = Proposal::find($proposalId);
                 if ($proposal->grossTotal < $amount) {
                     throw new \Exception('Error: El monto de la propuesta no puede ser menor que 0.00');
@@ -269,7 +272,7 @@ class Proposal extends Model
                   $grossTotal = $proposal->grossTotal - $amount;
                   $proposal->grossTotal = number_format((float)$grossTotal, 2, '.', '');
                 }
-            }
+        }
               $taxAmount   = ($proposal->grossTotal * $proposal->taxPercent)/100;
               $proposal->taxAmount = number_format((float)$taxAmount, 2, '.', '');
               $netTotal    = $proposal->taxAmount + $proposal->grossTotal;
@@ -302,7 +305,9 @@ class Proposal extends Model
         
         DB::beginTransaction();
          try {
-  
+        
+        $company     = Company::find(session('companyId'));
+
         // Buscar la Propuesta a utilizar para la duplicacion
           $proposal  = $this->findById($proposalId,session('countryId'),session('companyId'));
  
@@ -321,6 +326,7 @@ class Proposal extends Model
             Carbon::now()->format('Y-m-d'), //poner funcion de fecha de hoy
             $proposal[0]->taxPercent,
             $proposal[0]->pCondId, 
+            $company->paymentMethods,
             '1',
             Auth::user()->userId);
 
@@ -394,18 +400,18 @@ class Proposal extends Model
             };
          }
     // Insertar Cuotas de la propuesta
-         if($proposal[0]->paymentProposal->isNotEmpty()) {
+        //  if($proposal[0]->paymentProposal->isNotEmpty()) {
 
-            $oPaymentProposal = new App\PaymentProposal;
-            foreach ($proposal[0]->paymentProposal as $key => $item) {
-                $result = $oPaymentProposal->addPayment(
-                    $newProposalId,
-                    $item->amount,
-                    $item->paymentDate
-                );
-                  if($result['alert'] == 'error'){ throw new \Exception($result['message']); }
-            };
-         }
+        //     $oPaymentProposal = new App\PaymentProposal;
+        //     foreach ($proposal[0]->paymentProposal as $key => $item) {
+        //         $result = $oPaymentProposal->addPayment(
+        //             $newProposalId,
+        //             $item->amount,
+        //             $item->paymentDate
+        //         );
+        //           if($result['alert'] == 'error'){ throw new \Exception($result['message']); }
+        //     };
+        //  }
                $success = true;
                DB::commit();
            } catch (\Exception $e) {

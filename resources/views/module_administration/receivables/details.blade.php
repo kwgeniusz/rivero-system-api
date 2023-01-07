@@ -45,7 +45,9 @@
          <div class="panel-heading" role="tab" id="headingOne">
            <h4 class="panel-title">
              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#{{$index}}" aria-expanded="true" aria-controls="{{$index}}">
-              FACTURA N° {{$receivable[0]->invoice->invId}} - MONTO A COBRAR: {{$receivable[0]->invoice->balanceTotal}}
+              <b>CONTRATO:</b>{{$receivable[0]->invoice->contract->contractNumber}}<br>
+              <b>DIRECCION:</b>{{$receivable[0]->invoice->contract->siteAddress}}<br>
+              <b>FACTURA #{{$receivable[0]->invoice->invId}}</b>  - MONTO A COBRAR:</b> {{$receivable[0]->invoice->balanceTotal}}
             </div>
            </h4>
          </div>

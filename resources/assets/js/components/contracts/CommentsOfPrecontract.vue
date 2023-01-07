@@ -11,7 +11,7 @@
 
  <sweet-modal ref="modal" width="90%">
     <h4 class="bg-warning text-principal"> 
-    <b><i class="fa fa-comments"></i> Comentarios del Precontracto {{precontract.preId}}<br> 
+    <b><i class="fa fa-comments"></i> Comentarios del Pre-contrato {{precontract.preId}}<br> 
     {{precontract.siteAddress}} </b></h4>
 
      <a @click="addComment()" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Crear Comentario">   <span class="fa fa-plus" aria-hidden="true"></span> 
@@ -117,7 +117,8 @@
 
           axios.post(url,{
               precontractId: this.precontract.precontractId,
-              commentContent: this.formCommentContent
+              commentContent: this.formCommentContent,
+              commentTagId: 0
             }).then(response => {
               // console.log(response)
 

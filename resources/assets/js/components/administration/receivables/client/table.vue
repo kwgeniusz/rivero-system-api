@@ -41,7 +41,7 @@
                            <tbody>
                              <!-- {{searchData}} -->
                              <tr v-for="(receivable, index) in receivableList" :key="receivable.receivableId">
-
+  
                                 <td >{{index + 1}}</td>
                                 <td class="text-left"> {{receivable.client.clientCode}}</td>  
                                 <td class="text-left"> {{receivable.client.clientName}} </td>           
@@ -54,6 +54,16 @@
                                  <!-- <button v-if="$can('BAC')"  @click="deleteSubcontractor(index,subcontractor.subcontId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>   -->
                                  <a v-if="$can('BAB')" :href="'receivables/'+receivable.client.clientId" class="btn btn-sm btn-success" title="Cuentas por Cobrar"><i class="fa fa-dollar-sign"></i></a>
                                 </td>
+                             </tr>
+                             <tr>
+                                <td></td>
+                                <td></td>  
+                                <td></td>           
+                                <td></td>
+                                <td></td>
+                                <td><h3>TOTAL:</h3></td>
+                                <td><h3>{{totalReceivable}}</h3></td>
+                                <td> </td>
                              </tr>
                      
                         </tbody>
@@ -83,28 +93,15 @@
             }
         },
         computed: {
-            // searchData: function () {
-            //     return this.receivableList.filter((receivable) => {
+             totalReceivable: function (){
+              var totalReceivable = 0;
 
-                  // if(client.companyName == null ) 
-                  //    client.companyName = 'No Info'
-                  // if(client.clientName == null ) 
-                  //    client.clientName = 'No Info'
-                  // if(client.clientAddress == null ) 
-                  //    client.clientAddress = 'No Info'
-                  // if(client.businessPhone == null ) 
-                  //    client.businessPhone = 'No Info'
-                  // if(client.mainEmail == null ) 
-                  //    client.mainEmail = 'No Info'
-                
-                  //  return receivable.companyName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         receivable.clientName.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         receivable.clientAddress.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         receivable.businessPhone.toLowerCase().includes(this.inputSearch.toLowerCase()) ||
-                  //         receivable.mainEmail.toLowerCase().includes(this.inputSearch.toLowerCase()) 
-                  
-                // })
-            // } //end of the function searchData
+                 this.receivableList.forEach(function(data){
+                         totalReceivable = parseFloat(data.balanceTotal) + parseFloat(totalReceivable);
+                });
+
+               return totalReceivable.toFixed(2);
+            }  
         },
        methods: {
          showlist(n){

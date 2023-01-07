@@ -13,7 +13,7 @@
       <div class="col-xs-12 col-lg-6" v-if="firstOption">
          <div class="form-group">
             <label for="companyId">COMPAÑIA</label>
-            <select v-model="secondOption"  class="form-control" name="companyId" id="companyId" required="on">
+            <select v-model="secondOption" @change="companyValue" class="form-control" name="companyId" id="companyId" required="on">
              <option v-for="(item, index) in list2" :value="item.companyId">{{ item.companyName}}</option>
             </select>
           </div> 
@@ -60,13 +60,9 @@
              this.list = response.data
             });
         },
-       // getOffices: function (){
-       //      var url =this.prefUrl+'companies/'+this.firstOption;
-       //      axios.get(url).then(response => {
-       //         console.log(response.data)
-       //         this.list2 = response.data
-       //      });
-       //  },
+       companyValue: function (){
+             this.$emit("company-value", this.secondOption);
+        },
       }
 }
 </script>

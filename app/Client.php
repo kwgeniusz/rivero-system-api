@@ -178,15 +178,23 @@ class Client extends Model
                     ->get();
     }
 
-
+    public function findByIntercompanyId($companyId, $intercompanyId) {  
+               
+        return $this->with('contactType','company','otherContact')
+                   ->where('companyId', '=', $companyId)
+                   ->where('intercompanyId', '=', $intercompanyId)
+                   ->orderBy('cltId', 'DESC')
+                   ->get(); 
+    }
     public function getClientByCompany($companyId) {  
                
          return $this->with('contactType','company','otherContact')
                     ->where('companyId', '=', $companyId)
                     ->orderBy('cltId', 'DESC')
                     ->get(); 
-     }      
-  
+     }
+     
+
 //------------------------------------------
 //     public function findNameByOffice($companyId)
 

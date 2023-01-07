@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Intercompany\TimeFrameEquivalence;
 
 class TimeFrame extends Model
 {
@@ -23,6 +24,12 @@ class TimeFrame extends Model
      public function proposal()
     {
         return $this->belongsToMany('App\Proposal');
+    }
+
+    public function timeFrameEquivalence()
+    {
+     return $this->hasOne(TimeFrameEquivalence::class, 'originTimeId', 'timeId')
+                 ->with('destinationCompany','destinationTime');
     }
 //--------------------------------------------------------------------
     /** Function of Models */
@@ -61,4 +68,24 @@ class TimeFrame extends Model
         return $this->where('timeId', '=', $timeId)->delete();
     }
 //------------------------------------------
+
+public function getAllByCompanyWithLinkedTime($companyId,$linkedCompanyId)
+{
+    return $this->with(['timeFrameEquivalence' => function($q) use($linkedCompanyId){ 
+        $q->where('destinationCompanyId', $linkedCompanyId);
+    }])->where('companyId' , '=' , $companyId)
+       ->orderBy('timeName', 'ASC')
+       ->get();
+}
+
+public function destinationTimeWithOriginLink($companyId,$companyId2)
+{
+
+      return $this->leftjoin('intercompany_time_frame_equivalence',  function($join) use($companyId2) {
+             $join->on('time_frame.timeId', '=', 'intercompany_time_frame_equivalence.destinationTimeId')->where('originCompanyId', '=', $companyId2);
+        })->where('companyId' , '=' , $companyId)
+          ->orderBy('timeName', 'ASC')
+          ->get();
+}
+
 }

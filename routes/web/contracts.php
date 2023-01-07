@@ -30,6 +30,10 @@ Route::post('precontractsConvert/add/{id}', 'Web\PrecontractController@convertAd
  // ->Precontract Comments
 Route::get('precontracts/{id}/comments', 'Web\PrecontractCommentController@index')->name('precontractsComment.index');
 Route::post('precontracts/{id}/comments', 'Web\PrecontractCommentController@store')->name('precontractsComment.store');
+ // ->Precontract Proposal
+ Route::get('precontracts/{id}/proposals','Web\Contracts\PrecontractProposalController@index')->name('precontractsProposals.index');
+//  Route::post('precontracts/{id}/proposals', 'Web\Contracts\PrecontractProposalController@store')->name('precontractsProposals.store');
+
  // ->Precontract Budgets
 Route::get('precontracts/{id}/budgets','Web\Contracts\PrecontractBudgetController@index')->name('precontractsBudgets.index');
  Route::post('precontracts/{id}/budgets', 'Web\Contracts\PrecontractBudgetController@store')->name('precontractsBudgets.store');
@@ -40,6 +44,7 @@ Route::resource('proposals', 'Web\ProposalController');
  //->Proposal Details
 Route::resource('proposalsDetails', 'Web\ProposalDetailController');
 Route::post('proposalsDetails/storeOneByOne', 'Web\ProposalDetailController@storeOneByOne')->name('proposalsScopes.storeOneByOne');
+Route::get('proposalsDetails/{proposalId}/withPrice', 'Web\ProposalDetailController@getWithPriceByProposal')->name('proposalsDetails.withPrice');
 
  //->Proposal Scopes
 Route::get('proposals/{id}/scopes', 'Web\ProposalScopeController@index')->name('proposalsScopes.index');
@@ -59,6 +64,10 @@ Route::post('proposals/{id}/terms', 'Web\ProposalTermController@store')->name('p
 Route::get('proposals/{id}/notes', 'Web\ProposalNoteController@index')->name('proposalsNotes.index');
 Route::post('proposals/{id}/notes', 'Web\ProposalNoteController@store')->name('proposalsNotes.store');
 
+ //->Proposal Subcontractors
+ Route::get('proposals/{id}/subcontractors', 'Web\Contracts\ProposalSubcontractorController@index')->name('proposalsSubcontractors');
+ Route::post('proposals/{id}/subcontractors', 'Web\Contracts\ProposalSubcontractorController@store')->name('proposalsSubcontractors.store');
+ 
  // ->Proposal Subcontractor
 Route::put('proposal/{id}/update-subcontractor', 'Web\ProposalController@updateSubcontractor');
 
@@ -103,6 +112,9 @@ Route::post('contractsFileAdd', 'Web\ContractController@fileAdd')->name('contrac
 Route::get('contracts/{id}/comments', 'Web\ContractCommentController@index')->name('contractsComment.index');
 Route::post('contracts/{id}/comments', 'Web\ContractCommentController@store')->name('contractsComment.store');
 
+ // ->Comment Tags
+ Route::resource('comment-tags', 'Web\Contracts\CommentTagController')->except(['show']);
+ 
 //****************************FILES********************************
 Route::get('files/{id}/download', 'Web\FileController@download')->name('files.download');
 Route::post('files/download-zip', 'Web\FileController@downloadZip')->name('files.downloadZip');

@@ -64,9 +64,15 @@
                     <td>{{$precontract->preId}}
                       <comments-precontract pref-url="" precontract-id="{{$precontract->precontractId}}"/>
                      </td>
-                    <td>{{$precontract->client->clientCode}}   </td>
+                    <td>{{$precontract->client->clientCode}} 
+
+                     </td>
                     <td>
                      <modal-client-details pref-url="/" client-id="{{$precontract->client->clientId}}" company-name="{{$precontract->client->companyName}}" client-name="{{$precontract->client->clientName}}"></modal-client-details>
+                      Tlf: {{$precontract->client->businessPhone}}   <br>
+                      Correo: {{$precontract->client->mainEmail}} <br>
+                      Idioma: {{$precontract->client->clientLanguages}}
+                      
                     </td>  
                     <td >{{$precontract->siteAddress}}
                   <br>
@@ -99,7 +105,7 @@
                <modal-convert-precontract pref-url="./" precontract-id="{{$precontract->precontractId}}"></modal-convert-precontract>
               @endcan      
               @can('BC')
-                <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
+                <a href="{{route('precontractsProposals.index', ['id' => $precontract->precontractId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
                     <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                 </a>
                  @endcan      
@@ -125,7 +131,7 @@
                     <i class="fa fa-book"></i>
                 </a>
 
-                <a href="{{url("/proposals?id=$precontract->precontractId")}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
+                <a href="{{route('precontractsProposals.index', ['id' => $precontract->precontractId])}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Propuesta">
                      <span class="fa fa-money-bill-alt" aria-hidden="true"></span> 
                 </a>
               @endcan      

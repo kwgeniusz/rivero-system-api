@@ -32,6 +32,10 @@ Route::get('company/', function () {
     return view('module_configuration.company.index');
 })->name('company.index');
 
+//************* COMPANIES ************//
+Route::get('companies/', 'Web\Configuration\CompanyController@index');
+
+//************* COMPANIES (ELISNAR) ************//
 Route::get('companys/', 'Web\CompanyController@index');
 Route::get('companys/contrys', 'Web\CompanyController@comboContry');
 Route::get('companys/contrys/{id}', 'Web\CompanyController@comboContryId');

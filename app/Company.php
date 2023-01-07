@@ -23,6 +23,13 @@ class Company extends Model
 //--------------------------------------------------------------------
     /** Function of Models */
 //--------------------------------------------------------------------
+    // Obtener todos los registro 
+    public function getAll()
+    {
+         return $this->orderBy('companyId', 'ASC')
+                     ->get();
+    }
+
     public function findById($companyId)
     {
         return $this->where('companyId', '=', $companyId)->get();
@@ -36,7 +43,7 @@ class Company extends Model
                     ->get();
     }
 
-    // Obtener todos los registroasd
+    // Obtener todos los registro por Pais
     public function getAllByCountry($countryId)
     {
         return $this->where('countryId','=',$countryId)

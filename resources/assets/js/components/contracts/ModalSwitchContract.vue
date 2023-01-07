@@ -81,6 +81,17 @@
                      </p>
                   </div>
 
+                 <!-- Centering the text with just a "center" tag-->
+                  <div>
+                    <center><b><u>Pagos</u></b></center>
+                    <br>
+
+                        <p v-for="(payment) in invoice.proposal.payment_proposal">
+                             - {{payment.paymentDate}}     
+                        </p>
+                     
+                  </div>
+
                   <div v-if="invoice.proposal">
                     <center><b><u>Términos y Condiciones</u></b></center>
                     <br>

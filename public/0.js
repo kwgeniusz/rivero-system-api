@@ -1,14 +1,24 @@
 webpackJsonp([0],{
 
+<<<<<<< HEAD
 /***/ 194:
+=======
+/***/ 185:
+>>>>>>> feature
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
+<<<<<<< HEAD
 var __vue_script__ = __webpack_require__(837)
 /* template */
 var __vue_template__ = __webpack_require__(838)
+=======
+var __vue_script__ = __webpack_require__(825)
+/* template */
+var __vue_template__ = __webpack_require__(826)
+>>>>>>> feature
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -48,7 +58,11 @@ module.exports = Component.exports
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 837:
+=======
+/***/ 825:
+>>>>>>> feature
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -227,7 +241,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 838:
+=======
+/***/ 826:
+>>>>>>> feature
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -249,7 +267,7 @@ var render = function() {
               ])
             ]),
         _vm._v(" "),
-        _c("div", { staticClass: "panel-body ", class: [_vm.bgcolor] }, [
+        _c("div", { staticClass: "panel-body", class: [_vm.bgcolor] }, [
           _c(
             "form",
             {

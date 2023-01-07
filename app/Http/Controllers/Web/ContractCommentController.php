@@ -30,8 +30,11 @@ class ContractCommentController extends Controller
     {
 
         $contract  = Contract::findOrfail($request->id);
-       // $contract = $this->oContract->findById($request->id,session('countryId'),session('companyId'));
-        $comments = $contract->comments()->with('user')->orderBy('commentdate', 'DESC')->get();
+
+        $comments = $contract->comments()->orderBy('commentdate', 'DESC')
+                                         ->get(); 
+        //  dd($comments);
+        //  exit();
 
             if($request->ajax()){
                 return $comments;
