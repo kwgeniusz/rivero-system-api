@@ -1,24 +1,14 @@
 webpackJsonp([0],{
 
-<<<<<<< HEAD
-/***/ 194:
-=======
-/***/ 185:
->>>>>>> feature
+/***/ 195:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-<<<<<<< HEAD
-var __vue_script__ = __webpack_require__(837)
+var __vue_script__ = __webpack_require__(893)
 /* template */
-var __vue_template__ = __webpack_require__(838)
-=======
-var __vue_script__ = __webpack_require__(825)
-/* template */
-var __vue_template__ = __webpack_require__(826)
->>>>>>> feature
+var __vue_template__ = __webpack_require__(894)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -58,11 +48,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ 837:
-=======
-/***/ 825:
->>>>>>> feature
+/***/ 893:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -241,11 +227,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ 838:
-=======
-/***/ 826:
->>>>>>> feature
+/***/ 894:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

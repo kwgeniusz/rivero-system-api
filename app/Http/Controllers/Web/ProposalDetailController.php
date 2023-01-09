@@ -143,21 +143,41 @@ class ProposalDetailController extends Controller
       if($rs['alertType'] == 'error'){ 
          throw new \Exception($rs['message']);
       }
-    
-    //recorre el arreglo que viene por requeste, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
+
+    //recorre el arreglo que viene por request, del componente ProposalDetails y realiza una insercion de cada uno de sus elementos.
      if(!empty($request->itemList)) {
-        foreach ($request->itemList as $key => $item) {
-           $result = $this->oProposalDetail->insert(
+        foreach ($request->itemList as $key => $category) {
+   
+            // $result = $this->oProposalDetail->insert(
+            //     $request->proposalId,
+            //     ++$key,
+            //     $category['isHeaderTag'],
+            //     $category['categoryId'],
+            //     0,
+            //     $category['categoryName'],
+            //     $category['unit'],
+            //     $category['unitCost'],
+            //     $category['quantity'],
+            //     $category['amount']);
+
+           foreach ($category['childrens'] as $key => $service) {
+            // dd($service);
+            // exit();
+               $result = $this->oProposalDetail->insert(
                           $request->proposalId,
                           ++$key,
-                          $item['serviceId'],
-                          $item['serviceName'],
-                          $item['unit'],
-                          $item['unitCost'],
-                          $item['quantity'],
-                          $item['amount']);
-             }
-           }
+                          $service['isHeaderTag'],
+                          $service['categoryId'],
+                          $service['serviceId'],
+                          $service['serviceName'],
+                          $service['unit'],
+                          $service['unitCost'],
+                          $service['quantity'],
+                          $service['amount']);
+            }
+        } //end first foreach
+     } //end if
+
       //envia siempre la notificacion para saber que if fue cumplido 
          // if($request->ajax()){
          //        return $notification;

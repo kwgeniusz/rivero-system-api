@@ -52,9 +52,13 @@ class ProposalDetail extends Model
      
         return $relation->with('subcontractor');
    }
+   public function category()
+   {
+       return $this->belongsTo('App\Models\Inventory\ServiceCategory', 'categoryId','categoryId');
+   }
    public function service()
    {
-       return $this->belongsTo('App\Service', 'serviceId','serviceId');
+       return $this->belongsTo('App\Models\Inventory\Service', 'serviceId','serviceId');
    }
 //--------------------------------------------------------------------
     /** Accesores  */
@@ -91,9 +95,10 @@ class ProposalDetail extends Model
 
     public function getAllByProposal($proposalId)
     {
-        $result = $this->where('proposalId', $proposalId)
-            ->orderBy('propDetailId', 'ASC')
-            ->get();
+        $result = $this->with('category','service')
+                       ->where('proposalId', $proposalId)
+                       ->orderBy('propDetailId', 'ASC')
+                       ->get();
 
         return $result;
     }
@@ -118,7 +123,7 @@ class ProposalDetail extends Model
         return $result;
     }
 //------------------------------------------
-    public function insert($proposalId, $itemNumber, $isCategory ,$serviceId, $serviceParentId ,$serviceName,$unit,$unitCost,$quantity,$amount) {
+    public function insert($proposalId, $itemNumber, $isHeaderTag, $categoryId, $serviceId ,$serviceName,$unit,$unitCost,$quantity,$amount) {
 
      $error = '';
 
@@ -133,9 +138,9 @@ class ProposalDetail extends Model
              $propDetail                     = new ProposalDetail;
              $propDetail->proposalId         = $proposalId;
              $propDetail->itemNumber         = $itemNumber;
-             $propDetail->isCategory         = $isCategory;
+             $propDetail->isHeaderTag         = $isHeaderTag;
+             $propDetail->categoryId          = $categoryId;
              $propDetail->serviceId          = $serviceId;
-             $propDetail->serviceParentId    = $serviceParentId;
              $propDetail->serviceName        = $serviceName;
              $propDetail->unit               = $unit;
              $propDetail->unitCost           = $unitCost;
@@ -144,8 +149,9 @@ class ProposalDetail extends Model
              $propDetail->save();
             
             //REALIZA ACTUALIZACION EN PROPUESTA
-            $oProposal = new Proposal;
-            $oProposal->updateProposalTotal('+', $proposalId, $amount);
+              $oProposal = new Proposal;
+              $oProposal->updateProposalTotal('+', $proposalId, $amount);
+     
             
             $success = true;
             DB::commit();

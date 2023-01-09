@@ -1,12 +1,13 @@
 <template>
-<div>
+<div> 
+      <b>CATEGORIA: </b>
     	<select v-model="choice" placeholder="pick">
       	<template v-for="someChoice in choices">
-        	<option :value="someChoice">{{ someChoice.name }}</option>
+        	<option :value="someChoice">{{ someChoice.accountCode}} - {{someChoice.categoryName }}</option>
         </template>
       </select>
       <br>
-      <recursive-select v-if="choice && choice.children && choice.children.length" :choices="choice.children">
+      <recursive-select v-if="choice && choice.children_category_tree && choice.children_category_tree.length" :choices="choice.children_category_tree">
       </recursive-select>
   </div>
 </template>
@@ -16,7 +17,7 @@
         
      mounted() {
            console.log('Component Recursive Select mounted.')
-           this.getData();
+          //  this.getData();
            },
      data: function () {
           return {
@@ -27,12 +28,12 @@
   	choices: {}
   },
     methods: {
-        getData: function (){
-         var url = this.prefUrl+this.router;
-            axios.get(url).then(response => {
-              this.amount=response.data;
-            });
-        },
+        // getData: function (){
+        //  var url = this.prefUrl+this.router;
+        //     axios.get(url).then(response => {
+        //       this.amount=response.data;
+        //     });
+        // },
      }
 }
 </script>

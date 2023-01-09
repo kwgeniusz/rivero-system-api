@@ -1,6 +1,6 @@
 <template>
     <div>
-        asd
+        
         <tree-table
                 class="table"
                 :columns="columns"

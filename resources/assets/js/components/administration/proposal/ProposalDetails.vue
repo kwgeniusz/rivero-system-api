@@ -19,15 +19,24 @@
             <h4>Errores:</h4>
             <div v-for="error in errors">- {{ error }}</div>
           </div>
-       
+
+
+       <recursive-select :choices="serviceCategories"/>
+<!-- 
+         <div class="input-label boxes2" style="margin-bottom: 30px;">
+            <label for="serviceId">CATEGORIA</label>
+            <v-select 
+            v-model="selectedCategory" 
+            :options="serviceCategories" 
+            :reduce="serviceCategories => serviceCategories" label="item_data"/>
+          </div> -->
+
           <div class="input-label boxes2" style="margin-bottom: 30px;">
             <label for="serviceId">SERVICIO</label>
             <v-select @input="pasteServiceInfo()" 
             v-model="selectedService" 
             :options="services" 
-            :selectable="services => services.isCategory =='N'"
-            :reduce="services => services" label="item_data"
-            />
+            :reduce="services => services" label="item_data"/>
           </div>
 
 
@@ -57,21 +66,113 @@
           </div>
         </form>
 
-        <!-- <recursive-table/> -->
+<!-- <recursive-table/> -->
 <!-- <tree-table
           class="table"
           :columns="columns"
-          :table-data="itemList" /> -->
+          :table-data="tableData" /> -->
 
+  <div class="table-responsive col-xs-12">
+          <table class="table table-bordered">
+            <thead class="bg-primary"> 
+            <tr>  
+                <th>#</th>
+                <th>CODIGO</th>
+                <th>SERVICIO</th>  
+                <th>UNIDAD</th>
+                <th>CANTIDAD</th>
+                <th>U.P</th>
+                <th>MONTO</th>
+                <th colspan="2" >ACCION</th>
+            </tr>
+            </thead>
+          <tbody>   
+           <template v-for="(category,categoryIndex) in itemList">      
+               <tr class="bg-info">
+                 <td>{{++categoryIndex}}</td>
+                 <td>{{category.accountCode}}</td>
+                 <td>{{category.categoryName}}</td>
+                 <td>
+                     <select v-if="editModeCategory === categoryIndex" class="form-control" v-model="category.unit">
+                       <option value="sqft">sqft</option>
+                       <option value="ea">ea</option>
+                     </select>
+                     <p v-else>{{category.unit}}</p> 
+                </td>
+                <td>
+                  <input v-if="editModeCategory === categoryIndex" type="number" step=".00" class="form-control" v-model="category.quantity" @keyup="calculateItemAmount(categoryIndex,category)">
+                  <p v-else>{{category.quantity}}</p> 
+                </td>
+                <td>
+                  <input v-if="editModeCategory === categoryIndex" type="number" step=".00" class="form-control" v-model="category.unitCost" @keyup="calculateItemAmount(categoryIndex,category)">
+                  <p v-else>{{category.unitCost}}</p> 
+               </td>
+                <td> {{category.amount}}</td>
+                <td>
+                   <a v-if="editModeCategory === -1" @click="editItemList(categoryIndex, category)" class="btn btn-sm btn-primary" title="Editar" > 
+                     <i class="fa fa-edit"></i>
+                   </a>   
+                   <a v-if="editModeCategory === categoryIndex" @click="updateItemList(category)" class="btn btn-sm btn-success">
+                     <i class="glyphicon glyphicon-ok"></i>
+                   </a> 
+                   <a v-if="category.categoryId" @click="deleteRow(categoryIndex,'',category)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
+                   </a>
+                    <!-- <button class="btn btn-info btn-sm" @click.prevent="moveUp(categoryIndex)"> 
+                      <span class="fa fa-angle-double-up" aria-hidden="true"></span>
+                   </button>
+                   <button class="btn btn-info btn-sm" @click.prevent="moveDown(categoryIndex)">
+                     <span class="fa fa-angle-double-down" aria-hidden="true"></span>
+                   </button> -->
+              </td> 
+              </tr>
+                 <tr v-for="(service,serviceIndex) in category.childrens">
+                  <td>{{categoryIndex}}.{{++serviceIndex}}</td>
+                  <td>{{service.accountCode}}</td>
+                  <td>{{service.serviceName}}</td>
+                  <td>{{service.unit}}</td>
+                  <td>
+                    <input v-if="editModeService === serviceIndex" type="number" step=".00" class="form-control" v-model="service.quantity" @keyup="calculateItemAmount(serviceIndex,service)">
+                    <p v-else>{{service.quantity}}</p> 
+                 </td>
+                 <td>
+                    <input v-if="editModeService === serviceIndex" type="number" step=".00" class="form-control" v-model="service.unitCost" @keyup="calculateItemAmount(serviceIndex,service)">
+                    <p v-else>{{service.unitCost}}</p> 
+                </td>
+                 <td> {{service.amount}}</td>
+                 <td>
+                   <!-- <a v-if="editModeService === -1" @click="editItemList(serviceIndex, service)" class="btn btn-sm btn-primary" title="Editar" > 
+                     <i class="fa fa-edit"></i>
+                   </a>   
+                   <a v-if="editModeService === serviceIndex" @click="updateItemList(service)" class="btn btn-sm btn-success">
+                     <i class="glyphicon glyphicon-ok"></i>
+                   </a>  -->
+                   <a v-if="service.serviceId" @click="deleteRow(categoryIndex, serviceIndex, service)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                 <span class="fa fa-times-circle" aria-hidden="true"></span> 
+                   </a>
+                    <!-- <button class="btn btn-info btn-sm" @click.prevent="moveUp(serviceIndex)"> 
+                      <span class="fa fa-angle-double-up" aria-hidden="true"></span>
+                   </button>
+                   <button class="btn btn-info btn-sm" @click.prevent="moveDown(serviceIndex)">
+                     <span class="fa fa-angle-double-down" aria-hidden="true"></span>
+                   </button> -->
+              </td> 
+                </tr> 
+
+           </template>
+         </tbody>   
+        </table>
+       </div>
           
-        <div class="table-responsive tableother">
-            <table class="table table-striped table-bordered text-center bg-info">
-              <thead> 
+        <!-- <div class="table-responsive tableother">
+            <table class="table table-striped table-bordered bg-info">
+              <thead class="text-center "> 
               <tr>  
                   <th>#</th>
+                  <th>NUMBER</th>  
                   <th>SERVICIO</th>  
                   <th>UNIDAD</th>
-                  <th>COSTO</th>
+                  <th>U.P</th>
                   <th>CANTIDAD</th>
                   <th>MONTO</th>
                   <th colspan="2" >ACCION</th>
@@ -80,6 +181,7 @@
             <tbody>   
           <tr v-for="(item,index) in itemList">
               <td>{{++index}}</td>
+              <td text-align="left">{{item.accountCode}}</td>
               <td>{{item.serviceName}}</td>
               <td>
                 <select v-if="editMode === index" class="form-control" v-model="item.unit">
@@ -89,12 +191,12 @@
                 <p v-else>{{item.unit}}</p> 
               </td>
               <td>
-                <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
-                <p v-else>{{item.unitCost}}</p> 
-              </td>
-              <td>
                 <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.quantity" @keyup="calculateItemAmount(index,item)">
                 <p v-else>{{item.quantity}}</p> 
+              </td>
+              <td>
+                <input v-if="editMode === index" type="number" step=".00" class="form-control" v-model="item.unitCost" @keyup="calculateItemAmount(index,item)">
+                <p v-else>{{item.unitCost}}</p> 
               </td>
               <td> {{item.amount}}</td>
               <td>
@@ -104,21 +206,22 @@
                 <a v-if="editMode === index" @click="updateItemList()" class="btn btn-sm btn-success">
                   <i class="glyphicon glyphicon-ok"></i>
                 </a> 
-                <a v-if="item.isHeaderTag == 'N'" @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                <a v-if="item.serviceId" @click="deleteRow(index)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                               <span class="fa fa-times-circle" aria-hidden="true"></span> 
                 </a>
-              <!-- <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
+              <button class="btn btn-info btn-sm" @click.prevent="moveUp(index)"> 
                 <span class="fa fa-angle-double-up" aria-hidden="true"></span>
                 </button>
               <button class="btn btn-info btn-sm" @click.prevent="moveDown(index)">
                 <span class="fa fa-angle-double-down" aria-hidden="true"></span>
-                </button> -->
+                </button>
 
             </td> 
           </tr>
           </tbody>
           </table>
-        </div>
+        </div> -->
+        
         <div style="text-align: center; width: 100%; margin: auto;">
               {{proposalNetTotal}}
         </div>
@@ -143,7 +246,7 @@
 </template>
  <script>
 
-import TreeTable from 'vue-tree-table-component'
+// import TreeTable from 'vue-tree-table-component'
 import proposalScopes from './ProposalScopes.vue'
 import proposalTimes from './ProposalTimes.vue'
 import proposalTerms from './ProposalTerms.vue'
@@ -154,6 +257,7 @@ export default {
         
      mounted() {
             console.log('Component mounted.')
+            this.getAllServiceCategories();
             this.getAllServices();
             this.findProposal();
             this.getAllProposalDetails();
@@ -163,16 +267,16 @@ export default {
          proposalTimes,
          proposalTerms,
          proposalNotes,
-         proposalSubcontractor,
-         TreeTable,
+         proposalSubcontractor
 
   },     
     data: function() {
         return {
             errors: [],
 
-            proposal: '',
+            servicecategories: [],
             services: [],
+            proposal: '',
             selectedService: '',
             itemList: [],
             
@@ -182,8 +286,8 @@ export default {
             modelUnit: '',
             modelUnitCost: '',
 
-            editMode: -1,
-            columns: [{label: 'Name', id: 'serviceName'}, {label: 'Surname', id: 'amount'}]
+            editModeCategory: -1,
+            editModeService: -1,
         }
     },
   props: {
@@ -199,14 +303,11 @@ export default {
           let suma = 0;
 
          this.itemList.forEach (function(item){
-          
             if(item.isCategory == 'N') {
               console.log(item)
               suma += parseFloat(item.amount);
               suma.toFixed(2);
              }
-
-
           });
   
               let taxAmount   = (parseFloat(suma).toFixed(2) * parseFloat(this.proposal[0].taxPercent).toFixed(2))/100;
@@ -220,6 +321,23 @@ export default {
        } 
     },
     methods: {
+       getAllServiceCategories: function (){
+         let url ='service-categories';
+         axios.get(url).then(response => {
+                   this.serviceCategories = response.data
+                  //  console.log(this.serviceCategories)
+                   this.serviceCategories.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
+         });
+     },
+      getAllServices: function (){
+         let url ='services';
+         axios.get(url).then(response => {
+          this.services = response.data
+          // console.log(this.services)
+          this.services.map(function (x){ return x.item_data = `${x.accountCode} - (${x.serviceName})` });
+
+         });
+     },
         findProposal: function (){
             let url ='proposals/'+this.proposalId;
             axios.get(url).then(response => {
@@ -227,20 +345,63 @@ export default {
             });
         },
          getAllProposalDetails: function (){
+           //inicializa la lista en cero
+            this.itemList = []    
+
             let url ='proposalsDetails/'+this.proposalId;
             axios.get(url).then(response => {
-             this.itemList = response.data
-            //  console.log(this.itemList)
-            });
-        },
-         getAllServices: function (){
-            let url ='services';
-            axios.get(url).then(response => {
-             this.services = response.data
-             console.log(this.services)
-             this.services.map(function (x){ return x.item_data = `${x.serviceCode} - (${x.serviceName})` });
 
-            });
+             let servicesArray = response.data
+                
+            servicesArray.forEach(element => {
+      
+               // Encontrar si existe la categoria en la propuesta que se esta montando
+               let found = this.itemList.find(item => item.categoryId == element.categoryId);
+
+
+     
+                //  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
+                   if(!found) {
+                     this.itemList.push({ 
+                                         categoryId:  element.category.categoryId,
+                                         isHeaderTag: 'Y',
+                                         accountCode: element.category.accountCode,
+                                         categoryName:  element.category.categoryName,
+                                         quantity:  element.quantity,
+                                         unit:  element.unit,
+                                         unitCost:  0,
+                                         amount:  0,
+                                         childrens: []
+                                       });
+                      // alert('no se encontro la categoria en el arreglo, crearla');
+                  }
+                  //acumular saldo de los valores
+
+            //  Buscar el indice de la categoria existente para insertar en servicio en la categoria especifica
+              let categoryIndex = this.itemList.findIndex(object => {
+                    return object.categoryId === element.category.categoryId;
+              });
+                 
+      
+                  this.itemList[categoryIndex].unitCost += parseFloat(element.unitCost)
+                  this.itemList[categoryIndex].amount   += parseFloat(element.amount)
+                  
+                 this.itemList[categoryIndex].childrens.push({ 
+                                     serviceId:  element.serviceId,
+                                     isHeaderTag: 'N',
+                                     categoryId:  element.categoryId,
+                                     accountCode: element.service.accountCode,
+                                     serviceName: element.serviceName,
+                                     quantity: element.quantity,
+                                     unit: element.unit,
+                                     unitCost: element.unitCost,
+                                     amount: element.amount
+                                    });
+                     });  //end foreach
+
+
+                }); //end axion get
+               
         },
         pasteServiceInfo: function (){
               if(this.selectedService){ 
@@ -260,54 +421,118 @@ export default {
   /*----CRUD----- */
      addRow: function() {
            this.errors = [];
+
            //VALIDATIONS
-               if (!this.selectedService) 
+          if (!this.selectedService) 
                 this.errors.push('Debe Escoger un Servicio.');
            
           if (!this.errors.length) {
-              //Nota al agregar el item debo meter un objeto con el nombre y el ID
-                //  this.itemList.push({
-                //                      serviceId:this.selectedService.serviceId,
-                //                      serviceName:this.selectedService.serviceName,
-                //                      quantity:this.modelQuantity,
-                //                      unit:this.modelUnit,
-                //                      unitCost:this.modelUnitCost,
-                //                      amount:this.amount,
-                //                    });
+              //Nota al agregar el item debo meter un objeto con el nombre y el 
+        
+            // Encontrar si existe la categoria en la propuesta que se esta montando
+               let found = this.itemList.find(item => item.categoryId == this.selectedService.categoryId);
+
+                //  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
+                   if(!found) {
+                     this.itemList.push({ 
+                                         categoryId: this.selectedService.category.categoryId,
+                                         isHeaderTag: 'Y',
+                                         accountCode:this.selectedService.category.accountCode,
+                                         categoryName: this.selectedService.category.categoryName,
+                                         quantity: this.modelQuantity,
+                                         unit: this.modelUnit,
+                                         unitCost: this.modelUnitCost,
+                                         amount: this.sumTotal,
+                                         childrens: []
+                                       });
+                      alert('no se encontro la categoria en el arreglo, crearla');
+                  } 
+
+            //  Buscar el indice de la categoria existente para insertar en servicio en la categoria especifica
+              let categoryIndex = this.itemList.findIndex(object => {
+                    return object.categoryId === this.selectedService.category.categoryId;
+              });
+
+              this.itemList[categoryIndex].childrens.push({ 
+                                     serviceId: this.selectedService.serviceId,
+                                     isHeaderTag: 'N',
+                                     categoryId: this.selectedService.categoryId,
+                                     accountCode:this.selectedService.accountCode,
+                                     serviceName:this.selectedService.serviceName,
+                                     quantity:this.modelQuantity,
+                                     unit:this.modelUnit,
+                                     unitCost:this.modelUnitCost,
+                                     amount:this.sumTotal
+                                    });
+
               this.selectedService.quantity     = this.modelQuantity,
               this.selectedService.unitSelected = this.modelUnit,
               this.selectedService.unitCost     = this.modelUnitCost,
-              this.selectedService.sumTotal     = this.sumTotal,
-
-          axios.post(`proposalsDetails/storeOneByOne`,{
-              proposalId :  this.proposal[0].proposalId,
-              selectedService:   this.selectedService,
-            }).then(response => {
-                   if (response.data.alertType == "error") {
-                       toastr.error(response.data.message)
-                   } else {
-                       this.findProposal();
-                       this.getAllProposalDetails();
-
-                       this.modelServiceId = ''
-                       this.modelQuantity =''
-                       this.modelUnit =''
-                       this.modelUnitCost =''
-                       this.selectedService = '',
-
-                       toastr.success(response.data.message)
-                 
-               }
-            })
+              this.selectedService.sumTotal     = this.sumTotal
+            
+    
+              // const data = [
+              //   {id: 1, parent_id: null, name: 'test1'},
+              //   {id: 2, parent_id: null, name: 'test2'},
+              //   {id: 3, parent_id: 2, name: 'test3'},
+              //   {id: 4, parent_id: 2, name: 'test4'},
+              //   {id: 5, parent_id: 4, name: 'test5'},
+              //   {id: 6, parent_id: 4, name: 'test5'},
+              //   {id: 7, parent_id: 2, name: 'test5'},
+              //   {id: 8, parent_id: 2, name: 'test5'},
+              //   {id: 9, parent_id: null, name: 'test5'},
+              //   {id: 10, parent_id: null, name: 'test5'},]
+              
+              // function nest(data, parentId = null) {
+              //   return data.reduce((r, e) => {
+              //     let obj = Object.assign({}, e)
+              //     if (parentId == e.parent_id) {
+              //       let children = nest(data, e.id)
+              //       if (children.length) obj.children = children
+              //       r.push(obj)
+              //     }
+              //     return r;
+              //   }, [])
+              // }
+              
+              // console.log(nest(data))
           } //end of "if (!this.errors.length)" 
+          
         },
-      editItemList: function(index){
-             this.editMode = index
+      editItemList: function(index, item){
+         //Editar valor que encuentre del arreglo
+              if(item.isHeaderTag == 'Y'){
+                  this.editModeCategory = index
+              }else{
+                  this.editModeService = index
+              }
         },
-      updateItemList: function(){
-              this.editMode = -1
+      updateItemList: function(item){
+             if(item.isHeaderTag == 'Y'){
+                  this.editModeCategory = -1
+              }else{
+                  this.editModeService = -1
+              }
         },
+         
+        deleteRow: function(categoryIndex ='', serviceIndex='',item) {
+            //borrar valor que encuentre del arreglo
+              if(item.isHeaderTag == 'Y'){
+                this.itemList.splice(--categoryIndex,1);
+              }else{
+                this.itemList[--categoryIndex].childrens.splice(--serviceIndex,1);
+              }
+          },
+         moveUp: function(rowIndex) {
+             --rowIndex;
+             this.itemList.splice(rowIndex - 1, 0, this.itemList.splice(rowIndex, 1)[0]);
+           },
+         moveDown: function(rowIndex) {
+             --rowIndex;
+             this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
+           },
         calculateItemAmount: function(index,item) { 
+          console.log(index)
           console.log(item);
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
@@ -318,31 +543,31 @@ export default {
           }
 
              let amountRs = item.unitCost * item.quantity;
+                 item.amount  = parseFloat(amountRs).toFixed(2);
 
-             let myObj = this.itemList.find(el => el.propDetailId == item.propDetailId);
-          myObj.amount = parseFloat(amountRs).toFixed(2);
+
+             let unitCostToEachChild =   item.unitCost / item.childrens.length;
+             
+                   let i, n = item.childrens.length;
+                    for (i = 0; i < n; ++i) {
+                            item.childrens[i].quantity = item.quantity;
+                            item.childrens[i].unitCost = unitCostToEachChild;
+
+                             let amountToEachChild   =   unitCostToEachChild * item.quantity;
+                            item.childrens[i].amount = amountToEachChild;
+                        }
+            
+            //  let myObj = this.itemList.find(el => el.categoryId == item.categoryId);
+            //      myObj.amount = parseFloat(amountRs).toFixed(2);
 
           //SI, el item modificado es un servicio, realiza la suma el Header Tag
           
-        },            
-        deleteRow: function(id) {
-            //borrar valor que encuentre del arreglo
-                 this.itemList.splice(--id,1);
-          },
-         moveUp: function(rowIndex) {
-             --rowIndex;
-             this.itemList.splice(rowIndex - 1, 0, this.itemList.splice(rowIndex, 1)[0]);
-           },
-         moveDown: function(rowIndex) {
-             --rowIndex;
-             this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
-           },
-
+        },     
          saveProposal: function() {
            this.errors = [];
            //VALIDATIONS
-              //  if (!this.itemList) 
-              //   this.errors.push('Debe Escoger Ingresar servicio para Guardar la Propuesta.');
+               if (!this.itemList) 
+                this.errors.push('Debe Escoger Ingresar servicio para Guardar la Propuesta.');
           
 
           if (!this.errors.length) { 
@@ -352,30 +577,31 @@ export default {
           this.$refs.proposalTerms.sendTerms();
           this.$refs.proposalNotes.sendNotes();
 
-          // axios.post('proposalsDetails',{
-          //     proposalId :  this.proposal[0].proposalId,
-          //     itemList:   this.itemList,
-          //   }).then(response => {
-          //          // if (response.data.alert == "error") {
-          //          //     toastr.error(response.data.msj)
-          //          // } else {
-          //              this.findProposal();
-          //              this.getAllProposalDetails();
+          axios.post('proposalsDetails',{
+              proposalId :  this.proposal[0].proposalId,
+              itemList:   this.itemList,
+            }).then(response => {
+                   // if (response.data.alert == "error") {
+                   //     toastr.error(response.data.msj)
+                   // } else {
+                     
+                       this.findProposal();
+                       this.getAllProposalDetails();
 
-          //              this.modelServiceId = ''
-          //              // this.modelServiceName = ''
-          //              this.modelQuantity =''
-          //              this.modelUnit =''
-          //              this.modelUnitCost =''
+                       this.modelServiceId = ''
+                       // this.modelServiceName = ''
+                       this.modelQuantity =''
+                       this.modelUnit =''
+                       this.modelUnitCost =''
                 
-          //              if (response.data.alertType == 'success') {
-          //                toastr.success(response.data.message)
-          //              } else {
-          //                 toastr.error(response.data.message)
-          //              }
-          //          // }
+                       if (response.data.alertType == 'success') {
+                         toastr.success(response.data.message)
+                       } else {
+                          toastr.error(response.data.message)
+                       }
+                   // }
   
-          //   })
+            })
                }
           }, //end function saveProposal
 

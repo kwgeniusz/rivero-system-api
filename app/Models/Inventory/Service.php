@@ -43,7 +43,7 @@ public function getParentKeyName()
 
     public function category() 
     {
-        return $this->hasOne(ServiceCategory::class, 'categoryId');
+        return $this->hasOne(ServiceCategory::class, 'categoryId','categoryId')->with('childrenCategory');
     }
     //Fin relaciones recursivas
  //--------------------------------------------------------------------

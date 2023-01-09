@@ -24,17 +24,17 @@ class ServiceCategory extends Model
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
- //Relaciones recursivas
+ //Relaciones recursivas de padre a busqueda de 
 
     //Relaciones de primer nivel
     public function subcategory() 
     {
-        return $this->hasMany(Category::class, 'categoryParentId');
+        return $this->hasMany(ServiceCategory::class, 'categoryParentId')->orderBy('categoryId', 'ASC');
     }
     //Relaciones de primer nivel + segundo nivel
     public function childrenCategory()
     {
-        return $this->hasMany(Category::class, 'categoryParentId')->with('subcategory');
+        return $this->hasMany(ServiceCategory::class, 'categoryParentId')->with('subcategory');
     }
     //------------------------------//
     //Relaciones con el arbol completo
@@ -74,8 +74,10 @@ public function setCostAttribute($cost)
 //-----------------------------------------
      public function getAllByCompany($companyId)
     {
-        return $this->where('companyId' , '=' , $companyId)
-                    ->orderBy('serviceName', 'ASC')
+        return $this->with('childrenCategoryTree')
+                    ->where('companyId' , '=' , $companyId)
+                    ->where('categoryParentId' , '=' , 0)
+                    ->orderBy('categoryId', 'ASC')
                     ->get();
     }
 //------------------------------------------
