@@ -41,9 +41,9 @@ public function getParentKeyName()
 //--------------------------------------------------------------------
  //Relaciones
 
-    public function category() 
+    public function categories() 
     {
-        return $this->hasOne(ServiceCategory::class, 'categoryId','categoryId')->with('childrenCategory');
+        return $this->hasOne(ServiceCategory::class, 'categoryId','categoryId');
     }
     //Fin relaciones recursivas
  //--------------------------------------------------------------------
@@ -77,7 +77,7 @@ public function setCostAttribute($cost)
 //-----------------------------------------
      public function getAllByCompany($companyId)
     {
-        return $this->with('category')
+        return $this->with('categories')
                     ->where('companyId' , '=' , $companyId)
                     ->orderBy('serviceName', 'ASC')
                     ->get();

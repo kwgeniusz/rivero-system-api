@@ -1,13 +1,13 @@
 <template>
 <div> 
       <b>CATEGORIA: </b>
-    	<select v-model="choice" placeholder="pick">
+    	<select v-model="choice" placeholder="pick" @change="sendValue($event)">
       	<template v-for="someChoice in choices">
-        	<option :value="someChoice">{{ someChoice.accountCode}} - {{someChoice.categoryName }}</option>
+        	<option :value="[someChoice]">{{ someChoice.accountCode}} - {{someChoice.categoryName }}</option>
         </template>
       </select>
       <br>
-      <recursive-select v-if="choice && choice.children_category_tree && choice.children_category_tree.length" :choices="choice.children_category_tree">
+      <recursive-select v-if="choice && choice[0].children_category_tree && choice[0].children_category_tree.length" :choices="choice[0].children_category_tree">
       </recursive-select>
   </div>
 </template>
@@ -28,12 +28,15 @@
   	choices: {}
   },
     methods: {
-        // getData: function (){
-        //  var url = this.prefUrl+this.router;
-        //     axios.get(url).then(response => {
-        //       this.amount=response.data;
-        //     });
-        // },
+      //  bus: function (event) {
+      //   this.$emit('bus', event)
+      //  }
+        sendValue: function (event){
+          // console.log(this.choice)
+          // console.log(event.target)
+          
+             this.$emit('sendCategory', this.choice)
+        },
      }
 }
 </script>

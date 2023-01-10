@@ -3,6 +3,7 @@
 namespace App\Models\Inventory;
 
 use Auth;
+use DB;
 use App\Models\Inventory\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ServiceCategory extends Model
 {
     use SoftDeletes;
+    use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
     public $timestamps = false;
 
@@ -20,28 +22,35 @@ class ServiceCategory extends Model
     protected $dates = ['deleted_at'];
 
     // protected $appends = ['cost1','cost2'];
-
+    public function getLocalKeyName()
+    {
+        return 'categoryId';
+    }
+    public function getParentKeyName()
+    {
+        return 'categoryParentId';
+    }
 //--------------------------------------------------------------------
     /** Relations */
 //--------------------------------------------------------------------
  //Relaciones recursivas de padre a busqueda de 
 
-    //Relaciones de primer nivel
-    public function subcategory() 
+    public function categories() //https://laraveldaily.com/eloquent-recursive-hasmany-relationship-with-unlimited-subcategories/
     {
         return $this->hasMany(ServiceCategory::class, 'categoryParentId')->orderBy('categoryId', 'ASC');
+    }
+
+    //Relaciones con el arbol completo
+    public function childrenCategoriesTree() //https://laraveldaily.com/eloquent-recursive-hasmany-relationship-with-unlimited-subcategories/#comment-411958
+    {
+        return $this->categories()->with('childrenCategoriesTree');
     }
     //Relaciones de primer nivel + segundo nivel
     public function childrenCategory()
     {
-        return $this->hasMany(ServiceCategory::class, 'categoryParentId')->with('subcategory');
+        return $this->hasMany(ServiceCategory::class, 'categoryParentId')->with('category');
     }
     //------------------------------//
-    //Relaciones con el arbol completo
-    public function childrenCategoryTree() 
-    {
-        return $this->subcategory()->with('childrenCategoryTree');
-    }
     //Fin relaciones recursivas
  //--------------------------------------------------------------------
                /** MUTADORES **/
@@ -74,7 +83,7 @@ public function setCostAttribute($cost)
 //-----------------------------------------
      public function getAllByCompany($companyId)
     {
-        return $this->with('childrenCategoryTree')
+        return $this->with('childrenCategoriesTree')
                     ->where('companyId' , '=' , $companyId)
                     ->where('categoryParentId' , '=' , 0)
                     ->orderBy('categoryId', 'ASC')
@@ -117,4 +126,61 @@ public function setCostAttribute($cost)
         return $this->where('serviceId', '=', $serviceId)->delete();
     }
 //------------------------------------------
+//  RECURSIVE QUERIES
+  public function markLeafItems($collection, $categoryParentId = NULL)
+  {
+    foreach ($collection as $item) {
+
+        if (count($item->childrenCategoriesTree) !== 0) {
+
+            $item->leaf = false;
+
+            foreach ($item->childrenCategoriesTree as $children) {
+
+                if (count($children->childrenCategoriesTree) !== 0) {
+
+                    $children->leaf = false;
+                    $this->markLeafItems($children->childrenCategoriesTree, $children->categoryId);
+                } else {
+
+                    $children->leaf = true;
+                    $this->markLeafItems($children->childrenCategoriesTree, $children->categoryId);
+                }
+            }
+        } else {
+
+            $item->leaf = true;
+            $this->loadRelatedModels($item);
+            dd($item);
+            exit();
+
+            //Sustitucion aqui
+        }
+    }
+  }
+
+  public function loadRelatedModels(ServiceCategory $serviceCategory)
+  {
+     $services = DB::table('in_service')->where('categoryId', $serviceCategory->categoryId)->get();
+     $serviceCategory->services = $services;
+ 
+     return $serviceCategory;
+ }  
+ 
+ public function showAllCompanyCategoriesHierarchicalMode($companyId)
+ {
+   $categories = ServiceCategory::with('childrenCategoriesTree')
+       ->orderBy('categoryCode', 'ASC')
+       ->where('categoryParentId', 0)
+       ->where('companyId', $companyId)
+       ->get();
+       
+   
+   $this->markLeafItems($categories);
+
+   dd($categories);
+   exit();
+
+   return response()->json(['data' => $categories], 200);
+ }
 }

@@ -45,7 +45,8 @@
         <a class="submit buttonmovil" style="background: #eea508; margin-top: 0px; margin-left: 20px" href="/timeframes" role="button">
           <span class="fa fa-list" aria-hidden="true"></span> Timeframes
           </a>
-      <div style="margin-left: 20px;" v-if="inputType == 'A'">
+      <!-- <div style="margin-left: 20px;" v-if="inputType == 'A'"> -->
+      <div style="margin-left: 20px;">
         <form-new-time pref-url="" @timecreated="getAllTimes()"></form-new-time>
       </div>
     </div>

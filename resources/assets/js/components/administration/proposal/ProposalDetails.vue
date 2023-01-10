@@ -21,22 +21,41 @@
           </div>
 
 
-       <recursive-select :choices="serviceCategories"/>
-<!-- 
-         <div class="input-label boxes2" style="margin-bottom: 30px;">
+       <!-- <recursive-select :choices="serviceCategories" @sendCategory="categorySelected"/> -->
+
+                <!-- {{serviceCategories}} -->
+        
+          <div class="input-label boxes2">
             <label for="serviceId">CATEGORIA</label>
-            <v-select 
-            v-model="selectedCategory" 
+            <v-select @input="getSubcategory()" 
+            v-model="categorySelected" 
             :options="serviceCategories" 
             :reduce="serviceCategories => serviceCategories" label="item_data"/>
-          </div> -->
+          </div>
 
-          <div class="input-label boxes2" style="margin-bottom: 30px;">
+        <div class="input-label boxes2" v-if="subcategorySelected1">
+            <label for="serviceId">SUB-CATEGORIA 1</label>
+            <v-select @input="getSubcategory2()" 
+            v-model="subcategorySelected1" 
+            :options="listSubcategory" 
+            :reduce="listSubcategory => listSubcategory" label="item_data"/>
+          </div>
+
+
+         <div class="input-label boxes2" v-if="subcategorySelected2">
+            <label for="serviceId">SUBCATEGORIA 2</label>
+            <v-select @input="filterServicesList()" 
+            v-model="subcategorySelected2" 
+            :options="listSubcategory2" 
+            :reduce="listSubcategory2 => listSubcategory2" label="item_data"/>
+          </div>
+          
+          <div class="input-label boxes2" >
             <label for="serviceId">SERVICIO</label>
             <v-select @input="pasteServiceInfo()" 
             v-model="selectedService" 
-            :options="services" 
-            :reduce="services => services" label="item_data"/>
+            :options="servicesFiltered" 
+            :reduce="servicesFiltered => servicesFiltered" label="item_data"/>
           </div>
 
 
@@ -275,6 +294,14 @@ export default {
             errors: [],
 
             servicecategories: [],
+
+            categorySelected:[],
+            listSubcategory:[],
+            subcategorySelected1:[],
+            listSubcategory2:[],
+            subcategorySelected2:[],
+            servicesFiltered:[],
+
             services: [],
             proposal: '',
             selectedService: '',
@@ -303,11 +330,9 @@ export default {
           let suma = 0;
 
          this.itemList.forEach (function(item){
-            if(item.isCategory == 'N') {
-              console.log(item)
+              // console.log(item)
               suma += parseFloat(item.amount);
               suma.toFixed(2);
-             }
           });
   
               let taxAmount   = (parseFloat(suma).toFixed(2) * parseFloat(this.proposal[0].taxPercent).toFixed(2))/100;
@@ -325,7 +350,6 @@ export default {
          let url ='service-categories';
          axios.get(url).then(response => {
                    this.serviceCategories = response.data
-                  //  console.log(this.serviceCategories)
                    this.serviceCategories.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
          });
      },
@@ -352,14 +376,12 @@ export default {
             axios.get(url).then(response => {
 
              let servicesArray = response.data
-                
+      
             servicesArray.forEach(element => {
       
                // Encontrar si existe la categoria en la propuesta que se esta montando
                let found = this.itemList.find(item => item.categoryId == element.categoryId);
 
-
-     
                 //  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
                    if(!found) {
                      this.itemList.push({ 
@@ -381,8 +403,6 @@ export default {
               let categoryIndex = this.itemList.findIndex(object => {
                     return object.categoryId === element.category.categoryId;
               });
-                 
-      
                   this.itemList[categoryIndex].unitCost += parseFloat(element.unitCost)
                   this.itemList[categoryIndex].amount   += parseFloat(element.amount)
                   
@@ -398,8 +418,6 @@ export default {
                                      amount: element.amount
                                     });
                      });  //end foreach
-
-
                 }); //end axion get
                
         },
@@ -432,27 +450,27 @@ export default {
             // Encontrar si existe la categoria en la propuesta que se esta montando
                let found = this.itemList.find(item => item.categoryId == this.selectedService.categoryId);
 
-                //  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
+                //  Si no existe la categoria en la propuesta, se insert
                    if(!found) {
                      this.itemList.push({ 
-                                         categoryId: this.selectedService.category.categoryId,
+                                         categoryId: this.selectedService.categories.categoryId,
                                          isHeaderTag: 'Y',
-                                         accountCode:this.selectedService.category.accountCode,
-                                         categoryName: this.selectedService.category.categoryName,
+                                         accountCode:this.selectedService.categories.accountCode,
+                                         categoryName: this.selectedService.categories.categoryName,
                                          quantity: this.modelQuantity,
                                          unit: this.modelUnit,
                                          unitCost: this.modelUnitCost,
                                          amount: this.sumTotal,
                                          childrens: []
                                        });
-                      alert('no se encontro la categoria en el arreglo, crearla');
+                      // alert('no se encontro la categoria en el arreglo, crearla');
                   } 
 
             //  Buscar el indice de la categoria existente para insertar en servicio en la categoria especifica
               let categoryIndex = this.itemList.findIndex(object => {
-                    return object.categoryId === this.selectedService.category.categoryId;
+                    return object.categoryId === this.selectedService.categories.categoryId;
               });
-
+//  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
               this.itemList[categoryIndex].childrens.push({ 
                                      serviceId: this.selectedService.serviceId,
                                      isHeaderTag: 'N',
@@ -470,32 +488,6 @@ export default {
               this.selectedService.unitCost     = this.modelUnitCost,
               this.selectedService.sumTotal     = this.sumTotal
             
-    
-              // const data = [
-              //   {id: 1, parent_id: null, name: 'test1'},
-              //   {id: 2, parent_id: null, name: 'test2'},
-              //   {id: 3, parent_id: 2, name: 'test3'},
-              //   {id: 4, parent_id: 2, name: 'test4'},
-              //   {id: 5, parent_id: 4, name: 'test5'},
-              //   {id: 6, parent_id: 4, name: 'test5'},
-              //   {id: 7, parent_id: 2, name: 'test5'},
-              //   {id: 8, parent_id: 2, name: 'test5'},
-              //   {id: 9, parent_id: null, name: 'test5'},
-              //   {id: 10, parent_id: null, name: 'test5'},]
-              
-              // function nest(data, parentId = null) {
-              //   return data.reduce((r, e) => {
-              //     let obj = Object.assign({}, e)
-              //     if (parentId == e.parent_id) {
-              //       let children = nest(data, e.id)
-              //       if (children.length) obj.children = children
-              //       r.push(obj)
-              //     }
-              //     return r;
-              //   }, [])
-              // }
-              
-              // console.log(nest(data))
           } //end of "if (!this.errors.length)" 
           
         },
@@ -532,8 +524,8 @@ export default {
              this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
            },
         calculateItemAmount: function(index,item) { 
-          console.log(index)
-          console.log(item);
+          // console.log(index)
+          // console.log(item);
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
               item.unitCost = 1;
@@ -604,7 +596,23 @@ export default {
             })
                }
           }, //end function saveProposal
-
+          getSubcategory(){
+            this.listSubcategory = this.categorySelected.children_categories_tree;
+            this.listSubcategory.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
+          },
+          getSubcategory2(){
+            this.listSubcategory2 = this.subcategorySelected1.children_categories_tree;
+            this.listSubcategory2.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
+          },  
+          filterServicesList(){
+            this.subcategorySelected2
+            this.servicesFiltered = this.services.filter(service => service.categoryId == this.subcategorySelected2.categoryId)
+            this.servicesFiltered.sort((x, y) => x.serviceId - y.serviceId);
+          },  
+        //  categorySelected(value){
+        //    console.log('sendCategory')
+        //       console.log(value)
+        // },   
     } // fin de vue methods
        
 }// fin de export

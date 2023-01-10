@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report\Pdf;
 
+use App\Models\Inventory\ServiceCategory;
 use App\Receivable;
 use App\Client;
 use App\Proposal;
@@ -19,6 +20,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class AdministrationControllerPDF extends Controller
 {
+    private $oServiceCategory;
     private $oReceivable;
     private $oClient;
     private $oInvoice;
@@ -30,6 +32,7 @@ class AdministrationControllerPDF extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->oServiceCategory      = new ServiceCategory;
         $this->oReceivable      = new Receivable;
         $this->oClient          = new Client;
         $this->oProposal        = new Proposal;
@@ -43,6 +46,8 @@ class AdministrationControllerPDF extends Controller
 
   public function printProposal(Request $request)
 {
+   // $rs = $this->oServiceCategory->showAllCompanyCategoriesHierarchicalMode(session('companyId'));
+
    $pdf = app('dompdf.wrapper');
 
    $company           = DB::table('company')->where('companyId', session('companyId'))->get();
@@ -50,6 +55,7 @@ class AdministrationControllerPDF extends Controller
    $proposalDetails   = $proposal[0]->proposalDetail;
    $client            = $proposal[0]->client;
    $date              = Carbon::parse($proposal[0]->proposalDate)->format('F jS, Y');  
+
 
         if($proposal[0]->precontract){
            $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;
@@ -86,7 +92,8 @@ class AdministrationControllerPDF extends Controller
                 );
              return redirect()->back()->with($notification);
         } else {
-
+   //   dd($proposalDetails);
+   //   exit();
             $data = [
                  'date'  => $date,
                  'company'  => $company,
