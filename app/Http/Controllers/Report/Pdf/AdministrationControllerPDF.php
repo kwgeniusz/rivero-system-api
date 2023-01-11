@@ -109,7 +109,7 @@ class AdministrationControllerPDF extends Controller
                //  dd($data);
                //  dd($proposal[0]->$modelType->siteAddress);
 
-       return PDF::loadView('module_administration.reports.printProposal', $data)->stream('P - '.$proposal[0]->$modelType->siteAddress.'.pdf');
+       return PDF::loadView('module_administration.reports.printProposal_2022', $data)->stream('P - '.$proposal[0]->$modelType->siteAddress.'.pdf');
         } //end else
     } //end printProposal 
 

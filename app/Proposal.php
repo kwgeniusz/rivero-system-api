@@ -58,7 +58,7 @@ class Proposal extends Model
     {
         return $this->hasMany('App\ProposalDetail', 'proposalId')
                     ->with('category','service')
-                    ->orderBy('serviceId');
+                    ->orderBy('itemNumber');
     }
      public function scope()
     {

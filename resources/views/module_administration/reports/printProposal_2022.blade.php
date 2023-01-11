@@ -52,8 +52,8 @@
 		margin: 12px 5px 5px 10px;
 }
 
-		/* .wm-one { */
-		/* position: absolute; */
+		.wm-one {
+		position: absolute;
 		top: 81px;
 		left: 544px;
 		z-index: 2;
@@ -224,9 +224,9 @@
 		<div class="header"></div>
 
 		<div class="upper-right"></div>
-		<div class="logo"><img src="img/logos/gecontract/gc-main-black.png"></img></div>
-			<!-- <img class="wm-one" src="img/logos/jd/1.png"></img> -->
-			<!-- <img class="wm-two" src="img/logos/jd/2.png"></img> -->
+		<div class="logo"><img src="img/logos/jd/jd.png"></img></div>
+			<img class="wm-one" src="img/logos/jd/1.png"></img>
+			<img class="wm-two" src="img/logos/jd/2.png"></img>
 	</div>
 
 	<div class="footer">
@@ -250,7 +250,7 @@
 			<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
 			<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
 			<div class="text-alt">
-				<p>© Copyright 2022 JD Rivero - All rights reserved | Designed by Rivero Visual Group</p>
+				<p>© Copyright 2020 JD Rivero - All rights reserved | Designed by Rivero Visual Group</p>
 			</div>
 		</div>
 		<div class="lower-right">
@@ -401,24 +401,14 @@
 			<tr class="{{$lineHeight}}">
 				<td width="5%" align="center">{{$acum2}}</td>
 				<td width="40%" >{{$space}}{{$propDetail->serviceName}}</td>
-				<td width="10%" align="center">
-			    	{{$propDetail->unit}}
-				</td>
-				<td width="15%" align="center">
-				   @if($propDetail->unit != '') {{$propDetail->quantity}} @endif 
-				</td>
-				<td width="15%" align="center">
-				   @if($propDetail->unit != ''){{$symbol}}  {{$propDetail->unitCost}} @endif
-				</td>
-				<td width="15%" align="right"> 
-				   {{$symbol}}  {{$propDetail->amount}}
-				</td>
+				<td width="10%" align="center">{{$propDetail->unit}}</td>
+				<td width="15%" align="center">{{$propDetail->quantity}}</td>
+				<td width="15%" align="center">{{$symbol}}  {{$propDetail->unitCost}}</td>
+				<td width="15%" align="right">{{$symbol}}  {{$propDetail->amount}}</td>
 			</tr>
 		@php
-		  if($propDetail->isCategory == 'N'){ 
-		   $subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
-		   $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
-		  }
+		$subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
+		$subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
 	}// FIN DE FOREACH DE RENGLONES
 	@endphp
 		<tr >
