@@ -52,8 +52,8 @@
 		margin: 12px 5px 5px 10px;
 }
 
-		/* .wm-one { */
-		/* position: absolute; */
+		.wm-one { 
+		position: absolute;
 		top: 81px;
 		left: 544px;
 		z-index: 2;
@@ -224,9 +224,9 @@
 		<div class="header"></div>
 
 		<div class="upper-right"></div>
-		<div class="logo"><img src="img/logos/gecontract/gc-main-black.png"></img></div>
-			<!-- <img class="wm-one" src="img/logos/jd/1.png"></img> -->
-			<!-- <img class="wm-two" src="img/logos/jd/2.png"></img> -->
+		<div class="logo"><img src="img/logos/jd/jd.png"></img></div>
+			<img class="wm-one" src="img/logos/jd/1.png"></img>
+			<img class="wm-two" src="img/logos/jd/2.png"></img>
 	</div>
 
 	<div class="footer">
@@ -298,7 +298,7 @@
 	<br>
 	<div class="prologue">
 	@if($client->clientType == 'COMPANY' && $client->clientName == '') 
-		Dears <b>{{$client->companyName}}<b/>
+		Dears <b>{{$client->companyName}}</b>
 	@else 
 		@if($client->gender == 'M')Dear <b>Mr. @else Dear <b>Mrs. @endif  {{$client->clientName}}</b>
 	@endif
@@ -354,7 +354,7 @@
 	<table class="ts" style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">
 		<thead>
 			<tr class="table-header bold">
-				<th width="5%" align="center">#</th>
+				<th width="5%" align="center">NUMBER</th>
 				<th width="55%">DESCRIPTION</th>
 				<th width="10%" align="center">UNIT</th>
 				<th width="10%" align="center">QTY</th>
@@ -373,22 +373,11 @@
 
 	foreach ($proposalDetails as $propDetail) {
 
-		$acum = $acum + 1;
-		if ($acum % 2 == 0) {
-			$background = "#ffffff";
-		} else {
-			$background = "#ffffff";
-		}
-			//espacios,numeracion,precios, negritas para reglon con precios
+    //espacios,numeracion,precios, negritas para reglon con precios
 		if ($propDetail->unit == null) {
-			$acum2 = "";
 			$space = "   ";
-			$symbol = '';
 		} else {
-			$acumPropDetail = $acumPropDetail + 1;
-			$acum2=$acumPropDetail;
 			$space = "";
-			$symbol = $moneySymbol;
 		}
 			if ( $counter >= 30 AND  $counter <= 37 ) {
 				$lineHeight = 'line-height3';
@@ -399,35 +388,78 @@
 			}
 		@endphp
 			<tr class="{{$lineHeight}}">
-				<td width="5%" align="center">{{$acum2}}</td>
-				<td width="40%" >{{$space}}{{$propDetail->serviceName}}</td>
-				<td width="10%" align="center">
-			    	{{$propDetail->unit}}
-				</td>
-				<td width="15%" align="center">
-				   @if($propDetail->unit != '') {{$propDetail->quantity}} @endif 
-				</td>
-				<td width="15%" align="center">
-				   @if($propDetail->unit != ''){{$symbol}}  {{$propDetail->unitCost}} @endif
-				</td>
-				<td width="15%" align="right"> 
-				   {{$symbol}}  {{$propDetail->amount}}
-				</td>
+				<td width="30%" >{{$space}}{{$propDetail->accountCode}}</td>
+				<td width="40%" >{{$space}}{{$propDetail->categoryName}}</td>
+				<td width="10%" align="center"></td>
+				<td width="15%" align="center"></td>
+				<td width="15%" align="center"></td>
+				<td width="15%" align="right"> </td>
 			</tr>
+		    	@foreach ($propDetail->related_records as $subcategory) 
+		          	<tr class="{{$lineHeight}}">
+		          		<td width="30%" >{{$subcategory->accountCode}}</td>
+		          		<td width="40%" >{{$space}}&nbsp; {{$subcategory->categoryName}}</td>
+		          		<td width="10%" align="center"></td>
+		          		<td width="15%" align="center"></td>
+		          		<td width="15%" align="center"></td>
+		          		<td width="15%" align="right"> </td>
+					  </tr>
+					  @foreach ($subcategory->related_records as $subcategory2) 
+		          	         <tr class="{{$lineHeight}}">
+		          	         	<td width="30%" >{{$subcategory2->accountCode}}</td>
+		          	         	<td width="40%" >{{$space}}&nbsp;&nbsp;&nbsp;&nbsp;{{$subcategory2->categoryName}}</td>
+		          	         	<td width="10%" align="center">
+			                      	{{$subcategory2->unit}}
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	   {{$subcategory2->quantity}}
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	   {{$moneySymbol}} {{$subcategory2->unitCost}}
+			                  	</td>
+			                  	<td width="15%" align="right"> 
+			                  	   {{$moneySymbol}}  {{number_format((float)$subcategory2->totalServicesAmount, 2, '.', '')}}
+			                  	</td>
+							   </tr>
+						@foreach ($subcategory2->services as $service) 
+		          	         <tr class="{{$lineHeight}}">
+		          	         	<td width="30%" >{{$service->service->accountCode}}</td>
+		          	         	<td width="40%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$service->serviceName}}</td>
+		          	         	<td width="10%" align="center">
+			                      	
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	   
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	  
+			                  	</td>
+			                  	<td width="15%" align="right"> 
+			                  	   
+			                  	</td>
+							   </tr>
+							   @php
+		                          $subTotalPerPage += $service->amount; //acumulacion de subtotal de pagina
+		                          $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+							   @endphp
+
+			      	  @endforeach
+			      	@endforeach
+				@endforeach
+				
+			
 		@php
-		  if($propDetail->isCategory == 'N'){ 
-		   $subTotalPerPage += $propDetail->amount;//acumulacion de subtotal de pagina
-		   $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
-		  }
+		    $subTotalPerPage += $propDetail->amount; //acumulacion de subtotal de pagina
+		    $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
 	}// FIN DE FOREACH DE RENGLONES
 	@endphp
 		<tr >
 			<td width="5%" align="center"></td>
-			<td width="40%" ></td>
 			<td width="10%" align="center"></td>
 			<td width="15%" align="center"></td>
+			<td width="15%" align="center"></td>
 			<td width="15%" align="center">TOTAL:</td>
-			<td width="15%" style="border-top:2px solid black"align="right"> {{$subTotalPerPage}}</td>
+			<td width="15%" style="border-top:2px solid black"align="right"> {{$moneySymbol}} {{$subTotalPerPage}}</td>
 		</tr>
 	</table>
 
@@ -438,7 +470,7 @@
 	</div>
 			@foreach ($proposal[0]->paymentProposal as $payment) 
 				<ul>
-						<li>{{$payment->paymentDate}} {{$symbol}}{{$payment->amount}}</li>
+						<li>{{$payment->paymentDate}} {{$moneySymbol}}{{$payment->amount}}</li>
 				</ul>
 			@endforeach
 	--}}
@@ -446,7 +478,7 @@
 		<div class="big bold center">Payment Breakdown</div>
 			<ul>
 	@foreach($proposal[0]->paymentProposal as $payment)
-			<li>{!! nl2br($payment->paymentDate) !!} {{$symbol}}{{$payment->amount}}</li>
+			<li>{!! nl2br($payment->paymentDate) !!} {{$moneySymbol}}{{$payment->amount}}</li>
 	@endforeach
 		</ul>
 		

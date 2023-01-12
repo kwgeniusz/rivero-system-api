@@ -32,15 +32,15 @@ class AdministrationControllerPDF extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->oServiceCategory      = new ServiceCategory;
+        $this->oServiceCategory = new ServiceCategory;
         $this->oReceivable      = new Receivable;
         $this->oClient          = new Client;
         $this->oProposal        = new Proposal;
         $this->oProposalDetail  = new ProposalDetail;
         $this->oInvoice         = new Invoice;
         $this->oInvoiceDetail   = new InvoiceDetail;
-        $this->oTransaction   = new Transaction;
-        $this->oSaleNote   = new SaleNote;
+        $this->oTransaction     = new Transaction;
+        $this->oSaleNote        = new SaleNote;
     }
 
 
@@ -52,9 +52,13 @@ class AdministrationControllerPDF extends Controller
 
    $company           = DB::table('company')->where('companyId', session('companyId'))->get();
    $proposal          = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
-   $proposalDetails   = $proposal[0]->proposalDetail;
+   $proposalDetails   = $this->oProposalDetail->showAllCompanyCategoriesHierarchicalMode(session('companyId'), $proposal[0]->proposalId);
+   // $proposalDetails   = $proposal[0]->proposalDetail;
    $client            = $proposal[0]->client;
    $date              = Carbon::parse($proposal[0]->proposalDate)->format('F jS, Y');  
+  
+   // dd($proposalDetails);
+   // exit();
 
 
         if($proposal[0]->precontract){
@@ -67,7 +71,6 @@ class AdministrationControllerPDF extends Controller
            $modelId = $proposal[0]->contract->contractNumber;
            $modelType = 'contract';
            $modelTypeView = 'Contract';
-
         }
 
       //dispara error si cuotas son mayores que el monto neto de la propuesta para que el usuario ajuste cuotas.
@@ -109,7 +112,7 @@ class AdministrationControllerPDF extends Controller
                //  dd($data);
                //  dd($proposal[0]->$modelType->siteAddress);
 
-       return PDF::loadView('module_administration.reports.printProposal_2022', $data)->stream('P - '.$proposal[0]->$modelType->siteAddress.'.pdf');
+       return PDF::loadView('module_administration.reports.printProposal', $data)->stream('P - '.$proposal[0]->$modelType->siteAddress.'.pdf');
         } //end else
     } //end printProposal 
 

@@ -3,8 +3,8 @@
 //--------------------ADMINISTRATION MODULE ROUTES-------------------------//
 
 //**************************** PROPOSALS ***************************
-Route::get('proposalsAll', 'Web\ProposalController@getAllProposals')->name('proposals.all');
-Route::post('filteredProposals', 'Web\ProposalController@getAllProposals')->name('proposals.filtered');
+// Route::get('proposalsAll', 'Web\ProposalController@getAllProposals')->name('proposals.all');
+// Route::post('filteredProposals', 'Web\ProposalController@getAllProposals')->name('proposals.filtered');
 
 //**************************** INVOICES ***************************
 Route::resource('invoices', 'Web\InvoiceController');

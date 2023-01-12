@@ -6,7 +6,7 @@
 <h3><b>PROPUESTAS</b></h3>
      @if($btnReturn == 'mod_cont')
                   @if($proposal[0]->contractId ==null)   
-                   <a href="{{route('proposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
+                   <a href="{{route('precontractsProposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
                      <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                    </a>
                   @else
@@ -14,11 +14,11 @@
                      <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                   </a>
                   @endif
-             @elseif($btnReturn == 'mod_adm')
+      @elseif($btnReturn == 'mod_adm')
                   <a href="{{route('proposals.all')}}" class="btn btn-warning">
                                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                       </a>
-             @endif
+      @endif
 @if($modelRs[0]->getTable() == 'pre_contract')
 <h4><b>Precontrato:</b> {{$modelRs[0]->preId}}</h4>
 @else
