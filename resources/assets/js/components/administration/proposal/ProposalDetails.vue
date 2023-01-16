@@ -528,25 +528,33 @@ export default {
           // console.log(item);
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
-              item.unitCost = 1;
+              // item.unitCost = 1;
           }
            if(item.quantity == '' || item.quantity == 0) {
-              item.quantity = 1;
+              // item.quantity = 1;
           }
 
              let amountRs = item.unitCost * item.quantity;
                  item.amount  = parseFloat(amountRs).toFixed(2);
 
-
              let unitCostToEachChild =   item.unitCost / item.childrens.length;
              
-                   let i, n = item.childrens.length;
-                    for (i = 0; i < n; ++i) {
-                            item.childrens[i].quantity = item.quantity;
-                            item.childrens[i].unitCost = unitCostToEachChild;
+                   let n = item.childrens.length;
+                    for (let i = 0; i < n; ++i) {
+                         let counter = i; counter++;
 
-                             let amountToEachChild   =   unitCostToEachChild * item.quantity;
-                            item.childrens[i].amount = amountToEachChild;
+                          //  Validacion para redondear decimales
+                            //  if(counter !== n){
+                              // asignar cantidad y costo unitario 
+                                 item.childrens[i].quantity = item.quantity;
+                                 item.childrens[i].unitCost = parseFloat(unitCostToEachChild).toFixed(2);
+                              // asignar 
+                                 let amountToEachChild      = unitCostToEachChild * item.quantity;
+                                 item.childrens[i].amount   = parseFloat(amountToEachChild).toFixed(2);
+                            // }else{
+         
+                            // }
+
                         }
             
             //  let myObj = this.itemList.find(el => el.categoryId == item.categoryId);
