@@ -160,12 +160,12 @@
                 </td>
                  <td> {{service.amount}}</td>
                  <td>
-                   <!-- <a v-if="editModeService === -1" @click="editItemList(serviceIndex, service)" class="btn btn-sm btn-primary" title="Editar" > 
+                   <a v-if="editModeService === -1" @click="editItemList(serviceIndex, service)" class="btn btn-sm btn-primary" title="Editar" > 
                      <i class="fa fa-edit"></i>
                    </a>   
                    <a v-if="editModeService === serviceIndex" @click="updateItemList(service)" class="btn btn-sm btn-success">
                      <i class="glyphicon glyphicon-ok"></i>
-                   </a>  -->
+                   </a> 
                    <a v-if="service.serviceId" @click="deleteRow(categoryIndex, serviceIndex, service)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                                  <span class="fa fa-times-circle" aria-hidden="true"></span> 
                    </a>
@@ -488,8 +488,8 @@ export default {
               this.selectedService.unitCost     = this.modelUnitCost,
               this.selectedService.sumTotal     = this.sumTotal
             
+          console.log(this.itemList);
           } //end of "if (!this.errors.length)" 
-          
         },
       editItemList: function(index, item){
          //Editar valor que encuentre del arreglo
@@ -528,25 +528,33 @@ export default {
           // console.log(item);
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
-              item.unitCost = 1;
+              // item.unitCost = 1;
           }
            if(item.quantity == '' || item.quantity == 0) {
-              item.quantity = 1;
+              // item.quantity = 1;
           }
 
              let amountRs = item.unitCost * item.quantity;
                  item.amount  = parseFloat(amountRs).toFixed(2);
 
-
              let unitCostToEachChild =   item.unitCost / item.childrens.length;
              
-                   let i, n = item.childrens.length;
-                    for (i = 0; i < n; ++i) {
-                            item.childrens[i].quantity = item.quantity;
-                            item.childrens[i].unitCost = unitCostToEachChild;
+                   let n = item.childrens.length;
+                    for (let i = 0; i < n; ++i) {
+                         let counter = i; counter++;
 
-                             let amountToEachChild   =   unitCostToEachChild * item.quantity;
-                            item.childrens[i].amount = amountToEachChild;
+                          //  Validacion para redondear decimales
+                            //  if(counter !== n){
+                              // asignar cantidad y costo unitario 
+                                 item.childrens[i].quantity = item.quantity;
+                                 item.childrens[i].unitCost = parseFloat(unitCostToEachChild).toFixed(2);
+                              // asignar 
+                                 let amountToEachChild      = unitCostToEachChild * item.quantity;
+                                 item.childrens[i].amount   = parseFloat(amountToEachChild).toFixed(2);
+                            // }else{
+         
+                            // }
+
                         }
             
             //  let myObj = this.itemList.find(el => el.categoryId == item.categoryId);
