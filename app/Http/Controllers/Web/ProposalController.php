@@ -345,13 +345,13 @@ class ProposalController extends Controller
         }
 
         if ($success) {
-            $result = ['alert' => 'success', 'msj' => "Conversión Exitosa, Contrato N° $invoice->invId creada"];
+            $result = ['alert' => 'success', 'message' => "Conversión Exitosa, Contrato N° $invoice->invId creada"];
         } else {
-            $result = ['alert' => 'error', 'msj' => $error];
+            $result = ['alert' => 'error', 'message' => $error];
         }
 
         $notification = array(
-            'message'    => $result['msj'],
+            'message'    => $result['message'],
             'alert-type' => $result['alert'],
         );
         return redirect()->route('invoices.index',['id' => $proposal[0]->contractId])->with($notification);
@@ -381,7 +381,7 @@ class ProposalController extends Controller
         );
 
         $notification = array(
-            'message'    => $result['msj'],
+            'message'    => $result['message'],
             'alert-type' => $result['alert'],
         );
         
@@ -394,7 +394,7 @@ class ProposalController extends Controller
         $result = $this->oPaymentProposal->removePayment($id,$proposalId);
 
         $notification = array(
-            'message'    => $result['msj'],
+            'message'    => $result['message'],
             'alert-type' => $result['alert'],
         );
       return redirect()->back()->with($notification);

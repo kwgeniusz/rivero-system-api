@@ -403,7 +403,6 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
             ->where('companyId', $companyId)
             ->get();
 
-
         $categories_ids_with_services = collect(DB::select('SELECT * FROM in_service_category WHERE EXISTS (SELECT PropDetailId FROM proposal_detail WHERE proposal_detail.categoryId = in_service_category.categoryCode AND companyId =' . $companyId . ' AND proposalId =' . $proposalId . ')'));
 
         $cat_without_roots_categories = $categories_ids_with_services->reject(function ($item) {
@@ -427,7 +426,7 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
         } 
         
         $restrictorArrayCleaned = $restrictorArray->unique()->values();
-
+        
         $this->markLeafItems($categories, NULL, $restrictorArrayCleaned, $proposalId);
         
         $this->cleanItems($categories, $restrictorArrayCleaned);
@@ -437,8 +436,10 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
                 return $item;
             }
         })->values();
-            
+
+
         return  $cat_without_empty_roots_categories;
+
         // return response()->json(['data' => $cat_without_empty_roots_categories], 200);
     }
 
