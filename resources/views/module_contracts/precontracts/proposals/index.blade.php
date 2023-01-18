@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-<h3><b>PROPUESTAS</b></h3>
+<h3><b>PRECONTRATOS > PROPUESTAS</b></h3>
+<br>
 <h4><b>Precontrato:</b> {{$precontract[0]->preId}}</h4>
 <h4><b>Direccion:</b> {{$precontract[0]->siteAddress}}</h4>
 <h4><b>Cliente:</b> {{$precontract[0]->client->clientName}}</h4>

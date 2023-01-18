@@ -1,11 +1,12 @@
 @extends('layouts.master')
 
 @section('content')
+
     <div class="row">
         <div class="col-xs-12 ">
-<h3><b>PROPUESTAS</b></h3>
+<h3><b>PRE-CONTRATO > PROPUESTAS</b></h3>
      @if($btnReturn == 'mod_cont')
-                  @if($proposal[0]->contractId ==null)   
+                  @if($proposal[0]->contractId == null)   
                    <a href="{{route('precontractsProposals.index', ['id' => $proposal[0]->precontractId])}}" class="btn btn-warning">
                      <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
                    </a>
@@ -15,9 +16,9 @@
                   </a>
                   @endif
       @elseif($btnReturn == 'mod_adm')
-                  <a href="{{route('proposals.all')}}" class="btn btn-warning">
+                  <a href="{{ URL::previous()}}" class="btn btn-warning">
                                  <span class="fa fa-hand-point-left" aria-hidden="true"></span>  {{__('return')}}
-                      </a>
+                  </a>
       @endif
 @if($modelRs[0]->getTable() == 'pre_contract')
 <h4><b>Precontrato:</b> {{$modelRs[0]->preId}}</h4>
