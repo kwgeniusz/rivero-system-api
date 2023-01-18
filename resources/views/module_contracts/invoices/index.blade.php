@@ -1,10 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-<h3><b>FACTURAS</b></h3>
-<h4><b>Contrato:</b>{{$contract[0]->contractNumber}}</h4>
+<h3><b>CONTRATOS > FACTURAS</b></h3>
+<br>
+<h4><b>Contrato:</b>  {{$contract[0]->contractNumber}}</h4>
 <h4><b>Direccion:</b> {{$contract[0]->siteAddress}}</h4>
-<h4><b>Cliente:</b> {{$contract[0]->client->clientName}}</h4>
+<h4><b>Cliente:</b>   {{$contract[0]->client->clientName}}</h4>
 
     <div class="row">
         <div class="col-xs-12 ">
@@ -88,7 +89,7 @@
           @if($invoice->invStatusCode == App\Invoice::OPEN )
             @if($contract[0]->contractStatus <> App\Contract::FINISHED && $contract[0]->contractStatus <> App\Contract::CANCELLED)
                  @can('BEC')    
-                  <a href="{{route('invoicesDetails.index', ['btnReturn'=> 'mod_cont','id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
+                  <a href="{{route('invoicesDetails.index', ['btnReturn'=> 'mod_cont','btnReturn'=> 'mod_cont','id' => $invoice->invoiceId])}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Renglones">
                         <span class="fa fa-book" aria-hidden="true"></span> 
                     </a>
                   @endcan
