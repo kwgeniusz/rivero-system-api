@@ -87,8 +87,8 @@ class ProposalDetail extends Model
      public function setAmountAttribute($amount)
     {
           if($amount != null) { 
-        $amount = number_format((float)$amount, 2, '.', '');
-    }
+              $amount = number_format((float)$amount, 2, '.', '');
+           }
         return $this->attributes['amount'] = encrypt($amount);
     }
 //--------------------------------------------------------------------
@@ -328,7 +328,8 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
 
                 $services = ProposalDetail::where('categoryId', $item->categoryId)->where('proposalId', $proposalId)->get();
                    if (count($services) > 0) {
-                       $item->unit     = $services[0]->unit;
+                      
+                       $item->unit1    = $services[0]->unit;
                        $item->unitCost = $services[0]->unitCost;
                        $item->quantity = $services[0]->quantity;
                     }
@@ -403,7 +404,7 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
             ->where('companyId', $companyId)
             ->get();
 
-        $categories_ids_with_services = collect(DB::select('SELECT * FROM in_service_category WHERE EXISTS (SELECT PropDetailId FROM proposal_detail WHERE proposal_detail.categoryId = in_service_category.categoryCode AND companyId =' . $companyId . ' AND proposalId =' . $proposalId . ')'));
+        $categories_ids_with_services = collect(DB::select('SELECT * FROM in_service_category WHERE EXISTS (SELECT propDetailId FROM proposal_detail WHERE proposal_detail.categoryId = in_service_category.categoryId AND companyId =' . $companyId . ' AND proposalId =' . $proposalId . ')'));
 
         $cat_without_roots_categories = $categories_ids_with_services->reject(function ($item) {
             return $item->categoryParentId == 0;

@@ -127,60 +127,60 @@ public function setCostAttribute($cost)
     }
 //------------------------------------------
 //  RECURSIVE QUERIES
-  public function markLeafItems($collection, $categoryParentId = NULL)
-  {
-    foreach ($collection as $item) {
+//   public function markLeafItems($collection, $categoryParentId = NULL)
+//   {
+//     foreach ($collection as $item) {
 
-        if (count($item->childrenCategoriesTree) !== 0) {
+//         if (count($item->childrenCategoriesTree) !== 0) {
 
-            $item->leaf = false;
+//             $item->leaf = false;
 
-            foreach ($item->childrenCategoriesTree as $children) {
+//             foreach ($item->childrenCategoriesTree as $children) {
 
-                if (count($children->childrenCategoriesTree) !== 0) {
+//                 if (count($children->childrenCategoriesTree) !== 0) {
 
-                    $children->leaf = false;
-                    $this->markLeafItems($children->childrenCategoriesTree, $children->categoryId);
-                } else {
+//                     $children->leaf = false;
+//                     $this->markLeafItems($children->childrenCategoriesTree, $children->categoryId);
+//                 } else {
 
-                    $children->leaf = true;
-                    $this->markLeafItems($children->childrenCategoriesTree, $children->categoryId);
-                }
-            }
-        } else {
+//                     $children->leaf = true;
+//                     $this->markLeafItems($children->childrenCategoriesTree, $children->categoryId);
+//                 }
+//             }
+//         } else {
 
-            $item->leaf = true;
-            $this->loadRelatedModels($item);
-            dd($item);
-            exit();
+//             $item->leaf = true;
+//             $this->loadRelatedModels($item);
+//             dd($item);
+//             exit();
 
-            //Sustitucion aqui
-        }
-    }
-  }
+//             //Sustitucion aqui
+//         }
+//     }
+//   }
 
-  public function loadRelatedModels(ServiceCategory $serviceCategory)
-  {
-     $services = DB::table('in_service')->where('categoryId', $serviceCategory->categoryId)->get();
-     $serviceCategory->services = $services;
+//   public function loadRelatedModels(ServiceCategory $serviceCategory)
+//   {
+//      $services = DB::table('in_service')->where('categoryId', $serviceCategory->categoryId)->get();
+//      $serviceCategory->services = $services;
  
-     return $serviceCategory;
- }  
+//      return $serviceCategory;
+//  }  
  
- public function showAllCompanyCategoriesHierarchicalMode($companyId)
- {
-   $categories = ServiceCategory::with('childrenCategoriesTree')
-       ->orderBy('categoryCode', 'ASC')
-       ->where('categoryParentId', 0)
-       ->where('companyId', $companyId)
-       ->get();
+//  public function showAllCompanyCategoriesHierarchicalMode($companyId)
+//  {
+//    $categories = ServiceCategory::with('childrenCategoriesTree')
+//        ->orderBy('categoryCode', 'ASC')
+//        ->where('categoryParentId', 0)
+//        ->where('companyId', $companyId)
+//        ->get();
        
    
-   $this->markLeafItems($categories);
+//    $this->markLeafItems($categories);
 
-   dd($categories);
-   exit();
+//    dd($categories);
+//    exit();
 
-   return response()->json(['data' => $categories], 200);
- }
+//    return response()->json(['data' => $categories], 200);
+//  }
 }

@@ -409,7 +409,7 @@
 		          	         	<td width="30%" >{{$subcategory2->accountCode}}</td>
 		          	         	<td width="40%" >{{$space}}&nbsp;&nbsp;&nbsp;&nbsp;{{$subcategory2->categoryName}}</td>
 		          	         	<td width="10%" align="center">
-			                      	{{$subcategory2->unit}}
+			                      	{{$subcategory2->unit1}}
 			                  	</td>
 			                  	<td width="15%" align="center">
 			                  	   {{$subcategory2->quantity}}

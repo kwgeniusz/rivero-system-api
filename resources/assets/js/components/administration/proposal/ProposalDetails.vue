@@ -112,28 +112,28 @@
                  <td>{{category.accountCode}}</td>
                  <td>{{category.categoryName}}</td>
                  <td>
-                     <select v-if="editModeCategory === categoryIndex" class="form-control" v-model="category.unit">
+                     <select v-if="editModeCategory === category.categoryId" class="form-control" v-model="category.unit">
                        <option value="sqft">sqft</option>
                        <option value="ea">ea</option>
                      </select>
                      <p v-else>{{category.unit}}</p> 
                 </td>
                 <td>
-                  <input v-if="editModeCategory === categoryIndex" type="number" step=".00" class="form-control" v-model="category.quantity" @keyup="calculateItemAmount(categoryIndex,category)">
+                  <input v-if="editModeCategory === category.categoryId" type="number" step=".00" class="form-control" v-model="category.quantity" @keyup="calculateCategoryAmount(categoryIndex,category)">
                   <p v-else>{{category.quantity}}</p> 
                 </td>
                 <td>
-                  <input v-if="editModeCategory === categoryIndex" type="number" step=".00" class="form-control" v-model="category.unitCost" @keyup="calculateItemAmount(categoryIndex,category)">
+                  <input v-if="editModeCategory === category.categoryId" type="number" step=".00" class="form-control" v-model="category.unitCost" @keyup="calculateCategoryAmount(categoryIndex,category)">
                   <p v-else>{{category.unitCost}}</p> 
                </td>
                 <td> {{category.amount}}</td>
                 <td>
-                   <a v-if="editModeCategory === -1" @click="editItemList(categoryIndex, category)" class="btn btn-sm btn-primary" title="Editar" > 
+                   <!-- <a v-if="editModeCategory === -1" @click="editItemList(categoryIndex, category)" class="btn btn-sm btn-primary" title="Editar" > 
                      <i class="fa fa-edit"></i>
                    </a>   
-                   <a v-if="editModeCategory === categoryIndex" @click="updateItemList(category)" class="btn btn-sm btn-success">
+                   <a v-if="editModeCategory === category.categoryId" @click="updateItemList(category)" class="btn btn-sm btn-success">
                      <i class="glyphicon glyphicon-ok"></i>
-                   </a> 
+                   </a>  -->
                    <a v-if="category.categoryId" @click="deleteRow(categoryIndex,'',category)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
                                  <span class="fa fa-times-circle" aria-hidden="true"></span> 
                    </a>
@@ -151,19 +151,19 @@
                   <td>{{service.serviceName}}</td>
                   <td>{{service.unit}}</td>
                   <td>
-                    <input v-if="editModeService === serviceIndex" type="number" step=".00" class="form-control" v-model="service.quantity" @keyup="calculateItemAmount(serviceIndex,service)">
+                    <input v-if="editModeService == service.serviceId" type="number" step=".00" class="form-control" v-model="service.quantity" @keyup="calculateServiceAmount(serviceIndex,service)">
                     <p v-else>{{service.quantity}}</p> 
                  </td>
                  <td>
-                    <input v-if="editModeService === serviceIndex" type="number" step=".00" class="form-control" v-model="service.unitCost" @keyup="calculateItemAmount(serviceIndex,service)">
+                    <input v-if="editModeService == service.serviceId" type="number" step=".00" class="form-control" v-model="service.unitCost" @keyup="calculateServiceAmount(serviceIndex,service)">
                     <p v-else>{{service.unitCost}}</p> 
                 </td>
                  <td> {{service.amount}}</td>
                  <td>
-                   <a v-if="editModeService === -1" @click="editItemList(serviceIndex, service)" class="btn btn-sm btn-primary" title="Editar" > 
+                   <a v-if="editModeService == -1" @click="editItemList(serviceIndex, service)" class="btn btn-sm btn-primary" title="Editar" > 
                      <i class="fa fa-edit"></i>
                    </a>   
-                   <a v-if="editModeService === serviceIndex" @click="updateItemList(service)" class="btn btn-sm btn-success">
+                   <a v-if="editModeService == service.serviceId" @click="updateItemList(service)" class="btn btn-sm btn-success">
                      <i class="glyphicon glyphicon-ok"></i>
                    </a> 
                    <a v-if="service.serviceId" @click="deleteRow(categoryIndex, serviceIndex, service)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
@@ -377,7 +377,7 @@ export default {
 
              let servicesArray = response.data
       
-            servicesArray.forEach(element => {
+             servicesArray.forEach(element => {
       
                // Encontrar si existe la categoria en la propuesta que se esta montando
                let found = this.itemList.find(item => item.categoryId == element.categoryId);
@@ -397,14 +397,19 @@ export default {
                                        });
                       // alert('no se encontro la categoria en el arreglo, crearla');
                   }
-                  //acumular saldo de los valores
-
             //  Buscar el indice de la categoria existente para insertar en servicio en la categoria especifica
               let categoryIndex = this.itemList.findIndex(object => {
                     return object.categoryId === element.category.categoryId;
               });
-                  this.itemList[categoryIndex].unitCost += parseFloat(element.unitCost)
-                  this.itemList[categoryIndex].amount   += parseFloat(element.amount)
+
+            // acumular saldo de los valores
+                  this.itemList[categoryIndex].unitCost += parseFloat(element.unitCost);
+                  this.itemList[categoryIndex].amount   += parseFloat(element.amount);
+
+                 parseFloat(this.itemList[categoryIndex].unitCost).toFixed(2); 
+                 parseFloat(this.itemList[categoryIndex].amount).toFixed(2); 
+        
+                  
                   
                  this.itemList[categoryIndex].childrens.push({ 
                                      serviceId:  element.serviceId,
@@ -450,7 +455,7 @@ export default {
             // Encontrar si existe la categoria en la propuesta que se esta montando
                let found = this.itemList.find(item => item.categoryId == this.selectedService.categoryId);
 
-                //  Si no existe la categoria en la propuesta, se insert
+                //  Si no existe la categoria en la propuesta, se inserta
                    if(!found) {
                      this.itemList.push({ 
                                          categoryId: this.selectedService.categories.categoryId,
@@ -460,7 +465,7 @@ export default {
                                          quantity: this.modelQuantity,
                                          unit: this.modelUnit,
                                          unitCost: this.modelUnitCost,
-                                         amount: this.sumTotal,
+                                         amount: 0,
                                          childrens: []
                                        });
                       // alert('no se encontro la categoria en el arreglo, crearla');
@@ -470,7 +475,7 @@ export default {
               let categoryIndex = this.itemList.findIndex(object => {
                     return object.categoryId === this.selectedService.categories.categoryId;
               });
-//  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
+           //  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
               this.itemList[categoryIndex].childrens.push({ 
                                      serviceId: this.selectedService.serviceId,
                                      isHeaderTag: 'N',
@@ -494,9 +499,9 @@ export default {
       editItemList: function(index, item){
          //Editar valor que encuentre del arreglo
               if(item.isHeaderTag == 'Y'){
-                  this.editModeCategory = index
+                  this.editModeCategory = item.categoryId
               }else{
-                  this.editModeService = index
+                this.editModeService = item.serviceId
               }
         },
       updateItemList: function(item){
@@ -523,9 +528,7 @@ export default {
              --rowIndex;
              this.itemList.splice(rowIndex + 1, 0, this.itemList.splice(rowIndex, 1)[0]);
            },
-        calculateItemAmount: function(index,item) { 
-          // console.log(index)
-          // console.log(item);
+        calculateCategoryAmount: function(index,item) { 
           //regla: si no es un numero ponle cero
            if(item.unitCost == '' || item.unitCost == 0) {
               // item.unitCost = 1;
@@ -533,36 +536,59 @@ export default {
            if(item.quantity == '' || item.quantity == 0) {
               // item.quantity = 1;
           }
+           //  let amountRs     = item.unitCost * item.quantity;
+           //  item.amount  = parseFloat(amountRs).toFixed(2);
 
-             let amountRs = item.unitCost * item.quantity;
-                 item.amount  = parseFloat(amountRs).toFixed(2);
-
+            //  divide el monto unitario de la categoria que se inserta, para asignar montos unitarios a los servicios
              let unitCostToEachChild =   item.unitCost / item.childrens.length;
              
                    let n = item.childrens.length;
+                   let totalCategoryAmount = 0;
                     for (let i = 0; i < n; ++i) {
                          let counter = i; counter++;
 
                           //  Validacion para redondear decimales
                             //  if(counter !== n){
-                              // asignar cantidad y costo unitario 
+                              // asignar cantidad y costo unitario a cada servicio
                                  item.childrens[i].quantity = item.quantity;
                                  item.childrens[i].unitCost = parseFloat(unitCostToEachChild).toFixed(2);
-                              // asignar 
+                                //  item.childrens[i].unitCost = unitCostToEachChild;
+                              // asignar monto a cada servicio
                                  let amountToEachChild      = unitCostToEachChild * item.quantity;
                                  item.childrens[i].amount   = parseFloat(amountToEachChild).toFixed(2);
+                                //  item.childrens[i].amount   = amountToEachChild;
+                              // Acumulacion del monto de la categoria
+                                 totalCategoryAmount += amountToEachChild; 
                             // }else{
          
                             // }
-
                         }
-            
-            //  let myObj = this.itemList.find(el => el.categoryId == item.categoryId);
-            //      myObj.amount = parseFloat(amountRs).toFixed(2);
 
-          //SI, el item modificado es un servicio, realiza la suma el Header Tag
+                   item.amount  = parseFloat(totalCategoryAmount).toFixed(2);
           
-        },     
+        },  
+       calculateServiceAmount: function(index,item) { 
+
+            let amountRs = item.unitCost * item.quantity;
+            item.amount  = parseFloat(amountRs).toFixed(2);
+    
+  
+            //  Buscar el indice de la categoria existente para insertar en servicio en la categoria especifica
+              let categoryIndex = this.itemList.findIndex(object => {
+                return object.categoryId === item.categoryId;
+              });
+              // console.log(this.itemList[categoryIndex].amount)
+           //  Si existe la categoria, debo insertar el servicio  dentro de esa categoria existente en la propuesta
+                                                     
+              this.itemList[categoryIndex].unitCost = this.itemList[categoryIndex].childrens.map(item => parseFloat(item.unitCost)).reduce((prev, curr) => prev + curr, 0);
+              this.itemList[categoryIndex].amount = this.itemList[categoryIndex].childrens.map(item => parseFloat(item.amount)).reduce((prev, curr) => prev + curr, 0);
+
+            
+              // this.itemList[categoryIndex].unitCost = parseFloat(this.itemList[categoryIndex].unitCost) + parseFloat(item.unitCost);
+              // this.itemList[categoryIndex].amount   = parseFloat(this.itemList[categoryIndex].amount) + parseFloat(amountRs);
+
+          
+        },        
          saveProposal: function() {
            this.errors = [];
            //VALIDATIONS

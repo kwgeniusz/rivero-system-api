@@ -57,8 +57,8 @@ class AdministrationControllerPDF extends Controller
    $client            = $proposal[0]->client;
    $date              = Carbon::parse($proposal[0]->proposalDate)->format('F jS, Y');  
   
-   dd($proposalDetails);
-   exit();
+   // dd($proposalDetails);
+   // exit();
 
 
         if($proposal[0]->precontract){
