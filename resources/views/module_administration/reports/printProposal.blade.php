@@ -415,7 +415,7 @@
 			                  	   {{$subcategory2->quantity}}
 			                  	</td>
 			                  	<td width="15%" align="center">
-			                  	   {{$moneySymbol}} {{$subcategory2->unitCost}}
+			                  	   {{$moneySymbol}} {{number_format((float)$subcategory2->unitCost, 2, '.', '')}}
 			                  	</td>
 			                  	<td width="15%" align="right"> 
 			                  	   {{$moneySymbol}}  {{number_format((float)$subcategory2->totalServicesAmount, 2, '.', '')}}
@@ -449,8 +449,7 @@
 				
 			
 		@php
-		    $subTotalPerPage += $propDetail->amount; //acumulacion de subtotal de pagina
-		    $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+		   
 	}// FIN DE FOREACH DE RENGLONES
 	@endphp
 		<tr >

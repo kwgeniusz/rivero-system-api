@@ -108,7 +108,7 @@ class AdministrationControllerPDF extends Controller
                  'modelType' => $modelType,
                  'modelTypeView' => $modelTypeView,
                  'pdf' => $pdf,
-                      ];
+                ];
                //  dd($data);
                //  dd($proposal[0]->$modelType->siteAddress);
 

@@ -33,7 +33,7 @@
             :reduce="serviceCategories => serviceCategories" label="item_data"/>
           </div>
 
-        <div class="input-label boxes2" v-if="subcategorySelected1">
+        <div class="input-label boxes2" v-if="categorySelected != null">
             <label for="serviceId">SUB-CATEGORIA 1</label>
             <v-select @input="getSubcategory2()" 
             v-model="subcategorySelected1" 
@@ -42,7 +42,7 @@
           </div>
 
 
-         <div class="input-label boxes2" v-if="subcategorySelected2">
+         <div class="input-label boxes2" v-if="subcategorySelected1 != null">
             <label for="serviceId">SUBCATEGORIA 2</label>
             <v-select @input="filterServicesList()" 
             v-model="subcategorySelected2" 
@@ -50,7 +50,7 @@
             :reduce="listSubcategory2 => listSubcategory2" label="item_data"/>
           </div>
           
-          <div class="input-label boxes2" >
+          <div class="input-label boxes2" v-if="subcategorySelected2 != null">
             <label for="serviceId">SERVICIO</label>
             <v-select @input="pasteServiceInfo()" 
             v-model="selectedService" 
@@ -112,7 +112,7 @@
                  <td>{{category.accountCode}}</td>
                  <td>{{category.categoryName}}</td>
                  <td>
-                     <select v-if="editModeCategory === category.categoryId" class="form-control" v-model="category.unit">
+                     <select v-if="editModeCategory === category.categoryId" class="form-control" v-model="category.unit" >
                        <option value="sqft">sqft</option>
                        <option value="ea">ea</option>
                      </select>
@@ -149,7 +149,13 @@
                   <td>{{categoryIndex}}.{{++serviceIndex}}</td>
                   <td>{{service.accountCode}}</td>
                   <td>{{service.serviceName}}</td>
-                  <td>{{service.unit}}</td>
+                  <td>
+                     <select v-if="editModeService === service.serviceId" class="form-control" v-model="service.unit" @change="assignUnitToAll(service.unit)">
+                       <option value="sqft">sqft</option>
+                       <option value="ea">ea</option>
+                     </select>
+                     <p v-else>{{service.unit}}</p>                     
+                  </td>
                   <td>
                     <input v-if="editModeService == service.serviceId" type="number" step=".00" class="form-control" v-model="service.quantity" @keyup="calculateServiceAmount(serviceIndex,service)">
                     <p v-else>{{service.quantity}}</p> 
@@ -295,11 +301,11 @@ export default {
 
             servicecategories: [],
 
-            categorySelected:[],
+            categorySelected: null,
             listSubcategory:[],
-            subcategorySelected1:[],
+            subcategorySelected1:null,
             listSubcategory2:[],
-            subcategorySelected2:[],
+            subcategorySelected2:null,
             servicesFiltered:[],
 
             services: [],
@@ -440,7 +446,9 @@ export default {
                this.modelUnitCost = this.selectedService[0].cost2;
              }
           },
-
+        assignUnitToAll: function(unit) {
+            // alert(unit);
+        },
   /*----CRUD----- */
      addRow: function() {
            this.errors = [];
@@ -631,17 +639,24 @@ export default {
                }
           }, //end function saveProposal
           getSubcategory(){
-            this.listSubcategory = this.categorySelected.children_categories_tree;
-            this.listSubcategory.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
+            if(this.categorySelected != null) { 
+                 this.listSubcategory = this.categorySelected.children_categories_tree;
+                 this.listSubcategory.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
+            }
           },
           getSubcategory2(){
-            this.listSubcategory2 = this.subcategorySelected1.children_categories_tree;
-            this.listSubcategory2.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
+            if(this.subcategorySelected1 != null) { 
+                this.listSubcategory2 = this.subcategorySelected1.children_categories_tree;
+                this.listSubcategory2.map(function (x){ return x.item_data = `${x.accountCode} - (${x.categoryName})` });
+            }
+          
           },  
           filterServicesList(){
-            this.subcategorySelected2
-            this.servicesFiltered = this.services.filter(service => service.categoryId == this.subcategorySelected2.categoryId)
-            this.servicesFiltered.sort((x, y) => x.serviceId - y.serviceId);
+            // this.subcategorySelected2
+            if(this.subcategorySelected2 != null) { 
+                 this.servicesFiltered = this.services.filter(service => service.categoryId == this.subcategorySelected2.categoryId)
+                 this.servicesFiltered.sort((x, y) => x.serviceId - y.serviceId);
+            }
           },  
         //  categorySelected(value){
         //    console.log('sendCategory')

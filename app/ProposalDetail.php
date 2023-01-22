@@ -333,10 +333,11 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
                        $item->unitCost = $services[0]->unitCost;
                        $item->quantity = $services[0]->quantity;
                     }
-                $sumatoriaServiceCategory = $services->sum('amount');
+                $item->unitCost            = $services->sum('unitCost');
+                $item->totalServicesAmount = $services->sum('amount');
+                $item->services            = $services;
 
-                $item->totalServicesAmount = $sumatoriaServiceCategory;
-                $item->services = $services;
+                // $item->totalServicesAmount = $sumatoriaServiceCategory;
 
                 $item->makeHidden('childrenCategoriesTree');
                 
