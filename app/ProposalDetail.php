@@ -335,7 +335,7 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
                     }
                 $item->unitCost            = $services->sum('unitCost');
                 $item->totalServicesAmount = $services->sum('amount');
-                $item->services            = $services;
+                $item->services            = $services->sortBy('serviceId');
 
                 // $item->totalServicesAmount = $sumatoriaServiceCategory;
 
@@ -384,6 +384,8 @@ function cascadeBalanceUpdate($proposalId, $selectedService)
                                     return $record;
                                 }
                             })->values();
+
+
 
                             $children->related_records = $meh2;
 

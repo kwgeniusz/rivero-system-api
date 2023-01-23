@@ -304,6 +304,8 @@ class PrecontractProposalController extends Controller
                       $this->oInvoiceDetail->insert(
                        $invoice->invoiceId,
                        $proposalDetail->itemNumber,
+                       $proposalDetail->isHeaderTag,
+                       $proposalDetail->categoryId,
                        $proposalDetail->serviceId,
                        $proposalDetail->serviceName,
                        $proposalDetail->unit,

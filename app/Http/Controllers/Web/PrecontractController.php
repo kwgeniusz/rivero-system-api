@@ -234,10 +234,8 @@ class PrecontractController extends Controller
      if($precontract->contractId != null ){
         throw new \Exception('Error: Ya este precontrato fue convertido');
      }
-     
-  
-           
-            //insertar el nuevo contrato
+
+    //insertar el nuevo contrato
             $contract = $this->oContract->insertContract(
                 $precontract->countryId,
                 $precontract->companyId,
@@ -282,6 +280,8 @@ class PrecontractController extends Controller
                       $this->oInvoiceDetail->insert(
                        $invoice->invoiceId,
                        $proposalDetail->itemNumber,
+                       $proposalDetail->isHeaderTag,
+                       $proposalDetail->categoryId,
                        $proposalDetail->serviceId,
                        $proposalDetail->serviceName,
                        $proposalDetail->unit,
