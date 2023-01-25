@@ -12,6 +12,7 @@ Route::resource('invoicesNotes', 'Web\InvoiceNoteController');
 Route::resource('invoicesScopes', 'Web\InvoiceScopeController');
 Route::resource('invoicesDetails', 'Web\InvoiceDetailController');
 Route::get('invoicesDetails/{invoiceId}/withPrice', 'Web\InvoiceDetailController@getWithPriceByInvoice')->name('invoicesDetails.withPrice');
+Route::get('invoicesDetails/{invoiceId}/with-categories', 'Web\InvoiceDetailController@getWithCategoriesByInvoice')->name('invoicesDetails.withCategories');
 Route::get('invoicesPayments/{id}', 'Web\InvoiceController@payments')->name('invoices.payments');
 Route::post('invoicesPayments/add', 'Web\InvoiceController@paymentsAdd')->name('invoices.paymentsAdd');
 Route::get('invoicesPayments/{id}/{invoiceId}/remove', 'Web\InvoiceController@paymentsRemove')->name('invoices.paymentsRemove');

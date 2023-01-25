@@ -67,18 +67,30 @@
                   <div v-if="invoice.proposal">
                     <center><b><u>Alcance</u></b></center>
                     <br>
-                    <p v-for="(scope,index3) in invoice.proposal.scope">
+                      <p v-for="(scope,index3) in invoice.proposal.scope">
                              - {{scope.description}}
-                     </p>
+                      </p>
                   </div>
-
                   <!-- Centering the text with just a "center" tag-->
                   <div>
                     <center><b><u>Requerimientos</u></b></center>
-                    <br>
-                     <p v-for="(invoiceDetail,index1) in invoice.invoice_details">
-                           - {{invoiceDetail.serviceName}}      
-                     </p>
+                    <!-- {{invoice}} -->
+                     <div v-for="(category) in invoice.invoice_details_with_categories" :key="category.categoryId">
+                            {{category.accountCode}} - {{category.categoryName}}
+                               
+                            <div v-for="(subcategory1) in category.related_records" :key="subcategory1.categoryId">
+                                {{subcategory1.accountCode}} - {{subcategory1.categoryName}}
+
+                                  <div v-for="(subcategory2) in subcategory1.related_records" :key="subcategory2.categoryId">
+                                   {{subcategory2.accountCode}} - {{subcategory2.categoryName}}
+
+                                        <div v-for="(service) in subcategory2.services" :key="service.categoryId">
+                                          {{service.service.accountCode}} - {{service.serviceName}}
+                                       </div>
+                                 </div>
+
+                          </div>
+                      </div>
                   </div>
 
                  <!-- Centering the text with just a "center" tag-->
@@ -169,31 +181,40 @@
      data: function () {
           return {
            contract: null,
-           invoicesList: {}
+           invoicesList: {},
+           
           }
     },
     methods: {
        openMainModal: function (){
+
           //llamar los detalles del contrato
           axios.get('contracts/'+this.contractId).then(response => {
                  this.contract = response.data
             });
-
           //llamar las facturas activas del contrato, con detalles, notas, alcances
           axios.get('invoices?id='+this.contractId).then(response => {
-                  this.invoicesList = response.data
-                //  console.log(this.invoicesList);
-            });
+                this.invoicesList = response.data
+
+                this.invoicesList.forEach(function(invoice) {
+                  axios.get('invoicesDetails/'+invoice.invoiceId+'/with-categories').then(response => {
+                      Vue.set(invoice, 'invoice_details_with_categories', response.data);
+                      console.log(invoice)
+                    }); //second get
+                }); //foreach
+
+            }); //firts get
 
             this.$refs.mainModal.open()
-        },
-             nl2br: function(str, is_xhtml) {
-        if (typeof str === 'undefined' || str === null) {
-              return '';
-         }
-      var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
-      return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
-    },
+
+      },
+       nl2br: function(str, is_xhtml) {
+               if (typeof str === 'undefined' || str === null) {
+                     return '';
+                }
+            var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+            return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+      },
 
       } //FIN DE METHODS
      }

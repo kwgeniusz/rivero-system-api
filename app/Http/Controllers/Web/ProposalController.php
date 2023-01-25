@@ -276,7 +276,7 @@ class ProposalController extends Controller
         DB::beginTransaction();
         try {
              //traer todos los datos del proposal
-             $proposal     = $this->oProposal->FindById($request->proposalId,session('countryId'),session('companyId')); 
+             $proposal = $this->oProposal->FindById($request->proposalId,session('countryId'),session('companyId')); 
 
           
            if($proposal[0]->invoiceId != null ){

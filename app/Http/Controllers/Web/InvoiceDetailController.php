@@ -26,7 +26,7 @@ class InvoiceDetailController extends Controller
 
     public function index(Request $request)
     {
-        $invoice = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
+        $invoice  = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
         $contract = $this->oContract->findById($invoice[0]->contractId,session('countryId'),session('companyId'));
 
         //EVITA QUE ENTREN POR URL SI ESTA CERRADA LA FACTURA
@@ -98,7 +98,8 @@ class InvoiceDetailController extends Controller
 
      public function show(Request $request,$id)
     {
-        $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($id);
+        // $invoicesDetails = $this->oInvoiceDetail->getAllByInvoice($id);
+        $InvoicesDetails   = $this->oInvoiceDetail->showAllCompanyCategoriesHierarchicalMode(session('companyId'), $id);
 
           if($request->ajax()){
                 return $invoicesDetails;
@@ -109,7 +110,12 @@ class InvoiceDetailController extends Controller
 
    public function getWithPriceByInvoice($invoiceId)
     {
-        $result = $this->oInvoiceDetail->getWithPriceByInvoice($invoiceId);
+         $result = $this->oInvoiceDetail->getWithPriceByInvoice($invoiceId);
+         return $result;
+    }
+    public function getWithCategoriesByInvoice($invoiceId)
+    {
+         $result = $this->oInvoiceDetail->showAllCompanyCategoriesHierarchicalMode(session('companyId'), $invoiceId);
          return $result;
     }
 }

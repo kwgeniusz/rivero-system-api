@@ -277,7 +277,7 @@ class PrecontractController extends Controller
                   Auth::user()->userId);
 
                foreach ($proposal[0]->proposalDetail as $proposalDetail) {
-                      $this->oInvoiceDetail->insert(
+                   $rs = $this->oInvoiceDetail->insert(
                        $invoice->invoiceId,
                        $proposalDetail->itemNumber,
                        $proposalDetail->isHeaderTag,
@@ -304,8 +304,6 @@ class PrecontractController extends Controller
                 // dd($precontract->document[0]->docId);
                 // dd($contract->contractId);
 
-
-               
                //eliminar precontrato
             $this->oPrecontract->assignContractId($precontract->precontractId,$contract->contractId);       
             $this->oProposal->assignInvoiceId($proposal[0]->proposalId,$invoice->invoiceId);       
