@@ -55,7 +55,7 @@
      <div v-if="invoice.invStatusCode != 4" v-for="(invoice,index) in invoicesList" >
    <!-- {{invoice.invStatusCode}} -->
              <div class="bg-info" role="button" data-toggle="collapse" :href="'#'+invoice.invId+'-request'" aria-expanded="false" style="" >
-                         <b>Solicitud #{{++index}} {{invoice.project_description.projectDescriptionName}} ({{invoice.invoice_status[0].invStatusName}})</b>
+                  <b>Solicitud #{{++index}} {{invoice.project_description.projectDescriptionName}} ({{invoice.invoice_status[0].invStatusName}})</b>
               </div>
                  <!-- collapse -->
               <div  class="collapse" :id="invoice.invId+'-request'">
@@ -72,7 +72,7 @@
                       </p>
                   </div>
                   <!-- Centering the text with just a "center" tag-->
-                  <div>
+                  <div v-if="invoice.invoice_details_with_categories.length > 0">
                     <center><b><u>Requerimientos</u></b></center>
                     <!-- {{invoice}} -->
                      <div v-for="(category) in invoice.invoice_details_with_categories" :key="category.categoryId">
@@ -92,16 +92,21 @@
                           </div>
                       </div>
                   </div>
+                  <div v-else>
+                    <center><b><u>Requerimientos</u></b></center>
+                    <!-- {{invoice}} -->
+                      <p v-for="(service) in invoice.invoice_details" :key="service.serviceId">
+                             -{{service.serviceName}}
+                     </p>
+                  </div>
 
                  <!-- Centering the text with just a "center" tag-->
                   <div>
                     <center><b><u>Pagos</u></b></center>
                     <br>
-
                         <p v-for="(payment) in invoice.proposal.payment_proposal">
                              - {{payment.paymentDate}}     
                         </p>
-                     
                   </div>
 
                   <div v-if="invoice.proposal">
