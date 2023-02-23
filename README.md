@@ -6,6 +6,7 @@ A little info about your project and/ or overview that explains what the project
 * PHP 7.0
 * Laravel 5.0
 * VueJS 2.0
+* Docker (Implementation)
 
 
 ## Requerimientos
