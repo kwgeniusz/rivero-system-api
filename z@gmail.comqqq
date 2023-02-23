@@ -1,0 +1,1019 @@
+[33mcommit 6c72267f1c602f4e68fcc07a96ae483ec4426161[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Thu Oct 15 15:43:38 2020 -0400
+
+    correction in AdministrationReportController, It wasn't giving the variable  to the template blade
+
+[33mcommit 2d27bdb9f1a9be1f73020565fe384a5961d7fcf4[m
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Thu Oct 8 10:18:59 2020 -0400
+
+    correction of marge and client by cmopany in proposal
+
+[33mcommit 07319db97a03253f0e95f596eb029c79fa0c133c[m
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Thu Sep 3 22:36:54 2020 -0400
+
+    restructuring about comment to avoid polymorpihc relations
+
+[33mcommit c88a9252f9cad499032f6682cad72f93a66f82e6[m
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Tue Aug 25 21:55:18 2020 -0400
+
+    finished changes of point of sale
+
+[33mcommit 15cb39a6470e58a3e39b064b7b2bb31e51299870[m
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Mon Aug 24 11:42:59 2020 -0400
+
+    starting management point of sale changes
+
+[33mcommit b81b49cc7ab73a664f825ceae0a8d4edacbb983f[m
+Merge: 0ac9f2e b88bf85
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Thu Aug 20 13:49:34 2020 -0400
+
+    Merge branch 'develop' of https://gitlab.com/manuelcastro23/rivero-system into develop
+    
+    merge manuel
+
+[33mcommit 0ac9f2eabddc6f365744ac2ed9c9e19e11491b0a[m
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Thu Aug 20 13:46:54 2020 -0400
+
+    en proceso mejoras de reportes
+
+[33mcommit b88bf852f3d6b0d188498f53d88003e45f45cd94[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Wed Aug 19 20:43:24 2020 -0400
+
+    Modificada la forma de eliminacion de las trasacciones permanentes al actualizar nomina
+
+[33mcommit 3745bf1fb7cb6dd242a8163c853a23082bed1f26[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Wed Aug 19 18:20:54 2020 -0400
+
+    se muestra el reporte de nomina, en distintas monedas
+
+[33mcommit a19c6cbe25cd8cee26987461c85df86a52503231[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Sat Aug 15 00:01:22 2020 -0400
+
+    Ya se actualiza Nomina... Se validan los usuarios en periodo de prueba, tambien se valida si la fhecha de ingreso es superior a la fecha fin de periodo de prueba. se actualizan tambien los balances en las transacciones permanentes automaticamente. Y se eliminan los datos de la prenomina actualizada, de forma automatica
+
+[33mcommit a3444543caf7b90708ffcc0b31afcae431d88779[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Sat Aug 8 17:59:42 2020 -0400
+
+    se agregaron parametros adicionales a la formula matematica para las transacciones, permitiendo que el balance se ajuste automaticamente al saldo a descontar en amount, Ya se pueden procesar descuentos que acumulen el balance, para los casos de ahorros en los empleados. Se agrego animacion al modulo para procesar la prenomina para evitar doble toque en botones y mostrar el proceso de pre nomina
+
+[33mcommit b4c8f0d86ec0e26b3d6e2733254de3a6b1b5bf8c[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Fri Aug 7 22:32:18 2020 -0400
+
+    creado los controladores, campos, parametro y calculos matematicos para generar las pre nominas en multiples monedas actualmente las monedas son  USD y VEF
+
+[33mcommit 51be362492383ae481e2791de74e0291d61efa57[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Fri Aug 7 15:33:29 2020 -0400
+
+    se agregaron 2 opciones nuevas para la tablas de pre nomina, monto en moneda local y tasa de cambio. un campo nuevo en currency para mantener actualizada la tasa de cambio, ahora tenemos el campo balance para la transacciones permanente, que nos permite establecer montos para los prestamos y posteriormente ir descontando al actualizar la nomina. Ya se puede bloquear el SSO unicamente para las personas de 3ra edad
+
+[33mcommit 2c8935c235b90f848213953f2c3909fa5a44509a[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Wed Aug 5 03:15:14 2020 -0400
+
+    se parametrizo el salario a usar, si la persona esta en periodo de prueba o no. Se enlazo en salario base los cargos al modulo de staff para ser cargados automaticamente. Se agregaron nuevas funcionalidas y campos para fecha de ingreso, periodo de prueba y fecha final de periodo de pruba. Se agrego campo deducciones para prosteriormente parametrizar si se aplican deducciones de SSO, FAOV, etc.
+
+[33mcommit 4ce2005558e33accde658e44251023026a2f80a8[m
+Merge: 6c06196 c45b37f
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Tue Aug 4 19:56:46 2020 -0400
+
+    merge
+
+[33mcommit 6c061963104f1607c3c78b39896a5b6ad59e4687[m
+Author: foxtnaider <46683504+foxtnaider@users.noreply.github.com>
+Date:   Tue Aug 4 19:55:12 2020 -0400
+
+    modulo de transacciones permanetes
+
+[33mcommit c45b37f228980753f788d1b395a6887549c622a4[m
+Merge: 2faa046 1f3501e
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Tue Aug 4 14:17:04 2020 -0400
+
+    merge
+
+[33mcommit 2faa046474c4db8ed180124ab73f2e3a7ca1b348[m
+Author: Kwgeniusz <kwgeniusz@gmail.com>
+Date:   Sat Aug 1 03:13:22 2020 -0400
+
+    terminado cambio de compania falta revisar
+
+[33mcommit 1f3501ef7f4053f6aa487b545da3b47b0572b8f3[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Wed Jul 29 05:22:26 2020 -0500
+
+    Way better looking buttons.
+
+[33mcommit 6321477abfa918c37b5e5eae50e38228ae7dd2b4[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Jul 21 15:37:18 2020 -0400
+
+    cambio general de oficina a compania en proceso
+
+[33mcommit 834877adeaa368b0fb2e77d63c70d987159d0dff[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jul 17 19:04:21 2020 -0400
+
+    notas de venta en proceso
+
+[33mcommit 5553e7f8d06a93c412de9dc49663759f03cef3f3[m
+Merge: 501946e aeefe06
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed Jul 15 13:51:10 2020 -0400
+
+    merge
+
+[33mcommit 501946e8b2e3e91cb47fea7093ebd7bc917a62cd[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed Jul 15 13:50:13 2020 -0400
+
+    merge
+
+[33mcommit aeefe06fae0c63d443ebaeb83e6950cd9ff2b9de[m
+Merge: 2ddc0f1 2a14b89
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Jul 15 13:28:04 2020 -0400
+
+    merge
+
+[33mcommit 2ddc0f14095967efa0965f1612a0508666049e38[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Jul 15 13:24:18 2020 -0400
+
+    comenzando con notas de credito
+
+[33mcommit 2a14b89e99bda4d1126b44516819aeb85eedcba0[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Tue Jul 14 21:06:09 2020 -0500
+
+    Col adjustment for cards.
+
+[33mcommit 12a4cba0397d5bed9e214be0e958545fe8ce0200[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Tue Jul 14 21:05:10 2020 -0500
+
+    New Chart Component (needs data configuration).
+
+[33mcommit 955ed05f3d029088405584f64fc42b8a9671ff74[m
+Merge: 992d023 e8124f9
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Jul 14 11:02:24 2020 -0400
+
+    merge manuel
+
+[33mcommit 992d0237a6909163081e91c84d752173d7d94ab3[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Jul 14 11:00:46 2020 -0400
+
+    facturas canceladas y collection
+
+[33mcommit e8124f93531279c5bbd9ec4c0da888a0891a089a[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Tue Jul 14 01:28:37 2020 -0500
+
+    Text fixed and proper tag (<i> instead of <span>).
+
+[33mcommit bdc1037ac51b332c7784a890353894692be84ea5[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Tue Jul 14 01:27:02 2020 -0500
+
+    Improved Stat Cards.
+
+[33mcommit a934586b827ec0e651e0954eaf0d9999b7d8e7ca[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Mon Jul 13 20:28:24 2020 -0500
+
+    Preview Bugfix (Testing needed).
+
+[33mcommit f2eade0c6f4d3584daba59587d444d24eb11bf30[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Mon Jul 13 20:27:05 2020 -0500
+
+    New Stat Cards (Needs further work).
+
+[33mcommit e6a1bc54508cdbdcd03e34e4408cf69664b22477[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jul 10 18:32:11 2020 -0400
+
+    consultas de estadisticas culminadas
+
+[33mcommit b24ec4cdba9dc82edb99d3c4ebce82b760e9413c[m
+Merge: 57c495f ba1dab0
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jul 10 17:16:12 2020 -0400
+
+    merge
+
+[33mcommit 57c495f91dcb5a270681f38d1b39a92dfab5fdd6[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jul 10 17:14:41 2020 -0400
+
+    Continuando estadisticas
+
+[33mcommit ba1dab077bf7ca76d608143e0c1cb00ade40ecaf[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Thu Jul 9 17:03:13 2020 -0500
+
+    Users/Clients Component for Dashboard Stats.
+
+[33mcommit 96dde0552da2c037519f3310cd2b525ce6355c1c[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Thu Jul 9 17:00:40 2020 -0500
+
+    SaSS Integration.
+
+[33mcommit 2abf6241790860bb3fc77048daeca925fb0f7e22[m
+Merge: 5251094 6441925
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Jul 9 16:37:21 2020 -0400
+
+    Merge branch 'develop' of https://gitlab.com/manuelcastro23/rivero-system into develop
+
+[33mcommit 5251094ae647349abf5f4e71b50e3fff983be84e[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Jul 9 16:36:32 2020 -0400
+
+    inicio de estadisticas
+
+[33mcommit 64419250455fa3b22f8ad346c132b3b5a60d29bb[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Thu Jul 9 00:05:13 2020 -0500
+
+    Favicon path fixed.
+
+[33mcommit 6f4a162c0e1484e14ee37130e6f111e62f7abbd9[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Thu Jul 9 00:02:53 2020 -0500
+
+    User Counter for Home Page (needs translation).
+
+[33mcommit 36dca71018eea95053959824f4887dd412de24b3[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Thu Jul 9 00:01:09 2020 -0500
+
+    Document Preview repairs (needs further testing).
+
+[33mcommit a13bfb478ad5e4d98aa07a419813ceb3c6f666a7[m
+Merge: 0a3aaf6 7ca550e
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Jul 8 16:34:53 2020 -0400
+
+    Merge branch 'develop' of https://gitlab.com/manuelcastro23/rivero-system into develop
+    
+    Merge Manuel
+
+[33mcommit 0a3aaf62edc573bbcf59523e9b9611a8d4551148[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Jul 8 16:33:24 2020 -0400
+
+    correcion eliminacion multiple, mostrar modal
+
+[33mcommit 7ca550e043e184cd16c402ee75b5c2cd913162c4[m
+Merge: 4767abd d17e39c
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed Jul 8 16:28:15 2020 -0400
+
+    merge
+
+[33mcommit 4767abd07427a13d66bcee85be49df8553bb821d[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed Jul 8 16:25:28 2020 -0400
+
+    reparado bug de control de paginacion en pdf de prenomina, que calculaba mal el tamaño de la pagina
+
+[33mcommit 9a55a3ec8b5300db295aad2d0d00dd8010678032[m
+Merge: bb38ca7 d17e39c
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Jul 7 17:10:51 2020 -0400
+
+    merge manuel
+
+[33mcommit bb38ca7003dd9f3bdfa779bfef6c181379b6a0e2[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Jul 7 17:08:45 2020 -0400
+
+    working to options of invoice
+
+[33mcommit d17e39cc5c0cc3b733ccd18eaf5ac3f9d0232bdd[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Tue Jul 7 15:04:22 2020 -0500
+
+    Document Preview Fixed (needs more testing).
+
+[33mcommit c0b35614aa724066effad21e225febcdf4908ab4[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Tue Jul 7 02:24:06 2020 -0500
+
+    Login improved (needs to be converted to VUE).
+
+[33mcommit 357df7f3bf3df0488c9c60e0b0d4f43b4d7bce76[m
+Author: Serverket <manuel.hernandez@riverovisualgroup.com>
+Date:   Tue Jul 7 01:09:12 2020 -0500
+
+    One README as it has to be.
+
+[33mcommit 10d0b942b0ae75c1c5f7d1be34c925f55e912b08[m
+Merge: 11cd45d f0a8792
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Mon Jul 6 13:52:19 2020 -0400
+
+    Merge branch 'develop' of https://gitlab.com/manuelcastro23/rivero-system into develop
+
+[33mcommit 11cd45daa44647ea2dad980680d2a42d5a1824d2[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Mon Jul 6 13:52:00 2020 -0400
+
+    Modificado algunos estilos visuales en botones y agregado nuevo estilo en formatos pdf
+
+[33mcommit f0a87929f9793e1e9f56af6822e0bad04b11aab0[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Tue Jun 30 03:36:24 2020 -0500
+
+    Style and presentation fixes, icons included.
+
+[33mcommit f8f53bc845c1023138a3570a190f523805d1f9b2[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Tue Jun 30 03:34:52 2020 -0500
+
+    Extra styles for SVG animations and later stuff.
+
+[33mcommit be54dfebc177f58a7d7863f6a8123024812cbae7[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Tue Jun 30 03:32:13 2020 -0500
+
+    Fixed duplicated menu icon.
+
+[33mcommit 2dca69b2c6b2722b321fd47ed7ee748bae0cdbdf[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Tue Jun 30 03:31:26 2020 -0500
+
+    Icons added.
+
+[33mcommit 609a8af803c4fe08d7d0b17353823c5ed7252bfd[m
+Merge: 20aff89 6f6d7e9
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 29 09:29:28 2020 -0400
+
+    merge manuelh
+
+[33mcommit 20aff896e67029798761e3ca8b85df5597dce0d4[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 29 09:27:17 2020 -0400
+
+    starting changes to invoices
+
+[33mcommit 6f6d7e9b7feba62ef8c7d57f1262bc87c390a15f[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Mon Jun 29 08:14:57 2020 -0500
+
+    Style performance improved.
+
+[33mcommit e0cc44ddb0bbc58d53c04b259d77c5f1a6d912bc[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Mon Jun 29 08:14:08 2020 -0500
+
+    Logo and favicon improvement.
+
+[33mcommit 52b71fd54659827e8102b5711ad2431b205bb122[m
+Merge: 9859dbc 840f124
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 26 23:01:09 2020 -0500
+
+    Several improvements.
+
+[33mcommit 9859dbc99dce718cba6472ee1ee02b9e53867533[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 26 22:41:12 2020 -0500
+
+    New comps,
+
+[33mcommit 91e80627601f7ff1b4678a19e18690060e3826f4[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 26 22:39:40 2020 -0500
+
+    Proper Sass importing and cleanup.
+
+[33mcommit 2db824e17b9c30c4ba51d7d30a592d5b56eddc33[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 26 22:38:13 2020 -0500
+
+    Improved variables and Sass format.
+
+[33mcommit 840f124d497d137df1ef72eb180121057b9fac54[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 22 08:30:32 2020 -0400
+
+    agregado app.js comprimido
+
+[33mcommit 60559f78a6f3e897738d53b55e1aa046ef474596[m
+Merge: c9954e8 0b95627
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 22 08:25:00 2020 -0400
+
+    merge
+
+[33mcommit c9954e8b28ade60c98c3db011fe121416f4913cc[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 22 08:21:16 2020 -0400
+
+    mejoras en las fechas del sistema con moment.js
+
+[33mcommit 0b95627f6b3bf967aaf931e10b7e82ec3c755d5e[m
+Merge: 4161ab7 e83f383
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Thu Jun 18 00:21:52 2020 -0400
+
+    Merge branch 'develop' of https://gitlab.com/manuelcastro23/rivero-system into develop
+
+[33mcommit 4161ab77ef4853f2fbc94a4d89ac65e9b1836aec[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Thu Jun 18 00:21:46 2020 -0400
+
+    Modificada query para la integracion de total general. reparado bug de lectura de pdf en adobe reader y bug al momento de mostrar las asignaciones y deducciones en el servidor
+
+[33mcommit e83f383e1d7ba2947259650e62961e790a3d209c[m
+Merge: 246ae85 7048058
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Jun 17 16:59:21 2020 -0400
+
+    Merge branch 'develop' of https://gitlab.com/manuelcastro23/rivero-system into develop
+    
+    commit merge
+
+[33mcommit 246ae850f21387d3927d29eaef815b7a086704be[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Jun 17 16:58:52 2020 -0400
+
+    cambios estados
+
+[33mcommit 70480583cbe8e6c3aafe792ea4fb94ad2631c02e[m
+Merge: 3ba497f e38b007
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed Jun 17 15:58:54 2020 -0400
+
+    merge
+
+[33mcommit 3ba497f194b3c08743cebaddfdb6a56f91c3fc39[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed Jun 17 15:57:50 2020 -0400
+
+    modificado el reporte pdf, agregado total general
+
+[33mcommit e38b00742d768f5aa812c834ef0c11d5e9736bab[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 15 10:26:21 2020 -0400
+
+    agregada seccion de comentarios (por revisar)
+
+[33mcommit 1e43b1b962b9246d399f6a9ad4407e920d7b9dbe[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jun 12 19:43:18 2020 -0400
+
+    comente la libreria video-js que retrasaba la carga del sistema
+
+[33mcommit 8b3142cfcb4258055e5a318f68a2474907d53e81[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 12 19:23:22 2020 -0400
+
+    actulizado los iconos a font awesome en emprimir pre nomina
+
+[33mcommit ac0919e4865ee23c733c6a77a98c633f5d5871b4[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 12 19:07:54 2020 -0400
+
+    app comprimido
+
+[33mcommit 27c49dbff0177b91274ee772433bc4d1985eef97[m
+Merge: 3b03a89 da43209
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 12 19:00:36 2020 -0400
+
+    merge
+
+[33mcommit 3b03a8982c91d2c0a7f60f0ed1b6448bed2f4fc8[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 12 18:55:26 2020 -0400
+
+    modificacion de reporte, y agragado el app comprimido
+
+[33mcommit da4320994ee66870eff49637a4ba54e3aae7d23f[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jun 12 13:12:31 2020 -0400
+
+    mejoras en permisos
+
+[33mcommit fd985049a3a4ffa6b518d523ccb49c5a2d33947e[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jun 12 12:26:31 2020 -0400
+
+    aprovacion merge, con nuevo app.js
+
+[33mcommit 52f0c447bcb40e4197f9d6f81a5c5fb1cb339139[m
+Merge: bb16b43 a9e6b1c
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jun 12 12:17:04 2020 -0400
+
+    merge
+
+[33mcommit bb16b436e19a5cde6a5edd424764d0717e116ec8[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jun 12 12:13:35 2020 -0400
+
+    trabajando en ficha tecnica de subcontratistas, cuentas por pagar y asociaciones con facturas, permisos, selector multiple de documentos.
+
+[33mcommit a9e6b1cdd8fe7a7de8d29860b33ce87b692c5d06[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 12 12:00:46 2020 -0400
+
+    modificado tamaño de letra en reporte PDF para ajustar los nombres
+
+[33mcommit 1553780df7166d7b1765327d026d4da42ef1560c[m
+Merge: 2865457 ec4bec2
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 12 11:29:47 2020 -0400
+
+    merge
+
+[33mcommit 2865457017bf26a5948fe6c5c42bef9a143121c3[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 12 11:27:47 2020 -0400
+
+    Modificacion de los datos para pre-nomina y botones en rrhh
+
+[33mcommit ec4bec2f03e8361d6e9b6c81f0c70f45d46db183[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 12 03:51:43 2020 -0500
+
+    Gitignore modificado para historial local
+
+[33mcommit 8e4b1c842ae0353e0f11817851b4931bf4656f7b[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 12 03:44:37 2020 -0500
+
+    Estilos ajustados para el Modal de Contratos
+
+[33mcommit 996f5a62e6d8dab1301c3c412d885de52f8f2ebc[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 12 03:43:56 2020 -0500
+
+    Modal de Contratos ajustado
+
+[33mcommit 162353afc4b40198d16e14785d87e27e422f44fd[m
+Author: rvg <rvg@localhost.localdomain>
+Date:   Fri Jun 12 03:43:18 2020 -0500
+
+    Documentación nueva
+
+[33mcommit 6dae69c93c3523cd22c064c1b80e3a13ce435c13[m
+Merge: faf89f7 835c285
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Thu Jun 11 10:22:44 2020 -0400
+
+    merge
+
+[33mcommit faf89f7cf54f23b1dc9a395049b48672ade38b32[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Thu Jun 11 10:21:24 2020 -0400
+
+    agregado datos adicionales en reporte pdf de pre nomina y en el detalle. Modificado los botones en modulo de RRHH y modificada query para los datos en el reporte pre nomina
+
+[33mcommit 835c285a098ca1e0853fea496532791867515e3a[m
+Merge: c7eb25b e8e2669
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jun 5 15:00:34 2020 -0400
+
+    merge manuel
+
+[33mcommit c7eb25baa34b4f84122772167678383b467d0a5e[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jun 5 14:59:41 2020 -0400
+
+    alcances en contratos
+
+[33mcommit e8e26696945d222348dd3d19b074c9c573a175bf[m
+Merge: c086f9a 13ce79b
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 5 12:05:29 2020 -0400
+
+    merge
+
+[33mcommit c086f9a639479fec83abfc94d7deb340a545eb23[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri Jun 5 12:03:13 2020 -0400
+
+    implementacion del reporte en pdf para pre-nomina
+
+[33mcommit 13ce79bf225af6b1197ca054b5540bd4f096da0e[m
+Merge: 57842d0 0f6349d
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Jun 4 00:32:01 2020 -0400
+
+    solucion merge
+
+[33mcommit 57842d052bfbe8b1987d4dceca69542b38f6d37c[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Jun 4 00:30:15 2020 -0400
+
+    agregada la opcion en facturas y propuestas de scope of works
+
+[33mcommit 0f6349dd83bd9adbbe012b7d7ef41828453ab9db[m
+Merge: b8b36fd ae692fc
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Tue Jun 2 21:59:05 2020 -0400
+
+    merging
+
+[33mcommit b8b36fdb271a01704aef7a5e6377c812cbd6e1a3[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Tue Jun 2 21:52:45 2020 -0400
+
+    mudificacion de query y vista para la pre nimina
+
+[33mcommit ae692fc8a19cd257fe975aa813e2e70eb75ffef3[m
+Merge: 749c441 adc99b1
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 1 23:23:00 2020 -0400
+
+    solucion de merge en app.js
+
+[33mcommit 749c441eba1703747cdf2b8e84bd94abf536344a[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Jun 1 23:12:04 2020 -0400
+
+    asociacion de subcontratistas con invoice details
+
+[33mcommit adc99b1a6abcc4e8d7813e9affe57d752137dbef[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Mon Jun 1 02:48:27 2020 -0400
+
+    creada interface basica y querys necesarias para las consultas y calculos para el modulo de impresion de nomina
+
+[33mcommit aaa0d43c2369f8c2f1a17dcc93b471a3db27a1ef[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Sat May 30 20:55:50 2020 -0400
+
+    implementado la Fase 1, para el calculo de la pre-nomina. Funcional en las primeras pruebas
+
+[33mcommit f983addeacb4d3f79bafab8308343a2e4f84eeee[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri May 29 11:03:11 2020 -0400
+
+    creacion de la primera face del modulo pre nomina
+
+[33mcommit ac5ddcf63f13727899f7289762d1d3500bffa9e3[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Thu May 28 13:03:48 2020 -0400
+
+    reparado errores de interaccion con BD con los nuevos cambios y eliminacion de los consoles.log
+
+[33mcommit 27358f0146c8051e32ef6f62567c0dadc3a65e1b[m
+Merge: 13a97b7 44e91ca
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Tue May 26 22:11:34 2020 -0400
+
+    s
+
+[33mcommit 13a97b72fca88a71988fea6a9eb2c376d493e6a9[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Tue May 26 22:05:52 2020 -0400
+
+    reparado error q no permitia guardar en company
+
+[33mcommit f0fe4e1367cdc08e59537b0f5d669776205e53ef[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Tue May 26 21:06:34 2020 -0400
+
+    reparados algunos bugs de las vistas un rrhh y terminado en primera fase el modulo de staff
+
+[33mcommit 44e91ca4bb88aca4891adcc20fd8d8d2b99026e0[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon May 25 21:58:12 2020 -0400
+
+    Fusion de area recursos humanos con administracion y contratos,observacion:aun quedan unos errores y detalles por corregir
+
+[33mcommit 763fd6262f96c8fbcd511d802ee164721b0bb6de[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Sun May 24 00:05:53 2020 -0400
+
+    finalizado el modulo de periodos, y optimizado imajes y js en la carga del index
+
+[33mcommit bacf5a61a6107efc3d9321c1b5210d809c1e9db9[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Thu May 21 14:57:50 2020 -0400
+
+    actualizacion de rrhh y cargos
+
+[33mcommit 24a78b24d681a729be44a64f26aa775d613a66d6[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed May 20 23:01:13 2020 -0400
+
+    actualizada la lista de personal
+
+[33mcommit d04c3a40a33ddc7c32ea7089c2888b74538b7ca1[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed May 20 22:16:38 2020 -0400
+
+    acoplamiento en un 90% a las nuevas versiones de la DB
+
+[33mcommit c23f7765317178a12932260202da98997cfcde8b[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Fri May 15 10:48:36 2020 -0400
+
+    preparando las querys para las consultas y comenzando a mostrar detalles en las vistas
+
+[33mcommit 566a3834c95b50de1ccd274c90b9fe34192ca73c[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed May 13 15:11:27 2020 -0400
+
+    inicio de modulo personal
+
+[33mcommit e85c4502f4a5d348ff33ac490250589045cff437[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Mon May 11 19:49:20 2020 -0400
+
+    process and process detail
+
+[33mcommit 325f95d26a762f015eadb69fe2b40f9be72d6b70[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed May 6 18:25:09 2020 -0400
+
+    creado modulo de periods
+
+[33mcommit 74d321a7f5985d494d84cab8acfc39ccf57113e4[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed May 6 11:17:09 2020 -0400
+
+    creado los modulos de empresa, departamentos, cargos,tipo de nomina y tipo de transaccion
+
+[33mcommit 98f6b76a69376b0c6c2fcc36f6ec82d73f9896cf[m
+Author: elisnar <emendoza.ge@gmail.com>
+Date:   Wed Apr 8 13:29:00 2020 -0400
+
+    inclicion de 2 modulos nuevos en menu
+
+[33mcommit 8a60ef75b2da694e647f70802dcc66da56d5810d[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Mar 27 22:44:30 2020 -0300
+
+    A partir de este commit se comienza el desarrollo en simultaneo con ing elisnar, el trabajara en modulo recursos humanos
+
+[33mcommit 50425e8d6395703c2d0d98a04a47d592b1216db0[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Dec 3 10:42:22 2019 -0700
+
+    mejora en componente de busqueda cliente,mejora en ciclo de impresion de documentos, el recibo de pago funcionan, el proceso de pago de cuotas casi terminando
+
+[33mcommit 7bb530ab77a4923cd501ea3f46a16b824e22c4b6[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Nov 14 11:20:39 2019 -0700
+
+    construyendo proposal
+
+[33mcommit 8c27a9bddf17b986e38fc4b2fbe363d6206bef70[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Nov 11 11:28:02 2019 -0400
+
+    integracion de codigo qr
+
+[33mcommit 708be2e6250c0d526c89b770a309485f43dd44d0[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Nov 8 10:42:51 2019 -0400
+
+    fase final de factura
+
+[33mcommit dfeded0b329d541cb86c6be7f4d0c5801b8487bd[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Sun Nov 3 22:44:04 2019 -0500
+
+    mejora en factura (se agrego notas)
+
+[33mcommit 5650a6991457364ca998f5e01a4a16b8a4dd55ea[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Oct 29 00:43:24 2019 -0400
+
+    mejora en factura
+
+[33mcommit 521b79562560febb88db6ce2c28098f193454460[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Sun Oct 27 23:33:27 2019 -0400
+
+    trabajando en facturas
+
+[33mcommit 9cde8fc15ff28b339621c4f2980796fb86200944[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Sun Oct 13 17:22:21 2019 -0400
+
+    mejorando estructura de views
+
+[33mcommit b7fc839efd0f17f67e5eb3ed4a1ff7c8681776ce[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Oct 8 16:42:12 2019 -0430
+
+    mejoras en routes
+
+[33mcommit 8e7c149d0ed67280dfea4e6cb0397ce89ce1d049[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Oct 8 10:52:14 2019 -0430
+
+    correcion en archivos de Project Description y Project Use
+
+[33mcommit 935b48c7eb1f87cdf7b6a8dda881660493d2a2e4[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Oct 7 23:25:38 2019 -0430
+
+    mejoras en facturas y bd
+
+[33mcommit bbb6e142c15498e738e607dc227e9e2b608fc180[m
+Merge: 792cd4c 3cd573f
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Oct 7 00:13:05 2019 -0430
+
+    merge
+
+[33mcommit 792cd4c7b0a9eb3881e19f4341320fe7ec235437[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Oct 7 00:11:42 2019 -0430
+
+    trabajando en facturas y modificanco monedas en bd
+
+[33mcommit c518fe2e2b6a89325bb72edc2103335b02c71cb8[m
+Merge: 8fcaeae 3c3eec7
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Oct 3 22:41:55 2019 -0400
+
+    Merge branch 'master' of https://gitlab.com/manuelcastro23/riveros-system
+
+[33mcommit 3cd573fb2c91de3589eea0a9d81ab67554f99384[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Oct 3 13:28:31 2019 -0400
+
+    inicio rama develop
+
+[33mcommit 3c3eec7dc51aefdd5a4740fec5603f724f80f066[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Oct 3 17:18:55 2019 +0000
+
+    Initial commit
+
+[33mcommit 8fcaeaed65eb2629d210a4a7613c7cfbf5f8f2cc[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Oct 3 11:01:34 2019 -0400
+
+    facturas v1
+
+[33mcommit 48e26e3bb45a9dccea48ee11e590b03ed2dbf1f9[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Oct 3 08:10:22 2019 -0400
+
+    trabajando en facturas 2
+
+[33mcommit 308594efb1394a4e7efcf0b5f1d6fb1b750bdd30[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Sat Sep 28 13:33:42 2019 -0400
+
+    trabajando en facturas
+
+[33mcommit 7322102d0136cb403c521de1713b8d7a8ed167b5[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Sep 24 09:26:56 2019 -0400
+
+    Solucionado Bugs de eliminacion de todos los contratos
+
+[33mcommit 863197b066c8d80027a9e082b354e0e99100328d[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Sep 9 06:07:52 2019 -0400
+
+    trabajando con permisos y cambio de oficinas, (en proceso)
+
+[33mcommit 09117a46980929bec1251d217dd01d347a39381a[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Sep 2 10:17:48 2019 -0400
+
+    mejora en componente de subida de documentos
+
+[33mcommit 96498e6bf874d26eb1b9ce0b85b56fb9e1781959[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon Aug 19 21:56:22 2019 -0400
+
+    filtrado en contratos y clientes
+
+[33mcommit 605944d7511560117fe6442864e1781ac0c548ec[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Aug 13 12:22:19 2019 -0400
+
+    agrandado de previzualizacion de documentos
+
+[33mcommit bea327d33d1f86ea16a41d1d32b726e06920e00a[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Aug 7 10:18:54 2019 -0400
+
+    mejoras en clientes agg(contactType)
+
+[33mcommit 0b4b02ea042dbe019d4fc4cb1ac2c5449b3fe620[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Fri Jul 26 06:44:53 2019 -0400
+
+    Version para subir a Servidor
+
+[33mcommit 091af480484014737996471c5c6577ef7552f14d[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue May 21 08:41:08 2019 -0430
+
+    mejora,al convertir precontrato a contrato muevo los documentos
+
+[33mcommit 5d2f1e903522cdfa1d6ed0c18d225069053b0f0a[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon May 20 23:03:34 2019 -0430
+
+    document precontracts
+
+[33mcommit 9da38d09289874b268bc7f0c9db1257fd6e2c84b[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Mon May 20 01:58:50 2019 -0430
+
+    funcionamiento de prevista doc [faltan detalles de tamaño de los archivos dentro del modal
+
+[33mcommit 74816a7a818d41346458282b3c6d4ba01bfb74b3[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed May 15 08:57:02 2019 -0430
+
+    trabajando en previsualizaciones
+
+[33mcommit 613a2513fb10ac70bae8e37c47a71c73d2da61e2[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed May 8 01:28:51 2019 -0430
+
+    correciones en cobro de cuota insertar transacciones y update bank
+
+[33mcommit 276d801965726766e534a43fde624f4caf75dc92[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu May 2 02:15:18 2019 -0430
+
+    correciones hechas de js
+
+[33mcommit b0853a0e06a9ba094097f055a2f49cb0f1573a8b[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu May 2 01:38:17 2019 -0430
+
+    corrigiendo error de resources
+
+[33mcommit 86e70b7fdd5f943acef745e103b939f20e7b56de[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Sat Apr 27 18:40:25 2019 -0430
+
+    comenzando contratos-files
+
+[33mcommit 3bfe5a5ceb844c07238f19c6e8769f90ee7f3bba[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Mar 20 16:31:53 2019 -0430
+
+    agregado modulo cuentas por cobrar
+
+[33mcommit 236b92bbaeeaaa16b0b0fc85501b8a9c0a657f5f[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Feb 26 10:17:12 2019 -0430
+
+    Nuevas opciones: pre-contrato, implementacion de modulo de pago, modificaciones en formularios de contratos
+
+[33mcommit ea62dc87c8ae76497e837cf5d17b45246e3e8ac8[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Sun Feb 17 20:10:36 2019 -0430
+
+    creacion de componente nuevo searchClient en Formulario de contratos
+
+[33mcommit 1a5391c75d304d6065af852b42577fd928a29fb6[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Thu Feb 14 12:29:37 2019 -0430
+
+    mejoras en input de form de contratos, inplementacion de toastr notificaciones, mejores vue
+
+[33mcommit e3fb1b561d45e10f068f93295d6d93bc48be1380[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Feb 6 23:50:11 2019 -0430
+
+    solucionado problema de formatos de fechas en contrato edit,create
+
+[33mcommit fbed66c4ad7308a6621ef3d4df50c971f305815c[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Wed Feb 6 16:14:04 2019 -0430
+
+    mejoras
+
+[33mcommit b8212489a05a990eaeee15c318bb497b475e3dec[m
+Author: Manuel Castro <alejocastro2@gmail.com>
+Date:   Tue Feb 5 10:53:21 2019 -0430
+
+    primer commit

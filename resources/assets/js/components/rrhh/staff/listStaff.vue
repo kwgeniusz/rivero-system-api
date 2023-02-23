@@ -1,0 +1,154 @@
+<template>
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <!-- <div class="panel-heading"><h4>{{namePanelList}}</h4></div> -->
+
+            <div class="table-responsive text-center">
+                <table class="table table-striped table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>N.</th>
+                            <th>Cod.</th>
+                            <th>Nombre </th>
+                            <th>Apellido</th>
+                            <th>Docuento de Identidad</th>
+                            <th>Cargo</th>
+                            <th>Departamento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody v-if="objStaff.length > 0">
+    
+                        <tr v-for="(staff, index) in objStaff" :key="staff.hrstaffId">
+                            <td >{{index + 1}}</td>
+                            <td class="form-inline">
+                                {{staff.staffCode}}
+                            </td>
+                            <td > 
+                                <p class="text-left">
+                                    {{staff.firstName}}
+                                </p> 
+                            </td>
+                            <td>
+                                <p class="text-left">
+                                    {{staff.lastName}}
+                                </p> 
+                            </td>
+                            <td>
+                                <!-- <p class="text-right">     -->
+                                    {{staff.idDocument}}
+                                <!-- </p>  -->
+                            </td>
+                            <td>
+                                <p class="text-left">
+                                    {{staff.positionName}} 
+                                </p> 
+                            </td>
+                            <td>
+                                <p class="text-left">
+                                    {{staff.departmentName}}
+                                </p> 
+                            </td>
+                            
+                            <td> 
+                                <button v-on:click="detailRow(index, staff.hrstaffId)" class="btn btn-sm btn-info" title="Imprimir Constancia"><i class="fa fa-id-badge"></i> </button>  
+                                <button v-on:click="detailRow(index, staff.hrstaffId)" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-th-list"></i> </button>  
+                                <button v-on:click="editRow(index, staff.hrstaffId)" class="btn btn-sm btn-primary" title="Editar"><i class="fa fa-edit"></i> </button>  
+                                <button v-on:click="deleterow(index, staff.hrstaffId)" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times-circle"></i></button>  
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="8">
+                                <div v-if="showLoading === true">
+                                    <loading></loading>
+                                </div>
+                                <div v-else>
+                                    No hay registros para la empresa seleccionada
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div><!-- table-responsive text-center -->
+        </div>
+    </div>
+        
+</template>
+
+<script>
+    export default {
+        mounted() {
+            
+        },
+        data(){
+            return{
+                objStaffShow:{},
+                showLoading: true,
+            }
+        },
+        props: {
+            namePanelList: {
+                type: String,
+                default: 'Name defauld',
+            },
+            objStaff:{},
+            vacio: {
+                type: Number,
+                default: 0,
+            },
+            
+        },
+        methods: {
+            editRow(index, id){
+                
+                // paso solamente el index para enviar al formulario el objeto del indice seleccionado,
+                // de esta manera no tengo que buscar los datos en la DB nuevamente
+            
+                this.$emit("indexEdit",index)
+            },
+            deleterow(index, id){
+                // console.log('index ' + index)
+                // console.log('id: ' + id)
+                // return
+                const indexIs = this.objStaff[index]
+            
+                if (confirm("Delete?") ){
+                    axios.delete(`staff/delete/${id}`).then(() => {
+                        // console.log(res)
+                        this.$emit("delrow",[index,id])
+                    })
+                    .catch(function (error) {
+                        alert("Error")
+                        console.log(error);
+                    });
+                }
+                
+                // console.log('enviado')
+            }
+        },
+        watch: {
+            vacio: function(val){
+                // console.log(val)
+                if (val === 1) {
+                    this.showLoading = false
+                }
+            },
+            objStaff: (val) => {
+                // console.log(val)
+                
+                console.log('val')
+                console.log(this.objStaff)
+            },
+
+        },
+        
+    }
+</script>
+<style>
+    td{
+        padding: 4px 0 0 2px !important;
+    }
+</style>
