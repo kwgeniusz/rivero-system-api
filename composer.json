@@ -9,6 +9,7 @@
         "aferrandini/phpqrcode": "1.0.1",
         "askedio/laravel-soft-cascade": "5.5",
         "barryvdh/laravel-dompdf": "^0.8.6",
+        "elibyy/tcpdf-laravel": "*",
         "fideloper/proxy": "~3.3",
         "franzose/closure-table": "^6.1",
         "intervention/image": "^2.5",

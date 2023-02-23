@@ -5,6 +5,7 @@ namespace App\Models\Inventory;
 use Auth;
 use App\Models\Inventory\Service;
 use App\Models\Inventory\ServiceCategory;
+use App\Models\Intercompany\ServiceEquivalence;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
@@ -46,6 +47,11 @@ public function getParentKeyName()
         return $this->hasOne(ServiceCategory::class, 'categoryId','categoryId');
     }
     //Fin relaciones recursivas
+    public function serviceEquivalence()
+    {
+     return $this->hasOne(ServiceEquivalence::class, 'originServiceId', 'serviceId')
+                 ->with('destinationCompany','destinationService');
+    }
  //--------------------------------------------------------------------
                /** MUTADORES **/
 //--------------------------------------------------------------------
@@ -82,6 +88,24 @@ public function setCostAttribute($cost)
                     ->orderBy('serviceName', 'ASC')
                     ->get();
     }
+//-----------------------------------------
+public function getAllByCompanyWithLinkedService($companyId,$linkedCompanyId)
+{
+    return $this->with(['serviceEquivalence' => function($q) use($linkedCompanyId){ 
+        $q->where('destinationCompanyId', $linkedCompanyId);
+    }])->where('companyId' , '=' , $companyId)
+       ->orderBy('serviceName', 'ASC')
+       ->get();
+}
+
+public function destinationServiceWithOriginLink($companyId,$companyId2)
+{
+      return $this->leftjoin('intercompany_service_equivalence',  function($join) use($companyId2) {
+             $join->on('service.serviceId', '=', 'intercompany_service_equivalence.destinationServiceId')->where('originCompanyId', '=', $companyId2);
+        })->where('companyId' , '=' , $companyId)
+          ->orderBy('serviceName', 'ASC')
+          ->get();
+}
 //------------------------------------------
     public function findById($id)
     {

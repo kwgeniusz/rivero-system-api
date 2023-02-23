@@ -76,7 +76,6 @@ class Service extends Model
 
     public function destinationServiceWithOriginLink($companyId,$companyId2)
     {
-
           return $this->leftjoin('intercompany_service_equivalence',  function($join) use($companyId2) {
                  $join->on('service.serviceId', '=', 'intercompany_service_equivalence.destinationServiceId')->where('originCompanyId', '=', $companyId2);
             })->where('companyId' , '=' , $companyId)

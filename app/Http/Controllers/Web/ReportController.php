@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+
 use App\Receivable;
 use App\Transaction;
 use App\Client;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use TCPDF;
+use PDF;
 
 class ReportController extends Controller
 {

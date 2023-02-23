@@ -120,13 +120,15 @@ class InvoiceExportController extends Controller
                     $result = $oProposalDetail->insert(
                         $newProposal->proposalId,
                         $item->itemNumber,
+                        'N',
+                        $item->categoryId,
                         $serviceId,
                         $serviceName,
                         $item->unit,
                         $newUP,
                         $item->quantity,
                         $newAmount);
-    
+                       
                 } elseif($companyCost > 0 && $item->unit == 'sqft'){
                     // Usar monto
                     $newUP  =  $companyCost;
@@ -135,6 +137,8 @@ class InvoiceExportController extends Controller
                     $result = $oProposalDetail->insert(
                         $newProposal->proposalId,
                         $item->itemNumber,
+                        'N',
+                        $item->categoryId,
                         $serviceId,
                         $serviceName,
                         $item->unit,
@@ -149,6 +153,8 @@ class InvoiceExportController extends Controller
                     $result = $oProposalDetail->insert(
                         $newProposal->proposalId,
                         $item->itemNumber,
+                        'N',
+                        $item->categoryId,
                         $serviceId,
                         $serviceName,
                         $item->unit,
