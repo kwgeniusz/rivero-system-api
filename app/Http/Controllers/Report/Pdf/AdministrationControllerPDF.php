@@ -53,14 +53,12 @@ class AdministrationControllerPDF extends Controller
    $company           = DB::table('company')->where('companyId', session('companyId'))->get();
    $proposal          = $this->oProposal->findById($request->id,session('countryId'),session('companyId'));
    $proposalDetails   = $this->oProposalDetail->showAllCompanyCategoriesHierarchicalMode(session('companyId'), $proposal[0]->proposalId);
-   // $proposalDetails   = $proposal[0]->proposalDetail;
+   if($proposalDetails->isEmpty()){
+      $proposalDetails   = $proposal[0]->proposalDetail;
+   }
    $client            = $proposal[0]->client;
    $date              = Carbon::parse($proposal[0]->proposalDate)->format('F jS, Y');  
   
-   // dd($proposalDetails);
-   // exit();
-
-
         if($proposal[0]->precontract){
            $moneySymbol = $proposal[0]->precontract->currency->currencySymbol;
            $modelId = $proposal[0]->precontract->preId;
@@ -112,8 +110,15 @@ class AdministrationControllerPDF extends Controller
                //  dd($data);
                //  dd($proposal[0]->$modelType->siteAddress);
 
-       return PDF::loadView('module_administration.reports.printProposal', $data)->stream('P - '.$proposal[0]->$modelType->siteAddress.'.pdf');
-        } //end else
+       if ($proposalDetails[0] instanceof ProposalDetail ) {
+          return PDF::loadView('module_administration.reports.printProposal_2022', $data)->stream('P - '.$proposal[0]->$modelType->siteAddress.'.pdf');
+       } else {
+          return PDF::loadView('module_administration.reports.printProposal', $data)->stream('P - '.$proposal[0]->$modelType->siteAddress.'.pdf');
+       }
+       
+      
+      
+      } //end else
     } //end printProposal 
 
  public function printInvoice(Request $request)
