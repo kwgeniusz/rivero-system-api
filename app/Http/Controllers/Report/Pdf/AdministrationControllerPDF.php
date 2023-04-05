@@ -46,8 +46,6 @@ class AdministrationControllerPDF extends Controller
 
   public function printProposal(Request $request)
 {
-   // $rs = $this->oServiceCategory->showAllCompanyCategoriesHierarchicalMode(session('companyId'));
-
    $pdf = app('dompdf.wrapper');
 
    $company           = DB::table('company')->where('companyId', session('companyId'))->get();
@@ -128,23 +126,27 @@ class AdministrationControllerPDF extends Controller
         $date            = Carbon::now();
         $company         = DB::table('company')->where('companyId', session('companyId'))->get();
         $invoice         = $this->oInvoice->findById($request->id,session('countryId'),session('companyId'));
-        $invoiceDetails  = $this->oInvoiceDetail->getAllByInvoice($request->id);
+        $invoiceDetails  = $this->oInvoiceDetail->showAllCompanyCategoriesHierarchicalMode(session('companyId'), $invoice[0]->invoiceId);
+         
+        if($invoiceDetails->isEmpty()){
+            $invoiceDetails   = $invoice[0]->invoiceDetails;
+          }
+
         $client          = $invoice[0]->client;
         $payments        = $invoice[0]->shareSucceed;
-
 
         $symbol          = $invoice[0]->contract->currency->currencySymbol;
 
         // \PHPQRCode\QRcode::png($client[0]->clientCode, public_path('img/codeqr.png'), 'L', 4, 2);
 
-  if($invoice[0]->invStatusCode == Invoice::OPEN   ||
-     $invoice[0]->invStatusCode == Invoice::CLOSED || 
+  if($invoice[0]->invStatusCode == Invoice::OPEN      ||
+     $invoice[0]->invStatusCode == Invoice::CLOSED    || 
      $invoice[0]->invStatusCode == Invoice::CANCELLED || 
-     $invoice[0]->invStatusCode == Invoice::COLLECTION){
+     $invoice[0]->invStatusCode == Invoice::COLLECTION) {
 
      $status = '- COPY';
 
-  }elseif($invoice[0]->invStatusCode == Invoice::PAID){
+  }elseif($invoice[0]->invStatusCode == Invoice::PAID) {
      $status = '';
   }
 
@@ -157,19 +159,25 @@ class AdministrationControllerPDF extends Controller
         }else {
 
        $data = [
-        'date'  => $date,
-        'client'  => $client,
-        'company'  => $company,
-        'invoice'  => $invoice,
+        'date'        => $date,
+        'client'      => $client,
+        'company'     => $company,
+        'invoice'     => $invoice,
         'invoiceDetails'  => $invoiceDetails,
-        'payments'  => $payments,
-        'symbol'  => $symbol,
-        'pdf' => $pdf,
-        'status'  => $status,
+        'payments'    => $payments,
+        'symbol'      => $symbol,
+        'pdf'         => $pdf,
+        'status'      => $status,
          ];
+          
+          
+        if($invoiceDetails[0] instanceof InvoiceDetail ) {
+           return PDF::loadView('module_administration.reports.printInvoice_2022', $data)->stream('I - '.$invoice[0]->contract->siteAddress.'.pdf');
+        } else {
+           return PDF::loadView('module_administration.reports.printInvoice', $data)->stream('I - '.$invoice[0]->contract->siteAddress.'.pdf');
+        }
 
-       return PDF::loadView('module_administration.reports.printInvoice', $data)->stream('I - '.$invoice[0]->contract->siteAddress.'.pdf');
-        } // end else
+      } // end else
    } //end printInvoice
 
 
@@ -188,7 +196,7 @@ public function printReceipt(Request $request)
         'invoice'  => $invoice,
         'receivables'  => $receivables,
         'symbol'  => $symbol,
-        'pdf'  => $pdf,
+        'pdf'     => $pdf,
          ];
 
        return PDF::loadView('module_administration.reports.printReceipt', $data)->stream('Receipt.pdf');

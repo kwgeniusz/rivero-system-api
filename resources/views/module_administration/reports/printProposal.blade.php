@@ -250,7 +250,7 @@
 			<img src="img/icon-phone.png"></img> {{$company[0]->companyPhone}} / {{$company[0]->companyPhoneOptional}}
 			<img src="img/icon-point.png"></img> {{$company[0]->companyAddress}}.
 			<div class="text-alt">
-				<p>© Copyright 2022 JD Rivero - All rights reserved | Designed by Rivero Visual Group</p>
+				<p>© Copyright 2023 JD Rivero - All rights reserved | Designed by Rivero Visual Group</p>
 			</div>
 		</div>
 		<div class="lower-right">
@@ -319,7 +319,7 @@
 
 	</div>
 		@php
-		$counter = 0; 
+		  $counter = 0; 
 		@endphp
 		<ul class="just">
 			@foreach($proposal['0']->scope as $scope)

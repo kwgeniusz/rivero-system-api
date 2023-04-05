@@ -90,44 +90,41 @@
           font-weight: bold;
         }
 
-
+    .line-height {
+		line-height: 1.5;
+}
+		.line-height2 {
+		line-height: 1.2;
+}
+		.line-height3 {
+		line-height: 1;
+}
     </style>
 </head>
 <body>
 
 
-{{-- 
-<header>
-    <h1>Styde.net</h1>
-</header>
- 
-<main>
-    <h1>{{__('add')}}</h1>
-</main> --}}
- 
-{{-- <footer>
-    <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
-     Designed By Rivero Visual Group</h4>
-</footer> --}}
-{{-- <div class="page-break"></div> --}}
+{{-- Sello de pagado, es una imagen que aparecera en el centro de la factura para saber que ha sido PAGADA --}}
 @if($invoice[0]->invStatusCode == App\Invoice::PAID)
   <div id="watermark">
             <img src="img/paid2.png" height="100%" width="100%" />
    </div>
 @endif
+
+
 @php
- // preparar variables  
-  $line = 100;  
-  $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
-  $linesperpage = 30;    // numero maximo de renglones
+  // preparar variables  
+    $line = 100;  
+    $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
+    $linesperpage = 30;    // numero maximo de renglones
   //calcular total de paginas
-  $quantityInvDetails = count($invoiceDetails);
-  $pageTotal = (intval($quantityInvDetails/$linesperpage));
-  $pageTotal++;
-   //si los registro y el limite de lineas son iguales es una pagina
-   if($quantityInvDetails == $linesperpage){
-    $pageTotal = 1;
-   }
+    $quantityInvDetails = count($invoiceDetails);
+    $pageTotal = (intval($quantityInvDetails/$linesperpage));
+    $pageTotal++;
+  //si los registro y el limite de lineas son iguales es una pagina
+     if($quantityInvDetails == $linesperpage){
+      $pageTotal = 1;
+     }
 
            $acum          = 0;
            $acum2         = 0;
@@ -135,33 +132,31 @@
            $subTotalPerPage= 0;
            $vienen = 0;
            $moneySymbol = '';
+           $counter = 0; 
 
- //// inicio del ciclo de impresion
+ // Inicio del ciclo de impresion //
 foreach ($invoiceDetails as $invDetail) {
 
-  //if de header
-    if ($line > $linesperpage) { //imprimir
-            if($page > 1) {
-//FOOTER
+  //if condicional para mostrar el HEADER
+    if ($line > $linesperpage) { 
+    //--INICIO DE LA SECCION FOOTER--//
+      if($page > 1) {
 @endphp
-<tr>
- <th colspan="4" align="right">
-   
- </th>
-  <th colspan="1" align="right">
-   Sub-Total:
- </th>
- <th style="border-top:2px solid black" colspan="1" align="right">
-   {{$invoice[0]->contract->currency->currencySymbol}} {{$subTotalPerPage}}
- </th>
-</tr>
-</table>
-
+  <tr>
+    <th colspan="4" align="right"> </th>
+    <th colspan="1" align="right">Sub-Total:</th>
+    <th style="border-top:2px solid black" colspan="1" align="right">
+      {{$invoice[0]->contract->currency->currencySymbol}} {{$subTotalPerPage}}
+    </th>
+  </tr>
+ </table>
      <div class="page-break"></div>
 @php
     }//endif - si la pagina es mayor que uno (1)
+    
+// FIN DEL FOOTER
 @endphp
- {{-- // imprimir encabezado de factura --}}
+ <!-- INICIO DE LA SECCION HEADER -->
  <table cellspacing="0" cellpadding="1px" >
        <tr>
         <th id="bold" style="background-color:#e5db99; font-size:18px;" colspan="3" align="center">ELECTRONIC INVOICE {{$status}}</th>
@@ -208,8 +203,7 @@ foreach ($invoiceDetails as $invDetail) {
     </tr>
 </table>
     <br>   
-
-  <table cellspacing="0" cellpadding="1px" border="0">
+<table cellspacing="0" cellpadding="1px" border="0">
        <tr>
         <th colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center"><span id="bold">CUSTOMER INFORMATION</span></th>
        </tr>
@@ -272,30 +266,32 @@ foreach ($invoiceDetails as $invDetail) {
  <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>
         <tr id="bold" style="background-color:#f2edd1; font-size:17px;" align="center">
-          <th width="5%" align="center">#</th>
-          <th align="center" width="40%">DESCRIPTION</th>
+          <th width="5%"  align="center">NUMBER</th>
+          <th width="40%" align="center">DESCRIPTION</th>
           <th width="10%" align="center">UNIT</th>
           <th width="15%" >QTY</th>
           <th width="15%" align="center">UP</th>
           <th width="15%" align="center">AMOUNT</th>
         </tr>
-        </thead>
+     </thead>
+
 @php 
        $page++;
        $acum= 0 ;
        $subTotalPerPage= 0;
        $line= 1;// al pasar la pagina reinicia la linea
+       $counter = 0; 
 
 } //fin de condicion de header
-
-               
+   
+      // Acumulador para asignar background a las filas de items
                $acum = $acum + 1;
                 if ($acum % 2 == 0) {
                     $background = "#f2edd1";
                 } else {
                     $background = "#fbfbfb";
                 }
-     //espacios,numeracion,precios, negritas para reglon con precios
+     // Espacios,numeracion,precios, negritas para reglon con precios
                if ($invDetail->unit == null) {
                     $acum2 = "";
                     $space = "   ";
@@ -309,27 +305,91 @@ foreach ($invoiceDetails as $invDetail) {
      if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
 @endphp
         <tr style="background-color:;">
-        <td width="5%" align="center"></td>
-        <td width="40%" >CONTINUED</td>
-        <td width="10%" align="center"></td>
-        <td width="15%" align="center"></td>
-        <td width="15%" align="center"></td>
-        <td width="15%" align="right"> {{$invoice[0]->contract->currency->currencySymbol}} {{$vienen}}</td>
+          <td width="5%" align="center"></td>
+          <td width="40%" >CONTINUED</td>
+          <td width="10%" align="center"></td>
+          <td width="15%" align="center"></td>
+          <td width="15%" align="center"></td>
+          <td width="15%" align="right"> {{$invoice[0]->contract->currency->currencySymbol}} {{$vienen}}</td>
         </tr>
 @php
-        if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
+        if($vienen > 0){ //si vienen es mayor que cero sumalo al subtotal de pagina 
             $subTotalPerPage += $vienen;
          }
-    }
+      }
+
+	    $counter ++;
+      
+     if ( $counter >= 30 AND  $counter <= 37 ) {
+				$lineHeight = 'line-height3';
+			}elseif ( $counter >= 25 AND  $counter <= 29 ) {
+				$lineHeight = 'line-height2';
+			}else {
+				$lineHeight = 'line-height';
+			}
 @endphp
-        <tr style="background-color:{{$background}};">
-        <td width="5%" align="center">{{$acum2}}</td>
-        <td width="40%" >{{$space}} {{$invDetail->serviceName}}</td>
-        <td width="10%" align="center">{{$invDetail->unit}}</td>
-        <td width="15%" align="center">{{$invDetail->quantity}}</td>
-        <td width="15%" align="center">{{$moneySymbol}}  {{$invDetail->unitCost}}</td>
-        <td width="15%" align="right">{{$moneySymbol}}  {{$invDetail->amount}}</td>
+
+        <tr style="font-size:11px;" class="{{$lineHeight}}">
+           <td width="30%" >{{$space}}{{$invDetail->accountCode}}</td>
+				   <td width="40%" >{{$space}}{{$invDetail->categoryName}}</td>
+				   <td width="10%" align="center"></td>
+				   <td width="15%" align="center"></td>
+				   <td width="15%" align="center"></td>
+				   <td width="15%" align="right"> </td>
         </tr>
+        @foreach ($invDetail->related_records as $subcategory) 
+		          	<tr style="font-size:11px;" class="{{$lineHeight}}">
+		          		<td width="30%" >{{$subcategory->accountCode}}</td>
+		          		<td width="40%" >{{$space}}&nbsp; {{$subcategory->categoryName}}</td>
+		          		<td width="10%" align="center"></td>
+		          		<td width="15%" align="center"></td>
+		          		<td width="15%" align="center"></td>
+		          		<td width="15%" align="right"> </td>
+					  </tr>
+					  @foreach ($subcategory->related_records as $subcategory2) 
+		          	         <tr style="font-size:11px;" class="{{$lineHeight}}">
+		          	         	<td width="30%" >{{$subcategory2->accountCode}}</td>
+		          	         	<td width="40%" >{{$space}}&nbsp;&nbsp;&nbsp;&nbsp;{{$subcategory2->categoryName}}</td>
+		          	         	<td width="10%" align="center">
+			                      	{{$subcategory2->unit1}}
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	   {{$subcategory2->quantity}}
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	   {{$moneySymbol}} {{number_format((float)$subcategory2->unitCost, 2, '.', '')}}
+			                  	</td>
+			                  	<td width="15%" align="right"> 
+			                  	   {{$moneySymbol}}  {{number_format((float)$subcategory2->totalServicesAmount, 2, '.', '')}}
+			                  	</td>
+							   </tr>
+						@foreach ($subcategory2->services as $service) 
+		          	         <tr style="font-size:11px;" class="{{$lineHeight}}">
+		          	         	<td width="30%" >{{$service->service->accountCode}}</td>
+		          	         	<td width="40%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$service->serviceName}}</td>
+		          	         	<td width="10%" align="center">
+			                      	
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	   
+			                  	</td>
+			                  	<td width="15%" align="center">
+			                  	  
+			                  	</td>
+			                  	<td width="15%" align="right"> 
+			                  	   
+			                  	</td>
+							   </tr>
+							   @php
+		                          $subTotalPerPage += $service->amount; //acumulacion de subtotal de pagina
+		                          $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
+							   @endphp
+
+			      	  @endforeach
+			      	@endforeach
+				@endforeach
+				
+      
 @php
        $subTotalPerPage += $invDetail->amount;//acumulacion de subtotal de pagina
        $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
@@ -338,7 +398,7 @@ foreach ($invoiceDetails as $invDetail) {
     $line++;
 }// FIN DE FOREACH DE RENGLONES
 @endphp
-   {{-- // imprimir footer de factura --}}
+    // {{--imprimir footer de factura --}}
 </table>
        <br><br>
 
@@ -474,7 +534,7 @@ foreach ($invoiceDetails as $invDetail) {
  --}} 
 
 <footer>
-© Copyright 2020 JD Rivero Global - All rights reserved <br>
+© Copyright 2023 JD Rivero Global - All rights reserved <br>
     Designed By Rivero Visual Group
         <div class="pagination">
 				<p>Page <span class="pagenum"></span></p>

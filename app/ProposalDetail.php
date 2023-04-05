@@ -21,7 +21,7 @@ class ProposalDetail extends Model
     protected $primaryKey = 'propDetailId';
     protected $fillable = ['propDetailId','proposalId','serviceId', 'serviceParentId','serviceName','unit','unitCost','quantity','amount'];
   
-    protected $appends = ['unitCost','amount'];
+    protected $appends = ['unitPrice','amount'];
 
 // Change defautl field for recursive librery
 
@@ -65,9 +65,9 @@ class ProposalDetail extends Model
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-    public function getUnitCostAttribute($unitCost)
+    public function getUnitPriceAttribute($unitPrice)
     {
-       return decrypt($this->attributes['unitCost']);
+       return decrypt($this->attributes['unitPrice']);
     }
     public function getAmountAttribute($amount)
     {
@@ -77,12 +77,12 @@ class ProposalDetail extends Model
     /** Mutadores  */
 //--------------------------------------------------------------------
 
-    public function setUnitCostAttribute($unitCost)
+    public function setUnitPriceAttribute($unitPrice)
     {
-         if($unitCost != null) { 
-        $unitCost = number_format((float)$unitCost, 2, '.', '');
+         if($unitPrice != null) { 
+        $unitPrice = number_format((float)$unitPrice, 2, '.', '');
     }
-        return $this->attributes['unitCost'] = encrypt($unitCost);
+        return $this->attributes['unitPrice'] = encrypt($unitPrice);
     }
      public function setAmountAttribute($amount)
     {
