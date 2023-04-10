@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <style>
@@ -95,25 +96,38 @@
 <body>
 
 
+{{-- 
+<header>
+    <h1>Styde.net</h1>
+</header>
+ 
+<main>
+    <h1>{{__('add')}}</h1>
+</main> --}}
+ 
+{{-- <footer>
+    <h4> © Copyright 2020 JD Rivero Global - All rights reserved <br>
+     Designed By Rivero Visual Group</h4>
+</footer> --}}
+{{-- <div class="page-break"></div> --}}
 @if($invoice[0]->invStatusCode == App\Invoice::PAID)
   <div id="watermark">
-      <img src="img/paid2.png" height="100%" width="100%" />
-  </div>
+            <img src="img/paid2.png" height="100%" width="100%" />
+   </div>
 @endif
-
 @php
  // preparar variables  
-    $line = 100;  
-    $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
-    $linesperpage = 30;    // numero maximo de renglones
- //calcular total de paginas
-    $quantityInvDetails = count($invoiceDetails);
-    $pageTotal = (intval($quantityInvDetails/$linesperpage));
-    $pageTotal++;
- //si los registro y el limite de lineas son iguales es una pagina
-    if($quantityInvDetails == $linesperpage){
-      $pageTotal = 1;
-     }
+  $line = 100;  
+  $page = 1;              // paigina 1/1;   pagina 1/2  pagina 2/2
+  $linesperpage = 30;    // numero maximo de renglones
+  //calcular total de paginas
+  $quantityInvDetails = count($invoiceDetails);
+  $pageTotal = (intval($quantityInvDetails/$linesperpage));
+  $pageTotal++;
+   //si los registro y el limite de lineas son iguales es una pagina
+   if($quantityInvDetails == $linesperpage){
+    $pageTotal = 1;
+   }
 
            $acum          = 0;
            $acum2         = 0;
@@ -131,8 +145,10 @@ foreach ($invoiceDetails as $invDetail) {
 //FOOTER
 @endphp
 <tr>
- <th colspan="4" align="right"></th>
- <th colspan="1" align="right">
+ <th colspan="4" align="right">
+   
+ </th>
+  <th colspan="1" align="right">
    Sub-Total:
  </th>
  <th style="border-top:2px solid black" colspan="1" align="right">
@@ -140,20 +156,22 @@ foreach ($invoiceDetails as $invDetail) {
  </th>
 </tr>
 </table>
- <div class="page-break"></div>
+
+     <div class="page-break"></div>
 @php
     }//endif - si la pagina es mayor que uno (1)
 @endphp
  {{-- // imprimir encabezado de factura --}}
  <table cellspacing="0" cellpadding="1px" >
-    <tr>
+       <tr>
         <th id="bold" style="background-color:#e5db99; font-size:18px;" colspan="3" align="center">ELECTRONIC INVOICE {{$status}}</th>
-    </tr>
-    <tr> 
+       </tr>
+ 
+       <tr> 
          <th width="20%" align="center"> 
           <img src="img/logos/jd/logo_jd.png" alt="test alt attribute" width="140px" height="120px"/>
          </th>
-         <th width="48%">
+        <th width="48%">
              <div style="text-align:center">
                <strong style=" font-size:22px;"  >{{$company[0]->companyName}}</strong><br>
                <img src="img/icon-point.png" width="10px" height="10px"/> {{$company[0]->companyAddress}}<br>
@@ -161,35 +179,37 @@ foreach ($invoiceDetails as $invDetail) {
                <img src="img/icon-email.png" width="10px" height="10px"/> {{$company[0]->companyEmail}}
                <img src="img/icon-location.png" width="10px" height="10px"/> {{$company[0]->companyWebsite}}
              </div>
-          </th>
-        <th width="20%">
-          <table>       
-              <tr>
-                <td colspan="2" id="bold">Invoice Number:</td>
-                <td align="right">{{$invoice[0]->invId}}</td>
-              </tr>
-              <tr>
-                <td colspan="2" id="bold">Invoice Date:</td>
-                <td align="right">{{$invoice[0]->invoiceDate}}</td>
-              </tr>
-              <tr>
-                <td colspan="2" id="bold">Page:</td>
-                <td align="right">{{$page}}/{{$pageTotal}}</td>
-              </tr>
-              <tr>
-                <td> </td>
-                <td> </td>
-              </tr>
-              <tr>
-                <td colspan="2" id="bold">Seller ID:</td>
-                <td align="right">{{$invoice[0]->user->fullName}}</td>
-              </tr>
+        </th>
+    <th width="20%">
+        <table>       
+          <tr>
+              <td colspan="2" id="bold">Invoice Number:</td>
+              <td align="right">{{$invoice[0]->invId}}</td>
+            </tr>
+            <tr>
+              <td colspan="2" id="bold">Invoice Date:</td>
+              <td align="right">{{$invoice[0]->invoiceDate}}</td>
+            </tr>
+            <tr>
+              <td colspan="2" id="bold">Page:</td>
+              <td align="right">{{$page}}/{{$pageTotal}}</td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td colspan="2" id="bold">Seller ID:</td>
+              <td align="right">{{$invoice[0]->user->fullName}}</td>
+            </tr>
          </table>     
         </th>
+       
     </tr>
 </table>
     <br>   
-<table cellspacing="0" cellpadding="1px" border="0">
+
+  <table cellspacing="0" cellpadding="1px" border="0">
        <tr>
         <th colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center"><span id="bold">CUSTOMER INFORMATION</span></th>
        </tr>
@@ -218,45 +238,48 @@ foreach ($invoiceDetails as $invDetail) {
        </tr>
 </table>
 
+
  <table cellspacing="0" cellpadding="1px">    
       <tr>
         <th id="bold" colspan="3" style="background-color:#f2edd1;font-size:17px;" align="center">PROJECT INFORMATION</th>
-      </tr>
-      <tr> 
+       </tr>
+        <tr> 
             <th width="33%" class="org">
-              <span id="bold">Control Number:</span> {{$invoice[0]->contract->contractNumber}}
+             <span id="bold">Control Number:</span> {{$invoice[0]->contract->contractNumber}}
             </th>
             <th width="55%" colspan="2" class="org">
-              <span id="bold">Address:</span> {{$invoice[0]->contract->siteAddress}}
+             <span id="bold">Address:</span> {{$invoice[0]->contract->siteAddress}}
             </th>
             <th> </th>
-      </tr>
+       </tr>
       <tr> 
-          <th width="30%" class="org">
+            <th width="30%" class="org">
              <span id="bold"> Type:</span> {{$invoice[0]->contract->projectUse->projectUseName}} 
-          </th>
-          <th width="30%" class="org">
+            </th>
+            <th width="30%" class="org">
              <span id="bold"> Description:</span> {{$invoice[0]->projectDescription->projectDescriptionName}}
-          </th>
-          <th width="40%" class="org">
+            </th>
+          
+           <th width="40%" class="org">
            @if($invoice[0]->contract->projectName)
              <span id="bold">Project Name:</span> {{$invoice[0]->contract->projectName}}
            @endif
-          </th>
+           </th>
+          
        </tr>
 </table>   
  
- <table style="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
+ <table stype="border-collapse: collapse;" cellspacing="0" cellpadding="1px">       
      <thead>
         <tr id="bold" style="background-color:#f2edd1; font-size:17px;" align="center">
-          <th width="5%"  align="center">#</th>
-          <th width="40%" align="center" >DESCRIPTION</th>
+          <th width="5%" align="center">#</th>
+          <th align="center" width="40%">DESCRIPTION</th>
           <th width="10%" align="center">UNIT</th>
           <th width="15%" >QTY</th>
           <th width="15%" align="center">UP</th>
           <th width="15%" align="center">AMOUNT</th>
         </tr>
-     </thead>
+        </thead>
 @php 
        $page++;
        $acum= 0 ;
@@ -265,6 +288,7 @@ foreach ($invoiceDetails as $invDetail) {
 
 } //fin de condicion de header
 
+               
                $acum = $acum + 1;
                 if ($acum % 2 == 0) {
                     $background = "#f2edd1";
@@ -285,12 +309,12 @@ foreach ($invoiceDetails as $invDetail) {
      if($page > 2 && $line == 1) {  //si es la segunda pagina en la primera linea imprime el viene  
 @endphp
         <tr style="background-color:;">
-           <td width="5%" align="center"></td>
-           <td width="40%" >CONTINUED</td>
-           <td width="10%" align="center"></td>
-           <td width="15%" align="center"></td>
-           <td width="15%" align="center"></td>
-           <td width="15%" align="right"> {{$invoice[0]->contract->currency->currencySymbol}} {{$vienen}}</td>
+        <td width="5%" align="center"></td>
+        <td width="40%" >CONTINUED</td>
+        <td width="10%" align="center"></td>
+        <td width="15%" align="center"></td>
+        <td width="15%" align="center"></td>
+        <td width="15%" align="right"> {{$invoice[0]->contract->currency->currencySymbol}} {{$vienen}}</td>
         </tr>
 @php
         if($vienen > 0){ //si viene es mayor que cero sumalo al subtotal de pagina 
@@ -299,12 +323,12 @@ foreach ($invoiceDetails as $invDetail) {
     }
 @endphp
         <tr style="background-color:{{$background}};">
-           <td width="5%" align="center">{{$acum2}}</td>
-           <td width="40%" >{{$space}} {{$invDetail->serviceName}}</td>
-           <td width="10%" align="center">{{$invDetail->unit}}</td>
-           <td width="15%" align="center">{{$invDetail->quantity}}</td>
-           <td width="15%" align="center">{{$moneySymbol}}  {{$invDetail->unitCost}}</td>
-           <td width="15%" align="right">{{$moneySymbol}}  {{$invDetail->amount}}</td>
+        <td width="5%" align="center">{{$acum2}}</td>
+        <td width="40%" >{{$space}} {{$invDetail->serviceName}}</td>
+        <td width="10%" align="center">{{$invDetail->unit}}</td>
+        <td width="15%" align="center">{{$invDetail->quantity}}</td>
+        <td width="15%" align="center">{{$moneySymbol}}  {{$invDetail->unitCost}}</td>
+        <td width="15%" align="right">{{$moneySymbol}}  {{$invDetail->amount}}</td>
         </tr>
 @php
        $subTotalPerPage += $invDetail->amount;//acumulacion de subtotal de pagina
@@ -314,14 +338,15 @@ foreach ($invoiceDetails as $invDetail) {
     $line++;
 }// FIN DE FOREACH DE RENGLONES
 @endphp
-   {{-- imprimir footer de factura --}}
+   {{-- // imprimir footer de factura --}}
 </table>
-  <br>
-  <br>
+       <br><br>
+
 
 <table cellspacing="0" cellpadding="0" >
        <tr>
-        <th colspan="3" style="background-color:#f2edd1;" align="center"></th>
+        <th colspan="3" style="background-color:#f2edd1;" align="center">
+        </th>
        </tr>
        <tr> 
         <th width="20%" align="center">
@@ -364,6 +389,7 @@ foreach ($invoiceDetails as $invDetail) {
   }
    $amountRs =  $invoice[0]->balanceTotal- $acumPaid;
    $amountRs =  number_format((float)$amountRs, 2, '.', '');
+
 
   $debitNoteTotal  = $invoice[0]->debitNote->sum('netTotal');
   $creditNoteTotal  = $invoice[0]->creditNote->sum('netTotal');
@@ -429,11 +455,29 @@ foreach ($invoiceDetails as $invDetail) {
 <br><br>
 @endif
 
+
+{{-- 
+ <table cellspacing="0" cellpadding="0" >
+       <tr>
+        <th style="background-color:#f2edd1; font-size:17px;" colspan="1" align="center"><b>Scope of Work</b></th>
+       </tr>
+       <tr> 
+
+                  <ul>
+@foreach($invoice['0']->scope as $scope)
+    <li>{!! nl2br($scope->description) !!}</li>
+@endforeach
+
+                  </ul>
+       </tr>
+</table>
+ --}} 
+
 <footer>
-© Copyright 2023 JD Rivero Global - All rights reserved <br>
-  Designed By Rivero Visual Group
+© Copyright 2020 JD Rivero Global - All rights reserved <br>
+    Designed By Rivero Visual Group
         <div class="pagination">
-				   <p>Page <span class="pagenum"></span></p>
+				<p>Page <span class="pagenum"></span></p>
 				</div>
 </footer>
 
