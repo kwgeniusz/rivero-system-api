@@ -364,22 +364,7 @@ foreach ($invoiceDetails as $invDetail) {
 			                  	</td>
 							   </tr>
 						@foreach ($subcategory2->services as $service) 
-		          	         <tr style="font-size:11px;" class="{{$lineHeight}}">
-		          	         	<td width="30%" >{{$service->service->accountCode}}</td>
-		          	         	<td width="40%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$service->serviceName}}</td>
-		          	         	<td width="10%" align="center">
-			                      	
-			                  	</td>
-			                  	<td width="15%" align="center">
-			                  	   
-			                  	</td>
-			                  	<td width="15%" align="center">
-			                  	  
-			                  	</td>
-			                  	<td width="15%" align="right"> 
-			                  	   
-			                  	</td>
-							   </tr>
+		  
 							   @php
 		                          $subTotalPerPage += $service->amount; //acumulacion de subtotal de pagina
 		                          $subTotalPerPage = number_format((float)$subTotalPerPage, 2, '.', '');
