@@ -4,7 +4,6 @@ namespace App;
 
 use App;
 use DB;
-use App\ProposalDetail;
 use App\Models\Inventory\ServiceCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,7 +20,7 @@ class ProposalDetail extends Model
     protected $primaryKey = 'propDetailId';
     protected $fillable = ['propDetailId','proposalId','serviceId', 'serviceParentId','serviceName','unit','unitCost','quantity','amount'];
   
-    protected $appends = ['unitPrice','amount'];
+    protected $appends = ['unitCost','amount'];
 
 // Change defautl field for recursive librery
 
@@ -65,9 +64,9 @@ class ProposalDetail extends Model
 //--------------------------------------------------------------------
     /** Accesores  */
 //--------------------------------------------------------------------
-    public function getUnitPriceAttribute($unitPrice)
+    public function getUnitCostAttribute($unitCost)
     {
-       return decrypt($this->attributes['unitPrice']);
+       return decrypt($this->attributes['unitCost']);
     }
     public function getAmountAttribute($amount)
     {
@@ -77,12 +76,12 @@ class ProposalDetail extends Model
     /** Mutadores  */
 //--------------------------------------------------------------------
 
-    public function setUnitPriceAttribute($unitPrice)
+    public function setUnitCostAttribute($unitCost)
     {
-         if($unitPrice != null) { 
-        $unitPrice = number_format((float)$unitPrice, 2, '.', '');
-    }
-        return $this->attributes['unitPrice'] = encrypt($unitPrice);
+         if($unitCost != null) { 
+              $unitCost = number_format((float)$unitCost, 2, '.', '');
+         }
+      return $this->attributes['unitCost'] = encrypt($unitCost);
     }
      public function setAmountAttribute($amount)
     {
